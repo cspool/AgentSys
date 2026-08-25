@@ -63,7 +63,7 @@ hypotheses:
     priority: high
   - id: H5
     statement: "Native mllm MIR operator traces can lower deterministically into the shared AgentSys ME/VE/DE simulator contract without losing SSA dependencies."
-    status: active
+    status: supported
     motivation: "Close the model-operator trace/simulator-backend implementation requirement."
     parent: null
     priority: high
@@ -72,7 +72,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered paper endpoints (must be <= 0.15), with functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.5199297582914353
-  total_runs: 5
+  total_runs: 6
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -108,6 +108,13 @@ experiments:
       delta: 0.0
       wall_time_min: 0.01
       change_summary: "mllm MIR backend passes 7/8 gates; dynamic loses because 2-16 cycle tiles violate TISA granularity."
+      timestamp: "2026-08-25"
+    - run_id: "run_006"
+      hypothesis: "H5"
+      metric_value: 0.5199297582914353
+      delta: 0.0
+      wall_time_min: 0.01
+      change_summary: "Source-aligned mllm tile scale passes 9/9 gates; dynamic 1.324x faster with identical work."
       timestamp: "2026-08-25"
 
 outer_loop:

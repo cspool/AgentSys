@@ -20,6 +20,7 @@ The available evidence requires distinct labels. Agentix's published evaluation 
 - Run 003 closes the first real hardware path: static and dynamic Rocket+Verilator configurations pass 17/17 gates. Dynamic exposes 79 ME/VE/DE overlap cycles and improves backend/system time by 1.333×/1.289× with identical logical work, DMA bytes, and checksum.
 - Run 004 adds ATX paper coverage: 18/18 organization, prefetch, task-size, and decompression endpoints pass with 0.285% maximum error under a transparent paper-parameterized component model.
 - Run 005 closes most of the mllm trace path: real FooNet and Qwen3 MIR parse deterministically and lower to all three engines. The first timing run is intentionally retained as a failure because its 2–16 cycle tiles make seven-cycle scheduling overhead dominant.
+- Run 006 applies the source-aligned 1024-cycle floor and passes 9/9 mllm gates. On identical decoder-slice work, dynamic scheduling improves 8192→6186 cycles (1.324×) and exposes 2048 overlap cycles; H5 is supported.
 
 ## Patterns and Insights
 

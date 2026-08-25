@@ -125,10 +125,10 @@ def duration_for_op(engine: Engine, outputs: tuple[TensorRef, ...]) -> int:
     elements = sum(tensor.elements for tensor in outputs) or 1
     bytes_count = sum(tensor.bytes for tensor in outputs) or 1
     if engine is Engine.ME:
-        return min(2048, max(16, math.ceil(elements / 16384)))
+        return min(65535, max(1024, math.ceil(elements / 64)))
     if engine is Engine.VE:
-        return min(512, max(4, math.ceil(elements / 32768)))
-    return min(256, max(2, math.ceil(bytes_count / 65536)))
+        return min(65535, max(1024, math.ceil(elements / 128)))
+    return min(65535, max(1024, math.ceil(bytes_count / 256)))
 
 
 def parse_mir(path: Path, *, max_ops: int | None = None) -> tuple[MllmOperator, ...]:
@@ -257,6 +257,7 @@ def run_mllm_backend(
         "same_work": static.busy_cycles == dynamic.busy_cycles,
         "dynamic_overlap": sum(dynamic.overlap_cycles.values()) > 0,
         "dynamic_faster": dynamic.cycles < static.cycles,
+        "dispatch_below_one_percent": simulator.dispatch_latency / dynamic.cycles < 0.01,
     }
     return {
         "schema_version": 1,
@@ -299,4 +300,3 @@ def write_operator_jsonl(operators: Iterable[MllmOperator], path: Path) -> None:
     with path.open("w", encoding="utf-8") as handle:
         for operator in operators:
             handle.write(json.dumps(operator.to_dict(), sort_keys=True) + "\n")
-
