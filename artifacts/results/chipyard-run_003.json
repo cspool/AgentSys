@@ -1,0 +1,377 @@
+{
+  "chipyard_commit": "b5d013190d637e634113cb5179f8c8885df1945a",
+  "classification": "real_chipyard_rocket_verilator_functional_system_evidence",
+  "derived": {
+    "host_launch_wait_speedup": 1.2577639751552796,
+    "kernel_speedup": 1.3333333333333333,
+    "overlap_cycles_added": 79,
+    "system_speedup": 1.289198606271777
+  },
+  "dynamic": {
+    "config": "AgentSysDynamicRocketConfig",
+    "exit_code": 0,
+    "log": "This emulator compiled with JTAG Remote Bitbang client. To enable, use +jtag_rbb_enable=1.\nListening on port 43051\nAGENTSYS_ELF_PASS backend=dynamic wait=26 host_config=198 host_launch_wait=322 system=287 dma=36 kernel=249 submitted=8 issued=8 completed=8 canceled=0 me_busy=160 ve_busy=80 de_busy=80 dep_stall=227 resource_stall=80 pair_overlap=79 triple_overlap=0 decisions=8 prefetch=1/1 dma_bytes=96 checksum=a42f89ec1a613914 priority_violations=0 engine_issues=2/2/4\n[UART] UART0 is here (stdin/stdout).\nAGENTSYS_SYSTEM_DONE dynamic=1 system=286 dma=35 backend=249 submitted=8 completed=8 canceled=0 overlap=79 checksum=a42f89ec1a613914 bytes=96\n",
+    "parsed": {
+      "backend": "dynamic",
+      "canceled": 0,
+      "checksum": 11830826393273448724,
+      "checksum_hex": "a42f89ec1a613914",
+      "completed": 8,
+      "de_busy": 80,
+      "decisions": 8,
+      "dep_stall": 227,
+      "dma": 36,
+      "dma_bytes": 96,
+      "engine_issues": [
+        2,
+        2,
+        4
+      ],
+      "host_config": 198,
+      "host_launch_wait": 322,
+      "issued": 8,
+      "kernel": 249,
+      "me_busy": 160,
+      "pair_overlap": 79,
+      "prefetch_hits": 1,
+      "prefetch_requests": 1,
+      "priority_violations": 0,
+      "resource_stall": 80,
+      "submitted": 8,
+      "system": 287,
+      "triple_overlap": 0,
+      "ve_busy": 80,
+      "verdict": "PASS",
+      "wait": 26
+    },
+    "simulator": "/root/chipyard/sims/verilator/simulator-chipyard-AgentSysDynamicRocketConfig",
+    "simulator_sha256": "181b60b920313abf78476a3bc13bee341f48396823c240a46ffe7fb8db1a8836",
+    "wall_time_s": 32.02167296409607
+  },
+  "elf": "/workspace/AgentSys/system_sim/build/software/agentsys-system.riscv",
+  "elf_sha256": "591da9e4c50048535e5f9d29870e1315283a9a8989ddeed7be554de8752e3f5a",
+  "gates": [
+    {
+      "details": {
+        "backend": "static",
+        "canceled": 0,
+        "checksum": 11830826393273448724,
+        "checksum_hex": "a42f89ec1a613914",
+        "completed": 8,
+        "de_busy": 80,
+        "decisions": 8,
+        "dep_stall": 289,
+        "dma": 36,
+        "dma_bytes": 96,
+        "engine_issues": [
+          2,
+          2,
+          4
+        ],
+        "host_config": 198,
+        "host_launch_wait": 405,
+        "issued": 8,
+        "kernel": 332,
+        "me_busy": 160,
+        "pair_overlap": 0,
+        "prefetch_hits": 1,
+        "prefetch_requests": 1,
+        "priority_violations": 0,
+        "resource_stall": 160,
+        "submitted": 8,
+        "system": 370,
+        "triple_overlap": 0,
+        "ve_busy": 80,
+        "verdict": "PASS",
+        "wait": 10
+      },
+      "gate": "static_exit",
+      "pass": true
+    },
+    {
+      "details": {
+        "backend": "dynamic",
+        "canceled": 0,
+        "checksum": 11830826393273448724,
+        "checksum_hex": "a42f89ec1a613914",
+        "completed": 8,
+        "de_busy": 80,
+        "decisions": 8,
+        "dep_stall": 227,
+        "dma": 36,
+        "dma_bytes": 96,
+        "engine_issues": [
+          2,
+          2,
+          4
+        ],
+        "host_config": 198,
+        "host_launch_wait": 322,
+        "issued": 8,
+        "kernel": 249,
+        "me_busy": 160,
+        "pair_overlap": 79,
+        "prefetch_hits": 1,
+        "prefetch_requests": 1,
+        "priority_violations": 0,
+        "resource_stall": 80,
+        "submitted": 8,
+        "system": 287,
+        "triple_overlap": 0,
+        "ve_busy": 80,
+        "verdict": "PASS",
+        "wait": 26
+      },
+      "gate": "dynamic_exit",
+      "pass": true
+    },
+    {
+      "details": [
+        "static",
+        "dynamic"
+      ],
+      "gate": "backend_identity",
+      "pass": true
+    },
+    {
+      "details": [
+        8,
+        8,
+        0
+      ],
+      "gate": "submitted_conservation_static",
+      "pass": true
+    },
+    {
+      "details": [
+        8,
+        8,
+        0
+      ],
+      "gate": "submitted_conservation_dynamic",
+      "pass": true
+    },
+    {
+      "details": [
+        8,
+        8
+      ],
+      "gate": "issued_completion_static",
+      "pass": true
+    },
+    {
+      "details": [
+        8,
+        8
+      ],
+      "gate": "issued_completion_dynamic",
+      "pass": true
+    },
+    {
+      "details": [
+        [
+          2,
+          2,
+          4
+        ],
+        8
+      ],
+      "gate": "engine_issue_conservation_static",
+      "pass": true
+    },
+    {
+      "details": [
+        [
+          2,
+          2,
+          4
+        ],
+        8
+      ],
+      "gate": "engine_issue_conservation_dynamic",
+      "pass": true
+    },
+    {
+      "details": {
+        "dynamic": [
+          2,
+          2,
+          4
+        ],
+        "static": [
+          2,
+          2,
+          4
+        ]
+      },
+      "gate": "same_logical_work",
+      "pass": true
+    },
+    {
+      "details": {
+        "checksum": [
+          "a42f89ec1a613914",
+          "a42f89ec1a613914"
+        ],
+        "dma": [
+          96,
+          96
+        ]
+      },
+      "gate": "same_dma_and_checksum",
+      "pass": true
+    },
+    {
+      "details": {
+        "dynamic": [
+          1,
+          1
+        ],
+        "static": [
+          1,
+          1
+        ]
+      },
+      "gate": "prefetch",
+      "pass": true
+    },
+    {
+      "details": [
+        0,
+        0
+      ],
+      "gate": "priority",
+      "pass": true
+    },
+    {
+      "details": [
+        0,
+        79
+      ],
+      "gate": "dynamic_overlap",
+      "pass": true
+    },
+    {
+      "details": [
+        332,
+        249
+      ],
+      "gate": "dynamic_kernel_speedup",
+      "pass": true
+    },
+    {
+      "details": [
+        370,
+        287
+      ],
+      "gate": "dynamic_system_speedup",
+      "pass": true
+    },
+    {
+      "details": {
+        "controller": {
+          "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_rocc_controller.sv",
+          "installed_sha256": "4274b42ac0157167bd84e2db25eed2b7a7868e291d7022bac81ab377a46e0bb2",
+          "source": "/workspace/AgentSys/rtl/agentsys/agentsys_rocc_controller.sv",
+          "source_sha256": "4274b42ac0157167bd84e2db25eed2b7a7868e291d7022bac81ab377a46e0bb2"
+        },
+        "engines": {
+          "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_engines.sv",
+          "installed_sha256": "ad25a5b413a55542e005a3b8e7992dc0c51ce185ecfc95163006a2a784453b6c",
+          "source": "/workspace/AgentSys/rtl/agentsys/agentsys_engines.sv",
+          "source_sha256": "ad25a5b413a55542e005a3b8e7992dc0c51ce185ecfc95163006a2a784453b6c"
+        },
+        "scala": {
+          "installed": "/root/chipyard/generators/chipyard/src/main/scala/AgentSysRoCC.scala",
+          "installed_sha256": "ee31c7e308fe64384ce3f9e1c4ccdd74aa105abd6fc9dc72134e9ce2a7f7d2a0",
+          "source": "/workspace/AgentSys/system_sim/chipyard/AgentSysRoCC.scala",
+          "source_sha256": "ee31c7e308fe64384ce3f9e1c4ccdd74aa105abd6fc9dc72134e9ce2a7f7d2a0"
+        },
+        "scheduler": {
+          "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_tisa_scheduler.sv",
+          "installed_sha256": "ab2b44c269110fef7764745c42ae573eb5619643860383fa10246166be326229",
+          "source": "/workspace/AgentSys/rtl/agentsys/agentsys_tisa_scheduler.sv",
+          "source_sha256": "ab2b44c269110fef7764745c42ae573eb5619643860383fa10246166be326229"
+        }
+      },
+      "gate": "installed_sources_match",
+      "pass": true
+    }
+  ],
+  "installed_hashes": {
+    "controller": {
+      "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_rocc_controller.sv",
+      "installed_sha256": "4274b42ac0157167bd84e2db25eed2b7a7868e291d7022bac81ab377a46e0bb2",
+      "source": "/workspace/AgentSys/rtl/agentsys/agentsys_rocc_controller.sv",
+      "source_sha256": "4274b42ac0157167bd84e2db25eed2b7a7868e291d7022bac81ab377a46e0bb2"
+    },
+    "engines": {
+      "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_engines.sv",
+      "installed_sha256": "ad25a5b413a55542e005a3b8e7992dc0c51ce185ecfc95163006a2a784453b6c",
+      "source": "/workspace/AgentSys/rtl/agentsys/agentsys_engines.sv",
+      "source_sha256": "ad25a5b413a55542e005a3b8e7992dc0c51ce185ecfc95163006a2a784453b6c"
+    },
+    "scala": {
+      "installed": "/root/chipyard/generators/chipyard/src/main/scala/AgentSysRoCC.scala",
+      "installed_sha256": "ee31c7e308fe64384ce3f9e1c4ccdd74aa105abd6fc9dc72134e9ce2a7f7d2a0",
+      "source": "/workspace/AgentSys/system_sim/chipyard/AgentSysRoCC.scala",
+      "source_sha256": "ee31c7e308fe64384ce3f9e1c4ccdd74aa105abd6fc9dc72134e9ce2a7f7d2a0"
+    },
+    "scheduler": {
+      "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_tisa_scheduler.sv",
+      "installed_sha256": "ab2b44c269110fef7764745c42ae573eb5619643860383fa10246166be326229",
+      "source": "/workspace/AgentSys/rtl/agentsys/agentsys_tisa_scheduler.sv",
+      "source_sha256": "ab2b44c269110fef7764745c42ae573eb5619643860383fa10246166be326229"
+    }
+  },
+  "project_commit": "ea84a7f190a26886644d156cd8246c37f29fa71d",
+  "run_id": "run_003",
+  "schema_version": 1,
+  "static": {
+    "config": "AgentSysStaticRocketConfig",
+    "exit_code": 0,
+    "log": "This emulator compiled with JTAG Remote Bitbang client. To enable, use +jtag_rbb_enable=1.\nListening on port 42867\nAGENTSYS_ELF_PASS backend=static wait=10 host_config=198 host_launch_wait=405 system=370 dma=36 kernel=332 submitted=8 issued=8 completed=8 canceled=0 me_busy=160 ve_busy=80 de_busy=80 dep_stall=289 resource_stall=160 pair_overlap=0 triple_overlap=0 decisions=8 prefetch=1/1 dma_bytes=96 checksum=a42f89ec1a613914 priority_violations=0 engine_issues=2/2/4\n[UART] UART0 is here (stdin/stdout).\nAGENTSYS_SYSTEM_DONE dynamic=0 system=369 dma=35 backend=332 submitted=8 completed=8 canceled=0 overlap=0 checksum=a42f89ec1a613914 bytes=96\n",
+    "parsed": {
+      "backend": "static",
+      "canceled": 0,
+      "checksum": 11830826393273448724,
+      "checksum_hex": "a42f89ec1a613914",
+      "completed": 8,
+      "de_busy": 80,
+      "decisions": 8,
+      "dep_stall": 289,
+      "dma": 36,
+      "dma_bytes": 96,
+      "engine_issues": [
+        2,
+        2,
+        4
+      ],
+      "host_config": 198,
+      "host_launch_wait": 405,
+      "issued": 8,
+      "kernel": 332,
+      "me_busy": 160,
+      "pair_overlap": 0,
+      "prefetch_hits": 1,
+      "prefetch_requests": 1,
+      "priority_violations": 0,
+      "resource_stall": 160,
+      "submitted": 8,
+      "system": 370,
+      "triple_overlap": 0,
+      "ve_busy": 80,
+      "verdict": "PASS",
+      "wait": 10
+    },
+    "simulator": "/root/chipyard/sims/verilator/simulator-chipyard-AgentSysStaticRocketConfig",
+    "simulator_sha256": "08ca254b33ec2aee755fc04406af94e79f4e9b832439a30735a12223f4e88c5a",
+    "wall_time_s": 31.031090259552002
+  },
+  "summary": {
+    "failing": 0,
+    "gates": 17,
+    "pass": true,
+    "passing": 17
+  }
+}

@@ -66,7 +66,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered paper endpoints (must be <= 0.15), with functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.5199297582914353
-  total_runs: 2
+  total_runs: 3
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -81,6 +81,13 @@ experiments:
       delta: -0.2502899142366764
       wall_time_min: 0.29
       change_summary: "Figure-4 GEMV contention plus fixed elastic iGPU share: Agent.xpu improves from 5/10 to 8/10 endpoints."
+      timestamp: "2026-08-25"
+    - run_id: "run_003"
+      hypothesis: "H3"
+      metric_value: 0.5199297582914353
+      delta: 0.0
+      wall_time_min: 2.0
+      change_summary: "Real Rocket+Verilator static/dynamic replay: 17/17 gates, 1.333x backend speedup, 79 overlap cycles."
       timestamp: "2026-08-25"
 
 outer_loop:
