@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AgentSys 全栈加速复现完成报告</title>
+<style>
+body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d1117;color:#c9d1d9;max-width:1080px;margin:auto;padding:32px;line-height:1.65}h1,h2{color:#f0f6fc}h1{font-size:34px}h2{border-bottom:1px solid #30363d;padding-bottom:8px;margin-top:36px}.lead{font-size:18px;color:#8b949e}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}.card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:18px}.value{font-size:30px;font-weight:700;color:#3fb950}.label{font-size:12px;color:#8b949e;text-transform:uppercase}table{width:100%;border-collapse:collapse}th,td{padding:10px;border-bottom:1px solid #30363d;text-align:left}th{color:#8b949e}.pass{color:#3fb950}.warn{color:#d29922}.note{border-left:4px solid #58a6ff;padding:10px 16px;background:#0c2d6b33}code{color:#79c0ff}a{color:#58a6ff}</style>
+</head>
+<body>
+<h1>AgentSys：从 program DAG 到 NPU engine</h1>
+<p class="lead">完整实现、论文端点复现、真实 Chipyard/Ramulator2 与六层优先级证据</p>
+
+<div class="grid">
+  <div class="card"><div class="value">55/55</div><div class="label">论文端点通过</div></div>
+  <div class="card"><div class="value">8.33%</div><div class="label">最大数值误差</div></div>
+  <div class="card"><div class="value">17/17</div><div class="label">Chipyard 门禁</div></div>
+  <div class="card"><div class="value">636/636</div><div class="label">优先级继承检查</div></div>
+</div>
+
+<h2>研究问题</h2>
+<p>Program-aware、heterogeneous-flow-aware 与 semantic tile scheduling 能否在真实系统接口下组合，并让 reactive urgency 从 Agent 程序一直传到 ME/VE/DE？结果表明可以，但收益受 call release、tile 粒度、DDR 瓶颈和 dataflow 约束。</p>
+
+<h2>误差轨迹</h2>
+<div class="card">
+<svg viewBox="0 0 900 330" width="100%" role="img" aria-label="最大端点误差轨迹">
+<rect width="900" height="330" rx="8" fill="#161b22"/>
+<line x1="75" y1="270" x2="840" y2="270" stroke="#484f58"/>
+<line x1="75" y1="50" x2="75" y2="270" stroke="#484f58"/>
+<line x1="75" y1="228" x2="840" y2="228" stroke="#d29922" stroke-dasharray="6 5"/>
+<text x="845" y="232" fill="#d29922" font-size="12">15% gate</text>
+<polyline points="100,70 330,139 610,247 820,247" fill="none" stroke="#3fb950" stroke-width="4"/>
+<circle cx="100" cy="70" r="7" fill="#58a6ff"/><circle cx="330" cy="139" r="7" fill="#58a6ff"/><circle cx="610" cy="247" r="7" fill="#58a6ff"/><circle cx="820" cy="247" r="7" fill="#58a6ff"/>
+<text x="82" y="55" fill="#c9d1d9">77.0%</text><text x="312" y="124" fill="#c9d1d9">52.0%</text><text x="592" y="232" fill="#c9d1d9">8.33%</text><text x="802" y="232" fill="#c9d1d9">8.33%</text>
+<text x="83" y="295" fill="#8b949e">run 1</text><text x="313" y="295" fill="#8b949e">run 2</text><text x="593" y="295" fill="#8b949e">run 9</text><text x="797" y="295" fill="#8b949e">final</text>
+<text x="12" y="56" fill="#8b949e">80%</text><text x="22" y="164" fill="#8b949e">40%</text><text x="35" y="274" fill="#8b949e">0%</text>
+</svg>
+<p>最大预登记端点误差从 77.0% 降至 8.33%。关键跃迁来自 Agent.xpu 的 shared-DDR mechanism 与正确的 active-period measurement contract；没有通过逐 endpoint scale factor 修复。</p>
+</div>
+
+<h2>关键结果</h2>
+<table>
+<thead><tr><th>证据</th><th>结果</th><th>状态</th></tr></thead>
+<tbody>
+<tr><td>Agentix / Agent.xpu / ATX / TISA</td><td>55 个端点全部 ≤15%</td><td class="pass">通过</td></tr>
+<tr><td>Rocket+Verilator</td><td>dynamic backend 332→249 cycles，overlap 0→79</td><td class="pass">17/17</td></tr>
+<tr><td>mllm Qwen3 MIR</td><td>ME/VE/DE=23/61/76；decoder slice 1.324×</td><td class="pass">9/9</td></tr>
+<tr><td>Ramulator2</td><td>双通道内存 166400→82854 cycles；总 TISA 仅 1.009×</td><td class="pass">7/7</td></tr>
+<tr><td>Full stack</td><td>reactive 相对 baseline 3.027×，相对 dynamic-only 1.333×</td><td class="pass">10/10</td></tr>
+</tbody>
+</table>
+
+<h2>两个决定性负结果</h2>
+<div class="grid">
+<div class="card"><strong>过小 tile</strong><p>2–16-cycle lowering 使 7-cycle TISA dispatch 反而拖慢执行。保留 run 005 后，按论文 10³–10⁵-cycle 粒度修正才得到 1.324×。</p></div>
+<div class="card"><strong>晚释放的 priority</strong><p>只在 flow/task/tile 下传 urgency 无法弥补 ATLAS 晚释放。Urgency 必须成为 call scheduler 第一排序键；run 007 作为反例保留。</p></div>
+</div>
+
+<h2>边界</h2>
+<p class="note">A100 aggregate 与私有 Sniper 结果属于 paper-parameterized replay；Agent.xpu/TISA 属于 source-grounded trace/cycle simulation；Rocket+Verilator 和 Ramulator2 是真实开源 simulator 执行。两张 RTX 4090 没有被用来替代 A100、Intel NPU 或 Epoch 真硅片。</p>
+
+<h2>交付</h2>
+<p>主报告：<code>ISCA26_G3_Agent全栈系统加速.md</code><br>机器证书：<code>artifacts/results/final-certificate.json</code><br>统一 trace：<code>artifacts/traces/full-stack-run_008.jsonl</code></p>
+</body>
+</html>

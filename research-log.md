@@ -25,3 +25,5 @@ Chronological record of research decisions and actions. Append-only.
 | 19 | 2026-08-25 | inner-loop | Run 011 adds the omitted Serial NPU-iGPU utilization endpoint: 33.42% versus 32.5% (2.84% error). Agent.xpu is 11/11; the direct Agentix/Agent.xpu/TISA runner is 24/24. |
 | 20 | 2026-08-25 | inner-loop | Built official Ramulator2 v2.0a with Clang 16 and added the Qwen3 DE trace adapter. Run 012 passes 7/7: exact 24,576/2,176 LD/ST counts; 1/2-channel cycles 166,400/82,854; TISA improves only 1.009× after ME bottleneck shift. H6 supported. |
 | 21 | 2026-08-25 | inner-loop | Run 013 completes priority, preemption, ATX prefetch, TISA window, DDR bandwidth, and ME dataflow ablations. All 7 gates pass; window knee=4, urgency gives 1.381× reactive gain, and WS beats OS 3.851× at 4 B/cycle. H7 supported. |
+| 22 | 2026-08-25 | report | Rebuilt the 50-line target note into a 344-line implementation/experiment/limitation/replay report and generated `to_human/final-report.html`. |
+| 23 | 2026-08-25 | conclude | Run 014 final certificate passes 11/11 requirements, 55/55 paper endpoints (max error 8.33%), fresh 21-test pytest, and RTL lint. Research status concluded. |

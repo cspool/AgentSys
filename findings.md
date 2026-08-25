@@ -10,6 +10,8 @@ The three layers address different blocking boundaries. PLAS/ATLAS removes call-
 
 The available evidence requires distinct labels. Agentix's published evaluation used A100 GPUs; Agent.xpu used an Intel Core Ultra 5 125H; TISA used unreleased Epoch silicon; ATX used an internal Sniper-derived simulator. The local work can reproduce scheduling endpoints using a source-grounded trace/cycle simulator and can validate the hardware contract on real Chipyard Rocket+Verilator, but it must not label the local hardware as the original platforms.
 
+Final synthesis: urgency must participate at call release before it can be preserved below; semantic tile scheduling becomes beneficial only at the intended coarse granularity; prefetch/bandwidth gains are largest before the critical path shifts to compute; and dataflow choice remains workload/bandwidth dependent. These conditions explain both the successful stack and its observed trade-offs.
+
 ## Key Results
 
 - Run 001 executes 23 preregistered endpoints: 18 pass and 5 fail. [Machine result](artifacts/results/run_001.json) and [analysis](experiments/h1-paper-contract/analysis.md).
@@ -54,4 +56,4 @@ The available evidence requires distinct labels. Agentix's published evaluation 
 
 ## Optimization Trajectory
 
-Run 001 starts at 77.02% maximum error (18/23 pass). Run 002 reduces this to 51.99% (21/23 pass) using one cross-workload contention term and fixed hardware accounting. The next performance trajectory point will add ATX endpoints; the implementation critical path is now the real Chipyard RoCC/TISA backend.
+Run 001 starts at 77.02% maximum error (18/23 pass). Run 002 reduces this to 51.99% (21/23 pass) using one cross-workload contention term and fixed hardware accounting. Run 009 reaches 8.33% with all direct endpoints passing. Runs 010–013 close aggregate Agentix/ATX, Serial, Ramulator2, and requested ablations. Run 014 proves 55/55 endpoints and 11/11 completion requirements.

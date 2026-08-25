@@ -2,7 +2,7 @@
 project:
   title: "AgentSys: dynamic-agent full-stack scheduling from program DAG to NPU tile"
   question: "Can program-aware, heterogeneous-flow-aware, and semantic tile scheduling compose end to end while reproducing each source paper's registered core result within 15%?"
-  status: active
+  status: concluded
   started: "2026-08-25"
   domain: "computer systems and architecture"
 
@@ -84,7 +84,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered paper endpoints (must be <= 0.15), with functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 13
+  total_runs: 14
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -177,11 +177,18 @@ experiments:
       wall_time_min: 0.03
       change_summary: "Seven cross-layer ablation gates pass; window knee=4, DDR bottleneck shift, OS dataflow limitation exposed."
       timestamp: "2026-08-25"
+    - run_id: "run_014"
+      hypothesis: "completion audit"
+      metric_value: 0.08333333333333333
+      delta: 0.0
+      wall_time_min: 0.15
+      change_summary: "Final certificate passes 11/11 requirements, 55/55 endpoints, fresh tests and RTL lint."
+      timestamp: "2026-08-25"
 
 outer_loop:
-  cycle: 4
-  last_direction: deepen
-  last_reflection: "H1-H5 mechanisms are supported and run 009 brings every currently executed Agentix/Agent.xpu/TISA paper endpoint within 15%. Audit remaining registered Agentix throughput endpoints and final documentation/certificate."
+  cycle: 5
+  last_direction: conclude
+  last_reflection: "All named implementations, experiments, paper endpoints, real simulator gates, trace invariants, ablations, documentation, and replay paths pass the final requirement audit."
 
 workspace:
   findings: "findings.md"

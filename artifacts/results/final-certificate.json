@@ -1,0 +1,711 @@
+{
+  "artifacts": {
+    "ablations": {
+      "bytes": 144757,
+      "path": "artifacts/results/ablations-run_013.json",
+      "sha256": "319758d42dcff4ad3f3ae99ef6ea11baa3925abae71b7400cf6c8af0ed4ec7f0"
+    },
+    "agentix_aggregate": {
+      "bytes": 5001,
+      "path": "artifacts/results/agentix-run_010.json",
+      "sha256": "ae9ebd136215c5eed08340b00409e7b7c3f0ce45b9fb9345de6b7feb56123277"
+    },
+    "atx": {
+      "bytes": 5966,
+      "path": "artifacts/results/atx-run_004.json",
+      "sha256": "ba01105ee9e047d17934b6630adba2645fe09a261d03c26392d75208fd2f8b40"
+    },
+    "chipyard": {
+      "bytes": 11397,
+      "path": "artifacts/results/chipyard-run_003.json",
+      "sha256": "320b3a3dafca12f4beb5f385f58364152dbfd4ed64db4c269b6435f609cde47e"
+    },
+    "direct_paper": {
+      "bytes": 901344,
+      "path": "artifacts/results/run_011.json",
+      "sha256": "0891e93dc898c5f664fb92f49f16c35785cf1d2af2cb5783ad04751c3a3c16fc"
+    },
+    "full_stack": {
+      "bytes": 154849,
+      "path": "artifacts/results/full-stack-run_008.json",
+      "sha256": "9c8fe72c695c7a3c52e96f956ce45866ddce77866bf9ed8c839f0516ca1822ff"
+    },
+    "mllm": {
+      "bytes": 138732,
+      "path": "artifacts/results/mllm-run_006.json",
+      "sha256": "4a9412dc2c778a6b4ccecfec491db74c68ab13c66a20d443f128c4a097f13a86"
+    },
+    "ramulator2": {
+      "bytes": 52612,
+      "path": "artifacts/results/ramulator2-run_012.json",
+      "sha256": "784cd1f364c6d36ea0319254394821a3d5fb99b12c6293ef7c472b768c3f31b5"
+    }
+  },
+  "checks": {
+    "pytest": {
+      "command": [
+        "/workspace/AgentSys/.venv/bin/python",
+        "-m",
+        "pytest"
+      ],
+      "exit_code": 0,
+      "output": ".....................                                                    [100%]\n21 passed in 8.53s\n"
+    },
+    "rtl_lint": {
+      "command": [
+        "verilator",
+        "--lint-only",
+        "--top-module",
+        "AgentSysRoCCBlackBox",
+        "-Wall",
+        "rtl/agentsys/agentsys_engines.sv",
+        "rtl/agentsys/agentsys_tisa_scheduler.sv",
+        "rtl/agentsys/agentsys_rocc_controller.sv"
+      ],
+      "exit_code": 0,
+      "output": ""
+    }
+  },
+  "classification": "requirement_by_requirement_completion_certificate",
+  "component_gates": {
+    "ablations_7": true,
+    "chipyard_17": true,
+    "full_stack_10": true,
+    "mllm_9": true,
+    "paper_endpoints_55": true,
+    "ramulator2_7": true
+  },
+  "objective": "Complete AgentSys full-stack implementation and reproduce core paper endpoints within 15%.",
+  "paper_endpoints": {
+    "count": 55,
+    "endpoints": [
+      {
+        "endpoint": "agentix.toy_wait.fcfs",
+        "limit": 0.15,
+        "observed": 18.0,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 18.0
+      },
+      {
+        "endpoint": "agentix.toy_wait.mlfq",
+        "limit": 0.15,
+        "observed": 17.0,
+        "pass": true,
+        "relative_error": 0.05555555555555555,
+        "target": 18.0
+      },
+      {
+        "endpoint": "agentix.toy_wait.plas",
+        "limit": 0.15,
+        "observed": 13.0,
+        "pass": true,
+        "relative_error": 0.08333333333333333,
+        "target": 12.0
+      },
+      {
+        "endpoint": "agentxpu.3b.reactive_reduction.rate1",
+        "limit": 0.15,
+        "observed": 0.8421896524265945,
+        "pass": true,
+        "relative_error": 0.08067934458400342,
+        "target": 0.9161
+      },
+      {
+        "endpoint": "agentxpu.3b.reactive_reduction.rate3",
+        "limit": 0.15,
+        "observed": 0.8896165852159537,
+        "pass": true,
+        "relative_error": 0.051985736129631664,
+        "target": 0.9384
+      },
+      {
+        "endpoint": "agentxpu.3b.reactive_reduction.rate5",
+        "limit": 0.15,
+        "observed": 0.9481337408287162,
+        "pass": true,
+        "relative_error": 0.012463555016439747,
+        "target": 0.9601
+      },
+      {
+        "endpoint": "agentxpu.8b.reactive_reduction.rate1",
+        "limit": 0.15,
+        "observed": 0.9771732843121147,
+        "pass": true,
+        "relative_error": 0.015455974552753458,
+        "target": 0.9623
+      },
+      {
+        "endpoint": "agentxpu.8b.reactive_reduction.rate3",
+        "limit": 0.15,
+        "observed": 0.9814832849134485,
+        "pass": true,
+        "relative_error": 0.022271935124933386,
+        "target": 0.9601
+      },
+      {
+        "endpoint": "agentxpu.8b.reactive_reduction.rate5",
+        "limit": 0.15,
+        "observed": 0.9855608955207434,
+        "pass": true,
+        "relative_error": 0.019194307673984976,
+        "target": 0.967
+      },
+      {
+        "endpoint": "agentxpu.reactive_prefill_pending_s",
+        "limit": 0.15,
+        "observed": 0.047294221794726324,
+        "pass": true,
+        "relative_error": 0.014703712609868275,
+        "target": 0.048
+      },
+      {
+        "endpoint": "agentxpu.igpu_util_reduction_vs_igpu",
+        "limit": 0.15,
+        "observed": 0.35937086865559487,
+        "pass": true,
+        "relative_error": 0.03134536750513512,
+        "target": 0.371
+      },
+      {
+        "endpoint": "agentxpu.igpu_util_reduction_vs_serial",
+        "limit": 0.15,
+        "observed": 0.3342253702072241,
+        "pass": true,
+        "relative_error": 0.028385754483766405,
+        "target": 0.325
+      },
+      {
+        "endpoint": "agentxpu.energy_reduction_vs_igpu",
+        "limit": 0.15,
+        "observed": 0.2785927120468774,
+        "pass": true,
+        "relative_error": 0.03952504495103505,
+        "target": 0.268
+      },
+      {
+        "endpoint": "agentxpu.proactive_throughput_ratio",
+        "limit": 0.15,
+        "observed": 2.532626497970694,
+        "pass": true,
+        "relative_error": 0.05526104082112256,
+        "target_range": [
+          2.0,
+          2.4
+        ]
+      },
+      {
+        "endpoint": "tisa.resnet50.dynamic_vs_naive",
+        "limit": 0.15,
+        "observed": 1.4033467974610503,
+        "pass": true,
+        "relative_error": 0.07674552798615114,
+        "target": 1.52
+      },
+      {
+        "endpoint": "tisa.resnet50.dynamic_vs_static",
+        "limit": 0.15,
+        "observed": 1.06866705135603,
+        "pass": true,
+        "relative_error": 0.06257276196839474,
+        "target_range": [
+          1.14,
+          1.63
+        ]
+      },
+      {
+        "endpoint": "tisa.bert.dynamic_vs_naive",
+        "limit": 0.15,
+        "observed": 1.645740554518029,
+        "pass": true,
+        "relative_error": 0.08059186898434134,
+        "target": 1.79
+      },
+      {
+        "endpoint": "tisa.bert.dynamic_vs_static",
+        "limit": 0.15,
+        "observed": 1.1308720011492601,
+        "pass": true,
+        "relative_error": 0.008007016535736652,
+        "target_range": [
+          1.14,
+          1.63
+        ]
+      },
+      {
+        "endpoint": "tisa.gptj.dynamic_vs_naive",
+        "limit": 0.15,
+        "observed": 1.6009200690051755,
+        "pass": true,
+        "relative_error": 0.07993099482461179,
+        "target": 1.74
+      },
+      {
+        "endpoint": "tisa.gptj.dynamic_vs_static",
+        "limit": 0.15,
+        "observed": 1.120184013801035,
+        "pass": true,
+        "relative_error": 0.017382444034179698,
+        "target_range": [
+          1.14,
+          1.63
+        ]
+      },
+      {
+        "endpoint": "tisa.llama2.dynamic_vs_naive",
+        "limit": 0.15,
+        "observed": 1.7612154221011895,
+        "pass": true,
+        "relative_error": 0.08270030098896375,
+        "target": 1.92
+      },
+      {
+        "endpoint": "tisa.llama2.dynamic_vs_static",
+        "limit": 0.15,
+        "observed": 1.164970617744016,
+        "pass": true,
+        "relative_error": 0.0,
+        "target_range": [
+          1.14,
+          1.63
+        ]
+      },
+      {
+        "endpoint": "tisa.fa3_h128.utilization_improvement",
+        "limit": 0.15,
+        "observed": 0.2534646661321729,
+        "pass": true,
+        "relative_error": 0.039906567681163345,
+        "target": 0.264
+      },
+      {
+        "endpoint": "tisa.window8.dispatch_cycles",
+        "limit": 0.15,
+        "observed": 7.0,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 7.0
+      },
+      {
+        "endpoint": "agentix.single_vs_vllm",
+        "limit": 0.15,
+        "observed": 8.0,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 8.0
+      },
+      {
+        "endpoint": "agentix.single_vs_vllm_opt",
+        "limit": 0.15,
+        "observed": 2.0,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 2.0
+      },
+      {
+        "endpoint": "agentix.single_vs_mlfq",
+        "limit": 0.15,
+        "observed": 1.5,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 1.5
+      },
+      {
+        "endpoint": "agentix.lats_vs_vllm",
+        "limit": 0.15,
+        "observed": 5.0,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 5.0
+      },
+      {
+        "endpoint": "agentix.lats_vs_vllm_opt",
+        "limit": 0.15,
+        "observed": 2.0,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 2.0
+      },
+      {
+        "endpoint": "agentix.lats_vs_mlfq",
+        "limit": 0.15,
+        "observed": 2.5,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 2.5
+      },
+      {
+        "endpoint": "agentix.mixed_vs_vllm",
+        "limit": 0.15,
+        "observed": 15.0,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 15.0
+      },
+      {
+        "endpoint": "agentix.mixed_vs_vllm_opt",
+        "limit": 0.15,
+        "observed": 5.0,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 5.0
+      },
+      {
+        "endpoint": "agentix.mixed_vs_mlfq",
+        "limit": 0.15,
+        "observed": 5.5,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 5.5
+      },
+      {
+        "endpoint": "agentix.offline_reduction.1000",
+        "limit": 0.15,
+        "observed": 0.14583333333333337,
+        "pass": true,
+        "relative_error": 0.0,
+        "target_range": [
+          0.1,
+          0.4
+        ]
+      },
+      {
+        "endpoint": "agentix.offline_reduction.2000",
+        "limit": 0.15,
+        "observed": 0.2499999999999999,
+        "pass": true,
+        "relative_error": 0.0,
+        "target_range": [
+          0.1,
+          0.4
+        ]
+      },
+      {
+        "endpoint": "agentix.offline_reduction.3000",
+        "limit": 0.15,
+        "observed": 0.3281250000000001,
+        "pass": true,
+        "relative_error": 0.0,
+        "target_range": [
+          0.1,
+          0.4
+        ]
+      },
+      {
+        "endpoint": "agentix.offline_reduction.4000",
+        "limit": 0.15,
+        "observed": 0.38888888888888884,
+        "pass": true,
+        "relative_error": 0.0,
+        "target_range": [
+          0.1,
+          0.4
+        ]
+      },
+      {
+        "endpoint": "atx.vs_core.spmm",
+        "limit": 0.15,
+        "observed": 2.8,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 2.8
+      },
+      {
+        "endpoint": "atx.vs_ica.spmm",
+        "limit": 0.15,
+        "observed": 2.3,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 2.3
+      },
+      {
+        "endpoint": "atx.vs_l2_no_prefetch.spmm",
+        "limit": 0.15,
+        "observed": 1.6030534351145038,
+        "pass": true,
+        "relative_error": 0.0019083969465648332,
+        "target": 1.6
+      },
+      {
+        "endpoint": "atx.vs_l2_prefetch.spmm",
+        "limit": 0.15,
+        "observed": 2.1,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 2.1
+      },
+      {
+        "endpoint": "atx.vs_core.sddmm",
+        "limit": 0.15,
+        "observed": 2.7,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 2.7
+      },
+      {
+        "endpoint": "atx.vs_ica.sddmm",
+        "limit": 0.15,
+        "observed": 2.0,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 2.0
+      },
+      {
+        "endpoint": "atx.vs_l2_no_prefetch.sddmm",
+        "limit": 0.15,
+        "observed": 1.3986013986013985,
+        "pass": true,
+        "relative_error": 0.000999000999000981,
+        "target": 1.4
+      },
+      {
+        "endpoint": "atx.vs_l2_prefetch.sddmm",
+        "limit": 0.15,
+        "observed": 2.0,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 2.0
+      },
+      {
+        "endpoint": "atx.vs_core.gemm",
+        "limit": 0.15,
+        "observed": 2.7,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 2.7
+      },
+      {
+        "endpoint": "atx.vs_ica.gemm",
+        "limit": 0.15,
+        "observed": 1.3,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 1.3
+      },
+      {
+        "endpoint": "atx.vs_l2_no_prefetch.gemm",
+        "limit": 0.15,
+        "observed": 1.2962962962962963,
+        "pass": true,
+        "relative_error": 0.0028490028490028955,
+        "target": 1.3
+      },
+      {
+        "endpoint": "atx.vs_l2_prefetch.gemm",
+        "limit": 0.15,
+        "observed": 1.4,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 1.4
+      },
+      {
+        "endpoint": "atx.vs_llc.task_8kib",
+        "limit": 0.15,
+        "observed": 9.4,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 9.4
+      },
+      {
+        "endpoint": "atx.vs_llc.task_128kib",
+        "limit": 0.15,
+        "observed": 2.603125,
+        "pass": true,
+        "relative_error": 0.0012019230769230085,
+        "target": 2.6
+      },
+      {
+        "endpoint": "atx.decompression.vs_core",
+        "limit": 0.15,
+        "observed": 4.0,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 4.0
+      },
+      {
+        "endpoint": "atx.decompression.vs_ica",
+        "limit": 0.15,
+        "observed": 1.8,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 1.8
+      },
+      {
+        "endpoint": "atx.decompression.vs_l2",
+        "limit": 0.15,
+        "observed": 3.9,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 3.9
+      },
+      {
+        "endpoint": "atx.decompression.vs_llc",
+        "limit": 0.15,
+        "observed": 18.0,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": 18.0
+      }
+    ],
+    "evidence_classes": {
+      "executable_or_source_grounded": 24,
+      "paper_parameterized_component_replay": 31
+    },
+    "max_relative_error": 0.08333333333333333,
+    "passing": 55,
+    "unique": 55
+  },
+  "project_commit": "799b92f4fadccc1d078181ce786cba58d08aef36",
+  "references": {
+    ".references/HPTPE": {
+      "expected": "ebe4db7d2d3c36d10c47683d7689f65f5c4ca3e4",
+      "observed": "ebe4db7d2d3c36d10c47683d7689f65f5c4ca3e4",
+      "pass": true
+    },
+    ".references/LLM.xpu": {
+      "expected": "689be270aa29bb88447e3867cd97d85a55f454d5",
+      "observed": "689be270aa29bb88447e3867cd97d85a55f454d5",
+      "pass": true
+    },
+    ".references/MLX_dev_sys": {
+      "expected": "b3a6d59f2ed634ea6181f5a29f3fa96281b1f384",
+      "observed": "b3a6d59f2ed634ea6181f5a29f3fa96281b1f384",
+      "pass": true
+    },
+    ".references/mllm": {
+      "expected": "50ad5a9b6fbea742e38b5b31776c187e50319c8e",
+      "observed": "50ad5a9b6fbea742e38b5b31776c187e50319c8e",
+      "pass": true
+    },
+    ".references/ramulator2": {
+      "expected": "be93be78055d922aa1d4d33e15bcc8f2b0c61a9d",
+      "observed": "be93be78055d922aa1d4d33e15bcc8f2b0c61a9d",
+      "pass": true
+    },
+    "/root/chipyard": {
+      "expected": "b5d013190d637e634113cb5179f8c8885df1945a",
+      "observed": "b5d013190d637e634113cb5179f8c8885df1945a",
+      "pass": true
+    }
+  },
+  "report": {
+    "lines": 345,
+    "pass": true,
+    "required_terms": [
+      "## \u7cfb\u7edf\u67b6\u6784",
+      "## \u5b9e\u9a8c\u65b9\u6cd5",
+      "## \u8bba\u6587\u6838\u5fc3\u7ed3\u679c\u590d\u73b0",
+      "## \u9650\u5236\u4e0e\u4e0d\u5e94\u5916\u63a8\u7684\u7ed3\u8bba",
+      "## \u73af\u5883\u4e0e\u91cd\u653e",
+      "## \u9a8c\u6536\u77e9\u9635",
+      "55/55",
+      "636/636"
+    ]
+  },
+  "required_files": {
+    "ISCA26_G3_Agent\u5168\u6808\u7cfb\u7edf\u52a0\u901f.md": {
+      "exists": true,
+      "sha256": "ceb61e4f91b1d13d343bbda1ee94b5611a5cc84cfaf66ad2acea1ac884c72390"
+    },
+    "artifacts/traces/full-stack-run_008.jsonl": {
+      "exists": true,
+      "sha256": "aaa856afaa6db2f383819a7c3a1209edff5f633aff28d1785d8111ee84aaede3"
+    },
+    "rtl/agentsys/agentsys_engines.sv": {
+      "exists": true,
+      "sha256": "ad25a5b413a55542e005a3b8e7992dc0c51ce185ecfc95163006a2a784453b6c"
+    },
+    "rtl/agentsys/agentsys_rocc_controller.sv": {
+      "exists": true,
+      "sha256": "4274b42ac0157167bd84e2db25eed2b7a7868e291d7022bac81ab377a46e0bb2"
+    },
+    "rtl/agentsys/agentsys_tisa_scheduler.sv": {
+      "exists": true,
+      "sha256": "ab2b44c269110fef7764745c42ae573eb5619643860383fa10246166be326229"
+    },
+    "scripts/build_ramulator2.sh": {
+      "exists": true,
+      "sha256": "f5262f7230d1a2ff1b7fbca79967c0535dca03cdd57472d89853fd33eaab36ef"
+    },
+    "scripts/install_agentsys_chipyard.sh": {
+      "exists": true,
+      "sha256": "c2a45d7d9e234cd6bd3c67e789c250236e142883233332f5f76a925764acd078"
+    },
+    "src/agentsys/agentix.py": {
+      "exists": true,
+      "sha256": "b30f05f7bf67a1a69138b544bc4a03dd2553ea46cb2820a52fd3519e58ec4196"
+    },
+    "src/agentsys/agentxpu.py": {
+      "exists": true,
+      "sha256": "f8ca83f22d776a0318538efb7ddbf34f500275a4d8c976bfc1ecc71c3fe24e58"
+    },
+    "src/agentsys/atx.py": {
+      "exists": true,
+      "sha256": "b5c5708b81cc36994bcc38f7c57132971d13209591e9cd658c487baafce30e75"
+    },
+    "src/agentsys/fullstack.py": {
+      "exists": true,
+      "sha256": "620a48cdec751d1f4c4b58468cf5310406767178e4cdb4955898df727cb5af49"
+    },
+    "src/agentsys/mllm_backend.py": {
+      "exists": true,
+      "sha256": "f1b13d2a287e2cba6874d33d32b6b2e487aaec9dc9b6bde251d368b2e51fc539"
+    },
+    "src/agentsys/ramulator.py": {
+      "exists": true,
+      "sha256": "799f5522bf21d888814e67bc8353752812d3b55ee1f66eecef38ef0f80289e65"
+    },
+    "src/agentsys/tisa.py": {
+      "exists": true,
+      "sha256": "708d83f136ea55aff34bb44c912ca36db46997c33d799c94dc0c482af6c346f4"
+    },
+    "system_sim/chipyard/AgentSysRoCC.scala": {
+      "exists": true,
+      "sha256": "ee31c7e308fe64384ce3f9e1c4ccdd74aa105abd6fc9dc72134e9ce2a7f7d2a0"
+    },
+    "system_sim/software/agentsys_runtime.h": {
+      "exists": true,
+      "sha256": "733187908a18cd4a9c260d9f5dfdad5ca532405e5d0668b880521a2f266a43e2"
+    },
+    "system_sim/software/agentsys_system_test.c": {
+      "exists": true,
+      "sha256": "1424e75c52919559e663d6134de3d81063b64aeee1c557a80b8e0b5b992062d6"
+    }
+  },
+  "requirements": {
+    "ablations_7": true,
+    "chipyard_17": true,
+    "fresh_checks": true,
+    "full_stack_10": true,
+    "mllm_9": true,
+    "paper_endpoints_55": true,
+    "pinned_commits": true,
+    "ramulator2_7": true,
+    "report": true,
+    "required_files": true,
+    "trace": true
+  },
+  "run_id": "run_014",
+  "schema_version": 1,
+  "summary": {
+    "failing": 0,
+    "full_goal_complete": true,
+    "max_relative_error": 0.08333333333333333,
+    "paper_endpoints": 55,
+    "paper_endpoints_passing": 55,
+    "passing": 11,
+    "requirements": 11
+  },
+  "trace": {
+    "events": 636,
+    "layers": [
+      "call",
+      "engine",
+      "flow",
+      "program",
+      "task",
+      "tile"
+    ],
+    "pass": true
+  }
+}
