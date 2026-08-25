@@ -39,13 +39,13 @@ literature:
 hypotheses:
   - id: H1
     statement: "PLAS/ATLAS lowers cumulative wait and DAG makespan versus FCFS/MLFQ because attained service approximates remaining program length and critical-path progress."
-    status: active
+    status: supported
     motivation: "Reproduce Agentix's core scheduling mechanism before composing lower layers."
     parent: null
     priority: high
   - id: H2
     statement: "HEG stage elasticity plus reactive-first batching and tile-boundary preemption jointly preserve proactive throughput while reducing reactive tail latency."
-    status: pending
+    status: active
     motivation: "Reproduce Agent.xpu's core heterogeneous scheduling mechanism."
     parent: null
     priority: high
@@ -64,15 +64,22 @@ hypotheses:
 
 experiments:
   proxy_metric: "maximum absolute relative error across preregistered paper endpoints (must be <= 0.15), with functional invariants as hard gates"
-  baseline_value: null
-  best_value: null
-  total_runs: 0
-  trajectory: []
+  baseline_value: 0.7702196725281117
+  best_value: 0.7702196725281117
+  total_runs: 1
+  trajectory:
+    - run_id: "run_001"
+      hypothesis: "H1/H2/H3"
+      metric_value: 0.7702196725281117
+      delta: null
+      wall_time_min: 0.29
+      change_summary: "First no-retuning execution: Agentix 3/3, TISA 10/10, Agent.xpu 5/10; ATX/Chipyard pending."
+      timestamp: "2026-08-25"
 
 outer_loop:
-  cycle: 0
-  last_direction: null
-  last_reflection: "Bootstrap complete; implement the target-independent executable contracts before exposing paper targets to the runners."
+  cycle: 1
+  last_direction: deepen
+  last_reflection: "Run 001 isolates all five failures to missing Agent.xpu 3B mixed-DDR contention and elastic iGPU prefill accounting; preserve all other configurations for run 002."
 
 workspace:
   findings: "findings.md"
@@ -81,4 +88,3 @@ workspace:
   experiments_dir: "experiments/"
   to_human_dir: "to_human/"
   paper_dir: "paper/"
-
