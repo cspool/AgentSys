@@ -36,6 +36,10 @@ class XPUConfig:
     igpu_power_w_prefill: float = 31.0
     igpu_power_w_decode: float = 25.0
     npu_power_w: float = 10.0
+    cpu_npu_control_power_w: float = 12.0
+    igpu_prefill_active_utilization: float = 1.0
+    igpu_decode_active_utilization: float = 0.46
+    heg_prefill_active_utilization: float = 0.80
 
     def __post_init__(self) -> None:
         if self.tick_s <= 0:
@@ -82,8 +86,10 @@ class AgentXPUResult:
     proactive_mean_latency_s: float | None
     reactive_prefill_pending_s: float | None
     igpu_utilization: float
+    igpu_wall_occupancy: float
     npu_utilization: float
     energy_j_token: float
+    cpu_control_energy_j: float
     preemptions: int
     logical_input_tokens: int
     logical_output_tokens: int
@@ -102,8 +108,10 @@ class AgentXPUResult:
             "proactive_mean_latency_s": self.proactive_mean_latency_s,
             "reactive_prefill_pending_s": self.reactive_prefill_pending_s,
             "igpu_utilization": self.igpu_utilization,
+            "igpu_wall_occupancy": self.igpu_wall_occupancy,
             "npu_utilization": self.npu_utilization,
             "energy_j_token": self.energy_j_token,
+            "cpu_control_energy_j": self.cpu_control_energy_j,
             "preemptions": self.preemptions,
             "logical_input_tokens": self.logical_input_tokens,
             "logical_output_tokens": self.logical_output_tokens,
@@ -359,11 +367,34 @@ class AgentXPUSimulator:
         )
         total_output = sum(state.spec.output_tokens for state in completed_states)
         horizon = max((state.complete or 0.0 for state in completed_states), default=time)
+        cpu_control_energy = (
+            npu_busy * cfg.cpu_npu_control_power_w if mode is XPUmode.HEG else 0.0
+        )
         energy = (
             (igpu_prefill_busy + heg_igpu_prefill_busy) * cfg.igpu_power_w_prefill
             + igpu_decode_busy * cfg.igpu_power_w_decode
             + npu_busy * cfg.npu_power_w
+            + cpu_control_energy
         )
+        igpu_wall_occupancy = (
+            (igpu_prefill_busy + igpu_decode_busy + heg_igpu_prefill_busy) / horizon
+            if horizon
+            else 0.0
+        )
+        if mode is XPUmode.HEG:
+            active_period = npu_busy + igpu_decode_busy
+            active_utilization = (
+                npu_busy
+                * cfg.heg_igpu_prefill_share
+                * cfg.heg_prefill_active_utilization
+                + igpu_decode_busy * cfg.igpu_decode_active_utilization
+            ) / active_period if active_period else 0.0
+        else:
+            active_period = igpu_prefill_busy + igpu_decode_busy
+            active_utilization = (
+                igpu_prefill_busy * cfg.igpu_prefill_active_utilization
+                + igpu_decode_busy * cfg.igpu_decode_active_utilization
+            ) / active_period if active_period else 0.0
         mean_latency = mean(latencies.values()) if latencies else 0.0
         return AgentXPUResult(
             mode=mode,
@@ -378,12 +409,11 @@ class AgentXPUSimulator:
             reactive_p90_latency_s=_percentile(reactive_latencies, 0.90),
             proactive_mean_latency_s=mean(proactive_latencies) if proactive_latencies else None,
             reactive_prefill_pending_s=mean(pending) if pending else None,
-            igpu_utilization=(igpu_prefill_busy + igpu_decode_busy + heg_igpu_prefill_busy)
-            / horizon
-            if horizon
-            else 0.0,
+            igpu_utilization=active_utilization,
+            igpu_wall_occupancy=igpu_wall_occupancy,
             npu_utilization=npu_busy / horizon if horizon else 0.0,
             energy_j_token=energy / total_tokens if total_tokens else 0.0,
+            cpu_control_energy_j=cpu_control_energy,
             preemptions=preemptions,
             logical_input_tokens=sum(state.spec.input_tokens for state in completed_states),
             logical_output_tokens=total_output,

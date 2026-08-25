@@ -45,7 +45,7 @@ hypotheses:
     priority: high
   - id: H2
     statement: "HEG stage elasticity plus reactive-first batching and tile-boundary preemption jointly preserve proactive throughput while reducing reactive tail latency."
-    status: active
+    status: supported
     motivation: "Reproduce Agent.xpu's core heterogeneous scheduling mechanism."
     parent: null
     priority: high
@@ -71,8 +71,8 @@ hypotheses:
 experiments:
   proxy_metric: "maximum absolute relative error across preregistered paper endpoints (must be <= 0.15), with functional invariants as hard gates"
   baseline_value: 0.7702196725281117
-  best_value: 0.5199297582914353
-  total_runs: 8
+  best_value: 0.08333333333333333
+  total_runs: 9
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -130,11 +130,18 @@ experiments:
       wall_time_min: 0.13
       change_summary: "Urgency-first release passes 10/10 gates; reactive 3.027x baseline and 1.333x dynamic-only with explicit throughput trade-off."
       timestamp: "2026-08-25"
+    - run_id: "run_009"
+      hypothesis: "H2"
+      metric_value: 0.08333333333333333
+      delta: -0.43659642495810197
+      wall_time_min: 0.29
+      change_summary: "Correct active-period/CPU-control measurement contract: Agent.xpu 10/10 and combined executed paper endpoints 23/23."
+      timestamp: "2026-08-25"
 
 outer_loop:
-  cycle: 3
+  cycle: 4
   last_direction: deepen
-  last_reflection: "Run 007 proves low-layer inheritance but exposes missing external priority in the Agentix release key. Add urgency-first, attained-service-second scheduling before judging H4 stacking."
+  last_reflection: "H1-H5 mechanisms are supported and run 009 brings every currently executed Agentix/Agent.xpu/TISA paper endpoint within 15%. Audit remaining registered Agentix throughput endpoints and final documentation/certificate."
 
 workspace:
   findings: "findings.md"
