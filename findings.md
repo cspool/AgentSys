@@ -21,6 +21,7 @@ The available evidence requires distinct labels. Agentix's published evaluation 
 - Run 004 adds ATX paper coverage: 18/18 organization, prefetch, task-size, and decompression endpoints pass with 0.285% maximum error under a transparent paper-parameterized component model.
 - Run 005 closes most of the mllm trace path: real FooNet and Qwen3 MIR parse deterministically and lower to all three engines. The first timing run is intentionally retained as a failure because its 2–16 cycle tiles make seven-cycle scheduling overhead dominant.
 - Run 006 applies the source-aligned 1024-cycle floor and passes 9/9 mllm gates. On identical decoder-slice work, dynamic scheduling improves 8192→6186 cycles (1.324×) and exposes 2048 overlap cycles; H5 is supported.
+- Run 007 establishes the six-layer trace and exact work/lineage invariants, but current stacking is sub-additive: 2.081× versus dynamic-only 2.185×. ATLAS delays ReAct at release because it has no external urgency key; lower-layer priority cannot recover that delay.
 
 ## Patterns and Insights
 

@@ -1,0 +1,5839 @@
+{
+  "classification": "exploratory_full_stack_trace_simulation",
+  "configurations": {
+    "atlas_static": {
+      "agentix": {
+        "call_completion": {
+          "mcts-actor0": 10,
+          "mcts-actor1": 9,
+          "mcts-critic": 13,
+          "mcts-root": 6,
+          "moa-map0": 4,
+          "moa-map1": 6,
+          "moa-map2": 4,
+          "moa-reduce": 10,
+          "react-answer": 12,
+          "react-plan": 5,
+          "react-tool": 7
+        },
+        "makespan": 13,
+        "policy": "atlas",
+        "program_completion": {
+          "mcts": 13,
+          "moa": 10,
+          "react": 12
+        },
+        "program_wait": {
+          "mcts": 3,
+          "moa": 1,
+          "react": 4
+        },
+        "slices": [
+          {
+            "call_id": "react-plan",
+            "end": 1,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "react",
+            "queue_level": 0,
+            "start": 0
+          },
+          {
+            "call_id": "moa-map0",
+            "end": 1,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 0
+          },
+          {
+            "call_id": "moa-map1",
+            "end": 1,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 0
+          },
+          {
+            "call_id": "moa-map2",
+            "end": 2,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 1
+          },
+          {
+            "call_id": "mcts-root",
+            "end": 2,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 1
+          },
+          {
+            "call_id": "react-plan",
+            "end": 2,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "react",
+            "queue_level": 1,
+            "start": 1
+          },
+          {
+            "call_id": "react-plan",
+            "end": 3,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "react",
+            "queue_level": 1,
+            "start": 2
+          },
+          {
+            "call_id": "moa-map0",
+            "end": 3,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "moa",
+            "queue_level": 1,
+            "start": 2
+          },
+          {
+            "call_id": "moa-map1",
+            "end": 3,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 1,
+            "start": 2
+          },
+          {
+            "call_id": "moa-map0",
+            "end": 4,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "moa",
+            "queue_level": 1,
+            "start": 3
+          },
+          {
+            "call_id": "moa-map1",
+            "end": 4,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "moa",
+            "queue_level": 1,
+            "start": 3
+          },
+          {
+            "call_id": "moa-map2",
+            "end": 4,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 1,
+            "start": 3
+          },
+          {
+            "call_id": "mcts-root",
+            "end": 5,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 1,
+            "start": 4
+          },
+          {
+            "call_id": "react-plan",
+            "end": 5,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "react",
+            "queue_level": 2,
+            "start": 4
+          },
+          {
+            "call_id": "moa-map1",
+            "end": 5,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 2,
+            "start": 4
+          },
+          {
+            "call_id": "mcts-root",
+            "end": 6,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 1,
+            "start": 5
+          },
+          {
+            "call_id": "moa-map1",
+            "end": 6,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "moa",
+            "queue_level": 2,
+            "start": 5
+          },
+          {
+            "call_id": "react-tool",
+            "end": 7,
+            "inherited_service": 4,
+            "lane": 0,
+            "program_id": "react",
+            "queue_level": 2,
+            "start": 6
+          },
+          {
+            "call_id": "moa-reduce",
+            "end": 7,
+            "inherited_service": 5,
+            "lane": 1,
+            "program_id": "moa",
+            "queue_level": 2,
+            "start": 6
+          },
+          {
+            "call_id": "mcts-actor0",
+            "end": 7,
+            "inherited_service": 3,
+            "lane": 2,
+            "program_id": "mcts",
+            "queue_level": 2,
+            "start": 6
+          },
+          {
+            "call_id": "moa-reduce",
+            "end": 8,
+            "inherited_service": 5,
+            "lane": 0,
+            "program_id": "moa",
+            "queue_level": 2,
+            "start": 7
+          },
+          {
+            "call_id": "mcts-actor0",
+            "end": 8,
+            "inherited_service": 3,
+            "lane": 1,
+            "program_id": "mcts",
+            "queue_level": 2,
+            "start": 7
+          },
+          {
+            "call_id": "mcts-actor1",
+            "end": 8,
+            "inherited_service": 3,
+            "lane": 2,
+            "program_id": "mcts",
+            "queue_level": 2,
+            "start": 7
+          },
+          {
+            "call_id": "moa-reduce",
+            "end": 9,
+            "inherited_service": 5,
+            "lane": 0,
+            "program_id": "moa",
+            "queue_level": 2,
+            "start": 8
+          },
+          {
+            "call_id": "mcts-actor0",
+            "end": 9,
+            "inherited_service": 3,
+            "lane": 1,
+            "program_id": "mcts",
+            "queue_level": 2,
+            "start": 8
+          },
+          {
+            "call_id": "mcts-actor1",
+            "end": 9,
+            "inherited_service": 3,
+            "lane": 2,
+            "program_id": "mcts",
+            "queue_level": 2,
+            "start": 8
+          },
+          {
+            "call_id": "moa-reduce",
+            "end": 10,
+            "inherited_service": 5,
+            "lane": 0,
+            "program_id": "moa",
+            "queue_level": 2,
+            "start": 9
+          },
+          {
+            "call_id": "mcts-actor0",
+            "end": 10,
+            "inherited_service": 3,
+            "lane": 1,
+            "program_id": "mcts",
+            "queue_level": 2,
+            "start": 9
+          },
+          {
+            "call_id": "react-answer",
+            "end": 10,
+            "inherited_service": 5,
+            "lane": 2,
+            "program_id": "react",
+            "queue_level": 2,
+            "start": 9
+          },
+          {
+            "call_id": "react-answer",
+            "end": 11,
+            "inherited_service": 5,
+            "lane": 0,
+            "program_id": "react",
+            "queue_level": 2,
+            "start": 10
+          },
+          {
+            "call_id": "mcts-critic",
+            "end": 11,
+            "inherited_service": 7,
+            "lane": 1,
+            "program_id": "mcts",
+            "queue_level": 3,
+            "start": 10
+          },
+          {
+            "call_id": "react-answer",
+            "end": 12,
+            "inherited_service": 5,
+            "lane": 0,
+            "program_id": "react",
+            "queue_level": 2,
+            "start": 11
+          },
+          {
+            "call_id": "mcts-critic",
+            "end": 12,
+            "inherited_service": 7,
+            "lane": 1,
+            "program_id": "mcts",
+            "queue_level": 3,
+            "start": 11
+          },
+          {
+            "call_id": "mcts-critic",
+            "end": 13,
+            "inherited_service": 7,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 3,
+            "start": 12
+          }
+        ],
+        "total_call_wait": 10,
+        "total_wait": 8
+      },
+      "configuration": {
+        "agentix_policy": "atlas",
+        "name": "atlas_static",
+        "propagate_priority": true,
+        "tisa_mode": "static"
+      },
+      "dependency_valid": true,
+      "engine_work": {
+        "de": 22528,
+        "me": 33792,
+        "ve": 33792
+      },
+      "logical_digest": "4dd2e84338759c0c6d3ad6d8f65a73e979ade989eb9b0a2dbaeecb53613355ec",
+      "makespan": 90112,
+      "proactive_completed": 2,
+      "proactive_throughput": 2.2194602272727273e-05,
+      "program_completion": {
+        "mcts": 90112,
+        "moa": 57344,
+        "react": 81920
+      },
+      "reactive_completion": 81920,
+      "tisa": {
+        "busy_cycles": {
+          "de": 22528,
+          "me": 33792,
+          "ve": 33792
+        },
+        "completed": 88,
+        "cycles": 90112,
+        "dependency_stalls": 0,
+        "dispatch_latency": 0,
+        "issues": [
+          {
+            "complete": 1024,
+            "engine": "me",
+            "issue": 0,
+            "priority": 0,
+            "sequence": 0,
+            "tile_id": "tile:react-plan:0"
+          },
+          {
+            "complete": 2048,
+            "engine": "me",
+            "issue": 1024,
+            "priority": 0,
+            "sequence": 1,
+            "tile_id": "tile:react-plan:1"
+          },
+          {
+            "complete": 3072,
+            "engine": "de",
+            "issue": 2048,
+            "priority": 0,
+            "sequence": 2,
+            "tile_id": "tile:react-plan:2"
+          },
+          {
+            "complete": 4096,
+            "engine": "ve",
+            "issue": 3072,
+            "priority": 0,
+            "sequence": 3,
+            "tile_id": "tile:react-plan:3"
+          },
+          {
+            "complete": 5120,
+            "engine": "ve",
+            "issue": 4096,
+            "priority": 0,
+            "sequence": 4,
+            "tile_id": "tile:react-plan:4"
+          },
+          {
+            "complete": 6144,
+            "engine": "de",
+            "issue": 5120,
+            "priority": 0,
+            "sequence": 5,
+            "tile_id": "tile:react-plan:5"
+          },
+          {
+            "complete": 7168,
+            "engine": "me",
+            "issue": 6144,
+            "priority": 0,
+            "sequence": 6,
+            "tile_id": "tile:react-plan:6"
+          },
+          {
+            "complete": 8192,
+            "engine": "ve",
+            "issue": 7168,
+            "priority": 0,
+            "sequence": 7,
+            "tile_id": "tile:react-plan:7"
+          },
+          {
+            "complete": 9216,
+            "engine": "me",
+            "issue": 8192,
+            "priority": 2,
+            "sequence": 8,
+            "tile_id": "tile:moa-map0:0"
+          },
+          {
+            "complete": 10240,
+            "engine": "me",
+            "issue": 9216,
+            "priority": 2,
+            "sequence": 9,
+            "tile_id": "tile:moa-map0:1"
+          },
+          {
+            "complete": 11264,
+            "engine": "de",
+            "issue": 10240,
+            "priority": 2,
+            "sequence": 10,
+            "tile_id": "tile:moa-map0:2"
+          },
+          {
+            "complete": 12288,
+            "engine": "ve",
+            "issue": 11264,
+            "priority": 2,
+            "sequence": 11,
+            "tile_id": "tile:moa-map0:3"
+          },
+          {
+            "complete": 13312,
+            "engine": "ve",
+            "issue": 12288,
+            "priority": 2,
+            "sequence": 12,
+            "tile_id": "tile:moa-map0:4"
+          },
+          {
+            "complete": 14336,
+            "engine": "de",
+            "issue": 13312,
+            "priority": 2,
+            "sequence": 13,
+            "tile_id": "tile:moa-map0:5"
+          },
+          {
+            "complete": 15360,
+            "engine": "me",
+            "issue": 14336,
+            "priority": 2,
+            "sequence": 14,
+            "tile_id": "tile:moa-map0:6"
+          },
+          {
+            "complete": 16384,
+            "engine": "ve",
+            "issue": 15360,
+            "priority": 2,
+            "sequence": 15,
+            "tile_id": "tile:moa-map0:7"
+          },
+          {
+            "complete": 17408,
+            "engine": "me",
+            "issue": 16384,
+            "priority": 2,
+            "sequence": 16,
+            "tile_id": "tile:moa-map1:0"
+          },
+          {
+            "complete": 18432,
+            "engine": "me",
+            "issue": 17408,
+            "priority": 2,
+            "sequence": 17,
+            "tile_id": "tile:moa-map1:1"
+          },
+          {
+            "complete": 19456,
+            "engine": "de",
+            "issue": 18432,
+            "priority": 2,
+            "sequence": 18,
+            "tile_id": "tile:moa-map1:2"
+          },
+          {
+            "complete": 20480,
+            "engine": "ve",
+            "issue": 19456,
+            "priority": 2,
+            "sequence": 19,
+            "tile_id": "tile:moa-map1:3"
+          },
+          {
+            "complete": 21504,
+            "engine": "ve",
+            "issue": 20480,
+            "priority": 2,
+            "sequence": 20,
+            "tile_id": "tile:moa-map1:4"
+          },
+          {
+            "complete": 22528,
+            "engine": "de",
+            "issue": 21504,
+            "priority": 2,
+            "sequence": 21,
+            "tile_id": "tile:moa-map1:5"
+          },
+          {
+            "complete": 23552,
+            "engine": "me",
+            "issue": 22528,
+            "priority": 2,
+            "sequence": 22,
+            "tile_id": "tile:moa-map1:6"
+          },
+          {
+            "complete": 24576,
+            "engine": "ve",
+            "issue": 23552,
+            "priority": 2,
+            "sequence": 23,
+            "tile_id": "tile:moa-map1:7"
+          },
+          {
+            "complete": 25600,
+            "engine": "me",
+            "issue": 24576,
+            "priority": 2,
+            "sequence": 24,
+            "tile_id": "tile:moa-map2:0"
+          },
+          {
+            "complete": 26624,
+            "engine": "me",
+            "issue": 25600,
+            "priority": 2,
+            "sequence": 25,
+            "tile_id": "tile:moa-map2:1"
+          },
+          {
+            "complete": 27648,
+            "engine": "de",
+            "issue": 26624,
+            "priority": 2,
+            "sequence": 26,
+            "tile_id": "tile:moa-map2:2"
+          },
+          {
+            "complete": 28672,
+            "engine": "ve",
+            "issue": 27648,
+            "priority": 2,
+            "sequence": 27,
+            "tile_id": "tile:moa-map2:3"
+          },
+          {
+            "complete": 29696,
+            "engine": "ve",
+            "issue": 28672,
+            "priority": 2,
+            "sequence": 28,
+            "tile_id": "tile:moa-map2:4"
+          },
+          {
+            "complete": 30720,
+            "engine": "de",
+            "issue": 29696,
+            "priority": 2,
+            "sequence": 29,
+            "tile_id": "tile:moa-map2:5"
+          },
+          {
+            "complete": 31744,
+            "engine": "me",
+            "issue": 30720,
+            "priority": 2,
+            "sequence": 30,
+            "tile_id": "tile:moa-map2:6"
+          },
+          {
+            "complete": 32768,
+            "engine": "ve",
+            "issue": 31744,
+            "priority": 2,
+            "sequence": 31,
+            "tile_id": "tile:moa-map2:7"
+          },
+          {
+            "complete": 33792,
+            "engine": "me",
+            "issue": 32768,
+            "priority": 2,
+            "sequence": 32,
+            "tile_id": "tile:mcts-root:0"
+          },
+          {
+            "complete": 34816,
+            "engine": "me",
+            "issue": 33792,
+            "priority": 2,
+            "sequence": 33,
+            "tile_id": "tile:mcts-root:1"
+          },
+          {
+            "complete": 35840,
+            "engine": "de",
+            "issue": 34816,
+            "priority": 2,
+            "sequence": 34,
+            "tile_id": "tile:mcts-root:2"
+          },
+          {
+            "complete": 36864,
+            "engine": "ve",
+            "issue": 35840,
+            "priority": 2,
+            "sequence": 35,
+            "tile_id": "tile:mcts-root:3"
+          },
+          {
+            "complete": 37888,
+            "engine": "ve",
+            "issue": 36864,
+            "priority": 2,
+            "sequence": 36,
+            "tile_id": "tile:mcts-root:4"
+          },
+          {
+            "complete": 38912,
+            "engine": "de",
+            "issue": 37888,
+            "priority": 2,
+            "sequence": 37,
+            "tile_id": "tile:mcts-root:5"
+          },
+          {
+            "complete": 39936,
+            "engine": "me",
+            "issue": 38912,
+            "priority": 2,
+            "sequence": 38,
+            "tile_id": "tile:mcts-root:6"
+          },
+          {
+            "complete": 40960,
+            "engine": "ve",
+            "issue": 39936,
+            "priority": 2,
+            "sequence": 39,
+            "tile_id": "tile:mcts-root:7"
+          },
+          {
+            "complete": 41984,
+            "engine": "me",
+            "issue": 40960,
+            "priority": 0,
+            "sequence": 40,
+            "tile_id": "tile:react-tool:0"
+          },
+          {
+            "complete": 43008,
+            "engine": "me",
+            "issue": 41984,
+            "priority": 0,
+            "sequence": 41,
+            "tile_id": "tile:react-tool:1"
+          },
+          {
+            "complete": 44032,
+            "engine": "de",
+            "issue": 43008,
+            "priority": 0,
+            "sequence": 42,
+            "tile_id": "tile:react-tool:2"
+          },
+          {
+            "complete": 45056,
+            "engine": "ve",
+            "issue": 44032,
+            "priority": 0,
+            "sequence": 43,
+            "tile_id": "tile:react-tool:3"
+          },
+          {
+            "complete": 46080,
+            "engine": "ve",
+            "issue": 45056,
+            "priority": 0,
+            "sequence": 44,
+            "tile_id": "tile:react-tool:4"
+          },
+          {
+            "complete": 47104,
+            "engine": "de",
+            "issue": 46080,
+            "priority": 0,
+            "sequence": 45,
+            "tile_id": "tile:react-tool:5"
+          },
+          {
+            "complete": 48128,
+            "engine": "me",
+            "issue": 47104,
+            "priority": 0,
+            "sequence": 46,
+            "tile_id": "tile:react-tool:6"
+          },
+          {
+            "complete": 49152,
+            "engine": "ve",
+            "issue": 48128,
+            "priority": 0,
+            "sequence": 47,
+            "tile_id": "tile:react-tool:7"
+          },
+          {
+            "complete": 50176,
+            "engine": "me",
+            "issue": 49152,
+            "priority": 2,
+            "sequence": 48,
+            "tile_id": "tile:moa-reduce:0"
+          },
+          {
+            "complete": 51200,
+            "engine": "me",
+            "issue": 50176,
+            "priority": 2,
+            "sequence": 49,
+            "tile_id": "tile:moa-reduce:1"
+          },
+          {
+            "complete": 52224,
+            "engine": "de",
+            "issue": 51200,
+            "priority": 2,
+            "sequence": 50,
+            "tile_id": "tile:moa-reduce:2"
+          },
+          {
+            "complete": 53248,
+            "engine": "ve",
+            "issue": 52224,
+            "priority": 2,
+            "sequence": 51,
+            "tile_id": "tile:moa-reduce:3"
+          },
+          {
+            "complete": 54272,
+            "engine": "ve",
+            "issue": 53248,
+            "priority": 2,
+            "sequence": 52,
+            "tile_id": "tile:moa-reduce:4"
+          },
+          {
+            "complete": 55296,
+            "engine": "de",
+            "issue": 54272,
+            "priority": 2,
+            "sequence": 53,
+            "tile_id": "tile:moa-reduce:5"
+          },
+          {
+            "complete": 56320,
+            "engine": "me",
+            "issue": 55296,
+            "priority": 2,
+            "sequence": 54,
+            "tile_id": "tile:moa-reduce:6"
+          },
+          {
+            "complete": 57344,
+            "engine": "ve",
+            "issue": 56320,
+            "priority": 2,
+            "sequence": 55,
+            "tile_id": "tile:moa-reduce:7"
+          },
+          {
+            "complete": 58368,
+            "engine": "me",
+            "issue": 57344,
+            "priority": 2,
+            "sequence": 56,
+            "tile_id": "tile:mcts-actor0:0"
+          },
+          {
+            "complete": 59392,
+            "engine": "me",
+            "issue": 58368,
+            "priority": 2,
+            "sequence": 57,
+            "tile_id": "tile:mcts-actor0:1"
+          },
+          {
+            "complete": 60416,
+            "engine": "de",
+            "issue": 59392,
+            "priority": 2,
+            "sequence": 58,
+            "tile_id": "tile:mcts-actor0:2"
+          },
+          {
+            "complete": 61440,
+            "engine": "ve",
+            "issue": 60416,
+            "priority": 2,
+            "sequence": 59,
+            "tile_id": "tile:mcts-actor0:3"
+          },
+          {
+            "complete": 62464,
+            "engine": "ve",
+            "issue": 61440,
+            "priority": 2,
+            "sequence": 60,
+            "tile_id": "tile:mcts-actor0:4"
+          },
+          {
+            "complete": 63488,
+            "engine": "de",
+            "issue": 62464,
+            "priority": 2,
+            "sequence": 61,
+            "tile_id": "tile:mcts-actor0:5"
+          },
+          {
+            "complete": 64512,
+            "engine": "me",
+            "issue": 63488,
+            "priority": 2,
+            "sequence": 62,
+            "tile_id": "tile:mcts-actor0:6"
+          },
+          {
+            "complete": 65536,
+            "engine": "ve",
+            "issue": 64512,
+            "priority": 2,
+            "sequence": 63,
+            "tile_id": "tile:mcts-actor0:7"
+          },
+          {
+            "complete": 66560,
+            "engine": "me",
+            "issue": 65536,
+            "priority": 2,
+            "sequence": 64,
+            "tile_id": "tile:mcts-actor1:0"
+          },
+          {
+            "complete": 67584,
+            "engine": "me",
+            "issue": 66560,
+            "priority": 2,
+            "sequence": 65,
+            "tile_id": "tile:mcts-actor1:1"
+          },
+          {
+            "complete": 68608,
+            "engine": "de",
+            "issue": 67584,
+            "priority": 2,
+            "sequence": 66,
+            "tile_id": "tile:mcts-actor1:2"
+          },
+          {
+            "complete": 69632,
+            "engine": "ve",
+            "issue": 68608,
+            "priority": 2,
+            "sequence": 67,
+            "tile_id": "tile:mcts-actor1:3"
+          },
+          {
+            "complete": 70656,
+            "engine": "ve",
+            "issue": 69632,
+            "priority": 2,
+            "sequence": 68,
+            "tile_id": "tile:mcts-actor1:4"
+          },
+          {
+            "complete": 71680,
+            "engine": "de",
+            "issue": 70656,
+            "priority": 2,
+            "sequence": 69,
+            "tile_id": "tile:mcts-actor1:5"
+          },
+          {
+            "complete": 72704,
+            "engine": "me",
+            "issue": 71680,
+            "priority": 2,
+            "sequence": 70,
+            "tile_id": "tile:mcts-actor1:6"
+          },
+          {
+            "complete": 73728,
+            "engine": "ve",
+            "issue": 72704,
+            "priority": 2,
+            "sequence": 71,
+            "tile_id": "tile:mcts-actor1:7"
+          },
+          {
+            "complete": 74752,
+            "engine": "me",
+            "issue": 73728,
+            "priority": 0,
+            "sequence": 72,
+            "tile_id": "tile:react-answer:0"
+          },
+          {
+            "complete": 75776,
+            "engine": "me",
+            "issue": 74752,
+            "priority": 0,
+            "sequence": 73,
+            "tile_id": "tile:react-answer:1"
+          },
+          {
+            "complete": 76800,
+            "engine": "de",
+            "issue": 75776,
+            "priority": 0,
+            "sequence": 74,
+            "tile_id": "tile:react-answer:2"
+          },
+          {
+            "complete": 77824,
+            "engine": "ve",
+            "issue": 76800,
+            "priority": 0,
+            "sequence": 75,
+            "tile_id": "tile:react-answer:3"
+          },
+          {
+            "complete": 78848,
+            "engine": "ve",
+            "issue": 77824,
+            "priority": 0,
+            "sequence": 76,
+            "tile_id": "tile:react-answer:4"
+          },
+          {
+            "complete": 79872,
+            "engine": "de",
+            "issue": 78848,
+            "priority": 0,
+            "sequence": 77,
+            "tile_id": "tile:react-answer:5"
+          },
+          {
+            "complete": 80896,
+            "engine": "me",
+            "issue": 79872,
+            "priority": 0,
+            "sequence": 78,
+            "tile_id": "tile:react-answer:6"
+          },
+          {
+            "complete": 81920,
+            "engine": "ve",
+            "issue": 80896,
+            "priority": 0,
+            "sequence": 79,
+            "tile_id": "tile:react-answer:7"
+          },
+          {
+            "complete": 82944,
+            "engine": "me",
+            "issue": 81920,
+            "priority": 2,
+            "sequence": 80,
+            "tile_id": "tile:mcts-critic:0"
+          },
+          {
+            "complete": 83968,
+            "engine": "me",
+            "issue": 82944,
+            "priority": 2,
+            "sequence": 81,
+            "tile_id": "tile:mcts-critic:1"
+          },
+          {
+            "complete": 84992,
+            "engine": "de",
+            "issue": 83968,
+            "priority": 2,
+            "sequence": 82,
+            "tile_id": "tile:mcts-critic:2"
+          },
+          {
+            "complete": 86016,
+            "engine": "ve",
+            "issue": 84992,
+            "priority": 2,
+            "sequence": 83,
+            "tile_id": "tile:mcts-critic:3"
+          },
+          {
+            "complete": 87040,
+            "engine": "ve",
+            "issue": 86016,
+            "priority": 2,
+            "sequence": 84,
+            "tile_id": "tile:mcts-critic:4"
+          },
+          {
+            "complete": 88064,
+            "engine": "de",
+            "issue": 87040,
+            "priority": 2,
+            "sequence": 85,
+            "tile_id": "tile:mcts-critic:5"
+          },
+          {
+            "complete": 89088,
+            "engine": "me",
+            "issue": 88064,
+            "priority": 2,
+            "sequence": 86,
+            "tile_id": "tile:mcts-critic:6"
+          },
+          {
+            "complete": 90112,
+            "engine": "ve",
+            "issue": 89088,
+            "priority": 2,
+            "sequence": 87,
+            "tile_id": "tile:mcts-critic:7"
+          }
+        ],
+        "mode": "static",
+        "overlap_cycles": {
+          "me_de": 0,
+          "me_ve": 0,
+          "me_ve_de": 0,
+          "ve_de": 0
+        },
+        "resource_stalls": 0,
+        "utilization": {
+          "de": 0.25,
+          "me": 0.375,
+          "ve": 0.375
+        },
+        "window_stalls": 0
+      }
+    },
+    "fcfs_dynamic": {
+      "agentix": {
+        "call_completion": {
+          "mcts-actor0": 11,
+          "mcts-actor1": 11,
+          "mcts-critic": 14,
+          "mcts-root": 7,
+          "moa-map0": 3,
+          "moa-map1": 5,
+          "moa-map2": 5,
+          "moa-reduce": 9,
+          "react-answer": 9,
+          "react-plan": 4,
+          "react-tool": 6
+        },
+        "makespan": 14,
+        "policy": "fcfs",
+        "program_completion": {
+          "mcts": 14,
+          "moa": 9,
+          "react": 9
+        },
+        "program_wait": {
+          "mcts": 4,
+          "moa": 0,
+          "react": 1
+        },
+        "slices": [
+          {
+            "call_id": "react-plan",
+            "end": 1,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "react",
+            "queue_level": 0,
+            "start": 0
+          },
+          {
+            "call_id": "moa-map0",
+            "end": 1,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 0
+          },
+          {
+            "call_id": "moa-map1",
+            "end": 1,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 0
+          },
+          {
+            "call_id": "react-plan",
+            "end": 2,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "react",
+            "queue_level": 0,
+            "start": 1
+          },
+          {
+            "call_id": "moa-map0",
+            "end": 2,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 1
+          },
+          {
+            "call_id": "moa-map1",
+            "end": 2,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 1
+          },
+          {
+            "call_id": "react-plan",
+            "end": 3,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "react",
+            "queue_level": 0,
+            "start": 2
+          },
+          {
+            "call_id": "moa-map0",
+            "end": 3,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 2
+          },
+          {
+            "call_id": "moa-map1",
+            "end": 3,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 2
+          },
+          {
+            "call_id": "react-plan",
+            "end": 4,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "react",
+            "queue_level": 0,
+            "start": 3
+          },
+          {
+            "call_id": "moa-map2",
+            "end": 4,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 3
+          },
+          {
+            "call_id": "moa-map1",
+            "end": 4,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 3
+          },
+          {
+            "call_id": "mcts-root",
+            "end": 5,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 4
+          },
+          {
+            "call_id": "moa-map2",
+            "end": 5,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 4
+          },
+          {
+            "call_id": "moa-map1",
+            "end": 5,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 4
+          },
+          {
+            "call_id": "mcts-root",
+            "end": 6,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 5
+          },
+          {
+            "call_id": "react-tool",
+            "end": 6,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "react",
+            "queue_level": 0,
+            "start": 5
+          },
+          {
+            "call_id": "moa-reduce",
+            "end": 6,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 5
+          },
+          {
+            "call_id": "mcts-root",
+            "end": 7,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 6
+          },
+          {
+            "call_id": "react-answer",
+            "end": 7,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "react",
+            "queue_level": 0,
+            "start": 6
+          },
+          {
+            "call_id": "moa-reduce",
+            "end": 7,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 6
+          },
+          {
+            "call_id": "mcts-actor0",
+            "end": 8,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 7
+          },
+          {
+            "call_id": "react-answer",
+            "end": 8,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "react",
+            "queue_level": 0,
+            "start": 7
+          },
+          {
+            "call_id": "moa-reduce",
+            "end": 8,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 7
+          },
+          {
+            "call_id": "mcts-actor0",
+            "end": 9,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 8
+          },
+          {
+            "call_id": "react-answer",
+            "end": 9,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "react",
+            "queue_level": 0,
+            "start": 8
+          },
+          {
+            "call_id": "moa-reduce",
+            "end": 9,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 8
+          },
+          {
+            "call_id": "mcts-actor0",
+            "end": 10,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 9
+          },
+          {
+            "call_id": "mcts-actor1",
+            "end": 10,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 9
+          },
+          {
+            "call_id": "mcts-actor0",
+            "end": 11,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 10
+          },
+          {
+            "call_id": "mcts-actor1",
+            "end": 11,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 10
+          },
+          {
+            "call_id": "mcts-critic",
+            "end": 12,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 11
+          },
+          {
+            "call_id": "mcts-critic",
+            "end": 13,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 12
+          },
+          {
+            "call_id": "mcts-critic",
+            "end": 14,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 13
+          }
+        ],
+        "total_call_wait": 8,
+        "total_wait": 5
+      },
+      "configuration": {
+        "agentix_policy": "fcfs",
+        "name": "fcfs_dynamic",
+        "propagate_priority": false,
+        "tisa_mode": "dynamic"
+      },
+      "dependency_valid": true,
+      "engine_work": {
+        "de": 22528,
+        "me": 33792,
+        "ve": 33792
+      },
+      "logical_digest": "4dd2e84338759c0c6d3ad6d8f65a73e979ade989eb9b0a2dbaeecb53613355ec",
+      "makespan": 41240,
+      "proactive_completed": 2,
+      "proactive_throughput": 4.8496605237633365e-05,
+      "program_completion": {
+        "mcts": 41240,
+        "moa": 24744,
+        "react": 28868
+      },
+      "reactive_completion": 28868,
+      "tisa": {
+        "busy_cycles": {
+          "de": 22528,
+          "me": 33792,
+          "ve": 33792
+        },
+        "completed": 88,
+        "cycles": 41240,
+        "dependency_stalls": 137197,
+        "dispatch_latency": 7,
+        "issues": [
+          {
+            "complete": 1031,
+            "engine": "me",
+            "issue": 7,
+            "priority": 1,
+            "sequence": 0,
+            "tile_id": "tile:react-plan:0"
+          },
+          {
+            "complete": 2062,
+            "engine": "me",
+            "issue": 1038,
+            "priority": 1,
+            "sequence": 1,
+            "tile_id": "tile:react-plan:1"
+          },
+          {
+            "complete": 2062,
+            "engine": "de",
+            "issue": 1038,
+            "priority": 1,
+            "sequence": 2,
+            "tile_id": "tile:react-plan:2"
+          },
+          {
+            "complete": 3093,
+            "engine": "ve",
+            "issue": 2069,
+            "priority": 1,
+            "sequence": 3,
+            "tile_id": "tile:react-plan:3"
+          },
+          {
+            "complete": 3093,
+            "engine": "me",
+            "issue": 2069,
+            "priority": 1,
+            "sequence": 8,
+            "tile_id": "tile:moa-map0:0"
+          },
+          {
+            "complete": 4124,
+            "engine": "ve",
+            "issue": 3100,
+            "priority": 1,
+            "sequence": 4,
+            "tile_id": "tile:react-plan:4"
+          },
+          {
+            "complete": 4124,
+            "engine": "de",
+            "issue": 3100,
+            "priority": 1,
+            "sequence": 5,
+            "tile_id": "tile:react-plan:5"
+          },
+          {
+            "complete": 4124,
+            "engine": "me",
+            "issue": 3100,
+            "priority": 1,
+            "sequence": 9,
+            "tile_id": "tile:moa-map0:1"
+          },
+          {
+            "complete": 5155,
+            "engine": "me",
+            "issue": 4131,
+            "priority": 1,
+            "sequence": 6,
+            "tile_id": "tile:react-plan:6"
+          },
+          {
+            "complete": 5155,
+            "engine": "de",
+            "issue": 4131,
+            "priority": 1,
+            "sequence": 10,
+            "tile_id": "tile:moa-map0:2"
+          },
+          {
+            "complete": 5155,
+            "engine": "ve",
+            "issue": 4131,
+            "priority": 1,
+            "sequence": 11,
+            "tile_id": "tile:moa-map0:3"
+          },
+          {
+            "complete": 6186,
+            "engine": "ve",
+            "issue": 5162,
+            "priority": 1,
+            "sequence": 7,
+            "tile_id": "tile:react-plan:7"
+          },
+          {
+            "complete": 6186,
+            "engine": "de",
+            "issue": 5162,
+            "priority": 1,
+            "sequence": 13,
+            "tile_id": "tile:moa-map0:5"
+          },
+          {
+            "complete": 6186,
+            "engine": "me",
+            "issue": 5162,
+            "priority": 1,
+            "sequence": 16,
+            "tile_id": "tile:moa-map1:0"
+          },
+          {
+            "complete": 7217,
+            "engine": "ve",
+            "issue": 6193,
+            "priority": 1,
+            "sequence": 12,
+            "tile_id": "tile:moa-map0:4"
+          },
+          {
+            "complete": 7217,
+            "engine": "me",
+            "issue": 6193,
+            "priority": 1,
+            "sequence": 17,
+            "tile_id": "tile:moa-map1:1"
+          },
+          {
+            "complete": 8248,
+            "engine": "me",
+            "issue": 7224,
+            "priority": 1,
+            "sequence": 14,
+            "tile_id": "tile:moa-map0:6"
+          },
+          {
+            "complete": 8248,
+            "engine": "de",
+            "issue": 7224,
+            "priority": 1,
+            "sequence": 18,
+            "tile_id": "tile:moa-map1:2"
+          },
+          {
+            "complete": 8248,
+            "engine": "ve",
+            "issue": 7224,
+            "priority": 1,
+            "sequence": 19,
+            "tile_id": "tile:moa-map1:3"
+          },
+          {
+            "complete": 9279,
+            "engine": "ve",
+            "issue": 8255,
+            "priority": 1,
+            "sequence": 15,
+            "tile_id": "tile:moa-map0:7"
+          },
+          {
+            "complete": 9279,
+            "engine": "de",
+            "issue": 8255,
+            "priority": 1,
+            "sequence": 21,
+            "tile_id": "tile:moa-map1:5"
+          },
+          {
+            "complete": 9279,
+            "engine": "me",
+            "issue": 8255,
+            "priority": 1,
+            "sequence": 24,
+            "tile_id": "tile:moa-map2:0"
+          },
+          {
+            "complete": 10310,
+            "engine": "ve",
+            "issue": 9286,
+            "priority": 1,
+            "sequence": 20,
+            "tile_id": "tile:moa-map1:4"
+          },
+          {
+            "complete": 10310,
+            "engine": "me",
+            "issue": 9286,
+            "priority": 1,
+            "sequence": 25,
+            "tile_id": "tile:moa-map2:1"
+          },
+          {
+            "complete": 11341,
+            "engine": "me",
+            "issue": 10317,
+            "priority": 1,
+            "sequence": 22,
+            "tile_id": "tile:moa-map1:6"
+          },
+          {
+            "complete": 11341,
+            "engine": "de",
+            "issue": 10317,
+            "priority": 1,
+            "sequence": 26,
+            "tile_id": "tile:moa-map2:2"
+          },
+          {
+            "complete": 11341,
+            "engine": "ve",
+            "issue": 10317,
+            "priority": 1,
+            "sequence": 27,
+            "tile_id": "tile:moa-map2:3"
+          },
+          {
+            "complete": 12372,
+            "engine": "ve",
+            "issue": 11348,
+            "priority": 1,
+            "sequence": 23,
+            "tile_id": "tile:moa-map1:7"
+          },
+          {
+            "complete": 12372,
+            "engine": "de",
+            "issue": 11348,
+            "priority": 1,
+            "sequence": 29,
+            "tile_id": "tile:moa-map2:5"
+          },
+          {
+            "complete": 12372,
+            "engine": "me",
+            "issue": 11348,
+            "priority": 1,
+            "sequence": 32,
+            "tile_id": "tile:mcts-root:0"
+          },
+          {
+            "complete": 13403,
+            "engine": "ve",
+            "issue": 12379,
+            "priority": 1,
+            "sequence": 28,
+            "tile_id": "tile:moa-map2:4"
+          },
+          {
+            "complete": 13403,
+            "engine": "me",
+            "issue": 12379,
+            "priority": 1,
+            "sequence": 33,
+            "tile_id": "tile:mcts-root:1"
+          },
+          {
+            "complete": 14434,
+            "engine": "me",
+            "issue": 13410,
+            "priority": 1,
+            "sequence": 30,
+            "tile_id": "tile:moa-map2:6"
+          },
+          {
+            "complete": 14434,
+            "engine": "de",
+            "issue": 13410,
+            "priority": 1,
+            "sequence": 34,
+            "tile_id": "tile:mcts-root:2"
+          },
+          {
+            "complete": 14434,
+            "engine": "ve",
+            "issue": 13410,
+            "priority": 1,
+            "sequence": 35,
+            "tile_id": "tile:mcts-root:3"
+          },
+          {
+            "complete": 15465,
+            "engine": "ve",
+            "issue": 14441,
+            "priority": 1,
+            "sequence": 31,
+            "tile_id": "tile:moa-map2:7"
+          },
+          {
+            "complete": 15465,
+            "engine": "de",
+            "issue": 14441,
+            "priority": 1,
+            "sequence": 37,
+            "tile_id": "tile:mcts-root:5"
+          },
+          {
+            "complete": 15465,
+            "engine": "me",
+            "issue": 14441,
+            "priority": 1,
+            "sequence": 40,
+            "tile_id": "tile:react-tool:0"
+          },
+          {
+            "complete": 16496,
+            "engine": "ve",
+            "issue": 15472,
+            "priority": 1,
+            "sequence": 36,
+            "tile_id": "tile:mcts-root:4"
+          },
+          {
+            "complete": 16496,
+            "engine": "me",
+            "issue": 15472,
+            "priority": 1,
+            "sequence": 41,
+            "tile_id": "tile:react-tool:1"
+          },
+          {
+            "complete": 17527,
+            "engine": "me",
+            "issue": 16503,
+            "priority": 1,
+            "sequence": 38,
+            "tile_id": "tile:mcts-root:6"
+          },
+          {
+            "complete": 17527,
+            "engine": "de",
+            "issue": 16503,
+            "priority": 1,
+            "sequence": 42,
+            "tile_id": "tile:react-tool:2"
+          },
+          {
+            "complete": 17527,
+            "engine": "ve",
+            "issue": 16503,
+            "priority": 1,
+            "sequence": 43,
+            "tile_id": "tile:react-tool:3"
+          },
+          {
+            "complete": 18558,
+            "engine": "ve",
+            "issue": 17534,
+            "priority": 1,
+            "sequence": 39,
+            "tile_id": "tile:mcts-root:7"
+          },
+          {
+            "complete": 18558,
+            "engine": "de",
+            "issue": 17534,
+            "priority": 1,
+            "sequence": 45,
+            "tile_id": "tile:react-tool:5"
+          },
+          {
+            "complete": 18558,
+            "engine": "me",
+            "issue": 17534,
+            "priority": 1,
+            "sequence": 48,
+            "tile_id": "tile:moa-reduce:0"
+          },
+          {
+            "complete": 19589,
+            "engine": "ve",
+            "issue": 18565,
+            "priority": 1,
+            "sequence": 44,
+            "tile_id": "tile:react-tool:4"
+          },
+          {
+            "complete": 19589,
+            "engine": "me",
+            "issue": 18565,
+            "priority": 1,
+            "sequence": 49,
+            "tile_id": "tile:moa-reduce:1"
+          },
+          {
+            "complete": 20620,
+            "engine": "me",
+            "issue": 19596,
+            "priority": 1,
+            "sequence": 46,
+            "tile_id": "tile:react-tool:6"
+          },
+          {
+            "complete": 20620,
+            "engine": "de",
+            "issue": 19596,
+            "priority": 1,
+            "sequence": 50,
+            "tile_id": "tile:moa-reduce:2"
+          },
+          {
+            "complete": 20620,
+            "engine": "ve",
+            "issue": 19596,
+            "priority": 1,
+            "sequence": 51,
+            "tile_id": "tile:moa-reduce:3"
+          },
+          {
+            "complete": 21651,
+            "engine": "ve",
+            "issue": 20627,
+            "priority": 1,
+            "sequence": 47,
+            "tile_id": "tile:react-tool:7"
+          },
+          {
+            "complete": 21651,
+            "engine": "de",
+            "issue": 20627,
+            "priority": 1,
+            "sequence": 53,
+            "tile_id": "tile:moa-reduce:5"
+          },
+          {
+            "complete": 21651,
+            "engine": "me",
+            "issue": 20627,
+            "priority": 1,
+            "sequence": 64,
+            "tile_id": "tile:mcts-actor0:0"
+          },
+          {
+            "complete": 22682,
+            "engine": "ve",
+            "issue": 21658,
+            "priority": 1,
+            "sequence": 52,
+            "tile_id": "tile:moa-reduce:4"
+          },
+          {
+            "complete": 22682,
+            "engine": "me",
+            "issue": 21658,
+            "priority": 1,
+            "sequence": 56,
+            "tile_id": "tile:react-answer:0"
+          },
+          {
+            "complete": 23713,
+            "engine": "me",
+            "issue": 22689,
+            "priority": 1,
+            "sequence": 54,
+            "tile_id": "tile:moa-reduce:6"
+          },
+          {
+            "complete": 23713,
+            "engine": "de",
+            "issue": 22689,
+            "priority": 1,
+            "sequence": 58,
+            "tile_id": "tile:react-answer:2"
+          },
+          {
+            "complete": 24744,
+            "engine": "ve",
+            "issue": 23720,
+            "priority": 1,
+            "sequence": 55,
+            "tile_id": "tile:moa-reduce:7"
+          },
+          {
+            "complete": 24744,
+            "engine": "me",
+            "issue": 23720,
+            "priority": 1,
+            "sequence": 57,
+            "tile_id": "tile:react-answer:1"
+          },
+          {
+            "complete": 24744,
+            "engine": "de",
+            "issue": 23720,
+            "priority": 1,
+            "sequence": 66,
+            "tile_id": "tile:mcts-actor0:2"
+          },
+          {
+            "complete": 25775,
+            "engine": "ve",
+            "issue": 24751,
+            "priority": 1,
+            "sequence": 59,
+            "tile_id": "tile:react-answer:3"
+          },
+          {
+            "complete": 25775,
+            "engine": "me",
+            "issue": 24751,
+            "priority": 1,
+            "sequence": 72,
+            "tile_id": "tile:mcts-actor1:0"
+          },
+          {
+            "complete": 26806,
+            "engine": "ve",
+            "issue": 25782,
+            "priority": 1,
+            "sequence": 60,
+            "tile_id": "tile:react-answer:4"
+          },
+          {
+            "complete": 26806,
+            "engine": "de",
+            "issue": 25782,
+            "priority": 1,
+            "sequence": 61,
+            "tile_id": "tile:react-answer:5"
+          },
+          {
+            "complete": 26806,
+            "engine": "me",
+            "issue": 25782,
+            "priority": 1,
+            "sequence": 65,
+            "tile_id": "tile:mcts-actor0:1"
+          },
+          {
+            "complete": 27837,
+            "engine": "me",
+            "issue": 26813,
+            "priority": 1,
+            "sequence": 62,
+            "tile_id": "tile:react-answer:6"
+          },
+          {
+            "complete": 27837,
+            "engine": "ve",
+            "issue": 26813,
+            "priority": 1,
+            "sequence": 67,
+            "tile_id": "tile:mcts-actor0:3"
+          },
+          {
+            "complete": 27837,
+            "engine": "de",
+            "issue": 26813,
+            "priority": 1,
+            "sequence": 74,
+            "tile_id": "tile:mcts-actor1:2"
+          },
+          {
+            "complete": 28868,
+            "engine": "ve",
+            "issue": 27844,
+            "priority": 1,
+            "sequence": 63,
+            "tile_id": "tile:react-answer:7"
+          },
+          {
+            "complete": 28868,
+            "engine": "de",
+            "issue": 27844,
+            "priority": 1,
+            "sequence": 69,
+            "tile_id": "tile:mcts-actor0:5"
+          },
+          {
+            "complete": 28868,
+            "engine": "me",
+            "issue": 27844,
+            "priority": 1,
+            "sequence": 73,
+            "tile_id": "tile:mcts-actor1:1"
+          },
+          {
+            "complete": 29899,
+            "engine": "ve",
+            "issue": 28875,
+            "priority": 1,
+            "sequence": 68,
+            "tile_id": "tile:mcts-actor0:4"
+          },
+          {
+            "complete": 30930,
+            "engine": "me",
+            "issue": 29906,
+            "priority": 1,
+            "sequence": 70,
+            "tile_id": "tile:mcts-actor0:6"
+          },
+          {
+            "complete": 30930,
+            "engine": "ve",
+            "issue": 29906,
+            "priority": 1,
+            "sequence": 75,
+            "tile_id": "tile:mcts-actor1:3"
+          },
+          {
+            "complete": 31961,
+            "engine": "ve",
+            "issue": 30937,
+            "priority": 1,
+            "sequence": 71,
+            "tile_id": "tile:mcts-actor0:7"
+          },
+          {
+            "complete": 31961,
+            "engine": "de",
+            "issue": 30937,
+            "priority": 1,
+            "sequence": 77,
+            "tile_id": "tile:mcts-actor1:5"
+          },
+          {
+            "complete": 32992,
+            "engine": "ve",
+            "issue": 31968,
+            "priority": 1,
+            "sequence": 76,
+            "tile_id": "tile:mcts-actor1:4"
+          },
+          {
+            "complete": 34023,
+            "engine": "me",
+            "issue": 32999,
+            "priority": 1,
+            "sequence": 78,
+            "tile_id": "tile:mcts-actor1:6"
+          },
+          {
+            "complete": 35054,
+            "engine": "ve",
+            "issue": 34030,
+            "priority": 1,
+            "sequence": 79,
+            "tile_id": "tile:mcts-actor1:7"
+          },
+          {
+            "complete": 36085,
+            "engine": "me",
+            "issue": 35061,
+            "priority": 1,
+            "sequence": 80,
+            "tile_id": "tile:mcts-critic:0"
+          },
+          {
+            "complete": 37116,
+            "engine": "me",
+            "issue": 36092,
+            "priority": 1,
+            "sequence": 81,
+            "tile_id": "tile:mcts-critic:1"
+          },
+          {
+            "complete": 37116,
+            "engine": "de",
+            "issue": 36092,
+            "priority": 1,
+            "sequence": 82,
+            "tile_id": "tile:mcts-critic:2"
+          },
+          {
+            "complete": 38147,
+            "engine": "ve",
+            "issue": 37123,
+            "priority": 1,
+            "sequence": 83,
+            "tile_id": "tile:mcts-critic:3"
+          },
+          {
+            "complete": 39178,
+            "engine": "ve",
+            "issue": 38154,
+            "priority": 1,
+            "sequence": 84,
+            "tile_id": "tile:mcts-critic:4"
+          },
+          {
+            "complete": 39178,
+            "engine": "de",
+            "issue": 38154,
+            "priority": 1,
+            "sequence": 85,
+            "tile_id": "tile:mcts-critic:5"
+          },
+          {
+            "complete": 40209,
+            "engine": "me",
+            "issue": 39185,
+            "priority": 1,
+            "sequence": 86,
+            "tile_id": "tile:mcts-critic:6"
+          },
+          {
+            "complete": 41240,
+            "engine": "ve",
+            "issue": 40216,
+            "priority": 1,
+            "sequence": 87,
+            "tile_id": "tile:mcts-critic:7"
+          }
+        ],
+        "mode": "dynamic",
+        "overlap_cycles": {
+          "me_de": 20480,
+          "me_ve": 26624,
+          "me_ve_de": 17408,
+          "ve_de": 19456
+        },
+        "resource_stalls": 605239,
+        "utilization": {
+          "de": 0.5462657613967022,
+          "me": 0.8193986420950533,
+          "ve": 0.8193986420950533
+        },
+        "window_stalls": 432611
+      }
+    },
+    "fcfs_static": {
+      "agentix": {
+        "call_completion": {
+          "mcts-actor0": 11,
+          "mcts-actor1": 11,
+          "mcts-critic": 14,
+          "mcts-root": 7,
+          "moa-map0": 3,
+          "moa-map1": 5,
+          "moa-map2": 5,
+          "moa-reduce": 9,
+          "react-answer": 9,
+          "react-plan": 4,
+          "react-tool": 6
+        },
+        "makespan": 14,
+        "policy": "fcfs",
+        "program_completion": {
+          "mcts": 14,
+          "moa": 9,
+          "react": 9
+        },
+        "program_wait": {
+          "mcts": 4,
+          "moa": 0,
+          "react": 1
+        },
+        "slices": [
+          {
+            "call_id": "react-plan",
+            "end": 1,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "react",
+            "queue_level": 0,
+            "start": 0
+          },
+          {
+            "call_id": "moa-map0",
+            "end": 1,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 0
+          },
+          {
+            "call_id": "moa-map1",
+            "end": 1,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 0
+          },
+          {
+            "call_id": "react-plan",
+            "end": 2,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "react",
+            "queue_level": 0,
+            "start": 1
+          },
+          {
+            "call_id": "moa-map0",
+            "end": 2,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 1
+          },
+          {
+            "call_id": "moa-map1",
+            "end": 2,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 1
+          },
+          {
+            "call_id": "react-plan",
+            "end": 3,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "react",
+            "queue_level": 0,
+            "start": 2
+          },
+          {
+            "call_id": "moa-map0",
+            "end": 3,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 2
+          },
+          {
+            "call_id": "moa-map1",
+            "end": 3,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 2
+          },
+          {
+            "call_id": "react-plan",
+            "end": 4,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "react",
+            "queue_level": 0,
+            "start": 3
+          },
+          {
+            "call_id": "moa-map2",
+            "end": 4,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 3
+          },
+          {
+            "call_id": "moa-map1",
+            "end": 4,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 3
+          },
+          {
+            "call_id": "mcts-root",
+            "end": 5,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 4
+          },
+          {
+            "call_id": "moa-map2",
+            "end": 5,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 4
+          },
+          {
+            "call_id": "moa-map1",
+            "end": 5,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 4
+          },
+          {
+            "call_id": "mcts-root",
+            "end": 6,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 5
+          },
+          {
+            "call_id": "react-tool",
+            "end": 6,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "react",
+            "queue_level": 0,
+            "start": 5
+          },
+          {
+            "call_id": "moa-reduce",
+            "end": 6,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 5
+          },
+          {
+            "call_id": "mcts-root",
+            "end": 7,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 6
+          },
+          {
+            "call_id": "react-answer",
+            "end": 7,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "react",
+            "queue_level": 0,
+            "start": 6
+          },
+          {
+            "call_id": "moa-reduce",
+            "end": 7,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 6
+          },
+          {
+            "call_id": "mcts-actor0",
+            "end": 8,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 7
+          },
+          {
+            "call_id": "react-answer",
+            "end": 8,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "react",
+            "queue_level": 0,
+            "start": 7
+          },
+          {
+            "call_id": "moa-reduce",
+            "end": 8,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 7
+          },
+          {
+            "call_id": "mcts-actor0",
+            "end": 9,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 8
+          },
+          {
+            "call_id": "react-answer",
+            "end": 9,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "react",
+            "queue_level": 0,
+            "start": 8
+          },
+          {
+            "call_id": "moa-reduce",
+            "end": 9,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 8
+          },
+          {
+            "call_id": "mcts-actor0",
+            "end": 10,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 9
+          },
+          {
+            "call_id": "mcts-actor1",
+            "end": 10,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 9
+          },
+          {
+            "call_id": "mcts-actor0",
+            "end": 11,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 10
+          },
+          {
+            "call_id": "mcts-actor1",
+            "end": 11,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 10
+          },
+          {
+            "call_id": "mcts-critic",
+            "end": 12,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 11
+          },
+          {
+            "call_id": "mcts-critic",
+            "end": 13,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 12
+          },
+          {
+            "call_id": "mcts-critic",
+            "end": 14,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 13
+          }
+        ],
+        "total_call_wait": 8,
+        "total_wait": 5
+      },
+      "configuration": {
+        "agentix_policy": "fcfs",
+        "name": "fcfs_static",
+        "propagate_priority": false,
+        "tisa_mode": "static"
+      },
+      "dependency_valid": true,
+      "engine_work": {
+        "de": 22528,
+        "me": 33792,
+        "ve": 33792
+      },
+      "logical_digest": "4dd2e84338759c0c6d3ad6d8f65a73e979ade989eb9b0a2dbaeecb53613355ec",
+      "makespan": 90112,
+      "proactive_completed": 2,
+      "proactive_throughput": 2.2194602272727273e-05,
+      "program_completion": {
+        "mcts": 90112,
+        "moa": 57344,
+        "react": 65536
+      },
+      "reactive_completion": 65536,
+      "tisa": {
+        "busy_cycles": {
+          "de": 22528,
+          "me": 33792,
+          "ve": 33792
+        },
+        "completed": 88,
+        "cycles": 90112,
+        "dependency_stalls": 0,
+        "dispatch_latency": 0,
+        "issues": [
+          {
+            "complete": 1024,
+            "engine": "me",
+            "issue": 0,
+            "priority": 1,
+            "sequence": 0,
+            "tile_id": "tile:react-plan:0"
+          },
+          {
+            "complete": 2048,
+            "engine": "me",
+            "issue": 1024,
+            "priority": 1,
+            "sequence": 1,
+            "tile_id": "tile:react-plan:1"
+          },
+          {
+            "complete": 3072,
+            "engine": "de",
+            "issue": 2048,
+            "priority": 1,
+            "sequence": 2,
+            "tile_id": "tile:react-plan:2"
+          },
+          {
+            "complete": 4096,
+            "engine": "ve",
+            "issue": 3072,
+            "priority": 1,
+            "sequence": 3,
+            "tile_id": "tile:react-plan:3"
+          },
+          {
+            "complete": 5120,
+            "engine": "ve",
+            "issue": 4096,
+            "priority": 1,
+            "sequence": 4,
+            "tile_id": "tile:react-plan:4"
+          },
+          {
+            "complete": 6144,
+            "engine": "de",
+            "issue": 5120,
+            "priority": 1,
+            "sequence": 5,
+            "tile_id": "tile:react-plan:5"
+          },
+          {
+            "complete": 7168,
+            "engine": "me",
+            "issue": 6144,
+            "priority": 1,
+            "sequence": 6,
+            "tile_id": "tile:react-plan:6"
+          },
+          {
+            "complete": 8192,
+            "engine": "ve",
+            "issue": 7168,
+            "priority": 1,
+            "sequence": 7,
+            "tile_id": "tile:react-plan:7"
+          },
+          {
+            "complete": 9216,
+            "engine": "me",
+            "issue": 8192,
+            "priority": 1,
+            "sequence": 8,
+            "tile_id": "tile:moa-map0:0"
+          },
+          {
+            "complete": 10240,
+            "engine": "me",
+            "issue": 9216,
+            "priority": 1,
+            "sequence": 9,
+            "tile_id": "tile:moa-map0:1"
+          },
+          {
+            "complete": 11264,
+            "engine": "de",
+            "issue": 10240,
+            "priority": 1,
+            "sequence": 10,
+            "tile_id": "tile:moa-map0:2"
+          },
+          {
+            "complete": 12288,
+            "engine": "ve",
+            "issue": 11264,
+            "priority": 1,
+            "sequence": 11,
+            "tile_id": "tile:moa-map0:3"
+          },
+          {
+            "complete": 13312,
+            "engine": "ve",
+            "issue": 12288,
+            "priority": 1,
+            "sequence": 12,
+            "tile_id": "tile:moa-map0:4"
+          },
+          {
+            "complete": 14336,
+            "engine": "de",
+            "issue": 13312,
+            "priority": 1,
+            "sequence": 13,
+            "tile_id": "tile:moa-map0:5"
+          },
+          {
+            "complete": 15360,
+            "engine": "me",
+            "issue": 14336,
+            "priority": 1,
+            "sequence": 14,
+            "tile_id": "tile:moa-map0:6"
+          },
+          {
+            "complete": 16384,
+            "engine": "ve",
+            "issue": 15360,
+            "priority": 1,
+            "sequence": 15,
+            "tile_id": "tile:moa-map0:7"
+          },
+          {
+            "complete": 17408,
+            "engine": "me",
+            "issue": 16384,
+            "priority": 1,
+            "sequence": 16,
+            "tile_id": "tile:moa-map1:0"
+          },
+          {
+            "complete": 18432,
+            "engine": "me",
+            "issue": 17408,
+            "priority": 1,
+            "sequence": 17,
+            "tile_id": "tile:moa-map1:1"
+          },
+          {
+            "complete": 19456,
+            "engine": "de",
+            "issue": 18432,
+            "priority": 1,
+            "sequence": 18,
+            "tile_id": "tile:moa-map1:2"
+          },
+          {
+            "complete": 20480,
+            "engine": "ve",
+            "issue": 19456,
+            "priority": 1,
+            "sequence": 19,
+            "tile_id": "tile:moa-map1:3"
+          },
+          {
+            "complete": 21504,
+            "engine": "ve",
+            "issue": 20480,
+            "priority": 1,
+            "sequence": 20,
+            "tile_id": "tile:moa-map1:4"
+          },
+          {
+            "complete": 22528,
+            "engine": "de",
+            "issue": 21504,
+            "priority": 1,
+            "sequence": 21,
+            "tile_id": "tile:moa-map1:5"
+          },
+          {
+            "complete": 23552,
+            "engine": "me",
+            "issue": 22528,
+            "priority": 1,
+            "sequence": 22,
+            "tile_id": "tile:moa-map1:6"
+          },
+          {
+            "complete": 24576,
+            "engine": "ve",
+            "issue": 23552,
+            "priority": 1,
+            "sequence": 23,
+            "tile_id": "tile:moa-map1:7"
+          },
+          {
+            "complete": 25600,
+            "engine": "me",
+            "issue": 24576,
+            "priority": 1,
+            "sequence": 24,
+            "tile_id": "tile:moa-map2:0"
+          },
+          {
+            "complete": 26624,
+            "engine": "me",
+            "issue": 25600,
+            "priority": 1,
+            "sequence": 25,
+            "tile_id": "tile:moa-map2:1"
+          },
+          {
+            "complete": 27648,
+            "engine": "de",
+            "issue": 26624,
+            "priority": 1,
+            "sequence": 26,
+            "tile_id": "tile:moa-map2:2"
+          },
+          {
+            "complete": 28672,
+            "engine": "ve",
+            "issue": 27648,
+            "priority": 1,
+            "sequence": 27,
+            "tile_id": "tile:moa-map2:3"
+          },
+          {
+            "complete": 29696,
+            "engine": "ve",
+            "issue": 28672,
+            "priority": 1,
+            "sequence": 28,
+            "tile_id": "tile:moa-map2:4"
+          },
+          {
+            "complete": 30720,
+            "engine": "de",
+            "issue": 29696,
+            "priority": 1,
+            "sequence": 29,
+            "tile_id": "tile:moa-map2:5"
+          },
+          {
+            "complete": 31744,
+            "engine": "me",
+            "issue": 30720,
+            "priority": 1,
+            "sequence": 30,
+            "tile_id": "tile:moa-map2:6"
+          },
+          {
+            "complete": 32768,
+            "engine": "ve",
+            "issue": 31744,
+            "priority": 1,
+            "sequence": 31,
+            "tile_id": "tile:moa-map2:7"
+          },
+          {
+            "complete": 33792,
+            "engine": "me",
+            "issue": 32768,
+            "priority": 1,
+            "sequence": 32,
+            "tile_id": "tile:mcts-root:0"
+          },
+          {
+            "complete": 34816,
+            "engine": "me",
+            "issue": 33792,
+            "priority": 1,
+            "sequence": 33,
+            "tile_id": "tile:mcts-root:1"
+          },
+          {
+            "complete": 35840,
+            "engine": "de",
+            "issue": 34816,
+            "priority": 1,
+            "sequence": 34,
+            "tile_id": "tile:mcts-root:2"
+          },
+          {
+            "complete": 36864,
+            "engine": "ve",
+            "issue": 35840,
+            "priority": 1,
+            "sequence": 35,
+            "tile_id": "tile:mcts-root:3"
+          },
+          {
+            "complete": 37888,
+            "engine": "ve",
+            "issue": 36864,
+            "priority": 1,
+            "sequence": 36,
+            "tile_id": "tile:mcts-root:4"
+          },
+          {
+            "complete": 38912,
+            "engine": "de",
+            "issue": 37888,
+            "priority": 1,
+            "sequence": 37,
+            "tile_id": "tile:mcts-root:5"
+          },
+          {
+            "complete": 39936,
+            "engine": "me",
+            "issue": 38912,
+            "priority": 1,
+            "sequence": 38,
+            "tile_id": "tile:mcts-root:6"
+          },
+          {
+            "complete": 40960,
+            "engine": "ve",
+            "issue": 39936,
+            "priority": 1,
+            "sequence": 39,
+            "tile_id": "tile:mcts-root:7"
+          },
+          {
+            "complete": 41984,
+            "engine": "me",
+            "issue": 40960,
+            "priority": 1,
+            "sequence": 40,
+            "tile_id": "tile:react-tool:0"
+          },
+          {
+            "complete": 43008,
+            "engine": "me",
+            "issue": 41984,
+            "priority": 1,
+            "sequence": 41,
+            "tile_id": "tile:react-tool:1"
+          },
+          {
+            "complete": 44032,
+            "engine": "de",
+            "issue": 43008,
+            "priority": 1,
+            "sequence": 42,
+            "tile_id": "tile:react-tool:2"
+          },
+          {
+            "complete": 45056,
+            "engine": "ve",
+            "issue": 44032,
+            "priority": 1,
+            "sequence": 43,
+            "tile_id": "tile:react-tool:3"
+          },
+          {
+            "complete": 46080,
+            "engine": "ve",
+            "issue": 45056,
+            "priority": 1,
+            "sequence": 44,
+            "tile_id": "tile:react-tool:4"
+          },
+          {
+            "complete": 47104,
+            "engine": "de",
+            "issue": 46080,
+            "priority": 1,
+            "sequence": 45,
+            "tile_id": "tile:react-tool:5"
+          },
+          {
+            "complete": 48128,
+            "engine": "me",
+            "issue": 47104,
+            "priority": 1,
+            "sequence": 46,
+            "tile_id": "tile:react-tool:6"
+          },
+          {
+            "complete": 49152,
+            "engine": "ve",
+            "issue": 48128,
+            "priority": 1,
+            "sequence": 47,
+            "tile_id": "tile:react-tool:7"
+          },
+          {
+            "complete": 50176,
+            "engine": "me",
+            "issue": 49152,
+            "priority": 1,
+            "sequence": 48,
+            "tile_id": "tile:moa-reduce:0"
+          },
+          {
+            "complete": 51200,
+            "engine": "me",
+            "issue": 50176,
+            "priority": 1,
+            "sequence": 49,
+            "tile_id": "tile:moa-reduce:1"
+          },
+          {
+            "complete": 52224,
+            "engine": "de",
+            "issue": 51200,
+            "priority": 1,
+            "sequence": 50,
+            "tile_id": "tile:moa-reduce:2"
+          },
+          {
+            "complete": 53248,
+            "engine": "ve",
+            "issue": 52224,
+            "priority": 1,
+            "sequence": 51,
+            "tile_id": "tile:moa-reduce:3"
+          },
+          {
+            "complete": 54272,
+            "engine": "ve",
+            "issue": 53248,
+            "priority": 1,
+            "sequence": 52,
+            "tile_id": "tile:moa-reduce:4"
+          },
+          {
+            "complete": 55296,
+            "engine": "de",
+            "issue": 54272,
+            "priority": 1,
+            "sequence": 53,
+            "tile_id": "tile:moa-reduce:5"
+          },
+          {
+            "complete": 56320,
+            "engine": "me",
+            "issue": 55296,
+            "priority": 1,
+            "sequence": 54,
+            "tile_id": "tile:moa-reduce:6"
+          },
+          {
+            "complete": 57344,
+            "engine": "ve",
+            "issue": 56320,
+            "priority": 1,
+            "sequence": 55,
+            "tile_id": "tile:moa-reduce:7"
+          },
+          {
+            "complete": 58368,
+            "engine": "me",
+            "issue": 57344,
+            "priority": 1,
+            "sequence": 56,
+            "tile_id": "tile:react-answer:0"
+          },
+          {
+            "complete": 59392,
+            "engine": "me",
+            "issue": 58368,
+            "priority": 1,
+            "sequence": 57,
+            "tile_id": "tile:react-answer:1"
+          },
+          {
+            "complete": 60416,
+            "engine": "de",
+            "issue": 59392,
+            "priority": 1,
+            "sequence": 58,
+            "tile_id": "tile:react-answer:2"
+          },
+          {
+            "complete": 61440,
+            "engine": "ve",
+            "issue": 60416,
+            "priority": 1,
+            "sequence": 59,
+            "tile_id": "tile:react-answer:3"
+          },
+          {
+            "complete": 62464,
+            "engine": "ve",
+            "issue": 61440,
+            "priority": 1,
+            "sequence": 60,
+            "tile_id": "tile:react-answer:4"
+          },
+          {
+            "complete": 63488,
+            "engine": "de",
+            "issue": 62464,
+            "priority": 1,
+            "sequence": 61,
+            "tile_id": "tile:react-answer:5"
+          },
+          {
+            "complete": 64512,
+            "engine": "me",
+            "issue": 63488,
+            "priority": 1,
+            "sequence": 62,
+            "tile_id": "tile:react-answer:6"
+          },
+          {
+            "complete": 65536,
+            "engine": "ve",
+            "issue": 64512,
+            "priority": 1,
+            "sequence": 63,
+            "tile_id": "tile:react-answer:7"
+          },
+          {
+            "complete": 66560,
+            "engine": "me",
+            "issue": 65536,
+            "priority": 1,
+            "sequence": 64,
+            "tile_id": "tile:mcts-actor0:0"
+          },
+          {
+            "complete": 67584,
+            "engine": "me",
+            "issue": 66560,
+            "priority": 1,
+            "sequence": 65,
+            "tile_id": "tile:mcts-actor0:1"
+          },
+          {
+            "complete": 68608,
+            "engine": "de",
+            "issue": 67584,
+            "priority": 1,
+            "sequence": 66,
+            "tile_id": "tile:mcts-actor0:2"
+          },
+          {
+            "complete": 69632,
+            "engine": "ve",
+            "issue": 68608,
+            "priority": 1,
+            "sequence": 67,
+            "tile_id": "tile:mcts-actor0:3"
+          },
+          {
+            "complete": 70656,
+            "engine": "ve",
+            "issue": 69632,
+            "priority": 1,
+            "sequence": 68,
+            "tile_id": "tile:mcts-actor0:4"
+          },
+          {
+            "complete": 71680,
+            "engine": "de",
+            "issue": 70656,
+            "priority": 1,
+            "sequence": 69,
+            "tile_id": "tile:mcts-actor0:5"
+          },
+          {
+            "complete": 72704,
+            "engine": "me",
+            "issue": 71680,
+            "priority": 1,
+            "sequence": 70,
+            "tile_id": "tile:mcts-actor0:6"
+          },
+          {
+            "complete": 73728,
+            "engine": "ve",
+            "issue": 72704,
+            "priority": 1,
+            "sequence": 71,
+            "tile_id": "tile:mcts-actor0:7"
+          },
+          {
+            "complete": 74752,
+            "engine": "me",
+            "issue": 73728,
+            "priority": 1,
+            "sequence": 72,
+            "tile_id": "tile:mcts-actor1:0"
+          },
+          {
+            "complete": 75776,
+            "engine": "me",
+            "issue": 74752,
+            "priority": 1,
+            "sequence": 73,
+            "tile_id": "tile:mcts-actor1:1"
+          },
+          {
+            "complete": 76800,
+            "engine": "de",
+            "issue": 75776,
+            "priority": 1,
+            "sequence": 74,
+            "tile_id": "tile:mcts-actor1:2"
+          },
+          {
+            "complete": 77824,
+            "engine": "ve",
+            "issue": 76800,
+            "priority": 1,
+            "sequence": 75,
+            "tile_id": "tile:mcts-actor1:3"
+          },
+          {
+            "complete": 78848,
+            "engine": "ve",
+            "issue": 77824,
+            "priority": 1,
+            "sequence": 76,
+            "tile_id": "tile:mcts-actor1:4"
+          },
+          {
+            "complete": 79872,
+            "engine": "de",
+            "issue": 78848,
+            "priority": 1,
+            "sequence": 77,
+            "tile_id": "tile:mcts-actor1:5"
+          },
+          {
+            "complete": 80896,
+            "engine": "me",
+            "issue": 79872,
+            "priority": 1,
+            "sequence": 78,
+            "tile_id": "tile:mcts-actor1:6"
+          },
+          {
+            "complete": 81920,
+            "engine": "ve",
+            "issue": 80896,
+            "priority": 1,
+            "sequence": 79,
+            "tile_id": "tile:mcts-actor1:7"
+          },
+          {
+            "complete": 82944,
+            "engine": "me",
+            "issue": 81920,
+            "priority": 1,
+            "sequence": 80,
+            "tile_id": "tile:mcts-critic:0"
+          },
+          {
+            "complete": 83968,
+            "engine": "me",
+            "issue": 82944,
+            "priority": 1,
+            "sequence": 81,
+            "tile_id": "tile:mcts-critic:1"
+          },
+          {
+            "complete": 84992,
+            "engine": "de",
+            "issue": 83968,
+            "priority": 1,
+            "sequence": 82,
+            "tile_id": "tile:mcts-critic:2"
+          },
+          {
+            "complete": 86016,
+            "engine": "ve",
+            "issue": 84992,
+            "priority": 1,
+            "sequence": 83,
+            "tile_id": "tile:mcts-critic:3"
+          },
+          {
+            "complete": 87040,
+            "engine": "ve",
+            "issue": 86016,
+            "priority": 1,
+            "sequence": 84,
+            "tile_id": "tile:mcts-critic:4"
+          },
+          {
+            "complete": 88064,
+            "engine": "de",
+            "issue": 87040,
+            "priority": 1,
+            "sequence": 85,
+            "tile_id": "tile:mcts-critic:5"
+          },
+          {
+            "complete": 89088,
+            "engine": "me",
+            "issue": 88064,
+            "priority": 1,
+            "sequence": 86,
+            "tile_id": "tile:mcts-critic:6"
+          },
+          {
+            "complete": 90112,
+            "engine": "ve",
+            "issue": 89088,
+            "priority": 1,
+            "sequence": 87,
+            "tile_id": "tile:mcts-critic:7"
+          }
+        ],
+        "mode": "static",
+        "overlap_cycles": {
+          "me_de": 0,
+          "me_ve": 0,
+          "me_ve_de": 0,
+          "ve_de": 0
+        },
+        "resource_stalls": 0,
+        "utilization": {
+          "de": 0.25,
+          "me": 0.375,
+          "ve": 0.375
+        },
+        "window_stalls": 0
+      }
+    },
+    "full_stack": {
+      "agentix": {
+        "call_completion": {
+          "mcts-actor0": 10,
+          "mcts-actor1": 9,
+          "mcts-critic": 13,
+          "mcts-root": 6,
+          "moa-map0": 4,
+          "moa-map1": 6,
+          "moa-map2": 4,
+          "moa-reduce": 10,
+          "react-answer": 12,
+          "react-plan": 5,
+          "react-tool": 7
+        },
+        "makespan": 13,
+        "policy": "atlas",
+        "program_completion": {
+          "mcts": 13,
+          "moa": 10,
+          "react": 12
+        },
+        "program_wait": {
+          "mcts": 3,
+          "moa": 1,
+          "react": 4
+        },
+        "slices": [
+          {
+            "call_id": "react-plan",
+            "end": 1,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "react",
+            "queue_level": 0,
+            "start": 0
+          },
+          {
+            "call_id": "moa-map0",
+            "end": 1,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 0
+          },
+          {
+            "call_id": "moa-map1",
+            "end": 1,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 0
+          },
+          {
+            "call_id": "moa-map2",
+            "end": 2,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "moa",
+            "queue_level": 0,
+            "start": 1
+          },
+          {
+            "call_id": "mcts-root",
+            "end": 2,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 1
+          },
+          {
+            "call_id": "react-plan",
+            "end": 2,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "react",
+            "queue_level": 1,
+            "start": 1
+          },
+          {
+            "call_id": "react-plan",
+            "end": 3,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "react",
+            "queue_level": 1,
+            "start": 2
+          },
+          {
+            "call_id": "moa-map0",
+            "end": 3,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "moa",
+            "queue_level": 1,
+            "start": 2
+          },
+          {
+            "call_id": "moa-map1",
+            "end": 3,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 1,
+            "start": 2
+          },
+          {
+            "call_id": "moa-map0",
+            "end": 4,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "moa",
+            "queue_level": 1,
+            "start": 3
+          },
+          {
+            "call_id": "moa-map1",
+            "end": 4,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "moa",
+            "queue_level": 1,
+            "start": 3
+          },
+          {
+            "call_id": "moa-map2",
+            "end": 4,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 1,
+            "start": 3
+          },
+          {
+            "call_id": "mcts-root",
+            "end": 5,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 1,
+            "start": 4
+          },
+          {
+            "call_id": "react-plan",
+            "end": 5,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "react",
+            "queue_level": 2,
+            "start": 4
+          },
+          {
+            "call_id": "moa-map1",
+            "end": 5,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 2,
+            "start": 4
+          },
+          {
+            "call_id": "mcts-root",
+            "end": 6,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 1,
+            "start": 5
+          },
+          {
+            "call_id": "moa-map1",
+            "end": 6,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "moa",
+            "queue_level": 2,
+            "start": 5
+          },
+          {
+            "call_id": "react-tool",
+            "end": 7,
+            "inherited_service": 4,
+            "lane": 0,
+            "program_id": "react",
+            "queue_level": 2,
+            "start": 6
+          },
+          {
+            "call_id": "moa-reduce",
+            "end": 7,
+            "inherited_service": 5,
+            "lane": 1,
+            "program_id": "moa",
+            "queue_level": 2,
+            "start": 6
+          },
+          {
+            "call_id": "mcts-actor0",
+            "end": 7,
+            "inherited_service": 3,
+            "lane": 2,
+            "program_id": "mcts",
+            "queue_level": 2,
+            "start": 6
+          },
+          {
+            "call_id": "moa-reduce",
+            "end": 8,
+            "inherited_service": 5,
+            "lane": 0,
+            "program_id": "moa",
+            "queue_level": 2,
+            "start": 7
+          },
+          {
+            "call_id": "mcts-actor0",
+            "end": 8,
+            "inherited_service": 3,
+            "lane": 1,
+            "program_id": "mcts",
+            "queue_level": 2,
+            "start": 7
+          },
+          {
+            "call_id": "mcts-actor1",
+            "end": 8,
+            "inherited_service": 3,
+            "lane": 2,
+            "program_id": "mcts",
+            "queue_level": 2,
+            "start": 7
+          },
+          {
+            "call_id": "moa-reduce",
+            "end": 9,
+            "inherited_service": 5,
+            "lane": 0,
+            "program_id": "moa",
+            "queue_level": 2,
+            "start": 8
+          },
+          {
+            "call_id": "mcts-actor0",
+            "end": 9,
+            "inherited_service": 3,
+            "lane": 1,
+            "program_id": "mcts",
+            "queue_level": 2,
+            "start": 8
+          },
+          {
+            "call_id": "mcts-actor1",
+            "end": 9,
+            "inherited_service": 3,
+            "lane": 2,
+            "program_id": "mcts",
+            "queue_level": 2,
+            "start": 8
+          },
+          {
+            "call_id": "moa-reduce",
+            "end": 10,
+            "inherited_service": 5,
+            "lane": 0,
+            "program_id": "moa",
+            "queue_level": 2,
+            "start": 9
+          },
+          {
+            "call_id": "mcts-actor0",
+            "end": 10,
+            "inherited_service": 3,
+            "lane": 1,
+            "program_id": "mcts",
+            "queue_level": 2,
+            "start": 9
+          },
+          {
+            "call_id": "react-answer",
+            "end": 10,
+            "inherited_service": 5,
+            "lane": 2,
+            "program_id": "react",
+            "queue_level": 2,
+            "start": 9
+          },
+          {
+            "call_id": "react-answer",
+            "end": 11,
+            "inherited_service": 5,
+            "lane": 0,
+            "program_id": "react",
+            "queue_level": 2,
+            "start": 10
+          },
+          {
+            "call_id": "mcts-critic",
+            "end": 11,
+            "inherited_service": 7,
+            "lane": 1,
+            "program_id": "mcts",
+            "queue_level": 3,
+            "start": 10
+          },
+          {
+            "call_id": "react-answer",
+            "end": 12,
+            "inherited_service": 5,
+            "lane": 0,
+            "program_id": "react",
+            "queue_level": 2,
+            "start": 11
+          },
+          {
+            "call_id": "mcts-critic",
+            "end": 12,
+            "inherited_service": 7,
+            "lane": 1,
+            "program_id": "mcts",
+            "queue_level": 3,
+            "start": 11
+          },
+          {
+            "call_id": "mcts-critic",
+            "end": 13,
+            "inherited_service": 7,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 3,
+            "start": 12
+          }
+        ],
+        "total_call_wait": 10,
+        "total_wait": 8
+      },
+      "configuration": {
+        "agentix_policy": "atlas",
+        "name": "full_stack",
+        "propagate_priority": true,
+        "tisa_mode": "dynamic"
+      },
+      "dependency_valid": true,
+      "engine_work": {
+        "de": 22528,
+        "me": 33792,
+        "ve": 33792
+      },
+      "logical_digest": "4dd2e84338759c0c6d3ad6d8f65a73e979ade989eb9b0a2dbaeecb53613355ec",
+      "makespan": 43302,
+      "proactive_completed": 2,
+      "proactive_throughput": 4.6187243083460347e-05,
+      "program_completion": {
+        "mcts": 43302,
+        "moa": 30930,
+        "react": 29899
+      },
+      "reactive_completion": 29899,
+      "tiles": [
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:react-plan",
+          "deps": [],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:react-plan",
+          "op_type": "LinearOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 0,
+          "task_id": "task:react-plan",
+          "tile_id": "tile:react-plan:0"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:react-plan",
+          "deps": [],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:react-plan",
+          "op_type": "LinearOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 1,
+          "task_id": "task:react-plan",
+          "tile_id": "tile:react-plan:1"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:react-plan",
+          "deps": [
+            "tile:react-plan:0"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:react-plan",
+          "op_type": "CastTypeOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 2,
+          "task_id": "task:react-plan",
+          "tile_id": "tile:react-plan:2"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:react-plan",
+          "deps": [
+            "tile:react-plan:1"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:react-plan",
+          "op_type": "RMSNormOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 3,
+          "task_id": "task:react-plan",
+          "tile_id": "tile:react-plan:3"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:react-plan",
+          "deps": [
+            "tile:react-plan:2",
+            "tile:react-plan:3"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:react-plan",
+          "op_type": "AddOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 4,
+          "task_id": "task:react-plan",
+          "tile_id": "tile:react-plan:4"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:react-plan",
+          "deps": [
+            "tile:react-plan:3"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:react-plan",
+          "op_type": "TransposeOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 5,
+          "task_id": "task:react-plan",
+          "tile_id": "tile:react-plan:5"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:react-plan",
+          "deps": [
+            "tile:react-plan:4",
+            "tile:react-plan:5"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:react-plan",
+          "op_type": "MatMulOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 6,
+          "task_id": "task:react-plan",
+          "tile_id": "tile:react-plan:6"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:react-plan",
+          "deps": [
+            "tile:react-plan:6"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:react-plan",
+          "op_type": "SoftmaxOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 7,
+          "task_id": "task:react-plan",
+          "tile_id": "tile:react-plan:7"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:moa-map0",
+          "deps": [],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:moa-map0",
+          "op_type": "LinearOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 8,
+          "task_id": "task:moa-map0",
+          "tile_id": "tile:moa-map0:0"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:moa-map0",
+          "deps": [],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:moa-map0",
+          "op_type": "LinearOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 9,
+          "task_id": "task:moa-map0",
+          "tile_id": "tile:moa-map0:1"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:moa-map0",
+          "deps": [
+            "tile:moa-map0:0"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:moa-map0",
+          "op_type": "CastTypeOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 10,
+          "task_id": "task:moa-map0",
+          "tile_id": "tile:moa-map0:2"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:moa-map0",
+          "deps": [
+            "tile:moa-map0:1"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:moa-map0",
+          "op_type": "RMSNormOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 11,
+          "task_id": "task:moa-map0",
+          "tile_id": "tile:moa-map0:3"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:moa-map0",
+          "deps": [
+            "tile:moa-map0:2",
+            "tile:moa-map0:3"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:moa-map0",
+          "op_type": "AddOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 12,
+          "task_id": "task:moa-map0",
+          "tile_id": "tile:moa-map0:4"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:moa-map0",
+          "deps": [
+            "tile:moa-map0:3"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:moa-map0",
+          "op_type": "TransposeOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 13,
+          "task_id": "task:moa-map0",
+          "tile_id": "tile:moa-map0:5"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:moa-map0",
+          "deps": [
+            "tile:moa-map0:4",
+            "tile:moa-map0:5"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:moa-map0",
+          "op_type": "MatMulOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 14,
+          "task_id": "task:moa-map0",
+          "tile_id": "tile:moa-map0:6"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:moa-map0",
+          "deps": [
+            "tile:moa-map0:6"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:moa-map0",
+          "op_type": "SoftmaxOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 15,
+          "task_id": "task:moa-map0",
+          "tile_id": "tile:moa-map0:7"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:moa-map1",
+          "deps": [],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:moa-map1",
+          "op_type": "LinearOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 16,
+          "task_id": "task:moa-map1",
+          "tile_id": "tile:moa-map1:0"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:moa-map1",
+          "deps": [],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:moa-map1",
+          "op_type": "LinearOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 17,
+          "task_id": "task:moa-map1",
+          "tile_id": "tile:moa-map1:1"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:moa-map1",
+          "deps": [
+            "tile:moa-map1:0"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:moa-map1",
+          "op_type": "CastTypeOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 18,
+          "task_id": "task:moa-map1",
+          "tile_id": "tile:moa-map1:2"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:moa-map1",
+          "deps": [
+            "tile:moa-map1:1"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:moa-map1",
+          "op_type": "RMSNormOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 19,
+          "task_id": "task:moa-map1",
+          "tile_id": "tile:moa-map1:3"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:moa-map1",
+          "deps": [
+            "tile:moa-map1:2",
+            "tile:moa-map1:3"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:moa-map1",
+          "op_type": "AddOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 20,
+          "task_id": "task:moa-map1",
+          "tile_id": "tile:moa-map1:4"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:moa-map1",
+          "deps": [
+            "tile:moa-map1:3"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:moa-map1",
+          "op_type": "TransposeOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 21,
+          "task_id": "task:moa-map1",
+          "tile_id": "tile:moa-map1:5"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:moa-map1",
+          "deps": [
+            "tile:moa-map1:4",
+            "tile:moa-map1:5"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:moa-map1",
+          "op_type": "MatMulOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 22,
+          "task_id": "task:moa-map1",
+          "tile_id": "tile:moa-map1:6"
+        },
+        {
+          "arrival_cycle": 0,
+          "call_id": "call:moa-map1",
+          "deps": [
+            "tile:moa-map1:6"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:moa-map1",
+          "op_type": "SoftmaxOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 23,
+          "task_id": "task:moa-map1",
+          "tile_id": "tile:moa-map1:7"
+        },
+        {
+          "arrival_cycle": 1024,
+          "call_id": "call:moa-map2",
+          "deps": [],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:moa-map2",
+          "op_type": "LinearOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 24,
+          "task_id": "task:moa-map2",
+          "tile_id": "tile:moa-map2:0"
+        },
+        {
+          "arrival_cycle": 1024,
+          "call_id": "call:moa-map2",
+          "deps": [],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:moa-map2",
+          "op_type": "LinearOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 25,
+          "task_id": "task:moa-map2",
+          "tile_id": "tile:moa-map2:1"
+        },
+        {
+          "arrival_cycle": 1024,
+          "call_id": "call:moa-map2",
+          "deps": [
+            "tile:moa-map2:0"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:moa-map2",
+          "op_type": "CastTypeOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 26,
+          "task_id": "task:moa-map2",
+          "tile_id": "tile:moa-map2:2"
+        },
+        {
+          "arrival_cycle": 1024,
+          "call_id": "call:moa-map2",
+          "deps": [
+            "tile:moa-map2:1"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:moa-map2",
+          "op_type": "RMSNormOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 27,
+          "task_id": "task:moa-map2",
+          "tile_id": "tile:moa-map2:3"
+        },
+        {
+          "arrival_cycle": 1024,
+          "call_id": "call:moa-map2",
+          "deps": [
+            "tile:moa-map2:2",
+            "tile:moa-map2:3"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:moa-map2",
+          "op_type": "AddOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 28,
+          "task_id": "task:moa-map2",
+          "tile_id": "tile:moa-map2:4"
+        },
+        {
+          "arrival_cycle": 1024,
+          "call_id": "call:moa-map2",
+          "deps": [
+            "tile:moa-map2:3"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:moa-map2",
+          "op_type": "TransposeOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 29,
+          "task_id": "task:moa-map2",
+          "tile_id": "tile:moa-map2:5"
+        },
+        {
+          "arrival_cycle": 1024,
+          "call_id": "call:moa-map2",
+          "deps": [
+            "tile:moa-map2:4",
+            "tile:moa-map2:5"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:moa-map2",
+          "op_type": "MatMulOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 30,
+          "task_id": "task:moa-map2",
+          "tile_id": "tile:moa-map2:6"
+        },
+        {
+          "arrival_cycle": 1024,
+          "call_id": "call:moa-map2",
+          "deps": [
+            "tile:moa-map2:6"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:moa-map2",
+          "op_type": "SoftmaxOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 31,
+          "task_id": "task:moa-map2",
+          "tile_id": "tile:moa-map2:7"
+        },
+        {
+          "arrival_cycle": 1024,
+          "call_id": "call:mcts-root",
+          "deps": [],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:mcts-root",
+          "op_type": "LinearOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 32,
+          "task_id": "task:mcts-root",
+          "tile_id": "tile:mcts-root:0"
+        },
+        {
+          "arrival_cycle": 1024,
+          "call_id": "call:mcts-root",
+          "deps": [],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:mcts-root",
+          "op_type": "LinearOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 33,
+          "task_id": "task:mcts-root",
+          "tile_id": "tile:mcts-root:1"
+        },
+        {
+          "arrival_cycle": 1024,
+          "call_id": "call:mcts-root",
+          "deps": [
+            "tile:mcts-root:0"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:mcts-root",
+          "op_type": "CastTypeOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 34,
+          "task_id": "task:mcts-root",
+          "tile_id": "tile:mcts-root:2"
+        },
+        {
+          "arrival_cycle": 1024,
+          "call_id": "call:mcts-root",
+          "deps": [
+            "tile:mcts-root:1"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:mcts-root",
+          "op_type": "RMSNormOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 35,
+          "task_id": "task:mcts-root",
+          "tile_id": "tile:mcts-root:3"
+        },
+        {
+          "arrival_cycle": 1024,
+          "call_id": "call:mcts-root",
+          "deps": [
+            "tile:mcts-root:2",
+            "tile:mcts-root:3"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:mcts-root",
+          "op_type": "AddOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 36,
+          "task_id": "task:mcts-root",
+          "tile_id": "tile:mcts-root:4"
+        },
+        {
+          "arrival_cycle": 1024,
+          "call_id": "call:mcts-root",
+          "deps": [
+            "tile:mcts-root:3"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:mcts-root",
+          "op_type": "TransposeOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 37,
+          "task_id": "task:mcts-root",
+          "tile_id": "tile:mcts-root:5"
+        },
+        {
+          "arrival_cycle": 1024,
+          "call_id": "call:mcts-root",
+          "deps": [
+            "tile:mcts-root:4",
+            "tile:mcts-root:5"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:mcts-root",
+          "op_type": "MatMulOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 38,
+          "task_id": "task:mcts-root",
+          "tile_id": "tile:mcts-root:6"
+        },
+        {
+          "arrival_cycle": 1024,
+          "call_id": "call:mcts-root",
+          "deps": [
+            "tile:mcts-root:6"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:mcts-root",
+          "op_type": "SoftmaxOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 39,
+          "task_id": "task:mcts-root",
+          "tile_id": "tile:mcts-root:7"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:react-tool",
+          "deps": [
+            "tile:react-plan:7"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:react-tool",
+          "op_type": "LinearOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 40,
+          "task_id": "task:react-tool",
+          "tile_id": "tile:react-tool:0"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:react-tool",
+          "deps": [
+            "tile:react-plan:7"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:react-tool",
+          "op_type": "LinearOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 41,
+          "task_id": "task:react-tool",
+          "tile_id": "tile:react-tool:1"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:react-tool",
+          "deps": [
+            "tile:react-tool:0"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:react-tool",
+          "op_type": "CastTypeOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 42,
+          "task_id": "task:react-tool",
+          "tile_id": "tile:react-tool:2"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:react-tool",
+          "deps": [
+            "tile:react-tool:1"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:react-tool",
+          "op_type": "RMSNormOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 43,
+          "task_id": "task:react-tool",
+          "tile_id": "tile:react-tool:3"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:react-tool",
+          "deps": [
+            "tile:react-tool:2",
+            "tile:react-tool:3"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:react-tool",
+          "op_type": "AddOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 44,
+          "task_id": "task:react-tool",
+          "tile_id": "tile:react-tool:4"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:react-tool",
+          "deps": [
+            "tile:react-tool:3"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:react-tool",
+          "op_type": "TransposeOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 45,
+          "task_id": "task:react-tool",
+          "tile_id": "tile:react-tool:5"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:react-tool",
+          "deps": [
+            "tile:react-tool:4",
+            "tile:react-tool:5"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:react-tool",
+          "op_type": "MatMulOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 46,
+          "task_id": "task:react-tool",
+          "tile_id": "tile:react-tool:6"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:react-tool",
+          "deps": [
+            "tile:react-tool:6"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:react-tool",
+          "op_type": "SoftmaxOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 47,
+          "task_id": "task:react-tool",
+          "tile_id": "tile:react-tool:7"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:moa-reduce",
+          "deps": [
+            "tile:moa-map0:7",
+            "tile:moa-map1:7",
+            "tile:moa-map2:7"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:moa-reduce",
+          "op_type": "LinearOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 48,
+          "task_id": "task:moa-reduce",
+          "tile_id": "tile:moa-reduce:0"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:moa-reduce",
+          "deps": [
+            "tile:moa-map0:7",
+            "tile:moa-map1:7",
+            "tile:moa-map2:7"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:moa-reduce",
+          "op_type": "LinearOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 49,
+          "task_id": "task:moa-reduce",
+          "tile_id": "tile:moa-reduce:1"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:moa-reduce",
+          "deps": [
+            "tile:moa-reduce:0"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:moa-reduce",
+          "op_type": "CastTypeOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 50,
+          "task_id": "task:moa-reduce",
+          "tile_id": "tile:moa-reduce:2"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:moa-reduce",
+          "deps": [
+            "tile:moa-reduce:1"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:moa-reduce",
+          "op_type": "RMSNormOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 51,
+          "task_id": "task:moa-reduce",
+          "tile_id": "tile:moa-reduce:3"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:moa-reduce",
+          "deps": [
+            "tile:moa-reduce:2",
+            "tile:moa-reduce:3"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:moa-reduce",
+          "op_type": "AddOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 52,
+          "task_id": "task:moa-reduce",
+          "tile_id": "tile:moa-reduce:4"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:moa-reduce",
+          "deps": [
+            "tile:moa-reduce:3"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:moa-reduce",
+          "op_type": "TransposeOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 53,
+          "task_id": "task:moa-reduce",
+          "tile_id": "tile:moa-reduce:5"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:moa-reduce",
+          "deps": [
+            "tile:moa-reduce:4",
+            "tile:moa-reduce:5"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:moa-reduce",
+          "op_type": "MatMulOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 54,
+          "task_id": "task:moa-reduce",
+          "tile_id": "tile:moa-reduce:6"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:moa-reduce",
+          "deps": [
+            "tile:moa-reduce:6"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:moa-reduce",
+          "op_type": "SoftmaxOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 55,
+          "task_id": "task:moa-reduce",
+          "tile_id": "tile:moa-reduce:7"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:mcts-actor0",
+          "deps": [
+            "tile:mcts-root:7"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:mcts-actor0",
+          "op_type": "LinearOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 56,
+          "task_id": "task:mcts-actor0",
+          "tile_id": "tile:mcts-actor0:0"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:mcts-actor0",
+          "deps": [
+            "tile:mcts-root:7"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:mcts-actor0",
+          "op_type": "LinearOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 57,
+          "task_id": "task:mcts-actor0",
+          "tile_id": "tile:mcts-actor0:1"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:mcts-actor0",
+          "deps": [
+            "tile:mcts-actor0:0"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:mcts-actor0",
+          "op_type": "CastTypeOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 58,
+          "task_id": "task:mcts-actor0",
+          "tile_id": "tile:mcts-actor0:2"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:mcts-actor0",
+          "deps": [
+            "tile:mcts-actor0:1"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:mcts-actor0",
+          "op_type": "RMSNormOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 59,
+          "task_id": "task:mcts-actor0",
+          "tile_id": "tile:mcts-actor0:3"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:mcts-actor0",
+          "deps": [
+            "tile:mcts-actor0:2",
+            "tile:mcts-actor0:3"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:mcts-actor0",
+          "op_type": "AddOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 60,
+          "task_id": "task:mcts-actor0",
+          "tile_id": "tile:mcts-actor0:4"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:mcts-actor0",
+          "deps": [
+            "tile:mcts-actor0:3"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:mcts-actor0",
+          "op_type": "TransposeOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 61,
+          "task_id": "task:mcts-actor0",
+          "tile_id": "tile:mcts-actor0:5"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:mcts-actor0",
+          "deps": [
+            "tile:mcts-actor0:4",
+            "tile:mcts-actor0:5"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:mcts-actor0",
+          "op_type": "MatMulOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 62,
+          "task_id": "task:mcts-actor0",
+          "tile_id": "tile:mcts-actor0:6"
+        },
+        {
+          "arrival_cycle": 6144,
+          "call_id": "call:mcts-actor0",
+          "deps": [
+            "tile:mcts-actor0:6"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:mcts-actor0",
+          "op_type": "SoftmaxOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 63,
+          "task_id": "task:mcts-actor0",
+          "tile_id": "tile:mcts-actor0:7"
+        },
+        {
+          "arrival_cycle": 7168,
+          "call_id": "call:mcts-actor1",
+          "deps": [
+            "tile:mcts-root:7"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:mcts-actor1",
+          "op_type": "LinearOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 64,
+          "task_id": "task:mcts-actor1",
+          "tile_id": "tile:mcts-actor1:0"
+        },
+        {
+          "arrival_cycle": 7168,
+          "call_id": "call:mcts-actor1",
+          "deps": [
+            "tile:mcts-root:7"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:mcts-actor1",
+          "op_type": "LinearOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 65,
+          "task_id": "task:mcts-actor1",
+          "tile_id": "tile:mcts-actor1:1"
+        },
+        {
+          "arrival_cycle": 7168,
+          "call_id": "call:mcts-actor1",
+          "deps": [
+            "tile:mcts-actor1:0"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:mcts-actor1",
+          "op_type": "CastTypeOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 66,
+          "task_id": "task:mcts-actor1",
+          "tile_id": "tile:mcts-actor1:2"
+        },
+        {
+          "arrival_cycle": 7168,
+          "call_id": "call:mcts-actor1",
+          "deps": [
+            "tile:mcts-actor1:1"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:mcts-actor1",
+          "op_type": "RMSNormOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 67,
+          "task_id": "task:mcts-actor1",
+          "tile_id": "tile:mcts-actor1:3"
+        },
+        {
+          "arrival_cycle": 7168,
+          "call_id": "call:mcts-actor1",
+          "deps": [
+            "tile:mcts-actor1:2",
+            "tile:mcts-actor1:3"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:mcts-actor1",
+          "op_type": "AddOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 68,
+          "task_id": "task:mcts-actor1",
+          "tile_id": "tile:mcts-actor1:4"
+        },
+        {
+          "arrival_cycle": 7168,
+          "call_id": "call:mcts-actor1",
+          "deps": [
+            "tile:mcts-actor1:3"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:mcts-actor1",
+          "op_type": "TransposeOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 69,
+          "task_id": "task:mcts-actor1",
+          "tile_id": "tile:mcts-actor1:5"
+        },
+        {
+          "arrival_cycle": 7168,
+          "call_id": "call:mcts-actor1",
+          "deps": [
+            "tile:mcts-actor1:4",
+            "tile:mcts-actor1:5"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:mcts-actor1",
+          "op_type": "MatMulOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 70,
+          "task_id": "task:mcts-actor1",
+          "tile_id": "tile:mcts-actor1:6"
+        },
+        {
+          "arrival_cycle": 7168,
+          "call_id": "call:mcts-actor1",
+          "deps": [
+            "tile:mcts-actor1:6"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:mcts-actor1",
+          "op_type": "SoftmaxOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 71,
+          "task_id": "task:mcts-actor1",
+          "tile_id": "tile:mcts-actor1:7"
+        },
+        {
+          "arrival_cycle": 9216,
+          "call_id": "call:react-answer",
+          "deps": [
+            "tile:react-tool:7"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:react-answer",
+          "op_type": "LinearOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 72,
+          "task_id": "task:react-answer",
+          "tile_id": "tile:react-answer:0"
+        },
+        {
+          "arrival_cycle": 9216,
+          "call_id": "call:react-answer",
+          "deps": [
+            "tile:react-tool:7"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:react-answer",
+          "op_type": "LinearOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 73,
+          "task_id": "task:react-answer",
+          "tile_id": "tile:react-answer:1"
+        },
+        {
+          "arrival_cycle": 9216,
+          "call_id": "call:react-answer",
+          "deps": [
+            "tile:react-answer:0"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:react-answer",
+          "op_type": "CastTypeOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 74,
+          "task_id": "task:react-answer",
+          "tile_id": "tile:react-answer:2"
+        },
+        {
+          "arrival_cycle": 9216,
+          "call_id": "call:react-answer",
+          "deps": [
+            "tile:react-answer:1"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:react-answer",
+          "op_type": "RMSNormOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 75,
+          "task_id": "task:react-answer",
+          "tile_id": "tile:react-answer:3"
+        },
+        {
+          "arrival_cycle": 9216,
+          "call_id": "call:react-answer",
+          "deps": [
+            "tile:react-answer:2",
+            "tile:react-answer:3"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:react-answer",
+          "op_type": "AddOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 76,
+          "task_id": "task:react-answer",
+          "tile_id": "tile:react-answer:4"
+        },
+        {
+          "arrival_cycle": 9216,
+          "call_id": "call:react-answer",
+          "deps": [
+            "tile:react-answer:3"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:react-answer",
+          "op_type": "TransposeOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 77,
+          "task_id": "task:react-answer",
+          "tile_id": "tile:react-answer:5"
+        },
+        {
+          "arrival_cycle": 9216,
+          "call_id": "call:react-answer",
+          "deps": [
+            "tile:react-answer:4",
+            "tile:react-answer:5"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:react-answer",
+          "op_type": "MatMulOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 78,
+          "task_id": "task:react-answer",
+          "tile_id": "tile:react-answer:6"
+        },
+        {
+          "arrival_cycle": 9216,
+          "call_id": "call:react-answer",
+          "deps": [
+            "tile:react-answer:6"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:react-answer",
+          "op_type": "SoftmaxOp",
+          "priority": 0,
+          "program_id": "program:react",
+          "sequence": 79,
+          "task_id": "task:react-answer",
+          "tile_id": "tile:react-answer:7"
+        },
+        {
+          "arrival_cycle": 10240,
+          "call_id": "call:mcts-critic",
+          "deps": [
+            "tile:mcts-actor0:7",
+            "tile:mcts-actor1:7"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:mcts-critic",
+          "op_type": "LinearOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 80,
+          "task_id": "task:mcts-critic",
+          "tile_id": "tile:mcts-critic:0"
+        },
+        {
+          "arrival_cycle": 10240,
+          "call_id": "call:mcts-critic",
+          "deps": [
+            "tile:mcts-actor0:7",
+            "tile:mcts-actor1:7"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:mcts-critic",
+          "op_type": "LinearOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 81,
+          "task_id": "task:mcts-critic",
+          "tile_id": "tile:mcts-critic:1"
+        },
+        {
+          "arrival_cycle": 10240,
+          "call_id": "call:mcts-critic",
+          "deps": [
+            "tile:mcts-critic:0"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:mcts-critic",
+          "op_type": "CastTypeOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 82,
+          "task_id": "task:mcts-critic",
+          "tile_id": "tile:mcts-critic:2"
+        },
+        {
+          "arrival_cycle": 10240,
+          "call_id": "call:mcts-critic",
+          "deps": [
+            "tile:mcts-critic:1"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:mcts-critic",
+          "op_type": "RMSNormOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 83,
+          "task_id": "task:mcts-critic",
+          "tile_id": "tile:mcts-critic:3"
+        },
+        {
+          "arrival_cycle": 10240,
+          "call_id": "call:mcts-critic",
+          "deps": [
+            "tile:mcts-critic:2",
+            "tile:mcts-critic:3"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:mcts-critic",
+          "op_type": "AddOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 84,
+          "task_id": "task:mcts-critic",
+          "tile_id": "tile:mcts-critic:4"
+        },
+        {
+          "arrival_cycle": 10240,
+          "call_id": "call:mcts-critic",
+          "deps": [
+            "tile:mcts-critic:3"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:mcts-critic",
+          "op_type": "TransposeOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 85,
+          "task_id": "task:mcts-critic",
+          "tile_id": "tile:mcts-critic:5"
+        },
+        {
+          "arrival_cycle": 10240,
+          "call_id": "call:mcts-critic",
+          "deps": [
+            "tile:mcts-critic:4",
+            "tile:mcts-critic:5"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:mcts-critic",
+          "op_type": "MatMulOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 86,
+          "task_id": "task:mcts-critic",
+          "tile_id": "tile:mcts-critic:6"
+        },
+        {
+          "arrival_cycle": 10240,
+          "call_id": "call:mcts-critic",
+          "deps": [
+            "tile:mcts-critic:6"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:mcts-critic",
+          "op_type": "SoftmaxOp",
+          "priority": 2,
+          "program_id": "program:mcts",
+          "sequence": 87,
+          "task_id": "task:mcts-critic",
+          "tile_id": "tile:mcts-critic:7"
+        }
+      ],
+      "tisa": {
+        "busy_cycles": {
+          "de": 22528,
+          "me": 33792,
+          "ve": 33792
+        },
+        "completed": 88,
+        "cycles": 43302,
+        "dependency_stalls": 188722,
+        "dispatch_latency": 7,
+        "issues": [
+          {
+            "complete": 1031,
+            "engine": "me",
+            "issue": 7,
+            "priority": 0,
+            "sequence": 0,
+            "tile_id": "tile:react-plan:0"
+          },
+          {
+            "complete": 2062,
+            "engine": "me",
+            "issue": 1038,
+            "priority": 0,
+            "sequence": 1,
+            "tile_id": "tile:react-plan:1"
+          },
+          {
+            "complete": 2062,
+            "engine": "de",
+            "issue": 1038,
+            "priority": 0,
+            "sequence": 2,
+            "tile_id": "tile:react-plan:2"
+          },
+          {
+            "complete": 3093,
+            "engine": "ve",
+            "issue": 2069,
+            "priority": 0,
+            "sequence": 3,
+            "tile_id": "tile:react-plan:3"
+          },
+          {
+            "complete": 3093,
+            "engine": "me",
+            "issue": 2069,
+            "priority": 2,
+            "sequence": 8,
+            "tile_id": "tile:moa-map0:0"
+          },
+          {
+            "complete": 4124,
+            "engine": "ve",
+            "issue": 3100,
+            "priority": 0,
+            "sequence": 4,
+            "tile_id": "tile:react-plan:4"
+          },
+          {
+            "complete": 4124,
+            "engine": "de",
+            "issue": 3100,
+            "priority": 0,
+            "sequence": 5,
+            "tile_id": "tile:react-plan:5"
+          },
+          {
+            "complete": 4124,
+            "engine": "me",
+            "issue": 3100,
+            "priority": 2,
+            "sequence": 9,
+            "tile_id": "tile:moa-map0:1"
+          },
+          {
+            "complete": 5155,
+            "engine": "me",
+            "issue": 4131,
+            "priority": 0,
+            "sequence": 6,
+            "tile_id": "tile:react-plan:6"
+          },
+          {
+            "complete": 5155,
+            "engine": "de",
+            "issue": 4131,
+            "priority": 2,
+            "sequence": 10,
+            "tile_id": "tile:moa-map0:2"
+          },
+          {
+            "complete": 5155,
+            "engine": "ve",
+            "issue": 4131,
+            "priority": 2,
+            "sequence": 11,
+            "tile_id": "tile:moa-map0:3"
+          },
+          {
+            "complete": 6186,
+            "engine": "ve",
+            "issue": 5162,
+            "priority": 0,
+            "sequence": 7,
+            "tile_id": "tile:react-plan:7"
+          },
+          {
+            "complete": 6186,
+            "engine": "de",
+            "issue": 5162,
+            "priority": 2,
+            "sequence": 13,
+            "tile_id": "tile:moa-map0:5"
+          },
+          {
+            "complete": 6186,
+            "engine": "me",
+            "issue": 5162,
+            "priority": 2,
+            "sequence": 16,
+            "tile_id": "tile:moa-map1:0"
+          },
+          {
+            "complete": 7217,
+            "engine": "ve",
+            "issue": 6193,
+            "priority": 2,
+            "sequence": 12,
+            "tile_id": "tile:moa-map0:4"
+          },
+          {
+            "complete": 7217,
+            "engine": "me",
+            "issue": 6193,
+            "priority": 2,
+            "sequence": 17,
+            "tile_id": "tile:moa-map1:1"
+          },
+          {
+            "complete": 8248,
+            "engine": "me",
+            "issue": 7224,
+            "priority": 2,
+            "sequence": 14,
+            "tile_id": "tile:moa-map0:6"
+          },
+          {
+            "complete": 8248,
+            "engine": "de",
+            "issue": 7224,
+            "priority": 2,
+            "sequence": 18,
+            "tile_id": "tile:moa-map1:2"
+          },
+          {
+            "complete": 8248,
+            "engine": "ve",
+            "issue": 7224,
+            "priority": 2,
+            "sequence": 19,
+            "tile_id": "tile:moa-map1:3"
+          },
+          {
+            "complete": 9279,
+            "engine": "me",
+            "issue": 8255,
+            "priority": 0,
+            "sequence": 40,
+            "tile_id": "tile:react-tool:0"
+          },
+          {
+            "complete": 9279,
+            "engine": "ve",
+            "issue": 8255,
+            "priority": 2,
+            "sequence": 15,
+            "tile_id": "tile:moa-map0:7"
+          },
+          {
+            "complete": 9279,
+            "engine": "de",
+            "issue": 8255,
+            "priority": 2,
+            "sequence": 21,
+            "tile_id": "tile:moa-map1:5"
+          },
+          {
+            "complete": 10310,
+            "engine": "me",
+            "issue": 9286,
+            "priority": 0,
+            "sequence": 41,
+            "tile_id": "tile:react-tool:1"
+          },
+          {
+            "complete": 10310,
+            "engine": "de",
+            "issue": 9286,
+            "priority": 0,
+            "sequence": 42,
+            "tile_id": "tile:react-tool:2"
+          },
+          {
+            "complete": 11341,
+            "engine": "ve",
+            "issue": 10317,
+            "priority": 2,
+            "sequence": 20,
+            "tile_id": "tile:moa-map1:4"
+          },
+          {
+            "complete": 11341,
+            "engine": "me",
+            "issue": 10317,
+            "priority": 2,
+            "sequence": 24,
+            "tile_id": "tile:moa-map2:0"
+          },
+          {
+            "complete": 12372,
+            "engine": "ve",
+            "issue": 11348,
+            "priority": 0,
+            "sequence": 43,
+            "tile_id": "tile:react-tool:3"
+          },
+          {
+            "complete": 12372,
+            "engine": "me",
+            "issue": 11348,
+            "priority": 2,
+            "sequence": 22,
+            "tile_id": "tile:moa-map1:6"
+          },
+          {
+            "complete": 12372,
+            "engine": "de",
+            "issue": 11348,
+            "priority": 2,
+            "sequence": 26,
+            "tile_id": "tile:moa-map2:2"
+          },
+          {
+            "complete": 13403,
+            "engine": "ve",
+            "issue": 12379,
+            "priority": 0,
+            "sequence": 44,
+            "tile_id": "tile:react-tool:4"
+          },
+          {
+            "complete": 13403,
+            "engine": "de",
+            "issue": 12379,
+            "priority": 0,
+            "sequence": 45,
+            "tile_id": "tile:react-tool:5"
+          },
+          {
+            "complete": 13403,
+            "engine": "me",
+            "issue": 12379,
+            "priority": 2,
+            "sequence": 25,
+            "tile_id": "tile:moa-map2:1"
+          },
+          {
+            "complete": 14434,
+            "engine": "me",
+            "issue": 13410,
+            "priority": 0,
+            "sequence": 46,
+            "tile_id": "tile:react-tool:6"
+          },
+          {
+            "complete": 14434,
+            "engine": "ve",
+            "issue": 13410,
+            "priority": 2,
+            "sequence": 27,
+            "tile_id": "tile:moa-map2:3"
+          },
+          {
+            "complete": 15465,
+            "engine": "ve",
+            "issue": 14441,
+            "priority": 0,
+            "sequence": 47,
+            "tile_id": "tile:react-tool:7"
+          },
+          {
+            "complete": 15465,
+            "engine": "de",
+            "issue": 14441,
+            "priority": 2,
+            "sequence": 29,
+            "tile_id": "tile:moa-map2:5"
+          },
+          {
+            "complete": 15465,
+            "engine": "me",
+            "issue": 14441,
+            "priority": 2,
+            "sequence": 32,
+            "tile_id": "tile:mcts-root:0"
+          },
+          {
+            "complete": 16496,
+            "engine": "ve",
+            "issue": 15472,
+            "priority": 2,
+            "sequence": 23,
+            "tile_id": "tile:moa-map1:7"
+          },
+          {
+            "complete": 16496,
+            "engine": "me",
+            "issue": 15472,
+            "priority": 2,
+            "sequence": 33,
+            "tile_id": "tile:mcts-root:1"
+          },
+          {
+            "complete": 16496,
+            "engine": "de",
+            "issue": 15472,
+            "priority": 2,
+            "sequence": 34,
+            "tile_id": "tile:mcts-root:2"
+          },
+          {
+            "complete": 17527,
+            "engine": "ve",
+            "issue": 16503,
+            "priority": 2,
+            "sequence": 28,
+            "tile_id": "tile:moa-map2:4"
+          },
+          {
+            "complete": 18558,
+            "engine": "me",
+            "issue": 17534,
+            "priority": 2,
+            "sequence": 30,
+            "tile_id": "tile:moa-map2:6"
+          },
+          {
+            "complete": 18558,
+            "engine": "ve",
+            "issue": 17534,
+            "priority": 2,
+            "sequence": 35,
+            "tile_id": "tile:mcts-root:3"
+          },
+          {
+            "complete": 19589,
+            "engine": "ve",
+            "issue": 18565,
+            "priority": 2,
+            "sequence": 31,
+            "tile_id": "tile:moa-map2:7"
+          },
+          {
+            "complete": 19589,
+            "engine": "de",
+            "issue": 18565,
+            "priority": 2,
+            "sequence": 37,
+            "tile_id": "tile:mcts-root:5"
+          },
+          {
+            "complete": 20620,
+            "engine": "ve",
+            "issue": 19596,
+            "priority": 2,
+            "sequence": 36,
+            "tile_id": "tile:mcts-root:4"
+          },
+          {
+            "complete": 20620,
+            "engine": "me",
+            "issue": 19596,
+            "priority": 2,
+            "sequence": 48,
+            "tile_id": "tile:moa-reduce:0"
+          },
+          {
+            "complete": 21651,
+            "engine": "me",
+            "issue": 20627,
+            "priority": 2,
+            "sequence": 38,
+            "tile_id": "tile:mcts-root:6"
+          },
+          {
+            "complete": 21651,
+            "engine": "de",
+            "issue": 20627,
+            "priority": 2,
+            "sequence": 50,
+            "tile_id": "tile:moa-reduce:2"
+          },
+          {
+            "complete": 22682,
+            "engine": "ve",
+            "issue": 21658,
+            "priority": 2,
+            "sequence": 39,
+            "tile_id": "tile:mcts-root:7"
+          },
+          {
+            "complete": 22682,
+            "engine": "me",
+            "issue": 21658,
+            "priority": 2,
+            "sequence": 49,
+            "tile_id": "tile:moa-reduce:1"
+          },
+          {
+            "complete": 23713,
+            "engine": "me",
+            "issue": 22689,
+            "priority": 0,
+            "sequence": 72,
+            "tile_id": "tile:react-answer:0"
+          },
+          {
+            "complete": 23713,
+            "engine": "ve",
+            "issue": 22689,
+            "priority": 2,
+            "sequence": 51,
+            "tile_id": "tile:moa-reduce:3"
+          },
+          {
+            "complete": 24744,
+            "engine": "me",
+            "issue": 23720,
+            "priority": 0,
+            "sequence": 73,
+            "tile_id": "tile:react-answer:1"
+          },
+          {
+            "complete": 24744,
+            "engine": "de",
+            "issue": 23720,
+            "priority": 0,
+            "sequence": 74,
+            "tile_id": "tile:react-answer:2"
+          },
+          {
+            "complete": 25775,
+            "engine": "ve",
+            "issue": 24751,
+            "priority": 2,
+            "sequence": 52,
+            "tile_id": "tile:moa-reduce:4"
+          },
+          {
+            "complete": 25775,
+            "engine": "de",
+            "issue": 24751,
+            "priority": 2,
+            "sequence": 53,
+            "tile_id": "tile:moa-reduce:5"
+          },
+          {
+            "complete": 25775,
+            "engine": "me",
+            "issue": 24751,
+            "priority": 2,
+            "sequence": 56,
+            "tile_id": "tile:mcts-actor0:0"
+          },
+          {
+            "complete": 26806,
+            "engine": "ve",
+            "issue": 25782,
+            "priority": 0,
+            "sequence": 75,
+            "tile_id": "tile:react-answer:3"
+          },
+          {
+            "complete": 26806,
+            "engine": "me",
+            "issue": 25782,
+            "priority": 2,
+            "sequence": 54,
+            "tile_id": "tile:moa-reduce:6"
+          },
+          {
+            "complete": 26806,
+            "engine": "de",
+            "issue": 25782,
+            "priority": 2,
+            "sequence": 58,
+            "tile_id": "tile:mcts-actor0:2"
+          },
+          {
+            "complete": 27837,
+            "engine": "ve",
+            "issue": 26813,
+            "priority": 0,
+            "sequence": 76,
+            "tile_id": "tile:react-answer:4"
+          },
+          {
+            "complete": 27837,
+            "engine": "de",
+            "issue": 26813,
+            "priority": 0,
+            "sequence": 77,
+            "tile_id": "tile:react-answer:5"
+          },
+          {
+            "complete": 27837,
+            "engine": "me",
+            "issue": 26813,
+            "priority": 2,
+            "sequence": 57,
+            "tile_id": "tile:mcts-actor0:1"
+          },
+          {
+            "complete": 28868,
+            "engine": "me",
+            "issue": 27844,
+            "priority": 0,
+            "sequence": 78,
+            "tile_id": "tile:react-answer:6"
+          },
+          {
+            "complete": 28868,
+            "engine": "ve",
+            "issue": 27844,
+            "priority": 2,
+            "sequence": 59,
+            "tile_id": "tile:mcts-actor0:3"
+          },
+          {
+            "complete": 29899,
+            "engine": "ve",
+            "issue": 28875,
+            "priority": 0,
+            "sequence": 79,
+            "tile_id": "tile:react-answer:7"
+          },
+          {
+            "complete": 29899,
+            "engine": "de",
+            "issue": 28875,
+            "priority": 2,
+            "sequence": 61,
+            "tile_id": "tile:mcts-actor0:5"
+          },
+          {
+            "complete": 29899,
+            "engine": "me",
+            "issue": 28875,
+            "priority": 2,
+            "sequence": 64,
+            "tile_id": "tile:mcts-actor1:0"
+          },
+          {
+            "complete": 30930,
+            "engine": "ve",
+            "issue": 29906,
+            "priority": 2,
+            "sequence": 55,
+            "tile_id": "tile:moa-reduce:7"
+          },
+          {
+            "complete": 30930,
+            "engine": "me",
+            "issue": 29906,
+            "priority": 2,
+            "sequence": 65,
+            "tile_id": "tile:mcts-actor1:1"
+          },
+          {
+            "complete": 30930,
+            "engine": "de",
+            "issue": 29906,
+            "priority": 2,
+            "sequence": 66,
+            "tile_id": "tile:mcts-actor1:2"
+          },
+          {
+            "complete": 31961,
+            "engine": "ve",
+            "issue": 30937,
+            "priority": 2,
+            "sequence": 60,
+            "tile_id": "tile:mcts-actor0:4"
+          },
+          {
+            "complete": 32992,
+            "engine": "me",
+            "issue": 31968,
+            "priority": 2,
+            "sequence": 62,
+            "tile_id": "tile:mcts-actor0:6"
+          },
+          {
+            "complete": 32992,
+            "engine": "ve",
+            "issue": 31968,
+            "priority": 2,
+            "sequence": 67,
+            "tile_id": "tile:mcts-actor1:3"
+          },
+          {
+            "complete": 34023,
+            "engine": "ve",
+            "issue": 32999,
+            "priority": 2,
+            "sequence": 63,
+            "tile_id": "tile:mcts-actor0:7"
+          },
+          {
+            "complete": 34023,
+            "engine": "de",
+            "issue": 32999,
+            "priority": 2,
+            "sequence": 69,
+            "tile_id": "tile:mcts-actor1:5"
+          },
+          {
+            "complete": 35054,
+            "engine": "ve",
+            "issue": 34030,
+            "priority": 2,
+            "sequence": 68,
+            "tile_id": "tile:mcts-actor1:4"
+          },
+          {
+            "complete": 36085,
+            "engine": "me",
+            "issue": 35061,
+            "priority": 2,
+            "sequence": 70,
+            "tile_id": "tile:mcts-actor1:6"
+          },
+          {
+            "complete": 37116,
+            "engine": "ve",
+            "issue": 36092,
+            "priority": 2,
+            "sequence": 71,
+            "tile_id": "tile:mcts-actor1:7"
+          },
+          {
+            "complete": 38147,
+            "engine": "me",
+            "issue": 37123,
+            "priority": 2,
+            "sequence": 80,
+            "tile_id": "tile:mcts-critic:0"
+          },
+          {
+            "complete": 39178,
+            "engine": "me",
+            "issue": 38154,
+            "priority": 2,
+            "sequence": 81,
+            "tile_id": "tile:mcts-critic:1"
+          },
+          {
+            "complete": 39178,
+            "engine": "de",
+            "issue": 38154,
+            "priority": 2,
+            "sequence": 82,
+            "tile_id": "tile:mcts-critic:2"
+          },
+          {
+            "complete": 40209,
+            "engine": "ve",
+            "issue": 39185,
+            "priority": 2,
+            "sequence": 83,
+            "tile_id": "tile:mcts-critic:3"
+          },
+          {
+            "complete": 41240,
+            "engine": "ve",
+            "issue": 40216,
+            "priority": 2,
+            "sequence": 84,
+            "tile_id": "tile:mcts-critic:4"
+          },
+          {
+            "complete": 41240,
+            "engine": "de",
+            "issue": 40216,
+            "priority": 2,
+            "sequence": 85,
+            "tile_id": "tile:mcts-critic:5"
+          },
+          {
+            "complete": 42271,
+            "engine": "me",
+            "issue": 41247,
+            "priority": 2,
+            "sequence": 86,
+            "tile_id": "tile:mcts-critic:6"
+          },
+          {
+            "complete": 43302,
+            "engine": "ve",
+            "issue": 42278,
+            "priority": 2,
+            "sequence": 87,
+            "tile_id": "tile:mcts-critic:7"
+          }
+        ],
+        "mode": "dynamic",
+        "overlap_cycles": {
+          "me_de": 19456,
+          "me_ve": 24576,
+          "me_ve_de": 14336,
+          "ve_de": 17408
+        },
+        "resource_stalls": 611370,
+        "utilization": {
+          "de": 0.5202531060920974,
+          "me": 0.780379659138146,
+          "ve": 0.780379659138146
+        },
+        "window_stalls": 503606
+      }
+    }
+  },
+  "derived": {
+    "atlas_static_speedup": 1.0,
+    "fcfs_dynamic_speedup": 2.185063045586809,
+    "full_vs_baseline_makespan_speedup": 2.0810124243683896,
+    "full_vs_baseline_reactive_speedup": 2.1919127730024415,
+    "stacking_efficiency": 0.9523809523809524
+  },
+  "gates": {
+    "dependencies_valid": true,
+    "engine_work_equal": true,
+    "full_makespan_improves": true,
+    "full_reactive_improves": true,
+    "lineage": true,
+    "logical_digest_equal": true,
+    "no_proactive_loss": true,
+    "priority_inheritance": true,
+    "six_layers": true
+  },
+  "run_id": "run_007",
+  "schema_version": 1,
+  "summary": {
+    "failing": 0,
+    "gates": 9,
+    "pass": true,
+    "passing": 9
+  },
+  "time_scale_cycles_per_agentix_step": 1024,
+  "trace": {
+    "events": 636,
+    "layers": [
+      "call",
+      "engine",
+      "flow",
+      "program",
+      "task",
+      "tile"
+    ],
+    "lineage": {
+      "events": 636,
+      "objects": 212,
+      "submitted": 124,
+      "terminal": 212
+    },
+    "priority_inheritance": {
+      "events_checked": 636,
+      "programs": 3
+    }
+  }
+}

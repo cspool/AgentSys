@@ -72,7 +72,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered paper endpoints (must be <= 0.15), with functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.5199297582914353
-  total_runs: 6
+  total_runs: 7
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -116,11 +116,18 @@ experiments:
       wall_time_min: 0.01
       change_summary: "Source-aligned mllm tile scale passes 9/9 gates; dynamic 1.324x faster with identical work."
       timestamp: "2026-08-25"
+    - run_id: "run_007"
+      hypothesis: "H4"
+      metric_value: 0.5199297582914353
+      delta: 0.0
+      wall_time_min: 0.13
+      change_summary: "Six-layer trace passes 9/9 integrity gates; current ATLAS release makes full stack sub-additive versus dynamic alone."
+      timestamp: "2026-08-25"
 
 outer_loop:
-  cycle: 2
+  cycle: 3
   last_direction: deepen
-  last_reflection: "Run 002 validates the shared contention mechanism for all reactive latencies; remaining utilization/energy failures use the wrong active-period/CPU-control measurement contract. Shift implementation critical path to ATX and Chipyard before H2 metric repair."
+  last_reflection: "Run 007 proves low-layer inheritance but exposes missing external priority in the Agentix release key. Add urgency-first, attained-service-second scheduling before judging H4 stacking."
 
 workspace:
   findings: "findings.md"
