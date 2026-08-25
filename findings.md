@@ -16,6 +16,7 @@ The available evidence requires distinct labels. Agentix's published evaluation 
 - Agentix passes all three Figure-2 wait endpoints (18/17/13 observed versus 18/18/12; maximum error 8.33%).
 - TISA passes all ten endpoints: four Dynamic-vs-Naive speedups have 7.67–8.27% error, all static comparisons pass the published range, FA3 utilization is 25.35% versus 26.4%, and W=8 dispatch is seven cycles.
 - Agent.xpu passes all three 8B reactive reductions (<1% error), 47.29 ms reactive prefill pending (1.47% error), and the proactive throughput range. Its three 3B reductions and utilization/energy accounting fail.
+- Run 002 adds the single Figure-4 contention mechanism and fixed elastic prefill share. All six 3B/8B reactive reductions now pass; total coverage is 21/23. The two remaining failures are utilization/energy measurement-contract mismatches, not latency behavior.
 
 ## Patterns and Insights
 
@@ -23,6 +24,7 @@ The available evidence requires distinct labels. Agentix's published evaluation 
 - It is not evidence for AgentSys performance: its tagged-CDC spatial architecture and paper targets differ from ATX/TISA and Agent scheduling.
 - The same Agent.xpu scheduler passes 8B but fails 3B. This points to a missing load-dependent contention term, not broken reactive-first ordering. Agent.xpu Figure 4 supplies the mechanism: simultaneous NPU/iGPU GEMV can take 1.59× standalone time, while GEMM is nearly unchanged.
 - The iGPU and energy failures have one shared accounting cause: run 001 sends every HEG prefill cycle to NPU, whereas Agent.xpu uses elastic NPU+iGPU tensor parallelism for reactive token-wise prefill and retains dynamic fragments on iGPU.
+- Run 002 proves the 1.59× shared-DDR term generalizes across all six reactive endpoints without per-rate factors. It also shows that a wall-busy fraction is not the paper's active-period-weighted iGPU metric; keeping these definitions separate is now a hard constraint.
 
 ## Lessons and Constraints
 
@@ -39,4 +41,4 @@ The available evidence requires distinct labels. Agentix's published evaluation 
 
 ## Optimization Trajectory
 
-Run 001 establishes the first trajectory point at 77.02% maximum endpoint error (18/23 pass). The large error is confined to H2; H1 and the TISA half of H3 already pass every executed endpoint. Run 002 is constrained to the two source-identified Agent.xpu mechanisms above.
+Run 001 starts at 77.02% maximum error (18/23 pass). Run 002 reduces this to 51.99% (21/23 pass) using one cross-workload contention term and fixed hardware accounting. The next performance trajectory point will add ATX endpoints; the implementation critical path is now the real Chipyard RoCC/TISA backend.

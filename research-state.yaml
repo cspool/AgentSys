@@ -65,8 +65,8 @@ hypotheses:
 experiments:
   proxy_metric: "maximum absolute relative error across preregistered paper endpoints (must be <= 0.15), with functional invariants as hard gates"
   baseline_value: 0.7702196725281117
-  best_value: 0.7702196725281117
-  total_runs: 1
+  best_value: 0.5199297582914353
+  total_runs: 2
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -75,11 +75,18 @@ experiments:
       wall_time_min: 0.29
       change_summary: "First no-retuning execution: Agentix 3/3, TISA 10/10, Agent.xpu 5/10; ATX/Chipyard pending."
       timestamp: "2026-08-25"
+    - run_id: "run_002"
+      hypothesis: "H2"
+      metric_value: 0.5199297582914353
+      delta: -0.2502899142366764
+      wall_time_min: 0.29
+      change_summary: "Figure-4 GEMV contention plus fixed elastic iGPU share: Agent.xpu improves from 5/10 to 8/10 endpoints."
+      timestamp: "2026-08-25"
 
 outer_loop:
-  cycle: 1
+  cycle: 2
   last_direction: deepen
-  last_reflection: "Run 001 isolates all five failures to missing Agent.xpu 3B mixed-DDR contention and elastic iGPU prefill accounting; preserve all other configurations for run 002."
+  last_reflection: "Run 002 validates the shared contention mechanism for all reactive latencies; remaining utilization/energy failures use the wrong active-period/CPU-control measurement contract. Shift implementation critical path to ATX and Chipyard before H2 metric repair."
 
 workspace:
   findings: "findings.md"

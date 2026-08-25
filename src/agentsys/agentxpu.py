@@ -31,6 +31,8 @@ class XPUConfig:
     decode_batch_cost: float = 0.12
     warmup_s: float = 0.060
     preemption_overhead_s: float = 0.004
+    mixed_gemv_slowdown: float = 1.59
+    heg_igpu_prefill_share: float = 0.50
     igpu_power_w_prefill: float = 31.0
     igpu_power_w_decode: float = 25.0
     npu_power_w: float = 10.0
@@ -42,6 +44,10 @@ class XPUConfig:
             raise ValueError("prefill chunks must be positive")
         if self.max_decode_batch <= 0 or self.max_reactive_decode_batch <= 0:
             raise ValueError("batch sizes must be positive")
+        if self.mixed_gemv_slowdown < 1.0:
+            raise ValueError("mixed GEMV slowdown cannot be below one")
+        if not 0.0 <= self.heg_igpu_prefill_share <= 1.0:
+            raise ValueError("HEG iGPU prefill share must be in [0, 1]")
 
 
 @dataclass(slots=True)
@@ -156,6 +162,7 @@ class AgentXPUSimulator:
         igpu_prefill_busy = 0.0
         igpu_decode_busy = 0.0
         npu_busy = 0.0
+        heg_igpu_prefill_busy = 0.0
         preemptions = 0
         previous_prefill_kind: FlowKind | None = None
         max_arrival = specs[-1].arrival if specs else 0.0
@@ -165,6 +172,8 @@ class AgentXPUSimulator:
             for flow in specs
         )
         max_time = max_arrival + total_service_upper * 2.5 + 60.0
+        flow_kinds = {flow.kind for flow in specs}
+        mixed_priorities = FlowKind.REACTIVE in flow_kinds and FlowKind.PROACTIVE in flow_kinds
 
         def choose_prefill() -> tuple[str, bool] | None:
             nonlocal preemptions, previous_prefill_kind
@@ -243,6 +252,11 @@ class AgentXPUSimulator:
         def make_decode_op(batch: tuple[str, ...], now: float) -> _Operation:
             rate = cfg.heg_decode_tokens_s if mode is XPUmode.HEG else cfg.igpu_decode_tokens_s
             batch_cost = 1.0 + cfg.decode_batch_cost * max(0, len(batch) - 1)
+            if mode is XPUmode.IGPU and mixed_priorities and prefill_queue:
+                # Figure 4: shared-DDR co-execution primarily hurts the
+                # memory-bound GEMV/decode side; use the single published
+                # maximum slowdown for every mixed-flow configuration.
+                batch_cost *= cfg.mixed_gemv_slowdown
             return _Operation("decode", batch, batch_cost / rate, now, len(batch))
 
         def finish_op(op: _Operation, now: float) -> None:
@@ -283,6 +297,7 @@ class AgentXPUSimulator:
                 step = min(cfg.tick_s, npu_op.remaining_s)
                 npu_op.remaining_s -= step
                 npu_busy += step
+                heg_igpu_prefill_busy += step * cfg.heg_igpu_prefill_share
                 if npu_op.remaining_s <= 1e-12:
                     finish_op(npu_op, time + step)
                     npu_op = None
@@ -345,7 +360,7 @@ class AgentXPUSimulator:
         total_output = sum(state.spec.output_tokens for state in completed_states)
         horizon = max((state.complete or 0.0 for state in completed_states), default=time)
         energy = (
-            igpu_prefill_busy * cfg.igpu_power_w_prefill
+            (igpu_prefill_busy + heg_igpu_prefill_busy) * cfg.igpu_power_w_prefill
             + igpu_decode_busy * cfg.igpu_power_w_decode
             + npu_busy * cfg.npu_power_w
         )
@@ -363,7 +378,10 @@ class AgentXPUSimulator:
             reactive_p90_latency_s=_percentile(reactive_latencies, 0.90),
             proactive_mean_latency_s=mean(proactive_latencies) if proactive_latencies else None,
             reactive_prefill_pending_s=mean(pending) if pending else None,
-            igpu_utilization=(igpu_prefill_busy + igpu_decode_busy) / horizon if horizon else 0.0,
+            igpu_utilization=(igpu_prefill_busy + igpu_decode_busy + heg_igpu_prefill_busy)
+            / horizon
+            if horizon
+            else 0.0,
             npu_utilization=npu_busy / horizon if horizon else 0.0,
             energy_j_token=energy / total_tokens if total_tokens else 0.0,
             preemptions=preemptions,
