@@ -61,12 +61,18 @@ hypotheses:
     motivation: "Test the new full-stack contribution; no paper target will be used for this result."
     parent: null
     priority: high
+  - id: H5
+    statement: "Native mllm MIR operator traces can lower deterministically into the shared AgentSys ME/VE/DE simulator contract without losing SSA dependencies."
+    status: active
+    motivation: "Close the model-operator trace/simulator-backend implementation requirement."
+    parent: null
+    priority: high
 
 experiments:
   proxy_metric: "maximum absolute relative error across preregistered paper endpoints (must be <= 0.15), with functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.5199297582914353
-  total_runs: 4
+  total_runs: 5
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -95,6 +101,13 @@ experiments:
       delta: 0.0
       wall_time_min: 0.01
       change_summary: "ATX organization replay passes 18/18 endpoints; maximum ATX error 0.285%."
+      timestamp: "2026-08-25"
+    - run_id: "run_005"
+      hypothesis: "H5"
+      metric_value: 0.5199297582914353
+      delta: 0.0
+      wall_time_min: 0.01
+      change_summary: "mllm MIR backend passes 7/8 gates; dynamic loses because 2-16 cycle tiles violate TISA granularity."
       timestamp: "2026-08-25"
 
 outer_loop:

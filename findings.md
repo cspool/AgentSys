@@ -19,6 +19,7 @@ The available evidence requires distinct labels. Agentix's published evaluation 
 - Run 002 adds the single Figure-4 contention mechanism and fixed elastic prefill share. All six 3B/8B reactive reductions now pass; total coverage is 21/23. The two remaining failures are utilization/energy measurement-contract mismatches, not latency behavior.
 - Run 003 closes the first real hardware path: static and dynamic Rocket+Verilator configurations pass 17/17 gates. Dynamic exposes 79 ME/VE/DE overlap cycles and improves backend/system time by 1.333×/1.289× with identical logical work, DMA bytes, and checksum.
 - Run 004 adds ATX paper coverage: 18/18 organization, prefetch, task-size, and decompression endpoints pass with 0.285% maximum error under a transparent paper-parameterized component model.
+- Run 005 closes most of the mllm trace path: real FooNet and Qwen3 MIR parse deterministically and lower to all three engines. The first timing run is intentionally retained as a failure because its 2–16 cycle tiles make seven-cycle scheduling overhead dominant.
 
 ## Patterns and Insights
 
@@ -28,6 +29,7 @@ The available evidence requires distinct labels. Agentix's published evaluation 
 - The iGPU and energy failures have one shared accounting cause: run 001 sends every HEG prefill cycle to NPU, whereas Agent.xpu uses elastic NPU+iGPU tensor parallelism for reactive token-wise prefill and retains dynamic fragments on iGPU.
 - Run 002 proves the 1.59× shared-DDR term generalizes across all six reactive endpoints without per-rate factors. It also shows that a wall-busy fraction is not the paper's active-period-weighted iGPU metric; keeping these definitions separate is now a hard constraint.
 - Chipyard confirms that semantic issue can produce an end-to-end benefit even after real Rocket custom-instruction and cache/DMA overhead: backend improvement 33.3% becomes 28.9% over the controller busy interval and 25.8% at host launch/wait.
+- Dynamic tile scheduling only helps above its intended granularity. Correct semantic mapping alone is insufficient when backend lowering emits sub-7-cycle tiles; the mllm adapter must preserve a hardware-realistic tile scale.
 
 ## Lessons and Constraints
 
