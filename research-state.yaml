@@ -67,12 +67,18 @@ hypotheses:
     motivation: "Close the model-operator trace/simulator-backend implementation requirement."
     parent: null
     priority: high
+  - id: H6
+    statement: "A real Ramulator2 DDR trace can drive the NPU data-engine latency model and expose memory-to-ME bottleneck shifting."
+    status: supported
+    motivation: "Close the Ramulator2 DDR implementation and bandwidth-ablation requirement."
+    parent: null
+    priority: high
 
 experiments:
   proxy_metric: "maximum absolute relative error across preregistered paper endpoints (must be <= 0.15), with functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 11
+  total_runs: 12
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -150,6 +156,13 @@ experiments:
       delta: 0.0
       wall_time_min: 0.31
       change_summary: "Adds Serial NPU-iGPU endpoint; Agent.xpu complete set passes 11/11 and direct run set 24/24."
+      timestamp: "2026-08-25"
+    - run_id: "run_012"
+      hypothesis: "H6"
+      metric_value: 0.08333333333333333
+      delta: 0.0
+      wall_time_min: 0.03
+      change_summary: "Official Ramulator2 1/2-channel traces pass 7/7; 2x channels give 1.009x TISA after ME bottleneck shift."
       timestamp: "2026-08-25"
 
 outer_loop:
