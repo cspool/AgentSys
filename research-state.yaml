@@ -73,12 +73,18 @@ hypotheses:
     motivation: "Close the Ramulator2 DDR implementation and bandwidth-ablation requirement."
     parent: null
     priority: high
+  - id: H7
+    statement: "Cross-layer gains have identifiable knees and bottleneck shifts rather than scaling monotonically with every resource."
+    status: supported
+    motivation: "Complete the requested priority, preemption, prefetch, window, dataflow, and bandwidth ablations."
+    parent: null
+    priority: medium
 
 experiments:
   proxy_metric: "maximum absolute relative error across preregistered paper endpoints (must be <= 0.15), with functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 12
+  total_runs: 13
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -163,6 +169,13 @@ experiments:
       delta: 0.0
       wall_time_min: 0.03
       change_summary: "Official Ramulator2 1/2-channel traces pass 7/7; 2x channels give 1.009x TISA after ME bottleneck shift."
+      timestamp: "2026-08-25"
+    - run_id: "run_013"
+      hypothesis: "H7"
+      metric_value: 0.08333333333333333
+      delta: 0.0
+      wall_time_min: 0.03
+      change_summary: "Seven cross-layer ablation gates pass; window knee=4, DDR bottleneck shift, OS dataflow limitation exposed."
       timestamp: "2026-08-25"
 
 outer_loop:

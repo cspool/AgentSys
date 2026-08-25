@@ -84,6 +84,7 @@ class AgentXPUResult:
     mean_latency_s: float
     reactive_mean_latency_s: float | None
     reactive_p90_latency_s: float | None
+    reactive_p99_latency_s: float | None
     proactive_mean_latency_s: float | None
     reactive_prefill_pending_s: float | None
     igpu_utilization: float
@@ -106,6 +107,7 @@ class AgentXPUResult:
             "mean_latency_s": self.mean_latency_s,
             "reactive_mean_latency_s": self.reactive_mean_latency_s,
             "reactive_p90_latency_s": self.reactive_p90_latency_s,
+            "reactive_p99_latency_s": self.reactive_p99_latency_s,
             "proactive_mean_latency_s": self.proactive_mean_latency_s,
             "reactive_prefill_pending_s": self.reactive_prefill_pending_s,
             "igpu_utilization": self.igpu_utilization,
@@ -409,6 +411,7 @@ class AgentXPUSimulator:
             mean_latency_s=mean_latency,
             reactive_mean_latency_s=mean(reactive_latencies) if reactive_latencies else None,
             reactive_p90_latency_s=_percentile(reactive_latencies, 0.90),
+            reactive_p99_latency_s=_percentile(reactive_latencies, 0.99),
             proactive_mean_latency_s=mean(proactive_latencies) if proactive_latencies else None,
             reactive_prefill_pending_s=mean(pending) if pending else None,
             igpu_utilization=active_utilization,
