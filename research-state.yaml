@@ -1,0 +1,84 @@
+# Research State — Central Project Tracking
+project:
+  title: "AgentSys: dynamic-agent full-stack scheduling from program DAG to NPU tile"
+  question: "Can program-aware, heterogeneous-flow-aware, and semantic tile scheduling compose end to end while reproducing each source paper's registered core result within 15%?"
+  status: active
+  started: "2026-08-25"
+  domain: "computer systems and architecture"
+
+literature:
+  key_papers:
+    - id: agentix2026
+      title: "Agentix: An Efficient Serving Engine for LLM Agents as General Programs"
+      authors: "Luo et al."
+      year: 2026
+      relevance: "PLAS/ATLAS program-aware scheduling and locality-aware routing"
+    - id: agentxpu2025
+      title: "Agent.xpu: Efficient Scheduling of Agentic LLM Workloads on Heterogeneous SoC"
+      authors: "Wei et al."
+      year: 2025
+      relevance: "HEG, stage elasticity, adaptive batching, and fine-grained preemption"
+    - id: atx2026
+      title: "ATX: Accelerator Task Extensions"
+      authors: "Gerogiannis et al."
+      year: 2026
+      relevance: "Near-core asynchronous speculative tasks and UTE prefetching"
+    - id: tisa2026
+      title: "Dynamic Scheduling for AI Accelerators via TISA"
+      authors: "Song et al."
+      year: 2026
+      relevance: "Semantic tile ISA and dynamic ME/VE/DE scheduling"
+  open_problems:
+    - "No source paper evaluates program-to-tile priority propagation as one stack."
+    - "Agentix requires multi-A100 hardware and TISA uses unreleased commercial silicon/RTL."
+  evidence_gaps:
+    - "No public TISA RTL or exact Epoch hardware simulator."
+    - "No local multi-A100 platform; Agentix performance must remain trace-simulation evidence."
+    - "Agent.xpu paper testbed is Intel Core Ultra 5 125H, not the available x86/Chipyard system."
+
+hypotheses:
+  - id: H1
+    statement: "PLAS/ATLAS lowers cumulative wait and DAG makespan versus FCFS/MLFQ because attained service approximates remaining program length and critical-path progress."
+    status: active
+    motivation: "Reproduce Agentix's core scheduling mechanism before composing lower layers."
+    parent: null
+    priority: high
+  - id: H2
+    statement: "HEG stage elasticity plus reactive-first batching and tile-boundary preemption jointly preserve proactive throughput while reducing reactive tail latency."
+    status: pending
+    motivation: "Reproduce Agent.xpu's core heterogeneous scheduling mechanism."
+    parent: null
+    priority: high
+  - id: H3
+    statement: "ATX prefetch/double buffering and TISA semantic out-of-order issue expose independent memory and ME/VE/DE overlap gains."
+    status: pending
+    motivation: "Reproduce the core hardware scheduling mechanisms in an executable simulator and Chipyard RTL."
+    parent: null
+    priority: high
+  - id: H4
+    statement: "Propagating program priority through flow, task, tile, and engine arbitration composes the three layers without priority inversion and yields an end-to-end gain beyond any single layer."
+    status: pending
+    motivation: "Test the new full-stack contribution; no paper target will be used for this result."
+    parent: null
+    priority: high
+
+experiments:
+  proxy_metric: "maximum absolute relative error across preregistered paper endpoints (must be <= 0.15), with functional invariants as hard gates"
+  baseline_value: null
+  best_value: null
+  total_runs: 0
+  trajectory: []
+
+outer_loop:
+  cycle: 0
+  last_direction: null
+  last_reflection: "Bootstrap complete; implement the target-independent executable contracts before exposing paper targets to the runners."
+
+workspace:
+  findings: "findings.md"
+  log: "research-log.md"
+  literature_dir: "literature/"
+  experiments_dir: "experiments/"
+  to_human_dir: "to_human/"
+  paper_dir: "paper/"
+

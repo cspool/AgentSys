@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "max_relative_error": 0.15,
+  "agentix": {
+    "toy_wait": {"fcfs": 18.0, "mlfq": 18.0, "plas": 12.0},
+    "throughput_ratio": {
+      "single_vs_vllm": 8.0,
+      "single_vs_vllm_opt": 2.0,
+      "single_vs_mlfq": 1.5,
+      "lats_vs_vllm": 5.0,
+      "lats_vs_vllm_opt": 2.0,
+      "lats_vs_mlfq": 2.5,
+      "mixed_vs_vllm": 15.0,
+      "mixed_vs_vllm_opt": 5.0,
+      "mixed_vs_mlfq": 5.5
+    },
+    "offline_makespan_reduction_range": [0.10, 0.40]
+  },
+  "agentxpu": {
+    "proactive_throughput_ratio_range": [2.0, 2.4],
+    "reactive_latency_reduction_3b": [0.9161, 0.9384, 0.9601],
+    "reactive_latency_reduction_8b": [0.9623, 0.9601, 0.9670],
+    "reactive_prefill_pending_s": 0.048,
+    "igpu_util_reduction_vs_serial": 0.325,
+    "igpu_util_reduction_vs_igpu": 0.371,
+    "energy_reduction_vs_igpu": 0.268
+  },
+  "atx": {
+    "vs_core": {"spmm": 2.8, "sddmm": 2.7, "gemm": 2.7},
+    "vs_ica": {"spmm": 2.3, "sddmm": 2.0, "gemm": 1.3},
+    "vs_l2_no_prefetch": {"spmm": 1.6, "sddmm": 1.4, "gemm": 1.3},
+    "vs_l2_prefetch": {"spmm": 2.1, "sddmm": 2.0, "gemm": 1.4},
+    "vs_llc_by_task_kib": {"8": 9.4, "128": 2.6},
+    "decompression": {"core": 4.0, "ica": 1.8, "l2": 3.9, "llc": 18.0}
+  },
+  "tisa": {
+    "dynamic_vs_naive": {"resnet50": 1.52, "bert": 1.79, "gptj": 1.74, "llama2": 1.92},
+    "dynamic_vs_static_range": [1.14, 1.63],
+    "fa3_utilization_improvement": 0.264,
+    "window8_dispatch_cycles": 7
+  }
+}
+
