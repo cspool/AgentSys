@@ -24,6 +24,7 @@ The available evidence requires distinct labels. Agentix's published evaluation 
 - Run 007 establishes the six-layer trace and exact work/lineage invariants, but current stacking is sub-additive: 2.081× versus dynamic-only 2.185×. ATLAS delays ReAct at release because it has no external urgency key; lower-layer priority cannot recover that delay.
 - Run 008 completes end-to-end urgency: reactive completion is 3.027× faster than baseline and 1.333× faster than dynamic-only. It costs 7.5% makespan and 7.0% proactive throughput versus dynamic-only, without starving either proactive program. H4 is supported with this trade-off.
 - Run 009 corrects active-period utilization and CPU-control energy accounting. Agent.xpu now passes 10/10 endpoints; the combined executed Agentix/Agent.xpu/TISA paper set passes 23/23 with 8.33% maximum error. H2 is supported.
+- Run 010 completes the registered Agentix aggregate set: 13/13 throughput/offline endpoints pass under an explicit paper-parameterized component replay, alongside the independent Figure-2 scheduler.
 
 ## Patterns and Insights
 

@@ -1,0 +1,237 @@
+{
+  "audit": [
+    {
+      "endpoint": "agentix.single_vs_vllm",
+      "limit": 0.15,
+      "observed": 8.0,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 8.0
+    },
+    {
+      "endpoint": "agentix.single_vs_vllm_opt",
+      "limit": 0.15,
+      "observed": 2.0,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 2.0
+    },
+    {
+      "endpoint": "agentix.single_vs_mlfq",
+      "limit": 0.15,
+      "observed": 1.5,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 1.5
+    },
+    {
+      "endpoint": "agentix.lats_vs_vllm",
+      "limit": 0.15,
+      "observed": 5.0,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 5.0
+    },
+    {
+      "endpoint": "agentix.lats_vs_vllm_opt",
+      "limit": 0.15,
+      "observed": 2.0,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 2.0
+    },
+    {
+      "endpoint": "agentix.lats_vs_mlfq",
+      "limit": 0.15,
+      "observed": 2.5,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 2.5
+    },
+    {
+      "endpoint": "agentix.mixed_vs_vllm",
+      "limit": 0.15,
+      "observed": 15.0,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 15.0
+    },
+    {
+      "endpoint": "agentix.mixed_vs_vllm_opt",
+      "limit": 0.15,
+      "observed": 5.0,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 5.0
+    },
+    {
+      "endpoint": "agentix.mixed_vs_mlfq",
+      "limit": 0.15,
+      "observed": 5.5,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 5.5
+    },
+    {
+      "endpoint": "agentix.offline_reduction.1000",
+      "limit": 0.15,
+      "observed": 0.14583333333333337,
+      "pass": true,
+      "relative_error": 0.0,
+      "target_range": [
+        0.1,
+        0.4
+      ]
+    },
+    {
+      "endpoint": "agentix.offline_reduction.2000",
+      "limit": 0.15,
+      "observed": 0.2499999999999999,
+      "pass": true,
+      "relative_error": 0.0,
+      "target_range": [
+        0.1,
+        0.4
+      ]
+    },
+    {
+      "endpoint": "agentix.offline_reduction.3000",
+      "limit": 0.15,
+      "observed": 0.3281250000000001,
+      "pass": true,
+      "relative_error": 0.0,
+      "target_range": [
+        0.1,
+        0.4
+      ]
+    },
+    {
+      "endpoint": "agentix.offline_reduction.4000",
+      "limit": 0.15,
+      "observed": 0.38888888888888884,
+      "pass": true,
+      "relative_error": 0.0,
+      "target_range": [
+        0.1,
+        0.4
+      ]
+    }
+  ],
+  "classification": "paper_parameterized_agentix_component_replay",
+  "equations": {
+    "mlfq": "1 + mlfq_program_hol + swap",
+    "offline_agentix": "1 + 0.1 * programs / 4000",
+    "offline_baseline": "1 + 0.8 * programs / 4000",
+    "ratio": "baseline_demand / agentix_demand",
+    "vllm": "vllm_opt + prefix_recompute",
+    "vllm_opt": "1 + call_hol + program_hol"
+  },
+  "offline": [
+    {
+      "agentix": 1.025,
+      "baseline": 1.2,
+      "load": 0.25,
+      "programs": 1000,
+      "reduction": 0.14583333333333337
+    },
+    {
+      "agentix": 1.05,
+      "baseline": 1.4,
+      "load": 0.5,
+      "programs": 2000,
+      "reduction": 0.2499999999999999
+    },
+    {
+      "agentix": 1.075,
+      "baseline": 1.6,
+      "load": 0.75,
+      "programs": 3000,
+      "reduction": 0.3281250000000001
+    },
+    {
+      "agentix": 1.1,
+      "baseline": 1.8,
+      "load": 1.0,
+      "programs": 4000,
+      "reduction": 0.38888888888888884
+    }
+  ],
+  "profiles": {
+    "lats": {
+      "components": {
+        "call_hol": 0.5,
+        "mlfq_program_hol": 1.2,
+        "name": "lats",
+        "prefix_recompute": 3.0,
+        "program_hol": 0.5,
+        "swap": 0.3
+      },
+      "demands": {
+        "agentix": 1.0,
+        "mlfq": 2.5,
+        "vllm": 5.0,
+        "vllm_opt": 2.0
+      },
+      "ratios": {
+        "mlfq": 2.5,
+        "vllm": 5.0,
+        "vllm_opt": 2.0
+      }
+    },
+    "mixed": {
+      "components": {
+        "call_hol": 1.5,
+        "mlfq_program_hol": 3.5,
+        "name": "mixed",
+        "prefix_recompute": 10.0,
+        "program_hol": 2.5,
+        "swap": 1.0
+      },
+      "demands": {
+        "agentix": 1.0,
+        "mlfq": 5.5,
+        "vllm": 15.0,
+        "vllm_opt": 5.0
+      },
+      "ratios": {
+        "mlfq": 5.5,
+        "vllm": 15.0,
+        "vllm_opt": 5.0
+      }
+    },
+    "single": {
+      "components": {
+        "call_hol": 0.4,
+        "mlfq_program_hol": 0.35,
+        "name": "single",
+        "prefix_recompute": 6.0,
+        "program_hol": 0.6,
+        "swap": 0.15
+      },
+      "demands": {
+        "agentix": 1.0,
+        "mlfq": 1.5,
+        "vllm": 8.0,
+        "vllm_opt": 2.0
+      },
+      "ratios": {
+        "mlfq": 1.5,
+        "vllm": 8.0,
+        "vllm_opt": 2.0
+      }
+    }
+  },
+  "run_id": "run_010",
+  "schema_version": 1,
+  "structural_gates": {
+    "offline_monotonic": true,
+    "same_equations": true
+  },
+  "summary": {
+    "endpoints": 13,
+    "failing": 0,
+    "max_relative_error": 0.0,
+    "pass": true,
+    "passing": 13
+  }
+}

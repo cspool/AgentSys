@@ -72,7 +72,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered paper endpoints (must be <= 0.15), with functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 9
+  total_runs: 10
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -136,6 +136,13 @@ experiments:
       delta: -0.43659642495810197
       wall_time_min: 0.29
       change_summary: "Correct active-period/CPU-control measurement contract: Agent.xpu 10/10 and combined executed paper endpoints 23/23."
+      timestamp: "2026-08-25"
+    - run_id: "run_010"
+      hypothesis: "H1"
+      metric_value: 0.08333333333333333
+      delta: 0.0
+      wall_time_min: 0.01
+      change_summary: "Agentix aggregate component replay passes 9 throughput and 4 offline endpoints."
       timestamp: "2026-08-25"
 
 outer_loop:
