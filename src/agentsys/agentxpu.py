@@ -40,6 +40,7 @@ class XPUConfig:
     igpu_prefill_active_utilization: float = 1.0
     igpu_decode_active_utilization: float = 0.46
     heg_prefill_active_utilization: float = 0.80
+    serial_igpu_prefill_share: float = 0.80
 
     def __post_init__(self) -> None:
         if self.tick_s <= 0:
@@ -391,8 +392,9 @@ class AgentXPUSimulator:
             ) / active_period if active_period else 0.0
         else:
             active_period = igpu_prefill_busy + igpu_decode_busy
+            prefill_share = cfg.serial_igpu_prefill_share if mode is XPUmode.SERIAL else 1.0
             active_utilization = (
-                igpu_prefill_busy * cfg.igpu_prefill_active_utilization
+                igpu_prefill_busy * prefill_share * cfg.igpu_prefill_active_utilization
                 + igpu_decode_busy * cfg.igpu_decode_active_utilization
             ) / active_period if active_period else 0.0
         mean_latency = mean(latencies.values()) if latencies else 0.0

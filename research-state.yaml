@@ -72,7 +72,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered paper endpoints (must be <= 0.15), with functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 10
+  total_runs: 11
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -143,6 +143,13 @@ experiments:
       delta: 0.0
       wall_time_min: 0.01
       change_summary: "Agentix aggregate component replay passes 9 throughput and 4 offline endpoints."
+      timestamp: "2026-08-25"
+    - run_id: "run_011"
+      hypothesis: "H2"
+      metric_value: 0.08333333333333333
+      delta: 0.0
+      wall_time_min: 0.31
+      change_summary: "Adds Serial NPU-iGPU endpoint; Agent.xpu complete set passes 11/11 and direct run set 24/24."
       timestamp: "2026-08-25"
 
 outer_loop:

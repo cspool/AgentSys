@@ -225,6 +225,22 @@ def _agentxpu_run(targets: dict[str, Any], limit: float) -> dict[str, Any]:
             limit,
         )
     )
+    serial_flows = poisson_mixed_flows(
+        duration_s=900.0,
+        proactive_rate_min=6.0,
+        reactive_rate_min=3.0,
+        seed=101,
+    )
+    serial_result = AgentXPUSimulator(base_config).run(serial_flows, XPUmode.SERIAL)
+    serial_util_reduction = 1.0 - representative_heg["igpu_utilization"] / serial_result.igpu_utilization
+    audit.append(
+        _point(
+            "agentxpu.igpu_util_reduction_vs_serial",
+            serial_util_reduction,
+            targets["igpu_util_reduction_vs_serial"],
+            limit,
+        )
+    )
     audit.append(
         _point(
             "agentxpu.energy_reduction_vs_igpu",
@@ -257,6 +273,12 @@ def _agentxpu_run(targets: dict[str, Any], limit: float) -> dict[str, Any]:
         "igpu": proactive_igpu.to_dict(),
         "heg": proactive_heg.to_dict(),
         "throughput_ratio": throughput_ratio,
+    }
+    results["serial_representative"] = {
+        "flows": len(serial_flows),
+        "serial": serial_result.to_dict(),
+        "heg": representative_heg,
+        "igpu_util_reduction": serial_util_reduction,
     }
     results["configuration"] = asdict(base_config)
     return {
@@ -340,4 +362,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

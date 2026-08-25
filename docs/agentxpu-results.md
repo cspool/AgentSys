@@ -8,8 +8,7 @@ Key results:
 - 8B: 97.72/98.15/98.56% versus 96.23/96.01/96.70% (all within 2.23%).
 - reactive prefill pending: 47.29 ms versus 48 ms.
 - proactive throughput: 2.533× versus the 2.0–2.4× range (5.53% to nearest bound).
-- active-period iGPU reduction: 35.94% versus 37.1%.
+- active-period iGPU reduction: 35.94% versus iGPU (37.1% paper) and 33.42% versus Serial NPU-iGPU (32.5% paper).
 - energy reduction: 27.86% versus 26.8%.
 
-Run 002's failed wall-occupancy comparison is retained. Run 009 exports both `igpu_wall_occupancy` and the paper-facing active-period-weighted utilization; it also includes the paper's 12 W CPU NPU-compilation/control term. This is source-grounded trace simulation on the reported testbed model, not execution on a local Core Ultra 125H.
-
+Run 002's failed wall-occupancy comparison is retained. Runs 009/011 export both `igpu_wall_occupancy` and the paper-facing active-period-weighted utilization; they also include the paper's 12 W CPU NPU-compilation/control term and Serial's static tensor partition. This is source-grounded trace simulation on the reported testbed model, not execution on a local Core Ultra 125H.
