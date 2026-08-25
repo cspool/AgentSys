@@ -170,7 +170,11 @@ def _build_tiles(
 
 def run_configuration(configuration: FullStackConfiguration) -> FullStackResult:
     calls = dynamic_agent_dag()
-    agentix = AgentixSimulator(batch_size=3).run(calls, configuration.agentix_policy)
+    agentix = AgentixSimulator(batch_size=3).run(
+        calls,
+        configuration.agentix_policy,
+        program_priorities=PROGRAM_PRIORITY if configuration.name == "full_stack" else None,
+    )
     tiles, digest = _build_tiles(calls, agentix, configuration)
     tisa = TISASimulator(window=8, dispatch_latency=7).run(tiles, configuration.tisa_mode)
     issue_by_tile = {issue.tile_id: issue for issue in tisa.issues}
@@ -344,6 +348,8 @@ def run_full_stack(*, run_id: str = "run_007") -> tuple[dict[str, Any], TraceRec
         "six_layers": layers == ["call", "engine", "flow", "program", "task", "tile"],
         "full_makespan_improves": full.makespan < baseline.makespan,
         "full_reactive_improves": full.reactive_completion < baseline.reactive_completion,
+        "full_reactive_beats_dynamic_only": full.reactive_completion
+        < results["fcfs_dynamic"].reactive_completion,
         "no_proactive_loss": full.proactive_completed == baseline.proactive_completed == 2,
     }
     artifact = {
@@ -378,4 +384,3 @@ def run_full_stack(*, run_id: str = "run_007") -> tuple[dict[str, Any], TraceRec
         },
     }
     return artifact, trace
-

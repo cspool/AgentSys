@@ -57,7 +57,7 @@ hypotheses:
     priority: high
   - id: H4
     statement: "Propagating program priority through flow, task, tile, and engine arbitration composes the three layers without priority inversion and yields an end-to-end gain beyond any single layer."
-    status: pending
+    status: supported
     motivation: "Test the new full-stack contribution; no paper target will be used for this result."
     parent: null
     priority: high
@@ -72,7 +72,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered paper endpoints (must be <= 0.15), with functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.5199297582914353
-  total_runs: 7
+  total_runs: 8
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -122,6 +122,13 @@ experiments:
       delta: 0.0
       wall_time_min: 0.13
       change_summary: "Six-layer trace passes 9/9 integrity gates; current ATLAS release makes full stack sub-additive versus dynamic alone."
+      timestamp: "2026-08-25"
+    - run_id: "run_008"
+      hypothesis: "H4"
+      metric_value: 0.5199297582914353
+      delta: 0.0
+      wall_time_min: 0.13
+      change_summary: "Urgency-first release passes 10/10 gates; reactive 3.027x baseline and 1.333x dynamic-only with explicit throughput trade-off."
       timestamp: "2026-08-25"
 
 outer_loop:

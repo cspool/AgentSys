@@ -3,7 +3,9 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from enum import Enum
 from math import inf
-from typing import Iterable
+from typing import Iterable, Mapping
+
+from .model import Priority
 
 
 class AgentixPolicy(str, Enum):
@@ -154,7 +156,13 @@ class AgentixSimulator:
         for call_id in ids:
             visit(call_id)
 
-    def run(self, calls: Iterable[CallSpec], policy: AgentixPolicy | str) -> AgentixResult:
+    def run(
+        self,
+        calls: Iterable[CallSpec],
+        policy: AgentixPolicy | str,
+        *,
+        program_priorities: Mapping[str, Priority] | None = None,
+    ) -> AgentixResult:
         policy = AgentixPolicy(policy)
         specs = tuple(calls)
         self._validate(specs)
@@ -211,12 +219,19 @@ class AgentixSimulator:
                 state.quantum_left = self.queue_quanta[state.queue_level]
                 ready.append(spec.call_id)
 
-        def preemptive_key(call_id: str) -> tuple[int, int, int, str]:
+        def preemptive_key(call_id: str) -> tuple[int, int, int, int, str]:
             state = states[call_id]
+            urgency = (
+                int(program_priorities.get(state.spec.program_id, Priority.NORMAL))
+                if program_priorities is not None
+                and policy in (AgentixPolicy.PLAS, AgentixPolicy.ATLAS)
+                else 0
+            )
             if policy is AgentixPolicy.MLFQ:
-                return (state.queue_level, 0, state.ready_order, call_id)
+                return (urgency, state.queue_level, 0, state.ready_order, call_id)
             if policy is AgentixPolicy.PLAS:
                 return (
+                    urgency,
                     state.queue_level,
                     0,
                     state.ready_order,
@@ -225,6 +240,7 @@ class AgentixSimulator:
             # ATLAS groups equal-priority threads of the same program without
             # hiding the stable arrival order between programs.
             return (
+                urgency,
                 state.queue_level,
                 0,
                 state.ready_order,

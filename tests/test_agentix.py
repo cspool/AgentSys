@@ -1,4 +1,5 @@
-from agentsys.agentix import AgentixPolicy, AgentixSimulator, agentix_figure2_workload
+from agentsys.agentix import AgentixPolicy, AgentixSimulator, CallSpec, agentix_figure2_workload
+from agentsys.model import Priority
 from agentsys.workloads import dynamic_agent_dag
 
 
@@ -28,3 +29,18 @@ def test_atlas_dynamic_dag_is_deterministic_and_work_conserving() -> None:
     assert len(first.call_completion) == len(dynamic_agent_dag())
     assert all(value > 0 for value in first.call_completion.values())
 
+
+def test_external_urgency_precedes_atlas_service_tie() -> None:
+    calls = (
+        CallSpec("proactive", "p", 1),
+        CallSpec("reactive", "r", 1),
+    )
+    simulator = AgentixSimulator(batch_size=1)
+    plain = simulator.run(calls, AgentixPolicy.ATLAS)
+    urgent = simulator.run(
+        calls,
+        AgentixPolicy.ATLAS,
+        program_priorities={"p": Priority.PROACTIVE, "r": Priority.REACTIVE},
+    )
+    assert plain.call_completion["proactive"] < plain.call_completion["reactive"]
+    assert urgent.call_completion["reactive"] < urgent.call_completion["proactive"]
