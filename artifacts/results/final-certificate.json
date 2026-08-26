@@ -16,14 +16,14 @@
       "sha256": "ba01105ee9e047d17934b6630adba2645fe09a261d03c26392d75208fd2f8b40"
     },
     "chipyard": {
-      "bytes": 11397,
+      "bytes": 11398,
       "path": "artifacts/results/chipyard-run_003.json",
-      "sha256": "320b3a3dafca12f4beb5f385f58364152dbfd4ed64db4c269b6435f609cde47e"
+      "sha256": "5cb005013992456394402a9849ab7666c686b8287554e09101b0ec1fd07bd2e9"
     },
     "direct_paper": {
-      "bytes": 902257,
+      "bytes": 902255,
       "path": "artifacts/results/run_011.json",
-      "sha256": "0f1a0c0bbc888eaf70ee853a9a230dfacec968db0177c86394e2982bae7594ce"
+      "sha256": "73bce94afab158a43fb0ede772f9fae0ce07c04b50cd888a4925db4e5643d095"
     },
     "full_stack": {
       "bytes": 154849,
@@ -39,6 +39,16 @@
       "bytes": 52612,
       "path": "artifacts/results/ramulator2-run_012.json",
       "sha256": "784cd1f364c6d36ea0319254394821a3d5fb99b12c6293ef7c472b768c3f31b5"
+    },
+    "reproduction": {
+      "bytes": 12038,
+      "path": "artifacts/results/reproduction-run_015.json",
+      "sha256": "d96086ad14977b65bd3c0d483768d4b1916e3a82eb2f669441bdbfb21c111a78"
+    },
+    "toolchain": {
+      "bytes": 20347,
+      "path": "artifacts/results/toolchain-run_015.json",
+      "sha256": "30619dde67bb918286397b81ad042b9d299322aeb6d9c2d6c3b4b1c0636e65e2"
     }
   },
   "checks": {
@@ -49,7 +59,7 @@
         "pytest"
       ],
       "exit_code": 0,
-      "output": ".....................                                                    [100%]\n21 passed in 7.79s\n"
+      "output": ".........................                                                [100%]\n25 passed in 8.15s\n"
     },
     "rtl_lint": {
       "command": [
@@ -73,7 +83,9 @@
     "full_stack_10": true,
     "mllm_9": true,
     "paper_endpoints_55": true,
-    "ramulator2_7": true
+    "ramulator2_7": true,
+    "serial_reproduction_8": true,
+    "toolchain_11": true
   },
   "objective": "Complete AgentSys full-stack implementation and reproduce core paper endpoints within 15%.",
   "paper_endpoints": {
@@ -555,7 +567,7 @@
     "passing": 55,
     "unique": 55
   },
-  "project_commit": "67484da1b37fa7adcebe1974695a24e6b27115d3",
+  "project_commit": "205256bbb473b41b1ead3823ea102ec083853d1d",
   "references": {
     ".references/HPTPE": {
       "expected": "ebe4db7d2d3c36d10c47683d7689f65f5c4ca3e4",
@@ -589,27 +601,57 @@
     }
   },
   "report": {
-    "lines": 345,
+    "lines": 371,
     "pass": true,
     "required_terms": [
       "## \u7cfb\u7edf\u67b6\u6784",
       "## \u5b9e\u9a8c\u65b9\u6cd5",
       "## \u8bba\u6587\u6838\u5fc3\u7ed3\u679c\u590d\u73b0",
       "## \u9650\u5236\u4e0e\u4e0d\u5e94\u5916\u63a8\u7684\u7ed3\u8bba",
+      "## \u5de5\u5177\u94fe\u4e0e\u914d\u7f6e",
       "## \u73af\u5883\u4e0e\u91cd\u653e",
       "## \u9a8c\u6536\u77e9\u9635",
+      "agentsys-reproduce-all",
       "55/55",
       "636/636"
     ]
   },
   "required_files": {
+    ".python-version": {
+      "exists": true,
+      "sha256": "49a506dd32096b010d75205acf3430c9ae6c40351888129499e5a5e487126c93"
+    },
     "ISCA26_G3_Agent\u5168\u6808\u7cfb\u7edf\u52a0\u901f.md": {
       "exists": true,
-      "sha256": "7701d7061b191b86e92b31128a5053d13a6d04167ea4a1d5fb4fce69d06f90cf"
+      "sha256": "5817a4245ce7f23aa8e7a08236eae71e2007ea1306f30437c6e78fb4fd342314"
+    },
+    "artifacts/results/reproduction-run_015.json": {
+      "exists": true,
+      "sha256": "d96086ad14977b65bd3c0d483768d4b1916e3a82eb2f669441bdbfb21c111a78"
+    },
+    "artifacts/results/toolchain-run_015.json": {
+      "exists": true,
+      "sha256": "30619dde67bb918286397b81ad042b9d299322aeb6d9c2d6c3b4b1c0636e65e2"
     },
     "artifacts/traces/full-stack-run_008.jsonl": {
       "exists": true,
       "sha256": "aaa856afaa6db2f383819a7c3a1209edff5f633aff28d1785d8111ee84aaede3"
+    },
+    "config/toolchain.json": {
+      "exists": true,
+      "sha256": "4617a8c86e38aaa568a91eab8a10612a2e7503ee60ad46cce20c6371e8b4917c"
+    },
+    "docs/toolchain.md": {
+      "exists": true,
+      "sha256": "fbd7ca69308b40869f50d13f52a67aeb02ba2497439908fe2bc18de4122cc7d7"
+    },
+    "experiments/h9-toolchain/analysis.md": {
+      "exists": true,
+      "sha256": "a427e5cb9613001518dce3671b8885c43a6813176730e6f25b5adaa4f68a4ab6"
+    },
+    "experiments/h9-toolchain/protocol.md": {
+      "exists": true,
+      "sha256": "0dca39c9546972b83008efab41856951d5905d472e36dd25502dcd59240b5e15"
     },
     "rtl/agentsys/agentsys_engines.sv": {
       "exists": true,
@@ -625,11 +667,15 @@
     },
     "scripts/build_ramulator2.sh": {
       "exists": true,
-      "sha256": "f5262f7230d1a2ff1b7fbca79967c0535dca03cdd57472d89853fd33eaab36ef"
+      "sha256": "3e129ca950d8b28a3331ddd793409b244366a6e270ee9882ddae613c09f78e54"
     },
     "scripts/install_agentsys_chipyard.sh": {
       "exists": true,
       "sha256": "c2a45d7d9e234cd6bd3c67e789c250236e142883233332f5f76a925764acd078"
+    },
+    "scripts/setup_toolchain.sh": {
+      "exists": true,
+      "sha256": "b0ed56da16e142da2542f385f100fd91a3cd4717211a0eb2252c04aa0a92352c"
     },
     "src/agentsys/agentix.py": {
       "exists": true,
@@ -655,9 +701,17 @@
       "exists": true,
       "sha256": "799f5522bf21d888814e67bc8353752812d3b55ee1f66eecef38ef0f80289e65"
     },
+    "src/agentsys/reproduce.py": {
+      "exists": true,
+      "sha256": "0549191684873f559bb64d720792a57265e0be8402ec31d125154aa1e6c89518"
+    },
     "src/agentsys/tisa.py": {
       "exists": true,
       "sha256": "708d83f136ea55aff34bb44c912ca36db46997c33d799c94dc0c482af6c346f4"
+    },
+    "src/agentsys/toolchain.py": {
+      "exists": true,
+      "sha256": "b5933ee14265e03a9368e54b174dbe529c4297ea1609e29a45751468de510f2e"
     },
     "system_sim/chipyard/AgentSysRoCC.scala": {
       "exists": true,
@@ -670,6 +724,10 @@
     "system_sim/software/agentsys_system_test.c": {
       "exists": true,
       "sha256": "1424e75c52919559e663d6134de3d81063b64aeee1c557a80b8e0b5b992062d6"
+    },
+    "uv.lock": {
+      "exists": true,
+      "sha256": "555f81427dfde032066faa3fef2c72083c08f1c9809fe77667c9e18b2231906f"
     }
   },
   "requirements": {
@@ -683,9 +741,11 @@
     "ramulator2_7": true,
     "report": true,
     "required_files": true,
+    "serial_reproduction_8": true,
+    "toolchain_11": true,
     "trace": true
   },
-  "run_id": "run_014",
+  "run_id": "run_016",
   "schema_version": 1,
   "summary": {
     "failing": 0,
@@ -693,8 +753,8 @@
     "max_relative_error": 0.08333333333333333,
     "paper_endpoints": 55,
     "paper_endpoints_passing": 55,
-    "passing": 11,
-    "requirements": 11
+    "passing": 13,
+    "requirements": 13
   },
   "trace": {
     "events": 636,
