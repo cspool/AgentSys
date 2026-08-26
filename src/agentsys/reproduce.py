@@ -7,7 +7,7 @@ import time
 from pathlib import Path
 from typing import Any, Mapping
 
-from .certificate import write_certificate
+from .certificate import write_certificate as write_legacy_certificate
 from .toolchain import (
     DEFAULT_CONFIG,
     PROJECT_ROOT,
@@ -101,7 +101,10 @@ def run_serial_reproduction(
     config = load_toolchain_config(config_path)
     manifest_path = manifest_path or resolve_path(config["reproduction_manifest"], project_root=project_root)
     toolchain_output = toolchain_output or resolve_path(config["toolchain_audit"], project_root=project_root)
-    certificate_output = certificate_output or project_root / "artifacts/results/final-certificate.json"
+    certificate_output = certificate_output or resolve_path(
+        config.get("final_certificate", "artifacts/results/final-certificate.json"),
+        project_root=project_root,
+    )
 
     preflight = build_toolchain_audit(
         level="built", config_path=config_path, project_root=project_root
@@ -128,7 +131,9 @@ def run_serial_reproduction(
     manifest = {
         "schema_version": 1,
         "run_id": run_id,
-        "classification": "complete_serial_component_reproduction",
+        "classification": config.get(
+            "reproduction_classification", "complete_serial_component_reproduction"
+        ),
         "project_commit": _git_head(project_root),
         "toolchain_config": {
             "path": str(config_path),
@@ -159,7 +164,12 @@ def run_serial_reproduction(
     if not toolchain["summary"]["pass"]:
         return {"manifest": manifest, "toolchain": toolchain, "certificate": None, "pass": False}
 
-    certificate = write_certificate(certificate_output, run_id="run_022")
+    if config.get("certificate_kind") == "revised":
+        from .revised_certificate import write_revised_certificate
+
+        certificate = write_revised_certificate(certificate_output, run_id=run_id)
+    else:
+        certificate = write_legacy_certificate(certificate_output, run_id="run_022")
     passed = certificate["summary"]["full_goal_complete"]
     return {
         "manifest": manifest,

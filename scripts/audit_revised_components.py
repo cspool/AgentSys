@@ -12,6 +12,7 @@ from agentsys.revised_components import audit_revised_components
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--run-id", default="run_025")
+    parser.add_argument("--config", type=Path)
     parser.add_argument(
         "--output",
         type=Path,
@@ -19,7 +20,10 @@ def main() -> int:
     )
     args = parser.parse_args()
     output = args.output if args.output.is_absolute() else PROJECT_ROOT / args.output
-    result = audit_revised_components(run_id=args.run_id)
+    kwargs = {"run_id": args.run_id}
+    if args.config is not None:
+        kwargs["config_path"] = args.config
+    result = audit_revised_components(**kwargs)
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps(result["summary"], indent=2, sort_keys=True))

@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "audit_classification": "pinned_revised_ordinary_riscv_hptpe_toolchain_audit",
+  "reproduction_classification": "complete_serial_revised_stack_reproduction",
+  "certificate_kind": "revised",
+  "excluded_components": ["atx"],
+  "profile_contract": {
+    "components": ["agentix", "agentxpu", "tisa", "mllm", "hptpe"],
+    "endpoint_total": 68
+  },
+  "python": {
+    "major_minor": "3.11",
+    "executable": ".venv/bin/python",
+    "packages": {
+      "cmake": "3.31.10",
+      "hypothesis": "6.131.0",
+      "ninja": "1.13.0",
+      "pytest": "9.1.1"
+    }
+  },
+  "tools": [
+    {"name": "uv", "argv": ["uv", "--version"], "contains": "uv 0.12"},
+    {"name": "git", "argv": ["git", "--version"], "contains": "git version"},
+    {"name": "make", "argv": ["make", "--version"], "contains": "GNU Make"},
+    {"name": "cmake", "argv": [".venv/bin/cmake", "--version"], "contains": "cmake version 3.31.10"},
+    {"name": "ninja", "argv": [".venv/bin/ninja", "--version"], "contains": "1.13.0"},
+    {"name": "chipyard_verilator", "argv": ["verilator", "--version"], "contains": "Verilator 4.034"},
+    {"name": "clang16", "argv": ["clang++-16", "--version"], "contains": "clang version 16.0.6"},
+    {"name": "java11", "argv": ["java", "-version"], "contains": "11.0.11"},
+    {"name": "riscv_gcc", "argv": ["/root/chipyard/esp-tools-install/bin/riscv64-unknown-elf-gcc", "--version"], "contains": "9.2.0"},
+    {"name": "iverilog", "argv": ["iverilog", "-V"], "contains": "Icarus Verilog version 11.0"},
+    {"name": "verilator5", "argv": ["env", "VERILATOR_ROOT=.references/verilator5", ".references/verilator5/bin/verilator", "--version"], "contains": "Verilator 5.050"}
+  ],
+  "references": [
+    {"name": "MLX_dev_sys", "role": "engineering_reference_only", "path": ".references/MLX_dev_sys", "commit": "b3a6d59f2ed634ea6181f5a29f3fa96281b1f384"},
+    {"name": "LLM.xpu", "role": "agentxpu_reference", "path": ".references/LLM.xpu", "commit": "689be270aa29bb88447e3867cd97d85a55f454d5"},
+    {"name": "HPTPE", "role": "active_hardware", "path": ".references/HPTPE", "commit": "ebe4db7d2d3c36d10c47683d7689f65f5c4ca3e4"},
+    {"name": "mllm", "role": "active_framework", "path": ".references/mllm", "commit": "50ad5a9b6fbea742e38b5b31776c187e50319c8e"},
+    {"name": "autellix", "role": "agentix_public_reference", "path": ".references/autellix", "commit": "1df19874d1fb10e497b7185bf813fdd7be189683"},
+    {"name": "verilator5", "role": "hptpe_simulator", "path": ".references/verilator5", "commit": "848d926ebd4addacacd294dc84e35d9d4ae8078c"},
+    {"name": "chipyard", "role": "ordinary_riscv_system", "path": "/root/chipyard", "commit": "b5d013190d637e634113cb5179f8c8885df1945a"}
+  ],
+  "build_outputs": [
+    {
+      "name": "mllm_x86_runtime",
+      "path": ".references/mllm/build-clang16/bin/libMllmRT.so",
+      "executable": true,
+      "freshness": "existence_and_hash",
+      "inputs": ["scripts/build_mllm_native.sh", "experiments/h13-revised-stack/mllm-build-clang16.yaml", ".references/mllm/CMakeLists.txt", ".references/mllm/tasks/build_x86.yaml"]
+    },
+    {
+      "name": "verilator5_hptpe",
+      "path": ".references/verilator5/bin/verilator_bin",
+      "executable": true,
+      "freshness": "existence_and_hash",
+      "inputs": ["scripts/build_verilator5.sh"]
+    },
+    {
+      "name": "revised_riscv_elf",
+      "path": "system_sim/build/software/agentsys-revised-system.riscv",
+      "executable": true,
+      "inputs": ["system_sim/software/Makefile", "system_sim/software/agentsys_xpu_runtime.h", "system_sim/software/agentsys_revised_system_test.c", "system_sim/software/generated/agentsys_revised_app_trace.h"]
+    },
+    {
+      "name": "revised_chipyard_static",
+      "path": "/root/chipyard/sims/verilator/simulator-chipyard-AgentSysRevisedStaticRocketConfig",
+      "executable": true,
+      "inputs": ["system_sim/chipyard/AgentSysRevisedRoCC.scala", "rtl/agentsys/agentsys_revised_engines.sv", "rtl/agentsys/agentsys_tisa_scheduler.sv", "rtl/agentsys/agentsys_revised_rocc_controller.sv", ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/top.v"]
+    },
+    {
+      "name": "revised_chipyard_dynamic",
+      "path": "/root/chipyard/sims/verilator/simulator-chipyard-AgentSysRevisedDynamicRocketConfig",
+      "executable": true,
+      "inputs": ["system_sim/chipyard/AgentSysRevisedRoCC.scala", "rtl/agentsys/agentsys_revised_engines.sv", "rtl/agentsys/agentsys_tisa_scheduler.sv", "rtl/agentsys/agentsys_revised_rocc_controller.sv", ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/top.v"]
+    }
+  ],
+  "chipyard_patches": [
+    {"name": "chisel3_stable_dependencies", "repository": "/root/chipyard/tools/chisel3", "patch": "patches/chipyard/chisel3-stable-deps.patch"},
+    {"name": "treadle_stable_firrtl", "repository": "/root/chipyard/tools/treadle", "patch": "patches/chipyard/treadle-stable-firrtl.patch"}
+  ],
+  "chipyard_overlays": [
+    {"name": "revised_scala", "source": "system_sim/chipyard/AgentSysRevisedRoCC.scala", "installed": "/root/chipyard/generators/chipyard/src/main/scala/AgentSysRevisedRoCC.scala"},
+    {"name": "revised_engines", "source": "rtl/agentsys/agentsys_revised_engines.sv", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_revised_engines.sv"},
+    {"name": "tisa_scheduler", "source": "rtl/agentsys/agentsys_tisa_scheduler.sv", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_tisa_scheduler.sv"},
+    {"name": "revised_controller", "source": "rtl/agentsys/agentsys_revised_rocc_controller.sv", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_revised_rocc_controller.sv"},
+    {"name": "hptpe_timescale", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/sim/timescale.sv", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_timescale.sv"},
+    {"name": "hptpe_booth_pp1", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/booth_partial_product_generator_pp1.v", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_booth_pp1.v"},
+    {"name": "hptpe_booth_pp", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/booth_partial_product_generator.v", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_booth_pp.v"},
+    {"name": "hptpe_booth_gen", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/booth_pp_gen.v", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_booth_gen.v"},
+    {"name": "hptpe_dw02_tree", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/DW02_tree.sv", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_dw02_tree.sv"},
+    {"name": "hptpe_pipeline", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/get_pipline_mulwidth.v", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_pipeline.v"},
+    {"name": "hptpe_inv_converter", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/inv_conveter_8.v", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_inv_converter.v"},
+    {"name": "hptpe_inv_unit_nor", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/inv_unit_nor_out.v", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_inv_unit_nor.v"},
+    {"name": "hptpe_inv_unit", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/inv_unit.v", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_inv_unit.v"},
+    {"name": "hptpe_opt1_mac", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/opt1_mac.v", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_opt1_mac.v"},
+    {"name": "hptpe_pe", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/pe.v", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_pe.v"},
+    {"name": "hptpe_top", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/top.v", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_top.v"}
+  ],
+  "paper_profiles": {
+    "agentix": {
+      "command": ["{python}", "-m", "agentsys.paper_reproduction", "--paper", "agentix", "--run-id", "run_028", "--output", "artifacts/results/paper-agentix-run_028.json"],
+      "output": "artifacts/results/paper-agentix-run_028.json",
+      "expected_endpoints": 16,
+      "sources": ["data/paper_targets.json", "src/agentsys/agentix.py", "src/agentsys/agentix_model.py", "src/agentsys/agentix_serving_simulator.py", "src/agentsys/agentix_reference.py", "src/agentsys/paper_reproduction.py"],
+      "references": ["autellix"]
+    },
+    "agentxpu": {
+      "command": ["{python}", "-m", "agentsys.paper_reproduction", "--paper", "agentxpu", "--run-id", "run_028", "--output", "artifacts/results/paper-agentxpu-run_028.json"],
+      "output": "artifacts/results/paper-agentxpu-run_028.json",
+      "expected_endpoints": 11,
+      "sources": ["data/paper_targets.json", "src/agentsys/agentxpu.py", "src/agentsys/experiments.py", "src/agentsys/paper_reproduction.py"],
+      "references": ["LLM.xpu"]
+    },
+    "tisa": {
+      "command": ["{python}", "-m", "agentsys.paper_reproduction", "--paper", "tisa", "--run-id", "run_028", "--output", "artifacts/results/paper-tisa-run_028.json"],
+      "output": "artifacts/results/paper-tisa-run_028.json",
+      "expected_endpoints": 10,
+      "sources": ["data/paper_targets.json", "src/agentsys/tisa.py", "src/agentsys/workloads.py", "rtl/agentsys/agentsys_tisa_scheduler.sv", "src/agentsys/paper_reproduction.py"],
+      "references": ["chipyard"]
+    },
+    "mllm": {
+      "command": ["{python}", "scripts/run_mllm_reproduction.py", "--run-id", "run_028", "--output", "artifacts/results/paper-mllm-run_028.json", "--trace-prefix", "artifacts/traces/paper-mllm-run_028"],
+      "output": "artifacts/results/paper-mllm-run_028.json",
+      "expected_endpoints": 5,
+      "sources": ["data/paper_targets.json", "experiments/h13-revised-stack/mllm-build-clang16.yaml", "src/agentsys/mllm_backend.py", "src/agentsys/mllm_native.py", "src/agentsys/mllm_npu.py", "scripts/run_mllm_reproduction.py"],
+      "references": ["mllm"]
+    },
+    "hptpe": {
+      "command": ["{python}", "scripts/run_hptpe_reproduction.py", "--run-id", "run_028", "--output", "artifacts/results/paper-hptpe-run_028.json", "--log-dir", "artifacts/logs/hptpe-run_028"],
+      "output": "artifacts/results/paper-hptpe-run_028.json",
+      "expected_endpoints": 26,
+      "sources": ["data/paper_targets.json", "src/agentsys/hptpe.py", "scripts/run_hptpe_reproduction.py", "scripts/build_verilator5.sh", "integrations/hptpe/rtl/opt1_ws_top.v"],
+      "references": ["HPTPE", "verilator5"]
+    }
+  },
+  "revised_component_profiles": {
+    "agentix": {"output": "artifacts/results/paper-agentix-run_028.json", "expected_endpoints": 16},
+    "agentxpu": {"output": "artifacts/results/paper-agentxpu-run_028.json", "expected_endpoints": 11},
+    "tisa": {"output": "artifacts/results/paper-tisa-run_028.json", "expected_endpoints": 10},
+    "mllm": {"output": "artifacts/results/paper-mllm-run_028.json", "expected_endpoints": 5},
+    "hptpe": {"output": "artifacts/results/paper-hptpe-run_028.json", "expected_endpoints": 26}
+  },
+  "revised_component_certificate": "artifacts/results/revised-components-run_028.json",
+  "revised_system_result": "artifacts/results/revised-system-run_028.json",
+  "revised_system_trace": "artifacts/traces/revised-system-run_028.jsonl",
+  "reproduction_manifest": "artifacts/results/revised-reproduction-run_028.json",
+  "toolchain_audit": "artifacts/results/revised-toolchain-run_028.json",
+  "final_certificate": "artifacts/results/revised-final-certificate-run_028.json",
+  "source_files": [
+    ".python-version", "pyproject.toml", "uv.lock", "config/revised-toolchain.json",
+    "scripts/setup_revised_toolchain.sh", "scripts/bootstrap_references.sh", "scripts/build_mllm_native.sh", "scripts/build_verilator5.sh", "scripts/install_revised_chipyard.sh", "scripts/compile_revised_system_trace.py", "scripts/run_revised_system.py", "scripts/audit_revised_components.py",
+    "src/agentsys/toolchain.py", "src/agentsys/reproduce.py", "src/agentsys/revised_reproduce.py", "src/agentsys/revised_certificate.py", "src/agentsys/revised_components.py", "src/agentsys/revised_system_compiler.py", "src/agentsys/revised_system.py", "src/agentsys/mllm_native.py", "src/agentsys/mllm_npu.py", "src/agentsys/hptpe.py", "src/agentsys/agentxpu.py", "src/agentsys/tisa.py",
+    "rtl/agentsys/agentsys_revised_engines.sv", "rtl/agentsys/agentsys_tisa_scheduler.sv", "rtl/agentsys/agentsys_revised_rocc_controller.sv", "rtl/agentsys/tb_agentsys_tisa_dispatch.sv",
+    "system_sim/chipyard/AgentSysRevisedRoCC.scala", "system_sim/software/agentsys_xpu_runtime.h", "system_sim/software/agentsys_revised_system_test.c", "system_sim/software/generated/agentsys_revised_app_trace.h",
+    "docs/revised-integration-plan.md", "docs/component-reproduction-audit.md", "docs/toolchain.md", "ISCA26_G3_Agent全栈系统加速.md",
+    "experiments/h13-revised-stack/protocol.md", "experiments/h13-revised-stack/integration-protocol.md", "experiments/h13-revised-stack/integration-recovery-protocol-run_027.md", "experiments/h13-revised-stack/final-toolchain-protocol-run_028.md", "experiments/h13-revised-stack/mllm-analysis.md", "experiments/h13-revised-stack/hptpe-analysis.md", "experiments/h13-revised-stack/active-components-analysis.md", "experiments/h13-revised-stack/integration-analysis-run_026.md", "experiments/h13-revised-stack/integration-analysis-run_027.md"
+  ],
+  "stages": [
+    {"name": "agentix_paper", "command": ["{python}", "-m", "agentsys.paper_reproduction", "--paper", "agentix", "--run-id", "run_028", "--output", "artifacts/results/paper-agentix-run_028.json"], "outputs": ["artifacts/results/paper-agentix-run_028.json"], "gate_path": ["summary", "pass"], "timeout_s": 60},
+    {"name": "agentxpu_paper", "command": ["{python}", "-m", "agentsys.paper_reproduction", "--paper", "agentxpu", "--run-id", "run_028", "--output", "artifacts/results/paper-agentxpu-run_028.json"], "outputs": ["artifacts/results/paper-agentxpu-run_028.json"], "gate_path": ["summary", "pass"], "timeout_s": 180},
+    {"name": "tisa_paper", "command": ["{python}", "-m", "agentsys.paper_reproduction", "--paper", "tisa", "--run-id", "run_028", "--output", "artifacts/results/paper-tisa-run_028.json"], "outputs": ["artifacts/results/paper-tisa-run_028.json"], "gate_path": ["summary", "pass"], "timeout_s": 120},
+    {"name": "mllm_paper", "command": ["{python}", "scripts/run_mllm_reproduction.py", "--run-id", "run_028", "--output", "artifacts/results/paper-mllm-run_028.json", "--trace-prefix", "artifacts/traces/paper-mllm-run_028"], "outputs": ["artifacts/results/paper-mllm-run_028.json", "artifacts/traces/paper-mllm-run_028-naive.jsonl", "artifacts/traces/paper-mllm-run_028-ooo.jsonl"], "gate_path": ["summary", "pass"], "timeout_s": 1800},
+    {"name": "hptpe_paper", "command": ["{python}", "scripts/run_hptpe_reproduction.py", "--run-id", "run_028", "--output", "artifacts/results/paper-hptpe-run_028.json", "--log-dir", "artifacts/logs/hptpe-run_028"], "outputs": ["artifacts/results/paper-hptpe-run_028.json"], "gate_path": ["summary", "pass"], "timeout_s": 1800},
+    {"name": "standalone_certificate", "command": ["{python}", "scripts/audit_revised_components.py", "--run-id", "run_028", "--config", "config/revised-toolchain.json", "--output", "artifacts/results/revised-components-run_028.json"], "outputs": ["artifacts/results/revised-components-run_028.json"], "gate_path": ["summary", "pass"], "timeout_s": 60},
+    {"name": "revised_application_compile", "command": ["{python}", "scripts/compile_revised_system_trace.py", "--run-id", "run_028"], "outputs": ["artifacts/app_traces/revised-compiled-workload-run_028.json", "artifacts/app_traces/revised-agent-application-run_028.json", "system_sim/software/generated/agentsys_revised_app_trace.h"], "gate_path": ["summary", "pass"], "timeout_s": 60},
+    {"name": "ordinary_rocket_hptpe_system", "command": ["{python}", "scripts/run_revised_system.py", "--run-id", "run_028"], "outputs": ["artifacts/results/revised-system-run_028.json", "artifacts/traces/revised-system-run_028.jsonl", "artifacts/logs/revised-system-static-run_028.log", "artifacts/logs/revised-system-dynamic-run_028.log"], "gate_path": ["summary", "pass"], "timeout_s": 480}
+  ]
+}

@@ -258,8 +258,9 @@ def build_toolchain_audit(
         all(item["pass"] for item in references.values()), references
     )
 
+    configured_source_files = tuple(config.get("source_files", SOURCE_FILES))
     sources: dict[str, Any] = {}
-    for relative in SOURCE_FILES:
+    for relative in configured_source_files:
         path = resolve_path(relative, project_root=project_root)
         sources[relative] = {
             "exists": path.is_file(),
@@ -291,9 +292,15 @@ def build_toolchain_audit(
             )
         )
         profiles[paper] = details
-    profiles_complete = set(profiles) == {"agentix", "agentxpu", "atx", "tisa"} and sum(
-        item["expected_endpoints"] for item in profiles.values()
-    ) == 55
+    profile_contract = config.get(
+        "profile_contract",
+        {"components": ["agentix", "agentxpu", "atx", "tisa"], "endpoint_total": 55},
+    )
+    profiles_complete = (
+        tuple(profiles) == tuple(profile_contract["components"])
+        and sum(item["expected_endpoints"] for item in profiles.values())
+        == int(profile_contract["endpoint_total"])
+    )
     gates["independent_paper_profiles"] = _gate(
         profiles_complete and all(item["pass"] for item in profiles.values()), profiles
     )
@@ -308,11 +315,20 @@ def build_toolchain_audit(
                 resolve_path(item, project_root=project_root) for item in build.get("inputs", [])
             ]
             inputs_exist = all(item.is_file() for item in input_paths)
-            fresh = (
-                exists
-                and inputs_exist
-                and all(path.stat().st_mtime_ns >= item.stat().st_mtime_ns for item in input_paths)
-            )
+            freshness_mode = build.get("freshness", "mtime")
+            if freshness_mode == "existence_and_hash":
+                # Incremental external builds may correctly report "no work"
+                # without touching their output. Source and output hashes are
+                # still captured independently by this audit.
+                fresh = exists and inputs_exist
+            elif freshness_mode == "mtime":
+                fresh = (
+                    exists
+                    and inputs_exist
+                    and all(path.stat().st_mtime_ns >= item.stat().st_mtime_ns for item in input_paths)
+                )
+            else:
+                raise ValueError(f"unknown build freshness mode: {freshness_mode}")
             passed = (
                 exists
                 and (not build.get("executable", False) or executable)
@@ -324,6 +340,7 @@ def build_toolchain_audit(
                 "executable": executable,
                 "inputs": [str(item) for item in input_paths],
                 "inputs_exist": inputs_exist,
+                "freshness_mode": freshness_mode,
                 "fresh": fresh,
                 "sha256": sha256(path) if exists else None,
                 "pass": passed,
@@ -402,7 +419,7 @@ def build_toolchain_audit(
     passed = sum(bool(gate["pass"]) for gate in gates.values())
     return {
         "schema_version": 1,
-        "classification": "pinned_end_to_end_toolchain_audit",
+        "classification": config.get("audit_classification", "pinned_end_to_end_toolchain_audit"),
         "level": level,
         "project_commit": _git_head(project_root),
         "configuration": config_details,

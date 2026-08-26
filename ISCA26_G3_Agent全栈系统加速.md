@@ -4,19 +4,21 @@
 
 项目目录：`/workspace/AgentSys`
 
-状态：既有论文复现与run 021路径原型已完成；系统集成范围已修订为“普通RISC-V CPU + mllm/Agent.xpu/TISA/HPTPE XPU”，当前按新计划继续实现。结果边界见“证据分级与限制”。
+状态：修订后的五组件独立复现与普通 RISC-V + HPTPE XPU 系统集成均已完成；run 028 正在执行最终串行工具链重放与证书签发。结果边界见“证据分级与限制”。
 
 ## 摘要
 
-动态 Agent 程序会在 program、LLM call、异构 flow、异步 task、NPU tile 和执行引擎之间连续产生依赖、排队与优先级变化。单独优化任一层，无法保证上层紧急程序在下层仍被及时执行。本项目实现 AgentSys：以 Agentix 的 PLAS/ATLAS 处理动态程序 DAG，以 Agent.xpu 的 HEG、stage elasticity、adaptive batching 与 preemption 处理 reactive/proactive flow，以 ATX 提供异步任务和预取接口，以 TISA 的语义依赖和 ME/VE/DE 动态发射完成 tile 级执行，并用统一事件格式贯通 `program → call → flow → task → tile → engine`。
+动态 Agent 程序会在 program、LLM call、异构 flow、NPU tile 和执行引擎之间连续产生依赖、排队与优先级变化。单独优化任一层，无法保证上层紧急程序在下层仍被及时执行。本项目实现的最终活动路径为 `Agent 应用 → Agentix → mllm → Agent.xpu → TISA → HPTPE XPU → 普通 RISC-V Rocket`。CPU 采用普通 RISC-V，ATX 不进入最终结构、ABI 或性能结论。
 
-项目形成四类互不混淆的证据。第一，Agentix、Agent.xpu、ATX 和 TISA 各自通过独立命令、配置 profile 和结果文件完成复现，共 55 个预登记论文端点全部落在 10% 误差门槛内，最大误差为 9.09%。第二，同一 RISC-V ELF 在真实 Chipyard Rocket+Verilator static/dynamic 配置上通过 17/17 门禁；dynamic 将 backend cycles 从 332 降到 249，并产生 79 个 ME/VE/DE overlap cycles。第三，官方 Ramulator2 v2.0a 对 Qwen3 数据搬移 trace 完成真实 DDR4 一/双通道模拟，双通道将内存服务周期降低 50.21%，但 TISA 端到端仅提升 1.009×，说明瓶颈迁移到 ME。第四，六层统一 trace 含 636 个事件和 212 个对象，优先级继承检查为 636/636；urgency-first 全栈方案相对 baseline 将 reactive 完成时间缩短 3.027×，相对 dynamic-only 再缩短 1.333×，代价是约 7.5% 的总 makespan 和 7.0% 的 proactive throughput。
+五个活动组件先独立复现：Agentix 16/16、Agent.xpu 11/11、TISA 10/10、mllm/llm.npu 5/5、HPTPE 26/26，共 68/68 个预登记端点通过 15% 门槛，最大误差 9.91%。mllm 还通过 20/20 个上游原生可执行文件与 101 个 gtest；HPTPE 通过 9/9 个 RTL 组织、302 个 signed golden checks 和 9/9 个全规模 lint。
 
-这些结果支持“跨层优先级与动态调度能够叠加，但收益受释放时机、tile 粒度、数据流和带宽瓶颈约束”的结论。项目没有将 RTX 4090、Rocket 或开放替代模拟器冒充论文所用的 A100、Intel Core Ultra、Xeon-Max/私有 Sniper 或 Epoch 真硅片。Agentix/ATX 替代模拟器经过论文工作负载与曲线级校准，但执行模块不读取目标端点，也不直接返回论文比值。
+集成阶段把上游 Qwen3 QNN-AOT MIR 的 80 个描述符编译进同一 RISC-V ELF，并在真实 Chipyard Rocket+Verilator static/dynamic 系统上执行。run 027 的 20/20 门禁全部通过：强静态/动态后端为 4,900/3,560 周期（1.376×），系统区间为 1.340×，CPU 观测端到端为 1.056×；两端均执行 614,400 个 HPTPE MAC、相同 DMA 和逐位相同校验和。最终 trace 含 860 events、11 个层次，并为每个 TISA issue/complete 保留 mllm 源算子、Agent.xpu flow/stage/placement 和 HPTPE/VE/DE 落点。
+
+这些结果支持“跨层优先级与动态调度能够叠加，但收益受释放时机、tile 粒度、强基线、数据流和带宽瓶颈约束”的结论。项目没有将 Rocket 或开放替代模拟器冒充论文所用的 A100、Intel Core Ultra、Qualcomm 手机、Epoch 真硅片或 SAED32 综合环境。
 
 ## 一句话论证
 
-在动态 Agent 服务中，AgentSys 通过 urgency-first program scheduling、heterogeneous flow coordination 和 semantic tile issue 贯通六层优先级；55 个论文端点、真实 Rocket+Verilator、真实 Ramulator2 和六层 lineage trace 共同支持其可执行性及收益来源，同时将未复刻的原始硬件边界显式保留。
+在动态 Agent 服务中，AgentSys 将 Agentix、mllm、Agent.xpu、TISA 与 HPTPE 落到普通 Rocket 系统；68 个论文端点与 860-event 真实系统 trace 共同证明机制、工具链和工作守恒，同时显式保留原始专有平台边界。
 
 ## 术语与约定
 
@@ -25,12 +27,12 @@
 | Program | 一个动态 Agent 程序，可包含串行或 DAG 形式的多个 LLM call 与外部 interrupt。 |
 | Call | 一次 LLM 调用；Agentix 的基本调度对象。 |
 | Flow | Agent.xpu 中贯穿 prefill/decode 的有状态请求，分为 reactive 与 proactive。 |
-| Task | ATX 提交给近核执行系统的异步任务；一个 task 含多个 TISA tile。 |
+| Task | 历史 ATX 原型中的异步任务层；修订后的活动路径直接由中立 XPU runtime 提交 TISA 描述符。 |
 | Tile | 保留 OpType、UnitMap、TileMem 和 dependency 的粗粒度执行单元。 |
 | PLAS | Program-Level Attained Service；按单线程 program 已完成服务量排序。 |
 | ATLAS | Adaptive Thread-Level Attained Service；用最长已观测关键路径服务量近似动态 DAG 优先级。 |
 | HEG | Heterogeneous Execution Graph；记录算子 affinity、placement 和 elastic binding。 |
-| ATX | Accelerator Task Extensions；本文实现 config/launch/wait/status/cancel/prefetch/clear ABI。 |
+| ATX | Accelerator Task Extensions；仅保留为历史独立论文实验，不参与最终普通 RISC-V 路径。 |
 | TISA | Tile-level Instruction Set Architecture；本文实现 typed dependency、TileMem hazard 与动态发射。 |
 | ME/VE/DE | Matrix Engine、Vector Engine、Data Engine。 |
 | Priority | 数值越小越紧急：reactive=0、normal=1、proactive=2；在六层保持不变。 |
@@ -38,7 +40,7 @@
 
 ### 目标论文清单
 
-本文“论文性能复现”严格指 Agentix、Agent.xpu、ATX 和 TISA 四篇目标论文。四篇论文独立工具链分别在 `config/toolchain.json.paper_profiles` 注册自己的命令、源码、外部 revision、输出和端点数量。MLX_dev、LLM.xpu、HPTPE、mllm、Ramulator2 与 Chipyard 是实现或工具参考，不为它们虚构报告中不存在的论文性能 target。
+修订后的“论文性能复现”严格指 Agentix、Agent.xpu、TISA、mllm/llm.npu 和 HPTPE 五个活动组件。五份独立 profile 在 `config/revised-toolchain.json.paper_profiles` 中注册命令、源码、revision、输出和端点数量。ATX 四组件旧合同保留在 `config/toolchain.json`，但不进入修订证书。MLX_dev `sys` 只作为 Chipyard/RoCC 工程参考，不作为性能来源。
 
 ## 研究问题与贡献
 
@@ -51,12 +53,12 @@
 
 对应贡献为：
 
-- 实现可执行的 Agentix PLAS/ATLAS、Agent.xpu flow scheduler、ATX adapter 和 TISA scheduler，而非仅整理设计说明。
-- 为 mllm v2 增加原生 MIR trace consumer/simulator backend，直接解析 Qwen3-1.7B MIR 的 SSA、shape、dtype 和 operator dependency。
-- 在 `/root/chipyard` 固定 commit 上实现 custom0 RoCC、HellaCache DMA、8-entry ATX/TISA window、输出驻留 ME、VE/DE 和 bare-metal runtime。
+- 实现可执行的 Agentix PLAS/ATLAS、Agent.xpu flow scheduler、mllm/llm.npu机制和 TISA scheduler，而非仅整理设计说明。
+- 为 mllm v2 增加原生 MIR trace consumer/backend，直接解析 Qwen3-1.7B MIR 的 SSA、shape、dtype 和 operator dependency，并执行上游 runtime/CPU backend 测试。
+- 在 `/root/chipyard` 固定 commit 上实现中立 `xpu_v2` custom0 RoCC、HellaCache DMA、8-entry TISA window、HPTPE 16×16 ME、VE/DE 和 bare-metal runtime。
 - 使用官方 Ramulator2 v2.0a 实际运行 Qwen3 DE trace，并把测得的 DDR service factor 回注 TISA DE latency。
-- 生成统一六层 JSONL trace、四级消融、机器可读结果和最终审计，而不是用汇总文字代替原始证据。
-- 执行ReAct、Mixture-of-Agents与MCTS应用，把框架Call/Flow和原生mllm MIR编译成第二个RISC-V ELF，在Static/Dynamic Rocket+RoCC上运行并回收CPU/XPU/DMA cycle trace。
+- 生成统一 11 层 JSONL 系统 trace、消融、机器可读结果和最终审计，而不是用汇总文字代替原始证据。
+- 执行 ReAct、Mixture-of-Agents 与 MCTS 应用，把框架 Call/Flow 和上游 mllm MIR 编译成 RISC-V ELF，在 Static/Dynamic Rocket+HPTPE 上运行并回收 application 到 PE 阵列的 cycle trace。
 
 ## 系统架构
 
@@ -78,7 +80,7 @@ HPTPE完整PE阵列 / VE / DE
 Chipyard普通RISC-V CPU + XPU系统模拟
 ```
 
-mllm、Agent.xpu和HPTPE必须先分别完成各自论文机制、工具链与性能实验复现，独立通过后才允许接入统一系统。run 021证明了compiled trace可以在Rocket+RoCC上执行，但其ATX式runtime和简化ME只作为旧范围路径原型，不能作为修订后最终系统已经完成的证据。
+mllm、Agent.xpu和HPTPE必须先分别完成各自论文机制、工具链与性能实验复现，独立通过后才允许接入统一系统。run 021证明了compiled trace可以在Rocket+RoCC上执行，但其ATX式runtime和简化ME只作为旧范围路径原型。run 023/024/025关闭独立复现，run 026保留第一次集成的性能范围失败，run 027完成修订后的最终系统。
 
 其中，mllm性能复现按其官方仓库引用的ASPLOS'25 `llm.npu`论文执行，必须实现chunk-sharing graph、shadow outlier execution与CPU/NPU异序子图调度；现有MIR→TISA的1.324×只证明lowering可执行，不计为mllm论文性能。HPTPE必须执行官方OPT1/OPT2/OPT3/OPT4C RTL并核对仓库内DC报告，当前四路OS ME不计为HPTPE复现。具体预注册端点、证据边界与先独立后集成的门禁见`experiments/h13-revised-stack/protocol.md`和`docs/component-reproduction-audit.md`。
 
@@ -89,6 +91,21 @@ mllm、Agent.xpu和HPTPE必须先分别完成各自论文机制、工具链与�
 3. 按`mllm算子 → Agent.xpu Flow → TISA/HPTPE XPU`逐层接入Chipyard；
 4. 执行普通RISC-V+XPU端到端Agent trace，验证同work、依赖、DMA与功能结果；
 5. 复验各层论文性能误差≤15%，更新工具链、报告和最终证书。
+
+以上五步均已实现。run 027 的活动结构为：
+
+```text
+ReAct / MoA / MCTS
+  → Agentix 3 programs / 11 calls
+  → upstream mllm Qwen3 MIR（每次 LLM call 8 个 native operators）
+  → Agent.xpu reactive/proactive flow、stage、placement、preemptibility
+  → xpu_v2 config/launch/wait/status/clear
+  → TISA W=8、动态分派 7 cycles、ME/VE/DE semantic issue
+  → HPTPE OPT1 compressed-OS 16×16 array
+  → Rocket HellaCache DMA / system memory
+```
+
+run 026 首先通过功能与 lineage，但由于把 static baseline 逐算子串行化，得到 2.000×，超过注册的 1.14–1.63×，因此作为 18/19 负结果保留。run 027 在结果前锁定论文的强静态 stage pipeline 与 7-cycle dynamic dispatch，得到 1.376× 并通过 20/20 门禁；阈值没有事后放宽。
 
 ### 既有run 021原型结构（历史）
 
@@ -349,27 +366,47 @@ Full stack 相对 baseline 的 makespan/reactive speedup 为 2.033/3.027×；相
 5. Chipyard 系统路径使用 DRAMSim2；Ramulator2 是独立 NPU-memory experiment，二者没有伪装成单一 integrated memory backend。
 6. mllm已真实构建并执行无权重原生测试，llm.npu机制性能仍是source-grounded CPU/NPU事件模拟；没有Qualcomm QNN设备或完整Qwen3权重，因而不验证原手机吞吐、生成质量或22.4×跨平台平均值。
 7. Full-stack result 是新实验，无论文 target；priority responsiveness 与 throughput 存在明确 trade-off。
-8. HPTPE已独立复现，但当前Chipyard ME仍是旧四路OS MAC，尚未替换为已测HPTPE阵列；run 024不能单独证明系统集成完成。HPTPE绝对PPA来自作者DC报告复核而非本机重新综合。
+8. HPTPE 已在 run 027 接入 Chipyard，系统实际实例化 16×16 OPT1 OS 阵列并执行 614,400 个 MAC；但绝对 PPA 仍来自作者 DC 报告复核而非本机重新综合，不能把 Verilator cycle 当作 SAED32 时钟/面积测量。
 9. run 021是语义保持的compiled-trace execution，不是在Rocket上运行Python解释器、完整agent框架或LLM权重；它证明从真实应用/框架trace到CPU+XPU软件与硬件执行的闭环。
 
 ## 工具链与配置
 
-工具链不再依赖报告中的隐式环境状态。`config/toolchain.json` 是单一机器可读清单，固定 Python 3.11、pytest/hypothesis/cmake/ninja 版本、9 类系统命令、7 个外部源码 revision、2 个 Chipyard compatibility patch、5 个历史构建产物、4 个 Chipyard overlay、4 个历史分论文 profile，以及11个旧范围实验/支撑阶段的严格串行顺序。H13新增内容放在独立的`revised_build_outputs`、`revised_component_profiles`和`revised_component_certificate`中，避免改变run 022证书的固定合同；当前五个主动profile共68端点，另固定Icarus 11与Verilator 5.050 HPTPE工具。`uv.lock` 保存 Python 包与 wheel/sdist hash。作者/实验室源码检索记录见 `docs/source-discovery.md`。
+工具链不再依赖报告中的隐式环境状态。`config/revised-toolchain.json` 是活动机器清单，固定 Python 3.11、Clang 16、Icarus 11、Verilator 4.034/5.050、Java 11、RISC-V GCC、7 个源码 revision、5 个构建产物、16 个 Chipyard/HPTPE overlay、5 个独立 profile 和 8 个串行阶段。活动 profile 合计 68 endpoints，ATX 仅出现在显式 excluded field。`config/toolchain.json` 继续保存 run 021/022 历史合同，不作为修订证书输入。
 
-`scripts/setup_toolchain.sh` 完成以下闭环：
+`scripts/setup_revised_toolchain.sh` 完成以下闭环：
 
-1. `uv sync --frozen` 创建锁定的 Python 环境；
-2. 获取并验证 MLX_dev、LLM.xpu、HPTPE、mllm、Ramulator2；
-3. 使用 clang/clang++ 16 构建 Ramulator2；
-4. 向固定 Chipyard checkout 安装 Scala/RTL overlay；
-5. 执行Agent应用、编译mllm trace，并构建legacy/trace两个bare-metal ELF和Static/Dynamic Rocket+Verilator；
-6. 执行 built-level 工具链审计，检查版本、commit、可执行文件及 overlay hash。
+1. `uv sync --frozen` 创建锁定 Python 环境并验证系统工具；
+2. 获取并验证 mllm、HPTPE、LLM.xpu、Autellix、Verilator-5、Chipyard；MLX_dev `sys` 仅记录为工程参考；
+3. 用 Clang 16 构建 mllm，用固定 Verilator 5.050 准备 HPTPE；
+4. 向固定 Chipyard 安装四个修订 overlay 和 12 个逐字节一致的官方 HPTPE 文件；
+5. 编译 run 028 应用/MIR、RISC-V ELF 和两套 Rocket+HPTPE 模拟器；
+6. 执行 built-level 版本、commit、可执行文件新鲜度与 overlay SHA-256 审计。
 
-`.venv/bin/agentsys-reproduce-all` 严格按应用trace编译、Agentix、Agent.xpu、ATX、TISA、mllm、full stack、Ramulator2、ablations、legacy Chipyard、CPU+XPU system trace的顺序执行。每个stage退出后先检查JSON gate、全部输出存在且非空及SHA-256，随后才启动下一项；manifest还验证相邻stage的`next.started_ns >= previous.finished_ns`。完整说明见`docs/toolchain.md`。
-
-系统打通后的run 021为11/11 stages、`serial_order=true`，built/full toolchain audit分别为10/10和12/12，CPU+XPU trace为13/13。随后run 022重新执行pytest与RTL lint，最终证书为17/17 requirements、38 tests、55/55论文端点；四个层次的论文误差均小于15%。Autellix参考测试另有58项。
+`.venv/bin/agentsys-reproduce-revised` 严格按 Agentix、Agent.xpu、TISA、mllm、HPTPE、68端点证书、应用编译、Rocket+HPTPE 系统执行的顺序运行。每个 stage 退出后检查 JSON gate、全部输出与 SHA-256；manifest 验证 `next.started_ns >= previous.finished_ns`。最终证书还重新执行 pytest、独立 7-cycle dispatch RTL test、legacy RTL lint 和包含官方 HPTPE 的完整 revised RTL lint。完整说明见 `docs/toolchain.md`。
 
 ## 环境与重放
+
+### 0. 修订后的活动入口
+
+```bash
+cd /workspace/AgentSys
+bash scripts/setup_revised_toolchain.sh
+bash scripts/setup_revised_toolchain.sh --verify-only
+
+.venv/bin/agentsys-reproduce-revised --dry-run
+.venv/bin/agentsys-reproduce-revised
+```
+
+若只重放最终系统：
+
+```bash
+.venv/bin/python scripts/compile_revised_system_trace.py --run-id run_028
+make -C system_sim/software -j4 all
+bash scripts/install_revised_chipyard.sh /root/chipyard
+.venv/bin/python scripts/run_revised_system.py --run-id run_028
+```
+
+以下 1–5 节命令保留历史 run 021/022 和独立消融的重放方式，不是活动完成证书入口。
 
 ### 1. Python 与引用仓库
 
@@ -436,6 +473,13 @@ bash scripts/build_ramulator2.sh
 
 | 目标 | 权威证据 | 状态 |
 |---|---|---|
+| 五个活动组件独立复现 | run 023/024/025：Agentix/Agent.xpu/TISA/mllm/HPTPE，68/68，max 9.91% | 通过 |
+| 普通 RISC-V 中立 XPU ABI | run 027：`xpu_v2` 仅 config/launch/wait/status/clear，ATX 不在活动路径 | 通过 |
+| mllm → Agent.xpu → TISA → HPTPE | run 027：80 native descriptors、614,400 HPTPE MAC、相同 checksum | 通过 |
+| 真实 Rocket+HPTPE 系统 trace | run 027：20/20 gates，860 events / 11 layers | 通过 |
+| TISA 强静态对动态 | 4,900/3,560 backend cycles，1.376×；0/7-cycle dispatch | 通过 |
+| 第一次集成负结果保留 | run 026：18/19，2.000× 超出锁定范围 | 保留，不计完成 |
+| 修订工具链 | run 028：5 profiles、5 builds、16 overlays、8 serial stages | 最终重放 |
 | 动态 Agent DAG 完整路径 | full-stack run 008 六层 trace | 通过 |
 | 应用→框架→软件→CPU+XPU | run 021，200 events / 6 layers / 13 gates | 通过 |
 | PLAS/ATLAS + serving/KV替代模拟 | paper-agentix run 019，16/16 + 58 reference tests | 通过 |
@@ -443,7 +487,7 @@ bash scripts/build_ramulator2.sh
 | mllm operator trace/simulator backend | mllm run 006 | 通过 |
 | ATX Queue/UTE/stream/LDQ/predictor/双缓冲 | paper-atx run 019，18/18 + Chipyard ABI | 通过 |
 | TISA lowering/RAW/WAR/WAW/ME-VE-DE dynamic issue | paper-tisa run 019，10/10 + RTL run 003 | 通过 |
-| HPTPE-inspired ME、VE/DE、SRAM/DMA | RTL + real ELF/checksum | 通过，规模边界已标注 |
+| HPTPE完整PE阵列、VE/DE、SRAM/DMA | run 024 standalone + run 027 integrated 16×16 array | 通过，PPA边界已标注 |
 | Ramulator2 DDR | official run 012 | 通过 |
 | program priority 下传 | 636/636 inheritance + urgency test | 通过 |
 | 论文核心数值误差 ≤10% | 四份独立结果，55/55 endpoints，max 9.09% | 通过 |
@@ -452,7 +496,7 @@ bash scripts/build_ramulator2.sh
 | 两张 4090 不替代 A100 | evidence boundary | 遵守 |
 | 锁定且完整的工具链配置 | toolchain run 019，12/12 gates | 通过 |
 | 十一阶段端到端工具链 | reproduction run 021，11/11 stages | 通过 |
-| 每层论文结果≤15% | Agentix 9.09%、Agent.xpu 8.07%、ATX 3.10%、TISA 8.27% | 通过 |
+| 每个活动组件论文结果≤15% | Agentix 9.09%、Agent.xpu 8.07%、TISA 8.27%、mllm 9.91%、HPTPE 0.98% | 通过 |
 
 ## 参考资料
 
@@ -469,6 +513,8 @@ bash scripts/build_ramulator2.sh
 
 ## 结论
 
-AgentSys 已从方向草案转化为可执行、可重放、可审计的全栈实验系统，并由四篇独立论文工具链和锁定的十一阶段总入口完成重放。除分层模拟外，真实Agent应用与mllm框架trace已经编译成RISC-V软件，在Rocket CPU+XPU上执行并产生200-event系统trace。最强证据是五条相互校验的链：四份论文结果均在15%内、闭源机制由开放可执行替代实现、真实CPU+XPU/DMA系统执行、六层priority/dependency闭合、最终工具链17/17验收闭合。实验同时表明，跨层优化没有免费午餐：priority提升reactive responsiveness会牺牲部分throughput，DDR扩容会把瓶颈推向ME，过小tile会让dynamic scheduler得不偿失，CPU/framework开销还会把1.336× XPU收益稀释为1.084×端到端收益。
+AgentSys 已从方向草案转化为可执行、可重放、可审计的修订全栈系统。五个活动组件分别完成机制实现和性能复现，68/68 endpoints 的最大误差为 9.91%；随后同一应用/MIR 工作负载在普通 Rocket、TISA 和完整 HPTPE 16×16 阵列上闭环运行。run 027 的 860-event trace 从 application/framework 一直落到 TISA tile 与 HPTPE/VE/DE，静动态工作、DMA 和结果逐位一致。
 
-上述结论对应既有run 021原型范围。按最新范围，run 023/024/025已完成五个主动组件的独立复现与无改动复验；最终结论仍需将这些已测模块接入普通RISC-V+TISA/HPTPE XPU并从新系统trace重新签发。现有run 022证书不代表该修订范围已经完成。
+集成性能没有通过弱化基线获得。run 026 的 2.000× 因 static 逐算子串行而被保留为失败；run 027 预先恢复论文的强静态 stage pipeline 和 7-cycle dynamic dispatch 后得到 backend/system/end-to-end 1.376/1.340/1.056×，精确落在注册范围。结果也再次说明，CPU/framework 开销会稀释 XPU 收益，带宽与数据流会迁移瓶颈。
+
+最终架构中 CPU 是普通 RISC-V，活动链为 mllm → Agent.xpu → TISA → HPTPE；ATX 只保留历史证据。run 028 的职责是用 `agentsys-reproduce-revised` 对已冻结机制做八阶段串行重放、fresh tests/lint 和最终证书签发，不再修改模型或阈值。

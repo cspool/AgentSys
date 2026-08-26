@@ -40,7 +40,7 @@ def audit_revised_components(
     config_path: Path = DEFAULT_CONFIG,
 ) -> dict[str, Any]:
     config = load_toolchain_config(config_path)
-    profiles = config["revised_component_profiles"]
+    profiles = config.get("revised_component_profiles", config["paper_profiles"])
     if tuple(profiles) != ACTIVE_COMPONENTS:
         raise ValueError(f"active profile order/set mismatch: {tuple(profiles)}")
     if "atx" in profiles:

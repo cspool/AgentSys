@@ -1,55 +1,92 @@
-# AgentSys pinned toolchain
+# AgentSys pinned toolchains
 
-> Revised scope: the final CPU is an ordinary RISC-V core. ATX is no longer part of the integrated architecture. The current run-021 toolchain is a retained prototype; the next certified toolchain must first reproduce mllm, Agent.xpu and HPTPE independently and then integrate them through TISA. See `docs/revised-integration-plan.md`.
+## Active revised toolchain
 
-The complete workflow has three machine-readable layers:
+The active architecture is:
 
-1. `config/toolchain.json` pins Python packages, system-tool families, seven source revisions, two Chipyard compatibility patches, five build products, four Chipyard overlays, four independent paper profiles, and the exact eleven-stage serial replay order.
-2. `scripts/setup_toolchain.sh` creates the locked Python 3.11 environment, fetches pinned references, builds Ramulator2, installs the Chipyard overlay, executes/compiles the Agent application trace, builds both bare-metal ELFs and both Rocket+Verilator configurations, then runs the built-level audit.
-3. `agentsys-reproduce-all` executes every paper/system experiment one after another, validates each artifact before proceeding, records nanosecond start/finish boundaries and hashes, runs the full toolchain audit, and issues the final completion certificate.
+```text
+Agent application → Agentix → mllm → Agent.xpu → TISA
+                  → HPTPE 16x16 XPU → ordinary Rocket RISC-V
+```
 
-## Entry points
+ATX is not an active component, ABI mechanism or performance input. Its older
+artifacts remain only as historical paper experiments. The active machine
+manifest is `config/revised-toolchain.json`.
+
+That manifest pins:
+
+- Python 3.11 plus exact pytest, Hypothesis, CMake and Ninja versions;
+- Clang 16, Icarus 11, Verilator 4.034/5.050, Java 11 and RISC-V GCC 9.2;
+- mllm, HPTPE, LLM.xpu, Autellix, Verilator-5 and Chipyard commits;
+- the MLX_dev `sys` commit only as a RoCC/Chipyard engineering reference;
+- five executable build products: mllm runtime, Verilator-5, revised RISC-V ELF
+  and static/dynamic revised Rocket simulators;
+- four project overlays and 12 byte-identical official HPTPE RTL resources;
+- five standalone profiles totaling 68 paper endpoints; and
+- the exact eight-stage serial replay order.
+
+The active setup entry point is:
 
 ```bash
 cd /workspace/AgentSys
 
-# Full setup/build. AGENTSYS_JOBS and CHIPYARD_ROOT are configurable.
-bash scripts/setup_toolchain.sh
+# Install/build the pinned environment, upstream components, ELF and simulators.
+bash scripts/setup_revised_toolchain.sh
 
-# Non-mutating check of an already built environment.
-bash scripts/setup_toolchain.sh --verify-only
+# Non-mutating source/tool/reference/build/overlay verification.
+bash scripts/setup_revised_toolchain.sh --verify-only
 
-# Show the exact ordered commands without executing them.
-.venv/bin/agentsys-reproduce-all --dry-run
-
-# Run any target paper independently at the registered 10% gate.
-.venv/bin/agentsys-paper-reproduce --paper agentix
-.venv/bin/agentsys-paper-reproduce --paper agentxpu
-.venv/bin/agentsys-paper-reproduce --paper atx
-.venv/bin/agentsys-paper-reproduce --paper tisa
-
-# Explicit application/framework -> RISC-V -> Rocket CPU+XPU path.
-.venv/bin/python scripts/compile_agent_system_trace.py
-make -C system_sim/software -j4 all
-.venv/bin/python scripts/run_system_trace.py
-
-# Full serial reproduction and final audit.
-.venv/bin/agentsys-reproduce-all
+# Inspect or execute all eight stages and issue the final certificate.
+.venv/bin/agentsys-reproduce-revised --dry-run
+.venv/bin/agentsys-reproduce-revised
 ```
 
-The default replay is intentionally serial. A stage starts only after the preceding stage has exited and its output files and JSON gate have passed. The manifest's `serial_order` gate independently checks `next.started_ns >= previous.finished_ns`.
+The serial replay executes Agentix, Agent.xpu, TISA, mllm/llm.npu and HPTPE
+independently; audits 68/68 endpoints; compiles the ReAct/MoA/MCTS application;
+then executes its ELF on both ordinary-Rocket+HPTPE systems. Each stage must exit
+zero and its declared JSON gate/output hashes must pass before the next begins.
+Nanosecond start/finish times independently prove serial order.
 
-The first stage executes ReAct/MoA/MCTS and compiles the resulting framework/MIR trace. The final stage executes the generated ELF on both real Rocket+RoCC simulators and writes a 200-event application/framework/software/cpu/xpu/dma trace. Python is not interpreted inside Rocket; the trace compiler emits a dependency-checked static RISC-V workload.
+## Active evidence
 
-Each paper profile declares a standalone command, output, endpoint count, implementation sources and relevant pinned source checkout. The four results are independent artifacts: Agentix 16 endpoints, Agent.xpu 11, ATX 18 and TISA 10. The shared base toolchain supplies Python and simulator builds, while the per-paper profile gate proves that the particular sources/references required by that paper are present and pinned.
+- `artifacts/results/paper-{agentix,agentxpu,tisa,mllm,hptpe}-run_028.json`:
+  fresh standalone replay outputs.
+- `artifacts/results/revised-components-run_028.json`: five-component 68-endpoint
+  certificate with ATX excluded.
+- `artifacts/app_traces/revised-{agent-application,compiled-workload}-run_028.json`:
+  application/framework/MIR compilation evidence.
+- `artifacts/results/revised-system-run_028.json` and
+  `artifacts/traces/revised-system-run_028.jsonl`: 20 system gates and 860 events
+  over 11 layers from real Rocket+Verilator execution.
+- `artifacts/results/revised-reproduction-run_028.json`: eight stage commands,
+  logs, times, outputs and hashes.
+- `artifacts/results/revised-toolchain-run_028.json`: 12 source/tool/reference/
+  build/overlay/profile/artifact/manifest gates.
+- `artifacts/results/revised-final-certificate-run_028.json`: fresh pytest,
+  dispatch RTL and complete revised HPTPE/RoCC lint plus all requirement gates.
 
-## Evidence
+## Rebuild details
 
-- `artifacts/results/paper-{agentix,agentxpu,atx,tisa}-run_019.json`: four independent toolchain profiles and paper endpoint audits at `limit=0.10`.
-- `artifacts/app_traces/{agent-application,compiled-system-workload}-run_021.json`: executed application and framework-to-RISC-V compilation evidence.
-- `artifacts/results/system-trace-run_021.json` and `artifacts/traces/system-trace-run_021.jsonl`: real Rocket CPU+XPU results and 200 measured events.
-- `artifacts/results/reproduction-run_021.json`: commands, timings, exit codes, logs, output hashes, exact order and eleven stage gates.
-- `artifacts/results/toolchain-run_021.json`: Python/package/tool versions, seven source commits, per-paper profiles, five build-product hashes, Chipyard overlay hashes, artifact gates and manifest gate.
-- `artifacts/results/final-certificate.json`: paper accuracy, system results, tests, RTL lint, toolchain and serial-replay closure.
+The setup script may mutate only `.venv`, `.references`, generated artifacts,
+the explicitly selected Chipyard checkout and build directories. It never resets
+a repository to resolve drift. It fails if a pinned commit differs.
 
-The setup script is allowed to modify only the project environment, `.references`, the explicitly supplied Chipyard checkout, and generated build/artifact paths. It does not reset either repository or silently move a pinned reference to a different revision.
+mllm is configured from
+`experiments/h13-revised-stack/mllm-build-clang16.yaml`; HPTPE uses Icarus for
+functional organizations and the locally built pinned Verilator 5.050 for full
+lint/sparse checks. Chipyard uses its compatible Verilator 4.034. The revised
+installer copies the exact released HPTPE OPT1 OS sources under collision-safe
+resource names and verifies source/installed SHA-256 equality.
+
+The bare-metal ELF contains a statically compiled application trace rather than
+a Python interpreter or model weights. Rocket executes program dependencies,
+the CPU tool call, neutral `config/launch/wait/status/clear` XPU commands and
+HellaCache DMA. TISA issue records then identify which upstream mllm operator
+executes on HPTPE, VE or DE.
+
+## Historical toolchain
+
+`config/toolchain.json`, `scripts/setup_toolchain.sh` and
+`.venv/bin/agentsys-reproduce-all` preserve the run-021/run-022 prototype
+contract, including its historical ATX experiment and simplified ME. They are
+kept reproducible but are not the final architecture or completion certificate.
