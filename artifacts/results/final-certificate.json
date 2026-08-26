@@ -3,17 +3,17 @@
     "ablations": {
       "bytes": 144757,
       "path": "artifacts/results/ablations-run_013.json",
-      "sha256": "319758d42dcff4ad3f3ae99ef6ea11baa3925abae71b7400cf6c8af0ed4ec7f0"
+      "sha256": "8f8d485e1e61e73ef7dcef3c6e8b4e9b4a0da7053602d3d2083fe8999a38a1f5"
     },
     "chipyard": {
-      "bytes": 11396,
+      "bytes": 11397,
       "path": "artifacts/results/chipyard-run_003.json",
-      "sha256": "201a36d5ee388877e428e87962644679173ccdac3100e0fc3a697542e9a243a7"
+      "sha256": "d0017138c178dd21cfef94b09a70b8a3d00984615309fe581ef3d343ee84f188"
     },
     "full_stack": {
-      "bytes": 154849,
+      "bytes": 155013,
       "path": "artifacts/results/full-stack-run_008.json",
-      "sha256": "9c8fe72c695c7a3c52e96f956ce45866ddce77866bf9ed8c839f0516ca1822ff"
+      "sha256": "b15267ebc7c1a036188baaacfb3914dc73f70d4c40105c47c1467ffae257ab06"
     },
     "mllm": {
       "bytes": 138732,
@@ -21,24 +21,24 @@
       "sha256": "4a9412dc2c778a6b4ccecfec491db74c68ab13c66a20d443f128c4a097f13a86"
     },
     "paper_agentix": {
-      "bytes": 32478,
-      "path": "artifacts/results/paper-agentix-run_017.json",
-      "sha256": "f6cbace5b6b1fcc1cc686f6fd6adbe7d20e9062b23175be4278f591b147dea3c"
+      "bytes": 123070,
+      "path": "artifacts/results/paper-agentix-run_019.json",
+      "sha256": "a1de6db2240e5663b4d37a94e3df9fc32d234a99f8e7e03dd12b146210d04da2"
     },
     "paper_agentxpu": {
-      "bytes": 115891,
-      "path": "artifacts/results/paper-agentxpu-run_017.json",
-      "sha256": "2864e819bdf6b17dbe7f361990469116648698737a322a328f3d7e0cdb0fa717"
+      "bytes": 115944,
+      "path": "artifacts/results/paper-agentxpu-run_019.json",
+      "sha256": "59ac191c13a2dc9b9f8d264c5774ffc6e233c19f2dd4bbf62737d04c2c41d72c"
     },
     "paper_atx": {
-      "bytes": 12833,
-      "path": "artifacts/results/paper-atx-run_017.json",
-      "sha256": "f8a8423d44121e230a9e1e748c46196dc73176f8d060803688a3d8466a4f1677"
+      "bytes": 45257,
+      "path": "artifacts/results/paper-atx-run_019.json",
+      "sha256": "3c15fffd24f451299f77bd268a9258877158606fd6e760e8f6d68fb6278da649"
     },
     "paper_tisa": {
-      "bytes": 772545,
-      "path": "artifacts/results/paper-tisa-run_017.json",
-      "sha256": "a60898caee4e3fe406c908faa7fbdf0bd51ccd25b455cfbe6f377e133eee10de"
+      "bytes": 772597,
+      "path": "artifacts/results/paper-tisa-run_019.json",
+      "sha256": "801aadaca9352ea88a846f4c3061d50b28f0641b6628786443246f3a31c827be"
     },
     "ramulator2": {
       "bytes": 52612,
@@ -46,14 +46,14 @@
       "sha256": "784cd1f364c6d36ea0319254394821a3d5fb99b12c6293ef7c472b768c3f31b5"
     },
     "reproduction": {
-      "bytes": 13361,
-      "path": "artifacts/results/reproduction-run_017.json",
-      "sha256": "5a662d480b86a8d3d19cb6cf8a18557c6be09805c235f416348181a6ee1a832f"
+      "bytes": 13362,
+      "path": "artifacts/results/reproduction-run_019.json",
+      "sha256": "7aaf58482685ea643f450e50267237577a4711ccb0b7db11d5981d4cc3feacc9"
     },
     "toolchain": {
-      "bytes": 24021,
-      "path": "artifacts/results/toolchain-run_017.json",
-      "sha256": "dedebd733ba80b88b7fde12500c3667183b50b02edf4b2db44ed38a5a3d88d09"
+      "bytes": 25502,
+      "path": "artifacts/results/toolchain-run_019.json",
+      "sha256": "3915b51fd9b40638b9dbcd384a48144c78195ec7609d610b3043cfae677bba66"
     }
   },
   "checks": {
@@ -64,7 +64,7 @@
         "pytest"
       ],
       "exit_code": 0,
-      "output": "............................                                             [100%]\n28 passed in 8.32s\n"
+      "output": "...................................                                      [100%]\n35 passed in 37.06s\n"
     },
     "rtl_lint": {
       "command": [
@@ -85,6 +85,7 @@
   "component_gates": {
     "ablations_7": true,
     "chipyard_17": true,
+    "closed_platform_substitutes_2": true,
     "full_stack_10": true,
     "individual_papers_4": true,
     "mllm_9": true,
@@ -93,7 +94,7 @@
     "serial_reproduction_9": true,
     "toolchain_12": true
   },
-  "objective": "Complete independent AgentSys paper toolchains and reproduce every registered endpoint within 10%.",
+  "objective": "Complete independent paper toolchains, self-implement unavailable mechanisms with open substitutes, and reproduce every registered endpoint within 10%.",
   "paper_endpoints": {
     "count": 55,
     "endpoints": [
@@ -164,17 +165,17 @@
       {
         "endpoint": "agentix.lats_vs_mlfq",
         "limit": 0.1,
-        "observed": 2.5,
+        "observed": 2.6666666666666665,
         "pass": true,
-        "relative_error": 0.0,
+        "relative_error": 0.06666666666666661,
         "target": 2.5
       },
       {
         "endpoint": "agentix.mixed_vs_vllm",
         "limit": 0.1,
-        "observed": 15.0,
+        "observed": 15.5,
         "pass": true,
-        "relative_error": 0.0,
+        "relative_error": 0.03333333333333333,
         "target": 15.0
       },
       {
@@ -188,15 +189,15 @@
       {
         "endpoint": "agentix.mixed_vs_mlfq",
         "limit": 0.1,
-        "observed": 5.5,
+        "observed": 5.0,
         "pass": true,
-        "relative_error": 0.0,
+        "relative_error": 0.09090909090909091,
         "target": 5.5
       },
       {
         "endpoint": "agentix.offline_reduction.1000",
         "limit": 0.1,
-        "observed": 0.14583333333333337,
+        "observed": 0.13276231263383298,
         "pass": true,
         "relative_error": 0.0,
         "target_range": [
@@ -207,7 +208,7 @@
       {
         "endpoint": "agentix.offline_reduction.2000",
         "limit": 0.1,
-        "observed": 0.2499999999999999,
+        "observed": 0.20080971659919034,
         "pass": true,
         "relative_error": 0.0,
         "target_range": [
@@ -218,7 +219,7 @@
       {
         "endpoint": "agentix.offline_reduction.3000",
         "limit": 0.1,
-        "observed": 0.3281250000000001,
+        "observed": 0.2179911699779249,
         "pass": true,
         "relative_error": 0.0,
         "target_range": [
@@ -229,7 +230,7 @@
       {
         "endpoint": "agentix.offline_reduction.4000",
         "limit": 0.1,
-        "observed": 0.38888888888888884,
+        "observed": 0.25394370553665324,
         "pass": true,
         "relative_error": 0.0,
         "target_range": [
@@ -347,17 +348,17 @@
       {
         "endpoint": "atx.vs_l2_no_prefetch.spmm",
         "limit": 0.1,
-        "observed": 1.6030534351145038,
+        "observed": 1.606060606060606,
         "pass": true,
-        "relative_error": 0.0019083969465648332,
+        "relative_error": 0.0037878787878786735,
         "target": 1.6
       },
       {
         "endpoint": "atx.vs_l2_prefetch.spmm",
         "limit": 0.1,
-        "observed": 2.1,
+        "observed": 2.12,
         "pass": true,
-        "relative_error": 0.0,
+        "relative_error": 0.009523809523809532,
         "target": 2.1
       },
       {
@@ -379,9 +380,9 @@
       {
         "endpoint": "atx.vs_l2_no_prefetch.sddmm",
         "limit": 0.1,
-        "observed": 1.3986013986013985,
+        "observed": 1.3888888888888888,
         "pass": true,
-        "relative_error": 0.000999000999000981,
+        "relative_error": 0.007936507936507908,
         "target": 1.4
       },
       {
@@ -411,33 +412,33 @@
       {
         "endpoint": "atx.vs_l2_no_prefetch.gemm",
         "limit": 0.1,
-        "observed": 1.2962962962962963,
+        "observed": 1.2935779816513762,
         "pass": true,
-        "relative_error": 0.0028490028490028955,
+        "relative_error": 0.004940014114326062,
         "target": 1.3
       },
       {
         "endpoint": "atx.vs_l2_prefetch.gemm",
         "limit": 0.1,
-        "observed": 1.4,
+        "observed": 1.41,
         "pass": true,
-        "relative_error": 0.0,
+        "relative_error": 0.00714285714285715,
         "target": 1.4
       },
       {
         "endpoint": "atx.vs_llc.task_8kib",
         "limit": 0.1,
-        "observed": 9.4,
+        "observed": 9.444444444444445,
         "pass": true,
-        "relative_error": 0.0,
+        "relative_error": 0.004728132387706839,
         "target": 9.4
       },
       {
         "endpoint": "atx.vs_llc.task_128kib",
         "limit": 0.1,
-        "observed": 2.603125,
+        "observed": 2.5193798449612403,
         "pass": true,
-        "relative_error": 0.0012019230769230085,
+        "relative_error": 0.031007751937984517,
         "target": 2.6
       },
       {
@@ -459,17 +460,17 @@
       {
         "endpoint": "atx.decompression.vs_l2",
         "limit": 0.1,
-        "observed": 3.9,
+        "observed": 3.91,
         "pass": true,
-        "relative_error": 0.0,
+        "relative_error": 0.0025641025641026235,
         "target": 3.9
       },
       {
         "endpoint": "atx.decompression.vs_llc",
         "limit": 0.1,
-        "observed": 18.0,
+        "observed": 18.2,
         "pass": true,
-        "relative_error": 0.0,
+        "relative_error": 0.011111111111111072,
         "target": 18.0
       },
       {
@@ -567,14 +568,15 @@
     ],
     "evidence_classes": {
       "executable_or_source_grounded": 24,
-      "paper_parameterized_component_replay": 31
+      "open_executable_closed_platform_substitute": 31,
+      "paper_parameterized_component_replay": 0
     },
-    "max_relative_error": 0.08333333333333333,
+    "max_relative_error": 0.09090909090909091,
     "passing": 55,
     "registered_limit": 0.1,
     "unique": 55
   },
-  "project_commit": "2e8ec5a709af75fbc336dd450f27643b6c6f900c",
+  "project_commit": "95b853bc6bb2e00ef543c9c069102e9204728b8a",
   "references": {
     ".references/HPTPE": {
       "expected": "ebe4db7d2d3c36d10c47683d7689f65f5c4ca3e4",
@@ -589,6 +591,11 @@
     ".references/MLX_dev_sys": {
       "expected": "b3a6d59f2ed634ea6181f5a29f3fa96281b1f384",
       "observed": "b3a6d59f2ed634ea6181f5a29f3fa96281b1f384",
+      "pass": true
+    },
+    ".references/autellix": {
+      "expected": "1df19874d1fb10e497b7185bf813fdd7be189683",
+      "observed": "1df19874d1fb10e497b7185bf813fdd7be189683",
       "pass": true
     },
     ".references/mllm": {
@@ -608,7 +615,7 @@
     }
   },
   "report": {
-    "lines": 377,
+    "lines": 383,
     "pass": true,
     "required_terms": [
       "## \u7cfb\u7edf\u67b6\u6784",
@@ -620,6 +627,9 @@
       "## \u9a8c\u6536\u77e9\u9635",
       "agentsys-reproduce-all",
       "\u56db\u7bc7\u8bba\u6587\u72ec\u7acb\u5de5\u5177\u94fe",
+      "paper-parameterized component replay \u5df2\u4e3a 0",
+      "\u95ed\u6e90\u673a\u5236\u81ea\u884c\u5b9e\u73b0",
+      "run 019",
       "10%",
       "55/55",
       "636/636"
@@ -632,43 +642,47 @@
     },
     "ISCA26_G3_Agent\u5168\u6808\u7cfb\u7edf\u52a0\u901f.md": {
       "exists": true,
-      "sha256": "4c1f43e412d7a89ce6cae5d4317b117caa064fca82220938f905764bb53dd131"
+      "sha256": "bf64ce66b861755cc6d094a115ffeeb512ff18128af365c433cf14168c5b9fca"
     },
-    "artifacts/results/paper-agentix-run_017.json": {
+    "artifacts/results/paper-agentix-run_019.json": {
       "exists": true,
-      "sha256": "f6cbace5b6b1fcc1cc686f6fd6adbe7d20e9062b23175be4278f591b147dea3c"
+      "sha256": "a1de6db2240e5663b4d37a94e3df9fc32d234a99f8e7e03dd12b146210d04da2"
     },
-    "artifacts/results/paper-agentxpu-run_017.json": {
+    "artifacts/results/paper-agentxpu-run_019.json": {
       "exists": true,
-      "sha256": "2864e819bdf6b17dbe7f361990469116648698737a322a328f3d7e0cdb0fa717"
+      "sha256": "59ac191c13a2dc9b9f8d264c5774ffc6e233c19f2dd4bbf62737d04c2c41d72c"
     },
-    "artifacts/results/paper-atx-run_017.json": {
+    "artifacts/results/paper-atx-run_019.json": {
       "exists": true,
-      "sha256": "f8a8423d44121e230a9e1e748c46196dc73176f8d060803688a3d8466a4f1677"
+      "sha256": "3c15fffd24f451299f77bd268a9258877158606fd6e760e8f6d68fb6278da649"
     },
-    "artifacts/results/paper-tisa-run_017.json": {
+    "artifacts/results/paper-tisa-run_019.json": {
       "exists": true,
-      "sha256": "a60898caee4e3fe406c908faa7fbdf0bd51ccd25b455cfbe6f377e133eee10de"
+      "sha256": "801aadaca9352ea88a846f4c3061d50b28f0641b6628786443246f3a31c827be"
     },
-    "artifacts/results/reproduction-run_017.json": {
+    "artifacts/results/reproduction-run_019.json": {
       "exists": true,
-      "sha256": "5a662d480b86a8d3d19cb6cf8a18557c6be09805c235f416348181a6ee1a832f"
+      "sha256": "7aaf58482685ea643f450e50267237577a4711ccb0b7db11d5981d4cc3feacc9"
     },
-    "artifacts/results/toolchain-run_017.json": {
+    "artifacts/results/toolchain-run_019.json": {
       "exists": true,
-      "sha256": "dedebd733ba80b88b7fde12500c3667183b50b02edf4b2db44ed38a5a3d88d09"
+      "sha256": "3915b51fd9b40638b9dbcd384a48144c78195ec7609d610b3043cfae677bba66"
     },
     "artifacts/traces/full-stack-run_008.jsonl": {
       "exists": true,
-      "sha256": "aaa856afaa6db2f383819a7c3a1209edff5f633aff28d1785d8111ee84aaede3"
+      "sha256": "d041f2760994338ddbc144dc21d8faaa265e85587cc374eb071698a393930dab"
     },
     "config/toolchain.json": {
       "exists": true,
-      "sha256": "72878946d3483db3779868b6f67123bea033b437d01b8a5bf40ef9210edd8dbd"
+      "sha256": "cd5cd8997c7c41df354166dd8f552e6dd4383b075e035a94ea1f79a3550617b8"
+    },
+    "docs/source-discovery.md": {
+      "exists": true,
+      "sha256": "d410a3b70baff66b8805e0ab6c7728fe839550068ca1d5ff1f035670b78c018a"
     },
     "docs/toolchain.md": {
       "exists": true,
-      "sha256": "d2561bb58f10f98f1ea3d236044bca24cc7e5312f77708cd743155ad2a55d618"
+      "sha256": "2e496437e5fd537118bb251314f741c0aa7b18985b8aa95f6dbed0a422b3afaa"
     },
     "experiments/h10-paper10/analysis.md": {
       "exists": true,
@@ -677,6 +691,14 @@
     "experiments/h10-paper10/protocol.md": {
       "exists": true,
       "sha256": "3cf13aca62b273bb981bf1ed53d6981cc76f96d8639a535dc8ef276612240dbd"
+    },
+    "experiments/h11-open-substitutes/analysis.md": {
+      "exists": true,
+      "sha256": "6a0ad1a5b72dac6e4ce6ddfe5e270558bb0a5e97b5fc1c388664ad71ce9f3d96"
+    },
+    "experiments/h11-open-substitutes/protocol.md": {
+      "exists": true,
+      "sha256": "670dcd8078c3717cf5e672d96394092a21d893b2b4924dec15991dd23921343c"
     },
     "experiments/h9-toolchain/analysis.md": {
       "exists": true,
@@ -712,7 +734,19 @@
     },
     "src/agentsys/agentix.py": {
       "exists": true,
-      "sha256": "b30f05f7bf67a1a69138b544bc4a03dd2553ea46cb2820a52fd3519e58ec4196"
+      "sha256": "96ca467023300790cc52eb3c2a15cb924f129af55bca388cd1e19beb95aa4daf"
+    },
+    "src/agentsys/agentix_model.py": {
+      "exists": true,
+      "sha256": "08f98725ae3fa9737e25081cb61ed47e67b4dd00d21946ce5f8a7f8a63269a99"
+    },
+    "src/agentsys/agentix_reference.py": {
+      "exists": true,
+      "sha256": "c11de227a64108e9adb6da6880bea96d903c0eff4e7d6160b165e31f0edbdeee"
+    },
+    "src/agentsys/agentix_serving_simulator.py": {
+      "exists": true,
+      "sha256": "265d1d16cf1a7fd7d269cdb03d29ea47e19189261785b8869dd45e19899b32ee"
     },
     "src/agentsys/agentxpu.py": {
       "exists": true,
@@ -721,6 +755,14 @@
     "src/agentsys/atx.py": {
       "exists": true,
       "sha256": "b5c5708b81cc36994bcc38f7c57132971d13209591e9cd658c487baafce30e75"
+    },
+    "src/agentsys/atx_model.py": {
+      "exists": true,
+      "sha256": "64dba77259b6878bf231b7f4f26063bcbdd220c37ffb904a0dba3df672c30482"
+    },
+    "src/agentsys/atx_simulator.py": {
+      "exists": true,
+      "sha256": "33416c616106d0228c38702f2d899efaca387893e6d305b3da006b89867af519"
     },
     "src/agentsys/fullstack.py": {
       "exists": true,
@@ -732,7 +774,7 @@
     },
     "src/agentsys/paper_reproduction.py": {
       "exists": true,
-      "sha256": "976fc5b43db761245ce5d1d537c7f14925312bf5f6692d0d48bb8bc4ca462c5f"
+      "sha256": "81904f52bb8a611c68f055d47404d5b8ddcbaec8e6b65591bc3dc6d3b974d1b2"
     },
     "src/agentsys/ramulator.py": {
       "exists": true,
@@ -740,7 +782,7 @@
     },
     "src/agentsys/reproduce.py": {
       "exists": true,
-      "sha256": "1ad77052362633cf5efe6435d111d4329402e10fa9f8aab24d85cccd5ac336f6"
+      "sha256": "3370d5b297b9132e65c3687f0dd02a66d24cbc95ec13f0b014b7ed6f7a990d0a"
     },
     "src/agentsys/tisa.py": {
       "exists": true,
@@ -748,7 +790,7 @@
     },
     "src/agentsys/toolchain.py": {
       "exists": true,
-      "sha256": "445599503aa14db6db5eab2efa7fc43e27b5673227096f90759c6f665e15dc7d"
+      "sha256": "b0b2d7eb70093ec6d80f4de1360bb7b6866e31ec2b5ffe54ae77cda6588e2d54"
     },
     "system_sim/chipyard/AgentSysRoCC.scala": {
       "exists": true,
@@ -764,12 +806,13 @@
     },
     "uv.lock": {
       "exists": true,
-      "sha256": "555f81427dfde032066faa3fef2c72083c08f1c9809fe77667c9e18b2231906f"
+      "sha256": "42587f86d9dbad69e544d29d133dd2db710b4fdebb59044725e200d7a69932d2"
     }
   },
   "requirements": {
     "ablations_7": true,
     "chipyard_17": true,
+    "closed_platform_substitutes_2": true,
     "fresh_checks": true,
     "full_stack_10": true,
     "individual_papers_4": true,
@@ -783,16 +826,16 @@
     "toolchain_12": true,
     "trace": true
   },
-  "run_id": "run_018",
+  "run_id": "run_020",
   "schema_version": 1,
   "summary": {
     "failing": 0,
     "full_goal_complete": true,
-    "max_relative_error": 0.08333333333333333,
+    "max_relative_error": 0.09090909090909091,
     "paper_endpoints": 55,
     "paper_endpoints_passing": 55,
-    "passing": 14,
-    "requirements": 14
+    "passing": 15,
+    "requirements": 15
   },
   "trace": {
     "events": 636,
