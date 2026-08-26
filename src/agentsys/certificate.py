@@ -72,6 +72,7 @@ REQUIRED_FILES = (
     "experiments/h10-paper10/protocol.md",
     "experiments/h10-paper10/analysis.md",
     "experiments/h11-open-substitutes/protocol.md",
+    "experiments/h11-open-substitutes/analysis.md",
     "artifacts/results/paper-agentix-run_019.json",
     "artifacts/results/paper-agentxpu-run_019.json",
     "artifacts/results/paper-atx-run_019.json",
@@ -234,6 +235,9 @@ def build_certificate(*, run_id: str = "run_020", run_checks: bool = True) -> di
         "## 验收矩阵",
         "agentsys-reproduce-all",
         "四篇论文独立工具链",
+        "paper-parameterized component replay 已为 0",
+        "闭源机制自行实现",
+        "run 019",
         "10%",
         "55/55",
         "636/636",
@@ -274,7 +278,7 @@ def build_certificate(*, run_id: str = "run_020", run_checks: bool = True) -> di
     return {
         "schema_version": 1,
         "run_id": run_id,
-        "objective": "Complete independent AgentSys paper toolchains and reproduce every registered endpoint within 10%.",
+        "objective": "Complete independent paper toolchains, self-implement unavailable mechanisms with open substitutes, and reproduce every registered endpoint within 10%.",
         "classification": "requirement_by_requirement_completion_certificate",
         "project_commit": _git_head(str(PROJECT_ROOT)),
         "paper_endpoints": {

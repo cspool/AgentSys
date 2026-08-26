@@ -3,12 +3,13 @@
   "configurations": {
     "atlas_static": {
       "agentix": {
+        "anti_starvation_promotions": 0,
         "call_completion": {
           "mcts-actor0": 10,
           "mcts-actor1": 9,
           "mcts-critic": 13,
           "mcts-root": 6,
-          "moa-map0": 4,
+          "moa-map0": 3,
           "moa-map1": 6,
           "moa-map2": 4,
           "moa-reduce": 10,
@@ -66,43 +67,43 @@
             "start": 1
           },
           {
-            "call_id": "mcts-root",
-            "end": 2,
-            "inherited_service": 0,
-            "lane": 1,
-            "program_id": "mcts",
-            "queue_level": 0,
-            "start": 1
-          },
-          {
-            "call_id": "react-plan",
-            "end": 2,
-            "inherited_service": 0,
-            "lane": 2,
-            "program_id": "react",
-            "queue_level": 1,
-            "start": 1
-          },
-          {
-            "call_id": "react-plan",
-            "end": 3,
-            "inherited_service": 0,
-            "lane": 0,
-            "program_id": "react",
-            "queue_level": 1,
-            "start": 2
-          },
-          {
             "call_id": "moa-map0",
-            "end": 3,
+            "end": 2,
             "inherited_service": 0,
             "lane": 1,
             "program_id": "moa",
             "queue_level": 1,
-            "start": 2
+            "start": 1
           },
           {
             "call_id": "moa-map1",
+            "end": 2,
+            "inherited_service": 0,
+            "lane": 2,
+            "program_id": "moa",
+            "queue_level": 1,
+            "start": 1
+          },
+          {
+            "call_id": "mcts-root",
+            "end": 3,
+            "inherited_service": 0,
+            "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 0,
+            "start": 2
+          },
+          {
+            "call_id": "react-plan",
+            "end": 3,
+            "inherited_service": 0,
+            "lane": 1,
+            "program_id": "react",
+            "queue_level": 1,
+            "start": 2
+          },
+          {
+            "call_id": "moa-map0",
             "end": 3,
             "inherited_service": 0,
             "lane": 2,
@@ -111,11 +112,11 @@
             "start": 2
           },
           {
-            "call_id": "moa-map0",
+            "call_id": "react-plan",
             "end": 4,
             "inherited_service": 0,
             "lane": 0,
-            "program_id": "moa",
+            "program_id": "react",
             "queue_level": 1,
             "start": 3
           },
@@ -336,7 +337,7 @@
             "start": 12
           }
         ],
-        "total_call_wait": 10,
+        "total_call_wait": 9,
         "total_wait": 8
       },
       "configuration": {
@@ -1095,6 +1096,7 @@
     },
     "fcfs_dynamic": {
       "agentix": {
+        "anti_starvation_promotions": 0,
         "call_completion": {
           "mcts-actor0": 11,
           "mcts-actor1": 11,
@@ -2187,6 +2189,7 @@
     },
     "fcfs_static": {
       "agentix": {
+        "anti_starvation_promotions": 0,
         "call_completion": {
           "mcts-actor0": 11,
           "mcts-actor1": 11,
@@ -3279,29 +3282,30 @@
     },
     "full_stack": {
       "agentix": {
+        "anti_starvation_promotions": 0,
         "call_completion": {
           "mcts-actor0": 10,
-          "mcts-actor1": 11,
-          "mcts-critic": 14,
+          "mcts-actor1": 9,
+          "mcts-critic": 13,
           "mcts-root": 6,
-          "moa-map0": 4,
-          "moa-map1": 6,
-          "moa-map2": 5,
-          "moa-reduce": 10,
+          "moa-map0": 3,
+          "moa-map1": 7,
+          "moa-map2": 4,
+          "moa-reduce": 13,
           "react-answer": 9,
           "react-plan": 4,
           "react-tool": 6
         },
-        "makespan": 14,
+        "makespan": 13,
         "policy": "atlas",
         "program_completion": {
-          "mcts": 14,
-          "moa": 10,
+          "mcts": 13,
+          "moa": 13,
           "react": 9
         },
         "program_wait": {
-          "mcts": 4,
-          "moa": 1,
+          "mcts": 3,
+          "moa": 4,
           "react": 1
         },
         "slices": [
@@ -3351,12 +3355,12 @@
             "start": 1
           },
           {
-            "call_id": "mcts-root",
+            "call_id": "moa-map0",
             "end": 2,
             "inherited_service": 0,
             "lane": 2,
-            "program_id": "mcts",
-            "queue_level": 0,
+            "program_id": "moa",
+            "queue_level": 1,
             "start": 1
           },
           {
@@ -3369,16 +3373,16 @@
             "start": 2
           },
           {
-            "call_id": "moa-map0",
+            "call_id": "mcts-root",
             "end": 3,
             "inherited_service": 0,
             "lane": 1,
-            "program_id": "moa",
-            "queue_level": 1,
+            "program_id": "mcts",
+            "queue_level": 0,
             "start": 2
           },
           {
-            "call_id": "moa-map1",
+            "call_id": "moa-map0",
             "end": 3,
             "inherited_service": 0,
             "lane": 2,
@@ -3396,7 +3400,7 @@
             "start": 3
           },
           {
-            "call_id": "moa-map0",
+            "call_id": "moa-map1",
             "end": 4,
             "inherited_service": 0,
             "lane": 1,
@@ -3405,7 +3409,7 @@
             "start": 3
           },
           {
-            "call_id": "moa-map1",
+            "call_id": "moa-map2",
             "end": 4,
             "inherited_service": 0,
             "lane": 2,
@@ -3414,7 +3418,7 @@
             "start": 3
           },
           {
-            "call_id": "moa-map2",
+            "call_id": "moa-map1",
             "end": 5,
             "inherited_service": 0,
             "lane": 0,
@@ -3429,15 +3433,6 @@
             "lane": 1,
             "program_id": "mcts",
             "queue_level": 1,
-            "start": 4
-          },
-          {
-            "call_id": "moa-map1",
-            "end": 5,
-            "inherited_service": 0,
-            "lane": 2,
-            "program_id": "moa",
-            "queue_level": 2,
             "start": 4
           },
           {
@@ -3477,9 +3472,9 @@
             "start": 6
           },
           {
-            "call_id": "moa-reduce",
+            "call_id": "moa-map1",
             "end": 7,
-            "inherited_service": 5,
+            "inherited_service": 0,
             "lane": 1,
             "program_id": "moa",
             "queue_level": 2,
@@ -3504,16 +3499,16 @@
             "start": 7
           },
           {
-            "call_id": "moa-reduce",
+            "call_id": "mcts-actor0",
             "end": 8,
-            "inherited_service": 5,
+            "inherited_service": 3,
             "lane": 1,
-            "program_id": "moa",
+            "program_id": "mcts",
             "queue_level": 2,
             "start": 7
           },
           {
-            "call_id": "mcts-actor0",
+            "call_id": "mcts-actor1",
             "end": 8,
             "inherited_service": 3,
             "lane": 2,
@@ -3531,16 +3526,16 @@
             "start": 8
           },
           {
-            "call_id": "moa-reduce",
+            "call_id": "mcts-actor0",
             "end": 9,
-            "inherited_service": 5,
+            "inherited_service": 3,
             "lane": 1,
-            "program_id": "moa",
+            "program_id": "mcts",
             "queue_level": 2,
             "start": 8
           },
           {
-            "call_id": "mcts-actor0",
+            "call_id": "mcts-actor1",
             "end": 9,
             "inherited_service": 3,
             "lane": 2,
@@ -3549,71 +3544,80 @@
             "start": 8
           },
           {
-            "call_id": "moa-reduce",
+            "call_id": "mcts-actor0",
             "end": 10,
-            "inherited_service": 5,
+            "inherited_service": 3,
             "lane": 0,
+            "program_id": "mcts",
+            "queue_level": 2,
+            "start": 9
+          },
+          {
+            "call_id": "moa-reduce",
+            "end": 10,
+            "inherited_service": 5,
+            "lane": 1,
             "program_id": "moa",
             "queue_level": 2,
             "start": 9
           },
           {
-            "call_id": "mcts-actor0",
-            "end": 10,
-            "inherited_service": 3,
-            "lane": 1,
-            "program_id": "mcts",
-            "queue_level": 2,
-            "start": 9
-          },
-          {
-            "call_id": "mcts-actor1",
-            "end": 10,
-            "inherited_service": 3,
-            "lane": 2,
-            "program_id": "mcts",
-            "queue_level": 2,
-            "start": 9
-          },
-          {
-            "call_id": "mcts-actor1",
+            "call_id": "moa-reduce",
             "end": 11,
-            "inherited_service": 3,
+            "inherited_service": 5,
             "lane": 0,
-            "program_id": "mcts",
+            "program_id": "moa",
             "queue_level": 2,
             "start": 10
           },
           {
             "call_id": "mcts-critic",
+            "end": 11,
+            "inherited_service": 7,
+            "lane": 1,
+            "program_id": "mcts",
+            "queue_level": 3,
+            "start": 10
+          },
+          {
+            "call_id": "moa-reduce",
+            "end": 12,
+            "inherited_service": 5,
+            "lane": 0,
+            "program_id": "moa",
+            "queue_level": 2,
+            "start": 11
+          },
+          {
+            "call_id": "mcts-critic",
             "end": 12,
             "inherited_service": 7,
-            "lane": 0,
+            "lane": 1,
             "program_id": "mcts",
             "queue_level": 3,
             "start": 11
           },
           {
-            "call_id": "mcts-critic",
+            "call_id": "moa-reduce",
             "end": 13,
-            "inherited_service": 7,
+            "inherited_service": 5,
             "lane": 0,
-            "program_id": "mcts",
-            "queue_level": 3,
+            "program_id": "moa",
+            "queue_level": 2,
             "start": 12
           },
           {
             "call_id": "mcts-critic",
-            "end": 14,
+            "end": 13,
             "inherited_service": 7,
-            "lane": 0,
+            "lane": 1,
             "program_id": "mcts",
             "queue_level": 3,
-            "start": 13
+            "start": 12
           }
         ],
-        "total_call_wait": 10,
-        "total_wait": 6
+        "total_call_wait": 9,
+        "total_wait": 8
       },
       "configuration": {
         "agentix_policy": "atlas",
@@ -3633,7 +3637,7 @@
       "proactive_throughput": 4.511312115128685e-05,
       "program_completion": {
         "mcts": 44333,
-        "moa": 31961,
+        "moa": 40209,
         "react": 21651
       },
       "reactive_completion": 21651,
@@ -4143,7 +4147,7 @@
           "tile_id": "tile:moa-map2:7"
         },
         {
-          "arrival_cycle": 1024,
+          "arrival_cycle": 2048,
           "call_id": "call:mcts-root",
           "deps": [],
           "duration": 1024,
@@ -4157,7 +4161,7 @@
           "tile_id": "tile:mcts-root:0"
         },
         {
-          "arrival_cycle": 1024,
+          "arrival_cycle": 2048,
           "call_id": "call:mcts-root",
           "deps": [],
           "duration": 1024,
@@ -4171,7 +4175,7 @@
           "tile_id": "tile:mcts-root:1"
         },
         {
-          "arrival_cycle": 1024,
+          "arrival_cycle": 2048,
           "call_id": "call:mcts-root",
           "deps": [
             "tile:mcts-root:0"
@@ -4187,7 +4191,7 @@
           "tile_id": "tile:mcts-root:2"
         },
         {
-          "arrival_cycle": 1024,
+          "arrival_cycle": 2048,
           "call_id": "call:mcts-root",
           "deps": [
             "tile:mcts-root:1"
@@ -4203,7 +4207,7 @@
           "tile_id": "tile:mcts-root:3"
         },
         {
-          "arrival_cycle": 1024,
+          "arrival_cycle": 2048,
           "call_id": "call:mcts-root",
           "deps": [
             "tile:mcts-root:2",
@@ -4220,7 +4224,7 @@
           "tile_id": "tile:mcts-root:4"
         },
         {
-          "arrival_cycle": 1024,
+          "arrival_cycle": 2048,
           "call_id": "call:mcts-root",
           "deps": [
             "tile:mcts-root:3"
@@ -4236,7 +4240,7 @@
           "tile_id": "tile:mcts-root:5"
         },
         {
-          "arrival_cycle": 1024,
+          "arrival_cycle": 2048,
           "call_id": "call:mcts-root",
           "deps": [
             "tile:mcts-root:4",
@@ -4253,7 +4257,7 @@
           "tile_id": "tile:mcts-root:6"
         },
         {
-          "arrival_cycle": 1024,
+          "arrival_cycle": 2048,
           "call_id": "call:mcts-root",
           "deps": [
             "tile:mcts-root:6"
@@ -4530,140 +4534,6 @@
         },
         {
           "arrival_cycle": 6144,
-          "call_id": "call:moa-reduce",
-          "deps": [
-            "tile:moa-map0:7",
-            "tile:moa-map1:7",
-            "tile:moa-map2:7"
-          ],
-          "duration": 1024,
-          "engine": "me",
-          "flow_id": "flow:moa-reduce",
-          "op_type": "LinearOp",
-          "priority": 2,
-          "program_id": "program:moa",
-          "sequence": 56,
-          "task_id": "task:moa-reduce",
-          "tile_id": "tile:moa-reduce:0"
-        },
-        {
-          "arrival_cycle": 6144,
-          "call_id": "call:moa-reduce",
-          "deps": [
-            "tile:moa-map0:7",
-            "tile:moa-map1:7",
-            "tile:moa-map2:7"
-          ],
-          "duration": 1024,
-          "engine": "me",
-          "flow_id": "flow:moa-reduce",
-          "op_type": "LinearOp",
-          "priority": 2,
-          "program_id": "program:moa",
-          "sequence": 57,
-          "task_id": "task:moa-reduce",
-          "tile_id": "tile:moa-reduce:1"
-        },
-        {
-          "arrival_cycle": 6144,
-          "call_id": "call:moa-reduce",
-          "deps": [
-            "tile:moa-reduce:0"
-          ],
-          "duration": 1024,
-          "engine": "de",
-          "flow_id": "flow:moa-reduce",
-          "op_type": "CastTypeOp",
-          "priority": 2,
-          "program_id": "program:moa",
-          "sequence": 58,
-          "task_id": "task:moa-reduce",
-          "tile_id": "tile:moa-reduce:2"
-        },
-        {
-          "arrival_cycle": 6144,
-          "call_id": "call:moa-reduce",
-          "deps": [
-            "tile:moa-reduce:1"
-          ],
-          "duration": 1024,
-          "engine": "ve",
-          "flow_id": "flow:moa-reduce",
-          "op_type": "RMSNormOp",
-          "priority": 2,
-          "program_id": "program:moa",
-          "sequence": 59,
-          "task_id": "task:moa-reduce",
-          "tile_id": "tile:moa-reduce:3"
-        },
-        {
-          "arrival_cycle": 6144,
-          "call_id": "call:moa-reduce",
-          "deps": [
-            "tile:moa-reduce:2",
-            "tile:moa-reduce:3"
-          ],
-          "duration": 1024,
-          "engine": "ve",
-          "flow_id": "flow:moa-reduce",
-          "op_type": "AddOp",
-          "priority": 2,
-          "program_id": "program:moa",
-          "sequence": 60,
-          "task_id": "task:moa-reduce",
-          "tile_id": "tile:moa-reduce:4"
-        },
-        {
-          "arrival_cycle": 6144,
-          "call_id": "call:moa-reduce",
-          "deps": [
-            "tile:moa-reduce:3"
-          ],
-          "duration": 1024,
-          "engine": "de",
-          "flow_id": "flow:moa-reduce",
-          "op_type": "TransposeOp",
-          "priority": 2,
-          "program_id": "program:moa",
-          "sequence": 61,
-          "task_id": "task:moa-reduce",
-          "tile_id": "tile:moa-reduce:5"
-        },
-        {
-          "arrival_cycle": 6144,
-          "call_id": "call:moa-reduce",
-          "deps": [
-            "tile:moa-reduce:4",
-            "tile:moa-reduce:5"
-          ],
-          "duration": 1024,
-          "engine": "me",
-          "flow_id": "flow:moa-reduce",
-          "op_type": "MatMulOp",
-          "priority": 2,
-          "program_id": "program:moa",
-          "sequence": 62,
-          "task_id": "task:moa-reduce",
-          "tile_id": "tile:moa-reduce:6"
-        },
-        {
-          "arrival_cycle": 6144,
-          "call_id": "call:moa-reduce",
-          "deps": [
-            "tile:moa-reduce:6"
-          ],
-          "duration": 1024,
-          "engine": "ve",
-          "flow_id": "flow:moa-reduce",
-          "op_type": "SoftmaxOp",
-          "priority": 2,
-          "program_id": "program:moa",
-          "sequence": 63,
-          "task_id": "task:moa-reduce",
-          "tile_id": "tile:moa-reduce:7"
-        },
-        {
-          "arrival_cycle": 6144,
           "call_id": "call:mcts-actor0",
           "deps": [
             "tile:mcts-root:7"
@@ -4674,7 +4544,7 @@
           "op_type": "LinearOp",
           "priority": 2,
           "program_id": "program:mcts",
-          "sequence": 64,
+          "sequence": 56,
           "task_id": "task:mcts-actor0",
           "tile_id": "tile:mcts-actor0:0"
         },
@@ -4690,7 +4560,7 @@
           "op_type": "LinearOp",
           "priority": 2,
           "program_id": "program:mcts",
-          "sequence": 65,
+          "sequence": 57,
           "task_id": "task:mcts-actor0",
           "tile_id": "tile:mcts-actor0:1"
         },
@@ -4706,7 +4576,7 @@
           "op_type": "CastTypeOp",
           "priority": 2,
           "program_id": "program:mcts",
-          "sequence": 66,
+          "sequence": 58,
           "task_id": "task:mcts-actor0",
           "tile_id": "tile:mcts-actor0:2"
         },
@@ -4722,7 +4592,7 @@
           "op_type": "RMSNormOp",
           "priority": 2,
           "program_id": "program:mcts",
-          "sequence": 67,
+          "sequence": 59,
           "task_id": "task:mcts-actor0",
           "tile_id": "tile:mcts-actor0:3"
         },
@@ -4739,7 +4609,7 @@
           "op_type": "AddOp",
           "priority": 2,
           "program_id": "program:mcts",
-          "sequence": 68,
+          "sequence": 60,
           "task_id": "task:mcts-actor0",
           "tile_id": "tile:mcts-actor0:4"
         },
@@ -4755,7 +4625,7 @@
           "op_type": "TransposeOp",
           "priority": 2,
           "program_id": "program:mcts",
-          "sequence": 69,
+          "sequence": 61,
           "task_id": "task:mcts-actor0",
           "tile_id": "tile:mcts-actor0:5"
         },
@@ -4772,7 +4642,7 @@
           "op_type": "MatMulOp",
           "priority": 2,
           "program_id": "program:mcts",
-          "sequence": 70,
+          "sequence": 62,
           "task_id": "task:mcts-actor0",
           "tile_id": "tile:mcts-actor0:6"
         },
@@ -4788,12 +4658,12 @@
           "op_type": "SoftmaxOp",
           "priority": 2,
           "program_id": "program:mcts",
-          "sequence": 71,
+          "sequence": 63,
           "task_id": "task:mcts-actor0",
           "tile_id": "tile:mcts-actor0:7"
         },
         {
-          "arrival_cycle": 9216,
+          "arrival_cycle": 7168,
           "call_id": "call:mcts-actor1",
           "deps": [
             "tile:mcts-root:7"
@@ -4804,12 +4674,12 @@
           "op_type": "LinearOp",
           "priority": 2,
           "program_id": "program:mcts",
-          "sequence": 72,
+          "sequence": 64,
           "task_id": "task:mcts-actor1",
           "tile_id": "tile:mcts-actor1:0"
         },
         {
-          "arrival_cycle": 9216,
+          "arrival_cycle": 7168,
           "call_id": "call:mcts-actor1",
           "deps": [
             "tile:mcts-root:7"
@@ -4820,12 +4690,12 @@
           "op_type": "LinearOp",
           "priority": 2,
           "program_id": "program:mcts",
-          "sequence": 73,
+          "sequence": 65,
           "task_id": "task:mcts-actor1",
           "tile_id": "tile:mcts-actor1:1"
         },
         {
-          "arrival_cycle": 9216,
+          "arrival_cycle": 7168,
           "call_id": "call:mcts-actor1",
           "deps": [
             "tile:mcts-actor1:0"
@@ -4836,12 +4706,12 @@
           "op_type": "CastTypeOp",
           "priority": 2,
           "program_id": "program:mcts",
-          "sequence": 74,
+          "sequence": 66,
           "task_id": "task:mcts-actor1",
           "tile_id": "tile:mcts-actor1:2"
         },
         {
-          "arrival_cycle": 9216,
+          "arrival_cycle": 7168,
           "call_id": "call:mcts-actor1",
           "deps": [
             "tile:mcts-actor1:1"
@@ -4852,12 +4722,12 @@
           "op_type": "RMSNormOp",
           "priority": 2,
           "program_id": "program:mcts",
-          "sequence": 75,
+          "sequence": 67,
           "task_id": "task:mcts-actor1",
           "tile_id": "tile:mcts-actor1:3"
         },
         {
-          "arrival_cycle": 9216,
+          "arrival_cycle": 7168,
           "call_id": "call:mcts-actor1",
           "deps": [
             "tile:mcts-actor1:2",
@@ -4869,12 +4739,12 @@
           "op_type": "AddOp",
           "priority": 2,
           "program_id": "program:mcts",
-          "sequence": 76,
+          "sequence": 68,
           "task_id": "task:mcts-actor1",
           "tile_id": "tile:mcts-actor1:4"
         },
         {
-          "arrival_cycle": 9216,
+          "arrival_cycle": 7168,
           "call_id": "call:mcts-actor1",
           "deps": [
             "tile:mcts-actor1:3"
@@ -4885,12 +4755,12 @@
           "op_type": "TransposeOp",
           "priority": 2,
           "program_id": "program:mcts",
-          "sequence": 77,
+          "sequence": 69,
           "task_id": "task:mcts-actor1",
           "tile_id": "tile:mcts-actor1:5"
         },
         {
-          "arrival_cycle": 9216,
+          "arrival_cycle": 7168,
           "call_id": "call:mcts-actor1",
           "deps": [
             "tile:mcts-actor1:4",
@@ -4902,12 +4772,12 @@
           "op_type": "MatMulOp",
           "priority": 2,
           "program_id": "program:mcts",
-          "sequence": 78,
+          "sequence": 70,
           "task_id": "task:mcts-actor1",
           "tile_id": "tile:mcts-actor1:6"
         },
         {
-          "arrival_cycle": 9216,
+          "arrival_cycle": 7168,
           "call_id": "call:mcts-actor1",
           "deps": [
             "tile:mcts-actor1:6"
@@ -4918,12 +4788,146 @@
           "op_type": "SoftmaxOp",
           "priority": 2,
           "program_id": "program:mcts",
-          "sequence": 79,
+          "sequence": 71,
           "task_id": "task:mcts-actor1",
           "tile_id": "tile:mcts-actor1:7"
         },
         {
-          "arrival_cycle": 11264,
+          "arrival_cycle": 9216,
+          "call_id": "call:moa-reduce",
+          "deps": [
+            "tile:moa-map0:7",
+            "tile:moa-map1:7",
+            "tile:moa-map2:7"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:moa-reduce",
+          "op_type": "LinearOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 72,
+          "task_id": "task:moa-reduce",
+          "tile_id": "tile:moa-reduce:0"
+        },
+        {
+          "arrival_cycle": 9216,
+          "call_id": "call:moa-reduce",
+          "deps": [
+            "tile:moa-map0:7",
+            "tile:moa-map1:7",
+            "tile:moa-map2:7"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:moa-reduce",
+          "op_type": "LinearOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 73,
+          "task_id": "task:moa-reduce",
+          "tile_id": "tile:moa-reduce:1"
+        },
+        {
+          "arrival_cycle": 9216,
+          "call_id": "call:moa-reduce",
+          "deps": [
+            "tile:moa-reduce:0"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:moa-reduce",
+          "op_type": "CastTypeOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 74,
+          "task_id": "task:moa-reduce",
+          "tile_id": "tile:moa-reduce:2"
+        },
+        {
+          "arrival_cycle": 9216,
+          "call_id": "call:moa-reduce",
+          "deps": [
+            "tile:moa-reduce:1"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:moa-reduce",
+          "op_type": "RMSNormOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 75,
+          "task_id": "task:moa-reduce",
+          "tile_id": "tile:moa-reduce:3"
+        },
+        {
+          "arrival_cycle": 9216,
+          "call_id": "call:moa-reduce",
+          "deps": [
+            "tile:moa-reduce:2",
+            "tile:moa-reduce:3"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:moa-reduce",
+          "op_type": "AddOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 76,
+          "task_id": "task:moa-reduce",
+          "tile_id": "tile:moa-reduce:4"
+        },
+        {
+          "arrival_cycle": 9216,
+          "call_id": "call:moa-reduce",
+          "deps": [
+            "tile:moa-reduce:3"
+          ],
+          "duration": 1024,
+          "engine": "de",
+          "flow_id": "flow:moa-reduce",
+          "op_type": "TransposeOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 77,
+          "task_id": "task:moa-reduce",
+          "tile_id": "tile:moa-reduce:5"
+        },
+        {
+          "arrival_cycle": 9216,
+          "call_id": "call:moa-reduce",
+          "deps": [
+            "tile:moa-reduce:4",
+            "tile:moa-reduce:5"
+          ],
+          "duration": 1024,
+          "engine": "me",
+          "flow_id": "flow:moa-reduce",
+          "op_type": "MatMulOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 78,
+          "task_id": "task:moa-reduce",
+          "tile_id": "tile:moa-reduce:6"
+        },
+        {
+          "arrival_cycle": 9216,
+          "call_id": "call:moa-reduce",
+          "deps": [
+            "tile:moa-reduce:6"
+          ],
+          "duration": 1024,
+          "engine": "ve",
+          "flow_id": "flow:moa-reduce",
+          "op_type": "SoftmaxOp",
+          "priority": 2,
+          "program_id": "program:moa",
+          "sequence": 79,
+          "task_id": "task:moa-reduce",
+          "tile_id": "tile:moa-reduce:7"
+        },
+        {
+          "arrival_cycle": 10240,
           "call_id": "call:mcts-critic",
           "deps": [
             "tile:mcts-actor0:7",
@@ -4940,7 +4944,7 @@
           "tile_id": "tile:mcts-critic:0"
         },
         {
-          "arrival_cycle": 11264,
+          "arrival_cycle": 10240,
           "call_id": "call:mcts-critic",
           "deps": [
             "tile:mcts-actor0:7",
@@ -4957,7 +4961,7 @@
           "tile_id": "tile:mcts-critic:1"
         },
         {
-          "arrival_cycle": 11264,
+          "arrival_cycle": 10240,
           "call_id": "call:mcts-critic",
           "deps": [
             "tile:mcts-critic:0"
@@ -4973,7 +4977,7 @@
           "tile_id": "tile:mcts-critic:2"
         },
         {
-          "arrival_cycle": 11264,
+          "arrival_cycle": 10240,
           "call_id": "call:mcts-critic",
           "deps": [
             "tile:mcts-critic:1"
@@ -4989,7 +4993,7 @@
           "tile_id": "tile:mcts-critic:3"
         },
         {
-          "arrival_cycle": 11264,
+          "arrival_cycle": 10240,
           "call_id": "call:mcts-critic",
           "deps": [
             "tile:mcts-critic:2",
@@ -5006,7 +5010,7 @@
           "tile_id": "tile:mcts-critic:4"
         },
         {
-          "arrival_cycle": 11264,
+          "arrival_cycle": 10240,
           "call_id": "call:mcts-critic",
           "deps": [
             "tile:mcts-critic:3"
@@ -5022,7 +5026,7 @@
           "tile_id": "tile:mcts-critic:5"
         },
         {
-          "arrival_cycle": 11264,
+          "arrival_cycle": 10240,
           "call_id": "call:mcts-critic",
           "deps": [
             "tile:mcts-critic:4",
@@ -5039,7 +5043,7 @@
           "tile_id": "tile:mcts-critic:6"
         },
         {
-          "arrival_cycle": 11264,
+          "arrival_cycle": 10240,
           "call_id": "call:mcts-critic",
           "deps": [
             "tile:mcts-critic:6"
@@ -5063,7 +5067,7 @@
         },
         "completed": 88,
         "cycles": 44333,
-        "dependency_stalls": 223786,
+        "dependency_stalls": 236178,
         "dispatch_latency": 7,
         "issues": [
           {
@@ -5503,7 +5507,7 @@
             "engine": "me",
             "issue": 24751,
             "priority": 2,
-            "sequence": 56,
+            "sequence": 72,
             "tile_id": "tile:moa-reduce:0"
           },
           {
@@ -5519,7 +5523,7 @@
             "engine": "de",
             "issue": 25782,
             "priority": 2,
-            "sequence": 58,
+            "sequence": 74,
             "tile_id": "tile:moa-reduce:2"
           },
           {
@@ -5535,63 +5539,39 @@
             "engine": "me",
             "issue": 26813,
             "priority": 2,
-            "sequence": 57,
+            "sequence": 73,
             "tile_id": "tile:moa-reduce:1"
           },
           {
             "complete": 28868,
-            "engine": "ve",
-            "issue": 27844,
-            "priority": 2,
-            "sequence": 59,
-            "tile_id": "tile:moa-reduce:3"
-          },
-          {
-            "complete": 28868,
             "engine": "me",
             "issue": 27844,
             "priority": 2,
-            "sequence": 64,
+            "sequence": 56,
             "tile_id": "tile:mcts-actor0:0"
           },
           {
-            "complete": 29899,
+            "complete": 28868,
             "engine": "ve",
-            "issue": 28875,
+            "issue": 27844,
             "priority": 2,
-            "sequence": 60,
-            "tile_id": "tile:moa-reduce:4"
-          },
-          {
-            "complete": 29899,
-            "engine": "de",
-            "issue": 28875,
-            "priority": 2,
-            "sequence": 61,
-            "tile_id": "tile:moa-reduce:5"
+            "sequence": 75,
+            "tile_id": "tile:moa-reduce:3"
           },
           {
             "complete": 29899,
             "engine": "me",
             "issue": 28875,
             "priority": 2,
-            "sequence": 65,
+            "sequence": 57,
             "tile_id": "tile:mcts-actor0:1"
           },
           {
-            "complete": 30930,
-            "engine": "me",
-            "issue": 29906,
-            "priority": 2,
-            "sequence": 62,
-            "tile_id": "tile:moa-reduce:6"
-          },
-          {
-            "complete": 30930,
+            "complete": 29899,
             "engine": "de",
-            "issue": 29906,
+            "issue": 28875,
             "priority": 2,
-            "sequence": 66,
+            "sequence": 58,
             "tile_id": "tile:mcts-actor0:2"
           },
           {
@@ -5599,23 +5579,31 @@
             "engine": "ve",
             "issue": 29906,
             "priority": 2,
-            "sequence": 67,
+            "sequence": 59,
             "tile_id": "tile:mcts-actor0:3"
+          },
+          {
+            "complete": 30930,
+            "engine": "me",
+            "issue": 29906,
+            "priority": 2,
+            "sequence": 64,
+            "tile_id": "tile:mcts-actor1:0"
           },
           {
             "complete": 31961,
             "engine": "ve",
             "issue": 30937,
             "priority": 2,
-            "sequence": 63,
-            "tile_id": "tile:moa-reduce:7"
+            "sequence": 60,
+            "tile_id": "tile:mcts-actor0:4"
           },
           {
             "complete": 31961,
             "engine": "de",
             "issue": 30937,
             "priority": 2,
-            "sequence": 69,
+            "sequence": 61,
             "tile_id": "tile:mcts-actor0:5"
           },
           {
@@ -5623,56 +5611,56 @@
             "engine": "me",
             "issue": 30937,
             "priority": 2,
-            "sequence": 72,
-            "tile_id": "tile:mcts-actor1:0"
+            "sequence": 65,
+            "tile_id": "tile:mcts-actor1:1"
+          },
+          {
+            "complete": 32992,
+            "engine": "me",
+            "issue": 31968,
+            "priority": 2,
+            "sequence": 62,
+            "tile_id": "tile:mcts-actor0:6"
+          },
+          {
+            "complete": 32992,
+            "engine": "de",
+            "issue": 31968,
+            "priority": 2,
+            "sequence": 66,
+            "tile_id": "tile:mcts-actor1:2"
           },
           {
             "complete": 32992,
             "engine": "ve",
             "issue": 31968,
             "priority": 2,
-            "sequence": 68,
-            "tile_id": "tile:mcts-actor0:4"
-          },
-          {
-            "complete": 32992,
-            "engine": "me",
-            "issue": 31968,
-            "priority": 2,
-            "sequence": 73,
-            "tile_id": "tile:mcts-actor1:1"
+            "sequence": 67,
+            "tile_id": "tile:mcts-actor1:3"
           },
           {
             "complete": 34023,
-            "engine": "me",
+            "engine": "ve",
             "issue": 32999,
             "priority": 2,
-            "sequence": 70,
-            "tile_id": "tile:mcts-actor0:6"
+            "sequence": 63,
+            "tile_id": "tile:mcts-actor0:7"
           },
           {
             "complete": 34023,
             "engine": "de",
             "issue": 32999,
             "priority": 2,
-            "sequence": 74,
-            "tile_id": "tile:mcts-actor1:2"
-          },
-          {
-            "complete": 34023,
-            "engine": "ve",
-            "issue": 32999,
-            "priority": 2,
-            "sequence": 75,
-            "tile_id": "tile:mcts-actor1:3"
+            "sequence": 69,
+            "tile_id": "tile:mcts-actor1:5"
           },
           {
             "complete": 35054,
             "engine": "ve",
             "issue": 34030,
             "priority": 2,
-            "sequence": 71,
-            "tile_id": "tile:mcts-actor0:7"
+            "sequence": 68,
+            "tile_id": "tile:mcts-actor1:4"
           },
           {
             "complete": 35054,
@@ -5680,39 +5668,63 @@
             "issue": 34030,
             "priority": 2,
             "sequence": 77,
-            "tile_id": "tile:mcts-actor1:5"
+            "tile_id": "tile:moa-reduce:5"
           },
           {
             "complete": 36085,
-            "engine": "ve",
+            "engine": "me",
             "issue": 35061,
             "priority": 2,
-            "sequence": 76,
-            "tile_id": "tile:mcts-actor1:4"
+            "sequence": 70,
+            "tile_id": "tile:mcts-actor1:6"
           },
           {
             "complete": 37116,
-            "engine": "me",
+            "engine": "ve",
             "issue": 36092,
             "priority": 2,
-            "sequence": 78,
-            "tile_id": "tile:mcts-actor1:6"
+            "sequence": 71,
+            "tile_id": "tile:mcts-actor1:7"
           },
           {
             "complete": 38147,
             "engine": "ve",
             "issue": 37123,
             "priority": 2,
-            "sequence": 79,
-            "tile_id": "tile:mcts-actor1:7"
+            "sequence": 76,
+            "tile_id": "tile:moa-reduce:4"
+          },
+          {
+            "complete": 38147,
+            "engine": "me",
+            "issue": 37123,
+            "priority": 2,
+            "sequence": 80,
+            "tile_id": "tile:mcts-critic:0"
           },
           {
             "complete": 39178,
             "engine": "me",
             "issue": 38154,
             "priority": 2,
-            "sequence": 80,
-            "tile_id": "tile:mcts-critic:0"
+            "sequence": 78,
+            "tile_id": "tile:moa-reduce:6"
+          },
+          {
+            "complete": 39178,
+            "engine": "de",
+            "issue": 38154,
+            "priority": 2,
+            "sequence": 82,
+            "tile_id": "tile:mcts-critic:2"
+          },
+          {
+            "complete": 40209,
+            "engine": "ve",
+            "issue": 39185,
+            "priority": 2,
+            "sequence": 79,
+            "tile_id": "tile:moa-reduce:7"
           },
           {
             "complete": 40209,
@@ -5721,14 +5733,6 @@
             "priority": 2,
             "sequence": 81,
             "tile_id": "tile:mcts-critic:1"
-          },
-          {
-            "complete": 40209,
-            "engine": "de",
-            "issue": 39185,
-            "priority": 2,
-            "sequence": 82,
-            "tile_id": "tile:mcts-critic:2"
           },
           {
             "complete": 41240,
@@ -5773,18 +5777,18 @@
         ],
         "mode": "dynamic",
         "overlap_cycles": {
-          "me_de": 18432,
+          "me_de": 17408,
           "me_ve": 23552,
-          "me_ve_de": 13312,
-          "ve_de": 17408
+          "me_ve_de": 11264,
+          "ve_de": 16384
         },
-        "resource_stalls": 613372,
+        "resource_stalls": 612336,
         "utilization": {
           "de": 0.5081541966480951,
           "me": 0.7622312949721426,
           "ve": 0.7622312949721426
         },
-        "window_stalls": 523189
+        "window_stalls": 519106
       }
     }
   },

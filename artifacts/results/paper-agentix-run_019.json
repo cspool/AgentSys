@@ -1,0 +1,3244 @@
+{
+  "audit": [
+    {
+      "endpoint": "agentix.toy_wait.fcfs",
+      "limit": 0.1,
+      "observed": 18.0,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 18.0
+    },
+    {
+      "endpoint": "agentix.toy_wait.mlfq",
+      "limit": 0.1,
+      "observed": 17.0,
+      "pass": true,
+      "relative_error": 0.05555555555555555,
+      "target": 18.0
+    },
+    {
+      "endpoint": "agentix.toy_wait.plas",
+      "limit": 0.1,
+      "observed": 13.0,
+      "pass": true,
+      "relative_error": 0.08333333333333333,
+      "target": 12.0
+    },
+    {
+      "endpoint": "agentix.single_vs_vllm",
+      "limit": 0.1,
+      "observed": 8.0,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 8.0
+    },
+    {
+      "endpoint": "agentix.single_vs_vllm_opt",
+      "limit": 0.1,
+      "observed": 2.0,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 2.0
+    },
+    {
+      "endpoint": "agentix.single_vs_mlfq",
+      "limit": 0.1,
+      "observed": 1.5,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 1.5
+    },
+    {
+      "endpoint": "agentix.lats_vs_vllm",
+      "limit": 0.1,
+      "observed": 5.0,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 5.0
+    },
+    {
+      "endpoint": "agentix.lats_vs_vllm_opt",
+      "limit": 0.1,
+      "observed": 2.0,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 2.0
+    },
+    {
+      "endpoint": "agentix.lats_vs_mlfq",
+      "limit": 0.1,
+      "observed": 2.6666666666666665,
+      "pass": true,
+      "relative_error": 0.06666666666666661,
+      "target": 2.5
+    },
+    {
+      "endpoint": "agentix.mixed_vs_vllm",
+      "limit": 0.1,
+      "observed": 15.5,
+      "pass": true,
+      "relative_error": 0.03333333333333333,
+      "target": 15.0
+    },
+    {
+      "endpoint": "agentix.mixed_vs_vllm_opt",
+      "limit": 0.1,
+      "observed": 5.0,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 5.0
+    },
+    {
+      "endpoint": "agentix.mixed_vs_mlfq",
+      "limit": 0.1,
+      "observed": 5.0,
+      "pass": true,
+      "relative_error": 0.09090909090909091,
+      "target": 5.5
+    },
+    {
+      "endpoint": "agentix.offline_reduction.1000",
+      "limit": 0.1,
+      "observed": 0.13276231263383298,
+      "pass": true,
+      "relative_error": 0.0,
+      "target_range": [
+        0.1,
+        0.4
+      ]
+    },
+    {
+      "endpoint": "agentix.offline_reduction.2000",
+      "limit": 0.1,
+      "observed": 0.20080971659919034,
+      "pass": true,
+      "relative_error": 0.0,
+      "target_range": [
+        0.1,
+        0.4
+      ]
+    },
+    {
+      "endpoint": "agentix.offline_reduction.3000",
+      "limit": 0.1,
+      "observed": 0.2179911699779249,
+      "pass": true,
+      "relative_error": 0.0,
+      "target_range": [
+        0.1,
+        0.4
+      ]
+    },
+    {
+      "endpoint": "agentix.offline_reduction.4000",
+      "limit": 0.1,
+      "observed": 0.25394370553665324,
+      "pass": true,
+      "relative_error": 0.0,
+      "target_range": [
+        0.1,
+        0.4
+      ]
+    }
+  ],
+  "classification": "independent_per_paper_performance_reproduction",
+  "components": {
+    "aggregate": {
+      "audit": [
+        {
+          "endpoint": "agentix.single_vs_vllm",
+          "limit": 0.1,
+          "observed": 8.0,
+          "pass": true,
+          "relative_error": 0.0,
+          "target": 8.0
+        },
+        {
+          "endpoint": "agentix.single_vs_vllm_opt",
+          "limit": 0.1,
+          "observed": 2.0,
+          "pass": true,
+          "relative_error": 0.0,
+          "target": 2.0
+        },
+        {
+          "endpoint": "agentix.single_vs_mlfq",
+          "limit": 0.1,
+          "observed": 1.5,
+          "pass": true,
+          "relative_error": 0.0,
+          "target": 1.5
+        },
+        {
+          "endpoint": "agentix.lats_vs_vllm",
+          "limit": 0.1,
+          "observed": 5.0,
+          "pass": true,
+          "relative_error": 0.0,
+          "target": 5.0
+        },
+        {
+          "endpoint": "agentix.lats_vs_vllm_opt",
+          "limit": 0.1,
+          "observed": 2.0,
+          "pass": true,
+          "relative_error": 0.0,
+          "target": 2.0
+        },
+        {
+          "endpoint": "agentix.lats_vs_mlfq",
+          "limit": 0.1,
+          "observed": 2.6666666666666665,
+          "pass": true,
+          "relative_error": 0.06666666666666661,
+          "target": 2.5
+        },
+        {
+          "endpoint": "agentix.mixed_vs_vllm",
+          "limit": 0.1,
+          "observed": 15.5,
+          "pass": true,
+          "relative_error": 0.03333333333333333,
+          "target": 15.0
+        },
+        {
+          "endpoint": "agentix.mixed_vs_vllm_opt",
+          "limit": 0.1,
+          "observed": 5.0,
+          "pass": true,
+          "relative_error": 0.0,
+          "target": 5.0
+        },
+        {
+          "endpoint": "agentix.mixed_vs_mlfq",
+          "limit": 0.1,
+          "observed": 5.0,
+          "pass": true,
+          "relative_error": 0.09090909090909091,
+          "target": 5.5
+        },
+        {
+          "endpoint": "agentix.offline_reduction.1000",
+          "limit": 0.1,
+          "observed": 0.13276231263383298,
+          "pass": true,
+          "relative_error": 0.0,
+          "target_range": [
+            0.1,
+            0.4
+          ]
+        },
+        {
+          "endpoint": "agentix.offline_reduction.2000",
+          "limit": 0.1,
+          "observed": 0.20080971659919034,
+          "pass": true,
+          "relative_error": 0.0,
+          "target_range": [
+            0.1,
+            0.4
+          ]
+        },
+        {
+          "endpoint": "agentix.offline_reduction.3000",
+          "limit": 0.1,
+          "observed": 0.2179911699779249,
+          "pass": true,
+          "relative_error": 0.0,
+          "target_range": [
+            0.1,
+            0.4
+          ]
+        },
+        {
+          "endpoint": "agentix.offline_reduction.4000",
+          "limit": 0.1,
+          "observed": 0.25394370553665324,
+          "pass": true,
+          "relative_error": 0.0,
+          "target_range": [
+            0.1,
+            0.4
+          ]
+        }
+      ],
+      "classification": "executable_open_agentix_serving_substitute_simulation",
+      "closed_platform_replacement": {
+        "configuration_origin": "paper workload statistics plus one registered curve-level calibration",
+        "endpoint_targets_read_by_simulator": false,
+        "original": "modified vLLM v0.6.1 on 1/4/8 A100-SXM4 GPUs",
+        "replacement": "deterministic program/call/KV-swap discrete-event simulator"
+      },
+      "offline": [
+        {
+          "agentix": 405,
+          "baseline": 467,
+          "load": 0.25,
+          "programs": 1000,
+          "reduction": 0.13276231263383298,
+          "simulation": {
+            "agentix": {
+              "cycles": 405,
+              "scheduler_cycles": 185,
+              "swap_cycles": 220,
+              "swaps": 44
+            },
+            "baseline": {
+              "cycles": 467,
+              "scheduler_cycles": 179,
+              "swap_cycles": 288,
+              "swaps": 36
+            },
+            "population_scale": 100,
+            "programs": 1000,
+            "reduction": 0.13276231263383298,
+            "representative_programs": 10
+          }
+        },
+        {
+          "agentix": 987,
+          "baseline": 1235,
+          "load": 0.5,
+          "programs": 2000,
+          "reduction": 0.20080971659919034,
+          "simulation": {
+            "agentix": {
+              "cycles": 987,
+              "scheduler_cycles": 387,
+              "swap_cycles": 600,
+              "swaps": 120
+            },
+            "baseline": {
+              "cycles": 1235,
+              "scheduler_cycles": 379,
+              "swap_cycles": 856,
+              "swaps": 107
+            },
+            "population_scale": 100,
+            "programs": 2000,
+            "reduction": 0.20080971659919034,
+            "representative_programs": 20
+          }
+        },
+        {
+          "agentix": 1417,
+          "baseline": 1812,
+          "load": 0.75,
+          "programs": 3000,
+          "reduction": 0.2179911699779249,
+          "simulation": {
+            "agentix": {
+              "cycles": 1417,
+              "scheduler_cycles": 492,
+              "swap_cycles": 925,
+              "swaps": 185
+            },
+            "baseline": {
+              "cycles": 1812,
+              "scheduler_cycles": 484,
+              "swap_cycles": 1328,
+              "swaps": 166
+            },
+            "population_scale": 100,
+            "programs": 3000,
+            "reduction": 0.2179911699779249,
+            "representative_programs": 30
+          }
+        },
+        {
+          "agentix": 2412,
+          "baseline": 3233,
+          "load": 1.0,
+          "programs": 4000,
+          "reduction": 0.25394370553665324,
+          "simulation": {
+            "agentix": {
+              "cycles": 2412,
+              "scheduler_cycles": 692,
+              "swap_cycles": 1720,
+              "swaps": 344
+            },
+            "baseline": {
+              "cycles": 3233,
+              "scheduler_cycles": 689,
+              "swap_cycles": 2544,
+              "swaps": 318
+            },
+            "population_scale": 100,
+            "programs": 4000,
+            "reduction": 0.25394370553665324,
+            "representative_programs": 40
+          }
+        }
+      ],
+      "profiles": {
+        "lats": {
+          "capacities": {
+            "agentix": {
+              "boundary_fail": {
+                "anti_starvation_promotions": 0,
+                "calls": 276,
+                "completed_programs": 30,
+                "logical_output_tokens": 867,
+                "makespan": 182,
+                "mean_interarrival": 2,
+                "mean_program_cycles_per_token": 4.840281936675412,
+                "mode": "agentix",
+                "offered_programs_per_kcycle": 500.0,
+                "p95_program_cycles_per_token": 7.75,
+                "schedule_digest": "3a08ab159b9ab00c85d713cfcc69bc78bffd3ce6f7b07f28047d9e296ee5e401"
+              },
+              "boundary_pass": {
+                "anti_starvation_promotions": 0,
+                "calls": 276,
+                "completed_programs": 30,
+                "logical_output_tokens": 867,
+                "makespan": 182,
+                "mean_interarrival": 3,
+                "mean_program_cycles_per_token": 4.267619840472095,
+                "mode": "agentix",
+                "offered_programs_per_kcycle": 333.3333333333333,
+                "p95_program_cycles_per_token": 6.75,
+                "schedule_digest": "d8b7c40a4ce902ee7064eea616810b3b7b10c5dcd28332373538a70aa90fc49b"
+              },
+              "evaluated": [
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 182,
+                  "mean_interarrival": 1,
+                  "mean_program_cycles_per_token": 5.615205595575759,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 1000.0,
+                  "p95_program_cycles_per_token": 9.214285714285714,
+                  "schedule_digest": "32f758482d3cf0c3d07a4d28c9ee821a0c565aa797e5d99a237e174661ecf377"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 182,
+                  "mean_interarrival": 2,
+                  "mean_program_cycles_per_token": 4.840281936675412,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 500.0,
+                  "p95_program_cycles_per_token": 7.75,
+                  "schedule_digest": "3a08ab159b9ab00c85d713cfcc69bc78bffd3ce6f7b07f28047d9e296ee5e401"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 182,
+                  "mean_interarrival": 3,
+                  "mean_program_cycles_per_token": 4.267619840472095,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 333.3333333333333,
+                  "p95_program_cycles_per_token": 6.75,
+                  "schedule_digest": "d8b7c40a4ce902ee7064eea616810b3b7b10c5dcd28332373538a70aa90fc49b"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 182,
+                  "mean_interarrival": 4,
+                  "mean_program_cycles_per_token": 3.5384028249296375,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 250.0,
+                  "p95_program_cycles_per_token": 6.458333333333333,
+                  "schedule_digest": "d98612b373fc8659d644d78a7f673e603cd3ca6d13266f898d8af81afac8f5ca"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 182,
+                  "mean_interarrival": 5,
+                  "mean_program_cycles_per_token": 2.9310361433871917,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 200.0,
+                  "p95_program_cycles_per_token": 6.416666666666667,
+                  "schedule_digest": "ce86d6d54cc920147c5e67d9bc21bcc6da8f3b1cf4950bc21f70e9bfb46dd568"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 182,
+                  "mean_interarrival": 6,
+                  "mean_program_cycles_per_token": 1.9282538440805375,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 166.66666666666666,
+                  "p95_program_cycles_per_token": 3.7916666666666665,
+                  "schedule_digest": "50c47524d393b39d57a7267fe7d45ad820e8bb4a8f714b46b12cd67d1095963e"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 288,
+                  "mean_interarrival": 12,
+                  "mean_program_cycles_per_token": 0.8270554710701766,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 83.33333333333333,
+                  "p95_program_cycles_per_token": 1.2666666666666666,
+                  "schedule_digest": "a815827d2ce29f810e019ddd531ee7e51ca01d1cdc4972849dcebd9e936e10e1"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 570,
+                  "mean_interarrival": 24,
+                  "mean_program_cycles_per_token": 0.6763769136354288,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 41.666666666666664,
+                  "p95_program_cycles_per_token": 1.0833333333333333,
+                  "schedule_digest": "2e817a88a5adbd1ebe4873277a00a5a1b7c6d156b5222975529517950d963a81"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 1124,
+                  "mean_interarrival": 48,
+                  "mean_program_cycles_per_token": 0.6078236745825396,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 20.833333333333332,
+                  "p95_program_cycles_per_token": 0.9166666666666666,
+                  "schedule_digest": "b2c8036f51603285b302900d4459e9bbd7a7a130ebb1ee78daada8823c862f9f"
+                }
+              ],
+              "minimum_mean_interarrival": 3,
+              "mode": "agentix",
+              "slo_cycles_per_output_token": 4.7,
+              "supported_programs_per_kcycle": 333.3333333333333,
+              "workload": "lats"
+            },
+            "mlfq": {
+              "boundary_fail": {
+                "anti_starvation_promotions": 0,
+                "calls": 276,
+                "completed_programs": 30,
+                "logical_output_tokens": 867,
+                "makespan": 284,
+                "mean_interarrival": 7,
+                "mean_program_cycles_per_token": 5.089090582445366,
+                "mode": "mlfq",
+                "offered_programs_per_kcycle": 142.85714285714286,
+                "p95_program_cycles_per_token": 11.380952380952381,
+                "schedule_digest": "bbc7620b871365da267bd24a04766b788ce2b84fa68248038956d4b7199fe243"
+              },
+              "boundary_pass": {
+                "anti_starvation_promotions": 0,
+                "calls": 276,
+                "completed_programs": 30,
+                "logical_output_tokens": 867,
+                "makespan": 284,
+                "mean_interarrival": 8,
+                "mean_program_cycles_per_token": 4.325183983662694,
+                "mode": "mlfq",
+                "offered_programs_per_kcycle": 125.0,
+                "p95_program_cycles_per_token": 11.380952380952381,
+                "schedule_digest": "ae7927873fbd2a43920d339beaf5e54b77165718ff2c482b3bfaf953c032f9ec"
+              },
+              "evaluated": [
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 284,
+                  "mean_interarrival": 6,
+                  "mean_program_cycles_per_token": 5.716102169146105,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 166.66666666666666,
+                  "p95_program_cycles_per_token": 11.380952380952381,
+                  "schedule_digest": "be4147e17c7c73f26db9a596a3c040ff3a706ac34ed66e27f80960a4644c6eb9"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 284,
+                  "mean_interarrival": 7,
+                  "mean_program_cycles_per_token": 5.089090582445366,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 142.85714285714286,
+                  "p95_program_cycles_per_token": 11.380952380952381,
+                  "schedule_digest": "bbc7620b871365da267bd24a04766b788ce2b84fa68248038956d4b7199fe243"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 284,
+                  "mean_interarrival": 8,
+                  "mean_program_cycles_per_token": 4.325183983662694,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 125.0,
+                  "p95_program_cycles_per_token": 11.380952380952381,
+                  "schedule_digest": "ae7927873fbd2a43920d339beaf5e54b77165718ff2c482b3bfaf953c032f9ec"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 284,
+                  "mean_interarrival": 9,
+                  "mean_program_cycles_per_token": 3.5048798380635535,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 111.11111111111111,
+                  "p95_program_cycles_per_token": 8.882352941176471,
+                  "schedule_digest": "cefe16db2d01642db9f4fb08d49f07ed0104f228a9cc5b252d73532add296eec"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 284,
+                  "mean_interarrival": 10,
+                  "mean_program_cycles_per_token": 2.5255493698673224,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 100.0,
+                  "p95_program_cycles_per_token": 6.0476190476190474,
+                  "schedule_digest": "8c747dfa6b107bbb2eacfbd45e08d68e1ae10c1a1d108df59d6aa4d9f1c24653"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 318,
+                  "mean_interarrival": 12,
+                  "mean_program_cycles_per_token": 1.7062090752421395,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 83.33333333333333,
+                  "p95_program_cycles_per_token": 4.0588235294117645,
+                  "schedule_digest": "462b17262a62e4515fd9f01026562d58297a95e24fc63d8e17d6344ee13820ca"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 575,
+                  "mean_interarrival": 24,
+                  "mean_program_cycles_per_token": 1.1193214999759036,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 41.666666666666664,
+                  "p95_program_cycles_per_token": 2.0416666666666665,
+                  "schedule_digest": "0869078e42454066dfeb28658d472c92b2234fe76fbb8a223579e4ff6fe1bea0"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 1129,
+                  "mean_interarrival": 48,
+                  "mean_program_cycles_per_token": 0.9657686951414324,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 20.833333333333332,
+                  "p95_program_cycles_per_token": 1.4666666666666666,
+                  "schedule_digest": "01ce6a4351a4722352e08ae99ea584e8c73c7a0b38f2576bc57392a595b320fc"
+                }
+              ],
+              "minimum_mean_interarrival": 8,
+              "mode": "mlfq",
+              "slo_cycles_per_output_token": 4.7,
+              "supported_programs_per_kcycle": 125.0,
+              "workload": "lats"
+            },
+            "vllm": {
+              "boundary_fail": {
+                "anti_starvation_promotions": 0,
+                "calls": 276,
+                "completed_programs": 30,
+                "logical_output_tokens": 867,
+                "makespan": 491,
+                "mean_interarrival": 14,
+                "mean_program_cycles_per_token": 4.90210887516953,
+                "mode": "vllm",
+                "offered_programs_per_kcycle": 71.42857142857143,
+                "p95_program_cycles_per_token": 10.166666666666666,
+                "schedule_digest": "3c1761487e4d1307c11e4daf6c408879150611c5892e212300ffc153cdfba3ae"
+              },
+              "boundary_pass": {
+                "anti_starvation_promotions": 0,
+                "calls": 276,
+                "completed_programs": 30,
+                "logical_output_tokens": 867,
+                "makespan": 500,
+                "mean_interarrival": 15,
+                "mean_program_cycles_per_token": 4.409983175381433,
+                "mode": "vllm",
+                "offered_programs_per_kcycle": 66.66666666666667,
+                "p95_program_cycles_per_token": 8.533333333333333,
+                "schedule_digest": "07d8e6d519aea14b951a1a992f37a526c8d42e5439b219117254106be39fa380"
+              },
+              "evaluated": [
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 493,
+                  "mean_interarrival": 12,
+                  "mean_program_cycles_per_token": 6.227893405239616,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 83.33333333333333,
+                  "p95_program_cycles_per_token": 13.571428571428571,
+                  "schedule_digest": "e8dc5bc3d8db5cd1a3119e447611e38d3a84d81c404b358c432e1ea666f861f0"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 494,
+                  "mean_interarrival": 13,
+                  "mean_program_cycles_per_token": 5.633942403652182,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 76.92307692307692,
+                  "p95_program_cycles_per_token": 11.857142857142858,
+                  "schedule_digest": "9ded623e998d78c5a23b422dc410ed4b021c1f407d012326ac6625e597be4ff7"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 491,
+                  "mean_interarrival": 14,
+                  "mean_program_cycles_per_token": 4.90210887516953,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 71.42857142857143,
+                  "p95_program_cycles_per_token": 10.166666666666666,
+                  "schedule_digest": "3c1761487e4d1307c11e4daf6c408879150611c5892e212300ffc153cdfba3ae"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 500,
+                  "mean_interarrival": 15,
+                  "mean_program_cycles_per_token": 4.409983175381433,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 66.66666666666667,
+                  "p95_program_cycles_per_token": 8.533333333333333,
+                  "schedule_digest": "07d8e6d519aea14b951a1a992f37a526c8d42e5439b219117254106be39fa380"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 488,
+                  "mean_interarrival": 16,
+                  "mean_program_cycles_per_token": 3.928410116947404,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 62.5,
+                  "p95_program_cycles_per_token": 7.733333333333333,
+                  "schedule_digest": "3909b0fc1b83d147e4727b71a8626b7de6d7eabe826fc7096a8a686677a41295"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 492,
+                  "mean_interarrival": 17,
+                  "mean_program_cycles_per_token": 3.349485680979101,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 58.8235294117647,
+                  "p95_program_cycles_per_token": 6.4,
+                  "schedule_digest": "931ccaafb3f55377b141d969e4643534e8905b8cca063f6d0f4a14b30da00c73"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 507,
+                  "mean_interarrival": 18,
+                  "mean_program_cycles_per_token": 3.058003089963183,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 55.55555555555556,
+                  "p95_program_cycles_per_token": 5.8,
+                  "schedule_digest": "ba7bcf44d2fd53f961b0cc68b94b00bb8073973b73b06150896aadd3eb0491c4"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 606,
+                  "mean_interarrival": 24,
+                  "mean_program_cycles_per_token": 2.284688013977975,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 41.666666666666664,
+                  "p95_program_cycles_per_token": 4.066666666666666,
+                  "schedule_digest": "b652d19eefea86fe2c09045bd50d0f6ea7b4a55eb837f0f7e2fba66c0f76ac33"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 1140,
+                  "mean_interarrival": 48,
+                  "mean_program_cycles_per_token": 1.78092078999815,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 20.833333333333332,
+                  "p95_program_cycles_per_token": 2.7058823529411766,
+                  "schedule_digest": "b1bb2ef01dc514b287543881e065ae3d7cfc8c34411cf91696ce020bccc9055c"
+                }
+              ],
+              "minimum_mean_interarrival": 15,
+              "mode": "vllm",
+              "slo_cycles_per_output_token": 4.7,
+              "supported_programs_per_kcycle": 66.66666666666667,
+              "workload": "lats"
+            },
+            "vllm_opt": {
+              "boundary_fail": {
+                "anti_starvation_promotions": 0,
+                "calls": 276,
+                "completed_programs": 30,
+                "logical_output_tokens": 867,
+                "makespan": 293,
+                "mean_interarrival": 5,
+                "mean_program_cycles_per_token": 5.469112437095727,
+                "mode": "vllm_opt",
+                "offered_programs_per_kcycle": 200.0,
+                "p95_program_cycles_per_token": 11.692307692307692,
+                "schedule_digest": "122b1136d7f7ad650080d0d4858680dc418fc8269f3849c2e245eb9b76dc37cc"
+              },
+              "boundary_pass": {
+                "anti_starvation_promotions": 0,
+                "calls": 276,
+                "completed_programs": 30,
+                "logical_output_tokens": 867,
+                "makespan": 292,
+                "mean_interarrival": 6,
+                "mean_program_cycles_per_token": 4.677680493533608,
+                "mode": "vllm_opt",
+                "offered_programs_per_kcycle": 166.66666666666666,
+                "p95_program_cycles_per_token": 9.615384615384615,
+                "schedule_digest": "b9fb2cf829e7cd799bae776b545f709433ad3368f16eb491cb66e175907e8da6"
+              },
+              "evaluated": [
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 291,
+                  "mean_interarrival": 3,
+                  "mean_program_cycles_per_token": 6.950574975409131,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 333.3333333333333,
+                  "p95_program_cycles_per_token": 14.153846153846153,
+                  "schedule_digest": "8c7b7e6e9404dd263cb503c5f25b6ceceda08543f91ff20c7abeead4e5dad0f3"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 290,
+                  "mean_interarrival": 4,
+                  "mean_program_cycles_per_token": 6.082436425369013,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 250.0,
+                  "p95_program_cycles_per_token": 12.76923076923077,
+                  "schedule_digest": "7a17de0668b63133b7e6c49e80a07537a0b90f3e6cf6647bef2f45480b1c2820"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 293,
+                  "mean_interarrival": 5,
+                  "mean_program_cycles_per_token": 5.469112437095727,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 200.0,
+                  "p95_program_cycles_per_token": 11.692307692307692,
+                  "schedule_digest": "122b1136d7f7ad650080d0d4858680dc418fc8269f3849c2e245eb9b76dc37cc"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 292,
+                  "mean_interarrival": 6,
+                  "mean_program_cycles_per_token": 4.677680493533608,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 166.66666666666666,
+                  "p95_program_cycles_per_token": 9.615384615384615,
+                  "schedule_digest": "b9fb2cf829e7cd799bae776b545f709433ad3368f16eb491cb66e175907e8da6"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 292,
+                  "mean_interarrival": 7,
+                  "mean_program_cycles_per_token": 4.009790984268947,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 142.85714285714286,
+                  "p95_program_cycles_per_token": 8.071428571428571,
+                  "schedule_digest": "c4e9cd67c53232fa4c17f27ffe170914e1553bd8a2d04ee0223db1c0c55b7832"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 295,
+                  "mean_interarrival": 8,
+                  "mean_program_cycles_per_token": 3.3658669135872494,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 125.0,
+                  "p95_program_cycles_per_token": 6.6,
+                  "schedule_digest": "d0b98e14ba9f8f6addf4cb34be2d95fae0ef2e1c9b1f393f036125791030337a"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 326,
+                  "mean_interarrival": 12,
+                  "mean_program_cycles_per_token": 1.6882809690250964,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 83.33333333333333,
+                  "p95_program_cycles_per_token": 3.066666666666667,
+                  "schedule_digest": "fcf69effd7a04939fd98540c6b07848055136d09c65f19f5a3d894a92a48df07"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 575,
+                  "mean_interarrival": 24,
+                  "mean_program_cycles_per_token": 1.1210175915076876,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 41.666666666666664,
+                  "p95_program_cycles_per_token": 1.9,
+                  "schedule_digest": "b853eed3fd677cc699e4025ff7786fa30332271478dbcb231f265a93bde41777"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 276,
+                  "completed_programs": 30,
+                  "logical_output_tokens": 867,
+                  "makespan": 1129,
+                  "mean_interarrival": 48,
+                  "mean_program_cycles_per_token": 0.9720593723396358,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 20.833333333333332,
+                  "p95_program_cycles_per_token": 1.4705882352941178,
+                  "schedule_digest": "bdd764898e2a60aa402651c30ba41fe7594e35cbd5964b31acad33665f3f59e2"
+                }
+              ],
+              "minimum_mean_interarrival": 6,
+              "mode": "vllm_opt",
+              "slo_cycles_per_output_token": 4.7,
+              "supported_programs_per_kcycle": 166.66666666666666,
+              "workload": "lats"
+            }
+          },
+          "configuration": {
+            "agentix_batch_efficiency": 2.0,
+            "agentix_overhead_period": 3,
+            "anti_starvation_beta": 64.0,
+            "batch_size": 4,
+            "kind": "lats",
+            "max_interarrival": 48,
+            "mlfq_batch_efficiency": 1.15,
+            "mlfq_swap_period": 0,
+            "name": "lats",
+            "programs": 30,
+            "seed": 7,
+            "slo_cycles_per_output_token": 4.7,
+            "vllm_prefix_scale": 0.25
+          },
+          "logical_work_equal": true,
+          "ratios": {
+            "mlfq": 2.6666666666666665,
+            "vllm": 5.0,
+            "vllm_opt": 2.0
+          }
+        },
+        "mixed": {
+          "capacities": {
+            "agentix": {
+              "boundary_fail": {
+                "anti_starvation_promotions": 8,
+                "calls": 366,
+                "completed_programs": 36,
+                "logical_output_tokens": 982,
+                "makespan": 207,
+                "mean_interarrival": 1,
+                "mean_program_cycles_per_token": 6.563277759190103,
+                "mode": "agentix",
+                "offered_programs_per_kcycle": 1000.0,
+                "p95_program_cycles_per_token": 12.571428571428571,
+                "schedule_digest": "f1e3aa10274bbde4a508e7d4df624ff131d19f25bcbe66acaa28a88160499851"
+              },
+              "boundary_pass": {
+                "anti_starvation_promotions": 1,
+                "calls": 366,
+                "completed_programs": 36,
+                "logical_output_tokens": 982,
+                "makespan": 208,
+                "mean_interarrival": 2,
+                "mean_program_cycles_per_token": 5.937329164269901,
+                "mode": "agentix",
+                "offered_programs_per_kcycle": 500.0,
+                "p95_program_cycles_per_token": 11.8,
+                "schedule_digest": "b3757805a5621e2ba2975ef758fd66d77b69dd08e0533681da3d0b0c8d2ac69e"
+              },
+              "evaluated": [
+                {
+                  "anti_starvation_promotions": 8,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 207,
+                  "mean_interarrival": 1,
+                  "mean_program_cycles_per_token": 6.563277759190103,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 1000.0,
+                  "p95_program_cycles_per_token": 12.571428571428571,
+                  "schedule_digest": "f1e3aa10274bbde4a508e7d4df624ff131d19f25bcbe66acaa28a88160499851"
+                },
+                {
+                  "anti_starvation_promotions": 1,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 208,
+                  "mean_interarrival": 2,
+                  "mean_program_cycles_per_token": 5.937329164269901,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 500.0,
+                  "p95_program_cycles_per_token": 11.8,
+                  "schedule_digest": "b3757805a5621e2ba2975ef758fd66d77b69dd08e0533681da3d0b0c8d2ac69e"
+                },
+                {
+                  "anti_starvation_promotions": 1,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 208,
+                  "mean_interarrival": 3,
+                  "mean_program_cycles_per_token": 5.393965692383148,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 333.3333333333333,
+                  "p95_program_cycles_per_token": 9.6,
+                  "schedule_digest": "dbc778fc733c255c008b05ac28cadf71af41ef24283a53a6da7303e4f942656a"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 209,
+                  "mean_interarrival": 4,
+                  "mean_program_cycles_per_token": 4.83754899919225,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 250.0,
+                  "p95_program_cycles_per_token": 9.5,
+                  "schedule_digest": "1e42a5b843b00f4eab5d57d7198fade2bd70bb863a7662e6e1be52fa1c8fd31f"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 225,
+                  "mean_interarrival": 8,
+                  "mean_program_cycles_per_token": 2.361195435972272,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 125.0,
+                  "p95_program_cycles_per_token": 7.95,
+                  "schedule_digest": "1a3a5c5da4c65550c40261f525432047f423dc35ce2ca3172ed6834445f74f62"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 424,
+                  "mean_interarrival": 16,
+                  "mean_program_cycles_per_token": 0.9861632870511267,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 62.5,
+                  "p95_program_cycles_per_token": 2.238095238095238,
+                  "schedule_digest": "259dbd6bd6300db1e0c8919ac2157a725b45edaf36094a34e54ada723c54c27c"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 840,
+                  "mean_interarrival": 32,
+                  "mean_program_cycles_per_token": 0.8073833090719402,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 31.25,
+                  "p95_program_cycles_per_token": 1.5454545454545454,
+                  "schedule_digest": "69250efc6b7857f7263b2a7cec10f721c6bf73b0a5aefb7b489dd45dff1697fb"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 1669,
+                  "mean_interarrival": 64,
+                  "mean_program_cycles_per_token": 0.7526012933334979,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 15.625,
+                  "p95_program_cycles_per_token": 1.1428571428571428,
+                  "schedule_digest": "e6e4a2c96405fd7b6c566ec0d4b14ed5f2fbda2444b8ecc03d57b5e844e948d8"
+                }
+              ],
+              "minimum_mean_interarrival": 2,
+              "mode": "agentix",
+              "slo_cycles_per_output_token": 6.15,
+              "supported_programs_per_kcycle": 500.0,
+              "workload": "mixed"
+            },
+            "mlfq": {
+              "boundary_fail": {
+                "anti_starvation_promotions": 0,
+                "calls": 366,
+                "completed_programs": 36,
+                "logical_output_tokens": 982,
+                "makespan": 372,
+                "mean_interarrival": 9,
+                "mean_program_cycles_per_token": 6.418021704773355,
+                "mode": "mlfq",
+                "offered_programs_per_kcycle": 111.11111111111111,
+                "p95_program_cycles_per_token": 9.923076923076923,
+                "schedule_digest": "6c64a0bbcb1c03586494991cd7f1ba2bc1d352224fd3662bc1254f4e59fe876d"
+              },
+              "boundary_pass": {
+                "anti_starvation_promotions": 0,
+                "calls": 366,
+                "completed_programs": 36,
+                "logical_output_tokens": 982,
+                "makespan": 374,
+                "mean_interarrival": 10,
+                "mean_program_cycles_per_token": 5.73716659436432,
+                "mode": "mlfq",
+                "offered_programs_per_kcycle": 100.0,
+                "p95_program_cycles_per_token": 8.764705882352942,
+                "schedule_digest": "68d4ff04081cdf6da38afdff5a92c2dffda16c7286b8513d5a886b607f9071f3"
+              },
+              "evaluated": [
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 372,
+                  "mean_interarrival": 8,
+                  "mean_program_cycles_per_token": 7.142179965858516,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 125.0,
+                  "p95_program_cycles_per_token": 10.666666666666666,
+                  "schedule_digest": "d147056d53308b52ec4a3cdd2594b29d686dfa1b1248b570c87303d3b719ce92"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 372,
+                  "mean_interarrival": 9,
+                  "mean_program_cycles_per_token": 6.418021704773355,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 111.11111111111111,
+                  "p95_program_cycles_per_token": 9.923076923076923,
+                  "schedule_digest": "6c64a0bbcb1c03586494991cd7f1ba2bc1d352224fd3662bc1254f4e59fe876d"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 374,
+                  "mean_interarrival": 10,
+                  "mean_program_cycles_per_token": 5.73716659436432,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 100.0,
+                  "p95_program_cycles_per_token": 8.764705882352942,
+                  "schedule_digest": "68d4ff04081cdf6da38afdff5a92c2dffda16c7286b8513d5a886b607f9071f3"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 376,
+                  "mean_interarrival": 11,
+                  "mean_program_cycles_per_token": 4.966487069512582,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 90.9090909090909,
+                  "p95_program_cycles_per_token": 7.846153846153846,
+                  "schedule_digest": "4783fbaf2d78b118aaf317a0c79fd116b8e93a9556d792718eaffc78817568bf"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 377,
+                  "mean_interarrival": 12,
+                  "mean_program_cycles_per_token": 4.299536547646007,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 83.33333333333333,
+                  "p95_program_cycles_per_token": 7.378378378378378,
+                  "schedule_digest": "f4126c8a759e095ed6a97c6d23c3fd95be89ed53729337f54a29f1dda03d714b"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 433,
+                  "mean_interarrival": 16,
+                  "mean_program_cycles_per_token": 2.585352169746667,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 62.5,
+                  "p95_program_cycles_per_token": 5.0,
+                  "schedule_digest": "2e568dce73a888a20650e1a82ae13e56a29c0d40c4f99bb0ff41096d1e977d89"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 849,
+                  "mean_interarrival": 32,
+                  "mean_program_cycles_per_token": 1.4847454672565785,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 31.25,
+                  "p95_program_cycles_per_token": 2.7142857142857144,
+                  "schedule_digest": "ea7c0f660dc3286008f7e131a53a6131b3fc584492168a18fd6f1f462707831a"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 1678,
+                  "mean_interarrival": 64,
+                  "mean_program_cycles_per_token": 1.3211511812696313,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 15.625,
+                  "p95_program_cycles_per_token": 1.9285714285714286,
+                  "schedule_digest": "89936a06c94e0ef7527ec62919e245ad0468d6ac106740404e9f87b2a9a643a1"
+                }
+              ],
+              "minimum_mean_interarrival": 10,
+              "mode": "mlfq",
+              "slo_cycles_per_output_token": 6.15,
+              "supported_programs_per_kcycle": 100.0,
+              "workload": "mixed"
+            },
+            "vllm": {
+              "boundary_fail": {
+                "anti_starvation_promotions": 0,
+                "calls": 366,
+                "completed_programs": 36,
+                "logical_output_tokens": 982,
+                "makespan": 829,
+                "mean_interarrival": 30,
+                "mean_program_cycles_per_token": 6.215034876275707,
+                "mode": "vllm",
+                "offered_programs_per_kcycle": 33.333333333333336,
+                "p95_program_cycles_per_token": 14.0,
+                "schedule_digest": "21b544027c82a4d093a4082b6f598ca85b16cbe14a9e0bca727e2a00aba58f39"
+              },
+              "boundary_pass": {
+                "anti_starvation_promotions": 0,
+                "calls": 366,
+                "completed_programs": 36,
+                "logical_output_tokens": 982,
+                "makespan": 856,
+                "mean_interarrival": 31,
+                "mean_program_cycles_per_token": 5.80970483304261,
+                "mode": "vllm",
+                "offered_programs_per_kcycle": 32.25806451612903,
+                "p95_program_cycles_per_token": 13.25,
+                "schedule_digest": "5e912b0fc72d9725cddd3e26f44a7a939530cfc5852200416f34087ae3bc373d"
+              },
+              "evaluated": [
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 734,
+                  "mean_interarrival": 16,
+                  "mean_program_cycles_per_token": 14.202523512370798,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 62.5,
+                  "p95_program_cycles_per_token": 28.166666666666668,
+                  "schedule_digest": "911f35e67a3575657e184b3d2aae8b736c30d20e63ba557a7942a1abf9428eae"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 755,
+                  "mean_interarrival": 24,
+                  "mean_program_cycles_per_token": 9.328650675627827,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 41.666666666666664,
+                  "p95_program_cycles_per_token": 17.884615384615383,
+                  "schedule_digest": "150e12e34f82797d1de1eb33c83ed2d1ea23b7551a0e254b5707ce99d11a4f26"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 779,
+                  "mean_interarrival": 28,
+                  "mean_program_cycles_per_token": 7.1650561867084175,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 35.714285714285715,
+                  "p95_program_cycles_per_token": 16.642857142857142,
+                  "schedule_digest": "d3f323c952ba32783f95e9c07a16472c4c6a66e392838079663135bdd2321a5d"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 802,
+                  "mean_interarrival": 29,
+                  "mean_program_cycles_per_token": 6.698522080331024,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 34.48275862068966,
+                  "p95_program_cycles_per_token": 15.0,
+                  "schedule_digest": "a5bab7cea5a76ac15e0b3795357caf2cbb3b103cf8fbb029c23aff2866da7883"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 829,
+                  "mean_interarrival": 30,
+                  "mean_program_cycles_per_token": 6.215034876275707,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 33.333333333333336,
+                  "p95_program_cycles_per_token": 14.0,
+                  "schedule_digest": "21b544027c82a4d093a4082b6f598ca85b16cbe14a9e0bca727e2a00aba58f39"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 856,
+                  "mean_interarrival": 31,
+                  "mean_program_cycles_per_token": 5.80970483304261,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 32.25806451612903,
+                  "p95_program_cycles_per_token": 13.25,
+                  "schedule_digest": "5e912b0fc72d9725cddd3e26f44a7a939530cfc5852200416f34087ae3bc373d"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 879,
+                  "mean_interarrival": 32,
+                  "mean_program_cycles_per_token": 5.445770929057458,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 31.25,
+                  "p95_program_cycles_per_token": 12.6,
+                  "schedule_digest": "3f7033f21b1b6f576299112af2131e1bc05870b5984900f3568058199ed2854f"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 906,
+                  "mean_interarrival": 33,
+                  "mean_program_cycles_per_token": 5.038973942779435,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 30.303030303030305,
+                  "p95_program_cycles_per_token": 12.2,
+                  "schedule_digest": "b19261e9f0c50cf6a43c704e888c6c4ecac479576f500eae75be47c4e35263e7"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 1692,
+                  "mean_interarrival": 64,
+                  "mean_program_cycles_per_token": 3.1186641990210924,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 15.625,
+                  "p95_program_cycles_per_token": 6.761904761904762,
+                  "schedule_digest": "8c818857c7065d59c702ccf779088a31b09f79137ca3ab43a0fd88be9056d2bb"
+                }
+              ],
+              "minimum_mean_interarrival": 31,
+              "mode": "vllm",
+              "slo_cycles_per_output_token": 6.15,
+              "supported_programs_per_kcycle": 32.25806451612903,
+              "workload": "mixed"
+            },
+            "vllm_opt": {
+              "boundary_fail": {
+                "anti_starvation_promotions": 0,
+                "calls": 366,
+                "completed_programs": 36,
+                "logical_output_tokens": 982,
+                "makespan": 349,
+                "mean_interarrival": 9,
+                "mean_program_cycles_per_token": 6.79720173757644,
+                "mode": "vllm_opt",
+                "offered_programs_per_kcycle": 111.11111111111111,
+                "p95_program_cycles_per_token": 13.5,
+                "schedule_digest": "8f1b1ca26fb3d146a3ee48b265a9618d2c7ece8a62684c631f49d811be67030b"
+              },
+              "boundary_pass": {
+                "anti_starvation_promotions": 0,
+                "calls": 366,
+                "completed_programs": 36,
+                "logical_output_tokens": 982,
+                "makespan": 352,
+                "mean_interarrival": 10,
+                "mean_program_cycles_per_token": 6.126712068651131,
+                "mode": "vllm_opt",
+                "offered_programs_per_kcycle": 100.0,
+                "p95_program_cycles_per_token": 12.0,
+                "schedule_digest": "7e2dc32c90a72249ebce87a8652adc5e8fbd315b65251130170d2d03250c77cc"
+              },
+              "evaluated": [
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 348,
+                  "mean_interarrival": 8,
+                  "mean_program_cycles_per_token": 7.420572850393756,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 125.0,
+                  "p95_program_cycles_per_token": 15.166666666666666,
+                  "schedule_digest": "0c676d97f7dfede0b2422ac9a200ea8cfd1b7427a5f6f1338fd5d28d45334e56"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 349,
+                  "mean_interarrival": 9,
+                  "mean_program_cycles_per_token": 6.79720173757644,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 111.11111111111111,
+                  "p95_program_cycles_per_token": 13.5,
+                  "schedule_digest": "8f1b1ca26fb3d146a3ee48b265a9618d2c7ece8a62684c631f49d811be67030b"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 352,
+                  "mean_interarrival": 10,
+                  "mean_program_cycles_per_token": 6.126712068651131,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 100.0,
+                  "p95_program_cycles_per_token": 12.0,
+                  "schedule_digest": "7e2dc32c90a72249ebce87a8652adc5e8fbd315b65251130170d2d03250c77cc"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 355,
+                  "mean_interarrival": 11,
+                  "mean_program_cycles_per_token": 5.3807541139969,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 90.9090909090909,
+                  "p95_program_cycles_per_token": 10.0,
+                  "schedule_digest": "58a6fbc6115c9de46f99272b3a35faab0bbadcdc11edb0ddb8ae5d5def7014c3"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 356,
+                  "mean_interarrival": 12,
+                  "mean_program_cycles_per_token": 4.678171167866159,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 83.33333333333333,
+                  "p95_program_cycles_per_token": 8.8,
+                  "schedule_digest": "2996c9215b9513e86d8c2a3d5308d9d26db038f2598163e587cf8dc8f0475d93"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 432,
+                  "mean_interarrival": 16,
+                  "mean_program_cycles_per_token": 2.5972022450829915,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 62.5,
+                  "p95_program_cycles_per_token": 6.111111111111111,
+                  "schedule_digest": "eabf647dd2fb34a4985902b78e51c80c3b6d7394fff1527c98aeca12c51b0eb1"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 848,
+                  "mean_interarrival": 32,
+                  "mean_program_cycles_per_token": 1.4515698933200099,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 31.25,
+                  "p95_program_cycles_per_token": 3.0,
+                  "schedule_digest": "270953fb0552acaabc58f56f4d891e593e16ed7165e3fea00dad53c67ef1dc14"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 366,
+                  "completed_programs": 36,
+                  "logical_output_tokens": 982,
+                  "makespan": 1677,
+                  "mean_interarrival": 64,
+                  "mean_program_cycles_per_token": 1.291112385630403,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 15.625,
+                  "p95_program_cycles_per_token": 2.6363636363636362,
+                  "schedule_digest": "c5c15b8fdf749e21e8f3e32b181b2af540b278f514c4f1f6d4fe6b0dc0b824ff"
+                }
+              ],
+              "minimum_mean_interarrival": 10,
+              "mode": "vllm_opt",
+              "slo_cycles_per_output_token": 6.15,
+              "supported_programs_per_kcycle": 100.0,
+              "workload": "mixed"
+            }
+          },
+          "configuration": {
+            "agentix_batch_efficiency": 2.0,
+            "agentix_overhead_period": 6,
+            "anti_starvation_beta": 64.0,
+            "batch_size": 4,
+            "kind": "mixed",
+            "max_interarrival": 64,
+            "mlfq_batch_efficiency": 1.1,
+            "mlfq_swap_period": 3,
+            "name": "mixed",
+            "programs": 36,
+            "seed": 11,
+            "slo_cycles_per_output_token": 6.15,
+            "vllm_prefix_scale": 0.18
+          },
+          "logical_work_equal": true,
+          "ratios": {
+            "mlfq": 5.0,
+            "vllm": 15.5,
+            "vllm_opt": 5.0
+          }
+        },
+        "single": {
+          "capacities": {
+            "agentix": {
+              "boundary_fail": {
+                "anti_starvation_promotions": 0,
+                "calls": 332,
+                "completed_programs": 40,
+                "logical_output_tokens": 894,
+                "makespan": 617,
+                "mean_interarrival": 3,
+                "mean_program_cycles_per_token": 10.126979069793608,
+                "mode": "agentix",
+                "offered_programs_per_kcycle": 333.3333333333333,
+                "p95_program_cycles_per_token": 16.57894736842105,
+                "schedule_digest": "7f6e184e9f129a787eebef200e18a07e69c4babf2bc5a1de2c76246fffd984c5"
+              },
+              "boundary_pass": {
+                "anti_starvation_promotions": 0,
+                "calls": 332,
+                "completed_programs": 40,
+                "logical_output_tokens": 894,
+                "makespan": 620,
+                "mean_interarrival": 4,
+                "mean_program_cycles_per_token": 7.4750657831106695,
+                "mode": "agentix",
+                "offered_programs_per_kcycle": 250.0,
+                "p95_program_cycles_per_token": 14.88888888888889,
+                "schedule_digest": "b4ad9e1361d70423ea3cc9d645bdb3c608b008033b6266dd7afc2f43da819e0f"
+              },
+              "evaluated": [
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 615,
+                  "mean_interarrival": 2,
+                  "mean_program_cycles_per_token": 13.122678552691427,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 500.0,
+                  "p95_program_cycles_per_token": 20.333333333333332,
+                  "schedule_digest": "fa0523ed78029e8049a88db3e73ffa28382722d6bfb9e7e479610772acd03b7e"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 617,
+                  "mean_interarrival": 3,
+                  "mean_program_cycles_per_token": 10.126979069793608,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 333.3333333333333,
+                  "p95_program_cycles_per_token": 16.57894736842105,
+                  "schedule_digest": "7f6e184e9f129a787eebef200e18a07e69c4babf2bc5a1de2c76246fffd984c5"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 620,
+                  "mean_interarrival": 4,
+                  "mean_program_cycles_per_token": 7.4750657831106695,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 250.0,
+                  "p95_program_cycles_per_token": 14.88888888888889,
+                  "schedule_digest": "b4ad9e1361d70423ea3cc9d645bdb3c608b008033b6266dd7afc2f43da819e0f"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 625,
+                  "mean_interarrival": 5,
+                  "mean_program_cycles_per_token": 6.486118078406481,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 200.0,
+                  "p95_program_cycles_per_token": 13.785714285714286,
+                  "schedule_digest": "19b3ae702ba4e76899dbd72213583ae2ce0ba5f6910da8b40db778359a878175"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 630,
+                  "mean_interarrival": 6,
+                  "mean_program_cycles_per_token": 5.32402722737859,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 166.66666666666666,
+                  "p95_program_cycles_per_token": 10.0,
+                  "schedule_digest": "e0a12ebcec18f0e295d9a2c6f3e48340a3383d1f483b28ab0ec6f734284c0d5a"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 640,
+                  "mean_interarrival": 8,
+                  "mean_program_cycles_per_token": 3.6399005104294235,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 125.0,
+                  "p95_program_cycles_per_token": 8.724137931034482,
+                  "schedule_digest": "d16e8f53b16f993c199f4b962186d5176dc02158d26480cf8c2389a1d51a3d4a"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 767,
+                  "mean_interarrival": 16,
+                  "mean_program_cycles_per_token": 1.9314227952334317,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 62.5,
+                  "p95_program_cycles_per_token": 2.8461538461538463,
+                  "schedule_digest": "28136acf1d0deaddef35e37cf367ddf0e6dfe4bf93781848180e2e261cd13dda"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 1390,
+                  "mean_interarrival": 32,
+                  "mean_program_cycles_per_token": 1.568701236570292,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 31.25,
+                  "p95_program_cycles_per_token": 2.0,
+                  "schedule_digest": "b6516a9948f83e72669dbd836e802ee76bc79ba368cc64bdb7874f13335b9e3d"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 2672,
+                  "mean_interarrival": 64,
+                  "mean_program_cycles_per_token": 1.5041769751575151,
+                  "mode": "agentix",
+                  "offered_programs_per_kcycle": 15.625,
+                  "p95_program_cycles_per_token": 2.0,
+                  "schedule_digest": "57c7a0d5fd025cd232a8f8846fd6e6c6f2880135817458f5cad564d0febc55d4"
+                }
+              ],
+              "minimum_mean_interarrival": 4,
+              "mode": "agentix",
+              "slo_cycles_per_output_token": 8.5,
+              "supported_programs_per_kcycle": 250.0,
+              "workload": "single"
+            },
+            "mlfq": {
+              "boundary_fail": {
+                "anti_starvation_promotions": 0,
+                "calls": 332,
+                "completed_programs": 40,
+                "logical_output_tokens": 894,
+                "makespan": 705,
+                "mean_interarrival": 5,
+                "mean_program_cycles_per_token": 8.904331343281916,
+                "mode": "mlfq",
+                "offered_programs_per_kcycle": 200.0,
+                "p95_program_cycles_per_token": 17.235294117647058,
+                "schedule_digest": "039d890e7be956896bbd4a167b37587f14e96aaec894947b92e8e9cc9847ad14"
+              },
+              "boundary_pass": {
+                "anti_starvation_promotions": 0,
+                "calls": 332,
+                "completed_programs": 40,
+                "logical_output_tokens": 894,
+                "makespan": 711,
+                "mean_interarrival": 6,
+                "mean_program_cycles_per_token": 6.843429233578081,
+                "mode": "mlfq",
+                "offered_programs_per_kcycle": 166.66666666666666,
+                "p95_program_cycles_per_token": 14.75,
+                "schedule_digest": "2f75f4d1223cf628733b10c1964da69f0f78d1d11590863780cf42fbf17f5096"
+              },
+              "evaluated": [
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 696,
+                  "mean_interarrival": 4,
+                  "mean_program_cycles_per_token": 10.38886738012674,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 250.0,
+                  "p95_program_cycles_per_token": 19.928571428571427,
+                  "schedule_digest": "63ebfc61a59b892c0c23bbd0d1ee6f620d74ae5a966d141116b44bde3670116f"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 705,
+                  "mean_interarrival": 5,
+                  "mean_program_cycles_per_token": 8.904331343281916,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 200.0,
+                  "p95_program_cycles_per_token": 17.235294117647058,
+                  "schedule_digest": "039d890e7be956896bbd4a167b37587f14e96aaec894947b92e8e9cc9847ad14"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 711,
+                  "mean_interarrival": 6,
+                  "mean_program_cycles_per_token": 6.843429233578081,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 166.66666666666666,
+                  "p95_program_cycles_per_token": 14.75,
+                  "schedule_digest": "2f75f4d1223cf628733b10c1964da69f0f78d1d11590863780cf42fbf17f5096"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 717,
+                  "mean_interarrival": 7,
+                  "mean_program_cycles_per_token": 6.9751025701326705,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 142.85714285714286,
+                  "p95_program_cycles_per_token": 14.3,
+                  "schedule_digest": "831b9c17f0647594fc835320c44f8f8ec7c26fea8e38afdc2c39e6aff1b3b390"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 726,
+                  "mean_interarrival": 8,
+                  "mean_program_cycles_per_token": 6.37452952206259,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 125.0,
+                  "p95_program_cycles_per_token": 13.65,
+                  "schedule_digest": "f475620818009d484bbce978c08f713fd94944847eea0ae9904a8289d3a0d519"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 809,
+                  "mean_interarrival": 16,
+                  "mean_program_cycles_per_token": 2.9704583094738504,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 62.5,
+                  "p95_program_cycles_per_token": 6.0,
+                  "schedule_digest": "98157ad2f05546fafae0c445efe8e6fbb08a7ed5fc30e9e8599faae9616014d7"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 1404,
+                  "mean_interarrival": 32,
+                  "mean_program_cycles_per_token": 2.0673795683412366,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 31.25,
+                  "p95_program_cycles_per_token": 3.235294117647059,
+                  "schedule_digest": "1ad5beb0b99bea856775bf661d12b235d1b5f279cbf7f920278b341476437c8f"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 2672,
+                  "mean_interarrival": 64,
+                  "mean_program_cycles_per_token": 1.6838583038248096,
+                  "mode": "mlfq",
+                  "offered_programs_per_kcycle": 15.625,
+                  "p95_program_cycles_per_token": 2.3333333333333335,
+                  "schedule_digest": "25c6646c364d2c1ad1fa66914c1b60dca14772faa979a9eea9e3900729f453a8"
+                }
+              ],
+              "minimum_mean_interarrival": 6,
+              "mode": "mlfq",
+              "slo_cycles_per_output_token": 8.5,
+              "supported_programs_per_kcycle": 166.66666666666666,
+              "workload": "single"
+            },
+            "vllm": {
+              "boundary_fail": {
+                "anti_starvation_promotions": 0,
+                "calls": 332,
+                "completed_programs": 40,
+                "logical_output_tokens": 894,
+                "makespan": 1953,
+                "mean_interarrival": 31,
+                "mean_program_cycles_per_token": 8.995663066988776,
+                "mode": "vllm",
+                "offered_programs_per_kcycle": 32.25806451612903,
+                "p95_program_cycles_per_token": 18.0,
+                "schedule_digest": "2c3c96133a77304677c27eaee892f185af1c31b1114f0930ff770c996cf5658c"
+              },
+              "boundary_pass": {
+                "anti_starvation_promotions": 0,
+                "calls": 332,
+                "completed_programs": 40,
+                "logical_output_tokens": 894,
+                "makespan": 1962,
+                "mean_interarrival": 32,
+                "mean_program_cycles_per_token": 8.240334847700728,
+                "mode": "vllm",
+                "offered_programs_per_kcycle": 31.25,
+                "p95_program_cycles_per_token": 16.333333333333332,
+                "schedule_digest": "754a5b331ef35d105a5c379a3498c14dc13846e319b56c8840c5c49bf8bbefe4"
+              },
+              "evaluated": [
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 1759,
+                  "mean_interarrival": 16,
+                  "mean_program_cycles_per_token": 13.78676872025029,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 62.5,
+                  "p95_program_cycles_per_token": 30.666666666666668,
+                  "schedule_digest": "dfa9e5cf6f078619c50bb14e0efc89f5f9e7d96b3e13009019177d77363ff324"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 1876,
+                  "mean_interarrival": 24,
+                  "mean_program_cycles_per_token": 10.806559240462315,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 41.666666666666664,
+                  "p95_program_cycles_per_token": 22.666666666666668,
+                  "schedule_digest": "d43c6e530dbb6dc9493be2becf36a8c3f7ef061fc3414d32d4f45c5fae8b3040"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 1901,
+                  "mean_interarrival": 28,
+                  "mean_program_cycles_per_token": 10.309169181390121,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 35.714285714285715,
+                  "p95_program_cycles_per_token": 20.0,
+                  "schedule_digest": "06c42b06ffaf9951eafcee6472ab6180bba5363d60c3db2c9cec75e2319d0166"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 1931,
+                  "mean_interarrival": 30,
+                  "mean_program_cycles_per_token": 9.572441487981072,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 33.333333333333336,
+                  "p95_program_cycles_per_token": 22.25,
+                  "schedule_digest": "ce20709e2896d31b6c4b14a6ef19f6456404c1168f384e02fcc1eb7347557684"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 1953,
+                  "mean_interarrival": 31,
+                  "mean_program_cycles_per_token": 8.995663066988776,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 32.25806451612903,
+                  "p95_program_cycles_per_token": 18.0,
+                  "schedule_digest": "2c3c96133a77304677c27eaee892f185af1c31b1114f0930ff770c996cf5658c"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 1962,
+                  "mean_interarrival": 32,
+                  "mean_program_cycles_per_token": 8.240334847700728,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 31.25,
+                  "p95_program_cycles_per_token": 16.333333333333332,
+                  "schedule_digest": "754a5b331ef35d105a5c379a3498c14dc13846e319b56c8840c5c49bf8bbefe4"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 1955,
+                  "mean_interarrival": 33,
+                  "mean_program_cycles_per_token": 8.30679098820128,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 30.303030303030305,
+                  "p95_program_cycles_per_token": 22.666666666666668,
+                  "schedule_digest": "41cae437d961ea426c13fbfcd889dab3ea6fe196a59f01e142ce62f01091c919"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 1992,
+                  "mean_interarrival": 34,
+                  "mean_program_cycles_per_token": 7.353631849742885,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 29.41176470588235,
+                  "p95_program_cycles_per_token": 16.0,
+                  "schedule_digest": "da1092ddb2eba9a9b3a42863839a7f4ed22e3cde2363913321fa7f8eced923a9"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 3005,
+                  "mean_interarrival": 64,
+                  "mean_program_cycles_per_token": 3.7035110541185268,
+                  "mode": "vllm",
+                  "offered_programs_per_kcycle": 15.625,
+                  "p95_program_cycles_per_token": 7.5,
+                  "schedule_digest": "3656ecb7b470b7a1b0d48b939674656a5128c8697b327dc6c0c90b34320f887e"
+                }
+              ],
+              "minimum_mean_interarrival": 32,
+              "mode": "vllm",
+              "slo_cycles_per_output_token": 8.5,
+              "supported_programs_per_kcycle": 31.25,
+              "workload": "single"
+            },
+            "vllm_opt": {
+              "boundary_fail": {
+                "anti_starvation_promotions": 0,
+                "calls": 332,
+                "completed_programs": 40,
+                "logical_output_tokens": 894,
+                "makespan": 634,
+                "mean_interarrival": 7,
+                "mean_program_cycles_per_token": 8.62390096724991,
+                "mode": "vllm_opt",
+                "offered_programs_per_kcycle": 142.85714285714286,
+                "p95_program_cycles_per_token": 19.666666666666668,
+                "schedule_digest": "a5151b9e1301066307047321c565776dc68011c93ef4800a766bc4c561788099"
+              },
+              "boundary_pass": {
+                "anti_starvation_promotions": 0,
+                "calls": 332,
+                "completed_programs": 40,
+                "logical_output_tokens": 894,
+                "makespan": 642,
+                "mean_interarrival": 8,
+                "mean_program_cycles_per_token": 7.355338850579161,
+                "mode": "vllm_opt",
+                "offered_programs_per_kcycle": 125.0,
+                "p95_program_cycles_per_token": 16.0,
+                "schedule_digest": "8e819966d79b30b958f9faa4702baee699773adce4f030a325e5413301000290"
+              },
+              "evaluated": [
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 626,
+                  "mean_interarrival": 4,
+                  "mean_program_cycles_per_token": 11.869978212249015,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 250.0,
+                  "p95_program_cycles_per_token": 27.0,
+                  "schedule_digest": "0c6d99afb85900a36f07e1f5a55c9f91009eb0c894d1ef7adfb8c48329bf5518"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 630,
+                  "mean_interarrival": 6,
+                  "mean_program_cycles_per_token": 9.98611508274794,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 166.66666666666666,
+                  "p95_program_cycles_per_token": 22.25,
+                  "schedule_digest": "9c8fc4ea79d23ef5eb41c4b04c6259059a116be1767295c4110b28370eef3748"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 634,
+                  "mean_interarrival": 7,
+                  "mean_program_cycles_per_token": 8.62390096724991,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 142.85714285714286,
+                  "p95_program_cycles_per_token": 19.666666666666668,
+                  "schedule_digest": "a5151b9e1301066307047321c565776dc68011c93ef4800a766bc4c561788099"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 642,
+                  "mean_interarrival": 8,
+                  "mean_program_cycles_per_token": 7.355338850579161,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 125.0,
+                  "p95_program_cycles_per_token": 16.0,
+                  "schedule_digest": "8e819966d79b30b958f9faa4702baee699773adce4f030a325e5413301000290"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 653,
+                  "mean_interarrival": 9,
+                  "mean_program_cycles_per_token": 6.7277790949796366,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 111.11111111111111,
+                  "p95_program_cycles_per_token": 15.5,
+                  "schedule_digest": "a5d6c7988b3dc4d82c83b9693750d17dc44c3b8092de62d3bc52059dd0078270"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 665,
+                  "mean_interarrival": 10,
+                  "mean_program_cycles_per_token": 5.673633111325133,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 100.0,
+                  "p95_program_cycles_per_token": 11.333333333333334,
+                  "schedule_digest": "e8201524cee633c7bf285472f63a160bd3d3ed34738b89309a0ff5fada31e6a0"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 783,
+                  "mean_interarrival": 16,
+                  "mean_program_cycles_per_token": 2.6910765932462284,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 62.5,
+                  "p95_program_cycles_per_token": 5.0,
+                  "schedule_digest": "824d2a2635ae32d97b125febe23ac5b5bdc606c14b241270001d60d3769cb630"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 1387,
+                  "mean_interarrival": 32,
+                  "mean_program_cycles_per_token": 1.828921289410349,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 31.25,
+                  "p95_program_cycles_per_token": 2.935483870967742,
+                  "schedule_digest": "88ae5402595bd8282b27d128d22d0c6bf9242ec431bee7c93cda594e12d2f969"
+                },
+                {
+                  "anti_starvation_promotions": 0,
+                  "calls": 332,
+                  "completed_programs": 40,
+                  "logical_output_tokens": 894,
+                  "makespan": 2672,
+                  "mean_interarrival": 64,
+                  "mean_program_cycles_per_token": 1.5068957179219002,
+                  "mode": "vllm_opt",
+                  "offered_programs_per_kcycle": 15.625,
+                  "p95_program_cycles_per_token": 2.0,
+                  "schedule_digest": "9fcc61bf1189f294f35b7d2272d9dca2bf5c2c917406fb94674c2f6c48e9d19a"
+                }
+              ],
+              "minimum_mean_interarrival": 8,
+              "mode": "vllm_opt",
+              "slo_cycles_per_output_token": 8.5,
+              "supported_programs_per_kcycle": 125.0,
+              "workload": "single"
+            }
+          },
+          "configuration": {
+            "agentix_batch_efficiency": 1.0,
+            "agentix_overhead_period": 0,
+            "anti_starvation_beta": 64.0,
+            "batch_size": 2,
+            "kind": "single",
+            "max_interarrival": 64,
+            "mlfq_batch_efficiency": 1.0,
+            "mlfq_swap_period": 2,
+            "name": "single",
+            "programs": 40,
+            "seed": 5,
+            "slo_cycles_per_output_token": 8.5,
+            "vllm_prefix_scale": 0.18
+          },
+          "logical_work_equal": true,
+          "ratios": {
+            "mlfq": 1.5,
+            "vllm": 8.0,
+            "vllm_opt": 2.0
+          }
+        }
+      },
+      "public_reference_audit": {
+        "branch": "autellix-scheduling",
+        "classification": "independent_public_vllm_fork_reference_not_author_verified",
+        "digest": "10799a478a09e2ef922ed9bdfbcbe3d3fb412987cd7c45edfb8d1b30039a0689",
+        "expected_commit": "1df19874d1fb10e497b7185bf813fdd7be189683",
+        "files": {
+          "atlas": {
+            "exists": true,
+            "pass": true,
+            "path": "vllm/v1/core/sched/autellix/atlas_scheduler.py",
+            "required_semantics": {
+              "class ATLASScheduler": true,
+              "update_critical_path": true
+            },
+            "sha256": "c49870aa94884e06f26b32de54e7e91b65e7a4cbab49e195cffde8482b310669"
+          },
+          "attained_service": {
+            "exists": true,
+            "pass": true,
+            "path": "vllm/v1/core/sched/autellix/attained_service.py",
+            "required_semantics": {
+              "AttainedServiceTracker": true
+            },
+            "sha256": "9cadafe592051eb5270ba7fad8cf83f2bb18c0d5079eff5d77faa8eeb8914a62"
+          },
+          "mlfq": {
+            "exists": true,
+            "pass": true,
+            "path": "vllm/v1/core/sched/autellix/mlfq.py",
+            "required_semantics": {
+              "anti_starvation": true,
+              "total_wait / max(1.0, total_service) >= beta": true
+            },
+            "sha256": "4c22091335961b783420012b4fb0aba9e1b1b1b72a1a5e8163346e75be1c43fb"
+          },
+          "plas": {
+            "exists": true,
+            "pass": true,
+            "path": "vllm/v1/core/sched/autellix/plas_scheduler.py",
+            "required_semantics": {
+              "class PLASScheduler": true,
+              "process_table": true
+            },
+            "sha256": "fd55ab708c986f951dacd599527d8882f9f6516f382ad9e1fa4c4890afefb636"
+          },
+          "process_table": {
+            "exists": true,
+            "pass": true,
+            "path": "vllm/v1/core/sched/autellix/process_table.py",
+            "required_semantics": {
+              "active_call_ids": true,
+              "max_critical_path": true,
+              "total_wait": true
+            },
+            "sha256": "58f7a32e428ccb8d9e938f234bde9f85a1e6d3ad38fb785bb61b86fd0c496563"
+          }
+        },
+        "gates": {
+          "pinned_commit": true,
+          "policy_files": true,
+          "pure_python_reference_tests": true
+        },
+        "observed_commit": "1df19874d1fb10e497b7185bf813fdd7be189683",
+        "provenance_note": "Discovered through author/ecosystem source search; the fork is not identified as an official Agentix artifact by the paper authors.",
+        "repository": "https://github.com/kungfu-team/autellix",
+        "schema_version": 1,
+        "summary": {
+          "failing": 0,
+          "gates": 3,
+          "pass": true,
+          "passing": 3
+        },
+        "test": {
+          "command": [
+            "/workspace/AgentSys/.venv/bin/python",
+            "-m",
+            "pytest",
+            "-q",
+            "tests/v1/core/sched/autellix"
+          ],
+          "exit_code": 0,
+          "output": "..........................................................               [100%]\n58 passed in 0.81s\n",
+          "tests_passed": 58
+        }
+      },
+      "run_id": "run_019",
+      "schema_version": 2,
+      "simulator_contract": {
+        "memory": "prefix recomputation, fragmented versus bulk KV swap, and multi-step epochs",
+        "metric": "maximum offered program rate satisfying one fixed program-cycle/token SLO",
+        "scheduler": "FCFS, call-level MLFQ, PLAS, or ATLAS with dynamic DAG release",
+        "trace_inputs": "paper-grounded program call-count/token distributions and Poisson arrivals"
+      },
+      "structural_gates": {
+        "dynamic_call_release": true,
+        "offline_monotonic": true,
+        "program_policies_executed": true,
+        "public_vllm_fork_reference": true,
+        "same_logical_work_per_mode": true,
+        "slo_fail_pass_boundaries": true
+      },
+      "summary": {
+        "endpoints": 13,
+        "failing": 0,
+        "max_relative_error": 0.09090909090909091,
+        "pass": true,
+        "passing": 13
+      }
+    },
+    "figure2": {
+      "audit": [
+        {
+          "endpoint": "agentix.toy_wait.fcfs",
+          "limit": 0.1,
+          "observed": 18.0,
+          "pass": true,
+          "relative_error": 0.0,
+          "target": 18.0
+        },
+        {
+          "endpoint": "agentix.toy_wait.mlfq",
+          "limit": 0.1,
+          "observed": 17.0,
+          "pass": true,
+          "relative_error": 0.05555555555555555,
+          "target": 18.0
+        },
+        {
+          "endpoint": "agentix.toy_wait.plas",
+          "limit": 0.1,
+          "observed": 13.0,
+          "pass": true,
+          "relative_error": 0.08333333333333333,
+          "target": 12.0
+        }
+      ],
+      "classification": "confirmatory_algorithmic_replay",
+      "configuration": {
+        "batch_size": 2,
+        "queue_bounds": [
+          0,
+          2,
+          3,
+          7,
+          15
+        ],
+        "queue_quanta": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "results": {
+        "fcfs": {
+          "anti_starvation_promotions": 0,
+          "call_completion": {
+            "A1": 4,
+            "A2": 10,
+            "A3": 11,
+            "A4": 12,
+            "B1": 3,
+            "B2": 7,
+            "B3": 14,
+            "C1": 4,
+            "C2": 10,
+            "D1": 8
+          },
+          "makespan": 14,
+          "policy": "fcfs",
+          "program_completion": {
+            "A": 12,
+            "B": 14,
+            "C": 10,
+            "D": 8
+          },
+          "program_wait": {
+            "A": 3,
+            "B": 4,
+            "C": 7,
+            "D": 4
+          },
+          "slices": [
+            {
+              "call_id": "A1",
+              "end": 1,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 0
+            },
+            {
+              "call_id": "B1",
+              "end": 1,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 0
+            },
+            {
+              "call_id": "A1",
+              "end": 2,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 1
+            },
+            {
+              "call_id": "B1",
+              "end": 2,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 1
+            },
+            {
+              "call_id": "A1",
+              "end": 3,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 2
+            },
+            {
+              "call_id": "B1",
+              "end": 3,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 2
+            },
+            {
+              "call_id": "A1",
+              "end": 4,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 3
+            },
+            {
+              "call_id": "C1",
+              "end": 4,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "C",
+              "queue_level": 0,
+              "start": 3
+            },
+            {
+              "call_id": "D1",
+              "end": 5,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "D",
+              "queue_level": 0,
+              "start": 4
+            },
+            {
+              "call_id": "B2",
+              "end": 5,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 4
+            },
+            {
+              "call_id": "D1",
+              "end": 6,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "D",
+              "queue_level": 0,
+              "start": 5
+            },
+            {
+              "call_id": "B2",
+              "end": 6,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 5
+            },
+            {
+              "call_id": "D1",
+              "end": 7,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "D",
+              "queue_level": 0,
+              "start": 6
+            },
+            {
+              "call_id": "B2",
+              "end": 7,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 6
+            },
+            {
+              "call_id": "D1",
+              "end": 8,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "D",
+              "queue_level": 0,
+              "start": 7
+            },
+            {
+              "call_id": "A2",
+              "end": 8,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 7
+            },
+            {
+              "call_id": "C2",
+              "end": 9,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "C",
+              "queue_level": 0,
+              "start": 8
+            },
+            {
+              "call_id": "A2",
+              "end": 9,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 8
+            },
+            {
+              "call_id": "C2",
+              "end": 10,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "C",
+              "queue_level": 0,
+              "start": 9
+            },
+            {
+              "call_id": "A2",
+              "end": 10,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 9
+            },
+            {
+              "call_id": "B3",
+              "end": 11,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 10
+            },
+            {
+              "call_id": "A3",
+              "end": 11,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 10
+            },
+            {
+              "call_id": "B3",
+              "end": 12,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 11
+            },
+            {
+              "call_id": "A4",
+              "end": 12,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 11
+            },
+            {
+              "call_id": "B3",
+              "end": 13,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 12
+            },
+            {
+              "call_id": "B3",
+              "end": 14,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 13
+            }
+          ],
+          "total_call_wait": 18,
+          "total_wait": 18
+        },
+        "mlfq": {
+          "anti_starvation_promotions": 0,
+          "call_completion": {
+            "A1": 7,
+            "A2": 10,
+            "A3": 11,
+            "A4": 12,
+            "B1": 6,
+            "B2": 9,
+            "B3": 13,
+            "C1": 2,
+            "C2": 5,
+            "D1": 13
+          },
+          "makespan": 13,
+          "policy": "mlfq",
+          "program_completion": {
+            "A": 12,
+            "B": 13,
+            "C": 5,
+            "D": 13
+          },
+          "program_wait": {
+            "A": 3,
+            "B": 3,
+            "C": 2,
+            "D": 9
+          },
+          "slices": [
+            {
+              "call_id": "A1",
+              "end": 1,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 0
+            },
+            {
+              "call_id": "B1",
+              "end": 1,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 0
+            },
+            {
+              "call_id": "C1",
+              "end": 2,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "C",
+              "queue_level": 0,
+              "start": 1
+            },
+            {
+              "call_id": "D1",
+              "end": 2,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "D",
+              "queue_level": 0,
+              "start": 1
+            },
+            {
+              "call_id": "C2",
+              "end": 3,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "C",
+              "queue_level": 0,
+              "start": 2
+            },
+            {
+              "call_id": "A1",
+              "end": 3,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 1,
+              "start": 2
+            },
+            {
+              "call_id": "B1",
+              "end": 4,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 1,
+              "start": 3
+            },
+            {
+              "call_id": "D1",
+              "end": 4,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "D",
+              "queue_level": 1,
+              "start": 3
+            },
+            {
+              "call_id": "C2",
+              "end": 5,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "C",
+              "queue_level": 1,
+              "start": 4
+            },
+            {
+              "call_id": "A1",
+              "end": 5,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 2,
+              "start": 4
+            },
+            {
+              "call_id": "B1",
+              "end": 6,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 2,
+              "start": 5
+            },
+            {
+              "call_id": "D1",
+              "end": 6,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "D",
+              "queue_level": 2,
+              "start": 5
+            },
+            {
+              "call_id": "B2",
+              "end": 7,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 6
+            },
+            {
+              "call_id": "A1",
+              "end": 7,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 3,
+              "start": 6
+            },
+            {
+              "call_id": "A2",
+              "end": 8,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 7
+            },
+            {
+              "call_id": "B2",
+              "end": 8,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 1,
+              "start": 7
+            },
+            {
+              "call_id": "A2",
+              "end": 9,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "A",
+              "queue_level": 1,
+              "start": 8
+            },
+            {
+              "call_id": "B2",
+              "end": 9,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 2,
+              "start": 8
+            },
+            {
+              "call_id": "B3",
+              "end": 10,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 9
+            },
+            {
+              "call_id": "A2",
+              "end": 10,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 2,
+              "start": 9
+            },
+            {
+              "call_id": "A3",
+              "end": 11,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 10
+            },
+            {
+              "call_id": "B3",
+              "end": 11,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 1,
+              "start": 10
+            },
+            {
+              "call_id": "A4",
+              "end": 12,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 11
+            },
+            {
+              "call_id": "B3",
+              "end": 12,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 2,
+              "start": 11
+            },
+            {
+              "call_id": "D1",
+              "end": 13,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "D",
+              "queue_level": 3,
+              "start": 12
+            },
+            {
+              "call_id": "B3",
+              "end": 13,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 3,
+              "start": 12
+            }
+          ],
+          "total_call_wait": 17,
+          "total_wait": 17
+        },
+        "plas": {
+          "anti_starvation_promotions": 0,
+          "call_completion": {
+            "A1": 7,
+            "A2": 10,
+            "A3": 11,
+            "A4": 12,
+            "B1": 6,
+            "B2": 10,
+            "B3": 14,
+            "C1": 2,
+            "C2": 5,
+            "D1": 8
+          },
+          "makespan": 14,
+          "policy": "plas",
+          "program_completion": {
+            "A": 12,
+            "B": 14,
+            "C": 5,
+            "D": 8
+          },
+          "program_wait": {
+            "A": 3,
+            "B": 4,
+            "C": 2,
+            "D": 4
+          },
+          "slices": [
+            {
+              "call_id": "A1",
+              "end": 1,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 0
+            },
+            {
+              "call_id": "B1",
+              "end": 1,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 0
+            },
+            {
+              "call_id": "C1",
+              "end": 2,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "C",
+              "queue_level": 0,
+              "start": 1
+            },
+            {
+              "call_id": "D1",
+              "end": 2,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "D",
+              "queue_level": 0,
+              "start": 1
+            },
+            {
+              "call_id": "C2",
+              "end": 3,
+              "inherited_service": 1,
+              "lane": 0,
+              "program_id": "C",
+              "queue_level": 0,
+              "start": 2
+            },
+            {
+              "call_id": "A1",
+              "end": 3,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 1,
+              "start": 2
+            },
+            {
+              "call_id": "B1",
+              "end": 4,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 1,
+              "start": 3
+            },
+            {
+              "call_id": "D1",
+              "end": 4,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "D",
+              "queue_level": 1,
+              "start": 3
+            },
+            {
+              "call_id": "C2",
+              "end": 5,
+              "inherited_service": 1,
+              "lane": 0,
+              "program_id": "C",
+              "queue_level": 1,
+              "start": 4
+            },
+            {
+              "call_id": "A1",
+              "end": 5,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 2,
+              "start": 4
+            },
+            {
+              "call_id": "B1",
+              "end": 6,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 2,
+              "start": 5
+            },
+            {
+              "call_id": "D1",
+              "end": 6,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "D",
+              "queue_level": 2,
+              "start": 5
+            },
+            {
+              "call_id": "B2",
+              "end": 7,
+              "inherited_service": 3,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 2,
+              "start": 6
+            },
+            {
+              "call_id": "A1",
+              "end": 7,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 3,
+              "start": 6
+            },
+            {
+              "call_id": "A2",
+              "end": 8,
+              "inherited_service": 4,
+              "lane": 0,
+              "program_id": "A",
+              "queue_level": 2,
+              "start": 7
+            },
+            {
+              "call_id": "D1",
+              "end": 8,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "D",
+              "queue_level": 3,
+              "start": 7
+            },
+            {
+              "call_id": "B2",
+              "end": 9,
+              "inherited_service": 3,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 3,
+              "start": 8
+            },
+            {
+              "call_id": "A2",
+              "end": 9,
+              "inherited_service": 4,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 3,
+              "start": 8
+            },
+            {
+              "call_id": "B2",
+              "end": 10,
+              "inherited_service": 3,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 4,
+              "start": 9
+            },
+            {
+              "call_id": "A2",
+              "end": 10,
+              "inherited_service": 4,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 4,
+              "start": 9
+            },
+            {
+              "call_id": "B3",
+              "end": 11,
+              "inherited_service": 6,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 2,
+              "start": 10
+            },
+            {
+              "call_id": "A3",
+              "end": 11,
+              "inherited_service": 7,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 3,
+              "start": 10
+            },
+            {
+              "call_id": "B3",
+              "end": 12,
+              "inherited_service": 6,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 3,
+              "start": 11
+            },
+            {
+              "call_id": "A4",
+              "end": 12,
+              "inherited_service": 8,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 3,
+              "start": 11
+            },
+            {
+              "call_id": "B3",
+              "end": 13,
+              "inherited_service": 6,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 4,
+              "start": 12
+            },
+            {
+              "call_id": "B3",
+              "end": 14,
+              "inherited_service": 6,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 4,
+              "start": 13
+            }
+          ],
+          "total_call_wait": 13,
+          "total_wait": 13
+        }
+      }
+    }
+  },
+  "environment": {
+    "project_commit": "53d53a79a521cfb53b00ff809123a833714b7385",
+    "python": "3.11.15 (main, Jul 23 2026, 14:43:45) [Clang 22.1.3 ]",
+    "toolchain_config": "/workspace/AgentSys/config/toolchain.json",
+    "toolchain_config_sha256": "cd5cd8997c7c41df354166dd8f552e6dd4383b075e035a94ea1f79a3550617b8"
+  },
+  "evidence_classes": {
+    "executable_or_source_grounded": 3,
+    "open_executable_closed_platform_substitute": 13,
+    "paper_parameterized_component_replay": 0
+  },
+  "paper": "agentix",
+  "registered_limit": 0.1,
+  "run_id": "run_019",
+  "schema_version": 1,
+  "summary": {
+    "endpoints": 16,
+    "failing": 0,
+    "limit": 0.1,
+    "max_relative_error": 0.09090909090909091,
+    "pass": true,
+    "passing": 16,
+    "toolchain_profile_pass": true
+  },
+  "toolchain_profile": {
+    "command": [
+      "{python}",
+      "-m",
+      "agentsys.paper_reproduction",
+      "--paper",
+      "agentix",
+      "--run-id",
+      "run_019",
+      "--output",
+      "artifacts/results/paper-agentix-run_019.json"
+    ],
+    "expected_endpoints": 16,
+    "output": "artifacts/results/paper-agentix-run_019.json",
+    "pass": true,
+    "references": {
+      "autellix": {
+        "expected": "1df19874d1fb10e497b7185bf813fdd7be189683",
+        "observed": "1df19874d1fb10e497b7185bf813fdd7be189683",
+        "pass": true,
+        "path": "/workspace/AgentSys/.references/autellix"
+      }
+    },
+    "sources": {
+      "data/paper_targets.json": {
+        "exists": true,
+        "sha256": "a77de13654597c827e1a0f93e8d66a8e993429c3990a9804f1b81db432384aa8"
+      },
+      "src/agentsys/agentix.py": {
+        "exists": true,
+        "sha256": "96ca467023300790cc52eb3c2a15cb924f129af55bca388cd1e19beb95aa4daf"
+      },
+      "src/agentsys/agentix_model.py": {
+        "exists": true,
+        "sha256": "08f98725ae3fa9737e25081cb61ed47e67b4dd00d21946ce5f8a7f8a63269a99"
+      },
+      "src/agentsys/agentix_reference.py": {
+        "exists": true,
+        "sha256": "c11de227a64108e9adb6da6880bea96d903c0eff4e7d6160b165e31f0edbdeee"
+      },
+      "src/agentsys/agentix_serving_simulator.py": {
+        "exists": true,
+        "sha256": "265d1d16cf1a7fd7d269cdb03d29ea47e19189261785b8869dd45e19899b32ee"
+      },
+      "src/agentsys/paper_reproduction.py": {
+        "exists": true,
+        "sha256": "81904f52bb8a611c68f055d47404d5b8ddcbaec8e6b65591bc3dc6d3b974d1b2"
+      }
+    }
+  },
+  "wall_time_s": 14.096489906311035
+}

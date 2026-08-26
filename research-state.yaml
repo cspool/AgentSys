@@ -91,12 +91,18 @@ hypotheses:
     motivation: "Close the tightened per-paper implementation, toolchain and performance requirement."
     parent: null
     priority: high
+  - id: H11
+    statement: "Unavailable Agentix A100/vLLM and ATX private-Sniper mechanisms can be replaced by open executable simulators while all registered endpoints remain within 10%."
+    status: supported
+    motivation: "Replace parameterized component closure with self-implemented closed-platform mechanisms."
+    parent: null
+    priority: high
 
 experiments:
   proxy_metric: "maximum absolute relative error across preregistered paper endpoints (must be <= 0.10), with per-paper toolchains and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 18
+  total_runs: 20
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -224,11 +230,25 @@ experiments:
       wall_time_min: 0.14
       change_summary: "Tightened certificate passes 14/14 requirements, 55/55 endpoints, fresh 28-test pytest and RTL lint."
       timestamp: "2026-08-26"
+    - run_id: "run_019"
+      hypothesis: "H11"
+      metric_value: 0.09090909090909091
+      delta: 0.00757575757575758
+      wall_time_min: 1.81
+      change_summary: "Executable Agentix serving and ATX/UTE substitutes replace all 31 parameterized endpoints; nine stages and 12 toolchain gates pass."
+      timestamp: "2026-08-26"
+    - run_id: "run_020"
+      hypothesis: "completion audit"
+      metric_value: 0.09090909090909091
+      delta: 0.0
+      wall_time_min: 0.59
+      change_summary: "Closed-platform certificate passes 15/15 requirements, 55/55 endpoints, fresh 35-test pytest, 58 reference tests and RTL lint."
+      timestamp: "2026-08-26"
 
 outer_loop:
-  cycle: 7
+  cycle: 8
   last_direction: conclude
-  last_reflection: "Four independent paper profiles, the 10% endpoint contract, nine serial stages, simulator evidence, tests, documentation, and the expanded 14/14 certificate all pass."
+  last_reflection: "All four paper profiles, two self-implemented closed-platform substitutes, the 10% contract, nine serial stages, real simulator evidence, tests, documentation, and the 15/15 certificate pass."
 
 workspace:
   findings: "findings.md"

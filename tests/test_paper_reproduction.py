@@ -29,3 +29,14 @@ def test_agentix_independent_reproduction_combines_both_evidence_classes() -> No
 def test_registered_limit_is_exactly_ten_percent() -> None:
     targets = json.loads((DEFAULT_CONFIG.parents[1] / "data/paper_targets.json").read_text())
     assert targets["max_relative_error"] == 0.10
+
+
+def test_substitute_execution_modules_do_not_import_endpoint_targets() -> None:
+    root = DEFAULT_CONFIG.parents[1]
+    for relative in (
+        "src/agentsys/agentix_serving_simulator.py",
+        "src/agentsys/atx_simulator.py",
+    ):
+        text = (root / relative).read_text(encoding="utf-8")
+        assert "paper_targets" not in text
+        assert "data/paper_targets.json" not in text

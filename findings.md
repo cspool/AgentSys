@@ -60,11 +60,14 @@ Run 001 starts at 77.02% maximum error (18/23 pass). Run 002 reduces this to 51.
 
 Runs 017–018 tighten the live contract to 10% and replace the combined direct-paper evidence input with four independent profiles/artifacts. Agentix 16/16, Agent.xpu 11/11, ATX 18/18 and TISA 10/10 pass; the global maximum remains 8.33%. The nine-stage manifest, 12-gate toolchain audit and 14/14 final certificate all pass.
 
+Runs 019–020 replace the remaining 31 parameterized endpoints with executable open substitutes. Agentix now derives SLO throughput from actual program/call scheduling and KV-swap traces; ATX derives cycles from UTE/queue/stream/LDQ/bus/buffer events. All 55 endpoints still pass at 10%, with a new maximum of 9.09%; parameterized component replay is zero and the final certificate is 15/15.
+
 ## Toolchain Closure
 
-- Python 3.11 and the three environment packages are hash-locked with `uv.lock`; system tools, source revisions, compatibility patches, build products and Chipyard overlays are checked separately.
+- Python 3.11 and the four environment packages are hash-locked with `uv.lock`; system tools, seven source revisions, compatibility patches, build products and Chipyard overlays are checked separately.
 - Run 015 records exact commands, output hashes and non-overlapping stage timestamps for all eight component/system experiments.
 - Run 016 combines toolchain 11/11, serial replay 8/8, paper 55/55, current pytest and RTL lint into one 13/13 certificate.
 - Run 017 registers four standalone paper commands and artifacts, all with `limit=0.10`, then executes them as the first four of nine strictly serial stages.
 - Run 018 consumes only those four paper artifacts for endpoint accuracy and combines paper-profile 4/4, toolchain 12/12, serial replay 9/9, pytest and RTL lint into one 14/14 certificate.
-- Reproducibility strengthens provenance but does not change the evidence class of Agentix/ATX parameterized aggregate results.
+- Run 019 adds an independently tested public Autellix reference (58 tests), an executable Agentix SLO-capacity/KV simulator and an executable ATX/UTE microarchitecture simulator; none reads endpoint targets while executing.
+- Run 020 reports 24 direct source-grounded endpoints, 31 open executable closed-platform substitutes and zero parameterized component replays.

@@ -13,11 +13,11 @@ body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d111
 
 <div class="grid">
   <div class="card"><div class="value">55/55</div><div class="label">论文端点通过</div></div>
-  <div class="card"><div class="value">8.33%</div><div class="label">最大数值误差</div></div>
+  <div class="card"><div class="value">9.09%</div><div class="label">最大数值误差</div></div>
   <div class="card"><div class="value">17/17</div><div class="label">Chipyard 门禁</div></div>
   <div class="card"><div class="value">636/636</div><div class="label">优先级继承检查</div></div>
   <div class="card"><div class="value">9/9</div><div class="label">串行重放阶段</div></div>
-  <div class="card"><div class="value">14/14</div><div class="label">最终要求</div></div>
+  <div class="card"><div class="value">15/15</div><div class="label">最终要求</div></div>
 </div>
 
 <h2>研究问题</h2>
@@ -31,22 +31,22 @@ body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d111
 <line x1="75" y1="50" x2="75" y2="270" stroke="#484f58"/>
 <line x1="75" y1="242" x2="840" y2="242" stroke="#d29922" stroke-dasharray="6 5"/>
 <text x="845" y="246" fill="#d29922" font-size="12">10% gate</text>
-<polyline points="100,70 330,139 610,247 820,247" fill="none" stroke="#3fb950" stroke-width="4"/>
-<circle cx="100" cy="70" r="7" fill="#58a6ff"/><circle cx="330" cy="139" r="7" fill="#58a6ff"/><circle cx="610" cy="247" r="7" fill="#58a6ff"/><circle cx="820" cy="247" r="7" fill="#58a6ff"/>
-<text x="82" y="55" fill="#c9d1d9">77.0%</text><text x="312" y="124" fill="#c9d1d9">52.0%</text><text x="592" y="232" fill="#c9d1d9">8.33%</text><text x="802" y="232" fill="#c9d1d9">8.33%</text>
+<polyline points="100,70 330,139 610,247 820,245" fill="none" stroke="#3fb950" stroke-width="4"/>
+<circle cx="100" cy="70" r="7" fill="#58a6ff"/><circle cx="330" cy="139" r="7" fill="#58a6ff"/><circle cx="610" cy="247" r="7" fill="#58a6ff"/><circle cx="820" cy="245" r="7" fill="#58a6ff"/>
+<text x="82" y="55" fill="#c9d1d9">77.0%</text><text x="312" y="124" fill="#c9d1d9">52.0%</text><text x="592" y="232" fill="#c9d1d9">8.33%</text><text x="802" y="230" fill="#c9d1d9">9.09%</text>
 <text x="83" y="295" fill="#8b949e">run 1</text><text x="313" y="295" fill="#8b949e">run 2</text><text x="593" y="295" fill="#8b949e">run 9</text><text x="797" y="295" fill="#8b949e">final</text>
 <text x="12" y="56" fill="#8b949e">80%</text><text x="22" y="164" fill="#8b949e">40%</text><text x="35" y="274" fill="#8b949e">0%</text>
 </svg>
-<p>最大预登记端点误差从 77.0% 降至 8.33%。关键跃迁来自 Agent.xpu 的 shared-DDR mechanism 与正确的 active-period measurement contract；没有通过逐 endpoint scale factor 修复。</p>
+<p>最大预登记端点误差从77.0%降至9.09%。run 019进一步以可执行Agentix/ATX替代模拟器取代31个参数化端点；目标值不进入执行模块。</p>
 </div>
 
 <h2>关键结果</h2>
 <table>
 <thead><tr><th>证据</th><th>结果</th><th>状态</th></tr></thead>
 <tbody>
-<tr><td>Agentix</td><td>独立 profile：16/16，最大误差 8.33%</td><td class="pass">通过</td></tr>
+<tr><td>Agentix</td><td>可执行serving/KV替代：16/16，最大误差9.09%；参考fork 58 tests</td><td class="pass">通过</td></tr>
 <tr><td>Agent.xpu</td><td>独立 profile：11/11，最大误差 8.07%</td><td class="pass">通过</td></tr>
-<tr><td>ATX</td><td>独立 profile：18/18，最大误差 0.285%</td><td class="pass">通过</td></tr>
+<tr><td>ATX</td><td>可执行UTE资源事件：18/18，最大误差3.10%</td><td class="pass">通过</td></tr>
 <tr><td>TISA</td><td>独立 profile：10/10，最大误差 8.27%</td><td class="pass">通过</td></tr>
 <tr><td>Rocket+Verilator</td><td>dynamic backend 332→249 cycles，overlap 0→79</td><td class="pass">17/17</td></tr>
 <tr><td>mllm Qwen3 MIR</td><td>ME/VE/DE=23/61/76；decoder slice 1.324×</td><td class="pass">9/9</td></tr>
@@ -54,6 +54,7 @@ body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d111
 <tr><td>Full stack</td><td>reactive 相对 baseline 3.027×，相对 dynamic-only 1.333×</td><td class="pass">10/10</td></tr>
 <tr><td>Pinned toolchain</td><td>Python/工具/分论文 profile/源码/patch/build/overlay/结果全部闭合</td><td class="pass">12/12</td></tr>
 <tr><td>Serial reproduction</td><td>9 个论文与系统支撑阶段严格顺序执行</td><td class="pass">9/9</td></tr>
+<tr><td>Closed mechanisms</td><td>31个开放可执行替代端点；参数化复放为0</td><td class="pass">2/2</td></tr>
 </tbody>
 </table>
 
@@ -64,9 +65,9 @@ body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d111
 </div>
 
 <h2>边界</h2>
-<p class="note">A100 aggregate 与私有 Sniper 结果属于 paper-parameterized replay；Agent.xpu/TISA 属于 source-grounded trace/cycle simulation；Rocket+Verilator 和 Ramulator2 是真实开源 simulator 执行。两张 RTX 4090 没有被用来替代 A100、Intel NPU 或 Epoch 真硅片。</p>
+<p class="note">Agentix A100/vLLM与ATX私有Sniper由论文配置、曲线/工作负载校准的开放事件模拟器替代，仍不等价原硬件；Agent.xpu/TISA属于source-grounded simulation；Rocket+Verilator和Ramulator2是真实开源simulator执行。</p>
 
 <h2>交付</h2>
-<p>主报告：<code>ISCA26_G3_Agent全栈系统加速.md</code><br>工具链配置：<code>config/toolchain.json</code><br>分论文结果：<code>artifacts/results/paper-*-run_017.json</code><br>串行重放：<code>artifacts/results/reproduction-run_017.json</code><br>机器证书：<code>artifacts/results/final-certificate.json</code><br>统一 trace：<code>artifacts/traces/full-stack-run_008.jsonl</code></p>
+<p>主报告：<code>ISCA26_G3_Agent全栈系统加速.md</code><br>源码检索：<code>docs/source-discovery.md</code><br>工具链配置：<code>config/toolchain.json</code><br>分论文结果：<code>artifacts/results/paper-*-run_019.json</code><br>串行重放：<code>artifacts/results/reproduction-run_019.json</code><br>机器证书：<code>artifacts/results/final-certificate.json</code><br>统一 trace：<code>artifacts/traces/full-stack-run_008.jsonl</code></p>
 </body>
 </html>

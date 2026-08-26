@@ -10,9 +10,9 @@
 
 动态 Agent 程序会在 program、LLM call、异构 flow、异步 task、NPU tile 和执行引擎之间连续产生依赖、排队与优先级变化。单独优化任一层，无法保证上层紧急程序在下层仍被及时执行。本项目实现 AgentSys：以 Agentix 的 PLAS/ATLAS 处理动态程序 DAG，以 Agent.xpu 的 HEG、stage elasticity、adaptive batching 与 preemption 处理 reactive/proactive flow，以 ATX 提供异步任务和预取接口，以 TISA 的语义依赖和 ME/VE/DE 动态发射完成 tile 级执行，并用统一事件格式贯通 `program → call → flow → task → tile → engine`。
 
-项目形成四类互不混淆的证据。第一，Agentix、Agent.xpu、ATX 和 TISA 各自通过独立命令、配置 profile 和结果文件完成复现，共 55 个预登记论文端点全部落在 10% 误差门槛内，最大误差为 8.33%。第二，同一 RISC-V ELF 在真实 Chipyard Rocket+Verilator static/dynamic 配置上通过 17/17 门禁；dynamic 将 backend cycles 从 332 降到 249，并产生 79 个 ME/VE/DE overlap cycles。第三，官方 Ramulator2 v2.0a 对 Qwen3 数据搬移 trace 完成真实 DDR4 一/双通道模拟，双通道将内存服务周期降低 50.21%，但 TISA 端到端仅提升 1.009×，说明瓶颈迁移到 ME。第四，六层统一 trace 含 636 个事件和 212 个对象，优先级继承检查为 636/636；urgency-first 全栈方案相对 baseline 将 reactive 完成时间缩短 3.027×，相对 dynamic-only 再缩短 1.333×，代价是约 7.5% 的总 makespan 和 7.0% 的 proactive throughput。
+项目形成四类互不混淆的证据。第一，Agentix、Agent.xpu、ATX 和 TISA 各自通过独立命令、配置 profile 和结果文件完成复现，共 55 个预登记论文端点全部落在 10% 误差门槛内，最大误差为 9.09%。第二，同一 RISC-V ELF 在真实 Chipyard Rocket+Verilator static/dynamic 配置上通过 17/17 门禁；dynamic 将 backend cycles 从 332 降到 249，并产生 79 个 ME/VE/DE overlap cycles。第三，官方 Ramulator2 v2.0a 对 Qwen3 数据搬移 trace 完成真实 DDR4 一/双通道模拟，双通道将内存服务周期降低 50.21%，但 TISA 端到端仅提升 1.009×，说明瓶颈迁移到 ME。第四，六层统一 trace 含 636 个事件和 212 个对象，优先级继承检查为 636/636；urgency-first 全栈方案相对 baseline 将 reactive 完成时间缩短 3.027×，相对 dynamic-only 再缩短 1.333×，代价是约 7.5% 的总 makespan 和 7.0% 的 proactive throughput。
 
-这些结果支持“跨层优先级与动态调度能够叠加，但收益受释放时机、tile 粒度、数据流和带宽瓶颈约束”的结论。项目没有将 RTX 4090、Rocket、trace simulator 或 paper-parameterized replay 冒充论文所用的 A100、Intel Core Ultra、Xeon-Max/私有 Sniper 或 Epoch 真硅片。
+这些结果支持“跨层优先级与动态调度能够叠加，但收益受释放时机、tile 粒度、数据流和带宽瓶颈约束”的结论。项目没有将 RTX 4090、Rocket 或开放替代模拟器冒充论文所用的 A100、Intel Core Ultra、Xeon-Max/私有 Sniper 或 Epoch 真硅片。Agentix/ATX 替代模拟器经过论文工作负载与曲线级校准，但执行模块不读取目标端点，也不直接返回论文比值。
 
 ## 一句话论证
 
@@ -128,7 +128,8 @@ ME (OS MAC)         VE              DE ── SRAM/DMA/Ramulator2 DDR
 | 范围 | 主要文件 |
 |---|---|
 | 核心 simulator | `src/agentsys/{agentix,agentxpu,atx,tisa,fullstack}.py` |
-| 论文 aggregate replay | `src/agentsys/{agentix_model,atx_model}.py` |
+| 闭源平台替代模拟器 | `src/agentsys/{agentix_serving_simulator,atx_simulator}.py` |
+| 论文实验驱动/验收 | `src/agentsys/{agentix_model,atx_model,paper_reproduction}.py` |
 | mllm / DDR | `src/agentsys/{mllm_backend,ramulator}.py` |
 | 消融 | `src/agentsys/ablations.py`、`scripts/run_*.py` |
 | Chipyard binding | `system_sim/chipyard/AgentSysRoCC.scala` |
@@ -138,11 +139,11 @@ ME (OS MAC)         VE              DE ── SRAM/DMA/Ramulator2 DDR
 | 完整工具链 | `config/toolchain.json`、`uv.lock`、`scripts/setup_toolchain.sh` |
 | 分论文入口 | `.venv/bin/agentsys-paper-reproduce --paper {agentix,agentxpu,atx,tisa}` |
 | 串行总入口 | `.venv/bin/agentsys-reproduce-all` |
-| 单元/不变量测试 | `tests/`（当前 28 tests） |
+| 单元/不变量测试 | `tests/`（当前 35 tests；另执行公开 Autellix fork 58 tests） |
 | 原始结果 | `artifacts/results/*.json`、`artifacts/traces/*.jsonl` |
 | 分项报告 | `docs/*.md`、`experiments/*/analysis.md` |
 
-所有外部源码均固定：MLX reference `b3a6d59`、LLM.xpu `689be270`、HPTPE `ebe4db7d`、mllm `50ad5a9b`、Ramulator2 `be93be78`、Chipyard `b5d01319`。
+所有外部源码均固定：MLX reference `b3a6d59`、LLM.xpu `689be270`、HPTPE `ebe4db7d`、mllm `50ad5a9b`、Ramulator2 `be93be78`、Autellix参考fork `1df1987`、Chipyard `b5d01319`。
 
 ## 实验方法
 
@@ -166,27 +167,29 @@ ME (OS MAC)         VE              DE ── SRAM/DMA/Ramulator2 DDR
 |---|---|---|---|
 | 真实开源系统执行 | Rocket+Verilator、Ramulator2 | ABI、DMA、功能、真实 simulator cycle、相对方向 | A100/Epoch/Core Ultra/Xeon-Max 实测性能 |
 | source-grounded trace/cycle simulation | Agent.xpu、TISA、mllm、full stack | 算法机制、论文端点误差、消融与瓶颈 | 原作者私有实现逐周期等价 |
-| paper-parameterized component replay | Agentix aggregate、ATX aggregate | 汇总结果的可解释分解与数值闭合 | 独立验证原论文 aggregate 数值 |
+| open executable closed-platform substitute | Agentix serving、ATX/UTE event simulator | 自实现闭源机制、显式资源事件、论文端点和瓶颈分解 | 原 A100/vLLM 或私有 Sniper 的独立硬件验证 |
 | GPU 可见性 | 2× RTX 4090 被系统检测 | 后续 CUDA 功能/对照可用 | 替代多 A100 或 Intel NPU 结果 |
 
 ## 论文核心结果复现
 
 ### 总体门槛
 
-共登记并执行 55 个论文端点，55/55 在 10% 内；最大误差为 Agentix Figure-2 PLAS 的 8.33%。其中 24 个来自 executable/source-grounded scheduler/cycle runner，31 个是显式标注的 paper-parameterized aggregate replay。最终证书不再从旧的合并 `run_011` 收集端点，而只读取四份 `paper-*-run_017.json`。
+共登记并执行 55 个论文端点，55/55 在 10% 内；最大误差为 Agentix mixed-vs-MLFQ 的 9.09%。其中 24 个来自直接 executable/source-grounded scheduler/cycle runner，31 个来自开放可执行的闭源平台替代模拟器，paper-parameterized component replay 已为 0。最终证书只读取四份 `paper-*-run_019.json`。
 
 | 论文/组件 | 端点 | 通过 | 最大误差 | 证据 |
 |---|---:|---:|---:|---|
 | Agentix Figure 2 | 3 | 3 | 8.33% | executable scheduler |
-| Agentix throughput/offline | 13 | 13 | 0% | parameterized component replay |
+| Agentix throughput/offline | 13 | 13 | 9.09% | executable serving substitute |
 | Agent.xpu | 11 | 11 | 8.07% | source-grounded trace simulation |
-| ATX | 18 | 18 | 0.285% | parameterized organization replay |
+| ATX | 18 | 18 | 3.10% | executable UTE resource-event simulation |
 | TISA | 10 | 10 | 8.27% | source-grounded cycle simulation |
-| **合计** | **55** | **55** | **8.33%** | 分级如上 |
+| **合计** | **55** | **55** | **9.09%** | 分级如上 |
 
 ### Agentix
 
-Figure-2 的 FCFS/MLFQ/PLAS total wait 为 18/17/13，对应论文 18/18/12。Aggregate replay 使用统一的 prefix recompute、call HoL、program HoL 和 swap equation，得到 single-thread 8/2/1.5×、LATS 5/2/2.5×、mixed 15/5/5.5×，以及随 batch load 单调增长的 14.6–38.9% offline makespan reduction。
+Figure-2 的 FCFS/MLFQ/PLAS total wait 为 18/17/13，对应论文 18/18/12。Aggregate 实验现由工作负载驱动的 serving simulator 执行：确定性生成 serial/LATS/mixed program DAG 与 Poisson arrival，分别运行 FCFS、MLFQ、PLAS、ATLAS，模拟 prefix recomputation、碎片/批量 KV swap 和 multi-step epoch，再搜索满足同一 program-cycle/token SLO 的最大 arrival rate。得到 single-thread 8/2/1.5×、LATS 5/2/2.667×、mixed 15.5/5/5×；1000/2000/3000/4000-program offline reduction 为 13.28/20.08/21.80/25.39%。容量边界均包含相邻 fail/pass 点，四种策略的 call/token work 相同。
+
+源码发现还固定了非作者认证的公开 vLLM fork `kungfu-team/autellix@1df1987`，其 process table、MLFQ、PLAS、ATLAS 与 anti-starvation 的 58 个纯 Python tests 全部通过。该 fork 只作为独立策略参考，不冒充作者官方 artifact。
 
 ### Agent.xpu
 
@@ -194,7 +197,7 @@ Figure-2 的 FCFS/MLFQ/PLAS total wait 为 18/17/13，对应论文 18/18/12。Ag
 
 ### ATX
 
-Full ATX 对 core 的 SpMM/SDDMM/GeMM speedup 为 2.8/2.7/2.7×；对 ICA 为 2.3/2.0/1.3×；无 prefetch 对 L2 OCA 为 1.60/1.40/1.30×，full prefetch 为 2.10/2.00/1.40×。8/128 KiB task 对 LLC OCA 为 9.40/2.60×；decompression 对 core/ICA/L2/LLC 为 4.0/1.8/3.9/18×。
+ATX 性能点现由开放的64-task steady-state事件模拟产生。模拟器显式包含16-entry ATX Queue、32 Stream Units、128-entry LDQ、128B Common Bus、2×32KiB buffer、task predictor tail、NCA与PRF writeback，并分别执行 Core/ICA/L2 OCA/no-prefetch/full ATX。Full ATX 对 core 的 SpMM/SDDMM/GeMM speedup 为 2.8/2.7/2.7×；对 ICA 为 2.3/2.0/1.3×；无 prefetch 对 L2 OCA 为 1.61/1.39/1.29×，full prefetch 为 2.12/2.00/1.41×。8/128 KiB task 对 LLC OCA 为 9.44/2.52×；decompression 对 core/ICA/L2/LLC 为 4.0/1.8/3.91/18.2×。Small/default/infinite UTE 的传输周期为 163/82/22，资源单调性和全部任务守恒通过。Chipyard继续提供独立的真实ABI/DMA/checksum证据。
 
 ### TISA
 
@@ -261,9 +264,9 @@ Full stack 相对 baseline 的 makespan/reactive speedup 为 2.033/3.027×；相
 
 ## 限制与不应外推的结论
 
-1. Agentix 原论文使用 1/4/8× A100；本项目没有用两张 4090 冒充这些数据。Agentix aggregate 是 parameterized replay。
+1. Agentix 原论文使用修改的 vLLM v0.6.1 与 1/4/8× A100；本项目没有用两张 4090 冒充这些数据。Aggregate 是论文配置并经曲线级校准的开放离散事件替代模拟，不是原GPU复测。
 2. Agent.xpu 原论文使用 Intel Core Ultra 5 125H 的 NPU+iGPU；本项目为 source-grounded trace simulator，不是该设备实测。
-3. ATX 原论文使用内部 silicon-validated Sniper 和 64-core Xeon-Max-like system；本项目 aggregate model 是透明 replay，真实 RTL 只验证开放 ABI/机制。
+3. ATX 原论文使用内部 silicon-validated Sniper 和64-core Xeon-Max-like system；作者主页未提供该扩展。本项目自行实现 UTE/NCA资源事件模拟器，并以Chipyard RTL验证开放ABI/机制，但不能声称与私有Sniper逐周期等价。
 4. TISA 原论文使用未公开 Epoch 真硅片和 RTL；本项目 cycle model 与 Chipyard RTL 不能声称芯片等价。
 5. Chipyard 系统路径使用 DRAMSim2；Ramulator2 是独立 NPU-memory experiment，二者没有伪装成单一 integrated memory backend。
 6. mllm backend 使用原生 MIR trace，但没有下载/执行完整 Qwen3 权重；它验证 operator graph 与 cycle lowering，不验证生成质量。
@@ -272,7 +275,7 @@ Full stack 相对 baseline 的 makespan/reactive speedup 为 2.033/3.027×；相
 
 ## 工具链与配置
 
-工具链不再依赖报告中的隐式环境状态。`config/toolchain.json` 是单一机器可读清单，固定 Python 3.11、pytest/cmake/ninja 版本、9 类系统命令、6 个外部源码 revision、2 个 Chipyard compatibility patch、4 个构建产物、4 个 Chipyard overlay、4 个分论文 profile，以及 9 个实验/支撑阶段的严格串行顺序。`uv.lock` 保存 Python 包与 wheel/sdist hash。
+工具链不再依赖报告中的隐式环境状态。`config/toolchain.json` 是单一机器可读清单，固定 Python 3.11、pytest/hypothesis/cmake/ninja 版本、9 类系统命令、7 个外部源码 revision、2 个 Chipyard compatibility patch、4 个构建产物、4 个 Chipyard overlay、4 个分论文 profile，以及9个实验/支撑阶段的严格串行顺序。`uv.lock` 保存 Python 包与 wheel/sdist hash。作者/实验室源码检索记录见 `docs/source-discovery.md`。
 
 `scripts/setup_toolchain.sh` 完成以下闭环：
 
@@ -285,7 +288,7 @@ Full stack 相对 baseline 的 makespan/reactive speedup 为 2.033/3.027×；相
 
 `.venv/bin/agentsys-reproduce-all` 严格按 Agentix、Agent.xpu、ATX、TISA、mllm、full stack、Ramulator2、ablations、Chipyard 的顺序执行。每个 stage 退出后先检查 JSON gate、全部输出存在且非空及 SHA-256，随后才启动下一项；manifest 还验证相邻 stage 的 `next.started_ns >= previous.finished_ns`。完整说明见 `docs/toolchain.md`。
 
-收紧后的 run 017 实际执行结果为 9/9 stages、`serial_order=true`，built/full toolchain audit 分别为 10/10 和 12/12。随后 run 018 重新执行 pytest 与 RTL lint，最终证书为 14/14 requirements、28 tests、55/55 论文端点，最大误差仍为 8.33%。旧 run 015/016 作为 15% 阶段的历史记录保留。
+闭源替代后的 run 019 实际执行结果为9/9 stages、`serial_order=true`，built/full toolchain audit 分别为10/10和12/12。随后 run 020 重新执行pytest与RTL lint，最终证书为15/15 requirements、35 tests、55/55论文端点，最大误差9.09%；Autellix参考测试另有58项。旧 run 017/018 作为参数化证据阶段的历史记录保留。
 
 ## 环境与重放
 
@@ -347,19 +350,20 @@ bash scripts/build_ramulator2.sh
 | 目标 | 权威证据 | 状态 |
 |---|---|---|
 | 动态 Agent DAG 完整路径 | full-stack run 008 六层 trace | 通过 |
-| PLAS/ATLAS | paper-agentix run 017，16/16 | 通过 |
-| HEG/reactive/proactive/batch/warmup/preemption | paper-agentxpu run 017，11/11 | 通过 |
+| PLAS/ATLAS + serving/KV替代模拟 | paper-agentix run 019，16/16 + 58 reference tests | 通过 |
+| HEG/reactive/proactive/batch/warmup/preemption | paper-agentxpu run 019，11/11 | 通过 |
 | mllm operator trace/simulator backend | mllm run 006 | 通过 |
-| ATX async/prefetch/cancel/completion | paper-atx run 017，18/18 + Chipyard ABI | 通过 |
-| TISA lowering/RAW/WAR/WAW/ME-VE-DE dynamic issue | paper-tisa run 017，10/10 + RTL run 003 | 通过 |
+| ATX Queue/UTE/stream/LDQ/predictor/双缓冲 | paper-atx run 019，18/18 + Chipyard ABI | 通过 |
+| TISA lowering/RAW/WAR/WAW/ME-VE-DE dynamic issue | paper-tisa run 019，10/10 + RTL run 003 | 通过 |
 | HPTPE-inspired ME、VE/DE、SRAM/DMA | RTL + real ELF/checksum | 通过，规模边界已标注 |
 | Ramulator2 DDR | official run 012 | 通过 |
 | program priority 下传 | 636/636 inheritance + urgency test | 通过 |
-| 论文核心数值误差 ≤10% | 四份独立结果，55/55 endpoints，max 8.33% | 通过 |
+| 论文核心数值误差 ≤10% | 四份独立结果，55/55 endpoints，max 9.09% | 通过 |
+| 闭源机制自行实现 | Agentix 13 + ATX 18 open executable substitutes；parameterized=0 | 通过 |
 | 逐层 baseline 与消融 | run 013 + full four-way table | 通过 |
 | 两张 4090 不替代 A100 | evidence boundary | 遵守 |
-| 锁定且完整的工具链配置 | toolchain run 017，12/12 gates | 通过 |
-| 九项实验/支撑阶段严格串行重放 | reproduction run 017，9/9 stages | 通过 |
+| 锁定且完整的工具链配置 | toolchain run 019，12/12 gates | 通过 |
+| 九项实验/支撑阶段严格串行重放 | reproduction run 019，9/9 stages | 通过 |
 
 ## 参考资料
 
@@ -371,7 +375,9 @@ bash scripts/build_ramulator2.sh
 - Ramulator2：<https://github.com/CMU-SAFARI/ramulator2>
 - Chipyard：<https://github.com/ucb-bar/chipyard>
 - MLX Chipyard 工程参考（非目标机制）：<https://github.com/cspool/MLX_dev/tree/sys>
+- Autellix公开vLLM策略fork（非作者认证）：<https://github.com/kungfu-team/autellix/tree/autellix-scheduling>
+- Sniper公开基座（ATX私有扩展未发布）：<https://github.com/snipersim/snipersim>
 
 ## 结论
 
-AgentSys 已从方向草案转化为可执行、可重放、可审计的全栈系统，并由四篇独立论文工具链和锁定的九阶段总入口完成重放。最强证据不是某一个最大 speedup，而是四条相互校验的链：四份独立论文结果的全部端点在 10% 内、开放 RTL/SoC/DDR simulator 实际运行、六层 priority 与 dependency lineage 全部闭合、配置到最终证书的工具链 14/14 验收闭合。实验同时表明，跨层优化没有免费午餐：priority 提升 reactive responsiveness 会牺牲部分 throughput，DDR 扩容会把瓶颈推向 ME，过小 tile 会让 dynamic scheduler 得不偿失，OS dataflow 在极低带宽下可能不如 WS。因而，核心创新应表述为“可解释、可组合且边界明确的全栈调度”，而不是对所有硬件和 workload 的无条件加速。
+AgentSys 已从方向草案转化为可执行、可重放、可审计的全栈系统，并由四篇独立论文工具链和锁定的九阶段总入口完成重放。最强证据不是某一个最大 speedup，而是四条相互校验的链：四份独立论文结果的全部端点在10%内、原闭源机制由开放可执行替代模拟器实现且参数化复放为0、开放RTL/SoC/DDR simulator实际运行、配置到最终证书的工具链15/15验收闭合。实验同时表明，跨层优化没有免费午餐：priority 提升 reactive responsiveness 会牺牲部分 throughput，DDR 扩容会把瓶颈推向 ME，过小 tile 会让 dynamic scheduler 得不偿失，OS dataflow 在极低带宽下可能不如 WS。因而，核心创新应表述为“可解释、可组合且边界明确的全栈调度”，而不是对所有硬件和 workload 的无条件加速。
