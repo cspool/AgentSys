@@ -22,7 +22,7 @@ EXPECTED_STAGES = [
 def test_toolchain_configuration_covers_complete_serial_pipeline() -> None:
     config = load_toolchain_config(DEFAULT_CONFIG)
     assert [stage["name"] for stage in config["stages"]] == EXPECTED_STAGES
-    assert len(config["references"]) == 6
+    assert len(config["references"]) == 7
     assert {item["name"] for item in config["build_outputs"]} == {
         "ramulator2",
         "baremetal_elf",

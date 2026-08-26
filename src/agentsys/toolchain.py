@@ -30,7 +30,12 @@ SOURCE_FILES = (
     "src/agentsys/toolchain.py",
     "src/agentsys/reproduce.py",
     "src/agentsys/paper_reproduction.py",
+    "src/agentsys/agentix_serving_simulator.py",
+    "src/agentsys/agentix_reference.py",
+    "src/agentsys/atx_simulator.py",
     "experiments/h10-paper10/protocol.md",
+    "docs/source-discovery.md",
+    "experiments/h11-open-substitutes/protocol.md",
 )
 
 

@@ -20,7 +20,8 @@ def test_agentix_independent_reproduction_combines_both_evidence_classes() -> No
     assert result["summary"]["limit"] == 0.10
     assert result["evidence_classes"] == {
         "executable_or_source_grounded": 3,
-        "paper_parameterized_component_replay": 13,
+        "open_executable_closed_platform_substitute": 13,
+        "paper_parameterized_component_replay": 0,
     }
     assert len({entry["endpoint"] for entry in result["audit"]}) == 16
 

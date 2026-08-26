@@ -11,17 +11,17 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 ARTIFACTS = {
-    "paper_agentix": "artifacts/results/paper-agentix-run_017.json",
-    "paper_agentxpu": "artifacts/results/paper-agentxpu-run_017.json",
-    "paper_atx": "artifacts/results/paper-atx-run_017.json",
-    "paper_tisa": "artifacts/results/paper-tisa-run_017.json",
+    "paper_agentix": "artifacts/results/paper-agentix-run_019.json",
+    "paper_agentxpu": "artifacts/results/paper-agentxpu-run_019.json",
+    "paper_atx": "artifacts/results/paper-atx-run_019.json",
+    "paper_tisa": "artifacts/results/paper-tisa-run_019.json",
     "chipyard": "artifacts/results/chipyard-run_003.json",
     "mllm": "artifacts/results/mllm-run_006.json",
     "full_stack": "artifacts/results/full-stack-run_008.json",
     "ramulator2": "artifacts/results/ramulator2-run_012.json",
     "ablations": "artifacts/results/ablations-run_013.json",
-    "reproduction": "artifacts/results/reproduction-run_017.json",
-    "toolchain": "artifacts/results/toolchain-run_017.json",
+    "reproduction": "artifacts/results/reproduction-run_019.json",
+    "toolchain": "artifacts/results/toolchain-run_019.json",
 }
 
 
@@ -31,6 +31,7 @@ REFERENCE_COMMITS = {
     ".references/HPTPE": "ebe4db7d2d3c36d10c47683d7689f65f5c4ca3e4",
     ".references/mllm": "50ad5a9b6fbea742e38b5b31776c187e50319c8e",
     ".references/ramulator2": "be93be78055d922aa1d4d33e15bcc8f2b0c61a9d",
+    ".references/autellix": "1df19874d1fb10e497b7185bf813fdd7be189683",
     "/root/chipyard": "b5d013190d637e634113cb5179f8c8885df1945a",
 }
 
@@ -38,8 +39,13 @@ REFERENCE_COMMITS = {
 REQUIRED_FILES = (
     "ISCA26_G3_Agent全栈系统加速.md",
     "src/agentsys/agentix.py",
+    "src/agentsys/agentix_model.py",
+    "src/agentsys/agentix_serving_simulator.py",
+    "src/agentsys/agentix_reference.py",
     "src/agentsys/agentxpu.py",
     "src/agentsys/atx.py",
+    "src/agentsys/atx_model.py",
+    "src/agentsys/atx_simulator.py",
     "src/agentsys/tisa.py",
     "src/agentsys/mllm_backend.py",
     "src/agentsys/fullstack.py",
@@ -60,16 +66,18 @@ REQUIRED_FILES = (
     "src/agentsys/reproduce.py",
     "src/agentsys/paper_reproduction.py",
     "docs/toolchain.md",
+    "docs/source-discovery.md",
     "experiments/h9-toolchain/protocol.md",
     "experiments/h9-toolchain/analysis.md",
     "experiments/h10-paper10/protocol.md",
     "experiments/h10-paper10/analysis.md",
-    "artifacts/results/paper-agentix-run_017.json",
-    "artifacts/results/paper-agentxpu-run_017.json",
-    "artifacts/results/paper-atx-run_017.json",
-    "artifacts/results/paper-tisa-run_017.json",
-    "artifacts/results/reproduction-run_017.json",
-    "artifacts/results/toolchain-run_017.json",
+    "experiments/h11-open-substitutes/protocol.md",
+    "artifacts/results/paper-agentix-run_019.json",
+    "artifacts/results/paper-agentxpu-run_019.json",
+    "artifacts/results/paper-atx-run_019.json",
+    "artifacts/results/paper-tisa-run_019.json",
+    "artifacts/results/reproduction-run_019.json",
+    "artifacts/results/toolchain-run_019.json",
     "artifacts/traces/full-stack-run_008.jsonl",
 )
 
@@ -119,7 +127,7 @@ def _run_command(command: list[str], *, cwd: Path = PROJECT_ROOT, timeout: int =
     return {"command": command, "exit_code": process.returncode, "output": process.stdout}
 
 
-def build_certificate(*, run_id: str = "run_018", run_checks: bool = True) -> dict[str, Any]:
+def build_certificate(*, run_id: str = "run_020", run_checks: bool = True) -> dict[str, Any]:
     loaded: dict[str, dict[str, Any]] = {}
     manifests: dict[str, dict[str, Any]] = {}
     for name, relative in ARTIFACTS.items():
@@ -155,11 +163,35 @@ def build_certificate(*, run_id: str = "run_018", run_checks: bool = True) -> di
         and float(loaded[name]["summary"]["limit"]) == registered_limit
         and loaded[name]["summary"]["toolchain_profile_pass"]
         for name, count in expected_paper_counts.items()
+    ) and (
+        loaded["paper_agentix"]["components"]["aggregate"]["classification"]
+        == "executable_open_agentix_serving_substitute_simulation"
+        and loaded["paper_agentix"]["components"]["aggregate"]["public_reference_audit"]["summary"]["pass"]
+        and loaded["paper_atx"]["components"]["microarchitecture_simulation"]["classification"]
+        == "executable_open_atx_ute_microarchitecture_simulation"
     )
 
     component_gates = {
         "paper_endpoints_55": paper_gate,
         "individual_papers_4": individual_papers_gate,
+        "closed_platform_substitutes_2": (
+            loaded["paper_agentix"]["evidence_classes"][
+                "open_executable_closed_platform_substitute"
+            ]
+            == 13
+            and loaded["paper_atx"]["evidence_classes"][
+                "open_executable_closed_platform_substitute"
+            ]
+            == 18
+            and loaded["paper_agentix"]["evidence_classes"][
+                "paper_parameterized_component_replay"
+            ]
+            == 0
+            and loaded["paper_atx"]["evidence_classes"][
+                "paper_parameterized_component_replay"
+            ]
+            == 0
+        ),
         "chipyard_17": loaded["chipyard"]["summary"] == {"failing": 0, "gates": 17, "pass": True, "passing": 17},
         "mllm_9": loaded["mllm"]["summary"]["pass"] and loaded["mllm"]["summary"]["gates"] == 9,
         "full_stack_10": loaded["full_stack"]["summary"]["pass"] and loaded["full_stack"]["summary"]["gates"] == 10,
@@ -253,7 +285,8 @@ def build_certificate(*, run_id: str = "run_018", run_checks: bool = True) -> di
             "registered_limit": registered_limit,
             "evidence_classes": {
                 "executable_or_source_grounded": 24,
-                "paper_parameterized_component_replay": 31,
+                "open_executable_closed_platform_substitute": 31,
+                "paper_parameterized_component_replay": 0,
             },
             "endpoints": endpoints,
         },
@@ -280,7 +313,7 @@ def build_certificate(*, run_id: str = "run_018", run_checks: bool = True) -> di
     }
 
 
-def write_certificate(path: Path, *, run_id: str = "run_018") -> dict[str, Any]:
+def write_certificate(path: Path, *, run_id: str = "run_020") -> dict[str, Any]:
     result = build_certificate(run_id=run_id, run_checks=True)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")

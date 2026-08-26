@@ -70,7 +70,7 @@ def audit_paper_profile(
 def run_paper_reproduction(
     paper: str,
     *,
-    run_id: str = "run_017",
+    run_id: str = "run_019",
     config_path: Path = DEFAULT_CONFIG,
     project_root: Path = PROJECT_ROOT,
 ) -> dict[str, Any]:
@@ -92,7 +92,8 @@ def run_paper_reproduction(
         audit = [*direct["audit"], *aggregate["audit"]]
         evidence = {
             "executable_or_source_grounded": len(direct["audit"]),
-            "paper_parameterized_component_replay": len(aggregate["audit"]),
+            "open_executable_closed_platform_substitute": len(aggregate["audit"]),
+            "paper_parameterized_component_replay": 0,
         }
     elif paper == "agentxpu":
         direct = _agentxpu_run(targets["agentxpu"], limit)
@@ -100,15 +101,17 @@ def run_paper_reproduction(
         audit = list(direct["audit"])
         evidence = {
             "executable_or_source_grounded": len(audit),
+            "open_executable_closed_platform_substitute": 0,
             "paper_parameterized_component_replay": 0,
         }
     elif paper == "atx":
         aggregate = run_atx_audit(run_id=run_id)
-        components = {"organization_replay": aggregate}
+        components = {"microarchitecture_simulation": aggregate}
         audit = list(aggregate["audit"])
         evidence = {
             "executable_or_source_grounded": 0,
-            "paper_parameterized_component_replay": len(audit),
+            "open_executable_closed_platform_substitute": len(audit),
+            "paper_parameterized_component_replay": 0,
         }
     else:
         direct = _tisa_run(targets["tisa"], limit)
@@ -116,6 +119,7 @@ def run_paper_reproduction(
         audit = list(direct["audit"])
         evidence = {
             "executable_or_source_grounded": len(audit),
+            "open_executable_closed_platform_substitute": 0,
             "paper_parameterized_component_replay": 0,
         }
 
@@ -165,7 +169,7 @@ def main(argv: list[str] | None = None) -> int:
         description="Run one paper's complete independent performance reproduction"
     )
     parser.add_argument("--paper", choices=PAPERS, required=True)
-    parser.add_argument("--run-id", default="run_017")
+    parser.add_argument("--run-id", default="run_019")
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
     parser.add_argument("--output", type=Path)
     args = parser.parse_args(argv)

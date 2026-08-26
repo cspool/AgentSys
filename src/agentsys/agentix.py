@@ -69,6 +69,7 @@ class AgentixResult:
     program_wait: dict[str, int]
     slices: tuple[CallSlice, ...]
     call_completion: dict[str, int]
+    anti_starvation_promotions: int = 0
 
     def to_dict(self) -> dict[str, object]:
         return {
@@ -79,6 +80,7 @@ class AgentixResult:
             "program_completion": self.program_completion,
             "program_wait": self.program_wait,
             "call_completion": self.call_completion,
+            "anti_starvation_promotions": self.anti_starvation_promotions,
             "slices": [
                 {
                     "start": item.start,
@@ -108,6 +110,7 @@ class AgentixSimulator:
         batch_size: int = 2,
         queue_bounds: tuple[int, ...] = (0, 1, 3, 7, 15),
         queue_quanta: tuple[int, ...] = (1, 2, 4, 8, 16),
+        anti_starvation_beta: float | None = None,
     ) -> None:
         if batch_size <= 0:
             raise ValueError("batch size must be positive")
@@ -117,9 +120,12 @@ class AgentixSimulator:
             raise ValueError("queue bounds must be sorted")
         if len(queue_bounds) != len(queue_quanta):
             raise ValueError("queue bounds and quanta must have equal length")
+        if anti_starvation_beta is not None and anti_starvation_beta <= 0:
+            raise ValueError("anti-starvation beta must be positive")
         self.batch_size = batch_size
         self.queue_bounds = queue_bounds
         self.queue_quanta = queue_quanta
+        self.anti_starvation_beta = anti_starvation_beta
 
     def _queue_for_service(self, service: int) -> int:
         for index in range(len(self.queue_bounds) - 1, -1, -1):
@@ -176,6 +182,7 @@ class AgentixSimulator:
         ready_counter = 0
         time = min((call.program_arrival for call in specs), default=0)
         slices: list[CallSlice] = []
+        anti_starvation_promotions = 0
         max_time = sum(call.duration + call.external_delay for call in specs) + max(
             (call.program_arrival for call in specs), default=0
         ) + 1000
@@ -253,6 +260,21 @@ class AgentixSimulator:
                 raise RuntimeError("scheduler made no progress")
             enqueue_newly_ready(time)
 
+            if self.anti_starvation_beta is not None and policy is not AgentixPolicy.FCFS:
+                promoted_programs: set[str] = set()
+                for call_id in ready:
+                    state = states[call_id]
+                    program_id = state.spec.program_id
+                    wait = program_wait_acc[program_id] + state.waiting
+                    service = max(1, program_service[program_id] + state.attained)
+                    if wait / service >= self.anti_starvation_beta and state.queue_level > 0:
+                        state.queue_level = 0
+                        state.quantum_left = self.queue_quanta[0]
+                        promoted_programs.add(program_id)
+                        anti_starvation_promotions += 1
+                for program_id in promoted_programs:
+                    program_wait_acc[program_id] = 0
+
             if policy is AgentixPolicy.FCFS:
                 for lane, call_id in enumerate(active_fcfs):
                     if call_id is not None and states[call_id].completed is None:
@@ -264,7 +286,26 @@ class AgentixSimulator:
                         active_fcfs[lane] = next_id
                 selected = [call_id for call_id in active_fcfs if call_id is not None]
             else:
-                selected = sorted(ready, key=preemptive_key)[: self.batch_size]
+                ordered = sorted(ready, key=preemptive_key)
+                if policy is AgentixPolicy.ATLAS:
+                    # ATLAS gives sibling threads the same critical-path
+                    # priority. Preserve that semantic by gang-filling the
+                    # batch from one program before considering the next.
+                    program_order = list(
+                        dict.fromkeys(states[call_id].spec.program_id for call_id in ordered)
+                    )
+                    selected = []
+                    for program_id in program_order:
+                        selected.extend(
+                            call_id
+                            for call_id in ordered
+                            if states[call_id].spec.program_id == program_id
+                        )
+                        if len(selected) >= self.batch_size:
+                            break
+                    selected = selected[: self.batch_size]
+                else:
+                    selected = ordered[: self.batch_size]
 
             if not selected:
                 future = [
@@ -358,6 +399,7 @@ class AgentixSimulator:
             program_wait=program_wait,
             slices=tuple(slices),
             call_completion={call_id: state.completed or 0 for call_id, state in states.items()},
+            anti_starvation_promotions=anti_starvation_promotions,
         )
 
 

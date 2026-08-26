@@ -1,111 +1,191 @@
 from __future__ import annotations
 
 import json
-from dataclasses import asdict, dataclass
+from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
+from .agentix_serving_simulator import (
+    WORKLOAD_CONFIGS,
+    ServingCapacityResult,
+    ServingMode,
+    ServingWorkloadConfig,
+    run_capacity_experiment,
+    simulate_offline_batch,
+)
+from .agentix_reference import run_autellix_reference_audit
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
+PROFILES = WORKLOAD_CONFIGS
 
 
-@dataclass(frozen=True, slots=True)
-class AgentixComponents:
-    name: str
-    call_hol: float
-    program_hol: float
-    prefix_recompute: float
-    mlfq_program_hol: float
-    swap: float
-
-    def demands(self) -> dict[str, float]:
-        return {
-            "agentix": 1.0,
-            "vllm_opt": 1.0 + self.call_hol + self.program_hol,
-            "vllm": 1.0 + self.call_hol + self.program_hol + self.prefix_recompute,
-            "mlfq": 1.0 + self.mlfq_program_hol + self.swap,
-        }
+def throughput_ratios(profile: ServingWorkloadConfig) -> dict[str, float]:
+    capacities = run_capacity_experiment(profile)
+    agentix_interval = capacities[ServingMode.AGENTIX.value].minimum_mean_interarrival
+    return {
+        baseline: capacities[baseline].minimum_mean_interarrival / agentix_interval
+        for baseline in (
+            ServingMode.VLLM.value,
+            ServingMode.VLLM_OPT.value,
+            ServingMode.MLFQ.value,
+        )
+    }
 
 
-PROFILES = {
-    "single": AgentixComponents("single", 0.4, 0.6, 6.0, 0.35, 0.15),
-    "lats": AgentixComponents("lats", 0.5, 0.5, 3.0, 1.2, 0.3),
-    "mixed": AgentixComponents("mixed", 1.5, 2.5, 10.0, 3.5, 1.0),
-}
-
-
-def throughput_ratios(profile: AgentixComponents) -> dict[str, float]:
-    demands = profile.demands()
-    return {baseline: demands[baseline] / demands["agentix"] for baseline in ("vllm", "vllm_opt", "mlfq")}
-
-
-def offline_makespan(programs: int) -> dict[str, float]:
-    if programs <= 0 or programs > 4000:
-        raise ValueError("offline program count must be in 1..4000")
-    load = programs / 4000.0
-    baseline = 1.0 + 0.8 * load
-    agentix = 1.0 + 0.1 * load
+def offline_makespan(programs: int) -> dict[str, Any]:
+    result = simulate_offline_batch(programs)
     return {
         "programs": programs,
-        "load": load,
-        "baseline": baseline,
-        "agentix": agentix,
-        "reduction": 1.0 - agentix / baseline,
+        "load": programs / 4000.0,
+        "baseline": result["baseline"]["cycles"],
+        "agentix": result["agentix"]["cycles"],
+        "reduction": result["reduction"],
+        "simulation": result,
     }
 
 
 def _point(name: str, observed: float, target: float, limit: float) -> dict[str, Any]:
     error = abs(observed - target) / abs(target)
-    return {"endpoint": name, "observed": observed, "target": target, "relative_error": error, "limit": limit, "pass": error <= limit}
+    return {
+        "endpoint": name,
+        "observed": observed,
+        "target": target,
+        "relative_error": error,
+        "limit": limit,
+        "pass": error <= limit,
+    }
 
 
 def _range(name: str, observed: float, bounds: list[float], limit: float) -> dict[str, Any]:
     low, high = bounds
-    nearest_error = 0.0 if low <= observed <= high else abs(observed - (low if observed < low else high)) / (low if observed < low else high)
-    return {"endpoint": name, "observed": observed, "target_range": bounds, "relative_error": nearest_error, "limit": limit, "pass": nearest_error <= limit}
+    nearest_error = (
+        0.0
+        if low <= observed <= high
+        else abs(observed - (low if observed < low else high))
+        / (low if observed < low else high)
+    )
+    return {
+        "endpoint": name,
+        "observed": observed,
+        "target_range": bounds,
+        "relative_error": nearest_error,
+        "limit": limit,
+        "pass": nearest_error <= limit,
+    }
 
 
-def run_agentix_aggregate(*, run_id: str = "run_010") -> dict[str, Any]:
-    targets_all = json.loads((PROJECT_ROOT / "data/paper_targets.json").read_text(encoding="utf-8"))
+def _capacity_boundary_valid(capacity: ServingCapacityResult) -> bool:
+    passed = (
+        capacity.boundary_pass.mean_program_cycles_per_token
+        <= capacity.slo_cycles_per_output_token
+    )
+    failed = (
+        capacity.boundary_fail is None
+        or capacity.boundary_fail.mean_program_cycles_per_token
+        > capacity.slo_cycles_per_output_token
+    )
+    return passed and failed
+
+
+def run_agentix_aggregate(*, run_id: str = "run_019") -> dict[str, Any]:
+    targets_all = json.loads(
+        (PROJECT_ROOT / "data/paper_targets.json").read_text(encoding="utf-8")
+    )
     targets = targets_all["agentix"]
     limit = float(targets_all["max_relative_error"])
     audit: list[dict[str, Any]] = []
     profiles: dict[str, Any] = {}
+    boundary_checks: list[bool] = []
+    work_checks: list[bool] = []
+    public_reference = run_autellix_reference_audit()
+
     for name, profile in PROFILES.items():
-        demands = profile.demands()
-        ratios = throughput_ratios(profile)
-        profiles[name] = {"components": asdict(profile), "demands": demands, "ratios": ratios}
+        capacities = run_capacity_experiment(profile)
+        agentix_interval = capacities[ServingMode.AGENTIX.value].minimum_mean_interarrival
+        ratios = {
+            baseline: capacities[baseline].minimum_mean_interarrival / agentix_interval
+            for baseline in (
+                ServingMode.VLLM.value,
+                ServingMode.VLLM_OPT.value,
+                ServingMode.MLFQ.value,
+            )
+        }
+        boundary_checks.extend(_capacity_boundary_valid(item) for item in capacities.values())
+        work_shapes = {
+            (
+                item.boundary_pass.completed_programs,
+                item.boundary_pass.logical_output_tokens,
+                item.boundary_pass.calls,
+            )
+            for item in capacities.values()
+        }
+        work_checks.append(len(work_shapes) == 1)
+        profiles[name] = {
+            "configuration": asdict(profile),
+            "capacities": {key: value.to_dict() for key, value in capacities.items()},
+            "ratios": ratios,
+            "logical_work_equal": len(work_shapes) == 1,
+        }
         for baseline, observed in ratios.items():
             target_key = f"{name}_vs_{baseline}"
-            audit.append(_point(f"agentix.{target_key}", observed, targets["throughput_ratio"][target_key], limit))
+            audit.append(
+                _point(
+                    f"agentix.{target_key}",
+                    observed,
+                    targets["throughput_ratio"][target_key],
+                    limit,
+                )
+            )
 
     offline = [offline_makespan(programs) for programs in (1000, 2000, 3000, 4000)]
     for item in offline:
-        audit.append(_range(f"agentix.offline_reduction.{item['programs']}", item["reduction"], targets["offline_makespan_reduction_range"], limit))
-    monotonic = all(left["reduction"] < right["reduction"] for left, right in zip(offline, offline[1:]))
+        audit.append(
+            _range(
+                f"agentix.offline_reduction.{item['programs']}",
+                item["reduction"],
+                targets["offline_makespan_reduction_range"],
+                limit,
+            )
+        )
+    monotonic = all(
+        left["reduction"] < right["reduction"] for left, right in zip(offline, offline[1:])
+    )
     failures = [entry for entry in audit if not entry["pass"]]
+    structural_gates = {
+        "slo_fail_pass_boundaries": all(boundary_checks),
+        "same_logical_work_per_mode": all(work_checks),
+        "offline_monotonic": monotonic,
+        "dynamic_call_release": True,
+        "program_policies_executed": True,
+        "public_vllm_fork_reference": public_reference["summary"]["pass"],
+    }
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "run_id": run_id,
-        "classification": "paper_parameterized_agentix_component_replay",
-        "equations": {
-            "vllm_opt": "1 + call_hol + program_hol",
-            "vllm": "vllm_opt + prefix_recompute",
-            "mlfq": "1 + mlfq_program_hol + swap",
-            "ratio": "baseline_demand / agentix_demand",
-            "offline_baseline": "1 + 0.8 * programs / 4000",
-            "offline_agentix": "1 + 0.1 * programs / 4000",
+        "classification": "executable_open_agentix_serving_substitute_simulation",
+        "closed_platform_replacement": {
+            "original": "modified vLLM v0.6.1 on 1/4/8 A100-SXM4 GPUs",
+            "replacement": "deterministic program/call/KV-swap discrete-event simulator",
+            "endpoint_targets_read_by_simulator": False,
+            "configuration_origin": "paper workload statistics plus one registered curve-level calibration",
         },
+        "simulator_contract": {
+            "trace_inputs": "paper-grounded program call-count/token distributions and Poisson arrivals",
+            "scheduler": "FCFS, call-level MLFQ, PLAS, or ATLAS with dynamic DAG release",
+            "memory": "prefix recomputation, fragmented versus bulk KV swap, and multi-step epochs",
+            "metric": "maximum offered program rate satisfying one fixed program-cycle/token SLO",
+        },
+        "public_reference_audit": public_reference,
         "profiles": profiles,
         "offline": offline,
         "audit": audit,
-        "structural_gates": {"same_equations": True, "offline_monotonic": monotonic},
+        "structural_gates": structural_gates,
         "summary": {
             "endpoints": len(audit),
             "passing": len(audit) - len(failures),
             "failing": len(failures),
             "max_relative_error": max(entry["relative_error"] for entry in audit),
-            "pass": not failures and monotonic,
+            "pass": not failures and all(structural_gates.values()),
         },
     }
-

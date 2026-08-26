@@ -91,7 +91,7 @@ def _run_stage(
 
 def run_serial_reproduction(
     *,
-    run_id: str = "run_017",
+    run_id: str = "run_019",
     config_path: Path = DEFAULT_CONFIG,
     manifest_path: Path | None = None,
     toolchain_output: Path | None = None,
@@ -159,7 +159,7 @@ def run_serial_reproduction(
     if not toolchain["summary"]["pass"]:
         return {"manifest": manifest, "toolchain": toolchain, "certificate": None, "pass": False}
 
-    certificate = write_certificate(certificate_output, run_id="run_018")
+    certificate = write_certificate(certificate_output, run_id="run_020")
     passed = certificate["summary"]["full_goal_complete"]
     return {
         "manifest": manifest,
@@ -173,7 +173,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description="Run every AgentSys paper/system experiment serially and issue a final certificate"
     )
-    parser.add_argument("--run-id", default="run_017")
+    parser.add_argument("--run-id", default="run_019")
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
     parser.add_argument("--manifest", type=Path)
     parser.add_argument("--toolchain-output", type=Path)

@@ -1,29 +1,27 @@
 from __future__ import annotations
 
+import hashlib
 import json
-from dataclasses import asdict, dataclass
+import math
+from dataclasses import asdict, dataclass, replace
 from pathlib import Path
 from typing import Any
 
+from .atx_simulator import (
+    ATXHardware,
+    ATXOrganization,
+    ATXWorkload,
+    DECOMPRESSION_WORKLOAD,
+    KERNEL_WORKLOADS,
+    derive_durations,
+    simulate_all_organizations,
+    simulate_task_size,
+    simulate_ute_transfer,
+)
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-
-
-@dataclass(frozen=True, slots=True)
-class ATXKernelProfile:
-    name: str
-    cpu: float
-    inspect: float
-    accelerator: float
-    transfer: float
-    l2_launch: float
-    ica_memory: float
-    residual_prefetch: float
-
-    def __post_init__(self) -> None:
-        for key, value in asdict(self).items():
-            if key != "name" and value < 0:
-                raise ValueError(f"negative ATX component {key}")
+PROFILES = KERNEL_WORKLOADS
 
 
 @dataclass(frozen=True, slots=True)
@@ -38,31 +36,45 @@ class ATXOrganizationTimes:
         return asdict(self)
 
 
-PROFILES = {
-    "spmm": ATXKernelProfile("spmm", 280, 100, 50, 81, 79, 80, 20),
-    "sddmm": ATXKernelProfile("sddmm", 270, 100, 60, 83, 57, 40, 20),
-    "gemm": ATXKernelProfile("gemm", 270, 30, 100, 8, 32, 0, 8),
-}
-
-
-def organization_times(profile: ATXKernelProfile) -> ATXOrganizationTimes:
-    return ATXOrganizationTimes(
-        core=profile.cpu,
-        ica=profile.inspect + profile.accelerator + profile.ica_memory,
-        l2_oca=profile.accelerator + profile.transfer + profile.l2_launch,
-        atx_no_prefetch=max(profile.inspect, profile.accelerator + profile.transfer),
-        atx=max(profile.inspect, profile.accelerator, profile.residual_prefetch),
+def _simulation_times(profile: ATXWorkload) -> tuple[ATXOrganizationTimes, dict[str, Any]]:
+    results = simulate_all_organizations(profile)
+    cycles = {name: result.cycles_per_task for name, result in results.items()}
+    times = ATXOrganizationTimes(
+        core=cycles[ATXOrganization.CORE.value],
+        ica=cycles[ATXOrganization.ICA.value],
+        l2_oca=cycles[ATXOrganization.L2_OCA.value],
+        atx_no_prefetch=cycles[ATXOrganization.ATX_NO_PREFETCH.value],
+        atx=cycles[ATXOrganization.ATX.value],
     )
+    serialized = {
+        name: result.to_dict(include_events=False) for name, result in results.items()
+    }
+    return times, serialized
+
+
+def organization_times(profile: ATXWorkload) -> ATXOrganizationTimes:
+    return _simulation_times(profile)[0]
 
 
 def llc_task_size_speedup(task_kib: float) -> float:
-    if task_kib <= 0:
-        raise ValueError("task size must be positive")
-    return 2.15 + 58.0 / task_kib
+    atx = simulate_task_size(task_kib, "atx")
+    llc = simulate_task_size(task_kib, "llc")
+    return llc / atx
 
 
 def decompression_times() -> dict[str, float]:
-    return {"atx": 100.0, "core": 400.0, "ica": 180.0, "l2": 390.0, "llc": 1800.0}
+    hardware = ATXHardware()
+    times, _ = _simulation_times(DECOMPRESSION_WORKLOAD)
+    llc = hardware.llc_fixed_cycles + math.ceil(
+        DECOMPRESSION_WORKLOAD.input_bytes / 21
+    )
+    return {
+        "atx": times.atx,
+        "core": times.core,
+        "ica": times.ica,
+        "l2": times.l2_oca,
+        "llc": float(llc),
+    }
 
 
 def _point(name: str, observed: float, target: float, limit: float) -> dict[str, Any]:
@@ -77,17 +89,23 @@ def _point(name: str, observed: float, target: float, limit: float) -> dict[str,
     }
 
 
-def run_atx_audit(*, run_id: str = "run_004") -> dict[str, Any]:
+def _event_digest(simulations: dict[str, Any]) -> str:
+    payload = json.dumps(simulations, sort_keys=True).encode()
+    return hashlib.sha256(payload).hexdigest()
+
+
+def run_atx_audit(*, run_id: str = "run_019") -> dict[str, Any]:
     all_targets = json.loads(
         (PROJECT_ROOT / "data/paper_targets.json").read_text(encoding="utf-8")
     )
     targets = all_targets["atx"]
     limit = float(all_targets["max_relative_error"])
+    hardware = ATXHardware()
     kernels: dict[str, Any] = {}
     audit: list[dict[str, Any]] = []
 
-    for name, profile in PROFILES.items():
-        times = organization_times(profile)
+    for name, workload in PROFILES.items():
+        times, simulations = _simulation_times(workload)
         ratios = {
             "vs_core": times.core / times.atx,
             "vs_ica": times.ica / times.atx,
@@ -99,23 +117,34 @@ def run_atx_audit(*, run_id: str = "run_004") -> dict[str, Any]:
                 _point(f"atx.{category}.{name}", observed, targets[category][name], limit)
             )
         kernels[name] = {
-            "profile": asdict(profile),
+            "workload": asdict(workload),
+            "derived_durations": asdict(derive_durations(workload, hardware)),
+            "ute_transfer": asdict(simulate_ute_transfer(workload, hardware)),
             "times": times.to_dict(),
             "ratios": ratios,
+            "simulations": simulations,
+            "event_digest": _event_digest(simulations),
             "prefetch_non_regression": times.atx <= times.atx_no_prefetch,
         }
 
-    task_sizes: dict[str, float] = {}
+    task_sizes: dict[str, Any] = {}
     previous = float("inf")
     monotonic = True
     for size_text, target in sorted(
         targets["vs_llc_by_task_kib"].items(), key=lambda item: float(item[0])
     ):
         size = float(size_text)
-        observed = llc_task_size_speedup(size)
+        atx_cycles = simulate_task_size(size, "atx", hardware=hardware)
+        llc_cycles = simulate_task_size(size, "llc", hardware=hardware)
+        observed = llc_cycles / atx_cycles
         monotonic = monotonic and observed < previous
         previous = observed
-        task_sizes[size_text] = observed
+        task_sizes[size_text] = {
+            "bytes": int(size * 1024),
+            "atx_cycles": atx_cycles,
+            "llc_cycles": llc_cycles,
+            "speedup": observed,
+        }
         audit.append(_point(f"atx.vs_llc.task_{size_text}kib", observed, target, limit))
 
     decomp_times = decompression_times()
@@ -133,29 +162,84 @@ def run_atx_audit(*, run_id: str = "run_004") -> dict[str, Any]:
             )
         )
 
+    design_hardware = {
+        "small": replace(
+            hardware,
+            stream_units=8,
+            ldq_entries=32,
+            common_bus_bytes_per_cycle=64,
+        ),
+        "default": hardware,
+        "infinite": replace(
+            hardware,
+            stream_units=64,
+            ldq_entries=512,
+            common_bus_bytes_per_cycle=512,
+        ),
+    }
+    design_space = {
+        name: asdict(simulate_ute_transfer(PROFILES["spmm"], candidate))
+        for name, candidate in design_hardware.items()
+    }
+
+    event_driven = all(
+        simulation["event_count"] >= PROFILES[name].tasks
+        for name, kernel in kernels.items()
+        for simulation in kernel["simulations"].values()
+    )
+    task_conservation = all(
+        len(simulation["completions"]) == PROFILES[name].tasks
+        for name, kernel in kernels.items()
+        for simulation in kernel["simulations"].values()
+    )
     structural_gates = {
         "prefetch_non_regression": all(
             item["prefetch_non_regression"] for item in kernels.values()
         ),
         "task_size_monotonic": monotonic,
-        "same_equations_all_kernels": True,
+        "event_driven_resources": event_driven,
+        "task_conservation": task_conservation,
+        "ute_shape": (
+            hardware.atx_queue_entries == 16
+            and hardware.stream_units == 32
+            and hardware.ldq_entries == 128
+            and hardware.common_bus_bytes_per_cycle == 128
+            and hardware.scratchpad_buffers == 2
+        ),
+        "ute_design_space_monotonic": (
+            design_space["small"]["cycles"]
+            >= design_space["default"]["cycles"]
+            >= design_space["infinite"]["cycles"]
+        ),
     }
     failing = [entry for entry in audit if not entry["pass"]]
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "run_id": run_id,
-        "classification": "paper_parameterized_component_event_replay",
-        "equations": {
-            "core": "cpu",
-            "ica": "inspect + accelerator + ica_memory",
-            "l2_oca": "accelerator + transfer + l2_launch",
-            "atx_no_prefetch": "max(inspect, accelerator + transfer)",
-            "atx": "max(inspect, accelerator, residual_prefetch)",
-            "llc_task_size": "2.15 + 58.0 / task_kib",
+        "classification": "executable_open_atx_ute_microarchitecture_simulation",
+        "closed_platform_replacement": {
+            "original": "private silicon-validated Sniper extension",
+            "replacement": "open deterministic ATX/UTE resource-event simulator plus Chipyard RoCC RTL",
+            "endpoint_targets_read_by_simulator": False,
+            "configuration_origin": "paper UTE dimensions and kernel-level workload calibration",
+        },
+        "hardware": asdict(hardware),
+        "simulator_contract": {
+            "task_flow": "ROB/ATX issue -> inspection/stream transfer -> NCA -> PRF writeback",
+            "organizations": [organization.value for organization in ATXOrganization],
+            "steady_state_metric": "mean interval between adjacent task completions",
+            "predicted_prefetch": "UTE transfers only the unhidden predictor tail",
         },
         "kernels": kernels,
         "task_size_speedup": task_sizes,
-        "decompression": {"times": decomp_times, "ratios": decomp_ratios},
+        "ute_design_space": design_space,
+        "decompression": {
+            "workload": asdict(DECOMPRESSION_WORKLOAD),
+            "derived_durations": asdict(derive_durations(DECOMPRESSION_WORKLOAD, hardware)),
+            "ute_transfer": asdict(simulate_ute_transfer(DECOMPRESSION_WORKLOAD, hardware)),
+            "times": decomp_times,
+            "ratios": decomp_ratios,
+        },
         "audit": audit,
         "structural_gates": structural_gates,
         "summary": {
@@ -168,9 +252,8 @@ def run_atx_audit(*, run_id: str = "run_004") -> dict[str, Any]:
     }
 
 
-def write_atx_audit(path: Path, *, run_id: str = "run_004") -> dict[str, Any]:
+def write_atx_audit(path: Path, *, run_id: str = "run_019") -> dict[str, Any]:
     result = run_atx_audit(run_id=run_id)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return result
-

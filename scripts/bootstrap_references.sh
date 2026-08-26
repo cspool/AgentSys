@@ -34,4 +34,5 @@ clone_pinned mllm https://github.com/UbiquitousLearning/mllm.git \
   50ad5a9b6fbea742e38b5b31776c187e50319c8e
 clone_pinned ramulator2 https://github.com/CMU-SAFARI/ramulator2.git \
   be93be78055d922aa1d4d33e15bcc8f2b0c61a9d
-
+clone_pinned autellix https://github.com/kungfu-team/autellix.git \
+  1df19874d1fb10e497b7185bf813fdd7be189683
