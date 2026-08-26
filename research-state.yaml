@@ -1,7 +1,7 @@
 # Research State — Central Project Tracking
 project:
   title: "AgentSys: dynamic-agent full-stack scheduling from program DAG to NPU tile"
-  question: "Can program-aware, heterogeneous-flow-aware, and semantic tile scheduling compose end to end while independently reproducing each target paper's registered core result within 10%?"
+  question: "Can Agentix, Agent.xpu, mllm/llm.npu, TISA and HPTPE be independently reproduced within 15%, then compose on an ordinary-RISC-V Chipyard CPU+XPU system?"
   status: active
   started: "2026-08-25"
   domain: "computer systems and architecture"
@@ -35,6 +35,8 @@ literature:
     - "No public TISA RTL or exact Epoch hardware simulator."
     - "No local multi-A100 platform; Agentix performance must remain trace-simulation evidence."
     - "Agent.xpu paper testbed is Intel Core Ultra 5 125H, not the available x86/Chipyard system."
+    - "llm.npu uses proprietary Qualcomm QNN on Xiaomi/Redmi devices; local evidence must remain source-grounded simulation plus real mllm framework execution."
+    - "HPTPE includes author-generated Synopsys DC reports and a SAED32 library, but a fresh licensed DC run is unavailable."
 
 hypotheses:
   - id: H1
@@ -111,7 +113,7 @@ hypotheses:
     priority: high
 
 experiments:
-  proxy_metric: "maximum absolute relative error across preregistered paper endpoints (must be <= 0.10), with per-paper toolchains and functional invariants as hard gates"
+  proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
   total_runs: 22

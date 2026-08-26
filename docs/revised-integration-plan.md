@@ -18,3 +18,9 @@
 ## Acceptance boundary
 
 No integrated-system completion claim is allowed until all three standalone gates pass and the final Chipyard trace uses the HPTPE XPU rather than the current simplified ME. ATX results must not be used as evidence for the ordinary-RISC-V CPU design.
+
+The detailed preregistered targets and evidence boundaries are in
+`experiments/h13-revised-stack/protocol.md`; the live gap table is in
+`docs/component-reproduction-audit.md`. For mllm, “performance reproduction” now
+means the mllm-backed ASPLOS'25 llm.npu mechanisms and experiments, not the old
+TISA-on-MIR 1.324x result.

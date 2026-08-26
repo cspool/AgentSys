@@ -80,6 +80,8 @@ Chipyard普通RISC-V CPU + XPU系统模拟
 
 mllm、Agent.xpu和HPTPE必须先分别完成各自论文机制、工具链与性能实验复现，独立通过后才允许接入统一系统。run 021证明了compiled trace可以在Rocket+RoCC上执行，但其ATX式runtime和简化ME只作为旧范围路径原型，不能作为修订后最终系统已经完成的证据。
 
+其中，mllm性能复现按其官方仓库引用的ASPLOS'25 `llm.npu`论文执行，必须实现chunk-sharing graph、shadow outlier execution与CPU/NPU异序子图调度；现有MIR→TISA的1.324×只证明lowering可执行，不计为mllm论文性能。HPTPE必须执行官方OPT1/OPT2/OPT3/OPT4C RTL并核对仓库内DC报告，当前四路OS ME不计为HPTPE复现。具体预注册端点、证据边界与先独立后集成的门禁见`experiments/h13-revised-stack/protocol.md`和`docs/component-reproduction-audit.md`。
+
 简洁实施顺序如下：
 
 1. 固定普通RISC-V CPU基线与CPU↔XPU统一接口，移除集成路径中的ATX依赖；
