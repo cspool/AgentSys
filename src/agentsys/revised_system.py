@@ -14,7 +14,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 CHIPYARD_ROOT = Path("/root/chipyard")
 SIM_ROOT = CHIPYARD_ROOT / "sims" / "verilator"
 ELF = PROJECT_ROOT / "system_sim/build/software/agentsys-revised-system.riscv"
-COMPILED_MANIFEST = PROJECT_ROOT / "artifacts/app_traces/revised-compiled-workload-run_026.json"
+COMPILED_MANIFEST = PROJECT_ROOT / "artifacts/app_traces/revised-compiled-workload-run_027.json"
 COMPONENT_CERTIFICATE = PROJECT_ROOT / "artifacts/results/revised-components-run_025.json"
 
 SUMMARY_RE = re.compile(r"^AGENTSYS_REVISED_(PASS|FAIL)\s+(.*)$", re.MULTILINE)
@@ -260,6 +260,17 @@ def _tile_gate(parsed: dict[str, Any], compiled: dict[str, Any]) -> bool:
     return True
 
 
+def _first_issue_gate(parsed: dict[str, Any], expected_cycle: int) -> bool:
+    first_by_call: dict[int, int] = {}
+    for event in parsed["hardware"]:
+        if event["event"] != "issue":
+            continue
+        first_by_call[event["call_index"]] = min(
+            event["cycle"], first_by_call.get(event["call_index"], event["cycle"])
+        )
+    return len(first_by_call) == 10 and set(first_by_call.values()) == {expected_cycle}
+
+
 def expand_trace(backend: str, parsed: dict[str, Any]) -> list[dict[str, Any]]:
     events: list[dict[str, Any]] = []
 
@@ -348,7 +359,7 @@ def _installed_sources() -> dict[str, Any]:
     return result
 
 
-def run_revised_system(*, run_id: str = "run_026", timeout_s: float = 300.0) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+def run_revised_system(*, run_id: str = "run_027", timeout_s: float = 300.0) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     compiled = json.loads(COMPILED_MANIFEST.read_text(encoding="utf-8"))
     components = json.loads(COMPONENT_CERTIFICATE.read_text(encoding="utf-8"))
     with ThreadPoolExecutor(max_workers=2) as pool:
@@ -397,8 +408,9 @@ def run_revised_system(*, run_id: str = "run_026", timeout_s: float = 300.0) -> 
         "tile_trace_static": _tile_gate(static["parsed"], compiled),
         "tile_trace_dynamic": _tile_gate(dynamic["parsed"], compiled),
         "hardware_transport_complete": static["parsed"]["transport"]["complete"] and dynamic["parsed"]["transport"]["complete"],
+        "seven_cycle_per_unit_dispatch": s["dispatch_latency"] == 0 and d["dispatch_latency"] == 7 and _first_issue_gate(static["parsed"], 0) and _first_issue_gate(dynamic["parsed"], 7),
         "no_cancel_prefetch_or_atx": s["priority_violations"] == d["priority_violations"] == 0 and "ATX" not in static["log"] and "ATX" not in dynamic["log"] and "PREFETCH" not in static["log"].upper() and "PREFETCH" not in dynamic["log"].upper(),
-        "dynamic_overlap": s["overlap"] == 0 and d["overlap"] > 0,
+        "strong_static_and_dynamic_overlap": 0 < s["overlap"] < d["overlap"],
         "dynamic_backend_faster": d["backend_cycles"] < s["backend_cycles"],
         "dynamic_system_faster": d["system_cycles"] < s["system_cycles"],
         "tisa_speedup_range": 1.14 <= speedup <= 1.63,
@@ -440,7 +452,7 @@ def run_revised_system(*, run_id: str = "run_026", timeout_s: float = 300.0) -> 
     return result, events
 
 
-def write_revised_system(result_path: Path, trace_path: Path, *, run_id: str = "run_026") -> dict[str, Any]:
+def write_revised_system(result_path: Path, trace_path: Path, *, run_id: str = "run_027") -> dict[str, Any]:
     result, events = run_revised_system(run_id=run_id)
     result_path.parent.mkdir(parents=True, exist_ok=True)
     result_path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")

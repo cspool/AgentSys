@@ -33,3 +33,4 @@ def test_revised_compiler_uses_upstream_mllm_and_agentxpu_fields() -> None:
         "proactive",
     }
     assert all((descriptor.tilemem >> 54) == descriptor.source_index for descriptor in descriptors)
+    assert all(((descriptor.control >> 52) & 0xff) == descriptor.stage_code for descriptor in descriptors)

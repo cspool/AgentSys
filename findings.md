@@ -12,7 +12,7 @@ The available evidence requires distinct labels. Agentix's published evaluation 
 
 Final synthesis: urgency must participate at call release before it can be preserved below; semantic tile scheduling becomes beneficial only at the intended coarse granularity; prefetch/bandwidth gains are largest before the critical path shifts to compute; and dataflow choice remains workload/bandwidth dependent. These conditions explain both the successful stack and its observed trade-offs.
 
-The revised architecture removes ATX from the integrated CPU path. Run 023 closes mllm itself plus llm.npu's chunk sharing, shadow-outlier path and out-of-order scheduling. Run 024 closes HPTPE's released OPT1/2/3/4C RTL and report endpoints. The old four-lane Chipyard ME still cannot satisfy the integrated hardware requirement; standalone HPTPE completion now supplies the exact module family it must be replaced with.
+The revised architecture removes ATX from the integrated CPU path. Run 023 closes mllm itself plus llm.npu's chunk sharing, shadow-outlier path and out-of-order scheduling. Run 024 closes HPTPE's released OPT1/2/3/4C RTL and report endpoints. Run 027 replaces the old four-lane Chipyard ME with the released HPTPE OPT1 16x16 array and carries the active stack through an ordinary Rocket CPU.
 
 ## Key Results
 
@@ -36,6 +36,7 @@ The revised architecture removes ATX from the integrated CPU path. Run 023 close
 - Run 024 executes HPTPE OPT1 OS/WS/Cube, OPT2, OPT3 and OPT4C: 9/9 organizations, 302 signed golden checks and 9/9 full-scale lint pass. All 26 endpoints pass at 15%, max error 0.98%; OS/WS/Cube frequency gains are 2.097/1.667/1.575x.
 - Run 025 reruns Agentix/Agent.xpu/TISA unchanged and combines all active standalone evidence. Five of five components, 68/68 endpoints and 8/8 gates pass at 9.91% global maximum error. ATX is a machine-checked excluded component.
 - Run 026 physically integrates the revised stack on ordinary Rocket and the released HPTPE 16x16 array. Eighteen of 19 gates pass, 860 cross-layer events are recorded, and static/dynamic work and checksum match. The 2.000x backend speedup exceeds the locked TISA 1.14--1.63x range, so this is a retained negative result rather than completion evidence.
+- Run 027 restores the paper's strong-static stage baseline and exact seven-cycle dynamic dispatch. All 20 gates pass: backend/system/CPU-observed speedups are 1.376/1.340/1.056x, 860 events cover 11 layers, and 614,400 HPTPE MACs plus checksum remain identical.
 
 ## Patterns and Insights
 
@@ -84,6 +85,11 @@ Run 026 preserves those mechanisms through the physical Chipyard path, but its
 unconstrained ME/VE/DE overlap yields 2.000x rather than the registered
 1.14--1.63x TISA range. The next run must change only the dynamic scheduling
 cost/concurrency model and retain all run-026 work and lineage invariants.
+
+Run 027 closes that mismatch using the preregistered source contract rather than
+a fitted delay. Existing Agent.xpu stage metadata defines the strong-static
+pipeline and the paper fixes dynamic dispatch at seven cycles. The real
+Rocket+HPTPE result is 1.376x with all run-026 work/lineage gates preserved.
 
 ## Toolchain Closure
 

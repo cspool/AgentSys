@@ -142,7 +142,7 @@ int main(void) {
                    call_index, call->priority,
                    agentsys_xpu_read_cycle() - call_start, tool_result);
     } else {
-      uint64_t status[28];
+      uint64_t status[29];
       uint64_t me_busy_delta;
       uint64_t ve_busy_delta;
       uint64_t de_busy_delta;
@@ -222,7 +222,7 @@ int main(void) {
       record_event(LAYER_CPU, EVENT_WAIT_COMPLETE, call->program_code,
                    call_index, call->priority,
                    agentsys_xpu_read_cycle() - call_start, 0);
-      for (index = 0; index < 28; ++index)
+      for (index = 0; index < 29; ++index)
         status[index] = agentsys_xpu_status(index);
 
       me_busy_delta = status[9] - previous_me_busy;
@@ -243,6 +243,8 @@ int main(void) {
           status[7] != call->descriptor_count || status[8] != 0)
         ++errors;
       if (status[25] != 3 || status[26] != 3 || status[27] != 2)
+        ++errors;
+      if (status[28] != ((status[0] & 0x10) ? 7 : 0))
         ++errors;
       if (me_busy_delta != 240 || ve_busy_delta != 240 || de_busy_delta != 160)
         ++errors;
@@ -360,6 +362,7 @@ int main(void) {
          " ve_busy=%" PRIu64 " de_busy=%" PRIu64
          " overlap=%" PRIu64 " hptpe_mac_ops=%" PRIu64
          " priority_violations=%" PRIu64
+         " dispatch_latency=%" PRIu64
          " flows=%u/%u placements=%u/%u/%u"
          " checksum=%016" PRIx64 " app_digest=%016" PRIx64
          " mir_digest=%016" PRIx64 "\n",
@@ -370,6 +373,7 @@ int main(void) {
          total_system_cycles, total_backend_cycles, total_dma_cycles,
          total_dma_bytes, total_me_busy, total_ve_busy, total_de_busy,
          total_overlap, total_hptpe_mac_ops, total_priority_violations,
+         agentsys_xpu_status(28),
          reactive_flows, proactive_flows, hptpe_placements,
          vector_placements, data_placements, aggregate_checksum,
          AGENTSYS_REVISED_TRACE_DIGEST, AGENTSYS_REVISED_MIR_DIGEST);

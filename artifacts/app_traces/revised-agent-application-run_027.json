@@ -1,0 +1,796 @@
+{
+  "application": "ReAct+Mixture-of-Agents+MCTS",
+  "calls": [
+    {
+      "call_id": "react-plan",
+      "deps": [],
+      "flow_binding": "npu_prefill+igpu_reactive_decode",
+      "index": 0,
+      "input_tokens": 213,
+      "kind": "llm",
+      "output_digest": "43111fdd9f4dd7533141e4e321048fbcd42a5d0d4bf2f302d84b2d363a863efe",
+      "output_tokens": 78,
+      "priority": 0,
+      "program_id": "react",
+      "scheduled_step": 0
+    },
+    {
+      "call_id": "moa-map0",
+      "deps": [],
+      "flow_binding": "npu_prefill+igpu_slack_decode",
+      "index": 1,
+      "input_tokens": 451,
+      "kind": "llm",
+      "output_digest": "85da5f01f2dcdf7e990c7ce94e158e461ba815ee7cbd013000e0cacfadad40c0",
+      "output_tokens": 90,
+      "priority": 2,
+      "program_id": "moa",
+      "scheduled_step": 0
+    },
+    {
+      "call_id": "moa-map1",
+      "deps": [],
+      "flow_binding": "npu_prefill+igpu_slack_decode",
+      "index": 2,
+      "input_tokens": 467,
+      "kind": "llm",
+      "output_digest": "8998b7b475e04fc670dd5a7634b02a7f86717e079bfc07c36156177f3fc0e3fe",
+      "output_tokens": 96,
+      "priority": 2,
+      "program_id": "moa",
+      "scheduled_step": 0
+    },
+    {
+      "call_id": "moa-map2",
+      "deps": [],
+      "flow_binding": "npu_prefill+igpu_slack_decode",
+      "index": 3,
+      "input_tokens": 483,
+      "kind": "llm",
+      "output_digest": "7e5f75abf47b340349ee432a768f0205322a13618511ad25a232c0ceafa0302a",
+      "output_tokens": 87,
+      "priority": 2,
+      "program_id": "moa",
+      "scheduled_step": 1
+    },
+    {
+      "call_id": "mcts-root",
+      "deps": [],
+      "flow_binding": "npu_prefill+igpu_slack_decode",
+      "index": 4,
+      "input_tokens": 515,
+      "kind": "llm",
+      "output_digest": "6933db27d060e6293c9e19bb33c8ce08bf2326c7a82ae372c415cac75a07678f",
+      "output_tokens": 85,
+      "priority": 2,
+      "program_id": "mcts",
+      "scheduled_step": 2
+    },
+    {
+      "call_id": "react-tool",
+      "deps": [
+        "react-plan"
+      ],
+      "flow_binding": "rocket_cpu_tool",
+      "index": 5,
+      "input_tokens": 253,
+      "kind": "tool",
+      "output_digest": "f2a74c34b8a8b749005baa550f8a410616b413c5884067676298587320c7285a",
+      "output_tokens": 72,
+      "priority": 0,
+      "program_id": "react",
+      "scheduled_step": 5
+    },
+    {
+      "call_id": "react-answer",
+      "deps": [
+        "react-tool"
+      ],
+      "flow_binding": "npu_prefill+igpu_reactive_decode",
+      "index": 6,
+      "input_tokens": 261,
+      "kind": "llm",
+      "output_digest": "e6425025bb26db20caa50bf09b23c4379226779a077bca6f73fa391c667b4e0e",
+      "output_tokens": 76,
+      "priority": 0,
+      "program_id": "react",
+      "scheduled_step": 6
+    },
+    {
+      "call_id": "mcts-actor0",
+      "deps": [
+        "mcts-root"
+      ],
+      "flow_binding": "npu_prefill+igpu_slack_decode",
+      "index": 7,
+      "input_tokens": 551,
+      "kind": "llm",
+      "output_digest": "fc452a6a0cb202dc564acfbb7f49fc383ec578889150650b04e5a0b581e66011",
+      "output_tokens": 89,
+      "priority": 2,
+      "program_id": "mcts",
+      "scheduled_step": 6
+    },
+    {
+      "call_id": "mcts-actor1",
+      "deps": [
+        "mcts-root"
+      ],
+      "flow_binding": "npu_prefill+igpu_slack_decode",
+      "index": 8,
+      "input_tokens": 563,
+      "kind": "llm",
+      "output_digest": "9e3091f9e5ac5f4093f0f0bff7f0a0829bb4e2d50eb59eeba2cd9872794321f9",
+      "output_tokens": 81,
+      "priority": 2,
+      "program_id": "mcts",
+      "scheduled_step": 7
+    },
+    {
+      "call_id": "moa-reduce",
+      "deps": [
+        "moa-map0",
+        "moa-map1",
+        "moa-map2"
+      ],
+      "flow_binding": "npu_prefill+igpu_slack_decode",
+      "index": 9,
+      "input_tokens": 579,
+      "kind": "llm",
+      "output_digest": "6bfbb3fe51e67ff57c548053b5e045a2bf05746ef16b69d8b02640dbfc0c8548",
+      "output_tokens": 93,
+      "priority": 2,
+      "program_id": "moa",
+      "scheduled_step": 9
+    },
+    {
+      "call_id": "mcts-critic",
+      "deps": [
+        "mcts-actor0",
+        "mcts-actor1"
+      ],
+      "flow_binding": "npu_prefill+igpu_slack_decode",
+      "index": 10,
+      "input_tokens": 587,
+      "kind": "llm",
+      "output_digest": "2137b31bd0da747d9400ec3488f7dd2f2551ee927cb45051ecb77b4759a1bb36",
+      "output_tokens": 85,
+      "priority": 2,
+      "program_id": "mcts",
+      "scheduled_step": 10
+    }
+  ],
+  "classification": "executed_agent_application_and_framework_trace",
+  "events": [
+    {
+      "call_id": null,
+      "details": {
+        "priority": 0
+      },
+      "event": "program_start",
+      "layer": "application",
+      "logical_time": 0,
+      "program_id": "react"
+    },
+    {
+      "call_id": null,
+      "details": {
+        "priority": 2
+      },
+      "event": "program_start",
+      "layer": "application",
+      "logical_time": 0,
+      "program_id": "moa"
+    },
+    {
+      "call_id": "react-plan",
+      "details": {
+        "deps": [],
+        "thread": "main"
+      },
+      "event": "call_release",
+      "layer": "framework",
+      "logical_time": 0,
+      "program_id": "react"
+    },
+    {
+      "call_id": "moa-map0",
+      "details": {
+        "deps": [],
+        "thread": "map0"
+      },
+      "event": "call_release",
+      "layer": "framework",
+      "logical_time": 0,
+      "program_id": "moa"
+    },
+    {
+      "call_id": "moa-map1",
+      "details": {
+        "deps": [],
+        "thread": "map1"
+      },
+      "event": "call_release",
+      "layer": "framework",
+      "logical_time": 0,
+      "program_id": "moa"
+    },
+    {
+      "call_id": "react-plan",
+      "details": {
+        "binding": "npu_prefill+igpu_reactive_decode",
+        "input_tokens": 213
+      },
+      "event": "flow_bind",
+      "layer": "framework",
+      "logical_time": 0,
+      "program_id": "react"
+    },
+    {
+      "call_id": "moa-map0",
+      "details": {
+        "binding": "npu_prefill+igpu_slack_decode",
+        "input_tokens": 451
+      },
+      "event": "flow_bind",
+      "layer": "framework",
+      "logical_time": 0,
+      "program_id": "moa"
+    },
+    {
+      "call_id": "moa-map1",
+      "details": {
+        "binding": "npu_prefill+igpu_slack_decode",
+        "input_tokens": 467
+      },
+      "event": "flow_bind",
+      "layer": "framework",
+      "logical_time": 0,
+      "program_id": "moa"
+    },
+    {
+      "call_id": "react-plan",
+      "details": {
+        "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+        "operators": 8
+      },
+      "event": "mllm_lower",
+      "layer": "framework",
+      "logical_time": 0,
+      "program_id": "react"
+    },
+    {
+      "call_id": "moa-map0",
+      "details": {
+        "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+        "operators": 8
+      },
+      "event": "mllm_lower",
+      "layer": "framework",
+      "logical_time": 0,
+      "program_id": "moa"
+    },
+    {
+      "call_id": "moa-map1",
+      "details": {
+        "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+        "operators": 8
+      },
+      "event": "mllm_lower",
+      "layer": "framework",
+      "logical_time": 0,
+      "program_id": "moa"
+    },
+    {
+      "call_id": "moa-map2",
+      "details": {
+        "deps": [],
+        "thread": "map2"
+      },
+      "event": "call_release",
+      "layer": "framework",
+      "logical_time": 1,
+      "program_id": "moa"
+    },
+    {
+      "call_id": "moa-map2",
+      "details": {
+        "binding": "npu_prefill+igpu_slack_decode",
+        "input_tokens": 483
+      },
+      "event": "flow_bind",
+      "layer": "framework",
+      "logical_time": 1,
+      "program_id": "moa"
+    },
+    {
+      "call_id": "moa-map2",
+      "details": {
+        "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+        "operators": 8
+      },
+      "event": "mllm_lower",
+      "layer": "framework",
+      "logical_time": 1,
+      "program_id": "moa"
+    },
+    {
+      "call_id": null,
+      "details": {
+        "priority": 2
+      },
+      "event": "program_start",
+      "layer": "application",
+      "logical_time": 2,
+      "program_id": "mcts"
+    },
+    {
+      "call_id": "mcts-root",
+      "details": {
+        "deps": [],
+        "thread": "root"
+      },
+      "event": "call_release",
+      "layer": "framework",
+      "logical_time": 2,
+      "program_id": "mcts"
+    },
+    {
+      "call_id": "mcts-root",
+      "details": {
+        "binding": "npu_prefill+igpu_slack_decode",
+        "input_tokens": 515
+      },
+      "event": "flow_bind",
+      "layer": "framework",
+      "logical_time": 2,
+      "program_id": "mcts"
+    },
+    {
+      "call_id": "mcts-root",
+      "details": {
+        "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+        "operators": 8
+      },
+      "event": "mllm_lower",
+      "layer": "framework",
+      "logical_time": 2,
+      "program_id": "mcts"
+    },
+    {
+      "call_id": "moa-map0",
+      "details": {
+        "output_digest": "85da5f01f2dcdf7e990c7ce94e158e461ba815ee7cbd013000e0cacfadad40c0"
+      },
+      "event": "call_complete",
+      "layer": "framework",
+      "logical_time": 3,
+      "program_id": "moa"
+    },
+    {
+      "call_id": "moa-map2",
+      "details": {
+        "output_digest": "7e5f75abf47b340349ee432a768f0205322a13618511ad25a232c0ceafa0302a"
+      },
+      "event": "call_complete",
+      "layer": "framework",
+      "logical_time": 3,
+      "program_id": "moa"
+    },
+    {
+      "call_id": "react-plan",
+      "details": {
+        "output_digest": "43111fdd9f4dd7533141e4e321048fbcd42a5d0d4bf2f302d84b2d363a863efe"
+      },
+      "event": "call_complete",
+      "layer": "framework",
+      "logical_time": 4,
+      "program_id": "react"
+    },
+    {
+      "call_id": "moa-map1",
+      "details": {
+        "output_digest": "8998b7b475e04fc670dd5a7634b02a7f86717e079bfc07c36156177f3fc0e3fe"
+      },
+      "event": "call_complete",
+      "layer": "framework",
+      "logical_time": 5,
+      "program_id": "moa"
+    },
+    {
+      "call_id": "mcts-root",
+      "details": {
+        "output_digest": "6933db27d060e6293c9e19bb33c8ce08bf2326c7a82ae372c415cac75a07678f"
+      },
+      "event": "call_complete",
+      "layer": "framework",
+      "logical_time": 5,
+      "program_id": "mcts"
+    },
+    {
+      "call_id": "react-tool",
+      "details": {
+        "deps": [
+          "react-plan"
+        ],
+        "thread": "main"
+      },
+      "event": "call_release",
+      "layer": "framework",
+      "logical_time": 5,
+      "program_id": "react"
+    },
+    {
+      "call_id": "react-tool",
+      "details": {
+        "tool": "deterministic_lookup"
+      },
+      "event": "tool_execute",
+      "layer": "framework",
+      "logical_time": 5,
+      "program_id": "react"
+    },
+    {
+      "call_id": "react-tool",
+      "details": {
+        "output_digest": "f2a74c34b8a8b749005baa550f8a410616b413c5884067676298587320c7285a"
+      },
+      "event": "call_complete",
+      "layer": "framework",
+      "logical_time": 6,
+      "program_id": "react"
+    },
+    {
+      "call_id": "react-answer",
+      "details": {
+        "deps": [
+          "react-tool"
+        ],
+        "thread": "main"
+      },
+      "event": "call_release",
+      "layer": "framework",
+      "logical_time": 6,
+      "program_id": "react"
+    },
+    {
+      "call_id": "mcts-actor0",
+      "details": {
+        "deps": [
+          "mcts-root"
+        ],
+        "thread": "actor0"
+      },
+      "event": "call_release",
+      "layer": "framework",
+      "logical_time": 6,
+      "program_id": "mcts"
+    },
+    {
+      "call_id": "react-answer",
+      "details": {
+        "binding": "npu_prefill+igpu_reactive_decode",
+        "input_tokens": 261
+      },
+      "event": "flow_bind",
+      "layer": "framework",
+      "logical_time": 6,
+      "program_id": "react"
+    },
+    {
+      "call_id": "mcts-actor0",
+      "details": {
+        "binding": "npu_prefill+igpu_slack_decode",
+        "input_tokens": 551
+      },
+      "event": "flow_bind",
+      "layer": "framework",
+      "logical_time": 6,
+      "program_id": "mcts"
+    },
+    {
+      "call_id": "react-answer",
+      "details": {
+        "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+        "operators": 8
+      },
+      "event": "mllm_lower",
+      "layer": "framework",
+      "logical_time": 6,
+      "program_id": "react"
+    },
+    {
+      "call_id": "mcts-actor0",
+      "details": {
+        "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+        "operators": 8
+      },
+      "event": "mllm_lower",
+      "layer": "framework",
+      "logical_time": 6,
+      "program_id": "mcts"
+    },
+    {
+      "call_id": "mcts-actor1",
+      "details": {
+        "deps": [
+          "mcts-root"
+        ],
+        "thread": "actor1"
+      },
+      "event": "call_release",
+      "layer": "framework",
+      "logical_time": 7,
+      "program_id": "mcts"
+    },
+    {
+      "call_id": "mcts-actor1",
+      "details": {
+        "binding": "npu_prefill+igpu_slack_decode",
+        "input_tokens": 563
+      },
+      "event": "flow_bind",
+      "layer": "framework",
+      "logical_time": 7,
+      "program_id": "mcts"
+    },
+    {
+      "call_id": "mcts-actor1",
+      "details": {
+        "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+        "operators": 8
+      },
+      "event": "mllm_lower",
+      "layer": "framework",
+      "logical_time": 7,
+      "program_id": "mcts"
+    },
+    {
+      "call_id": null,
+      "details": {
+        "calls": 3
+      },
+      "event": "program_complete",
+      "layer": "application",
+      "logical_time": 9,
+      "program_id": "react"
+    },
+    {
+      "call_id": "react-answer",
+      "details": {
+        "output_digest": "e6425025bb26db20caa50bf09b23c4379226779a077bca6f73fa391c667b4e0e"
+      },
+      "event": "call_complete",
+      "layer": "framework",
+      "logical_time": 9,
+      "program_id": "react"
+    },
+    {
+      "call_id": "mcts-actor1",
+      "details": {
+        "output_digest": "9e3091f9e5ac5f4093f0f0bff7f0a0829bb4e2d50eb59eeba2cd9872794321f9"
+      },
+      "event": "call_complete",
+      "layer": "framework",
+      "logical_time": 9,
+      "program_id": "mcts"
+    },
+    {
+      "call_id": "moa-reduce",
+      "details": {
+        "deps": [
+          "moa-map0",
+          "moa-map1",
+          "moa-map2"
+        ],
+        "thread": "reduce"
+      },
+      "event": "call_release",
+      "layer": "framework",
+      "logical_time": 9,
+      "program_id": "moa"
+    },
+    {
+      "call_id": "moa-reduce",
+      "details": {
+        "binding": "npu_prefill+igpu_slack_decode",
+        "input_tokens": 579
+      },
+      "event": "flow_bind",
+      "layer": "framework",
+      "logical_time": 9,
+      "program_id": "moa"
+    },
+    {
+      "call_id": "moa-reduce",
+      "details": {
+        "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+        "operators": 8
+      },
+      "event": "mllm_lower",
+      "layer": "framework",
+      "logical_time": 9,
+      "program_id": "moa"
+    },
+    {
+      "call_id": "mcts-actor0",
+      "details": {
+        "output_digest": "fc452a6a0cb202dc564acfbb7f49fc383ec578889150650b04e5a0b581e66011"
+      },
+      "event": "call_complete",
+      "layer": "framework",
+      "logical_time": 10,
+      "program_id": "mcts"
+    },
+    {
+      "call_id": "mcts-critic",
+      "details": {
+        "deps": [
+          "mcts-actor0",
+          "mcts-actor1"
+        ],
+        "thread": "critic"
+      },
+      "event": "call_release",
+      "layer": "framework",
+      "logical_time": 10,
+      "program_id": "mcts"
+    },
+    {
+      "call_id": "mcts-critic",
+      "details": {
+        "binding": "npu_prefill+igpu_slack_decode",
+        "input_tokens": 587
+      },
+      "event": "flow_bind",
+      "layer": "framework",
+      "logical_time": 10,
+      "program_id": "mcts"
+    },
+    {
+      "call_id": "mcts-critic",
+      "details": {
+        "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+        "operators": 8
+      },
+      "event": "mllm_lower",
+      "layer": "framework",
+      "logical_time": 10,
+      "program_id": "mcts"
+    },
+    {
+      "call_id": null,
+      "details": {
+        "calls": 4
+      },
+      "event": "program_complete",
+      "layer": "application",
+      "logical_time": 13,
+      "program_id": "moa"
+    },
+    {
+      "call_id": null,
+      "details": {
+        "calls": 4
+      },
+      "event": "program_complete",
+      "layer": "application",
+      "logical_time": 13,
+      "program_id": "mcts"
+    },
+    {
+      "call_id": "moa-reduce",
+      "details": {
+        "output_digest": "6bfbb3fe51e67ff57c548053b5e045a2bf05746ef16b69d8b02640dbfc0c8548"
+      },
+      "event": "call_complete",
+      "layer": "framework",
+      "logical_time": 13,
+      "program_id": "moa"
+    },
+    {
+      "call_id": "mcts-critic",
+      "details": {
+        "output_digest": "2137b31bd0da747d9400ec3488f7dd2f2551ee927cb45051ecb77b4759a1bb36"
+      },
+      "event": "call_complete",
+      "layer": "framework",
+      "logical_time": 13,
+      "program_id": "mcts"
+    }
+  ],
+  "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+  "model_mir": "integrations/mllm/fixtures/transformer_slice.mir",
+  "operator_template": [
+    {
+      "deps": [],
+      "duration": 1024,
+      "engine": "me",
+      "index": 0,
+      "op_type": "LinearOp",
+      "source_line": 4
+    },
+    {
+      "deps": [],
+      "duration": 1024,
+      "engine": "me",
+      "index": 1,
+      "op_type": "LinearOp",
+      "source_line": 5
+    },
+    {
+      "deps": [
+        0
+      ],
+      "duration": 1024,
+      "engine": "de",
+      "index": 2,
+      "op_type": "CastTypeOp",
+      "source_line": 6
+    },
+    {
+      "deps": [
+        1
+      ],
+      "duration": 1024,
+      "engine": "ve",
+      "index": 3,
+      "op_type": "RMSNormOp",
+      "source_line": 7
+    },
+    {
+      "deps": [
+        2,
+        3
+      ],
+      "duration": 1024,
+      "engine": "ve",
+      "index": 4,
+      "op_type": "AddOp",
+      "source_line": 8
+    },
+    {
+      "deps": [
+        3
+      ],
+      "duration": 1024,
+      "engine": "de",
+      "index": 5,
+      "op_type": "TransposeOp",
+      "source_line": 9
+    },
+    {
+      "deps": [
+        4,
+        5
+      ],
+      "duration": 1024,
+      "engine": "me",
+      "index": 6,
+      "op_type": "MatMulOp",
+      "source_line": 10
+    },
+    {
+      "deps": [
+        6
+      ],
+      "duration": 1024,
+      "engine": "ve",
+      "index": 7,
+      "op_type": "SoftmaxOp",
+      "source_line": 11
+    }
+  ],
+  "output_digest": "4347e5adb9552f704a3397dc94afd6186911c8c07aa7c144ce57161f806733bd",
+  "run_id": "run_027",
+  "schema_version": 1,
+  "summary": {
+    "calls": 11,
+    "events": 49,
+    "llm_calls": 10,
+    "operators_per_llm_call": 8,
+    "pass": true,
+    "programs": 3,
+    "tool_calls": 1
+  }
+}

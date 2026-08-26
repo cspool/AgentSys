@@ -109,6 +109,7 @@ module agentsys_revised_rocc_controller #(
   localparam FUNCT_STATUS = 7'd3;
   localparam FUNCT_CLEAR = 7'd4;
   localparam [63:0] XPU_RESULT_MAGIC = 64'h5850555f54495341;
+  localparam [7:0] TISA_DISPATCH_LATENCY = 8'd7;
 
   localparam ST_IDLE = 4'd0;
   localparam ST_DMA_READ_REQ = 4'd1;
@@ -181,7 +182,8 @@ module agentsys_revised_rocc_controller #(
       .ENTRIES(8),
       .RESULT_MAGIC(XPU_RESULT_MAGIC),
       .INCLUDE_ENGINE_CHECKSUM(1),
-      .TRACE(1)
+      .TRACE(1),
+      .DISPATCH_LATENCY(TISA_DISPATCH_LATENCY)
   ) backend (
       .clk(clk), .rst_n(rst_n),
       .cfg_valid_i(backend_cfg_valid), .cfg_target_i(command_target),
@@ -248,6 +250,9 @@ module agentsys_revised_rocc_controller #(
         5'd25: status_value = backend_stat_me_issued;
         5'd26: status_value = backend_stat_ve_issued;
         5'd27: status_value = backend_stat_de_issued;
+        5'd28: status_value = DYNAMIC
+            ? {{(XLEN-8){1'b0}}, TISA_DISPATCH_LATENCY}
+            : {XLEN{1'b0}};
         default: status_value = {XLEN{1'b0}};
       endcase
     end

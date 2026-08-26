@@ -10,16 +10,16 @@ from agentsys.revised_system import PROJECT_ROOT, write_revised_system
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--run-id", default="run_026")
+    parser.add_argument("--run-id", default="run_027")
     parser.add_argument(
         "--output",
         type=Path,
-        default=PROJECT_ROOT / "artifacts/results/revised-system-run_026.json",
+        default=PROJECT_ROOT / "artifacts/results/revised-system-run_027.json",
     )
     parser.add_argument(
         "--trace-output",
         type=Path,
-        default=PROJECT_ROOT / "artifacts/traces/revised-system-run_026.jsonl",
+        default=PROJECT_ROOT / "artifacts/traces/revised-system-run_027.jsonl",
     )
     args = parser.parse_args()
     result = write_revised_system(args.output, args.trace_output, run_id=args.run_id)

@@ -17,8 +17,8 @@ UPSTREAM_MIR = MLLM_ROOT / "examples/qwen3_qnn_aot/qwen3_qnn_aot_1.7B.mir"
 UPSTREAM_MLLM_COMMIT = "50ad5a9b6fbea742e38b5b31776c187e50319c8e"
 SELECTED_SOURCE_INDICES = (6, 7, 8, 10, 11, 12, 13, 14)
 GENERATED_HEADER = PROJECT_ROOT / "system_sim/software/generated/agentsys_revised_app_trace.h"
-COMPILED_MANIFEST = PROJECT_ROOT / "artifacts/app_traces/revised-compiled-workload-run_026.json"
-APPLICATION_TRACE = PROJECT_ROOT / "artifacts/app_traces/revised-agent-application-run_026.json"
+COMPILED_MANIFEST = PROJECT_ROOT / "artifacts/app_traces/revised-compiled-workload-run_027.json"
+APPLICATION_TRACE = PROJECT_ROOT / "artifacts/app_traces/revised-agent-application-run_027.json"
 
 ENGINE_CODE = {Engine.ME: 0, Engine.VE: 1, Engine.DE: 2}
 PLACEMENT = {Engine.ME: "hptpe", Engine.VE: "vector", Engine.DE: "data"}
@@ -175,7 +175,10 @@ def _descriptor_template(operators: tuple[MllmOperator, ...], priority: int) -> 
             native_op=operator.index,
             placement=placement_code,
             duration=duration,
-            static_group=index,
+            # The paper's comparison baseline is a strong static tile pipeline,
+            # not per-operator serialization.  Reuse the already-defined
+            # Agent.xpu prefill/decode-handoff stage boundary.
+            static_group=stage_code,
             flow=int(flow["flow_code"]),
             stage=stage_code,
             preemptible=1,
@@ -327,7 +330,7 @@ def compile_and_write_revised(
     header_path: Path = GENERATED_HEADER,
     manifest_path: Path = COMPILED_MANIFEST,
     application_path: Path = APPLICATION_TRACE,
-    run_id: str = "run_026",
+    run_id: str = "run_027",
 ) -> dict[str, Any]:
     if _git_head(MLLM_ROOT) != UPSTREAM_MLLM_COMMIT:
         raise RuntimeError("mllm reference revision drift")

@@ -1,0 +1,196 @@
+This emulator compiled with JTAG Remote Bitbang client. To enable, use +jtag_rbb_enable=1.
+Listening on port 36437
+[UART] UART0 is here (stdin/stdout).
+AGENTSYS_REVISED_LAUNCH call=0 dynamic=0
+AGENTSYS_TISA_ISSUE cycle=0 index=0 engine=ve source=6 flow=0 stage=0 placement=1 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_ISSUE cycle=81 index=1 engine=ve source=7 flow=0 stage=0 placement=1 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE cycle=81 index=0 engine=ve source=6 checksum=c212bd8b717393da
+AGENTSYS_TISA_ISSUE cycle=82 index=3 engine=me source=10 flow=0 stage=0 placement=0 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE cycle=162 index=1 engine=ve source=7 checksum=c312bdcf7173d08a
+AGENTSYS_TISA_ISSUE cycle=163 index=4 engine=me source=11 flow=0 stage=0 placement=0 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_ISSUE cycle=163 index=2 engine=ve source=8 flow=0 stage=0 placement=1 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE cycle=163 index=3 engine=me source=10 checksum=4dc6a41c57be91ed
+AGENTSYS_TISA_ISSUE cycle=244 index=5 engine=me source=12 flow=0 stage=0 placement=0 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE cycle=244 index=4 engine=me source=11 checksum=134ddd66d866f7a3
+AGENTSYS_TISA_COMPLETE cycle=244 index=2 engine=ve source=8 checksum=c012be0b71701098
+AGENTSYS_TISA_COMPLETE cycle=325 index=5 engine=me source=12 checksum=017177bc9044b2eb
+AGENTSYS_TISA_ISSUE cycle=326 index=6 engine=de source=13 flow=0 stage=1 placement=2 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE cycle=407 index=6 engine=de source=13 checksum=5f00093ba8ce052f
+AGENTSYS_TISA_ISSUE cycle=408 index=7 engine=de source=14 flow=0 stage=1 placement=2 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE cycle=489 index=7 engine=de source=14 checksum=5e0009f7a8cec497
+AGENTSYS_REVISED_DONE call=0 dynamic=0 system=527 dma=35 backend=490 submitted=8 completed=8 overlap=159 hptpe_mac_ops=61440 checksum=c7b8e51feaee1594 bytes=96
+AGENTSYS_REVISED_LAUNCH call=1 dynamic=0
+AGENTSYS_TISA_ISSUE cycle=0 index=0 engine=ve source=6 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE cycle=81 index=1 engine=ve source=7 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=81 index=0 engine=ve source=6 checksum=c2129d8b71739bda
+AGENTSYS_TISA_ISSUE cycle=82 index=3 engine=me source=10 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=162 index=1 engine=ve source=7 checksum=c3129dcf7173d88a
+AGENTSYS_TISA_ISSUE cycle=163 index=4 engine=me source=11 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE cycle=163 index=2 engine=ve source=8 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=163 index=3 engine=me source=10 checksum=f7958ebe8f882fb1
+AGENTSYS_TISA_ISSUE cycle=244 index=5 engine=me source=12 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=244 index=4 engine=me source=11 checksum=dd14441e433a605f
+AGENTSYS_TISA_COMPLETE cycle=244 index=2 engine=ve source=8 checksum=c0129e0b71701898
+AGENTSYS_TISA_COMPLETE cycle=325 index=5 engine=me source=12 checksum=42967ae46a816627
+AGENTSYS_TISA_ISSUE cycle=326 index=6 engine=de source=13 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=407 index=6 engine=de source=13 checksum=5f00293ba8ce0d2f
+AGENTSYS_TISA_ISSUE cycle=408 index=7 engine=de source=14 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=489 index=7 engine=de source=14 checksum=5e0029f7a8cecc97
+AGENTSYS_REVISED_DONE call=1 dynamic=0 system=527 dma=35 backend=490 submitted=8 completed=8 overlap=159 hptpe_mac_ops=122880 checksum=f0557b9d5341e0f8 bytes=96
+AGENTSYS_REVISED_LAUNCH call=2 dynamic=0
+AGENTSYS_TISA_ISSUE cycle=0 index=0 engine=ve source=6 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE cycle=81 index=1 engine=ve source=7 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=81 index=0 engine=ve source=6 checksum=c2129d8b71739bda
+AGENTSYS_TISA_ISSUE cycle=82 index=3 engine=me source=10 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=162 index=1 engine=ve source=7 checksum=c3129dcf7173d88a
+AGENTSYS_TISA_ISSUE cycle=163 index=4 engine=me source=11 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE cycle=163 index=2 engine=ve source=8 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=163 index=3 engine=me source=10 checksum=23b32dbb1956b673
+AGENTSYS_TISA_ISSUE cycle=244 index=5 engine=me source=12 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=244 index=4 engine=me source=11 checksum=dd14441e433a605f
+AGENTSYS_TISA_COMPLETE cycle=244 index=2 engine=ve source=8 checksum=c0129e0b71701898
+AGENTSYS_TISA_COMPLETE cycle=325 index=5 engine=me source=12 checksum=42967ae46a816627
+AGENTSYS_TISA_ISSUE cycle=326 index=6 engine=de source=13 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=407 index=6 engine=de source=13 checksum=5f00293ba8ce0d2f
+AGENTSYS_TISA_ISSUE cycle=408 index=7 engine=de source=14 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=489 index=7 engine=de source=14 checksum=5e0029f7a8cecc97
+AGENTSYS_REVISED_DONE call=2 dynamic=0 system=527 dma=35 backend=490 submitted=8 completed=8 overlap=159 hptpe_mac_ops=184320 checksum=2473d898c59f793a bytes=96
+AGENTSYS_REVISED_LAUNCH call=3 dynamic=0
+AGENTSYS_TISA_ISSUE cycle=0 index=0 engine=ve source=6 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE cycle=81 index=1 engine=ve source=7 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=81 index=0 engine=ve source=6 checksum=c2129d8b71739bda
+AGENTSYS_TISA_ISSUE cycle=82 index=3 engine=me source=10 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=162 index=1 engine=ve source=7 checksum=c3129dcf7173d88a
+AGENTSYS_TISA_ISSUE cycle=163 index=4 engine=me source=11 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE cycle=163 index=2 engine=ve source=8 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=163 index=3 engine=me source=10 checksum=23b32dbb1956b673
+AGENTSYS_TISA_ISSUE cycle=244 index=5 engine=me source=12 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=244 index=4 engine=me source=11 checksum=dd14441e433a605f
+AGENTSYS_TISA_COMPLETE cycle=244 index=2 engine=ve source=8 checksum=c0129e0b71701898
+AGENTSYS_TISA_COMPLETE cycle=325 index=5 engine=me source=12 checksum=42967ae46a816627
+AGENTSYS_TISA_ISSUE cycle=326 index=6 engine=de source=13 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=407 index=6 engine=de source=13 checksum=5f00293ba8ce0d2f
+AGENTSYS_TISA_ISSUE cycle=408 index=7 engine=de source=14 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=489 index=7 engine=de source=14 checksum=5e0029f7a8cecc97
+AGENTSYS_REVISED_DONE call=3 dynamic=0 system=527 dma=35 backend=490 submitted=8 completed=8 overlap=159 hptpe_mac_ops=245760 checksum=2473d898c59f793a bytes=96
+AGENTSYS_REVISED_LAUNCH call=4 dynamic=0
+AGENTSYS_TISA_ISSUE cycle=0 index=0 engine=ve source=6 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE cycle=81 index=1 engine=ve source=7 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=81 index=0 engine=ve source=6 checksum=c2129d8b71739bda
+AGENTSYS_TISA_ISSUE cycle=82 index=3 engine=me source=10 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=162 index=1 engine=ve source=7 checksum=c3129dcf7173d88a
+AGENTSYS_TISA_ISSUE cycle=163 index=4 engine=me source=11 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE cycle=163 index=2 engine=ve source=8 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=163 index=3 engine=me source=10 checksum=23b32dbb1956b673
+AGENTSYS_TISA_ISSUE cycle=244 index=5 engine=me source=12 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=244 index=4 engine=me source=11 checksum=dd14441e433a605f
+AGENTSYS_TISA_COMPLETE cycle=244 index=2 engine=ve source=8 checksum=c0129e0b71701898
+AGENTSYS_TISA_COMPLETE cycle=325 index=5 engine=me source=12 checksum=42967ae46a816627
+AGENTSYS_TISA_ISSUE cycle=326 index=6 engine=de source=13 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=407 index=6 engine=de source=13 checksum=5f00293ba8ce0d2f
+AGENTSYS_TISA_ISSUE cycle=408 index=7 engine=de source=14 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=489 index=7 engine=de source=14 checksum=5e0029f7a8cecc97
+AGENTSYS_REVISED_DONE call=4 dynamic=0 system=527 dma=35 backend=490 submitted=8 completed=8 overlap=159 hptpe_mac_ops=307200 checksum=2473d898c59f793a bytes=96
+AGENTSYS_REVISED_LAUNCH call=6 dynamic=0
+AGENTSYS_TISA_ISSUE cycle=0 index=0 engine=ve source=6 flow=0 stage=0 placement=1 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_ISSUE cycle=81 index=1 engine=ve source=7 flow=0 stage=0 placement=1 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE cycle=81 index=0 engine=ve source=6 checksum=c212bd8b717393da
+AGENTSYS_TISA_ISSUE cycle=82 index=3 engine=me source=10 flow=0 stage=0 placement=0 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE cycle=162 index=1 engine=ve source=7 checksum=c312bdcf7173d08a
+AGENTSYS_TISA_ISSUE cycle=163 index=4 engine=me source=11 flow=0 stage=0 placement=0 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_ISSUE cycle=163 index=2 engine=ve source=8 flow=0 stage=0 placement=1 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE cycle=163 index=3 engine=me source=10 checksum=5207b5eac4aa8d20
+AGENTSYS_TISA_ISSUE cycle=244 index=5 engine=me source=12 flow=0 stage=0 placement=0 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE cycle=244 index=4 engine=me source=11 checksum=134ddd66d866f7a3
+AGENTSYS_TISA_COMPLETE cycle=244 index=2 engine=ve source=8 checksum=c012be0b71701098
+AGENTSYS_TISA_COMPLETE cycle=325 index=5 engine=me source=12 checksum=017177bc9044b2eb
+AGENTSYS_TISA_ISSUE cycle=326 index=6 engine=de source=13 flow=0 stage=1 placement=2 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE cycle=407 index=6 engine=de source=13 checksum=5f00093ba8ce052f
+AGENTSYS_TISA_ISSUE cycle=408 index=7 engine=de source=14 flow=0 stage=1 placement=2 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE cycle=489 index=7 engine=de source=14 checksum=5e0009f7a8cec497
+AGENTSYS_REVISED_DONE call=6 dynamic=0 system=527 dma=35 backend=490 submitted=8 completed=8 overlap=159 hptpe_mac_ops=368640 checksum=d879f4e979fa0959 bytes=96
+AGENTSYS_REVISED_LAUNCH call=7 dynamic=0
+AGENTSYS_TISA_ISSUE cycle=0 index=0 engine=ve source=6 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE cycle=81 index=1 engine=ve source=7 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=81 index=0 engine=ve source=6 checksum=c2129d8b71739bda
+AGENTSYS_TISA_ISSUE cycle=82 index=3 engine=me source=10 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=162 index=1 engine=ve source=7 checksum=c3129dcf7173d88a
+AGENTSYS_TISA_ISSUE cycle=163 index=4 engine=me source=11 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE cycle=163 index=2 engine=ve source=8 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=163 index=3 engine=me source=10 checksum=f7958ebe8f882fb1
+AGENTSYS_TISA_ISSUE cycle=244 index=5 engine=me source=12 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=244 index=4 engine=me source=11 checksum=dd14441e433a605f
+AGENTSYS_TISA_COMPLETE cycle=244 index=2 engine=ve source=8 checksum=c0129e0b71701898
+AGENTSYS_TISA_COMPLETE cycle=325 index=5 engine=me source=12 checksum=42967ae46a816627
+AGENTSYS_TISA_ISSUE cycle=326 index=6 engine=de source=13 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=407 index=6 engine=de source=13 checksum=5f00293ba8ce0d2f
+AGENTSYS_TISA_ISSUE cycle=408 index=7 engine=de source=14 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=489 index=7 engine=de source=14 checksum=5e0029f7a8cecc97
+AGENTSYS_REVISED_DONE call=7 dynamic=0 system=527 dma=35 backend=490 submitted=8 completed=8 overlap=159 hptpe_mac_ops=430080 checksum=f0557b9d5341e0f8 bytes=96
+AGENTSYS_REVISED_LAUNCH call=8 dynamic=0
+AGENTSYS_TISA_ISSUE cycle=0 index=0 engine=ve source=6 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE cycle=81 index=1 engine=ve source=7 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=81 index=0 engine=ve source=6 checksum=c2129d8b71739bda
+AGENTSYS_TISA_ISSUE cycle=82 index=3 engine=me source=10 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=162 index=1 engine=ve source=7 checksum=c3129dcf7173d88a
+AGENTSYS_TISA_ISSUE cycle=163 index=4 engine=me source=11 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE cycle=163 index=2 engine=ve source=8 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=163 index=3 engine=me source=10 checksum=23b32dbb1956b673
+AGENTSYS_TISA_ISSUE cycle=244 index=5 engine=me source=12 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=244 index=4 engine=me source=11 checksum=dd14441e433a605f
+AGENTSYS_TISA_COMPLETE cycle=244 index=2 engine=ve source=8 checksum=c0129e0b71701898
+AGENTSYS_TISA_COMPLETE cycle=325 index=5 engine=me source=12 checksum=42967ae46a816627
+AGENTSYS_TISA_ISSUE cycle=326 index=6 engine=de source=13 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=407 index=6 engine=de source=13 checksum=5f00293ba8ce0d2f
+AGENTSYS_TISA_ISSUE cycle=408 index=7 engine=de source=14 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=489 index=7 engine=de source=14 checksum=5e0029f7a8cecc97
+AGENTSYS_REVISED_DONE call=8 dynamic=0 system=527 dma=35 backend=490 submitted=8 completed=8 overlap=159 hptpe_mac_ops=491520 checksum=2473d898c59f793a bytes=96
+AGENTSYS_REVISED_LAUNCH call=9 dynamic=0
+AGENTSYS_TISA_ISSUE cycle=0 index=0 engine=ve source=6 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE cycle=81 index=1 engine=ve source=7 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=81 index=0 engine=ve source=6 checksum=c2129d8b71739bda
+AGENTSYS_TISA_ISSUE cycle=82 index=3 engine=me source=10 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=162 index=1 engine=ve source=7 checksum=c3129dcf7173d88a
+AGENTSYS_TISA_ISSUE cycle=163 index=4 engine=me source=11 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE cycle=163 index=2 engine=ve source=8 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=163 index=3 engine=me source=10 checksum=23b32dbb1956b673
+AGENTSYS_TISA_ISSUE cycle=244 index=5 engine=me source=12 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=244 index=4 engine=me source=11 checksum=dd14441e433a605f
+AGENTSYS_TISA_COMPLETE cycle=244 index=2 engine=ve source=8 checksum=c0129e0b71701898
+AGENTSYS_TISA_COMPLETE cycle=325 index=5 engine=me source=12 checksum=42967ae46a816627
+AGENTSYS_TISA_ISSUE cycle=326 index=6 engine=de source=13 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=407 indexAGENTSYS_REVISED_TRACE version=1 events=110 digest=4347e5adb9552f70 mir=2ce653ac177a8ee5
+AGENTSYS_REVISED_CALL index=0 program=react call=react-plan kind=llm priority=0 flow=reactive deps=0000 first=1 last=0 release=5518 mllm=6260 agentxpu=6333 config_start=6376 config_end=6598 launch=6641 wait=7246 xpu=7953 dma=7994 complete=8081 tool_start=0 tool_end=0 xpu_cycles=490 hptpe_ops=61440 dma_cycles=36 dma_bytes=96
+AGENTSYS_REVISED_CALL index=1 program=moa call=moa-map0 kind=llm priority=2 flow=proactive deps=0000 first=1 last=0 release=8249 mllm=8839 agentxpu=8870 config_start=8892 config_end=9037 launch=9060 wait=9621 xpu=10075 dma=10095 complete=10124 tool_start=0 tool_end=0 xpu_cycles=490 hptpe_ops=61440 dma_cycles=36 dma_bytes=96
+AGENTSYS_REVISED_CALL index=2 program=moa call=moa-map1 kind=llm priority=2 flow=proactive deps=0000 first=0 last=0 release=10170 mllm=10745 agentxpu=10776 config_start=10798 config_end=10943 launch=10966 wait=11527 xpu=11977 dma=11997 complete=12026 tool_start=0 tool_end=0 xpu_cycles=490 hptpe_ops=61440 dma_cycles=36 dma_bytes=96
+AGENTSYS_REVISED_CALL index=3 program=moa call=moa-map2 kind=llm priority=2 flow=proactive deps=0000 first=0 last=0 release=12085 mllm=12660 agentxpu=12708 config_start=12730 config_end=12875 launch=12898 wait=13476 xpu=13926 dma=13980 complete=14043 tool_start=0 tool_end=0 xpu_cycles=490 hptpe_ops=61440 dma_cycles=36 dma_bytes=96
+AGENTSYS_REVISED_CALL index=4 program=mcts call=mcts-root kind=llm priority=2 flow=proactive deps=0000 first=1 last=0 release=14139 mllm=14714 agentxpu=14745 config_start=14783 config_end=14928 launch=14967 wait=15528 xpu=15994 dma=16014 complete=16043 tool_start=0 tool_end=0 xpu_cycles=490 hptpe_ops=61440 dma_cycles=36 dma_bytes=96
+AGENTSYS_REVISED_CALL index=5 program=react call=react-tool kind=tool priority=0 flow=reactive deps=0001 first=0 last=0 release=16104 mllm=0 agentxpu=0 config_start=0 config_end=0 launch=0 wait=0 xpu=0 dma=0 complete=20119 tool_start=16128 tool_end=20070 xpu_cycles=0 hptpe_ops=0 dma_cycles=0 dma_bytes=0
+AGENTSYS_REVISED_CALL index=6 program=react call=react-answer kind=llm priority=0 flow=reactive deps=0020 first=0 last=1 release=20204 mllm=20725 agentxpu=20756 config_start=20794 config_end=20939 launch=20978 wait=21539 xpu=21989 dma=22009 complete=22054 tool_start=0 tool_end=0 xpu_cycles=490 hptpe_ops=61440 dma_cycles=36 dma_bytes=96
+AGENTSYS_REVISED_CALL index=7 program=mcts call=mcts-actor0 kind=llm priority=2 flow=proactive deps=0010 first=0 last=0 release=22162 mllm=22675 agentxpu=22723 config_start=22745 config_end=22907 launch=22930 wait=23491 xpu=23941 dma=23961 complete=23990 tool_start=0 tool_end=0 xpu_cycles=490 hptpe_ops=61440 dma_cycles=36 dma_bytes=96
+AGENTSYS_REVISED_CALL index=8 program=mcts call=mcts-actor1 kind=llm priority=2 flow=proactive deps=0010 first=0 last=0 release=24072 mllm=24641 agentxpu=24672 config_start=24694 config_end=24839 launch=24862 wait=25440 xpu=25890 dma=25926 complete=25955 tool_start=0 tool_end=0 xpu_cycles=490 hptpe_ops=61440 dma_cycles=36 dma_bytes=96
+AGENTSYS_REVISED_CALL index=9 program=moa call=moa-reduce kind=llm priority=2 flow=proactive deps=000e first=0 last=1 release=26017 mllm=26558 agentxpu=26606 config_start=26628 config_end=26773 launch=26796 wait=27357 xpu=27811 dma=27847 complete=27876 tool_start=0 tool_end=0 xpu_cycles=490 hptpe_ops=61440 dma_cycles=36 dma_bytes=96
+AGENTSYS_REVISED_CALL index=10 program=mcts call=mcts-critic kind=llm priority=2 flow=proactive deps=0180 first=0 last=1 release=27946 mllm=28483 agentxpu=28514 config_start=28536 config_end=28681 launch=28704 wait=29265 xpu=29715 dma=29735 complete=29764 tool_start=0 tool_end=0 xpu_cycles=490 hptpe_ops=61440 dma_cycles=36 dma_bytes=96
+AGENTSYS_REVISED_PASS backend=static abi=xpu_v2 programs=3 calls=11 llm_calls=10 tool_calls=1 launches=10 descriptors=80 trace_events=110 cpu_cycles=24570 config_cycles=1474 system_cycles=5280 backend_cycles=4900 dma_cycles=360 dma_bytes=960 me_busy=2400 ve_busy=2400 de_busy=1600 overlap=1590 hptpe_mac_ops=614400 priority_violations=0 dispatch_latency=0 flows=2/8 placements=30/30/20 checksum=ad503029d98907c8 app_digest=4347e5adb9552f70 mir_digest=2ce653ac177a8ee5
+=6 engine=de source=13 checksum=5f00293ba8ce0d2f
+AGENTSYS_TISA_ISSUE cycle=408 index=7 engine=de source=14 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=489 index=7 engine=de source=14 checksum=5e0029f7a8cecc97
+AGENTSYS_REVISED_DONE call=9 dynamic=0 system=527 dma=35 backend=490 submitted=8 completed=8 overlap=159 hptpe_mac_ops=552960 checksum=2473d898c59f793a bytes=96
+AGENTSYS_REVISED_LAUNCH call=10 dynamic=0
+AGENTSYS_TISA_ISSUE cycle=0 index=0 engine=ve source=6 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE cycle=81 index=1 engine=ve source=7 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=81 index=0 engine=ve source=6 checksum=c2129d8b71739bda
+AGENTSYS_TISA_ISSUE cycle=82 index=3 engine=me source=10 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=162 index=1 engine=ve source=7 checksum=c3129dcf7173d88a
+AGENTSYS_TISA_ISSUE cycle=163 index=4 engine=me source=11 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE cycle=163 index=2 engine=ve source=8 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=163 index=3 engine=me source=10 checksum=23b32dbb1956b673
+AGENTSYS_TISA_ISSUE cycle=244 index=5 engine=me source=12 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=244 index=4 engine=me source=11 checksum=dd14441e433a605f
+AGENTSYS_TISA_COMPLETE cycle=244 index=2 engine=ve source=8 checksum=c0129e0b71701898
+AGENTSYS_TISA_COMPLETE cycle=325 index=5 engine=me source=12 checksum=42967ae46a816627
+AGENTSYS_TISA_ISSUE cycle=326 index=6 engine=de source=13 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=407 index=6 engine=de source=13 checksum=5f00293ba8ce0d2f
+AGENTSYS_TISA_ISSUE cycle=408 index=7 engine=de source=14 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE cycle=489 index=7 engine=de source=14 checksum=5e0029f7a8cecc97
+AGENTSYS_REVISED_DONE call=10 dynamic=0 system=527 dma=35 backend=490 submitted=8 completed=8 overlap=159 hptpe_mac_ops=614400 checksum=2473d898c59f793a bytes=96

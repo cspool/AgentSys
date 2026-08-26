@@ -107,7 +107,7 @@ hypotheses:
     priority: high
   - id: H13
     statement: "Independently reproduced mllm, Agent.xpu and HPTPE components can integrate through TISA into an ordinary-RISC-V CPU+XPU system without losing their paper-level performance behavior."
-    status: pending
+    status: supported
     motivation: "Implement the revised final architecture without ATX in the CPU path."
     parent: null
     priority: high
@@ -116,7 +116,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 26
+  total_runs: 27
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -300,11 +300,18 @@ experiments:
       wall_time_min: 3.67
       change_summary: "Real ordinary-Rocket plus HPTPE integration passes 18/19 gates and emits 860 events; identical work/checksum holds, but 2.000x backend speedup exceeds the locked 1.14--1.63x TISA range."
       timestamp: "2026-08-26"
+    - run_id: "run_027"
+      hypothesis: "H13/integration recovery"
+      metric_value: 0.09909909909909899
+      delta: -0.12789476593157588
+      wall_time_min: 3.6
+      change_summary: "Source-registered strong-static stages plus seven-cycle dispatch pass 20/20 gates; real Rocket+HPTPE gives 1.376x backend, 1.340x system and 1.056x end-to-end speedup with identical work/checksum."
+      timestamp: "2026-08-26"
 
 outer_loop:
-  cycle: 13
+  cycle: 14
   last_direction: deepen
-  last_reflection: "Run 026 closes physical integration and lineage but overstates dynamic scheduling at 2.000x. Run 027 is preregistered to restore the authors' strong-static stage baseline and exact seven-cycle per-unit dispatch while preserving all work/checksum gates."
+  last_reflection: "Run 027 supports H13 with 20/20 real Rocket+HPTPE integration gates and preserves 68/68 standalone endpoints. Direction remains DEEPEN only for final pinned-toolchain replay/audit and revised-scope completion certificate."
 
 workspace:
   findings: "findings.md"

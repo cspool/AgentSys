@@ -6,7 +6,8 @@ module agentsys_tisa_scheduler #(
     parameter ENTRIES = 8,
     parameter [63:0] RESULT_MAGIC = 64'h4154585f54495341,
     parameter INCLUDE_ENGINE_CHECKSUM = 0,
-    parameter TRACE = 0
+    parameter TRACE = 0,
+    parameter [7:0] DISPATCH_LATENCY = 0
 ) (
     input  wire        clk,
     input  wire        rst_n,
@@ -69,6 +70,15 @@ module agentsys_tisa_scheduler #(
   reg [2:0] me_index_q;
   reg [2:0] ve_index_q;
   reg [2:0] de_index_q;
+  reg       me_dispatch_valid_q;
+  reg       ve_dispatch_valid_q;
+  reg       de_dispatch_valid_q;
+  reg [7:0] me_dispatch_count_q;
+  reg [7:0] ve_dispatch_count_q;
+  reg [7:0] de_dispatch_count_q;
+  reg [2:0] me_dispatch_index_q;
+  reg [2:0] ve_dispatch_index_q;
+  reg [2:0] de_dispatch_index_q;
 
   reg cand_me_valid;
   reg cand_ve_valid;
@@ -101,33 +111,52 @@ module agentsys_tisa_scheduler #(
   wire [63:0] de_checksum;
   wire [63:0] de_busy_cycles;
 
-  wire issue_me = running_q && cand_me_valid && cand_me_safe && !me_busy;
-  wire issue_ve_pre = running_q && cand_ve_valid && cand_ve_safe && !ve_busy;
-  wire issue_ve = issue_ve_pre
-      && !(DYNAMIC && issue_me
+  localparam USE_DYNAMIC_DISPATCH = DYNAMIC && (DISPATCH_LATENCY != 0);
+  wire admit_me = running_q && cand_me_valid && cand_me_safe
+      && !me_busy && !me_dispatch_valid_q;
+  wire admit_ve_pre = running_q && cand_ve_valid && cand_ve_safe
+      && !ve_busy && !ve_dispatch_valid_q;
+  wire admit_ve = admit_ve_pre
+      && !(DYNAMIC && admit_me
            && semantic_hazard(control_q[cand_ve_index], tilemem_q[cand_ve_index],
                               control_q[cand_me_index], tilemem_q[cand_me_index]));
-  wire issue_de_pre = running_q && cand_de_valid && cand_de_safe && !de_busy;
-  wire issue_de = issue_de_pre
-      && !(DYNAMIC && issue_me
+  wire admit_de_pre = running_q && cand_de_valid && cand_de_safe
+      && !de_busy && !de_dispatch_valid_q;
+  wire admit_de = admit_de_pre
+      && !(DYNAMIC && admit_me
            && semantic_hazard(control_q[cand_de_index], tilemem_q[cand_de_index],
                               control_q[cand_me_index], tilemem_q[cand_me_index]))
-      && !(DYNAMIC && issue_ve
+      && !(DYNAMIC && admit_ve
            && semantic_hazard(control_q[cand_de_index], tilemem_q[cand_de_index],
                               control_q[cand_ve_index], tilemem_q[cand_ve_index]));
-  wire [7:0] issue_mask = (issue_me ? (8'b1 << cand_me_index) : 8'd0)
-      | (issue_ve ? (8'b1 << cand_ve_index) : 8'd0)
-      | (issue_de ? (8'b1 << cand_de_index) : 8'd0);
+  wire reserve_me = USE_DYNAMIC_DISPATCH && admit_me;
+  wire reserve_ve = USE_DYNAMIC_DISPATCH && admit_ve;
+  wire reserve_de = USE_DYNAMIC_DISPATCH && admit_de;
+  wire issue_me = USE_DYNAMIC_DISPATCH
+      ? (running_q && me_dispatch_valid_q && (me_dispatch_count_q == 1) && !me_busy)
+      : admit_me;
+  wire issue_ve = USE_DYNAMIC_DISPATCH
+      ? (running_q && ve_dispatch_valid_q && (ve_dispatch_count_q == 1) && !ve_busy)
+      : admit_ve;
+  wire issue_de = USE_DYNAMIC_DISPATCH
+      ? (running_q && de_dispatch_valid_q && (de_dispatch_count_q == 1) && !de_busy)
+      : admit_de;
+  wire [2:0] issue_me_index = USE_DYNAMIC_DISPATCH ? me_dispatch_index_q : cand_me_index;
+  wire [2:0] issue_ve_index = USE_DYNAMIC_DISPATCH ? ve_dispatch_index_q : cand_ve_index;
+  wire [2:0] issue_de_index = USE_DYNAMIC_DISPATCH ? de_dispatch_index_q : cand_de_index;
+  wire [7:0] issue_mask = (issue_me ? (8'b1 << issue_me_index) : 8'd0)
+      | (issue_ve ? (8'b1 << issue_ve_index) : 8'd0)
+      | (issue_de ? (8'b1 << issue_de_index) : 8'd0);
   wire [7:0] engine_done_mask = (me_done ? (8'b1 << me_index_q) : 8'd0)
       | (ve_done ? (8'b1 << ve_index_q) : 8'd0)
       | (de_done ? (8'b1 << de_index_q) : 8'd0);
 
-  wire [63:0] me_seed = input_checksum_q ^ control_q[cand_me_index]
-      ^ tilemem_q[cand_me_index] ^ {61'd0, cand_me_index};
-  wire [63:0] ve_seed = input_checksum_q ^ control_q[cand_ve_index]
-      ^ tilemem_q[cand_ve_index] ^ {61'd0, cand_ve_index};
-  wire [63:0] de_seed = input_checksum_q ^ control_q[cand_de_index]
-      ^ tilemem_q[cand_de_index] ^ {61'd0, cand_de_index};
+  wire [63:0] me_seed = input_checksum_q ^ control_q[issue_me_index]
+      ^ tilemem_q[issue_me_index] ^ {61'd0, issue_me_index};
+  wire [63:0] ve_seed = input_checksum_q ^ control_q[issue_ve_index]
+      ^ tilemem_q[issue_ve_index] ^ {61'd0, issue_ve_index};
+  wire [63:0] de_seed = input_checksum_q ^ control_q[issue_de_index]
+      ^ tilemem_q[issue_de_index] ^ {61'd0, issue_de_index};
 
   assign busy_o = running_q;
   assign completed_mask_o = completed_mask_q;
@@ -215,6 +244,18 @@ module agentsys_tisa_scheduler #(
       if (de_busy && semantic_hazard(control_q[candidate_index], tilemem_q[candidate_index],
                                      control_q[de_index_q], tilemem_q[de_index_q]))
         candidate_safe_from_flight = 1'b0;
+      if (me_dispatch_valid_q
+          && semantic_hazard(control_q[candidate_index], tilemem_q[candidate_index],
+                             control_q[me_dispatch_index_q], tilemem_q[me_dispatch_index_q]))
+        candidate_safe_from_flight = 1'b0;
+      if (ve_dispatch_valid_q
+          && semantic_hazard(control_q[candidate_index], tilemem_q[candidate_index],
+                             control_q[ve_dispatch_index_q], tilemem_q[ve_dispatch_index_q]))
+        candidate_safe_from_flight = 1'b0;
+      if (de_dispatch_valid_q
+          && semantic_hazard(control_q[candidate_index], tilemem_q[candidate_index],
+                             control_q[de_dispatch_index_q], tilemem_q[de_dispatch_index_q]))
+        candidate_safe_from_flight = 1'b0;
     end
   endfunction
 
@@ -283,29 +324,29 @@ module agentsys_tisa_scheduler #(
     cand_me_safe = !DYNAMIC || candidate_safe_from_flight(cand_me_index);
     cand_ve_safe = !DYNAMIC || candidate_safe_from_flight(cand_ve_index);
     cand_de_safe = !DYNAMIC || candidate_safe_from_flight(cand_de_index);
-    if ((cand_me_valid && (me_busy || !cand_me_safe))
-        || (cand_ve_valid && (ve_busy || !cand_ve_safe))
-        || (cand_de_valid && (de_busy || !cand_de_safe)))
+    if ((cand_me_valid && (me_busy || me_dispatch_valid_q || !cand_me_safe))
+        || (cand_ve_valid && (ve_busy || ve_dispatch_valid_q || !cand_ve_safe))
+        || (cand_de_valid && (de_busy || de_dispatch_valid_q || !cand_de_safe)))
       resource_blocked_any = 1'b1;
   end
 
   agentsys_matrix_engine matrix_engine (
       .clk(clk), .rst_n(rst_n), .start_i(issue_me),
-      .duration_i(control_q[cand_me_index][51:36]), .seed_i(me_seed),
+      .duration_i(control_q[issue_me_index][51:36]), .seed_i(me_seed),
       .busy_o(me_busy), .done_o(me_done), .checksum_o(me_checksum),
       .busy_cycles_o(me_busy_cycles)
   );
 
   agentsys_simple_engine #(.KIND_MAGIC(64'h56455f5449534131)) vector_engine (
       .clk(clk), .rst_n(rst_n), .start_i(issue_ve),
-      .duration_i(control_q[cand_ve_index][51:36]), .seed_i(ve_seed),
+      .duration_i(control_q[issue_ve_index][51:36]), .seed_i(ve_seed),
       .busy_o(ve_busy), .done_o(ve_done), .checksum_o(ve_checksum),
       .busy_cycles_o(ve_busy_cycles)
   );
 
   agentsys_simple_engine #(.KIND_MAGIC(64'h44455f5449534131)) data_engine (
       .clk(clk), .rst_n(rst_n), .start_i(issue_de),
-      .duration_i(control_q[cand_de_index][51:36]), .seed_i(de_seed),
+      .duration_i(control_q[issue_de_index][51:36]), .seed_i(de_seed),
       .busy_o(de_busy), .done_o(de_done), .checksum_o(de_checksum),
       .busy_cycles_o(de_busy_cycles)
   );
@@ -350,6 +391,15 @@ module agentsys_tisa_scheduler #(
       me_index_q <= 3'd0;
       ve_index_q <= 3'd0;
       de_index_q <= 3'd0;
+      me_dispatch_valid_q <= 1'b0;
+      ve_dispatch_valid_q <= 1'b0;
+      de_dispatch_valid_q <= 1'b0;
+      me_dispatch_count_q <= 8'd0;
+      ve_dispatch_count_q <= 8'd0;
+      de_dispatch_count_q <= 8'd0;
+      me_dispatch_index_q <= 3'd0;
+      ve_dispatch_index_q <= 3'd0;
+      de_dispatch_index_q <= 3'd0;
       stat_cycles_o <= 64'd0;
       stat_submitted_o <= 64'd0;
       stat_issued_o <= 64'd0;
@@ -396,6 +446,12 @@ module agentsys_tisa_scheduler #(
         completed_mask_q <= 8'd0;
         canceled_mask_q <= 8'd0;
         cancel_tasks_q <= 8'd0;
+        me_dispatch_valid_q <= 1'b0;
+        ve_dispatch_valid_q <= 1'b0;
+        de_dispatch_valid_q <= 1'b0;
+        me_dispatch_count_q <= 8'd0;
+        ve_dispatch_count_q <= 8'd0;
+        de_dispatch_count_q <= 8'd0;
         running_q <= 1'b1;
         input_checksum_q <= input_checksum_i;
         descriptor_digest_q <= 64'd0;
@@ -439,55 +495,92 @@ module agentsys_tisa_scheduler #(
             + {{60{1'b0}}, popcount8(new_cancel_mask)};
         descriptor_digest_q <= descriptor_digest_q ^ completion_digest;
 
+        if (reserve_me) begin
+          me_dispatch_valid_q <= 1'b1;
+          me_dispatch_count_q <= DISPATCH_LATENCY;
+          me_dispatch_index_q <= cand_me_index;
+        end else if (me_dispatch_valid_q) begin
+          if (issue_me) begin
+            me_dispatch_valid_q <= 1'b0;
+            me_dispatch_count_q <= 8'd0;
+          end else begin
+            me_dispatch_count_q <= me_dispatch_count_q - 1'b1;
+          end
+        end
+        if (reserve_ve) begin
+          ve_dispatch_valid_q <= 1'b1;
+          ve_dispatch_count_q <= DISPATCH_LATENCY;
+          ve_dispatch_index_q <= cand_ve_index;
+        end else if (ve_dispatch_valid_q) begin
+          if (issue_ve) begin
+            ve_dispatch_valid_q <= 1'b0;
+            ve_dispatch_count_q <= 8'd0;
+          end else begin
+            ve_dispatch_count_q <= ve_dispatch_count_q - 1'b1;
+          end
+        end
+        if (reserve_de) begin
+          de_dispatch_valid_q <= 1'b1;
+          de_dispatch_count_q <= DISPATCH_LATENCY;
+          de_dispatch_index_q <= cand_de_index;
+        end else if (de_dispatch_valid_q) begin
+          if (issue_de) begin
+            de_dispatch_valid_q <= 1'b0;
+            de_dispatch_count_q <= 8'd0;
+          end else begin
+            de_dispatch_count_q <= de_dispatch_count_q - 1'b1;
+          end
+        end
+
         if (issue_me) begin
           stat_me_issued_o <= stat_me_issued_o + 1'b1;
-          me_index_q <= cand_me_index;
+          me_index_q <= issue_me_index;
 `ifndef SYNTHESIS
           if (TRACE)
             $display("AGENTSYS_TISA_ISSUE cycle=%0d index=%0d engine=me source=%0d flow=%0d stage=%0d placement=%0d preemptible=%0d priority=%0d duration=%0d",
-                     stat_cycles_o, cand_me_index,
-                     tilemem_q[cand_me_index][63:54], control_q[cand_me_index][61],
-                     control_q[cand_me_index][63], control_q[cand_me_index][35:34],
-                     control_q[cand_me_index][62], control_q[cand_me_index][27:26],
-                     control_q[cand_me_index][51:36]);
+                     stat_cycles_o, issue_me_index,
+                     tilemem_q[issue_me_index][63:54], control_q[issue_me_index][61],
+                     control_q[issue_me_index][63], control_q[issue_me_index][35:34],
+                     control_q[issue_me_index][62], control_q[issue_me_index][27:26],
+                     control_q[issue_me_index][51:36]);
 `endif
-          if (prefetched_mask_q[cand_me_index]) begin
+          if (prefetched_mask_q[issue_me_index]) begin
             stat_prefetch_hits_o <= stat_prefetch_hits_o + 1'b1;
-            prefetched_mask_q[cand_me_index] <= 1'b0;
+            prefetched_mask_q[issue_me_index] <= 1'b0;
           end
         end
         if (issue_ve) begin
           stat_ve_issued_o <= stat_ve_issued_o + 1'b1;
-          ve_index_q <= cand_ve_index;
+          ve_index_q <= issue_ve_index;
 `ifndef SYNTHESIS
           if (TRACE)
             $display("AGENTSYS_TISA_ISSUE cycle=%0d index=%0d engine=ve source=%0d flow=%0d stage=%0d placement=%0d preemptible=%0d priority=%0d duration=%0d",
-                     stat_cycles_o, cand_ve_index,
-                     tilemem_q[cand_ve_index][63:54], control_q[cand_ve_index][61],
-                     control_q[cand_ve_index][63], control_q[cand_ve_index][35:34],
-                     control_q[cand_ve_index][62], control_q[cand_ve_index][27:26],
-                     control_q[cand_ve_index][51:36]);
+                     stat_cycles_o, issue_ve_index,
+                     tilemem_q[issue_ve_index][63:54], control_q[issue_ve_index][61],
+                     control_q[issue_ve_index][63], control_q[issue_ve_index][35:34],
+                     control_q[issue_ve_index][62], control_q[issue_ve_index][27:26],
+                     control_q[issue_ve_index][51:36]);
 `endif
-          if (prefetched_mask_q[cand_ve_index]) begin
+          if (prefetched_mask_q[issue_ve_index]) begin
             stat_prefetch_hits_o <= stat_prefetch_hits_o + 1'b1;
-            prefetched_mask_q[cand_ve_index] <= 1'b0;
+            prefetched_mask_q[issue_ve_index] <= 1'b0;
           end
         end
         if (issue_de) begin
           stat_de_issued_o <= stat_de_issued_o + 1'b1;
-          de_index_q <= cand_de_index;
+          de_index_q <= issue_de_index;
 `ifndef SYNTHESIS
           if (TRACE)
             $display("AGENTSYS_TISA_ISSUE cycle=%0d index=%0d engine=de source=%0d flow=%0d stage=%0d placement=%0d preemptible=%0d priority=%0d duration=%0d",
-                     stat_cycles_o, cand_de_index,
-                     tilemem_q[cand_de_index][63:54], control_q[cand_de_index][61],
-                     control_q[cand_de_index][63], control_q[cand_de_index][35:34],
-                     control_q[cand_de_index][62], control_q[cand_de_index][27:26],
-                     control_q[cand_de_index][51:36]);
+                     stat_cycles_o, issue_de_index,
+                     tilemem_q[issue_de_index][63:54], control_q[issue_de_index][61],
+                     control_q[issue_de_index][63], control_q[issue_de_index][35:34],
+                     control_q[issue_de_index][62], control_q[issue_de_index][27:26],
+                     control_q[issue_de_index][51:36]);
 `endif
-          if (prefetched_mask_q[cand_de_index]) begin
+          if (prefetched_mask_q[issue_de_index]) begin
             stat_prefetch_hits_o <= stat_prefetch_hits_o + 1'b1;
-            prefetched_mask_q[cand_de_index] <= 1'b0;
+            prefetched_mask_q[issue_de_index] <= 1'b0;
           end
         end
 
@@ -504,7 +597,9 @@ module agentsys_tisa_scheduler #(
 `endif
 
         if ((terminal_next & active_mask_q) == active_mask_q
-            && !me_busy && !ve_busy && !de_busy && (issue_mask == 0)) begin
+            && !me_busy && !ve_busy && !de_busy
+            && !me_dispatch_valid_q && !ve_dispatch_valid_q && !de_dispatch_valid_q
+            && (issue_mask == 0)) begin
           running_q <= 1'b0;
           done_o <= 1'b1;
           result_checksum_o <= input_checksum_q ^ descriptor_digest_q
