@@ -4,7 +4,7 @@
 
 项目目录：`/workspace/AgentSys`
 
-状态：四篇论文独立实现/工具链、10% 数值复现、真实 Chipyard/Ramulator2 验证和跨层消融均已完成；结果边界见“证据分级与限制”。
+状态：既有论文复现与run 021路径原型已完成；系统集成范围已修订为“普通RISC-V CPU + mllm/Agent.xpu/TISA/HPTPE XPU”，当前按新计划继续实现。结果边界见“证据分级与限制”。
 
 ## 摘要
 
@@ -59,6 +59,38 @@
 - 执行ReAct、Mixture-of-Agents与MCTS应用，把框架Call/Flow和原生mllm MIR编译成第二个RISC-V ELF，在Static/Dynamic Rocket+RoCC上运行并回收CPU/XPU/DMA cycle trace。
 
 ## 系统架构
+
+### 当前系统集成范围修订
+
+最终CPU采用普通RISC-V，不参考或集成ATX CPU架构。ATX已有结果仅作为历史独立论文实验保留，不参与后续统一系统的结构、性能或创新结论。新的目标路径为：
+
+```text
+Agent应用 / Agentix上层调度
+    ↓
+mllm真实模型框架与算子lowering
+    ↓
+Agent.xpu reactive/proactive Flow与异构放置
+    ↓
+TISA动态Tile调度
+    ↓
+HPTPE完整PE阵列 / VE / DE
+    ↓
+Chipyard普通RISC-V CPU + XPU系统模拟
+```
+
+mllm、Agent.xpu和HPTPE必须先分别完成各自论文机制、工具链与性能实验复现，独立通过后才允许接入统一系统。run 021证明了compiled trace可以在Rocket+RoCC上执行，但其ATX式runtime和简化ME只作为旧范围路径原型，不能作为修订后最终系统已经完成的证据。
+
+简洁实施顺序如下：
+
+1. 固定普通RISC-V CPU基线与CPU↔XPU统一接口，移除集成路径中的ATX依赖；
+2. 分别完成mllm真实framework/backend、Agent.xpu异构调度和HPTPE完整PE阵列的独立复现；
+3. 按`mllm算子 → Agent.xpu Flow → TISA/HPTPE XPU`逐层接入Chipyard；
+4. 执行普通RISC-V+XPU端到端Agent trace，验证同work、依赖、DMA与功能结果；
+5. 复验各层论文性能误差≤15%，更新工具链、报告和最终证书。
+
+### 既有run 021原型结构（历史）
+
+下图描述已经完成的旧范围原型，其中ATX task层和简化ME不会直接沿用为修订后的最终架构。
 
 ```text
 Agent program DAG
@@ -416,3 +448,5 @@ bash scripts/build_ramulator2.sh
 ## 结论
 
 AgentSys 已从方向草案转化为可执行、可重放、可审计的全栈实验系统，并由四篇独立论文工具链和锁定的十一阶段总入口完成重放。除分层模拟外，真实Agent应用与mllm框架trace已经编译成RISC-V软件，在Rocket CPU+XPU上执行并产生200-event系统trace。最强证据是五条相互校验的链：四份论文结果均在15%内、闭源机制由开放可执行替代实现、真实CPU+XPU/DMA系统执行、六层priority/dependency闭合、最终工具链17/17验收闭合。实验同时表明，跨层优化没有免费午餐：priority提升reactive responsiveness会牺牲部分throughput，DDR扩容会把瓶颈推向ME，过小tile会让dynamic scheduler得不偿失，CPU/framework开销还会把1.336× XPU收益稀释为1.084×端到端收益。
+
+上述结论对应既有run 021原型范围。按最新范围，最终结论还需等待mllm、Agent.xpu、HPTPE分别复现并接入普通RISC-V+TISA/HPTPE XPU后重新签发；现有run 022证书不代表该修订范围已经完成。

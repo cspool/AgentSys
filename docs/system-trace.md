@@ -1,5 +1,7 @@
 # Application-to-Rocket CPU+XPU system trace
 
+> Scope note: run 021 is retained as a feasibility prototype. The revised final system uses an ordinary RISC-V CPU and removes ATX from the integration path; mllm, Agent.xpu and HPTPE must first pass standalone reproduction before a new system trace is certified.
+
 ## Pipeline
 
 ```text

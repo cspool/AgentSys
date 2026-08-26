@@ -1,5 +1,7 @@
 # AgentSys pinned toolchain
 
+> Revised scope: the final CPU is an ordinary RISC-V core. ATX is no longer part of the integrated architecture. The current run-021 toolchain is a retained prototype; the next certified toolchain must first reproduce mllm, Agent.xpu and HPTPE independently and then integrate them through TISA. See `docs/revised-integration-plan.md`.
+
 The complete workflow has three machine-readable layers:
 
 1. `config/toolchain.json` pins Python packages, system-tool families, seven source revisions, two Chipyard compatibility patches, five build products, four Chipyard overlays, four independent paper profiles, and the exact eleven-stage serial replay order.

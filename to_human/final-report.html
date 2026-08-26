@@ -10,6 +10,7 @@ body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d111
 <body>
 <h1>AgentSys：从 program DAG 到 NPU engine</h1>
 <p class="lead">Agent应用→框架/MIR→RISC-V软件→Rocket CPU+XPU，并保留四篇论文与真实模拟器证据</p>
+<p class="note"><strong>范围已修订：</strong>最终CPU采用普通RISC-V，不集成ATX；mllm、Agent.xpu、HPTPE需先分别复现，再经TISA接入Chipyard。以下run 021/022结果作为既有可行性原型保留，不代表修订后系统已经完成。</p>
 
 <div class="grid">
   <div class="card"><div class="value">55/55</div><div class="label">论文端点通过</div></div>

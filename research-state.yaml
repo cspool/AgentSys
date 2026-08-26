@@ -2,7 +2,7 @@
 project:
   title: "AgentSys: dynamic-agent full-stack scheduling from program DAG to NPU tile"
   question: "Can program-aware, heterogeneous-flow-aware, and semantic tile scheduling compose end to end while independently reproducing each target paper's registered core result within 10%?"
-  status: concluded
+  status: active
   started: "2026-08-25"
   domain: "computer systems and architecture"
 
@@ -101,6 +101,12 @@ hypotheses:
     statement: "An executed Agent application and native model trace can compile into RISC-V software, run on Rocket CPU+XPU, and preserve useful cross-layer performance evidence."
     status: supported
     motivation: "Close the application-framework-software-hardware system integration requirement."
+    parent: null
+    priority: high
+  - id: H13
+    statement: "Independently reproduced mllm, Agent.xpu and HPTPE components can integrate through TISA into an ordinary-RISC-V CPU+XPU system without losing their paper-level performance behavior."
+    status: pending
+    motivation: "Implement the revised final architecture without ATX in the CPU path."
     parent: null
     priority: high
 
@@ -267,8 +273,8 @@ experiments:
 
 outer_loop:
   cycle: 9
-  last_direction: conclude
-  last_reflection: "The executed application, framework/MIR compiler, RISC-V runtime, Rocket CPU+XPU, 200-event trace, per-layer paper gates, tests, documentation, and 17/17 certificate all pass."
+  last_direction: deepen
+  last_reflection: "Run 021 proves trace feasibility, but the revised final system still requires standalone mllm, Agent.xpu and HPTPE reproduction followed by ordinary-RISC-V+TISA/HPTPE integration."
 
 workspace:
   findings: "findings.md"
