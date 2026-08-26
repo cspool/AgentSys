@@ -116,7 +116,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 24
+  total_runs: 25
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -286,11 +286,18 @@ experiments:
       wall_time_min: 6.0
       change_summary: "Official HPTPE OPT1/2/3/4C passes 9/9 RTL organizations, 302 golden checks, 9/9 full-scale lint and 26/26 endpoints with 0.98% maximum error."
       timestamp: "2026-08-26"
+    - run_id: "run_025"
+      hypothesis: "H13/standalone certificate"
+      metric_value: 0.09909909909909899
+      delta: 0.08934300153812337
+      wall_time_min: 0.2
+      change_summary: "Unchanged Agentix/Agent.xpu/TISA revalidation plus mllm/HPTPE passes 5/5 active components, 68/68 endpoints and 8/8 gates; ATX is excluded."
+      timestamp: "2026-08-26"
 
 outer_loop:
-  cycle: 11
+  cycle: 12
   last_direction: deepen
-  last_reflection: "Runs 023-024 close standalone mllm/llm.npu and HPTPE. Next, re-run Agentix/TISA/Agent.xpu unchanged under the revised 15% certificate, then integrate the tested HPTPE array into ordinary-RISC-V Chipyard."
+  last_reflection: "Run 025 closes all standalone prerequisites at 68/68 endpoints. Direction remains DEEPEN: vendor the tested HPTPE array, remove ATX semantics, and execute the revised application-to-hardware path on ordinary-RISC-V Chipyard."
 
 workspace:
   findings: "findings.md"

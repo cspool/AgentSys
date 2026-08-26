@@ -9,6 +9,9 @@ def test_revised_mllm_profile_is_separate_from_historical_certificate() -> None:
     config = load_toolchain_config(DEFAULT_CONFIG)
     assert tuple(config["paper_profiles"]) == ("agentix", "agentxpu", "atx", "tisa")
     profiles = config["revised_component_profiles"]
+    assert tuple(profiles) == ("agentix", "agentxpu", "tisa", "mllm", "hptpe")
+    assert sum(profile["expected_endpoints"] for profile in profiles.values()) == 68
+    assert config["revised_component_certificate"] == "artifacts/results/revised-components-run_025.json"
     assert profiles["mllm"]["expected_endpoints"] == 5
     assert profiles["mllm"]["output"] == "artifacts/results/paper-mllm-run_023.json"
     assert profiles["hptpe"]["expected_endpoints"] == 26

@@ -173,6 +173,10 @@ ME (OS MAC)         VE              DE ── SRAM/DMA/Ramulator2 DDR
 
 仓库内12组成功的SAED32 Synopsys DC operating point被逐文件解析为24个frequency/total-cell-area端点；加上2个实跑cycle端点，26/26通过，最大误差0.98%。OPT1 OS/WS/Cube频率分别提升2.097/1.667/1.575×，cell-area ratio为0.962/1.126/1.054。绝对PPA是作者报告复核，不是本机新DC综合。官方filelist引用的`OPT1/systolic_array_ws/array_opt1_based/top.v`在commit中缺失；本项目仅从公开WS baseline top与OPT1 PE接口重建wavefront wrapper，实际compressed PE/Booth/CSA仍执行官方RTL，wrapper通过full-scale lint和GEMM测试。
 
+### 修订范围独立组件证书（run 025）
+
+Agentix、Agent.xpu和TISA在不修改机制参数的情况下重新执行，分别通过16/16、11/11和10/10端点，最大误差9.09%、8.07%和8.27%；其旧10%profile比当前15%要求更严格。连同run 023的mllm 5/5与run 024的HPTPE 26/26，主动组件合计68/68，5/5组件和8/8证书门禁通过，全局最大误差9.91%。`artifacts/results/revised-components-run_025.json`显式登记`active_components=[agentix, agentxpu, tisa, mllm, hptpe]`和`excluded_components=[atx]`，防止旧ATX端点被误计入普通RISC-V系统证据。
+
 ## 代码与产物
 
 | 范围 | 主要文件 |
@@ -350,7 +354,7 @@ Full stack 相对 baseline 的 makespan/reactive speedup 为 2.033/3.027×；相
 
 ## 工具链与配置
 
-工具链不再依赖报告中的隐式环境状态。`config/toolchain.json` 是单一机器可读清单，固定 Python 3.11、pytest/hypothesis/cmake/ninja 版本、9 类系统命令、7 个外部源码 revision、2 个 Chipyard compatibility patch、5 个历史构建产物、4 个 Chipyard overlay、4 个历史分论文 profile，以及11个旧范围实验/支撑阶段的严格串行顺序。H13新增内容放在独立的`revised_build_outputs`与`revised_component_profiles`中，避免改变run 022证书的固定合同；当前已注册mllm真实runtime和run 023入口，HPTPE完成后再签发新manifest。`uv.lock` 保存 Python 包与 wheel/sdist hash。作者/实验室源码检索记录见 `docs/source-discovery.md`。
+工具链不再依赖报告中的隐式环境状态。`config/toolchain.json` 是单一机器可读清单，固定 Python 3.11、pytest/hypothesis/cmake/ninja 版本、9 类系统命令、7 个外部源码 revision、2 个 Chipyard compatibility patch、5 个历史构建产物、4 个 Chipyard overlay、4 个历史分论文 profile，以及11个旧范围实验/支撑阶段的严格串行顺序。H13新增内容放在独立的`revised_build_outputs`、`revised_component_profiles`和`revised_component_certificate`中，避免改变run 022证书的固定合同；当前五个主动profile共68端点，另固定Icarus 11与Verilator 5.050 HPTPE工具。`uv.lock` 保存 Python 包与 wheel/sdist hash。作者/实验室源码检索记录见 `docs/source-discovery.md`。
 
 `scripts/setup_toolchain.sh` 完成以下闭环：
 
@@ -467,4 +471,4 @@ bash scripts/build_ramulator2.sh
 
 AgentSys 已从方向草案转化为可执行、可重放、可审计的全栈实验系统，并由四篇独立论文工具链和锁定的十一阶段总入口完成重放。除分层模拟外，真实Agent应用与mllm框架trace已经编译成RISC-V软件，在Rocket CPU+XPU上执行并产生200-event系统trace。最强证据是五条相互校验的链：四份论文结果均在15%内、闭源机制由开放可执行替代实现、真实CPU+XPU/DMA系统执行、六层priority/dependency闭合、最终工具链17/17验收闭合。实验同时表明，跨层优化没有免费午餐：priority提升reactive responsiveness会牺牲部分throughput，DDR扩容会把瓶颈推向ME，过小tile会让dynamic scheduler得不偿失，CPU/framework开销还会把1.336× XPU收益稀释为1.084×端到端收益。
 
-上述结论对应既有run 021原型范围。按最新范围，mllm/llm.npu已在run 023独立通过，HPTPE已在run 024独立通过；最终结论仍需完成Agent.xpu/TISA/Agentix无改动复验，并将这些已测模块接入普通RISC-V+TISA/HPTPE XPU后重新签发。现有run 022证书不代表该修订范围已经完成。
+上述结论对应既有run 021原型范围。按最新范围，run 023/024/025已完成五个主动组件的独立复现与无改动复验；最终结论仍需将这些已测模块接入普通RISC-V+TISA/HPTPE XPU并从新系统trace重新签发。现有run 022证书不代表该修订范围已经完成。

@@ -1,0 +1,98 @@
+{
+  "active_components": [
+    "agentix",
+    "agentxpu",
+    "tisa",
+    "mllm",
+    "hptpe"
+  ],
+  "components": {
+    "agentix": {
+      "artifact": "artifacts/results/paper-agentix-run_025.json",
+      "artifact_run_id": "run_025",
+      "artifact_sha256": "66b1518f7a4e4f536957844479e430d4a76f520071595f09c0a55b2e99264bb2",
+      "configured_endpoints": 16,
+      "endpoint_count_match": true,
+      "max_relative_error": 0.09090909090909091,
+      "pass": true,
+      "passed": 16,
+      "total": 16,
+      "within_revised_limit": true
+    },
+    "agentxpu": {
+      "artifact": "artifacts/results/paper-agentxpu-run_025.json",
+      "artifact_run_id": "run_025",
+      "artifact_sha256": "79edab6b6be13601cc4904c5136c09a089402ae20830c528caf5d8fcd5efe2ed",
+      "configured_endpoints": 11,
+      "endpoint_count_match": true,
+      "max_relative_error": 0.08067934458400342,
+      "pass": true,
+      "passed": 11,
+      "total": 11,
+      "within_revised_limit": true
+    },
+    "hptpe": {
+      "artifact": "artifacts/results/paper-hptpe-run_024.json",
+      "artifact_run_id": "run_024",
+      "artifact_sha256": "00b90d044b49334d14f20646cf5c30d75ceac53707eab933b78da459423b8d71",
+      "configured_endpoints": 26,
+      "endpoint_count_match": true,
+      "max_relative_error": 0.009756097560975618,
+      "pass": true,
+      "passed": 26,
+      "total": 26,
+      "within_revised_limit": true
+    },
+    "mllm": {
+      "artifact": "artifacts/results/paper-mllm-run_023.json",
+      "artifact_run_id": "run_023",
+      "artifact_sha256": "11e2993664b35fea39ac0eafc5109dcf0d74555c029ba35887e3804b69420177",
+      "configured_endpoints": 5,
+      "endpoint_count_match": true,
+      "max_relative_error": 0.09909909909909899,
+      "pass": true,
+      "passed": 5,
+      "total": 5,
+      "within_revised_limit": true
+    },
+    "tisa": {
+      "artifact": "artifacts/results/paper-tisa-run_025.json",
+      "artifact_run_id": "run_025",
+      "artifact_sha256": "95822be173864cc396ce3892f4d3014a777c12039d1343f5edd17cca541b4c80",
+      "configured_endpoints": 10,
+      "endpoint_count_match": true,
+      "max_relative_error": 0.08270030098896375,
+      "pass": true,
+      "passed": 10,
+      "total": 10,
+      "within_revised_limit": true
+    }
+  },
+  "excluded_components": [
+    "atx"
+  ],
+  "gates": {
+    "active_component_set_5": true,
+    "all_components_pass": true,
+    "all_components_within_15_percent": true,
+    "all_endpoint_counts_match_profiles": true,
+    "atx_excluded": true,
+    "endpoint_total_68": true,
+    "hptpe_rtl_and_ppa_pass": true,
+    "mllm_native_framework_pass": true
+  },
+  "limit": 0.15,
+  "run_id": "run_025",
+  "schema_version": 1,
+  "scope": "revised_standalone_components",
+  "summary": {
+    "components_passed": 5,
+    "components_total": 5,
+    "endpoints_passed": 68,
+    "endpoints_total": 68,
+    "gates_passed": 8,
+    "gates_total": 8,
+    "max_relative_error": 0.09909909909909899,
+    "pass": true
+  }
+}

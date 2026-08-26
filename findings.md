@@ -34,6 +34,7 @@ The revised architecture removes ATX from the integrated CPU path. Run 023 close
 - Run 013 completes the sensitivity suite: TISA's timing knee is W=4, fine preemption modestly improves tails, and current OS ME dataflow can be 3.851× worse than WS under extreme bandwidth pressure. Gains are constrained by shifting bottlenecks, not monotonic knobs.
 - Run 023 builds pinned mllm v2 and passes 20/20 native executables with 101 gtest cases. Its native-MIR-driven llm.npu model executes 4,480 subgraphs and 18,336 dependency checks per schedule; chunk sharing is 1.974×, shadow outliers 6.600×, OOO latency reduction 32.91%, and NPU bubble 33.33%→0.636%. All 5 endpoints pass at 15%, max error 9.91%.
 - Run 024 executes HPTPE OPT1 OS/WS/Cube, OPT2, OPT3 and OPT4C: 9/9 organizations, 302 signed golden checks and 9/9 full-scale lint pass. All 26 endpoints pass at 15%, max error 0.98%; OS/WS/Cube frequency gains are 2.097/1.667/1.575x.
+- Run 025 reruns Agentix/Agent.xpu/TISA unchanged and combines all active standalone evidence. Five of five components, 68/68 endpoints and 8/8 gates pass at 9.91% global maximum error. ATX is a machine-checked excluded component.
 
 ## Patterns and Insights
 
@@ -75,6 +76,8 @@ Run 023 starts the revised stack. Real mllm framework execution passes 20/20 sel
 
 Run 024 closes the revised hardware component before integration: HPTPE passes 9/9 RTL organizations and 26/26 endpoints at 0.98%. OPT3/OPT4C cycle values are real open-RTL execution; 24 absolute PPA values remain author report replay.
 
+Run 025 closes the standalone prerequisite: Agentix 16, Agent.xpu 11, TISA 10, mllm 5 and HPTPE 26 endpoints all pass, totaling 68. The next metric is no longer component error optimization; it is preservation of these mechanisms and work invariants in the revised Chipyard path.
+
 ## Toolchain Closure
 
 - Python 3.11 and the four environment packages are hash-locked with `uv.lock`; system tools, seven source revisions, compatibility patches, build products and Chipyard overlays are checked separately.
@@ -87,3 +90,4 @@ Run 024 closes the revised hardware component before integration: HPTPE passes 9
 - Run 021 adds two application/compilation artifacts, the trace ELF, 11/11 serial stages and 13/13 real CPU+XPU gates; the per-layer paper errors are 9.09/8.07/3.10/8.27%, all below 15%.
 - Run 023 introduces `revised_build_outputs`/`revised_component_profiles` without changing the historical run-022 contract. The mllm profile combines a real Clang-16 build/test artifact with native-MIR-driven llm.npu performance evidence.
 - Run 024 adds pinned Verilator 5.050 and Icarus 11 to the revised namespace and registers an independent HPTPE profile without mutating the historical four-paper/55-endpoint contract.
+- Run 025 registers exactly five revised profiles and a separate active-component certificate; its audit fails if ATX appears or the total differs from 68.

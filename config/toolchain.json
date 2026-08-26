@@ -235,6 +235,27 @@
     }
   ],
   "revised_component_profiles": {
+    "agentix": {
+      "command": ["{python}", "-m", "agentsys.paper_reproduction", "--paper", "agentix", "--run-id", "run_025", "--output", "artifacts/results/paper-agentix-run_025.json"],
+      "output": "artifacts/results/paper-agentix-run_025.json",
+      "expected_endpoints": 16,
+      "sources": ["data/paper_targets.json", "src/agentsys/agentix.py", "src/agentsys/agentix_model.py", "src/agentsys/agentix_serving_simulator.py", "src/agentsys/paper_reproduction.py"],
+      "references": ["autellix"]
+    },
+    "agentxpu": {
+      "command": ["{python}", "-m", "agentsys.paper_reproduction", "--paper", "agentxpu", "--run-id", "run_025", "--output", "artifacts/results/paper-agentxpu-run_025.json"],
+      "output": "artifacts/results/paper-agentxpu-run_025.json",
+      "expected_endpoints": 11,
+      "sources": ["data/paper_targets.json", "src/agentsys/agentxpu.py", "src/agentsys/experiments.py", "src/agentsys/paper_reproduction.py"],
+      "references": ["LLM.xpu"]
+    },
+    "tisa": {
+      "command": ["{python}", "-m", "agentsys.paper_reproduction", "--paper", "tisa", "--run-id", "run_025", "--output", "artifacts/results/paper-tisa-run_025.json"],
+      "output": "artifacts/results/paper-tisa-run_025.json",
+      "expected_endpoints": 10,
+      "sources": ["data/paper_targets.json", "src/agentsys/tisa.py", "src/agentsys/workloads.py", "rtl/agentsys/agentsys_tisa_scheduler.sv", "src/agentsys/paper_reproduction.py"],
+      "references": ["chipyard"]
+    },
     "mllm": {
       "command": ["{python}", "scripts/run_mllm_reproduction.py", "--run-id", "run_023", "--output", "artifacts/results/paper-mllm-run_023.json", "--trace-prefix", "artifacts/traces/paper-mllm-run_023"],
       "output": "artifacts/results/paper-mllm-run_023.json",
@@ -250,6 +271,7 @@
       "references": ["HPTPE", "verilator5"]
     }
   },
+  "revised_component_certificate": "artifacts/results/revised-components-run_025.json",
   "revised_references": [
     {
       "name": "verilator5",
