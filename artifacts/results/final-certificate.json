@@ -21,9 +21,9 @@
       "sha256": "320b3a3dafca12f4beb5f385f58364152dbfd4ed64db4c269b6435f609cde47e"
     },
     "direct_paper": {
-      "bytes": 901344,
+      "bytes": 902257,
       "path": "artifacts/results/run_011.json",
-      "sha256": "0891e93dc898c5f664fb92f49f16c35785cf1d2af2cb5783ad04751c3a3c16fc"
+      "sha256": "0f1a0c0bbc888eaf70ee853a9a230dfacec968db0177c86394e2982bae7594ce"
     },
     "full_stack": {
       "bytes": 154849,
@@ -49,7 +49,7 @@
         "pytest"
       ],
       "exit_code": 0,
-      "output": ".....................                                                    [100%]\n21 passed in 8.53s\n"
+      "output": ".....................                                                    [100%]\n21 passed in 7.79s\n"
     },
     "rtl_lint": {
       "command": [
@@ -555,7 +555,7 @@
     "passing": 55,
     "unique": 55
   },
-  "project_commit": "799b92f4fadccc1d078181ce786cba58d08aef36",
+  "project_commit": "67484da1b37fa7adcebe1974695a24e6b27115d3",
   "references": {
     ".references/HPTPE": {
       "expected": "ebe4db7d2d3c36d10c47683d7689f65f5c4ca3e4",
@@ -605,7 +605,7 @@
   "required_files": {
     "ISCA26_G3_Agent\u5168\u6808\u7cfb\u7edf\u52a0\u901f.md": {
       "exists": true,
-      "sha256": "ceb61e4f91b1d13d343bbda1ee94b5611a5cc84cfaf66ad2acea1ac884c72390"
+      "sha256": "7701d7061b191b86e92b31128a5053d13a6d04167ea4a1d5fb4fce69d06f90cf"
     },
     "artifacts/traces/full-stack-run_008.jsonl": {
       "exists": true,
