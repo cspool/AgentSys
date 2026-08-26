@@ -166,29 +166,66 @@
       "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_rocc_controller.sv"
     }
   ],
-  "reproduction_manifest": "artifacts/results/reproduction-run_015.json",
-  "toolchain_audit": "artifacts/results/toolchain-run_015.json",
+  "paper_profiles": {
+    "agentix": {
+      "command": ["{python}", "-m", "agentsys.paper_reproduction", "--paper", "agentix", "--run-id", "run_017", "--output", "artifacts/results/paper-agentix-run_017.json"],
+      "output": "artifacts/results/paper-agentix-run_017.json",
+      "expected_endpoints": 16,
+      "sources": ["data/paper_targets.json", "src/agentsys/agentix.py", "src/agentsys/agentix_model.py", "src/agentsys/paper_reproduction.py"],
+      "references": []
+    },
+    "agentxpu": {
+      "command": ["{python}", "-m", "agentsys.paper_reproduction", "--paper", "agentxpu", "--run-id", "run_017", "--output", "artifacts/results/paper-agentxpu-run_017.json"],
+      "output": "artifacts/results/paper-agentxpu-run_017.json",
+      "expected_endpoints": 11,
+      "sources": ["data/paper_targets.json", "src/agentsys/agentxpu.py", "src/agentsys/experiments.py", "src/agentsys/paper_reproduction.py"],
+      "references": ["LLM.xpu"]
+    },
+    "atx": {
+      "command": ["{python}", "-m", "agentsys.paper_reproduction", "--paper", "atx", "--run-id", "run_017", "--output", "artifacts/results/paper-atx-run_017.json"],
+      "output": "artifacts/results/paper-atx-run_017.json",
+      "expected_endpoints": 18,
+      "sources": ["data/paper_targets.json", "src/agentsys/atx.py", "src/agentsys/atx_model.py", "system_sim/chipyard/AgentSysRoCC.scala", "rtl/agentsys/agentsys_rocc_controller.sv", "system_sim/software/agentsys_runtime.h", "src/agentsys/paper_reproduction.py"],
+      "references": ["chipyard"]
+    },
+    "tisa": {
+      "command": ["{python}", "-m", "agentsys.paper_reproduction", "--paper", "tisa", "--run-id", "run_017", "--output", "artifacts/results/paper-tisa-run_017.json"],
+      "output": "artifacts/results/paper-tisa-run_017.json",
+      "expected_endpoints": 10,
+      "sources": ["data/paper_targets.json", "src/agentsys/tisa.py", "src/agentsys/workloads.py", "rtl/agentsys/agentsys_tisa_scheduler.sv", "rtl/agentsys/agentsys_engines.sv", "src/agentsys/paper_reproduction.py"],
+      "references": ["chipyard"]
+    }
+  },
+  "reproduction_manifest": "artifacts/results/reproduction-run_017.json",
+  "toolchain_audit": "artifacts/results/toolchain-run_017.json",
   "stages": [
     {
-      "name": "direct_paper",
-      "command": ["{python}", "-m", "agentsys.experiments", "--run-id", "run_011", "--output", "artifacts/results/run_011.json"],
-      "outputs": ["artifacts/results/run_011.json"],
-      "gate_path": ["summary", "all_executed_endpoints_within_15pct"],
+      "name": "agentix_paper",
+      "command": ["{python}", "-m", "agentsys.paper_reproduction", "--paper", "agentix", "--run-id", "run_017", "--output", "artifacts/results/paper-agentix-run_017.json"],
+      "outputs": ["artifacts/results/paper-agentix-run_017.json"],
+      "gate_path": ["summary", "pass"],
+      "timeout_s": 60
+    },
+    {
+      "name": "agentxpu_paper",
+      "command": ["{python}", "-m", "agentsys.paper_reproduction", "--paper", "agentxpu", "--run-id", "run_017", "--output", "artifacts/results/paper-agentxpu-run_017.json"],
+      "outputs": ["artifacts/results/paper-agentxpu-run_017.json"],
+      "gate_path": ["summary", "pass"],
       "timeout_s": 180
     },
     {
-      "name": "agentix_aggregate",
-      "command": ["{python}", "scripts/run_agentix_model.py", "--run-id", "run_010", "--output", "artifacts/results/agentix-run_010.json"],
-      "outputs": ["artifacts/results/agentix-run_010.json"],
+      "name": "atx_paper",
+      "command": ["{python}", "-m", "agentsys.paper_reproduction", "--paper", "atx", "--run-id", "run_017", "--output", "artifacts/results/paper-atx-run_017.json"],
+      "outputs": ["artifacts/results/paper-atx-run_017.json"],
       "gate_path": ["summary", "pass"],
       "timeout_s": 60
     },
     {
-      "name": "atx_aggregate",
-      "command": ["{python}", "scripts/run_atx_model.py", "--run-id", "run_004", "--output", "artifacts/results/atx-run_004.json"],
-      "outputs": ["artifacts/results/atx-run_004.json"],
+      "name": "tisa_paper",
+      "command": ["{python}", "-m", "agentsys.paper_reproduction", "--paper", "tisa", "--run-id", "run_017", "--output", "artifacts/results/paper-tisa-run_017.json"],
+      "outputs": ["artifacts/results/paper-tisa-run_017.json"],
       "gate_path": ["summary", "pass"],
-      "timeout_s": 60
+      "timeout_s": 120
     },
     {
       "name": "mllm_backend",

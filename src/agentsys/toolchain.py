@@ -29,6 +29,8 @@ SOURCE_FILES = (
     "patches/chipyard/treadle-stable-firrtl.patch",
     "src/agentsys/toolchain.py",
     "src/agentsys/reproduce.py",
+    "src/agentsys/paper_reproduction.py",
+    "experiments/h10-paper10/protocol.md",
 )
 
 
@@ -66,6 +68,7 @@ def load_toolchain_config(path: Path = DEFAULT_CONFIG) -> dict[str, Any]:
         "build_outputs",
         "chipyard_patches",
         "chipyard_overlays",
+        "paper_profiles",
         "reproduction_manifest",
         "toolchain_audit",
         "stages",
@@ -249,6 +252,37 @@ def build_toolchain_audit(
             "sha256": sha256(path) if path.is_file() else None,
         }
     gates["source_files"] = _gate(all(item["exists"] for item in sources.values()), sources)
+
+    reference_names = {item["name"] for item in config["references"]}
+    stage_commands = {tuple(stage["command"]) for stage in config["stages"]}
+    profiles: dict[str, Any] = {}
+    for paper, profile in config["paper_profiles"].items():
+        profile_sources = [resolve_path(item, project_root=project_root) for item in profile["sources"]]
+        details = {
+            "expected_endpoints": int(profile["expected_endpoints"]),
+            "sources": [str(item) for item in profile_sources],
+            "sources_exist": all(item.is_file() for item in profile_sources),
+            "references": profile["references"],
+            "references_known": set(profile["references"]).issubset(reference_names),
+            "command_registered_as_stage": tuple(profile["command"]) in stage_commands,
+            "output_matches_command": profile["output"] in profile["command"],
+        }
+        details["pass"] = all(
+            (
+                details["sources_exist"],
+                details["references_known"],
+                details["command_registered_as_stage"],
+                details["output_matches_command"],
+                details["expected_endpoints"] > 0,
+            )
+        )
+        profiles[paper] = details
+    profiles_complete = set(profiles) == {"agentix", "agentxpu", "atx", "tisa"} and sum(
+        item["expected_endpoints"] for item in profiles.values()
+    ) == 55
+    gates["independent_paper_profiles"] = _gate(
+        profiles_complete and all(item["pass"] for item in profiles.values()), profiles
+    )
 
     if level in {"built", "full"}:
         builds: dict[str, Any] = {}

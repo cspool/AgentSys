@@ -7,9 +7,10 @@ from agentsys.toolchain import DEFAULT_CONFIG, evaluate_stage_artifact, load_too
 
 
 EXPECTED_STAGES = [
-    "direct_paper",
-    "agentix_aggregate",
-    "atx_aggregate",
+    "agentix_paper",
+    "agentxpu_paper",
+    "atx_paper",
+    "tisa_paper",
     "mllm_backend",
     "full_stack",
     "ramulator2",
@@ -30,6 +31,8 @@ def test_toolchain_configuration_covers_complete_serial_pipeline() -> None:
     }
     assert len(config["chipyard_overlays"]) == 4
     assert len(config["chipyard_patches"]) == 2
+    assert set(config["paper_profiles"]) == {"agentix", "agentxpu", "atx", "tisa"}
+    assert sum(profile["expected_endpoints"] for profile in config["paper_profiles"].values()) == 55
 
 
 def test_reproduction_plan_is_ordered_and_uses_pinned_python() -> None:
@@ -48,6 +51,9 @@ def test_certificate_and_toolchain_share_the_same_pins_and_artifacts() -> None:
     assert ARTIFACTS["toolchain"] == config["toolchain_audit"]
     assert config["reproduction_manifest"] in REQUIRED_FILES
     assert config["toolchain_audit"] in REQUIRED_FILES
+    for paper, profile in config["paper_profiles"].items():
+        assert ARTIFACTS[f"paper_{paper}"] == profile["output"]
+        assert profile["output"] in REQUIRED_FILES
 
 
 def test_stage_artifact_requires_outputs_and_true_gate(tmp_path: Path) -> None:

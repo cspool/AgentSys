@@ -12,6 +12,7 @@ dependencies = []
 [project.scripts]
 agentsys-reproduce = "agentsys.experiments:main"
 agentsys-reproduce-all = "agentsys.reproduce:main"
+agentsys-paper-reproduce = "agentsys.paper_reproduction:main"
 agentsys-toolchain = "agentsys.toolchain:main"
 
 [dependency-groups]

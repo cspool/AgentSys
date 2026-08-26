@@ -10,7 +10,7 @@ from agentsys.certificate import PROJECT_ROOT, write_certificate
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--run-id", default="run_014")
+    parser.add_argument("--run-id", default="run_018")
     parser.add_argument("--output", type=Path, default=PROJECT_ROOT / "artifacts/results/final-certificate.json")
     args = parser.parse_args()
     result = write_certificate(args.output, run_id=args.run_id)
@@ -21,4 +21,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

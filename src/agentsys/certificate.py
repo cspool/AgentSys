@@ -11,16 +11,17 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
 ARTIFACTS = {
-    "direct_paper": "artifacts/results/run_011.json",
-    "agentix_aggregate": "artifacts/results/agentix-run_010.json",
-    "atx": "artifacts/results/atx-run_004.json",
+    "paper_agentix": "artifacts/results/paper-agentix-run_017.json",
+    "paper_agentxpu": "artifacts/results/paper-agentxpu-run_017.json",
+    "paper_atx": "artifacts/results/paper-atx-run_017.json",
+    "paper_tisa": "artifacts/results/paper-tisa-run_017.json",
     "chipyard": "artifacts/results/chipyard-run_003.json",
     "mllm": "artifacts/results/mllm-run_006.json",
     "full_stack": "artifacts/results/full-stack-run_008.json",
     "ramulator2": "artifacts/results/ramulator2-run_012.json",
     "ablations": "artifacts/results/ablations-run_013.json",
-    "reproduction": "artifacts/results/reproduction-run_015.json",
-    "toolchain": "artifacts/results/toolchain-run_015.json",
+    "reproduction": "artifacts/results/reproduction-run_017.json",
+    "toolchain": "artifacts/results/toolchain-run_017.json",
 }
 
 
@@ -57,11 +58,18 @@ REQUIRED_FILES = (
     "config/toolchain.json",
     "src/agentsys/toolchain.py",
     "src/agentsys/reproduce.py",
+    "src/agentsys/paper_reproduction.py",
     "docs/toolchain.md",
     "experiments/h9-toolchain/protocol.md",
     "experiments/h9-toolchain/analysis.md",
-    "artifacts/results/reproduction-run_015.json",
-    "artifacts/results/toolchain-run_015.json",
+    "experiments/h10-paper10/protocol.md",
+    "experiments/h10-paper10/analysis.md",
+    "artifacts/results/paper-agentix-run_017.json",
+    "artifacts/results/paper-agentxpu-run_017.json",
+    "artifacts/results/paper-atx-run_017.json",
+    "artifacts/results/paper-tisa-run_017.json",
+    "artifacts/results/reproduction-run_017.json",
+    "artifacts/results/toolchain-run_017.json",
     "artifacts/traces/full-stack-run_008.jsonl",
 )
 
@@ -91,14 +99,10 @@ def _git_head(path_text: str) -> str | None:
 
 
 def collect_paper_endpoints() -> list[dict[str, Any]]:
-    direct, _ = _load(ARTIFACTS["direct_paper"])
-    agentix, _ = _load(ARTIFACTS["agentix_aggregate"])
-    atx, _ = _load(ARTIFACTS["atx"])
     endpoints: list[dict[str, Any]] = []
-    for section in direct["sections"].values():
-        endpoints.extend(section.get("audit", []))
-    endpoints.extend(agentix["audit"])
-    endpoints.extend(atx["audit"])
+    for name in ("paper_agentix", "paper_agentxpu", "paper_atx", "paper_tisa"):
+        paper, _ = _load(ARTIFACTS[name])
+        endpoints.extend(paper["audit"])
     return endpoints
 
 
@@ -115,7 +119,7 @@ def _run_command(command: list[str], *, cwd: Path = PROJECT_ROOT, timeout: int =
     return {"command": command, "exit_code": process.returncode, "output": process.stdout}
 
 
-def build_certificate(*, run_id: str = "run_014", run_checks: bool = True) -> dict[str, Any]:
+def build_certificate(*, run_id: str = "run_018", run_checks: bool = True) -> dict[str, Any]:
     loaded: dict[str, dict[str, Any]] = {}
     manifests: dict[str, dict[str, Any]] = {}
     for name, relative in ARTIFACTS.items():
@@ -124,29 +128,52 @@ def build_certificate(*, run_id: str = "run_014", run_checks: bool = True) -> di
     endpoints = collect_paper_endpoints()
     endpoint_names = [entry["endpoint"] for entry in endpoints]
     endpoint_errors = [float(entry["relative_error"]) for entry in endpoints]
+    registered_limit = float(
+        json.loads((PROJECT_ROOT / "data/paper_targets.json").read_text(encoding="utf-8"))[
+            "max_relative_error"
+        ]
+    )
     paper_gate = (
-        len(endpoints) == 55
+        registered_limit == 0.10
+        and len(endpoints) == 55
         and len(endpoint_names) == len(set(endpoint_names))
         and all(entry["pass"] for entry in endpoints)
-        and max(endpoint_errors) <= 0.15
+        and all(float(entry["limit"]) == registered_limit for entry in endpoints)
+        and max(endpoint_errors) <= registered_limit
+    )
+
+    expected_paper_counts = {
+        "paper_agentix": 16,
+        "paper_agentxpu": 11,
+        "paper_atx": 18,
+        "paper_tisa": 10,
+    }
+    individual_papers_gate = all(
+        loaded[name]["paper"] == name.removeprefix("paper_")
+        and loaded[name]["summary"]["pass"]
+        and loaded[name]["summary"]["endpoints"] == count
+        and float(loaded[name]["summary"]["limit"]) == registered_limit
+        and loaded[name]["summary"]["toolchain_profile_pass"]
+        for name, count in expected_paper_counts.items()
     )
 
     component_gates = {
         "paper_endpoints_55": paper_gate,
+        "individual_papers_4": individual_papers_gate,
         "chipyard_17": loaded["chipyard"]["summary"] == {"failing": 0, "gates": 17, "pass": True, "passing": 17},
         "mllm_9": loaded["mllm"]["summary"]["pass"] and loaded["mllm"]["summary"]["gates"] == 9,
         "full_stack_10": loaded["full_stack"]["summary"]["pass"] and loaded["full_stack"]["summary"]["gates"] == 10,
         "ramulator2_7": loaded["ramulator2"]["summary"]["pass"] and loaded["ramulator2"]["summary"]["gates"] == 7,
         "ablations_7": loaded["ablations"]["summary"]["pass"] and loaded["ablations"]["summary"]["gates"] == 7,
-        "serial_reproduction_8": (
+        "serial_reproduction_9": (
             loaded["reproduction"]["summary"]["pass"]
-            and loaded["reproduction"]["summary"]["executed"] == 8
-            and loaded["reproduction"]["summary"]["passing"] == 8
+            and loaded["reproduction"]["summary"]["executed"] == 9
+            and loaded["reproduction"]["summary"]["passing"] == 9
             and loaded["reproduction"]["summary"]["serial_order"]
         ),
-        "toolchain_11": (
+        "toolchain_12": (
             loaded["toolchain"]["summary"]["pass"]
-            and loaded["toolchain"]["summary"]["gates"] == 11
+            and loaded["toolchain"]["summary"]["gates"] == 12
             and loaded["toolchain"]["level"] == "full"
         ),
     }
@@ -174,6 +201,8 @@ def build_certificate(*, run_id: str = "run_014", run_checks: bool = True) -> di
         "## 环境与重放",
         "## 验收矩阵",
         "agentsys-reproduce-all",
+        "四篇论文独立工具链",
+        "10%",
         "55/55",
         "636/636",
     )
@@ -213,7 +242,7 @@ def build_certificate(*, run_id: str = "run_014", run_checks: bool = True) -> di
     return {
         "schema_version": 1,
         "run_id": run_id,
-        "objective": "Complete AgentSys full-stack implementation and reproduce core paper endpoints within 15%.",
+        "objective": "Complete independent AgentSys paper toolchains and reproduce every registered endpoint within 10%.",
         "classification": "requirement_by_requirement_completion_certificate",
         "project_commit": _git_head(str(PROJECT_ROOT)),
         "paper_endpoints": {
@@ -221,6 +250,7 @@ def build_certificate(*, run_id: str = "run_014", run_checks: bool = True) -> di
             "unique": len(set(endpoint_names)),
             "passing": sum(bool(entry["pass"]) for entry in endpoints),
             "max_relative_error": max(endpoint_errors),
+            "registered_limit": registered_limit,
             "evidence_classes": {
                 "executable_or_source_grounded": 24,
                 "paper_parameterized_component_replay": 31,
@@ -250,7 +280,7 @@ def build_certificate(*, run_id: str = "run_014", run_checks: bool = True) -> di
     }
 
 
-def write_certificate(path: Path, *, run_id: str = "run_014") -> dict[str, Any]:
+def write_certificate(path: Path, *, run_id: str = "run_018") -> dict[str, Any]:
     result = build_certificate(run_id=run_id, run_checks=True)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")

@@ -16,8 +16,8 @@ def test_agentix_figure2_registered_endpoint() -> None:
     plas = simulator.run(agentix_figure2_workload(), AgentixPolicy.PLAS)
 
     assert fcfs.total_wait == 18
-    assert abs(mlfq.total_wait - 18) / 18 <= 0.15
-    assert abs(plas.total_wait - 12) / 12 <= 0.15
+    assert abs(mlfq.total_wait - 18) / 18 <= 0.10
+    assert abs(plas.total_wait - 12) / 12 <= 0.10
     assert plas.total_wait < fcfs.total_wait
 
 
