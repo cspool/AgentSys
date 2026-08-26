@@ -9,5 +9,4 @@ The requirement-by-requirement certificate passes 11/11 requirements and sets `f
 - Unified trace has exactly 636 events and six layers.
 - Fresh pytest (21 tests) and Verilator RTL lint exit zero.
 
-The certificate audits project commit `799b92f4fadccc1d078181ce786cba58d08aef36`; the final archival commit adds only this analysis, concluded research state, HTML report, and certificate artifact.
-
+The certificate records the audited source commit. A following archival commit may contain only the regenerated certificate and other concluding artifacts, avoiding a self-referential commit hash.

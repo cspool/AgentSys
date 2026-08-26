@@ -131,7 +131,7 @@ ME (OS MAC)         VE              DE ── SRAM/DMA/Ramulator2 DDR
 | RTL | `rtl/agentsys/*.sv` |
 | bare-metal | `system_sim/software/*` |
 | 安装脚本 | `scripts/bootstrap_references.sh`、`install_agentsys_chipyard.sh`、`build_ramulator2.sh` |
-| 单元/不变量测试 | `tests/`（当前 20 tests） |
+| 单元/不变量测试 | `tests/`（当前 21 tests） |
 | 原始结果 | `artifacts/results/*.json`、`artifacts/traces/*.jsonl` |
 | 分项报告 | `docs/*.md`、`experiments/*/analysis.md` |
 
