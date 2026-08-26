@@ -304,7 +304,7 @@ experiments:
 outer_loop:
   cycle: 13
   last_direction: deepen
-  last_reflection: "Run 026 closes physical integration and lineage but overstates dynamic scheduling at 2.000x. Direction remains DEEPEN: retain the negative result, preregister a source-grounded dynamic issue cost/concurrency constraint, and preserve all work/checksum gates."
+  last_reflection: "Run 026 closes physical integration and lineage but overstates dynamic scheduling at 2.000x. Run 027 is preregistered to restore the authors' strong-static stage baseline and exact seven-cycle per-unit dispatch while preserving all work/checksum gates."
 
 workspace:
   findings: "findings.md"
