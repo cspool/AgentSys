@@ -1,0 +1,593 @@
+{
+  "classification": "pinned_end_to_end_toolchain_audit",
+  "configuration": {
+    "path": "/workspace/AgentSys/config/toolchain.json",
+    "sha256": "4617a8c86e38aaa568a91eab8a10612a2e7503ee60ad46cce20c6371e8b4917c",
+    "stage_outputs_unique": true,
+    "stages": [
+      "direct_paper",
+      "agentix_aggregate",
+      "atx_aggregate",
+      "mllm_backend",
+      "full_stack",
+      "ramulator2",
+      "ablations",
+      "chipyard"
+    ]
+  },
+  "gates": {
+    "build_outputs": {
+      "details": {
+        "baremetal_elf": {
+          "executable": true,
+          "exists": true,
+          "fresh": true,
+          "inputs": [
+            "/workspace/AgentSys/system_sim/software/Makefile",
+            "/workspace/AgentSys/system_sim/software/agentsys_runtime.h",
+            "/workspace/AgentSys/system_sim/software/agentsys_system_test.c"
+          ],
+          "inputs_exist": true,
+          "pass": true,
+          "path": "/workspace/AgentSys/system_sim/build/software/agentsys-system.riscv",
+          "sha256": "591da9e4c50048535e5f9d29870e1315283a9a8989ddeed7be554de8752e3f5a"
+        },
+        "chipyard_dynamic": {
+          "executable": true,
+          "exists": true,
+          "fresh": true,
+          "inputs": [
+            "/root/chipyard/generators/chipyard/src/main/scala/AgentSysRoCC.scala",
+            "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_engines.sv",
+            "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_tisa_scheduler.sv",
+            "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_rocc_controller.sv"
+          ],
+          "inputs_exist": true,
+          "pass": true,
+          "path": "/root/chipyard/sims/verilator/simulator-chipyard-AgentSysDynamicRocketConfig",
+          "sha256": "181b60b920313abf78476a3bc13bee341f48396823c240a46ffe7fb8db1a8836"
+        },
+        "chipyard_static": {
+          "executable": true,
+          "exists": true,
+          "fresh": true,
+          "inputs": [
+            "/root/chipyard/generators/chipyard/src/main/scala/AgentSysRoCC.scala",
+            "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_engines.sv",
+            "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_tisa_scheduler.sv",
+            "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_rocc_controller.sv"
+          ],
+          "inputs_exist": true,
+          "pass": true,
+          "path": "/root/chipyard/sims/verilator/simulator-chipyard-AgentSysStaticRocketConfig",
+          "sha256": "08ca254b33ec2aee755fc04406af94e79f4e9b832439a30735a12223f4e88c5a"
+        },
+        "ramulator2": {
+          "executable": true,
+          "exists": true,
+          "fresh": true,
+          "inputs": [],
+          "inputs_exist": true,
+          "pass": true,
+          "path": "/workspace/AgentSys/.references/ramulator2/build-clang/ramulator2",
+          "sha256": "f2be7a05ef5c4e9aef5910a229f2511d1caee76982486dd4837264bacf8c256c"
+        }
+      },
+      "pass": true
+    },
+    "chipyard_compatibility_patches": {
+      "details": {
+        "chisel3_stable_dependencies": {
+          "argv": [
+            "git",
+            "-C",
+            "/root/chipyard/tools/chisel3",
+            "apply",
+            "--reverse",
+            "--check",
+            "/workspace/AgentSys/patches/chipyard/chisel3-stable-deps.patch"
+          ],
+          "exit_code": 0,
+          "output": "",
+          "pass": true,
+          "patch": "/workspace/AgentSys/patches/chipyard/chisel3-stable-deps.patch",
+          "repository": "/root/chipyard/tools/chisel3"
+        },
+        "treadle_stable_firrtl": {
+          "argv": [
+            "git",
+            "-C",
+            "/root/chipyard/tools/treadle",
+            "apply",
+            "--reverse",
+            "--check",
+            "/workspace/AgentSys/patches/chipyard/treadle-stable-firrtl.patch"
+          ],
+          "exit_code": 0,
+          "output": "",
+          "pass": true,
+          "patch": "/workspace/AgentSys/patches/chipyard/treadle-stable-firrtl.patch",
+          "repository": "/root/chipyard/tools/treadle"
+        }
+      },
+      "pass": true
+    },
+    "chipyard_overlays": {
+      "details": {
+        "controller": {
+          "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_rocc_controller.sv",
+          "installed_sha256": "4274b42ac0157167bd84e2db25eed2b7a7868e291d7022bac81ab377a46e0bb2",
+          "pass": true,
+          "source": "/workspace/AgentSys/rtl/agentsys/agentsys_rocc_controller.sv",
+          "source_sha256": "4274b42ac0157167bd84e2db25eed2b7a7868e291d7022bac81ab377a46e0bb2"
+        },
+        "engines": {
+          "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_engines.sv",
+          "installed_sha256": "ad25a5b413a55542e005a3b8e7992dc0c51ce185ecfc95163006a2a784453b6c",
+          "pass": true,
+          "source": "/workspace/AgentSys/rtl/agentsys/agentsys_engines.sv",
+          "source_sha256": "ad25a5b413a55542e005a3b8e7992dc0c51ce185ecfc95163006a2a784453b6c"
+        },
+        "scala": {
+          "installed": "/root/chipyard/generators/chipyard/src/main/scala/AgentSysRoCC.scala",
+          "installed_sha256": "ee31c7e308fe64384ce3f9e1c4ccdd74aa105abd6fc9dc72134e9ce2a7f7d2a0",
+          "pass": true,
+          "source": "/workspace/AgentSys/system_sim/chipyard/AgentSysRoCC.scala",
+          "source_sha256": "ee31c7e308fe64384ce3f9e1c4ccdd74aa105abd6fc9dc72134e9ce2a7f7d2a0"
+        },
+        "scheduler": {
+          "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_tisa_scheduler.sv",
+          "installed_sha256": "ab2b44c269110fef7764745c42ae573eb5619643860383fa10246166be326229",
+          "pass": true,
+          "source": "/workspace/AgentSys/rtl/agentsys/agentsys_tisa_scheduler.sv",
+          "source_sha256": "ab2b44c269110fef7764745c42ae573eb5619643860383fa10246166be326229"
+        }
+      },
+      "pass": true
+    },
+    "configuration": {
+      "details": {
+        "path": "/workspace/AgentSys/config/toolchain.json",
+        "sha256": "4617a8c86e38aaa568a91eab8a10612a2e7503ee60ad46cce20c6371e8b4917c",
+        "stage_outputs_unique": true,
+        "stages": [
+          "direct_paper",
+          "agentix_aggregate",
+          "atx_aggregate",
+          "mllm_backend",
+          "full_stack",
+          "ramulator2",
+          "ablations",
+          "chipyard"
+        ]
+      },
+      "pass": true
+    },
+    "pinned_references": {
+      "details": {
+        "HPTPE": {
+          "expected": "ebe4db7d2d3c36d10c47683d7689f65f5c4ca3e4",
+          "observed": "ebe4db7d2d3c36d10c47683d7689f65f5c4ca3e4",
+          "pass": true,
+          "path": "/workspace/AgentSys/.references/HPTPE"
+        },
+        "LLM.xpu": {
+          "expected": "689be270aa29bb88447e3867cd97d85a55f454d5",
+          "observed": "689be270aa29bb88447e3867cd97d85a55f454d5",
+          "pass": true,
+          "path": "/workspace/AgentSys/.references/LLM.xpu"
+        },
+        "MLX_dev_sys": {
+          "expected": "b3a6d59f2ed634ea6181f5a29f3fa96281b1f384",
+          "observed": "b3a6d59f2ed634ea6181f5a29f3fa96281b1f384",
+          "pass": true,
+          "path": "/workspace/AgentSys/.references/MLX_dev_sys"
+        },
+        "chipyard": {
+          "expected": "b5d013190d637e634113cb5179f8c8885df1945a",
+          "observed": "b5d013190d637e634113cb5179f8c8885df1945a",
+          "pass": true,
+          "path": "/root/chipyard"
+        },
+        "mllm": {
+          "expected": "50ad5a9b6fbea742e38b5b31776c187e50319c8e",
+          "observed": "50ad5a9b6fbea742e38b5b31776c187e50319c8e",
+          "pass": true,
+          "path": "/workspace/AgentSys/.references/mllm"
+        },
+        "ramulator2": {
+          "expected": "be93be78055d922aa1d4d33e15bcc8f2b0c61a9d",
+          "observed": "be93be78055d922aa1d4d33e15bcc8f2b0c61a9d",
+          "pass": true,
+          "path": "/workspace/AgentSys/.references/ramulator2"
+        }
+      },
+      "pass": true
+    },
+    "python": {
+      "details": {
+        "executable": "/workspace/AgentSys/.venv/bin/python3",
+        "expected": [
+          3,
+          11
+        ],
+        "observed": [
+          3,
+          11
+        ]
+      },
+      "pass": true
+    },
+    "python_packages": {
+      "details": {
+        "cmake": {
+          "expected": "3.31.10",
+          "observed": "3.31.10",
+          "pass": true
+        },
+        "ninja": {
+          "expected": "1.13.0",
+          "observed": "1.13.0",
+          "pass": true
+        },
+        "pytest": {
+          "expected": "9.1.1",
+          "observed": "9.1.1",
+          "pass": true
+        }
+      },
+      "pass": true
+    },
+    "serial_reproduction_manifest": {
+      "details": {
+        "exists": true,
+        "expected_stage_order": [
+          "direct_paper",
+          "agentix_aggregate",
+          "atx_aggregate",
+          "mllm_backend",
+          "full_stack",
+          "ramulator2",
+          "ablations",
+          "chipyard"
+        ],
+        "path": "/workspace/AgentSys/artifacts/results/reproduction-run_015.json",
+        "sha256": "d96086ad14977b65bd3c0d483768d4b1916e3a82eb2f669441bdbfb21c111a78",
+        "stage_order": [
+          "direct_paper",
+          "agentix_aggregate",
+          "atx_aggregate",
+          "mllm_backend",
+          "full_stack",
+          "ramulator2",
+          "ablations",
+          "chipyard"
+        ],
+        "summary": {
+          "executed": 8,
+          "failing": 0,
+          "pass": true,
+          "passing": 8,
+          "serial_order": true,
+          "stages": 8
+        }
+      },
+      "pass": true
+    },
+    "source_files": {
+      "details": {
+        ".python-version": {
+          "exists": true,
+          "sha256": "49a506dd32096b010d75205acf3430c9ae6c40351888129499e5a5e487126c93"
+        },
+        "config/toolchain.json": {
+          "exists": true,
+          "sha256": "4617a8c86e38aaa568a91eab8a10612a2e7503ee60ad46cce20c6371e8b4917c"
+        },
+        "patches/chipyard/chisel3-stable-deps.patch": {
+          "exists": true,
+          "sha256": "cc8482282d41aa37b20e321f1119242e500f5e1ac980f91440614bec2c102804"
+        },
+        "patches/chipyard/treadle-stable-firrtl.patch": {
+          "exists": true,
+          "sha256": "51e87da676ca3dcc607e0d16d5e63d91599d097ecbb272aa7f42975407243156"
+        },
+        "pyproject.toml": {
+          "exists": true,
+          "sha256": "881389eb0b5f50f7816412daf6233537e48016d12894ad97fb564f8fd74fa33b"
+        },
+        "scripts/bootstrap_references.sh": {
+          "exists": true,
+          "sha256": "e9efee1b090e6a11252522aa18a9005ed10f45d79935c6be991280e3090f834f"
+        },
+        "scripts/build_ramulator2.sh": {
+          "exists": true,
+          "sha256": "3e129ca950d8b28a3331ddd793409b244366a6e270ee9882ddae613c09f78e54"
+        },
+        "scripts/install_agentsys_chipyard.sh": {
+          "exists": true,
+          "sha256": "c2a45d7d9e234cd6bd3c67e789c250236e142883233332f5f76a925764acd078"
+        },
+        "scripts/setup_toolchain.sh": {
+          "exists": true,
+          "sha256": "b0ed56da16e142da2542f385f100fd91a3cd4717211a0eb2252c04aa0a92352c"
+        },
+        "src/agentsys/reproduce.py": {
+          "exists": true,
+          "sha256": "0549191684873f559bb64d720792a57265e0be8402ec31d125154aa1e6c89518"
+        },
+        "src/agentsys/toolchain.py": {
+          "exists": true,
+          "sha256": "b5933ee14265e03a9368e54b174dbe529c4297ea1609e29a45751468de510f2e"
+        },
+        "uv.lock": {
+          "exists": true,
+          "sha256": "555f81427dfde032066faa3fef2c72083c08f1c9809fe77667c9e18b2231906f"
+        }
+      },
+      "pass": true
+    },
+    "stage_artifacts": {
+      "details": {
+        "ablations": {
+          "error": null,
+          "gate_path": [
+            "summary",
+            "pass"
+          ],
+          "gate_value": true,
+          "outputs": {
+            "/workspace/AgentSys/artifacts/results/ablations-run_013.json": {
+              "bytes": 144757,
+              "exists": true,
+              "sha256": "319758d42dcff4ad3f3ae99ef6ea11baa3925abae71b7400cf6c8af0ed4ec7f0"
+            }
+          },
+          "pass": true
+        },
+        "agentix_aggregate": {
+          "error": null,
+          "gate_path": [
+            "summary",
+            "pass"
+          ],
+          "gate_value": true,
+          "outputs": {
+            "/workspace/AgentSys/artifacts/results/agentix-run_010.json": {
+              "bytes": 5001,
+              "exists": true,
+              "sha256": "ae9ebd136215c5eed08340b00409e7b7c3f0ce45b9fb9345de6b7feb56123277"
+            }
+          },
+          "pass": true
+        },
+        "atx_aggregate": {
+          "error": null,
+          "gate_path": [
+            "summary",
+            "pass"
+          ],
+          "gate_value": true,
+          "outputs": {
+            "/workspace/AgentSys/artifacts/results/atx-run_004.json": {
+              "bytes": 5966,
+              "exists": true,
+              "sha256": "ba01105ee9e047d17934b6630adba2645fe09a261d03c26392d75208fd2f8b40"
+            }
+          },
+          "pass": true
+        },
+        "chipyard": {
+          "error": null,
+          "gate_path": [
+            "summary",
+            "pass"
+          ],
+          "gate_value": true,
+          "outputs": {
+            "/workspace/AgentSys/artifacts/results/chipyard-run_003.json": {
+              "bytes": 11398,
+              "exists": true,
+              "sha256": "5cb005013992456394402a9849ab7666c686b8287554e09101b0ec1fd07bd2e9"
+            }
+          },
+          "pass": true
+        },
+        "direct_paper": {
+          "error": null,
+          "gate_path": [
+            "summary",
+            "all_executed_endpoints_within_15pct"
+          ],
+          "gate_value": true,
+          "outputs": {
+            "/workspace/AgentSys/artifacts/results/run_011.json": {
+              "bytes": 902255,
+              "exists": true,
+              "sha256": "73bce94afab158a43fb0ede772f9fae0ce07c04b50cd888a4925db4e5643d095"
+            }
+          },
+          "pass": true
+        },
+        "full_stack": {
+          "error": null,
+          "gate_path": [
+            "summary",
+            "pass"
+          ],
+          "gate_value": true,
+          "outputs": {
+            "/workspace/AgentSys/artifacts/results/full-stack-run_008.json": {
+              "bytes": 154849,
+              "exists": true,
+              "sha256": "9c8fe72c695c7a3c52e96f956ce45866ddce77866bf9ed8c839f0516ca1822ff"
+            },
+            "/workspace/AgentSys/artifacts/traces/full-stack-run_008.jsonl": {
+              "bytes": 205670,
+              "exists": true,
+              "sha256": "aaa856afaa6db2f383819a7c3a1209edff5f633aff28d1785d8111ee84aaede3"
+            }
+          },
+          "pass": true
+        },
+        "mllm_backend": {
+          "error": null,
+          "gate_path": [
+            "summary",
+            "pass"
+          ],
+          "gate_value": true,
+          "outputs": {
+            "/workspace/AgentSys/artifacts/results/mllm-run_006.json": {
+              "bytes": 138732,
+              "exists": true,
+              "sha256": "4a9412dc2c778a6b4ccecfec491db74c68ab13c66a20d443f128c4a097f13a86"
+            },
+            "/workspace/AgentSys/artifacts/traces/mllm-qwen3-run_006.jsonl": {
+              "bytes": 55993,
+              "exists": true,
+              "sha256": "7393fa8c81ae4297920bde8c03f243285dc74e9cfc948b0ac6b3ddf0293d3b87"
+            }
+          },
+          "pass": true
+        },
+        "ramulator2": {
+          "error": null,
+          "gate_path": [
+            "summary",
+            "pass"
+          ],
+          "gate_value": true,
+          "outputs": {
+            "/workspace/AgentSys/artifacts/ramulator2/ddr4-1ch.yaml": {
+              "bytes": 487,
+              "exists": true,
+              "sha256": "b8e44bc227750813e58ed89c4759c796935efc9ae0300f325dc9bcb597246b36"
+            },
+            "/workspace/AgentSys/artifacts/ramulator2/ddr4-2ch.yaml": {
+              "bytes": 487,
+              "exists": true,
+              "sha256": "1c829701c0a88cb0d58742ea9e799f107de7f496ca63195121afc604e20645ef"
+            },
+            "/workspace/AgentSys/artifacts/ramulator2/qwen3-de.trace": {
+              "bytes": 374528,
+              "exists": true,
+              "sha256": "74993516bc2fab7dadd2a6e4791d59b05ef6b9a45093d064ed1d6cd083f00a22"
+            },
+            "/workspace/AgentSys/artifacts/results/ramulator2-run_012.json": {
+              "bytes": 52612,
+              "exists": true,
+              "sha256": "784cd1f364c6d36ea0319254394821a3d5fb99b12c6293ef7c472b768c3f31b5"
+            }
+          },
+          "pass": true
+        }
+      },
+      "pass": true
+    },
+    "system_tools": {
+      "details": {
+        "clang16": {
+          "argv": [
+            "clang++-16",
+            "--version"
+          ],
+          "exit_code": 0,
+          "expected_substring": "clang version 16.0.6",
+          "output": "Debian clang version 16.0.6 (15~deb11u2)\nTarget: x86_64-pc-linux-gnu\nThread model: posix\nInstalledDir: /usr/bin",
+          "pass": true
+        },
+        "cmake": {
+          "argv": [
+            "/workspace/AgentSys/.venv/bin/cmake",
+            "--version"
+          ],
+          "exit_code": 0,
+          "expected_substring": "cmake version 3.31.10",
+          "output": "cmake version 3.31.10\n\nCMake suite maintained and supported by Kitware (kitware.com/cmake).",
+          "pass": true
+        },
+        "git": {
+          "argv": [
+            "git",
+            "--version"
+          ],
+          "exit_code": 0,
+          "expected_substring": "git version",
+          "output": "git version 2.32.0",
+          "pass": true
+        },
+        "java11": {
+          "argv": [
+            "java",
+            "-version"
+          ],
+          "exit_code": 0,
+          "expected_substring": "11.0.11",
+          "output": "openjdk version \"11.0.11\" 2021-04-20\nOpenJDK Runtime Environment (build 11.0.11+9-Ubuntu-0ubuntu2.18.04)\nOpenJDK 64-Bit Server VM (build 11.0.11+9-Ubuntu-0ubuntu2.18.04, mixed mode, sharing)",
+          "pass": true
+        },
+        "make": {
+          "argv": [
+            "make",
+            "--version"
+          ],
+          "exit_code": 0,
+          "expected_substring": "GNU Make",
+          "output": "GNU Make 4.1\nBuilt for x86_64-pc-linux-gnu\nCopyright (C) 1988-2014 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\nThis is free software: you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.",
+          "pass": true
+        },
+        "ninja": {
+          "argv": [
+            "/workspace/AgentSys/.venv/bin/ninja",
+            "--version"
+          ],
+          "exit_code": 0,
+          "expected_substring": "1.13.0",
+          "output": "1.13.0.git.kitware.jobserver-pipe-1",
+          "pass": true
+        },
+        "riscv_gcc": {
+          "argv": [
+            "/root/chipyard/esp-tools-install/bin/riscv64-unknown-elf-gcc",
+            "--version"
+          ],
+          "exit_code": 0,
+          "expected_substring": "9.2.0",
+          "output": "riscv64-unknown-elf-gcc (GCC) 9.2.0\nCopyright (C) 2019 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+          "pass": true
+        },
+        "uv": {
+          "argv": [
+            "uv",
+            "--version"
+          ],
+          "exit_code": 0,
+          "expected_substring": "uv 0.12",
+          "output": "uv 0.12.0 (x86_64-unknown-linux-gnu)",
+          "pass": true
+        },
+        "verilator": {
+          "argv": [
+            "verilator",
+            "--version"
+          ],
+          "exit_code": 0,
+          "expected_substring": "Verilator 4.034",
+          "output": "Verilator 4.034 2020-05-03 rev v4.034",
+          "pass": true
+        }
+      },
+      "pass": true
+    }
+  },
+  "level": "full",
+  "project_commit": "98b9ebee760f2c09c49607c78eb53a2dc335f608",
+  "schema_version": 1,
+  "summary": {
+    "failing": 0,
+    "gates": 11,
+    "pass": true,
+    "passing": 11
+  }
+}

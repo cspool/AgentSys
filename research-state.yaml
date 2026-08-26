@@ -79,12 +79,18 @@ hypotheses:
     motivation: "Complete the requested priority, preemption, prefetch, window, dataflow, and bandwidth ablations."
     parent: null
     priority: medium
+  - id: H9
+    statement: "A pinned, machine-audited toolchain can rebuild the required backends and replay all paper/system experiments strictly serially without changing registered results."
+    status: supported
+    motivation: "Close the expanded complete-toolchain and configuration requirement."
+    parent: null
+    priority: high
 
 experiments:
   proxy_metric: "maximum absolute relative error across preregistered paper endpoints (must be <= 0.15), with functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 14
+  total_runs: 16
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -184,11 +190,25 @@ experiments:
       wall_time_min: 0.15
       change_summary: "Final certificate passes 11/11 requirements, 55/55 endpoints, fresh tests and RTL lint."
       timestamp: "2026-08-25"
+    - run_id: "run_015"
+      hypothesis: "H9"
+      metric_value: 0.08333333333333333
+      delta: 0.0
+      wall_time_min: 1.52
+      change_summary: "Complete pinned toolchain passes 11/11 gates and all eight paper/system stages execute in strict serial order."
+      timestamp: "2026-08-26"
+    - run_id: "run_016"
+      hypothesis: "completion audit"
+      metric_value: 0.08333333333333333
+      delta: 0.0
+      wall_time_min: 0.14
+      change_summary: "Expanded certificate passes 13/13 requirements, 55/55 endpoints, fresh 25-test pytest and RTL lint."
+      timestamp: "2026-08-26"
 
 outer_loop:
-  cycle: 5
+  cycle: 6
   last_direction: conclude
-  last_reflection: "All named implementations, experiments, paper endpoints, real simulator gates, trace invariants, ablations, documentation, and replay paths pass the final requirement audit."
+  last_reflection: "The pinned setup, build outputs, eight strictly serial experiments, paper endpoints, real simulator gates, traces, tests, documentation, and expanded 13/13 certificate all pass."
 
 workspace:
   findings: "findings.md"

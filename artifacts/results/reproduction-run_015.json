@@ -1,0 +1,360 @@
+{
+  "classification": "complete_serial_component_reproduction",
+  "expected_stage_order": [
+    "direct_paper",
+    "agentix_aggregate",
+    "atx_aggregate",
+    "mllm_backend",
+    "full_stack",
+    "ramulator2",
+    "ablations",
+    "chipyard"
+  ],
+  "preflight": {
+    "failing": 0,
+    "gates": 9,
+    "pass": true,
+    "passing": 9
+  },
+  "project_commit": "98b9ebee760f2c09c49607c78eb53a2dc335f608",
+  "run_id": "run_015",
+  "schema_version": 1,
+  "stage_order": [
+    "direct_paper",
+    "agentix_aggregate",
+    "atx_aggregate",
+    "mllm_backend",
+    "full_stack",
+    "ramulator2",
+    "ablations",
+    "chipyard"
+  ],
+  "stages": [
+    {
+      "artifact": {
+        "error": null,
+        "gate_path": [
+          "summary",
+          "all_executed_endpoints_within_15pct"
+        ],
+        "gate_value": true,
+        "outputs": {
+          "/workspace/AgentSys/artifacts/results/run_011.json": {
+            "bytes": 902255,
+            "exists": true,
+            "sha256": "73bce94afab158a43fb0ede772f9fae0ce07c04b50cd888a4925db4e5643d095"
+          }
+        },
+        "pass": true
+      },
+      "command": [
+        "/workspace/AgentSys/.venv/bin/python",
+        "-m",
+        "agentsys.experiments",
+        "--run-id",
+        "run_011",
+        "--output",
+        "artifacts/results/run_011.json"
+      ],
+      "error": null,
+      "exit_code": 0,
+      "finished_ns": 1787732568338049144,
+      "name": "direct_paper",
+      "pass": true,
+      "started_ns": 1787732550155968376,
+      "stdout": "{\n  \"all_executed_endpoints_within_15pct\": true,\n  \"endpoints_executed\": 24,\n  \"endpoints_failing\": 0,\n  \"endpoints_passing\": 24,\n  \"full_goal_complete\": false,\n  \"functional_tests\": \"run separately via pytest\",\n  \"incomplete_components\": [\n    \"ATX paper performance\",\n    \"Chipyard RoCC\",\n    \"mllm backend\",\n    \"full-stack trace\"\n  ],\n  \"max_relative_error\": 0.08333333333333333\n}\nartifacts/results/run_011.json\n",
+      "timeout_s": 180,
+      "wall_time_s": 18.182080768
+    },
+    {
+      "artifact": {
+        "error": null,
+        "gate_path": [
+          "summary",
+          "pass"
+        ],
+        "gate_value": true,
+        "outputs": {
+          "/workspace/AgentSys/artifacts/results/agentix-run_010.json": {
+            "bytes": 5001,
+            "exists": true,
+            "sha256": "ae9ebd136215c5eed08340b00409e7b7c3f0ce45b9fb9345de6b7feb56123277"
+          }
+        },
+        "pass": true
+      },
+      "command": [
+        "/workspace/AgentSys/.venv/bin/python",
+        "scripts/run_agentix_model.py",
+        "--run-id",
+        "run_010",
+        "--output",
+        "artifacts/results/agentix-run_010.json"
+      ],
+      "error": null,
+      "exit_code": 0,
+      "finished_ns": 1787732568414361269,
+      "name": "agentix_aggregate",
+      "pass": true,
+      "started_ns": 1787732568358806677,
+      "stdout": "{\n  \"endpoints\": 13,\n  \"failing\": 0,\n  \"max_relative_error\": 0.0,\n  \"pass\": true,\n  \"passing\": 13\n}\nartifacts/results/agentix-run_010.json\n",
+      "timeout_s": 60,
+      "wall_time_s": 0.055554592
+    },
+    {
+      "artifact": {
+        "error": null,
+        "gate_path": [
+          "summary",
+          "pass"
+        ],
+        "gate_value": true,
+        "outputs": {
+          "/workspace/AgentSys/artifacts/results/atx-run_004.json": {
+            "bytes": 5966,
+            "exists": true,
+            "sha256": "ba01105ee9e047d17934b6630adba2645fe09a261d03c26392d75208fd2f8b40"
+          }
+        },
+        "pass": true
+      },
+      "command": [
+        "/workspace/AgentSys/.venv/bin/python",
+        "scripts/run_atx_model.py",
+        "--run-id",
+        "run_004",
+        "--output",
+        "artifacts/results/atx-run_004.json"
+      ],
+      "error": null,
+      "exit_code": 0,
+      "finished_ns": 1787732568479179285,
+      "name": "atx_aggregate",
+      "pass": true,
+      "started_ns": 1787732568415155985,
+      "stdout": "{\n  \"endpoints\": 18,\n  \"failing\": 0,\n  \"max_relative_error\": 0.0028490028490028955,\n  \"pass\": true,\n  \"passing\": 18\n}\nartifacts/results/atx-run_004.json\n",
+      "timeout_s": 60,
+      "wall_time_s": 0.0640233
+    },
+    {
+      "artifact": {
+        "error": null,
+        "gate_path": [
+          "summary",
+          "pass"
+        ],
+        "gate_value": true,
+        "outputs": {
+          "/workspace/AgentSys/artifacts/results/mllm-run_006.json": {
+            "bytes": 138732,
+            "exists": true,
+            "sha256": "4a9412dc2c778a6b4ccecfec491db74c68ab13c66a20d443f128c4a097f13a86"
+          },
+          "/workspace/AgentSys/artifacts/traces/mllm-qwen3-run_006.jsonl": {
+            "bytes": 55993,
+            "exists": true,
+            "sha256": "7393fa8c81ae4297920bde8c03f243285dc74e9cfc948b0ac6b3ddf0293d3b87"
+          }
+        },
+        "pass": true
+      },
+      "command": [
+        "/workspace/AgentSys/.venv/bin/python",
+        "scripts/run_mllm_backend.py",
+        "--run-id",
+        "run_006",
+        "--max-ops",
+        "160",
+        "--output",
+        "artifacts/results/mllm-run_006.json",
+        "--trace-output",
+        "artifacts/traces/mllm-qwen3-run_006.jsonl"
+      ],
+      "error": null,
+      "exit_code": 0,
+      "finished_ns": 1787732568702040095,
+      "name": "mllm_backend",
+      "pass": true,
+      "started_ns": 1787732568479963466,
+      "stdout": "{\n  \"failing\": 0,\n  \"gates\": 9,\n  \"pass\": true,\n  \"passing\": 9\n}\n{\n  \"decoder_slice_speedup\": 1.3242806336889752\n}\nartifacts/results/mllm-run_006.json\nartifacts/traces/mllm-qwen3-run_006.jsonl\n",
+      "timeout_s": 120,
+      "wall_time_s": 0.222076629
+    },
+    {
+      "artifact": {
+        "error": null,
+        "gate_path": [
+          "summary",
+          "pass"
+        ],
+        "gate_value": true,
+        "outputs": {
+          "/workspace/AgentSys/artifacts/results/full-stack-run_008.json": {
+            "bytes": 154849,
+            "exists": true,
+            "sha256": "9c8fe72c695c7a3c52e96f956ce45866ddce77866bf9ed8c839f0516ca1822ff"
+          },
+          "/workspace/AgentSys/artifacts/traces/full-stack-run_008.jsonl": {
+            "bytes": 205670,
+            "exists": true,
+            "sha256": "aaa856afaa6db2f383819a7c3a1209edff5f633aff28d1785d8111ee84aaede3"
+          }
+        },
+        "pass": true
+      },
+      "command": [
+        "/workspace/AgentSys/.venv/bin/python",
+        "scripts/run_full_stack.py",
+        "--run-id",
+        "run_008",
+        "--output",
+        "artifacts/results/full-stack-run_008.json",
+        "--trace-output",
+        "artifacts/traces/full-stack-run_008.jsonl"
+      ],
+      "error": null,
+      "exit_code": 0,
+      "finished_ns": 1787732575803185188,
+      "name": "full_stack",
+      "pass": true,
+      "started_ns": 1787732568704731327,
+      "stdout": "{\n  \"failing\": 0,\n  \"gates\": 10,\n  \"pass\": true,\n  \"passing\": 10\n}\n{\n  \"atlas_static_speedup\": 1.0,\n  \"fcfs_dynamic_speedup\": 2.185063045586809,\n  \"full_vs_baseline_makespan_speedup\": 2.0326167865923805,\n  \"full_vs_baseline_reactive_speedup\": 3.0269271627176573,\n  \"stacking_efficiency\": 0.930232558139535\n}\nartifacts/results/full-stack-run_008.json\nartifacts/traces/full-stack-run_008.jsonl\n",
+      "timeout_s": 120,
+      "wall_time_s": 7.098453861
+    },
+    {
+      "artifact": {
+        "error": null,
+        "gate_path": [
+          "summary",
+          "pass"
+        ],
+        "gate_value": true,
+        "outputs": {
+          "/workspace/AgentSys/artifacts/ramulator2/ddr4-1ch.yaml": {
+            "bytes": 487,
+            "exists": true,
+            "sha256": "b8e44bc227750813e58ed89c4759c796935efc9ae0300f325dc9bcb597246b36"
+          },
+          "/workspace/AgentSys/artifacts/ramulator2/ddr4-2ch.yaml": {
+            "bytes": 487,
+            "exists": true,
+            "sha256": "1c829701c0a88cb0d58742ea9e799f107de7f496ca63195121afc604e20645ef"
+          },
+          "/workspace/AgentSys/artifacts/ramulator2/qwen3-de.trace": {
+            "bytes": 374528,
+            "exists": true,
+            "sha256": "74993516bc2fab7dadd2a6e4791d59b05ef6b9a45093d064ed1d6cd083f00a22"
+          },
+          "/workspace/AgentSys/artifacts/results/ramulator2-run_012.json": {
+            "bytes": 52612,
+            "exists": true,
+            "sha256": "784cd1f364c6d36ea0319254394821a3d5fb99b12c6293ef7c472b768c3f31b5"
+          }
+        },
+        "pass": true
+      },
+      "command": [
+        "/workspace/AgentSys/.venv/bin/python",
+        "scripts/run_ramulator2.py",
+        "--run-id",
+        "run_012",
+        "--max-records",
+        "32768",
+        "--output",
+        "artifacts/results/ramulator2-run_012.json"
+      ],
+      "error": null,
+      "exit_code": 0,
+      "finished_ns": 1787732577460092217,
+      "name": "ramulator2",
+      "pass": true,
+      "started_ns": 1787732575808521125,
+      "stdout": "{\n  \"failing\": 0,\n  \"gates\": 7,\n  \"pass\": true,\n  \"passing\": 7\n}\n{\n  \"one_channel_cycles\": 166400,\n  \"one_channel_de_cycles\": 1504,\n  \"tisa_one_channel_cycles\": 3553,\n  \"tisa_speedup\": 1.0090883271797784,\n  \"tisa_two_channel_cycles\": 3521,\n  \"two_channel_cycles\": 82854,\n  \"two_channel_de_cycles\": 736,\n  \"two_vs_one_cycle_factor\": 0.49792067307692306\n}\nartifacts/results/ramulator2-run_012.json\n",
+      "timeout_s": 180,
+      "wall_time_s": 1.651571092
+    },
+    {
+      "artifact": {
+        "error": null,
+        "gate_path": [
+          "summary",
+          "pass"
+        ],
+        "gate_value": true,
+        "outputs": {
+          "/workspace/AgentSys/artifacts/results/ablations-run_013.json": {
+            "bytes": 144757,
+            "exists": true,
+            "sha256": "319758d42dcff4ad3f3ae99ef6ea11baa3925abae71b7400cf6c8af0ed4ec7f0"
+          }
+        },
+        "pass": true
+      },
+      "command": [
+        "/workspace/AgentSys/.venv/bin/python",
+        "scripts/run_ablations.py",
+        "--run-id",
+        "run_013",
+        "--output",
+        "artifacts/results/ablations-run_013.json"
+      ],
+      "error": null,
+      "exit_code": 0,
+      "finished_ns": 1787732578810541822,
+      "name": "ablations",
+      "pass": true,
+      "started_ns": 1787732577463079738,
+      "stdout": "{\n  \"failing\": 0,\n  \"gates\": 7,\n  \"pass\": true,\n  \"passing\": 7\n}\nartifacts/results/ablations-run_013.json\n",
+      "timeout_s": 120,
+      "wall_time_s": 1.347462084
+    },
+    {
+      "artifact": {
+        "error": null,
+        "gate_path": [
+          "summary",
+          "pass"
+        ],
+        "gate_value": true,
+        "outputs": {
+          "/workspace/AgentSys/artifacts/results/chipyard-run_003.json": {
+            "bytes": 11398,
+            "exists": true,
+            "sha256": "5cb005013992456394402a9849ab7666c686b8287554e09101b0ec1fd07bd2e9"
+          }
+        },
+        "pass": true
+      },
+      "command": [
+        "/workspace/AgentSys/.venv/bin/python",
+        "scripts/run_agentsys_chipyard.py",
+        "--run-id",
+        "run_003",
+        "--output",
+        "artifacts/results/chipyard-run_003.json"
+      ],
+      "error": null,
+      "exit_code": 0,
+      "finished_ns": 1787732641497671324,
+      "name": "chipyard",
+      "pass": true,
+      "started_ns": 1787732578815088675,
+      "stdout": "{\n  \"failing\": 0,\n  \"gates\": 17,\n  \"pass\": true,\n  \"passing\": 17\n}\n{\n  \"host_launch_wait_speedup\": 1.2577639751552796,\n  \"kernel_speedup\": 1.3333333333333333,\n  \"overlap_cycles_added\": 79,\n  \"system_speedup\": 1.289198606271777\n}\nartifacts/results/chipyard-run_003.json\n",
+      "timeout_s": 420,
+      "wall_time_s": 62.682582649
+    }
+  ],
+  "summary": {
+    "executed": 8,
+    "failing": 0,
+    "pass": true,
+    "passing": 8,
+    "serial_order": true,
+    "stages": 8
+  },
+  "toolchain_config": {
+    "path": "/workspace/AgentSys/config/toolchain.json",
+    "sha256": "4617a8c86e38aaa568a91eab8a10612a2e7503ee60ad46cce20c6371e8b4917c"
+  }
+}

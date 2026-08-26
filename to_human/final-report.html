@@ -16,6 +16,8 @@ body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d111
   <div class="card"><div class="value">8.33%</div><div class="label">最大数值误差</div></div>
   <div class="card"><div class="value">17/17</div><div class="label">Chipyard 门禁</div></div>
   <div class="card"><div class="value">636/636</div><div class="label">优先级继承检查</div></div>
+  <div class="card"><div class="value">8/8</div><div class="label">串行重放阶段</div></div>
+  <div class="card"><div class="value">13/13</div><div class="label">最终要求</div></div>
 </div>
 
 <h2>研究问题</h2>
@@ -47,6 +49,8 @@ body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d111
 <tr><td>mllm Qwen3 MIR</td><td>ME/VE/DE=23/61/76；decoder slice 1.324×</td><td class="pass">9/9</td></tr>
 <tr><td>Ramulator2</td><td>双通道内存 166400→82854 cycles；总 TISA 仅 1.009×</td><td class="pass">7/7</td></tr>
 <tr><td>Full stack</td><td>reactive 相对 baseline 3.027×，相对 dynamic-only 1.333×</td><td class="pass">10/10</td></tr>
+<tr><td>Pinned toolchain</td><td>Python/工具/源码/patch/build/overlay/结果全部闭合</td><td class="pass">11/11</td></tr>
+<tr><td>Serial reproduction</td><td>8 个论文与系统阶段严格顺序执行</td><td class="pass">8/8</td></tr>
 </tbody>
 </table>
 
@@ -60,6 +64,6 @@ body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d111
 <p class="note">A100 aggregate 与私有 Sniper 结果属于 paper-parameterized replay；Agent.xpu/TISA 属于 source-grounded trace/cycle simulation；Rocket+Verilator 和 Ramulator2 是真实开源 simulator 执行。两张 RTX 4090 没有被用来替代 A100、Intel NPU 或 Epoch 真硅片。</p>
 
 <h2>交付</h2>
-<p>主报告：<code>ISCA26_G3_Agent全栈系统加速.md</code><br>机器证书：<code>artifacts/results/final-certificate.json</code><br>统一 trace：<code>artifacts/traces/full-stack-run_008.jsonl</code></p>
+<p>主报告：<code>ISCA26_G3_Agent全栈系统加速.md</code><br>工具链配置：<code>config/toolchain.json</code><br>串行重放：<code>artifacts/results/reproduction-run_015.json</code><br>机器证书：<code>artifacts/results/final-certificate.json</code><br>统一 trace：<code>artifacts/traces/full-stack-run_008.jsonl</code></p>
 </body>
 </html>

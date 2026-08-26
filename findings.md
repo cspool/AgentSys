@@ -56,4 +56,11 @@ Final synthesis: urgency must participate at call release before it can be prese
 
 ## Optimization Trajectory
 
-Run 001 starts at 77.02% maximum error (18/23 pass). Run 002 reduces this to 51.99% (21/23 pass) using one cross-workload contention term and fixed hardware accounting. Run 009 reaches 8.33% with all direct endpoints passing. Runs 010–013 close aggregate Agentix/ATX, Serial, Ramulator2, and requested ablations. Run 014 proves 55/55 endpoints and 11/11 completion requirements.
+Run 001 starts at 77.02% maximum error (18/23 pass). Run 002 reduces this to 51.99% (21/23 pass) using one cross-workload contention term and fixed hardware accounting. Run 009 reaches 8.33% with all direct endpoints passing. Runs 010–013 close aggregate Agentix/ATX, Serial, Ramulator2, and requested ablations. Run 014 proves 55/55 endpoints and the original 11/11 completion requirements. Runs 015–016 add the complete pinned toolchain, execute all eight stages serially, and close the expanded 13/13 audit without changing paper error.
+
+## Toolchain Closure
+
+- Python 3.11 and the three environment packages are hash-locked with `uv.lock`; system tools, source revisions, compatibility patches, build products and Chipyard overlays are checked separately.
+- Run 015 records exact commands, output hashes and non-overlapping stage timestamps for all eight component/system experiments.
+- Run 016 combines toolchain 11/11, serial replay 8/8, paper 55/55, current pytest and RTL lint into one 13/13 certificate.
+- Reproducibility strengthens provenance but does not change the evidence class of Agentix/ATX parameterized aggregate results.

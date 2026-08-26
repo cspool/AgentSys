@@ -280,6 +280,8 @@ Full stack 相对 baseline 的 makespan/reactive speedup 为 2.033/3.027×；相
 
 `.venv/bin/agentsys-reproduce-all` 严格按 direct paper、Agentix aggregate、ATX aggregate、mllm、full stack、Ramulator2、ablations、Chipyard 的顺序执行。每个 stage 退出后先检查 JSON gate、全部输出存在且非空及 SHA-256，随后才启动下一项；manifest 还验证相邻 stage 的 `next.started_ns >= previous.finished_ns`。完整说明见 `docs/toolchain.md`。
 
+run 015 实际执行结果为 8/8 stages、`serial_order=true`，built/full toolchain audit 分别为 9/9 和 11/11。随后 run 016 重新执行 pytest 与 RTL lint，最终证书为 13/13 requirements、25 tests、55/55 论文端点，最大误差仍为 8.33%。
+
 ## 环境与重放
 
 ### 1. Python 与引用仓库
@@ -366,4 +368,4 @@ bash scripts/build_ramulator2.sh
 
 ## 结论
 
-AgentSys 已从方向草案转化为可执行、可重放、可审计的全栈系统。最强证据不是某一个最大 speedup，而是三条相互校验的链：论文端点在 15% 内、开放 RTL/SoC/DDR simulator 实际运行、六层 priority 与 dependency lineage 全部闭合。实验同时表明，跨层优化没有免费午餐：priority 提升 reactive responsiveness 会牺牲部分 throughput，DDR 扩容会把瓶颈推向 ME，过小 tile 会让 dynamic scheduler 得不偿失，OS dataflow 在极低带宽下可能不如 WS。因而，核心创新应表述为“可解释、可组合且边界明确的全栈调度”，而不是对所有硬件和 workload 的无条件加速。
+AgentSys 已从方向草案转化为可执行、可重放、可审计的全栈系统，并由锁定工具链完成八阶段串行重放。最强证据不是某一个最大 speedup，而是四条相互校验的链：论文端点在 15% 内、开放 RTL/SoC/DDR simulator 实际运行、六层 priority 与 dependency lineage 全部闭合、配置到最终证书的工具链 13/13 验收闭合。实验同时表明，跨层优化没有免费午餐：priority 提升 reactive responsiveness 会牺牲部分 throughput，DDR 扩容会把瓶颈推向 ME，过小 tile 会让 dynamic scheduler 得不偿失，OS dataflow 在极低带宽下可能不如 WS。因而，核心创新应表述为“可解释、可组合且边界明确的全栈调度”，而不是对所有硬件和 workload 的无条件加速。
