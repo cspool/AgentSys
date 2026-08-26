@@ -42,11 +42,12 @@
 
 ## 研究问题与贡献
 
-本项目回答三个问题：
+本项目回答四个问题：
 
 1. 程序级、异构 flow 级和 NPU tile 级调度能否形成可执行的完整路径？
 2. 上层 priority 是否能无歧义地下传，并在 shared engine 和 DDR backpressure 下保持可审计？
 3. 各层收益来自排队、放置、抢占、预取、tile overlap 还是带宽；哪些收益不能叠加？
+4. Agent应用与框架产生的真实trace能否编译为RISC-V软件，并在Rocket CPU+XPU系统模拟器中端到端执行？
 
 对应贡献为：
 
@@ -55,6 +56,7 @@
 - 在 `/root/chipyard` 固定 commit 上实现 custom0 RoCC、HellaCache DMA、8-entry ATX/TISA window、输出驻留 ME、VE/DE 和 bare-metal runtime。
 - 使用官方 Ramulator2 v2.0a 实际运行 Qwen3 DE trace，并把测得的 DDR service factor 回注 TISA DE latency。
 - 生成统一六层 JSONL trace、四级消融、机器可读结果和最终审计，而不是用汇总文字代替原始证据。
+- 执行ReAct、Mixture-of-Agents与MCTS应用，把框架Call/Flow和原生mllm MIR编译成第二个RISC-V ELF，在Static/Dynamic Rocket+RoCC上运行并回收CPU/XPU/DMA cycle trace。
 
 ## 系统架构
 
@@ -78,6 +80,8 @@ TISA tiles ── typed RAW/WAR/WAW + scope/bank/range checks
 ME (OS MAC)         VE              DE ── SRAM/DMA/Ramulator2 DDR
     └──────────── completion feedback / unified events
 ```
+
+真实系统trace路径不是上图的主机侧估算：`agent_application.py`实际执行程序DAG，`system_trace_compiler.py`把11个Call（10个LLM、1个tool）及每个LLM的8个MIR算子编译为C header；Rocket裸机runtime检查Call依赖，在CPU执行tool，并为80个descriptor发出config/launch/wait。最终从同一个ELF获得application/framework/software/cpu/xpu/dma六层cycle trace。
 
 ### Program 层：Agentix
 
@@ -135,11 +139,13 @@ ME (OS MAC)         VE              DE ── SRAM/DMA/Ramulator2 DDR
 | Chipyard binding | `system_sim/chipyard/AgentSysRoCC.scala` |
 | RTL | `rtl/agentsys/*.sv` |
 | bare-metal | `system_sim/software/*` |
+| 应用到硬件trace | `src/agentsys/{agent_application,system_trace_compiler,system_trace}.py` |
+| trace ELF | `system_sim/software/agentsys_trace_system_test.c`、`generated/agentsys_app_trace.h` |
 | 安装脚本 | `scripts/bootstrap_references.sh`、`install_agentsys_chipyard.sh`、`build_ramulator2.sh` |
 | 完整工具链 | `config/toolchain.json`、`uv.lock`、`scripts/setup_toolchain.sh` |
 | 分论文入口 | `.venv/bin/agentsys-paper-reproduce --paper {agentix,agentxpu,atx,tisa}` |
 | 串行总入口 | `.venv/bin/agentsys-reproduce-all` |
-| 单元/不变量测试 | `tests/`（当前 35 tests；另执行公开 Autellix fork 58 tests） |
+| 单元/不变量测试 | `tests/`（当前 38 tests；另执行公开 Autellix fork 58 tests） |
 | 原始结果 | `artifacts/results/*.json`、`artifacts/traces/*.jsonl` |
 | 分项报告 | `docs/*.md`、`experiments/*/analysis.md` |
 
@@ -156,10 +162,11 @@ ME (OS MAC)         VE              DE ── SRAM/DMA/Ramulator2 DDR
 - TISA：ResNet50、BERT、GPT-J、LLaMA2 和 FA3 head-dim 128 的 source-grounded tile mix。
 - Chipyard：两个独立 attention-like tile chains，共 8 descriptors；reactive chain 故意晚于 proactive chain 写入 program order。
 - Ramulator2：从 Qwen3 DE ops 展开 26,752 个 64-byte LD/ST records。
+- System trace：实际执行ReAct+3-way MoA+MCTS，共3个Program、11个Call；10个LLM Call各lower为8个mllm MIR descriptor，1个tool Call在Rocket CPU执行。
 
 ### Metrics
 
-测量 program makespan、program/call wait、reactive mean/P90/P99、proactive throughput、prefill pending、preemption、active iGPU utilization、wall occupancy、energy/token、ME/VE/DE busy、dependency/resource stalls、overlap、DMA bytes/cycles、DDR requests/cycles 和 scheduler decisions。每个 baseline 与优化配置必须共享 logical digest、token counts、operator/tile work 与 dependency graph。
+测量 program makespan、program/call wait、reactive mean/P90/P99、proactive throughput、prefill pending、preemption、active iGPU utilization、wall occupancy、energy/token、ME/VE/DE busy、dependency/resource stalls、overlap、DMA bytes/cycles、DDR requests/cycles 和 scheduler decisions。系统trace另外测量Rocket端framework lowering、software config、CPU tool/launch/wait、XPU backend和DMA时间戳。每个 baseline 与优化配置必须共享 logical digest、token counts、operator/tile work 与 dependency graph。
 
 ### 证据分级
 
@@ -221,6 +228,23 @@ Dynamic 对 Naive 的 ResNet50/BERT/GPT-J/LLaMA2 speedup 为 1.403/1.646/1.601/1
 | DMA / checksum | 96 B / `a42f89ec1a613914` | 相同 | functional equivalent |
 | priority violations | 0 | 0 | hard gate |
 
+### Agent应用到Rocket CPU+XPU系统trace
+
+run 021 使用第二个真实RISC-V ELF，在Static和Dynamic Rocket配置执行同一编译后应用trace，13/13 gates通过。Python/framework本身没有在Rocket内解释执行；它先真实执行并产生语义trace与原生MIR，再静态编译成Rocket可执行的Call表。依赖检查、CPU tool loop、RoCC软件栈、XPU与DMA全部在系统模拟器内运行。
+
+| Metric | Static | Dynamic | 结果 |
+|---|---:|---:|---:|
+| programs / calls / launches | 3 / 11 / 10 | 相同 | application work conserved |
+| descriptors / DMA | 80 / 960 B | 相同 | framework/software work conserved |
+| ME/VE/DE busy | 2400/2400/1600 | 相同 | XPU work conserved |
+| backend cycles | 6560 | 4910 | 1.336× |
+| system cycles | 6940 | 5290 | 1.312× |
+| measured application CPU cycles | 21310 | 19660 | 1.084× |
+| pair overlap | 0 | 1590 | dynamic overlap有效 |
+| checksum / priority violations | `b29121df4a9d1b05` / 0 | 相同 | functional equivalent |
+
+`artifacts/traces/system-trace-run_021.jsonl`含200 events，覆盖application/framework/software/cpu/xpu/dma六层。Dynamic/static backend speedup 1.336×落在TISA论文1.14–1.63× dynamic-vs-static区间；应用、框架、软件与硬件分别引用Agentix、Agent.xpu、ATX和TISA独立结果，最大误差均小于15%。
+
 ### mllm backend
 
 Qwen3 selected ops 的 ME/VE/DE count 为 23/61/76，work 为 110,591/83,968/249,856 cycles。Decoder slice static/dynamic 为 8,192/6,186 cycles（1.324×），动态产生 2,048 accumulated overlap cycles。run 005 的 tiny-tile 负结果证明粒度边界，不被删除。
@@ -272,10 +296,11 @@ Full stack 相对 baseline 的 makespan/reactive speedup 为 2.033/3.027×；相
 6. mllm backend 使用原生 MIR trace，但没有下载/执行完整 Qwen3 权重；它验证 operator graph 与 cycle lowering，不验证生成质量。
 7. Full-stack result 是新实验，无论文 target；priority responsiveness 与 throughput 存在明确 trade-off。
 8. 当前 ME 为功能完整的 OS MAC 参考实现，不是 HPTPE 全规模阵列；WS 极低带宽优势提示需后续 dataflow adaptation。
+9. run 021是语义保持的compiled-trace execution，不是在Rocket上运行Python解释器、完整agent框架或LLM权重；它证明从真实应用/框架trace到CPU+XPU软件与硬件执行的闭环。
 
 ## 工具链与配置
 
-工具链不再依赖报告中的隐式环境状态。`config/toolchain.json` 是单一机器可读清单，固定 Python 3.11、pytest/hypothesis/cmake/ninja 版本、9 类系统命令、7 个外部源码 revision、2 个 Chipyard compatibility patch、4 个构建产物、4 个 Chipyard overlay、4 个分论文 profile，以及9个实验/支撑阶段的严格串行顺序。`uv.lock` 保存 Python 包与 wheel/sdist hash。作者/实验室源码检索记录见 `docs/source-discovery.md`。
+工具链不再依赖报告中的隐式环境状态。`config/toolchain.json` 是单一机器可读清单，固定 Python 3.11、pytest/hypothesis/cmake/ninja 版本、9 类系统命令、7 个外部源码 revision、2 个 Chipyard compatibility patch、5 个构建产物、4 个 Chipyard overlay、4 个分论文 profile，以及11个实验/支撑阶段的严格串行顺序。`uv.lock` 保存 Python 包与 wheel/sdist hash。作者/实验室源码检索记录见 `docs/source-discovery.md`。
 
 `scripts/setup_toolchain.sh` 完成以下闭环：
 
@@ -283,12 +308,12 @@ Full stack 相对 baseline 的 makespan/reactive speedup 为 2.033/3.027×；相
 2. 获取并验证 MLX_dev、LLM.xpu、HPTPE、mllm、Ramulator2；
 3. 使用 clang/clang++ 16 构建 Ramulator2；
 4. 向固定 Chipyard checkout 安装 Scala/RTL overlay；
-5. 构建 bare-metal ELF 和 Static/Dynamic Rocket+Verilator；
+5. 执行Agent应用、编译mllm trace，并构建legacy/trace两个bare-metal ELF和Static/Dynamic Rocket+Verilator；
 6. 执行 built-level 工具链审计，检查版本、commit、可执行文件及 overlay hash。
 
-`.venv/bin/agentsys-reproduce-all` 严格按 Agentix、Agent.xpu、ATX、TISA、mllm、full stack、Ramulator2、ablations、Chipyard 的顺序执行。每个 stage 退出后先检查 JSON gate、全部输出存在且非空及 SHA-256，随后才启动下一项；manifest 还验证相邻 stage 的 `next.started_ns >= previous.finished_ns`。完整说明见 `docs/toolchain.md`。
+`.venv/bin/agentsys-reproduce-all` 严格按应用trace编译、Agentix、Agent.xpu、ATX、TISA、mllm、full stack、Ramulator2、ablations、legacy Chipyard、CPU+XPU system trace的顺序执行。每个stage退出后先检查JSON gate、全部输出存在且非空及SHA-256，随后才启动下一项；manifest还验证相邻stage的`next.started_ns >= previous.finished_ns`。完整说明见`docs/toolchain.md`。
 
-闭源替代后的 run 019 实际执行结果为9/9 stages、`serial_order=true`，built/full toolchain audit 分别为10/10和12/12。随后 run 020 重新执行pytest与RTL lint，最终证书为15/15 requirements、35 tests、55/55论文端点，最大误差9.09%；Autellix参考测试另有58项。旧 run 017/018 作为参数化证据阶段的历史记录保留。
+系统打通后的run 021为11/11 stages、`serial_order=true`，built/full toolchain audit分别为10/10和12/12，CPU+XPU trace为13/13。随后run 022重新执行pytest与RTL lint，最终证书为17/17 requirements、38 tests、55/55论文端点；四个层次的论文误差均小于15%。Autellix参考测试另有58项。
 
 ## 环境与重放
 
@@ -325,6 +350,14 @@ bash scripts/setup_toolchain.sh --verify-only
 .venv/bin/python scripts/run_ablations.py
 ```
 
+应用trace编译与真实CPU+XPU系统执行：
+
+```bash
+.venv/bin/python scripts/compile_agent_system_trace.py
+make -C system_sim/software -j4 all
+.venv/bin/python scripts/run_system_trace.py
+```
+
 ### 4. Chipyard
 
 ```bash
@@ -350,6 +383,7 @@ bash scripts/build_ramulator2.sh
 | 目标 | 权威证据 | 状态 |
 |---|---|---|
 | 动态 Agent DAG 完整路径 | full-stack run 008 六层 trace | 通过 |
+| 应用→框架→软件→CPU+XPU | run 021，200 events / 6 layers / 13 gates | 通过 |
 | PLAS/ATLAS + serving/KV替代模拟 | paper-agentix run 019，16/16 + 58 reference tests | 通过 |
 | HEG/reactive/proactive/batch/warmup/preemption | paper-agentxpu run 019，11/11 | 通过 |
 | mllm operator trace/simulator backend | mllm run 006 | 通过 |
@@ -363,7 +397,8 @@ bash scripts/build_ramulator2.sh
 | 逐层 baseline 与消融 | run 013 + full four-way table | 通过 |
 | 两张 4090 不替代 A100 | evidence boundary | 遵守 |
 | 锁定且完整的工具链配置 | toolchain run 019，12/12 gates | 通过 |
-| 九项实验/支撑阶段严格串行重放 | reproduction run 019，9/9 stages | 通过 |
+| 十一阶段端到端工具链 | reproduction run 021，11/11 stages | 通过 |
+| 每层论文结果≤15% | Agentix 9.09%、Agent.xpu 8.07%、ATX 3.10%、TISA 8.27% | 通过 |
 
 ## 参考资料
 
@@ -380,4 +415,4 @@ bash scripts/build_ramulator2.sh
 
 ## 结论
 
-AgentSys 已从方向草案转化为可执行、可重放、可审计的全栈系统，并由四篇独立论文工具链和锁定的九阶段总入口完成重放。最强证据不是某一个最大 speedup，而是四条相互校验的链：四份独立论文结果的全部端点在10%内、原闭源机制由开放可执行替代模拟器实现且参数化复放为0、开放RTL/SoC/DDR simulator实际运行、配置到最终证书的工具链15/15验收闭合。实验同时表明，跨层优化没有免费午餐：priority 提升 reactive responsiveness 会牺牲部分 throughput，DDR 扩容会把瓶颈推向 ME，过小 tile 会让 dynamic scheduler 得不偿失，OS dataflow 在极低带宽下可能不如 WS。因而，核心创新应表述为“可解释、可组合且边界明确的全栈调度”，而不是对所有硬件和 workload 的无条件加速。
+AgentSys 已从方向草案转化为可执行、可重放、可审计的全栈实验系统，并由四篇独立论文工具链和锁定的十一阶段总入口完成重放。除分层模拟外，真实Agent应用与mllm框架trace已经编译成RISC-V软件，在Rocket CPU+XPU上执行并产生200-event系统trace。最强证据是五条相互校验的链：四份论文结果均在15%内、闭源机制由开放可执行替代实现、真实CPU+XPU/DMA系统执行、六层priority/dependency闭合、最终工具链17/17验收闭合。实验同时表明，跨层优化没有免费午餐：priority提升reactive responsiveness会牺牲部分throughput，DDR扩容会把瓶颈推向ME，过小tile会让dynamic scheduler得不偿失，CPU/framework开销还会把1.336× XPU收益稀释为1.084×端到端收益。
