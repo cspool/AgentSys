@@ -311,7 +311,7 @@ experiments:
 outer_loop:
   cycle: 14
   last_direction: deepen
-  last_reflection: "Run 027 supports H13 with 20/20 real Rocket+HPTPE integration gates and preserves 68/68 standalone endpoints. Direction remains DEEPEN only for final pinned-toolchain replay/audit and revised-scope completion certificate."
+  last_reflection: "Run 027 supports H13 with 20/20 real Rocket+HPTPE integration gates and preserves 68/68 standalone endpoints. Run 028 is preregistered as the final eight-stage pinned replay, fresh verification and revised-scope completion certificate."
 
 workspace:
   findings: "findings.md"
