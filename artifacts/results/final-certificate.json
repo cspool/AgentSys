@@ -5,10 +5,20 @@
       "path": "artifacts/results/ablations-run_013.json",
       "sha256": "8f8d485e1e61e73ef7dcef3c6e8b4e9b4a0da7053602d3d2083fe8999a38a1f5"
     },
+    "agent_application": {
+      "bytes": 19093,
+      "path": "artifacts/app_traces/agent-application-run_021.json",
+      "sha256": "d638b167039ea7acb3b9abf2d779e928a31433b667bbb61f966c4f85827c9ea8"
+    },
     "chipyard": {
       "bytes": 11397,
       "path": "artifacts/results/chipyard-run_003.json",
-      "sha256": "d0017138c178dd21cfef94b09a70b8a3d00984615309fe581ef3d343ee84f188"
+      "sha256": "59449ee06d5fed84818af5c66a20afea016e28dea0900fee4cef22bf26882a12"
+    },
+    "compiled_system": {
+      "bytes": 43845,
+      "path": "artifacts/app_traces/compiled-system-workload-run_021.json",
+      "sha256": "e3800694abb39b300a8cd8388ed4bc2912093c2e6655fd219ead24563577f0b6"
     },
     "full_stack": {
       "bytes": 155013,
@@ -23,22 +33,22 @@
     "paper_agentix": {
       "bytes": 123070,
       "path": "artifacts/results/paper-agentix-run_019.json",
-      "sha256": "a1de6db2240e5663b4d37a94e3df9fc32d234a99f8e7e03dd12b146210d04da2"
+      "sha256": "ebd90a8ff12f216a05b64a0b6161e2f9b76b7c9cb3e0b3a6371d0054c75eca29"
     },
     "paper_agentxpu": {
       "bytes": 115944,
       "path": "artifacts/results/paper-agentxpu-run_019.json",
-      "sha256": "59ac191c13a2dc9b9f8d264c5774ffc6e233c19f2dd4bbf62737d04c2c41d72c"
+      "sha256": "3ff5180c7220c348b29bd358de157d30a9d61aa8bde7f4be46886be3feb5e10f"
     },
     "paper_atx": {
       "bytes": 45257,
       "path": "artifacts/results/paper-atx-run_019.json",
-      "sha256": "3c15fffd24f451299f77bd268a9258877158606fd6e760e8f6d68fb6278da649"
+      "sha256": "799584c46615f659f70068b42d5d4360799f45fee51642b86986344ab4d16b8f"
     },
     "paper_tisa": {
       "bytes": 772597,
       "path": "artifacts/results/paper-tisa-run_019.json",
-      "sha256": "801aadaca9352ea88a846f4c3061d50b28f0641b6628786443246f3a31c827be"
+      "sha256": "540d70dae847e461049fa4b89fdaa96b5132087741867e1b717b8978a8363a2c"
     },
     "ramulator2": {
       "bytes": 52612,
@@ -46,14 +56,19 @@
       "sha256": "784cd1f364c6d36ea0319254394821a3d5fb99b12c6293ef7c472b768c3f31b5"
     },
     "reproduction": {
-      "bytes": 13362,
-      "path": "artifacts/results/reproduction-run_019.json",
-      "sha256": "7aaf58482685ea643f450e50267237577a4711ccb0b7db11d5981d4cc3feacc9"
+      "bytes": 16852,
+      "path": "artifacts/results/reproduction-run_021.json",
+      "sha256": "8d0805a7b00c35dc08e8ee3ae819a9cb99ae0df1e590a124063541ca3d46cc91"
+    },
+    "system_trace": {
+      "bytes": 28366,
+      "path": "artifacts/results/system-trace-run_021.json",
+      "sha256": "59926cb122fc3194cff14e518d39fcdfcaf268bbef33268440ce0e51e11de981"
     },
     "toolchain": {
-      "bytes": 25502,
-      "path": "artifacts/results/toolchain-run_019.json",
-      "sha256": "3915b51fd9b40638b9dbcd384a48144c78195ec7609d610b3043cfae677bba66"
+      "bytes": 29808,
+      "path": "artifacts/results/toolchain-run_021.json",
+      "sha256": "e6104f0132f62abdb478db50aed2e5554c77b711f87fb69ef137f3971be924cd"
     }
   },
   "checks": {
@@ -64,7 +79,7 @@
         "pytest"
       ],
       "exit_code": 0,
-      "output": "...................................                                      [100%]\n35 passed in 37.06s\n"
+      "output": "......................................                                   [100%]\n38 passed in 35.70s\n"
     },
     "rtl_lint": {
       "command": [
@@ -84,6 +99,7 @@
   "classification": "requirement_by_requirement_completion_certificate",
   "component_gates": {
     "ablations_7": true,
+    "agent_framework_compilation": true,
     "chipyard_17": true,
     "closed_platform_substitutes_2": true,
     "full_stack_10": true,
@@ -91,10 +107,11 @@
     "mllm_9": true,
     "paper_endpoints_55": true,
     "ramulator2_7": true,
-    "serial_reproduction_9": true,
+    "rocket_cpu_xpu_system_trace_13": true,
+    "serial_reproduction_11": true,
     "toolchain_12": true
   },
-  "objective": "Complete independent paper toolchains, self-implement unavailable mechanisms with open substitutes, and reproduce every registered endpoint within 10%.",
+  "objective": "Execute an application-to-framework-to-software-to-Rocket-CPU+XPU trace toolchain while keeping every paper layer within 15%.",
   "paper_endpoints": {
     "count": 55,
     "endpoints": [
@@ -576,7 +593,7 @@
     "registered_limit": 0.1,
     "unique": 55
   },
-  "project_commit": "95b853bc6bb2e00ef543c9c069102e9204728b8a",
+  "project_commit": "b2a24b35dd5cf6040d82d73021ed38833c5799f1",
   "references": {
     ".references/HPTPE": {
       "expected": "ebe4db7d2d3c36d10c47683d7689f65f5c4ca3e4",
@@ -615,7 +632,7 @@
     }
   },
   "report": {
-    "lines": 383,
+    "lines": 418,
     "pass": true,
     "required_terms": [
       "## \u7cfb\u7edf\u67b6\u6784",
@@ -630,6 +647,9 @@
       "paper-parameterized component replay \u5df2\u4e3a 0",
       "\u95ed\u6e90\u673a\u5236\u81ea\u884c\u5b9e\u73b0",
       "run 019",
+      "run 021",
+      "Rocket CPU+XPU",
+      "200 events",
       "10%",
       "55/55",
       "636/636"
@@ -642,47 +662,67 @@
     },
     "ISCA26_G3_Agent\u5168\u6808\u7cfb\u7edf\u52a0\u901f.md": {
       "exists": true,
-      "sha256": "bf64ce66b861755cc6d094a115ffeeb512ff18128af365c433cf14168c5b9fca"
+      "sha256": "6b28f63189f4114174e54044d2cc840b222da5ceeaa146f71731f34b3c7a46a3"
+    },
+    "artifacts/app_traces/agent-application-run_021.json": {
+      "exists": true,
+      "sha256": "d638b167039ea7acb3b9abf2d779e928a31433b667bbb61f966c4f85827c9ea8"
+    },
+    "artifacts/app_traces/compiled-system-workload-run_021.json": {
+      "exists": true,
+      "sha256": "e3800694abb39b300a8cd8388ed4bc2912093c2e6655fd219ead24563577f0b6"
     },
     "artifacts/results/paper-agentix-run_019.json": {
       "exists": true,
-      "sha256": "a1de6db2240e5663b4d37a94e3df9fc32d234a99f8e7e03dd12b146210d04da2"
+      "sha256": "ebd90a8ff12f216a05b64a0b6161e2f9b76b7c9cb3e0b3a6371d0054c75eca29"
     },
     "artifacts/results/paper-agentxpu-run_019.json": {
       "exists": true,
-      "sha256": "59ac191c13a2dc9b9f8d264c5774ffc6e233c19f2dd4bbf62737d04c2c41d72c"
+      "sha256": "3ff5180c7220c348b29bd358de157d30a9d61aa8bde7f4be46886be3feb5e10f"
     },
     "artifacts/results/paper-atx-run_019.json": {
       "exists": true,
-      "sha256": "3c15fffd24f451299f77bd268a9258877158606fd6e760e8f6d68fb6278da649"
+      "sha256": "799584c46615f659f70068b42d5d4360799f45fee51642b86986344ab4d16b8f"
     },
     "artifacts/results/paper-tisa-run_019.json": {
       "exists": true,
-      "sha256": "801aadaca9352ea88a846f4c3061d50b28f0641b6628786443246f3a31c827be"
+      "sha256": "540d70dae847e461049fa4b89fdaa96b5132087741867e1b717b8978a8363a2c"
     },
-    "artifacts/results/reproduction-run_019.json": {
+    "artifacts/results/reproduction-run_021.json": {
       "exists": true,
-      "sha256": "7aaf58482685ea643f450e50267237577a4711ccb0b7db11d5981d4cc3feacc9"
+      "sha256": "8d0805a7b00c35dc08e8ee3ae819a9cb99ae0df1e590a124063541ca3d46cc91"
     },
-    "artifacts/results/toolchain-run_019.json": {
+    "artifacts/results/system-trace-run_021.json": {
       "exists": true,
-      "sha256": "3915b51fd9b40638b9dbcd384a48144c78195ec7609d610b3043cfae677bba66"
+      "sha256": "59926cb122fc3194cff14e518d39fcdfcaf268bbef33268440ce0e51e11de981"
+    },
+    "artifacts/results/toolchain-run_021.json": {
+      "exists": true,
+      "sha256": "e6104f0132f62abdb478db50aed2e5554c77b711f87fb69ef137f3971be924cd"
     },
     "artifacts/traces/full-stack-run_008.jsonl": {
       "exists": true,
       "sha256": "d041f2760994338ddbc144dc21d8faaa265e85587cc374eb071698a393930dab"
     },
+    "artifacts/traces/system-trace-run_021.jsonl": {
+      "exists": true,
+      "sha256": "0771bcc5940a3abd63ebd53dc135f651185b856e0bf92c7228fa5de51ab137fd"
+    },
     "config/toolchain.json": {
       "exists": true,
-      "sha256": "cd5cd8997c7c41df354166dd8f552e6dd4383b075e035a94ea1f79a3550617b8"
+      "sha256": "7df0728962685e1d2cef3140ff4680416ce9032ca8d9fbc4712aefe336953c01"
     },
     "docs/source-discovery.md": {
       "exists": true,
       "sha256": "d410a3b70baff66b8805e0ab6c7728fe839550068ca1d5ff1f035670b78c018a"
     },
+    "docs/system-trace.md": {
+      "exists": true,
+      "sha256": "2041a569f365ba12aa04461f9913e65b23f3da6919eb26ea8f32e6ab9bdd0b41"
+    },
     "docs/toolchain.md": {
       "exists": true,
-      "sha256": "2e496437e5fd537118bb251314f741c0aa7b18985b8aa95f6dbed0a422b3afaa"
+      "sha256": "18a920c8425f4a8508d152124a10a1bc27cb3540a97af5fe4875dda0ca306963"
     },
     "experiments/h10-paper10/analysis.md": {
       "exists": true,
@@ -699,6 +739,14 @@
     "experiments/h11-open-substitutes/protocol.md": {
       "exists": true,
       "sha256": "670dcd8078c3717cf5e672d96394092a21d893b2b4924dec15991dd23921343c"
+    },
+    "experiments/h12-system-trace/analysis.md": {
+      "exists": true,
+      "sha256": "0720f0e397c468b8045a9c3f49d47fcd299146ec7b7be8f600e824813eaae08d"
+    },
+    "experiments/h12-system-trace/protocol.md": {
+      "exists": true,
+      "sha256": "229dea034a37ce4bfb023b9e61437a2e05e6b47603223d66a1901531689ac9be"
     },
     "experiments/h9-toolchain/analysis.md": {
       "exists": true,
@@ -724,13 +772,29 @@
       "exists": true,
       "sha256": "3e129ca950d8b28a3331ddd793409b244366a6e270ee9882ddae613c09f78e54"
     },
+    "scripts/compile_agent_system_trace.py": {
+      "exists": true,
+      "sha256": "8490abe514fec983451f4708f9fda1add35e1ade62928de10bf9f1cb7f01bc18"
+    },
     "scripts/install_agentsys_chipyard.sh": {
       "exists": true,
       "sha256": "c2a45d7d9e234cd6bd3c67e789c250236e142883233332f5f76a925764acd078"
     },
+    "scripts/run_agent_application.py": {
+      "exists": true,
+      "sha256": "8824eb55700076eb2011ec0c1315bc2da290ee0b207f24ccd293080a5298e952"
+    },
+    "scripts/run_system_trace.py": {
+      "exists": true,
+      "sha256": "3f6f9d40f0afc2cc0775a2436cbce827eb5b92be265ec429c4ef2d891055d51d"
+    },
     "scripts/setup_toolchain.sh": {
       "exists": true,
-      "sha256": "b0ed56da16e142da2542f385f100fd91a3cd4717211a0eb2252c04aa0a92352c"
+      "sha256": "9c83ffa2006485efbd55d18dd0e50aae0b7485b7b02234668b08840239376c02"
+    },
+    "src/agentsys/agent_application.py": {
+      "exists": true,
+      "sha256": "b1dba17b6ca41e1425f1a4b2d9b86acc75ea12459f5ecc8e8d6b84c5bf10ebc9"
     },
     "src/agentsys/agentix.py": {
       "exists": true,
@@ -782,7 +846,15 @@
     },
     "src/agentsys/reproduce.py": {
       "exists": true,
-      "sha256": "3370d5b297b9132e65c3687f0dd02a66d24cbc95ec13f0b014b7ed6f7a990d0a"
+      "sha256": "3d439d8e4e274f1aa06f654ad881b07ebd4027c3f3d75dab67ee88e4048f7b28"
+    },
+    "src/agentsys/system_trace.py": {
+      "exists": true,
+      "sha256": "cc8d26f3cf15c8458588d51be1859bd10f46a1dbc3fba58bd3d0c17439a92255"
+    },
+    "src/agentsys/system_trace_compiler.py": {
+      "exists": true,
+      "sha256": "678e9f3ff5b39db657ae9e54bf37c81a380528f3bc4b32d3e630d1436e010bdd"
     },
     "src/agentsys/tisa.py": {
       "exists": true,
@@ -790,7 +862,7 @@
     },
     "src/agentsys/toolchain.py": {
       "exists": true,
-      "sha256": "b0b2d7eb70093ec6d80f4de1360bb7b6866e31ec2b5ffe54ae77cda6588e2d54"
+      "sha256": "db7aa466fefc474d3ca7be1b1fbb201fef70e7a25fab8d16cfdf27d71491d987"
     },
     "system_sim/chipyard/AgentSysRoCC.scala": {
       "exists": true,
@@ -804,6 +876,14 @@
       "exists": true,
       "sha256": "1424e75c52919559e663d6134de3d81063b64aeee1c557a80b8e0b5b992062d6"
     },
+    "system_sim/software/agentsys_trace_system_test.c": {
+      "exists": true,
+      "sha256": "29ad4e139b11f84b049decadaf46874d208737f17a7cc0bfead0416d26b8db6b"
+    },
+    "system_sim/software/generated/agentsys_app_trace.h": {
+      "exists": true,
+      "sha256": "7e728ca8b76c941a58dc99212a5858ead41469f66f161708014206fc250cf52f"
+    },
     "uv.lock": {
       "exists": true,
       "sha256": "42587f86d9dbad69e544d29d133dd2db710b4fdebb59044725e200d7a69932d2"
@@ -811,6 +891,7 @@
   },
   "requirements": {
     "ablations_7": true,
+    "agent_framework_compilation": true,
     "chipyard_17": true,
     "closed_platform_substitutes_2": true,
     "fresh_checks": true,
@@ -822,11 +903,12 @@
     "ramulator2_7": true,
     "report": true,
     "required_files": true,
-    "serial_reproduction_9": true,
+    "rocket_cpu_xpu_system_trace_13": true,
+    "serial_reproduction_11": true,
     "toolchain_12": true,
     "trace": true
   },
-  "run_id": "run_020",
+  "run_id": "run_022",
   "schema_version": 1,
   "summary": {
     "failing": 0,
@@ -834,8 +916,20 @@
     "max_relative_error": 0.09090909090909091,
     "paper_endpoints": 55,
     "paper_endpoints_passing": 55,
-    "passing": 15,
-    "requirements": 15
+    "passing": 17,
+    "requirements": 17
+  },
+  "system_trace": {
+    "events": 200,
+    "layers": [
+      "application",
+      "cpu",
+      "dma",
+      "framework",
+      "software",
+      "xpu"
+    ],
+    "pass": true
   },
   "trace": {
     "events": 636,
