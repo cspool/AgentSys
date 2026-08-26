@@ -7,6 +7,7 @@ from agentsys.toolchain import DEFAULT_CONFIG, evaluate_stage_artifact, load_too
 
 
 EXPECTED_STAGES = [
+    "agent_application_compile",
     "agentix_paper",
     "agentxpu_paper",
     "atx_paper",
@@ -16,6 +17,7 @@ EXPECTED_STAGES = [
     "ramulator2",
     "ablations",
     "chipyard",
+    "cpu_xpu_system_trace",
 ]
 
 
@@ -26,6 +28,7 @@ def test_toolchain_configuration_covers_complete_serial_pipeline() -> None:
     assert {item["name"] for item in config["build_outputs"]} == {
         "ramulator2",
         "baremetal_elf",
+        "agent_trace_elf",
         "chipyard_static",
         "chipyard_dynamic",
     }

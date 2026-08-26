@@ -20,8 +20,11 @@ ARTIFACTS = {
     "full_stack": "artifacts/results/full-stack-run_008.json",
     "ramulator2": "artifacts/results/ramulator2-run_012.json",
     "ablations": "artifacts/results/ablations-run_013.json",
-    "reproduction": "artifacts/results/reproduction-run_019.json",
-    "toolchain": "artifacts/results/toolchain-run_019.json",
+    "reproduction": "artifacts/results/reproduction-run_021.json",
+    "toolchain": "artifacts/results/toolchain-run_021.json",
+    "agent_application": "artifacts/app_traces/agent-application-run_021.json",
+    "compiled_system": "artifacts/app_traces/compiled-system-workload-run_021.json",
+    "system_trace": "artifacts/results/system-trace-run_021.json",
 }
 
 
@@ -56,15 +59,23 @@ REQUIRED_FILES = (
     "system_sim/chipyard/AgentSysRoCC.scala",
     "system_sim/software/agentsys_runtime.h",
     "system_sim/software/agentsys_system_test.c",
+    "system_sim/software/agentsys_trace_system_test.c",
+    "system_sim/software/generated/agentsys_app_trace.h",
     "scripts/install_agentsys_chipyard.sh",
     "scripts/build_ramulator2.sh",
     "scripts/setup_toolchain.sh",
+    "scripts/run_agent_application.py",
+    "scripts/compile_agent_system_trace.py",
+    "scripts/run_system_trace.py",
     ".python-version",
     "uv.lock",
     "config/toolchain.json",
     "src/agentsys/toolchain.py",
     "src/agentsys/reproduce.py",
     "src/agentsys/paper_reproduction.py",
+    "src/agentsys/agent_application.py",
+    "src/agentsys/system_trace_compiler.py",
+    "src/agentsys/system_trace.py",
     "docs/toolchain.md",
     "docs/source-discovery.md",
     "experiments/h9-toolchain/protocol.md",
@@ -73,12 +84,17 @@ REQUIRED_FILES = (
     "experiments/h10-paper10/analysis.md",
     "experiments/h11-open-substitutes/protocol.md",
     "experiments/h11-open-substitutes/analysis.md",
+    "experiments/h12-system-trace/protocol.md",
     "artifacts/results/paper-agentix-run_019.json",
     "artifacts/results/paper-agentxpu-run_019.json",
     "artifacts/results/paper-atx-run_019.json",
     "artifacts/results/paper-tisa-run_019.json",
-    "artifacts/results/reproduction-run_019.json",
-    "artifacts/results/toolchain-run_019.json",
+    "artifacts/results/reproduction-run_021.json",
+    "artifacts/results/toolchain-run_021.json",
+    "artifacts/app_traces/agent-application-run_021.json",
+    "artifacts/app_traces/compiled-system-workload-run_021.json",
+    "artifacts/results/system-trace-run_021.json",
+    "artifacts/traces/system-trace-run_021.jsonl",
     "artifacts/traces/full-stack-run_008.jsonl",
 )
 
@@ -128,7 +144,7 @@ def _run_command(command: list[str], *, cwd: Path = PROJECT_ROOT, timeout: int =
     return {"command": command, "exit_code": process.returncode, "output": process.stdout}
 
 
-def build_certificate(*, run_id: str = "run_020", run_checks: bool = True) -> dict[str, Any]:
+def build_certificate(*, run_id: str = "run_022", run_checks: bool = True) -> dict[str, Any]:
     loaded: dict[str, dict[str, Any]] = {}
     manifests: dict[str, dict[str, Any]] = {}
     for name, relative in ARTIFACTS.items():
@@ -193,15 +209,46 @@ def build_certificate(*, run_id: str = "run_020", run_checks: bool = True) -> di
             ]
             == 0
         ),
+        "agent_framework_compilation": (
+            loaded["agent_application"]["summary"]
+            == {
+                "programs": 3,
+                "calls": 11,
+                "llm_calls": 10,
+                "tool_calls": 1,
+                "events": 49,
+                "operators_per_llm_call": 8,
+                "pass": True,
+            }
+            and loaded["compiled_system"]["summary"]
+            == {
+                "programs": 3,
+                "calls": 11,
+                "llm_calls": 10,
+                "tool_calls": 1,
+                "descriptors": 80,
+                "dependencies": 6,
+                "pass": True,
+            }
+        ),
+        "rocket_cpu_xpu_system_trace_13": (
+            loaded["system_trace"]["summary"]
+            == {"gates": 13, "passing": 13, "failing": 0, "pass": True}
+            and loaded["system_trace"]["classification"]
+            == "real_rocket_cpu_plus_rocc_xpu_agent_trace_simulation"
+            and loaded["system_trace"]["trace"]["events"] == 200
+            and loaded["system_trace"]["trace"]["layers"]
+            == ["application", "cpu", "dma", "framework", "software", "xpu"]
+        ),
         "chipyard_17": loaded["chipyard"]["summary"] == {"failing": 0, "gates": 17, "pass": True, "passing": 17},
         "mllm_9": loaded["mllm"]["summary"]["pass"] and loaded["mllm"]["summary"]["gates"] == 9,
         "full_stack_10": loaded["full_stack"]["summary"]["pass"] and loaded["full_stack"]["summary"]["gates"] == 10,
         "ramulator2_7": loaded["ramulator2"]["summary"]["pass"] and loaded["ramulator2"]["summary"]["gates"] == 7,
         "ablations_7": loaded["ablations"]["summary"]["pass"] and loaded["ablations"]["summary"]["gates"] == 7,
-        "serial_reproduction_9": (
+        "serial_reproduction_11": (
             loaded["reproduction"]["summary"]["pass"]
-            and loaded["reproduction"]["summary"]["executed"] == 9
-            and loaded["reproduction"]["summary"]["passing"] == 9
+            and loaded["reproduction"]["summary"]["executed"] == 11
+            and loaded["reproduction"]["summary"]["passing"] == 11
             and loaded["reproduction"]["summary"]["serial_order"]
         ),
         "toolchain_12": (
@@ -238,6 +285,9 @@ def build_certificate(*, run_id: str = "run_020", run_checks: bool = True) -> di
         "paper-parameterized component replay 已为 0",
         "闭源机制自行实现",
         "run 019",
+        "run 021",
+        "Rocket CPU+XPU",
+        "200 events",
         "10%",
         "55/55",
         "636/636",
@@ -278,7 +328,7 @@ def build_certificate(*, run_id: str = "run_020", run_checks: bool = True) -> di
     return {
         "schema_version": 1,
         "run_id": run_id,
-        "objective": "Complete independent paper toolchains, self-implement unavailable mechanisms with open substitutes, and reproduce every registered endpoint within 10%.",
+        "objective": "Execute an application-to-framework-to-software-to-Rocket-CPU+XPU trace toolchain while keeping every paper layer within 15%.",
         "classification": "requirement_by_requirement_completion_certificate",
         "project_commit": _git_head(str(PROJECT_ROOT)),
         "paper_endpoints": {
@@ -303,6 +353,11 @@ def build_certificate(*, run_id: str = "run_020", run_checks: bool = True) -> di
         },
         "report": {"lines": len(report_text.splitlines()), "required_terms": list(required_report_terms), "pass": report_gate},
         "trace": {"events": len(trace_events), "layers": trace_layers, "pass": trace_gate},
+        "system_trace": {
+            "events": loaded["system_trace"]["trace"]["events"],
+            "layers": loaded["system_trace"]["trace"]["layers"],
+            "pass": loaded["system_trace"]["summary"]["pass"],
+        },
         "checks": checks,
         "requirements": requirement_gates,
         "summary": {
@@ -317,7 +372,7 @@ def build_certificate(*, run_id: str = "run_020", run_checks: bool = True) -> di
     }
 
 
-def write_certificate(path: Path, *, run_id: str = "run_020") -> dict[str, Any]:
+def write_certificate(path: Path, *, run_id: str = "run_022") -> dict[str, Any]:
     result = build_certificate(run_id=run_id, run_checks=True)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")

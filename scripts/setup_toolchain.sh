@@ -26,6 +26,7 @@ if [[ ${verify_only} -eq 0 ]]; then
   bash scripts/bootstrap_references.sh
   AGENTSYS_JOBS="${jobs}" bash scripts/build_ramulator2.sh
   bash scripts/install_agentsys_chipyard.sh "${chipyard_root}"
+  "${project_root}/.venv/bin/python" scripts/compile_agent_system_trace.py
   make -C system_sim/software -j"${jobs}" CHIPYARD_ROOT="${chipyard_root}" all
 
   if [[ ! -f "${chipyard_root}/env.sh" ]]; then

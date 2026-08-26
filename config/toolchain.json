@@ -118,6 +118,17 @@
       ]
     },
     {
+      "name": "agent_trace_elf",
+      "path": "system_sim/build/software/agentsys-trace-system.riscv",
+      "executable": true,
+      "inputs": [
+        "system_sim/software/Makefile",
+        "system_sim/software/agentsys_runtime.h",
+        "system_sim/software/agentsys_trace_system_test.c",
+        "system_sim/software/generated/agentsys_app_trace.h"
+      ]
+    },
+    {
       "name": "chipyard_static",
       "path": "/root/chipyard/sims/verilator/simulator-chipyard-AgentSysStaticRocketConfig",
       "executable": true,
@@ -204,9 +215,16 @@
       "references": ["chipyard"]
     }
   },
-  "reproduction_manifest": "artifacts/results/reproduction-run_019.json",
-  "toolchain_audit": "artifacts/results/toolchain-run_019.json",
+  "reproduction_manifest": "artifacts/results/reproduction-run_021.json",
+  "toolchain_audit": "artifacts/results/toolchain-run_021.json",
   "stages": [
+    {
+      "name": "agent_application_compile",
+      "command": ["{python}", "scripts/compile_agent_system_trace.py", "--run-id", "run_021"],
+      "outputs": ["artifacts/app_traces/compiled-system-workload-run_021.json", "artifacts/app_traces/agent-application-run_021.json", "system_sim/software/generated/agentsys_app_trace.h"],
+      "gate_path": ["summary", "pass"],
+      "timeout_s": 60
+    },
     {
       "name": "agentix_paper",
       "command": ["{python}", "-m", "agentsys.paper_reproduction", "--paper", "agentix", "--run-id", "run_019", "--output", "artifacts/results/paper-agentix-run_019.json"],
@@ -267,6 +285,13 @@
       "name": "chipyard",
       "command": ["{python}", "scripts/run_agentsys_chipyard.py", "--run-id", "run_003", "--output", "artifacts/results/chipyard-run_003.json"],
       "outputs": ["artifacts/results/chipyard-run_003.json"],
+      "gate_path": ["summary", "pass"],
+      "timeout_s": 420
+    },
+    {
+      "name": "cpu_xpu_system_trace",
+      "command": ["{python}", "scripts/run_system_trace.py", "--run-id", "run_021", "--output", "artifacts/results/system-trace-run_021.json", "--trace-output", "artifacts/traces/system-trace-run_021.jsonl"],
+      "outputs": ["artifacts/results/system-trace-run_021.json", "artifacts/traces/system-trace-run_021.jsonl"],
       "gate_path": ["summary", "pass"],
       "timeout_s": 420
     }
