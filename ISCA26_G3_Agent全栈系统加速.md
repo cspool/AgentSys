@@ -136,6 +136,12 @@ ME (OS MAC)         VE              DE ── SRAM/DMA/Ramulator2 DDR
 
 `src/agentsys/mllm_backend.py` 消费 mllm 原生 `.mir`，只解析 executable `linalg.<device>.<Op>`。Linear/MatMul/Embedding 降到 ME，算术/归一化/softmax/reduction 降到 VE，view/transpose/slice/concat/cast/copy/cache 降到 DE。SSA producer 生成 dependency；tensor shape/dtype 生成 TileMem size；同一 SSA 的 in-place view 复用地址，从而触发真实 alias hazard。run 005 保留 2–16-cycle tile 导致 dynamic 变慢的负结果；run 006 按 TISA 的 `10^3–10^5` cycle 粒度修正后通过 9/9 门禁。
 
+### mllm / llm.npu独立复现（run 023）
+
+固定commit `50ad5a9b`的mllm v2已用Clang 16真实构建C++ runtime、CPU backend、IR/JIT、量化工具、benchmark与测试程序；20/20个选定原生测试程序、101个gtest case通过，另有1个需要外部tokenizer的oracle按上游设计跳过。未过滤的首次CPU kernel运行保留为负结果：上游将x86明确标记NYI的FP16、INT8/INT16 divide、Clip等用例和后续崩溃包含在同一程序中；最终门禁仅过滤到上游实际支持的37/37 kernel cases，并在结果中列出排除项。
+
+`src/agentsys/mllm_npu.py`随后从真实Qwen3 QNN-AOT MIR/config取得1602个算子、28层与32-token chunk；首个decoder block含30个可共享static op和27个attention/shape-dependent op。实现chunk-sharing graph、0.1–0.3%稀疏shadow outlier与85% layer pruning、论文式CPU/NPU causal dependency和stall-contribution异序调度。4,480个子图在naive/OOO两种模式各检查18,336条依赖并保持1.26s NPU与0.63s CPU工作量相同。Chunk sharing为1.974×、shadow outlier为6.600×、OOO latency reduction为32.907%；NPU bubble由33.333%降至0.636%。5/5个预注册端点通过，最大误差9.91%。22.4×跨平台平均值需要原五个baseline和两部Qualcomm手机，明确标为不可直接比较，而非用模拟值替代。
+
 ### Task 层：ATX adapter
 
 `src/agentsys/atx.py` 提供 16-entry bounded queue、priority heap、double buffer、prefetch、queued/running cancellation、completion 和守恒计数。硬件 ABI 由 `system_sim/software/agentsys_runtime.h` 暴露：
@@ -167,6 +173,7 @@ ME (OS MAC)         VE              DE ── SRAM/DMA/Ramulator2 DDR
 |---|---|
 | 核心 simulator | `src/agentsys/{agentix,agentxpu,atx,tisa,fullstack}.py` |
 | 闭源平台替代模拟器 | `src/agentsys/{agentix_serving_simulator,atx_simulator}.py` |
+| mllm/llm.npu独立复现 | `src/agentsys/{mllm_native,mllm_npu}.py`、`scripts/run_mllm_reproduction.py` |
 | 论文实验驱动/验收 | `src/agentsys/{agentix_model,atx_model,paper_reproduction}.py` |
 | mllm / DDR | `src/agentsys/{mllm_backend,ramulator}.py` |
 | 消融 | `src/agentsys/ablations.py`、`scripts/run_*.py` |
@@ -283,6 +290,8 @@ run 021 使用第二个真实RISC-V ELF，在Static和Dynamic Rocket配置执行
 
 Qwen3 selected ops 的 ME/VE/DE count 为 23/61/76，work 为 110,591/83,968/249,856 cycles。Decoder slice static/dynamic 为 8,192/6,186 cycles（1.324×），动态产生 2,048 accumulated overlap cycles。run 005 的 tiny-tile 负结果证明粒度边界，不被删除。
 
+上述1.324×是MIR在TISA上的lowering结果，不再计作mllm论文性能。新的mllm独立结果来自`artifacts/results/paper-mllm-run_023.json`：真实framework tests为20/20，llm.npu机制端点为5/5，最大误差9.91%；两份4,480-event schedule trace分别位于`artifacts/traces/paper-mllm-run_023-{naive,ooo}.jsonl`。
+
 ### Ramulator2
 
 DDR4 一/双通道 memory cycles 为 166,400/82,854，read/write 均严格等于 trace 的 24,576/2,176。把 0.4979 service factor 回注 LLaMA2 DE 后，DE work 1,504→736，但总周期 3,553→3,521，仅 1.009×；ME/VE 未变。
@@ -327,14 +336,14 @@ Full stack 相对 baseline 的 makespan/reactive speedup 为 2.033/3.027×；相
 3. ATX 原论文使用内部 silicon-validated Sniper 和64-core Xeon-Max-like system；作者主页未提供该扩展。本项目自行实现 UTE/NCA资源事件模拟器，并以Chipyard RTL验证开放ABI/机制，但不能声称与私有Sniper逐周期等价。
 4. TISA 原论文使用未公开 Epoch 真硅片和 RTL；本项目 cycle model 与 Chipyard RTL 不能声称芯片等价。
 5. Chipyard 系统路径使用 DRAMSim2；Ramulator2 是独立 NPU-memory experiment，二者没有伪装成单一 integrated memory backend。
-6. mllm backend 使用原生 MIR trace，但没有下载/执行完整 Qwen3 权重；它验证 operator graph 与 cycle lowering，不验证生成质量。
+6. mllm已真实构建并执行无权重原生测试，llm.npu机制性能仍是source-grounded CPU/NPU事件模拟；没有Qualcomm QNN设备或完整Qwen3权重，因而不验证原手机吞吐、生成质量或22.4×跨平台平均值。
 7. Full-stack result 是新实验，无论文 target；priority responsiveness 与 throughput 存在明确 trade-off。
 8. 当前 ME 为功能完整的 OS MAC 参考实现，不是 HPTPE 全规模阵列；WS 极低带宽优势提示需后续 dataflow adaptation。
 9. run 021是语义保持的compiled-trace execution，不是在Rocket上运行Python解释器、完整agent框架或LLM权重；它证明从真实应用/框架trace到CPU+XPU软件与硬件执行的闭环。
 
 ## 工具链与配置
 
-工具链不再依赖报告中的隐式环境状态。`config/toolchain.json` 是单一机器可读清单，固定 Python 3.11、pytest/hypothesis/cmake/ninja 版本、9 类系统命令、7 个外部源码 revision、2 个 Chipyard compatibility patch、5 个构建产物、4 个 Chipyard overlay、4 个分论文 profile，以及11个实验/支撑阶段的严格串行顺序。`uv.lock` 保存 Python 包与 wheel/sdist hash。作者/实验室源码检索记录见 `docs/source-discovery.md`。
+工具链不再依赖报告中的隐式环境状态。`config/toolchain.json` 是单一机器可读清单，固定 Python 3.11、pytest/hypothesis/cmake/ninja 版本、9 类系统命令、7 个外部源码 revision、2 个 Chipyard compatibility patch、5 个历史构建产物、4 个 Chipyard overlay、4 个历史分论文 profile，以及11个旧范围实验/支撑阶段的严格串行顺序。H13新增内容放在独立的`revised_build_outputs`与`revised_component_profiles`中，避免改变run 022证书的固定合同；当前已注册mllm真实runtime和run 023入口，HPTPE完成后再签发新manifest。`uv.lock` 保存 Python 包与 wheel/sdist hash。作者/实验室源码检索记录见 `docs/source-discovery.md`。
 
 `scripts/setup_toolchain.sh` 完成以下闭环：
 
@@ -451,4 +460,4 @@ bash scripts/build_ramulator2.sh
 
 AgentSys 已从方向草案转化为可执行、可重放、可审计的全栈实验系统，并由四篇独立论文工具链和锁定的十一阶段总入口完成重放。除分层模拟外，真实Agent应用与mllm框架trace已经编译成RISC-V软件，在Rocket CPU+XPU上执行并产生200-event系统trace。最强证据是五条相互校验的链：四份论文结果均在15%内、闭源机制由开放可执行替代实现、真实CPU+XPU/DMA系统执行、六层priority/dependency闭合、最终工具链17/17验收闭合。实验同时表明，跨层优化没有免费午餐：priority提升reactive responsiveness会牺牲部分throughput，DDR扩容会把瓶颈推向ME，过小tile会让dynamic scheduler得不偿失，CPU/framework开销还会把1.336× XPU收益稀释为1.084×端到端收益。
 
-上述结论对应既有run 021原型范围。按最新范围，最终结论还需等待mllm、Agent.xpu、HPTPE分别复现并接入普通RISC-V+TISA/HPTPE XPU后重新签发；现有run 022证书不代表该修订范围已经完成。
+上述结论对应既有run 021原型范围。按最新范围，mllm/llm.npu已在run 023独立通过；最终结论仍需等待HPTPE复现、Agent.xpu/TISA/Agentix无改动复验，并将这些已测模块接入普通RISC-V+TISA/HPTPE XPU后重新签发。现有run 022证书不代表该修订范围已经完成。

@@ -215,6 +215,28 @@
       "references": ["chipyard"]
     }
   },
+  "revised_build_outputs": [
+    {
+      "name": "mllm_x86_runtime",
+      "path": ".references/mllm/build-clang16/bin/libMllmRT.so",
+      "executable": true,
+      "inputs": [
+        "scripts/build_mllm_native.sh",
+        "experiments/h13-revised-stack/mllm-build-clang16.yaml",
+        ".references/mllm/CMakeLists.txt",
+        ".references/mllm/tasks/build_x86.yaml"
+      ]
+    }
+  ],
+  "revised_component_profiles": {
+    "mllm": {
+      "command": ["{python}", "scripts/run_mllm_reproduction.py", "--run-id", "run_023", "--output", "artifacts/results/paper-mllm-run_023.json", "--trace-prefix", "artifacts/traces/paper-mllm-run_023"],
+      "output": "artifacts/results/paper-mllm-run_023.json",
+      "expected_endpoints": 5,
+      "sources": ["data/paper_targets.json", "experiments/h13-revised-stack/mllm-build-clang16.yaml", "src/agentsys/mllm_backend.py", "src/agentsys/mllm_native.py", "src/agentsys/mllm_npu.py", "scripts/run_mllm_reproduction.py"],
+      "references": ["mllm"]
+    }
+  },
   "reproduction_manifest": "artifacts/results/reproduction-run_021.json",
   "toolchain_audit": "artifacts/results/toolchain-run_021.json",
   "stages": [

@@ -1,0 +1,183 @@
+{
+  "chunk_sharing": {
+    "causal_kv_edges": 15,
+    "chunk_sharing_graph_preparation_ms": 30394.736842105267,
+    "chunk_tokens": 32,
+    "chunks": 16,
+    "dynamic_fraction_from_native_mir": 0.4736842105263158,
+    "dynamic_graph_instances": 16,
+    "naive_graph_preparation_ms": 60000.0,
+    "prompt_tokens": 512,
+    "speedup": 1.9740259740259738,
+    "static_fraction_from_native_mir": 0.5263157894736842,
+    "static_graph_instances": 1
+  },
+  "component": "mllm-llm.npu",
+  "evidence_type": "native_mllm_graph_plus_source_grounded_event_simulation",
+  "invariants": {
+    "native_graph_consumed": true,
+    "out_of_order_faster": true,
+    "outlier_hidden": true,
+    "same_completed": true,
+    "same_dependency_checks": true,
+    "task_count": 4480
+  },
+  "naive_schedule": {
+    "bubble_rate": {
+      "cpu": 0.6666666666666667,
+      "npu": 0.33333333333333337
+    },
+    "busy_us": {
+      "cpu": 630000.0,
+      "npu": 1260000.0
+    },
+    "completed": 4480,
+    "dependency_checks": 18336,
+    "dispatch_overhead_us": 0.0,
+    "event_count": 4480,
+    "makespan_us": 1890000.0,
+    "mode": "naive"
+  },
+  "native_graph": {
+    "block_digest": "96e9c06efb6406605cc47c91cefe10c29a1def7d7f0a5643e5acb947a50b3076",
+    "block_operator_count": 57,
+    "chunk_tokens": 32,
+    "dynamic_operator_count": 27,
+    "layers": 28,
+    "operator_count": 1602,
+    "operator_digest": "f9fc4fb525f9bdeb5ad54066d97d03ed9514b2aad115b13f0028d18eadb99bb6",
+    "static_fraction": 0.5263157894736842,
+    "static_operator_count": 30
+  },
+  "out_of_order": {
+    "latency_reduction": 0.3290666666666666,
+    "same_cpu_work": true,
+    "same_npu_work": true,
+    "speedup": 1.4904610492845787
+  },
+  "out_of_order_schedule": {
+    "bubble_rate": {
+      "cpu": 0.5031796502384738,
+      "npu": 0.006359300476947549
+    },
+    "busy_us": {
+      "cpu": 630000.0,
+      "npu": 1260000.0
+    },
+    "completed": 4480,
+    "dependency_checks": 18336,
+    "dispatch_overhead_us": 8064.0,
+    "event_count": 4480,
+    "makespan_us": 1268064.0,
+    "mode": "out_of_order"
+  },
+  "paper_accuracy": {
+    "endpoints": [
+      {
+        "limit": 0.15,
+        "name": "chunk_sharing_speedup",
+        "observed": 1.9740259740259738,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": [
+          1.46,
+          5.09
+        ]
+      },
+      {
+        "limit": 0.15,
+        "name": "shadow_outlier_speedup",
+        "observed": 6.599999999999999,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": [
+          3.91,
+          8.68
+        ]
+      },
+      {
+        "limit": 0.15,
+        "name": "out_of_order_prefill_reduction",
+        "observed": 0.3290666666666666,
+        "pass": true,
+        "relative_error": 0.0,
+        "target": [
+          0.18,
+          0.44
+        ]
+      },
+      {
+        "limit": 0.15,
+        "name": "naive_npu_bubble_rate",
+        "observed": 0.33333333333333337,
+        "pass": true,
+        "relative_error": 0.09909909909909899,
+        "target": 0.37
+      },
+      {
+        "limit": 0.15,
+        "name": "out_of_order_npu_bubble_rate",
+        "observed": 0.006359300476947549,
+        "pass": true,
+        "relative_error": 0.09152850329320728,
+        "target": 0.007
+      }
+    ],
+    "limit": 0.15,
+    "max_relative_error": 0.09909909909909899,
+    "pass": true,
+    "passed": 5,
+    "secondary_headline": {
+      "reason": "requires the original five baselines and two Qualcomm phones",
+      "status": "not_comparable_cross_platform_average",
+      "target": 22.4
+    },
+    "total": 5
+  },
+  "run_id": "run_023",
+  "schema_version": 1,
+  "shadow_outlier": {
+    "active_outlier_fraction": 0.00030000000000000003,
+    "baseline_per_group_us": 3118499.9999999995,
+    "hot_channel_weight_fraction": 0.03,
+    "outlier_channel_fraction": 0.002,
+    "per_group_overhead": 9.399999999999999,
+    "per_tensor_shadow_us": 472500.0,
+    "pruned_layer_fraction": 0.85,
+    "shadow_cpu_us": 94.50000000000001,
+    "shadow_fully_hidden": true,
+    "speedup": 6.599999999999999
+  },
+  "source_contract": {
+    "config": {
+      "chunk_tokens": 32,
+      "cpu_to_npu_time_ratio": 0.5,
+      "graph_ablation_prompt_tokens": 512,
+      "graph_create_ms": 450.0,
+      "graph_optimize_ms": 3300.0,
+      "hot_channel_fraction": 0.03,
+      "npu_profile_us": 315000.0,
+      "outlier_channel_fraction": 0.002,
+      "outlier_layer_pruning": 0.85,
+      "per_group_overhead_high": 10.7,
+      "per_group_overhead_low": 8.1,
+      "profile_prompt_tokens": 256,
+      "prompt_tokens": 1024,
+      "scheduler_overhead_us": 3.0
+    },
+    "doi": "10.1145/3669940.3707239",
+    "mllm_commit": "50ad5a9b6fbea742e38b5b31776c187e50319c8e",
+    "native_mir_sha256": "9fdd051818320885ad2934f997878609de53f1c24db812adf5f3eec2d90d3593",
+    "paper": "Fast On-device LLM Inference with NPUs"
+  },
+  "summary": {
+    "max_relative_error": 0.09909909909909899,
+    "paper_endpoints_passed": 5,
+    "paper_endpoints_total": 5,
+    "pass": true
+  },
+  "traces": {
+    "naive": "artifacts/traces/mllm-npu-run_023-naive.jsonl",
+    "out_of_order": "artifacts/traces/mllm-npu-run_023-ooo.jsonl"
+  }
+}

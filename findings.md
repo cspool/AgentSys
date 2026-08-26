@@ -2,7 +2,7 @@
 
 ## Research Question
 
-Can program-aware scheduling (Agentix), heterogeneous flow scheduling (Agent.xpu), and semantic tile scheduling (ATX/TISA) compose end to end while independently reproducing each source paper's registered core results within 10%?
+Can Agentix, Agent.xpu, mllm/llm.npu, TISA and HPTPE be independently reproduced within 15%, then compose on an ordinary-RISC-V Chipyard CPU+XPU system?
 
 ## Current Understanding
 
@@ -11,6 +11,8 @@ The three layers address different blocking boundaries. PLAS/ATLAS removes call-
 The available evidence requires distinct labels. Agentix's published evaluation used A100 GPUs; Agent.xpu used an Intel Core Ultra 5 125H; TISA used unreleased Epoch silicon; ATX used an internal Sniper-derived simulator. The local work can reproduce scheduling endpoints using a source-grounded trace/cycle simulator and can validate the hardware contract on real Chipyard Rocket+Verilator, but it must not label the local hardware as the original platforms.
 
 Final synthesis: urgency must participate at call release before it can be preserved below; semantic tile scheduling becomes beneficial only at the intended coarse granularity; prefetch/bandwidth gains are largest before the critical path shifts to compute; and dataflow choice remains workload/bandwidth dependent. These conditions explain both the successful stack and its observed trade-offs.
+
+The revised architecture removes ATX from the integrated CPU path. Run 023 now closes the first new standalone gate: mllm itself is built and executed, while llm.npu's chunk sharing, shadow-outlier path and out-of-order subgraph scheduling are independently modeled over a native mllm graph. HPTPE remains the gating hardware component; the old four-lane ME cannot satisfy it.
 
 ## Key Results
 
@@ -30,6 +32,7 @@ Final synthesis: urgency must participate at call release before it can be prese
 - Run 011 closes the omitted Serial baseline: Agent.xpu passes 11/11, including 33.42% active iGPU reduction versus the 32.5% target.
 - Run 012 closes real DDR modeling: official Ramulator2 halves memory service with two channels, but total TISA improves only 1.009× because ME becomes critical. This separates bandwidth benefit from bottleneck migration.
 - Run 013 completes the sensitivity suite: TISA's timing knee is W=4, fine preemption modestly improves tails, and current OS ME dataflow can be 3.851× worse than WS under extreme bandwidth pressure. Gains are constrained by shifting bottlenecks, not monotonic knobs.
+- Run 023 builds pinned mllm v2 and passes 20/20 native executables with 101 gtest cases. Its native-MIR-driven llm.npu model executes 4,480 subgraphs and 18,336 dependency checks per schedule; chunk sharing is 1.974×, shadow outliers 6.600×, OOO latency reduction 32.91%, and NPU bubble 33.33%→0.636%. All 5 endpoints pass at 15%, max error 9.91%.
 
 ## Patterns and Insights
 
@@ -40,6 +43,7 @@ Final synthesis: urgency must participate at call release before it can be prese
 - Run 002 proves the 1.59× shared-DDR term generalizes across all six reactive endpoints without per-rate factors. It also shows that a wall-busy fraction is not the paper's active-period-weighted iGPU metric; keeping these definitions separate is now a hard constraint.
 - Chipyard confirms that semantic issue can produce an end-to-end benefit even after real Rocket custom-instruction and cache/DMA overhead: backend improvement 33.3% becomes 28.9% over the controller busy interval and 25.8% at host launch/wait.
 - Dynamic tile scheduling only helps above its intended granularity. Correct semantic mapping alone is insufficient when backend lowering emits sub-7-cycle tiles; the mllm adapter must preserve a hardware-realistic tile scale.
+- mllm's real build and its paper mechanism are separate gates. A valid MIR parser/TISA speedup does not reproduce llm.npu; conversely, source-grounded llm.npu scheduling does not become Qualcomm device measurement.
 
 ## Lessons and Constraints
 
@@ -47,11 +51,12 @@ Final synthesis: urgency must participate at call release before it can be prese
 - Never tune model parameters after reading an endpoint residual without registering a new exploratory experiment and holding out an independent endpoint.
 - Combined-stack gains have no published numerical target and therefore must be reported as a new local result, not a reproduced paper point.
 - Two RTX 4090-class GPUs, when available, may provide functional/kernel baselines only; they cannot substitute for Agentix's multi-A100 evaluation.
+- Upstream aggregate test binaries can contain explicitly NYI platform cases. Preserve the unfiltered failure, then register a supported-platform subset; never silently count an NYI crash as a pass.
 
 ## Open Questions
 
 - Can one target-independent parameterization reproduce the registered endpoints across multiple workloads rather than a separate fit per point?
-- How much of the end-to-end gain survives priority propagation through finite ATX/TISA queues and DDR contention?
+- How much of the mllm/Agent.xpu/TISA gain survives the HPTPE array, finite queues and DDR contention on ordinary RISC-V?
 - Can the Chipyard RTL preserve RAW/WAR/WAW correctness while allowing the same non-conflicting issue decisions as the Python reference model?
 
 ## Optimization Trajectory
@@ -64,6 +69,8 @@ Runs 019–020 replace the remaining 31 parameterized endpoints with executable 
 
 Run 021 closes the physical integration gap: one executed ReAct/MoA/MCTS trace and native mllm graph compile into a second RISC-V ELF and run on both Rocket+RoCC systems. The resulting 200-event trace measures application/framework/software/CPU/XPU/DMA. Dynamic issue is 1.336× at the backend, 1.312× at controller-system scope and 1.084× end to end, exposing host/runtime dilution rather than assuming gains compose unchanged.
 
+Run 023 starts the revised stack. Real mllm framework execution passes 20/20 selected binaries and 101 gtests; the three llm.npu mechanisms pass 5/5 paper endpoints at 9.91% maximum error. The 22.4× cross-platform headline remains explicitly unverified because the Qualcomm phones and five original baselines are unavailable.
+
 ## Toolchain Closure
 
 - Python 3.11 and the four environment packages are hash-locked with `uv.lock`; system tools, seven source revisions, compatibility patches, build products and Chipyard overlays are checked separately.
@@ -74,3 +81,4 @@ Run 021 closes the physical integration gap: one executed ReAct/MoA/MCTS trace a
 - Run 019 adds an independently tested public Autellix reference (58 tests), an executable Agentix SLO-capacity/KV simulator and an executable ATX/UTE microarchitecture simulator; none reads endpoint targets while executing.
 - Run 020 reports 24 direct source-grounded endpoints, 31 open executable closed-platform substitutes and zero parameterized component replays.
 - Run 021 adds two application/compilation artifacts, the trace ELF, 11/11 serial stages and 13/13 real CPU+XPU gates; the per-layer paper errors are 9.09/8.07/3.10/8.27%, all below 15%.
+- Run 023 introduces `revised_build_outputs`/`revised_component_profiles` without changing the historical run-022 contract. The mllm profile combines a real Clang-16 build/test artifact with native-MIR-driven llm.npu performance evidence.

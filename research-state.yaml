@@ -116,7 +116,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 22
+  total_runs: 23
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -272,11 +272,18 @@ experiments:
       wall_time_min: 0.63
       change_summary: "Application-to-hardware certificate passes 17/17 requirements, 55/55 endpoints, fresh 38-test pytest and RTL lint."
       timestamp: "2026-08-26"
+    - run_id: "run_023"
+      hypothesis: "H13/mllm"
+      metric_value: 0.09909909909909899
+      delta: 0.00819000819000808
+      wall_time_min: 13.0
+      change_summary: "Pinned mllm v2 builds and passes 20/20 native executables (101 gtests); llm.npu mechanisms pass 5/5 endpoints with 9.91% maximum error."
+      timestamp: "2026-08-26"
 
 outer_loop:
-  cycle: 9
+  cycle: 10
   last_direction: deepen
-  last_reflection: "Run 021 proves trace feasibility, but the revised final system still requires standalone mllm, Agent.xpu and HPTPE reproduction followed by ordinary-RISC-V+TISA/HPTPE integration."
+  last_reflection: "Run 023 closes standalone mllm/llm.npu with real framework execution and source-grounded mechanism performance; HPTPE is now the blocking standalone component before unchanged revalidation and ordinary-RISC-V integration."
 
 workspace:
   findings: "findings.md"
