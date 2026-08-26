@@ -63,6 +63,7 @@ REQUIRED_FILES = (
     "experiments/h9-toolchain/protocol.md",
     "experiments/h9-toolchain/analysis.md",
     "experiments/h10-paper10/protocol.md",
+    "experiments/h10-paper10/analysis.md",
     "artifacts/results/paper-agentix-run_017.json",
     "artifacts/results/paper-agentxpu-run_017.json",
     "artifacts/results/paper-atx-run_017.json",

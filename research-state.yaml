@@ -1,7 +1,7 @@
 # Research State — Central Project Tracking
 project:
   title: "AgentSys: dynamic-agent full-stack scheduling from program DAG to NPU tile"
-  question: "Can program-aware, heterogeneous-flow-aware, and semantic tile scheduling compose end to end while reproducing each source paper's registered core result within 15%?"
+  question: "Can program-aware, heterogeneous-flow-aware, and semantic tile scheduling compose end to end while independently reproducing each target paper's registered core result within 10%?"
   status: concluded
   started: "2026-08-25"
   domain: "computer systems and architecture"
@@ -85,12 +85,18 @@ hypotheses:
     motivation: "Close the expanded complete-toolchain and configuration requirement."
     parent: null
     priority: high
+  - id: H10
+    statement: "Independent Agentix, Agent.xpu, ATX and TISA profiles all remain within a strict 10% endpoint error gate without mechanism retuning."
+    status: supported
+    motivation: "Close the tightened per-paper implementation, toolchain and performance requirement."
+    parent: null
+    priority: high
 
 experiments:
-  proxy_metric: "maximum absolute relative error across preregistered paper endpoints (must be <= 0.15), with functional invariants as hard gates"
+  proxy_metric: "maximum absolute relative error across preregistered paper endpoints (must be <= 0.10), with per-paper toolchains and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 16
+  total_runs: 18
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -204,11 +210,25 @@ experiments:
       wall_time_min: 0.14
       change_summary: "Expanded certificate passes 13/13 requirements, 55/55 endpoints, fresh 25-test pytest and RTL lint."
       timestamp: "2026-08-26"
+    - run_id: "run_017"
+      hypothesis: "H10"
+      metric_value: 0.08333333333333333
+      delta: 0.0
+      wall_time_min: 1.57
+      change_summary: "Four independent paper artifacts pass 16/16, 11/11, 18/18 and 10/10 at limit 0.10; all nine serial stages and 12 toolchain gates pass."
+      timestamp: "2026-08-26"
+    - run_id: "run_018"
+      hypothesis: "completion audit"
+      metric_value: 0.08333333333333333
+      delta: 0.0
+      wall_time_min: 0.14
+      change_summary: "Tightened certificate passes 14/14 requirements, 55/55 endpoints, fresh 28-test pytest and RTL lint."
+      timestamp: "2026-08-26"
 
 outer_loop:
-  cycle: 6
+  cycle: 7
   last_direction: conclude
-  last_reflection: "The pinned setup, build outputs, eight strictly serial experiments, paper endpoints, real simulator gates, traces, tests, documentation, and expanded 13/13 certificate all pass."
+  last_reflection: "Four independent paper profiles, the 10% endpoint contract, nine serial stages, simulator evidence, tests, documentation, and the expanded 14/14 certificate all pass."
 
 workspace:
   findings: "findings.md"

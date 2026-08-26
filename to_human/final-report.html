@@ -9,15 +9,15 @@ body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d111
 </head>
 <body>
 <h1>AgentSys：从 program DAG 到 NPU engine</h1>
-<p class="lead">完整实现、论文端点复现、真实 Chipyard/Ramulator2 与六层优先级证据</p>
+<p class="lead">四篇论文独立实现与10%复现、真实 Chipyard/Ramulator2、完整工具链与六层优先级证据</p>
 
 <div class="grid">
   <div class="card"><div class="value">55/55</div><div class="label">论文端点通过</div></div>
   <div class="card"><div class="value">8.33%</div><div class="label">最大数值误差</div></div>
   <div class="card"><div class="value">17/17</div><div class="label">Chipyard 门禁</div></div>
   <div class="card"><div class="value">636/636</div><div class="label">优先级继承检查</div></div>
-  <div class="card"><div class="value">8/8</div><div class="label">串行重放阶段</div></div>
-  <div class="card"><div class="value">13/13</div><div class="label">最终要求</div></div>
+  <div class="card"><div class="value">9/9</div><div class="label">串行重放阶段</div></div>
+  <div class="card"><div class="value">14/14</div><div class="label">最终要求</div></div>
 </div>
 
 <h2>研究问题</h2>
@@ -29,8 +29,8 @@ body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d111
 <rect width="900" height="330" rx="8" fill="#161b22"/>
 <line x1="75" y1="270" x2="840" y2="270" stroke="#484f58"/>
 <line x1="75" y1="50" x2="75" y2="270" stroke="#484f58"/>
-<line x1="75" y1="228" x2="840" y2="228" stroke="#d29922" stroke-dasharray="6 5"/>
-<text x="845" y="232" fill="#d29922" font-size="12">15% gate</text>
+<line x1="75" y1="242" x2="840" y2="242" stroke="#d29922" stroke-dasharray="6 5"/>
+<text x="845" y="246" fill="#d29922" font-size="12">10% gate</text>
 <polyline points="100,70 330,139 610,247 820,247" fill="none" stroke="#3fb950" stroke-width="4"/>
 <circle cx="100" cy="70" r="7" fill="#58a6ff"/><circle cx="330" cy="139" r="7" fill="#58a6ff"/><circle cx="610" cy="247" r="7" fill="#58a6ff"/><circle cx="820" cy="247" r="7" fill="#58a6ff"/>
 <text x="82" y="55" fill="#c9d1d9">77.0%</text><text x="312" y="124" fill="#c9d1d9">52.0%</text><text x="592" y="232" fill="#c9d1d9">8.33%</text><text x="802" y="232" fill="#c9d1d9">8.33%</text>
@@ -44,13 +44,16 @@ body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d111
 <table>
 <thead><tr><th>证据</th><th>结果</th><th>状态</th></tr></thead>
 <tbody>
-<tr><td>Agentix / Agent.xpu / ATX / TISA</td><td>55 个端点全部 ≤15%</td><td class="pass">通过</td></tr>
+<tr><td>Agentix</td><td>独立 profile：16/16，最大误差 8.33%</td><td class="pass">通过</td></tr>
+<tr><td>Agent.xpu</td><td>独立 profile：11/11，最大误差 8.07%</td><td class="pass">通过</td></tr>
+<tr><td>ATX</td><td>独立 profile：18/18，最大误差 0.285%</td><td class="pass">通过</td></tr>
+<tr><td>TISA</td><td>独立 profile：10/10，最大误差 8.27%</td><td class="pass">通过</td></tr>
 <tr><td>Rocket+Verilator</td><td>dynamic backend 332→249 cycles，overlap 0→79</td><td class="pass">17/17</td></tr>
 <tr><td>mllm Qwen3 MIR</td><td>ME/VE/DE=23/61/76；decoder slice 1.324×</td><td class="pass">9/9</td></tr>
 <tr><td>Ramulator2</td><td>双通道内存 166400→82854 cycles；总 TISA 仅 1.009×</td><td class="pass">7/7</td></tr>
 <tr><td>Full stack</td><td>reactive 相对 baseline 3.027×，相对 dynamic-only 1.333×</td><td class="pass">10/10</td></tr>
-<tr><td>Pinned toolchain</td><td>Python/工具/源码/patch/build/overlay/结果全部闭合</td><td class="pass">11/11</td></tr>
-<tr><td>Serial reproduction</td><td>8 个论文与系统阶段严格顺序执行</td><td class="pass">8/8</td></tr>
+<tr><td>Pinned toolchain</td><td>Python/工具/分论文 profile/源码/patch/build/overlay/结果全部闭合</td><td class="pass">12/12</td></tr>
+<tr><td>Serial reproduction</td><td>9 个论文与系统支撑阶段严格顺序执行</td><td class="pass">9/9</td></tr>
 </tbody>
 </table>
 
@@ -64,6 +67,6 @@ body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d111
 <p class="note">A100 aggregate 与私有 Sniper 结果属于 paper-parameterized replay；Agent.xpu/TISA 属于 source-grounded trace/cycle simulation；Rocket+Verilator 和 Ramulator2 是真实开源 simulator 执行。两张 RTX 4090 没有被用来替代 A100、Intel NPU 或 Epoch 真硅片。</p>
 
 <h2>交付</h2>
-<p>主报告：<code>ISCA26_G3_Agent全栈系统加速.md</code><br>工具链配置：<code>config/toolchain.json</code><br>串行重放：<code>artifacts/results/reproduction-run_015.json</code><br>机器证书：<code>artifacts/results/final-certificate.json</code><br>统一 trace：<code>artifacts/traces/full-stack-run_008.jsonl</code></p>
+<p>主报告：<code>ISCA26_G3_Agent全栈系统加速.md</code><br>工具链配置：<code>config/toolchain.json</code><br>分论文结果：<code>artifacts/results/paper-*-run_017.json</code><br>串行重放：<code>artifacts/results/reproduction-run_017.json</code><br>机器证书：<code>artifacts/results/final-certificate.json</code><br>统一 trace：<code>artifacts/traces/full-stack-run_008.jsonl</code></p>
 </body>
 </html>

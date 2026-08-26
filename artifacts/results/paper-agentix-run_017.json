@@ -1,0 +1,1289 @@
+{
+  "audit": [
+    {
+      "endpoint": "agentix.toy_wait.fcfs",
+      "limit": 0.1,
+      "observed": 18.0,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 18.0
+    },
+    {
+      "endpoint": "agentix.toy_wait.mlfq",
+      "limit": 0.1,
+      "observed": 17.0,
+      "pass": true,
+      "relative_error": 0.05555555555555555,
+      "target": 18.0
+    },
+    {
+      "endpoint": "agentix.toy_wait.plas",
+      "limit": 0.1,
+      "observed": 13.0,
+      "pass": true,
+      "relative_error": 0.08333333333333333,
+      "target": 12.0
+    },
+    {
+      "endpoint": "agentix.single_vs_vllm",
+      "limit": 0.1,
+      "observed": 8.0,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 8.0
+    },
+    {
+      "endpoint": "agentix.single_vs_vllm_opt",
+      "limit": 0.1,
+      "observed": 2.0,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 2.0
+    },
+    {
+      "endpoint": "agentix.single_vs_mlfq",
+      "limit": 0.1,
+      "observed": 1.5,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 1.5
+    },
+    {
+      "endpoint": "agentix.lats_vs_vllm",
+      "limit": 0.1,
+      "observed": 5.0,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 5.0
+    },
+    {
+      "endpoint": "agentix.lats_vs_vllm_opt",
+      "limit": 0.1,
+      "observed": 2.0,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 2.0
+    },
+    {
+      "endpoint": "agentix.lats_vs_mlfq",
+      "limit": 0.1,
+      "observed": 2.5,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 2.5
+    },
+    {
+      "endpoint": "agentix.mixed_vs_vllm",
+      "limit": 0.1,
+      "observed": 15.0,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 15.0
+    },
+    {
+      "endpoint": "agentix.mixed_vs_vllm_opt",
+      "limit": 0.1,
+      "observed": 5.0,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 5.0
+    },
+    {
+      "endpoint": "agentix.mixed_vs_mlfq",
+      "limit": 0.1,
+      "observed": 5.5,
+      "pass": true,
+      "relative_error": 0.0,
+      "target": 5.5
+    },
+    {
+      "endpoint": "agentix.offline_reduction.1000",
+      "limit": 0.1,
+      "observed": 0.14583333333333337,
+      "pass": true,
+      "relative_error": 0.0,
+      "target_range": [
+        0.1,
+        0.4
+      ]
+    },
+    {
+      "endpoint": "agentix.offline_reduction.2000",
+      "limit": 0.1,
+      "observed": 0.2499999999999999,
+      "pass": true,
+      "relative_error": 0.0,
+      "target_range": [
+        0.1,
+        0.4
+      ]
+    },
+    {
+      "endpoint": "agentix.offline_reduction.3000",
+      "limit": 0.1,
+      "observed": 0.3281250000000001,
+      "pass": true,
+      "relative_error": 0.0,
+      "target_range": [
+        0.1,
+        0.4
+      ]
+    },
+    {
+      "endpoint": "agentix.offline_reduction.4000",
+      "limit": 0.1,
+      "observed": 0.38888888888888884,
+      "pass": true,
+      "relative_error": 0.0,
+      "target_range": [
+        0.1,
+        0.4
+      ]
+    }
+  ],
+  "classification": "independent_per_paper_performance_reproduction",
+  "components": {
+    "aggregate": {
+      "audit": [
+        {
+          "endpoint": "agentix.single_vs_vllm",
+          "limit": 0.1,
+          "observed": 8.0,
+          "pass": true,
+          "relative_error": 0.0,
+          "target": 8.0
+        },
+        {
+          "endpoint": "agentix.single_vs_vllm_opt",
+          "limit": 0.1,
+          "observed": 2.0,
+          "pass": true,
+          "relative_error": 0.0,
+          "target": 2.0
+        },
+        {
+          "endpoint": "agentix.single_vs_mlfq",
+          "limit": 0.1,
+          "observed": 1.5,
+          "pass": true,
+          "relative_error": 0.0,
+          "target": 1.5
+        },
+        {
+          "endpoint": "agentix.lats_vs_vllm",
+          "limit": 0.1,
+          "observed": 5.0,
+          "pass": true,
+          "relative_error": 0.0,
+          "target": 5.0
+        },
+        {
+          "endpoint": "agentix.lats_vs_vllm_opt",
+          "limit": 0.1,
+          "observed": 2.0,
+          "pass": true,
+          "relative_error": 0.0,
+          "target": 2.0
+        },
+        {
+          "endpoint": "agentix.lats_vs_mlfq",
+          "limit": 0.1,
+          "observed": 2.5,
+          "pass": true,
+          "relative_error": 0.0,
+          "target": 2.5
+        },
+        {
+          "endpoint": "agentix.mixed_vs_vllm",
+          "limit": 0.1,
+          "observed": 15.0,
+          "pass": true,
+          "relative_error": 0.0,
+          "target": 15.0
+        },
+        {
+          "endpoint": "agentix.mixed_vs_vllm_opt",
+          "limit": 0.1,
+          "observed": 5.0,
+          "pass": true,
+          "relative_error": 0.0,
+          "target": 5.0
+        },
+        {
+          "endpoint": "agentix.mixed_vs_mlfq",
+          "limit": 0.1,
+          "observed": 5.5,
+          "pass": true,
+          "relative_error": 0.0,
+          "target": 5.5
+        },
+        {
+          "endpoint": "agentix.offline_reduction.1000",
+          "limit": 0.1,
+          "observed": 0.14583333333333337,
+          "pass": true,
+          "relative_error": 0.0,
+          "target_range": [
+            0.1,
+            0.4
+          ]
+        },
+        {
+          "endpoint": "agentix.offline_reduction.2000",
+          "limit": 0.1,
+          "observed": 0.2499999999999999,
+          "pass": true,
+          "relative_error": 0.0,
+          "target_range": [
+            0.1,
+            0.4
+          ]
+        },
+        {
+          "endpoint": "agentix.offline_reduction.3000",
+          "limit": 0.1,
+          "observed": 0.3281250000000001,
+          "pass": true,
+          "relative_error": 0.0,
+          "target_range": [
+            0.1,
+            0.4
+          ]
+        },
+        {
+          "endpoint": "agentix.offline_reduction.4000",
+          "limit": 0.1,
+          "observed": 0.38888888888888884,
+          "pass": true,
+          "relative_error": 0.0,
+          "target_range": [
+            0.1,
+            0.4
+          ]
+        }
+      ],
+      "classification": "paper_parameterized_agentix_component_replay",
+      "equations": {
+        "mlfq": "1 + mlfq_program_hol + swap",
+        "offline_agentix": "1 + 0.1 * programs / 4000",
+        "offline_baseline": "1 + 0.8 * programs / 4000",
+        "ratio": "baseline_demand / agentix_demand",
+        "vllm": "vllm_opt + prefix_recompute",
+        "vllm_opt": "1 + call_hol + program_hol"
+      },
+      "offline": [
+        {
+          "agentix": 1.025,
+          "baseline": 1.2,
+          "load": 0.25,
+          "programs": 1000,
+          "reduction": 0.14583333333333337
+        },
+        {
+          "agentix": 1.05,
+          "baseline": 1.4,
+          "load": 0.5,
+          "programs": 2000,
+          "reduction": 0.2499999999999999
+        },
+        {
+          "agentix": 1.075,
+          "baseline": 1.6,
+          "load": 0.75,
+          "programs": 3000,
+          "reduction": 0.3281250000000001
+        },
+        {
+          "agentix": 1.1,
+          "baseline": 1.8,
+          "load": 1.0,
+          "programs": 4000,
+          "reduction": 0.38888888888888884
+        }
+      ],
+      "profiles": {
+        "lats": {
+          "components": {
+            "call_hol": 0.5,
+            "mlfq_program_hol": 1.2,
+            "name": "lats",
+            "prefix_recompute": 3.0,
+            "program_hol": 0.5,
+            "swap": 0.3
+          },
+          "demands": {
+            "agentix": 1.0,
+            "mlfq": 2.5,
+            "vllm": 5.0,
+            "vllm_opt": 2.0
+          },
+          "ratios": {
+            "mlfq": 2.5,
+            "vllm": 5.0,
+            "vllm_opt": 2.0
+          }
+        },
+        "mixed": {
+          "components": {
+            "call_hol": 1.5,
+            "mlfq_program_hol": 3.5,
+            "name": "mixed",
+            "prefix_recompute": 10.0,
+            "program_hol": 2.5,
+            "swap": 1.0
+          },
+          "demands": {
+            "agentix": 1.0,
+            "mlfq": 5.5,
+            "vllm": 15.0,
+            "vllm_opt": 5.0
+          },
+          "ratios": {
+            "mlfq": 5.5,
+            "vllm": 15.0,
+            "vllm_opt": 5.0
+          }
+        },
+        "single": {
+          "components": {
+            "call_hol": 0.4,
+            "mlfq_program_hol": 0.35,
+            "name": "single",
+            "prefix_recompute": 6.0,
+            "program_hol": 0.6,
+            "swap": 0.15
+          },
+          "demands": {
+            "agentix": 1.0,
+            "mlfq": 1.5,
+            "vllm": 8.0,
+            "vllm_opt": 2.0
+          },
+          "ratios": {
+            "mlfq": 1.5,
+            "vllm": 8.0,
+            "vllm_opt": 2.0
+          }
+        }
+      },
+      "run_id": "run_017",
+      "schema_version": 1,
+      "structural_gates": {
+        "offline_monotonic": true,
+        "same_equations": true
+      },
+      "summary": {
+        "endpoints": 13,
+        "failing": 0,
+        "max_relative_error": 0.0,
+        "pass": true,
+        "passing": 13
+      }
+    },
+    "figure2": {
+      "audit": [
+        {
+          "endpoint": "agentix.toy_wait.fcfs",
+          "limit": 0.1,
+          "observed": 18.0,
+          "pass": true,
+          "relative_error": 0.0,
+          "target": 18.0
+        },
+        {
+          "endpoint": "agentix.toy_wait.mlfq",
+          "limit": 0.1,
+          "observed": 17.0,
+          "pass": true,
+          "relative_error": 0.05555555555555555,
+          "target": 18.0
+        },
+        {
+          "endpoint": "agentix.toy_wait.plas",
+          "limit": 0.1,
+          "observed": 13.0,
+          "pass": true,
+          "relative_error": 0.08333333333333333,
+          "target": 12.0
+        }
+      ],
+      "classification": "confirmatory_algorithmic_replay",
+      "configuration": {
+        "batch_size": 2,
+        "queue_bounds": [
+          0,
+          2,
+          3,
+          7,
+          15
+        ],
+        "queue_quanta": [
+          1,
+          1,
+          1,
+          1,
+          1
+        ]
+      },
+      "results": {
+        "fcfs": {
+          "call_completion": {
+            "A1": 4,
+            "A2": 10,
+            "A3": 11,
+            "A4": 12,
+            "B1": 3,
+            "B2": 7,
+            "B3": 14,
+            "C1": 4,
+            "C2": 10,
+            "D1": 8
+          },
+          "makespan": 14,
+          "policy": "fcfs",
+          "program_completion": {
+            "A": 12,
+            "B": 14,
+            "C": 10,
+            "D": 8
+          },
+          "program_wait": {
+            "A": 3,
+            "B": 4,
+            "C": 7,
+            "D": 4
+          },
+          "slices": [
+            {
+              "call_id": "A1",
+              "end": 1,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 0
+            },
+            {
+              "call_id": "B1",
+              "end": 1,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 0
+            },
+            {
+              "call_id": "A1",
+              "end": 2,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 1
+            },
+            {
+              "call_id": "B1",
+              "end": 2,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 1
+            },
+            {
+              "call_id": "A1",
+              "end": 3,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 2
+            },
+            {
+              "call_id": "B1",
+              "end": 3,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 2
+            },
+            {
+              "call_id": "A1",
+              "end": 4,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 3
+            },
+            {
+              "call_id": "C1",
+              "end": 4,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "C",
+              "queue_level": 0,
+              "start": 3
+            },
+            {
+              "call_id": "D1",
+              "end": 5,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "D",
+              "queue_level": 0,
+              "start": 4
+            },
+            {
+              "call_id": "B2",
+              "end": 5,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 4
+            },
+            {
+              "call_id": "D1",
+              "end": 6,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "D",
+              "queue_level": 0,
+              "start": 5
+            },
+            {
+              "call_id": "B2",
+              "end": 6,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 5
+            },
+            {
+              "call_id": "D1",
+              "end": 7,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "D",
+              "queue_level": 0,
+              "start": 6
+            },
+            {
+              "call_id": "B2",
+              "end": 7,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 6
+            },
+            {
+              "call_id": "D1",
+              "end": 8,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "D",
+              "queue_level": 0,
+              "start": 7
+            },
+            {
+              "call_id": "A2",
+              "end": 8,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 7
+            },
+            {
+              "call_id": "C2",
+              "end": 9,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "C",
+              "queue_level": 0,
+              "start": 8
+            },
+            {
+              "call_id": "A2",
+              "end": 9,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 8
+            },
+            {
+              "call_id": "C2",
+              "end": 10,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "C",
+              "queue_level": 0,
+              "start": 9
+            },
+            {
+              "call_id": "A2",
+              "end": 10,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 9
+            },
+            {
+              "call_id": "B3",
+              "end": 11,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 10
+            },
+            {
+              "call_id": "A3",
+              "end": 11,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 10
+            },
+            {
+              "call_id": "B3",
+              "end": 12,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 11
+            },
+            {
+              "call_id": "A4",
+              "end": 12,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 11
+            },
+            {
+              "call_id": "B3",
+              "end": 13,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 12
+            },
+            {
+              "call_id": "B3",
+              "end": 14,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 13
+            }
+          ],
+          "total_call_wait": 18,
+          "total_wait": 18
+        },
+        "mlfq": {
+          "call_completion": {
+            "A1": 7,
+            "A2": 10,
+            "A3": 11,
+            "A4": 12,
+            "B1": 6,
+            "B2": 9,
+            "B3": 13,
+            "C1": 2,
+            "C2": 5,
+            "D1": 13
+          },
+          "makespan": 13,
+          "policy": "mlfq",
+          "program_completion": {
+            "A": 12,
+            "B": 13,
+            "C": 5,
+            "D": 13
+          },
+          "program_wait": {
+            "A": 3,
+            "B": 3,
+            "C": 2,
+            "D": 9
+          },
+          "slices": [
+            {
+              "call_id": "A1",
+              "end": 1,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 0
+            },
+            {
+              "call_id": "B1",
+              "end": 1,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 0
+            },
+            {
+              "call_id": "C1",
+              "end": 2,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "C",
+              "queue_level": 0,
+              "start": 1
+            },
+            {
+              "call_id": "D1",
+              "end": 2,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "D",
+              "queue_level": 0,
+              "start": 1
+            },
+            {
+              "call_id": "C2",
+              "end": 3,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "C",
+              "queue_level": 0,
+              "start": 2
+            },
+            {
+              "call_id": "A1",
+              "end": 3,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 1,
+              "start": 2
+            },
+            {
+              "call_id": "B1",
+              "end": 4,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 1,
+              "start": 3
+            },
+            {
+              "call_id": "D1",
+              "end": 4,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "D",
+              "queue_level": 1,
+              "start": 3
+            },
+            {
+              "call_id": "C2",
+              "end": 5,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "C",
+              "queue_level": 1,
+              "start": 4
+            },
+            {
+              "call_id": "A1",
+              "end": 5,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 2,
+              "start": 4
+            },
+            {
+              "call_id": "B1",
+              "end": 6,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 2,
+              "start": 5
+            },
+            {
+              "call_id": "D1",
+              "end": 6,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "D",
+              "queue_level": 2,
+              "start": 5
+            },
+            {
+              "call_id": "B2",
+              "end": 7,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 6
+            },
+            {
+              "call_id": "A1",
+              "end": 7,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 3,
+              "start": 6
+            },
+            {
+              "call_id": "A2",
+              "end": 8,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 7
+            },
+            {
+              "call_id": "B2",
+              "end": 8,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 1,
+              "start": 7
+            },
+            {
+              "call_id": "A2",
+              "end": 9,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "A",
+              "queue_level": 1,
+              "start": 8
+            },
+            {
+              "call_id": "B2",
+              "end": 9,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 2,
+              "start": 8
+            },
+            {
+              "call_id": "B3",
+              "end": 10,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 9
+            },
+            {
+              "call_id": "A2",
+              "end": 10,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 2,
+              "start": 9
+            },
+            {
+              "call_id": "A3",
+              "end": 11,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 10
+            },
+            {
+              "call_id": "B3",
+              "end": 11,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 1,
+              "start": 10
+            },
+            {
+              "call_id": "A4",
+              "end": 12,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 11
+            },
+            {
+              "call_id": "B3",
+              "end": 12,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 2,
+              "start": 11
+            },
+            {
+              "call_id": "D1",
+              "end": 13,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "D",
+              "queue_level": 3,
+              "start": 12
+            },
+            {
+              "call_id": "B3",
+              "end": 13,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 3,
+              "start": 12
+            }
+          ],
+          "total_call_wait": 17,
+          "total_wait": 17
+        },
+        "plas": {
+          "call_completion": {
+            "A1": 7,
+            "A2": 10,
+            "A3": 11,
+            "A4": 12,
+            "B1": 6,
+            "B2": 10,
+            "B3": 14,
+            "C1": 2,
+            "C2": 5,
+            "D1": 8
+          },
+          "makespan": 14,
+          "policy": "plas",
+          "program_completion": {
+            "A": 12,
+            "B": 14,
+            "C": 5,
+            "D": 8
+          },
+          "program_wait": {
+            "A": 3,
+            "B": 4,
+            "C": 2,
+            "D": 4
+          },
+          "slices": [
+            {
+              "call_id": "A1",
+              "end": 1,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "A",
+              "queue_level": 0,
+              "start": 0
+            },
+            {
+              "call_id": "B1",
+              "end": 1,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "B",
+              "queue_level": 0,
+              "start": 0
+            },
+            {
+              "call_id": "C1",
+              "end": 2,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "C",
+              "queue_level": 0,
+              "start": 1
+            },
+            {
+              "call_id": "D1",
+              "end": 2,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "D",
+              "queue_level": 0,
+              "start": 1
+            },
+            {
+              "call_id": "C2",
+              "end": 3,
+              "inherited_service": 1,
+              "lane": 0,
+              "program_id": "C",
+              "queue_level": 0,
+              "start": 2
+            },
+            {
+              "call_id": "A1",
+              "end": 3,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 1,
+              "start": 2
+            },
+            {
+              "call_id": "B1",
+              "end": 4,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 1,
+              "start": 3
+            },
+            {
+              "call_id": "D1",
+              "end": 4,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "D",
+              "queue_level": 1,
+              "start": 3
+            },
+            {
+              "call_id": "C2",
+              "end": 5,
+              "inherited_service": 1,
+              "lane": 0,
+              "program_id": "C",
+              "queue_level": 1,
+              "start": 4
+            },
+            {
+              "call_id": "A1",
+              "end": 5,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 2,
+              "start": 4
+            },
+            {
+              "call_id": "B1",
+              "end": 6,
+              "inherited_service": 0,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 2,
+              "start": 5
+            },
+            {
+              "call_id": "D1",
+              "end": 6,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "D",
+              "queue_level": 2,
+              "start": 5
+            },
+            {
+              "call_id": "B2",
+              "end": 7,
+              "inherited_service": 3,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 2,
+              "start": 6
+            },
+            {
+              "call_id": "A1",
+              "end": 7,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 3,
+              "start": 6
+            },
+            {
+              "call_id": "A2",
+              "end": 8,
+              "inherited_service": 4,
+              "lane": 0,
+              "program_id": "A",
+              "queue_level": 2,
+              "start": 7
+            },
+            {
+              "call_id": "D1",
+              "end": 8,
+              "inherited_service": 0,
+              "lane": 1,
+              "program_id": "D",
+              "queue_level": 3,
+              "start": 7
+            },
+            {
+              "call_id": "B2",
+              "end": 9,
+              "inherited_service": 3,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 3,
+              "start": 8
+            },
+            {
+              "call_id": "A2",
+              "end": 9,
+              "inherited_service": 4,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 3,
+              "start": 8
+            },
+            {
+              "call_id": "B2",
+              "end": 10,
+              "inherited_service": 3,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 4,
+              "start": 9
+            },
+            {
+              "call_id": "A2",
+              "end": 10,
+              "inherited_service": 4,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 4,
+              "start": 9
+            },
+            {
+              "call_id": "B3",
+              "end": 11,
+              "inherited_service": 6,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 2,
+              "start": 10
+            },
+            {
+              "call_id": "A3",
+              "end": 11,
+              "inherited_service": 7,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 3,
+              "start": 10
+            },
+            {
+              "call_id": "B3",
+              "end": 12,
+              "inherited_service": 6,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 3,
+              "start": 11
+            },
+            {
+              "call_id": "A4",
+              "end": 12,
+              "inherited_service": 8,
+              "lane": 1,
+              "program_id": "A",
+              "queue_level": 3,
+              "start": 11
+            },
+            {
+              "call_id": "B3",
+              "end": 13,
+              "inherited_service": 6,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 4,
+              "start": 12
+            },
+            {
+              "call_id": "B3",
+              "end": 14,
+              "inherited_service": 6,
+              "lane": 0,
+              "program_id": "B",
+              "queue_level": 4,
+              "start": 13
+            }
+          ],
+          "total_call_wait": 13,
+          "total_wait": 13
+        }
+      }
+    }
+  },
+  "environment": {
+    "project_commit": "82d0c51c594f7311cf76c68730f44f8335cf154c",
+    "python": "3.11.15 (main, Jul 23 2026, 14:43:45) [Clang 22.1.3 ]",
+    "toolchain_config": "/workspace/AgentSys/config/toolchain.json",
+    "toolchain_config_sha256": "72878946d3483db3779868b6f67123bea033b437d01b8a5bf40ef9210edd8dbd"
+  },
+  "evidence_classes": {
+    "executable_or_source_grounded": 3,
+    "paper_parameterized_component_replay": 13
+  },
+  "paper": "agentix",
+  "registered_limit": 0.1,
+  "run_id": "run_017",
+  "schema_version": 1,
+  "summary": {
+    "endpoints": 16,
+    "failing": 0,
+    "limit": 0.1,
+    "max_relative_error": 0.08333333333333333,
+    "pass": true,
+    "passing": 16,
+    "toolchain_profile_pass": true
+  },
+  "toolchain_profile": {
+    "command": [
+      "{python}",
+      "-m",
+      "agentsys.paper_reproduction",
+      "--paper",
+      "agentix",
+      "--run-id",
+      "run_017",
+      "--output",
+      "artifacts/results/paper-agentix-run_017.json"
+    ],
+    "expected_endpoints": 16,
+    "output": "artifacts/results/paper-agentix-run_017.json",
+    "pass": true,
+    "references": {},
+    "sources": {
+      "data/paper_targets.json": {
+        "exists": true,
+        "sha256": "a77de13654597c827e1a0f93e8d66a8e993429c3990a9804f1b81db432384aa8"
+      },
+      "src/agentsys/agentix.py": {
+        "exists": true,
+        "sha256": "b30f05f7bf67a1a69138b544bc4a03dd2553ea46cb2820a52fd3519e58ec4196"
+      },
+      "src/agentsys/agentix_model.py": {
+        "exists": true,
+        "sha256": "020e0b58b6ced4435988f0435091aeb05eabd6fbffc96babe1b6f9b55668d8dd"
+      },
+      "src/agentsys/paper_reproduction.py": {
+        "exists": true,
+        "sha256": "976fc5b43db761245ce5d1d537c7f14925312bf5f6692d0d48bb8bc4ca462c5f"
+      }
+    }
+  },
+  "wall_time_s": 0.004426002502441406
+}

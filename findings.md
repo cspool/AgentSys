@@ -2,7 +2,7 @@
 
 ## Research Question
 
-Can program-aware scheduling (Agentix), heterogeneous flow scheduling (Agent.xpu), and semantic tile scheduling (ATX/TISA) compose end to end while independently reproducing each source paper's registered core results within 15%?
+Can program-aware scheduling (Agentix), heterogeneous flow scheduling (Agent.xpu), and semantic tile scheduling (ATX/TISA) compose end to end while independently reproducing each source paper's registered core results within 10%?
 
 ## Current Understanding
 
@@ -58,9 +58,13 @@ Final synthesis: urgency must participate at call release before it can be prese
 
 Run 001 starts at 77.02% maximum error (18/23 pass). Run 002 reduces this to 51.99% (21/23 pass) using one cross-workload contention term and fixed hardware accounting. Run 009 reaches 8.33% with all direct endpoints passing. Runs 010–013 close aggregate Agentix/ATX, Serial, Ramulator2, and requested ablations. Run 014 proves 55/55 endpoints and the original 11/11 completion requirements. Runs 015–016 add the complete pinned toolchain, execute all eight stages serially, and close the expanded 13/13 audit without changing paper error.
 
+Runs 017–018 tighten the live contract to 10% and replace the combined direct-paper evidence input with four independent profiles/artifacts. Agentix 16/16, Agent.xpu 11/11, ATX 18/18 and TISA 10/10 pass; the global maximum remains 8.33%. The nine-stage manifest, 12-gate toolchain audit and 14/14 final certificate all pass.
+
 ## Toolchain Closure
 
 - Python 3.11 and the three environment packages are hash-locked with `uv.lock`; system tools, source revisions, compatibility patches, build products and Chipyard overlays are checked separately.
 - Run 015 records exact commands, output hashes and non-overlapping stage timestamps for all eight component/system experiments.
 - Run 016 combines toolchain 11/11, serial replay 8/8, paper 55/55, current pytest and RTL lint into one 13/13 certificate.
+- Run 017 registers four standalone paper commands and artifacts, all with `limit=0.10`, then executes them as the first four of nine strictly serial stages.
+- Run 018 consumes only those four paper artifacts for endpoint accuracy and combines paper-profile 4/4, toolchain 12/12, serial replay 9/9, pytest and RTL lint into one 14/14 certificate.
 - Reproducibility strengthens provenance but does not change the evidence class of Agentix/ATX parameterized aggregate results.
