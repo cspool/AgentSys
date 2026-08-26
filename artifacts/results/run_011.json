@@ -2,7 +2,7 @@
   "classification": "confirmatory_no_residual_guided_retuning",
   "environment": {
     "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.31",
-    "project_commit": "94734fe1fb415f6bc3b22b95de68146023c649b6",
+    "project_commit": "a763f5860fe41eeaf3f04da15cfa1eb7a33b6c40",
     "python": "3.11.15 (main, Jul 23 2026, 14:43:45) [Clang 22.1.3 ]",
     "references": {
       "chipyard": "b5d013190d637e634113cb5179f8c8885df1945a",
@@ -1077,6 +1077,7 @@
               "proactive_mean_latency_s": 6.167924970441751,
               "reactive_mean_latency_s": 3.7415245025013957,
               "reactive_p90_latency_s": 4.511319162463792,
+              "reactive_p99_latency_s": 5.426651680891723,
               "reactive_prefill_pending_s": 0.034249068261125344,
               "throughput_req_s": 0.10755761235700868
             },
@@ -1196,6 +1197,7 @@
               "proactive_mean_latency_s": 19.67001790437746,
               "reactive_mean_latency_s": 23.70899348511368,
               "reactive_p90_latency_s": 45.615698392342665,
+              "reactive_p99_latency_s": 46.04034226119484,
               "reactive_prefill_pending_s": 18.695172145167213,
               "throughput_req_s": 0.10746704778699909
             },
@@ -1342,6 +1344,7 @@
               "proactive_mean_latency_s": 6.052193297120179,
               "reactive_mean_latency_s": 4.0637980620374545,
               "reactive_p90_latency_s": 4.899352658878456,
+              "reactive_p99_latency_s": 5.217321641024881,
               "reactive_prefill_pending_s": 0.047294221794726324,
               "throughput_req_s": 0.13316432441846332
             },
@@ -1484,6 +1487,7 @@
               "proactive_mean_latency_s": 36.877859136632104,
               "reactive_mean_latency_s": 36.8152957578623,
               "reactive_p90_latency_s": 68.51553621990229,
+              "reactive_p99_latency_s": 82.68750004027669,
               "reactive_prefill_pending_s": 31.22391326938774,
               "throughput_req_s": 0.13017976355585317
             },
@@ -1664,6 +1668,7 @@
               "proactive_mean_latency_s": 6.561466588816109,
               "reactive_mean_latency_s": 4.1636255882849955,
               "reactive_p90_latency_s": 5.099249229514612,
+              "reactive_p99_latency_s": 5.371993752851836,
               "reactive_prefill_pending_s": 0.027371108001673663,
               "throughput_req_s": 0.1699681211866145
             },
@@ -1840,6 +1845,7 @@
               "proactive_mean_latency_s": 84.95078602226354,
               "reactive_mean_latency_s": 80.27618831223167,
               "reactive_p90_latency_s": 141.3698530196184,
+              "reactive_p99_latency_s": 178.3744105196796,
               "reactive_prefill_pending_s": 74.39806555237985,
               "throughput_req_s": 0.14210545272385264
             },
@@ -1965,6 +1971,7 @@
               "proactive_mean_latency_s": 13.379126967363545,
               "reactive_mean_latency_s": 7.027636992159708,
               "reactive_p90_latency_s": 8.216186864267627,
+              "reactive_p99_latency_s": 10.215791465833604,
               "reactive_prefill_pending_s": 0.049633683645726734,
               "throughput_req_s": 0.10703126983634052
             },
@@ -2084,6 +2091,7 @@
               "proactive_mean_latency_s": 252.74595524415722,
               "reactive_mean_latency_s": 307.8689500605406,
               "reactive_p90_latency_s": 514.681262908045,
+              "reactive_p99_latency_s": 514.8059159361932,
               "reactive_prefill_pending_s": 297.78209522183823,
               "throughput_req_s": 0.06959255760022139
             },
@@ -2230,6 +2238,7 @@
               "proactive_mean_latency_s": 14.159604380654601,
               "reactive_mean_latency_s": 7.983306510575146,
               "reactive_p90_latency_s": 9.848171257447945,
+              "reactive_p99_latency_s": 10.64341401883678,
               "reactive_prefill_pending_s": 0.2661513646516789,
               "throughput_req_s": 0.13145107022500602
             },
@@ -2372,6 +2381,7 @@
               "proactive_mean_latency_s": 406.68630240897795,
               "reactive_mean_latency_s": 431.14053833302955,
               "reactive_p90_latency_s": 655.6590018290777,
+              "reactive_p99_latency_s": 746.786789680392,
               "reactive_prefill_pending_s": 420.3358180309397,
               "throughput_req_s": 0.07301458715000295
             },
@@ -2552,6 +2562,7 @@
               "proactive_mean_latency_s": 15.82163705825539,
               "reactive_mean_latency_s": 8.159436520181321,
               "reactive_p90_latency_s": 10.12640039217331,
+              "reactive_p99_latency_s": 12.086776786646283,
               "reactive_prefill_pending_s": 0.1770655524459843,
               "throughput_req_s": 0.16801456454712918
             },
@@ -2728,6 +2739,7 @@
               "proactive_mean_latency_s": 589.6512092450047,
               "reactive_mean_latency_s": 565.0929759462095,
               "reactive_p90_latency_s": 1009.5577000884514,
+              "reactive_p99_latency_s": 1169.6899750353928,
               "reactive_prefill_pending_s": 553.8562599963939,
               "throughput_req_s": 0.07403001911592888
             },
@@ -2998,6 +3010,7 @@
             "proactive_mean_latency_s": 124.17532375883322,
             "reactive_mean_latency_s": null,
             "reactive_p90_latency_s": null,
+            "reactive_p99_latency_s": null,
             "reactive_prefill_pending_s": null,
             "throughput_req_s": 0.40044654708205807
           },
@@ -3238,6 +3251,7 @@
             "proactive_mean_latency_s": 535.1847895767598,
             "reactive_mean_latency_s": null,
             "reactive_p90_latency_s": null,
+            "reactive_p99_latency_s": null,
             "reactive_prefill_pending_s": null,
             "throughput_req_s": 0.1581151217532163
           },
@@ -3384,6 +3398,7 @@
             "proactive_mean_latency_s": 6.052193297120179,
             "reactive_mean_latency_s": 4.0637980620374545,
             "reactive_p90_latency_s": 4.899352658878456,
+            "reactive_p99_latency_s": 5.217321641024881,
             "reactive_prefill_pending_s": 0.047294221794726324,
             "throughput_req_s": 0.13316432441846332
           },
@@ -3527,6 +3542,7 @@
             "proactive_mean_latency_s": 19.025675513818538,
             "reactive_mean_latency_s": 16.801885619631214,
             "reactive_p90_latency_s": 32.518467782257744,
+            "reactive_p99_latency_s": 46.11271016135174,
             "reactive_prefill_pending_s": 12.073198983690308,
             "throughput_req_s": 0.13063609594739425
           }
@@ -29172,5 +29188,5 @@
     ],
     "max_relative_error": 0.08333333333333333
   },
-  "wall_time_s": 18.50363850593567
+  "wall_time_s": 17.361032009124756
 }
