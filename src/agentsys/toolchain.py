@@ -401,6 +401,8 @@ def build_toolchain_audit(
                         "stage_order": manifest.get("stage_order"),
                         "expected_stage_order": stage_names,
                         "summary": manifest.get("summary"),
+                        "manifest_config_sha256": manifest.get("toolchain_config", {}).get("sha256"),
+                        "current_config_sha256": sha256(config_path),
                         "sha256": sha256(manifest_path),
                     }
                 )
@@ -408,6 +410,7 @@ def build_toolchain_audit(
                     manifest.get("stage_order") == stage_names
                     and manifest.get("summary", {}).get("pass") is True
                     and manifest.get("summary", {}).get("serial_order") is True
+                    and manifest.get("toolchain_config", {}).get("sha256") == sha256(config_path)
                 )
             except json.JSONDecodeError as error:
                 manifest_details["error"] = str(error)

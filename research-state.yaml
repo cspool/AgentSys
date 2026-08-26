@@ -2,7 +2,7 @@
 project:
   title: "AgentSys: dynamic-agent full-stack scheduling from program DAG to NPU tile"
   question: "Can Agentix, Agent.xpu, mllm/llm.npu, TISA and HPTPE be independently reproduced within 15%, then compose on an ordinary-RISC-V Chipyard CPU+XPU system?"
-  status: active
+  status: concluded
   started: "2026-08-25"
   domain: "computer systems and architecture"
 
@@ -116,7 +116,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 27
+  total_runs: 28
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -307,11 +307,18 @@ experiments:
       wall_time_min: 3.6
       change_summary: "Source-registered strong-static stages plus seven-cycle dispatch pass 20/20 gates; real Rocket+HPTPE gives 1.376x backend, 1.340x system and 1.056x end-to-end speedup with identical work/checksum."
       timestamp: "2026-08-26"
+    - run_id: "run_028"
+      hypothesis: "H13/final toolchain certificate"
+      metric_value: 0.09909909909909899
+      delta: 0.0
+      wall_time_min: 5.2
+      change_summary: "Eight serial stages, 12/12 toolchain gates and 15/15 final requirements pass; five components remain 68/68 at 9.91%, and Rocket+HPTPE reproduces 1.376x with 860 events."
+      timestamp: "2026-08-26"
 
 outer_loop:
-  cycle: 14
-  last_direction: deepen
-  last_reflection: "Run 027 supports H13 with 20/20 real Rocket+HPTPE integration gates and preserves 68/68 standalone endpoints. Run 028 is preregistered as the final eight-stage pinned replay, fresh verification and revised-scope completion certificate."
+  cycle: 15
+  last_direction: conclude
+  last_reflection: "Run 028 closes the revised goal: 68/68 standalone endpoints, real 20/20 ordinary-Rocket+HPTPE integration, 8/8 serial replay, 12/12 toolchain audit and 15/15 final certificate."
 
 workspace:
   findings: "findings.md"

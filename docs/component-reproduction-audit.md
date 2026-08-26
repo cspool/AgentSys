@@ -20,7 +20,8 @@ Current revised-scope progress: run 025 closes all five standalone components at
 gates on the full ordinary-Rocket-to-HPTPE path; run 026 is retained as the
 range-failing predecessor. HPTPE PPA is author-report replay; RTL functionality,
 sparse cycles and integrated array work are newly executed open-simulator
-evidence. The remaining task is final toolchain/certificate packaging.
+evidence. Run 028 closes final packaging with 8/8 serial stages, 12/12 toolchain
+gates and 15/15 completion requirements.
 
 ## Source selection
 

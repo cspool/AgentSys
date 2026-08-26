@@ -13,16 +13,15 @@
 2. Independently reproduce mllm, Agent.xpu and HPTPE mechanisms and paper experiments with complete pinned toolchains. Complete: run 023 closes mllm, run 024 closes HPTPE, and run 025 revalidates Agentix/Agent.xpu/TISA unchanged. The active certificate is 68/68 endpoints with 9.91% global maximum error and explicitly excludes ATX.
 3. Integrate mllm operators into Agent.xpu flows, then lower them through TISA onto the HPTPE XPU in Chipyard. Complete in runs 026–027: upstream Qwen3 MIR, executable flow/stage/placement metadata, neutral XPU ABI and the released 16x16 HPTPE OPT1 array are present in both Rocket systems.
 4. Execute an end-to-end Agent trace on ordinary RISC-V+XPU and verify identical logical work, dependencies, DMA and outputs across baselines. Complete in run 027: 20/20 gates, 860 events over 11 layers, 614,400 HPTPE MACs, identical checksum and 1.376x backend speedup inside the locked TISA range. Run 026 remains the documented 18/19 ablation/failure.
-5. Require every layer's paper result to remain within 15%, then regenerate the report and completion certificate. Layer accuracy is closed at 68/68 and 9.91% maximum error; final toolchain/certificate regeneration is in progress.
+5. Require every layer's paper result to remain within 15%, then regenerate the report and completion certificate. Complete in run 028: 68/68 endpoints at 9.91% maximum error, 8/8 serial stages, 12/12 toolchain gates and 15/15 final requirements.
 
 ## Acceptance boundary
 
 No integrated-system completion claim is allowed until all three standalone gates pass and the final Chipyard trace uses the HPTPE XPU rather than the current simplified ME. ATX results must not be used as evidence for the ordinary-RISC-V CPU design.
 
-The standalone prerequisite and physical HPTPE integration now pass. Run 027
-corrects the run-026 comparison mismatch without changing work or relaxing the
-registered performance range. Only final reproducibility/certificate packaging
-in step 5 remains open.
+All five steps pass. Run 027 corrects the run-026 comparison mismatch without
+changing work or relaxing the registered performance range; run 028 independently
+replays and certifies the frozen result.
 
 The detailed preregistered targets and evidence boundaries are in
 `experiments/h13-revised-stack/protocol.md`; the live gap table is in

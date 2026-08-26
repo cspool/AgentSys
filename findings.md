@@ -37,6 +37,7 @@ The revised architecture removes ATX from the integrated CPU path. Run 023 close
 - Run 025 reruns Agentix/Agent.xpu/TISA unchanged and combines all active standalone evidence. Five of five components, 68/68 endpoints and 8/8 gates pass at 9.91% global maximum error. ATX is a machine-checked excluded component.
 - Run 026 physically integrates the revised stack on ordinary Rocket and the released HPTPE 16x16 array. Eighteen of 19 gates pass, 860 cross-layer events are recorded, and static/dynamic work and checksum match. The 2.000x backend speedup exceeds the locked TISA 1.14--1.63x range, so this is a retained negative result rather than completion evidence.
 - Run 027 restores the paper's strong-static stage baseline and exact seven-cycle dynamic dispatch. All 20 gates pass: backend/system/CPU-observed speedups are 1.376/1.340/1.056x, 860 events cover 11 layers, and 614,400 HPTPE MACs plus checksum remain identical.
+- Run 028 reruns the complete active stack in eight strict serial stages. Reproduction is 8/8, toolchain audit 12/12 and final certificate 15/15; fresh pytest, dispatch RTL, legacy lint and full HPTPE/RoCC lint all pass. The five active components remain 68/68 at 9.91% maximum error.
 
 ## Patterns and Insights
 
@@ -104,3 +105,4 @@ Rocket+HPTPE result is 1.376x with all run-026 work/lineage gates preserved.
 - Run 023 introduces `revised_build_outputs`/`revised_component_profiles` without changing the historical run-022 contract. The mllm profile combines a real Clang-16 build/test artifact with native-MIR-driven llm.npu performance evidence.
 - Run 024 adds pinned Verilator 5.050 and Icarus 11 to the revised namespace and registers an independent HPTPE profile without mutating the historical four-paper/55-endpoint contract.
 - Run 025 registers exactly five revised profiles and a separate active-component certificate; its audit fails if ATX appears or the total differs from 68.
+- Run 028 promotes those profiles into the active `config/revised-toolchain.json`: five build products, 16 installed-source equality checks, eight serial stages and a separate revised completion certificate. The historical ATX-inclusive manifest remains reproducible but is not an input to the active certificate.

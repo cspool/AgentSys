@@ -1,0 +1,2728 @@
+{
+  "application": {
+    "application": "ReAct+Mixture-of-Agents+MCTS",
+    "calls": [
+      {
+        "call_id": "react-plan",
+        "deps": [],
+        "flow_binding": "npu_prefill+igpu_reactive_decode",
+        "index": 0,
+        "input_tokens": 213,
+        "kind": "llm",
+        "output_digest": "43111fdd9f4dd7533141e4e321048fbcd42a5d0d4bf2f302d84b2d363a863efe",
+        "output_tokens": 78,
+        "priority": 0,
+        "program_id": "react",
+        "scheduled_step": 0
+      },
+      {
+        "call_id": "moa-map0",
+        "deps": [],
+        "flow_binding": "npu_prefill+igpu_slack_decode",
+        "index": 1,
+        "input_tokens": 451,
+        "kind": "llm",
+        "output_digest": "85da5f01f2dcdf7e990c7ce94e158e461ba815ee7cbd013000e0cacfadad40c0",
+        "output_tokens": 90,
+        "priority": 2,
+        "program_id": "moa",
+        "scheduled_step": 0
+      },
+      {
+        "call_id": "moa-map1",
+        "deps": [],
+        "flow_binding": "npu_prefill+igpu_slack_decode",
+        "index": 2,
+        "input_tokens": 467,
+        "kind": "llm",
+        "output_digest": "8998b7b475e04fc670dd5a7634b02a7f86717e079bfc07c36156177f3fc0e3fe",
+        "output_tokens": 96,
+        "priority": 2,
+        "program_id": "moa",
+        "scheduled_step": 0
+      },
+      {
+        "call_id": "moa-map2",
+        "deps": [],
+        "flow_binding": "npu_prefill+igpu_slack_decode",
+        "index": 3,
+        "input_tokens": 483,
+        "kind": "llm",
+        "output_digest": "7e5f75abf47b340349ee432a768f0205322a13618511ad25a232c0ceafa0302a",
+        "output_tokens": 87,
+        "priority": 2,
+        "program_id": "moa",
+        "scheduled_step": 1
+      },
+      {
+        "call_id": "mcts-root",
+        "deps": [],
+        "flow_binding": "npu_prefill+igpu_slack_decode",
+        "index": 4,
+        "input_tokens": 515,
+        "kind": "llm",
+        "output_digest": "6933db27d060e6293c9e19bb33c8ce08bf2326c7a82ae372c415cac75a07678f",
+        "output_tokens": 85,
+        "priority": 2,
+        "program_id": "mcts",
+        "scheduled_step": 2
+      },
+      {
+        "call_id": "react-tool",
+        "deps": [
+          "react-plan"
+        ],
+        "flow_binding": "rocket_cpu_tool",
+        "index": 5,
+        "input_tokens": 253,
+        "kind": "tool",
+        "output_digest": "f2a74c34b8a8b749005baa550f8a410616b413c5884067676298587320c7285a",
+        "output_tokens": 72,
+        "priority": 0,
+        "program_id": "react",
+        "scheduled_step": 5
+      },
+      {
+        "call_id": "react-answer",
+        "deps": [
+          "react-tool"
+        ],
+        "flow_binding": "npu_prefill+igpu_reactive_decode",
+        "index": 6,
+        "input_tokens": 261,
+        "kind": "llm",
+        "output_digest": "e6425025bb26db20caa50bf09b23c4379226779a077bca6f73fa391c667b4e0e",
+        "output_tokens": 76,
+        "priority": 0,
+        "program_id": "react",
+        "scheduled_step": 6
+      },
+      {
+        "call_id": "mcts-actor0",
+        "deps": [
+          "mcts-root"
+        ],
+        "flow_binding": "npu_prefill+igpu_slack_decode",
+        "index": 7,
+        "input_tokens": 551,
+        "kind": "llm",
+        "output_digest": "fc452a6a0cb202dc564acfbb7f49fc383ec578889150650b04e5a0b581e66011",
+        "output_tokens": 89,
+        "priority": 2,
+        "program_id": "mcts",
+        "scheduled_step": 6
+      },
+      {
+        "call_id": "mcts-actor1",
+        "deps": [
+          "mcts-root"
+        ],
+        "flow_binding": "npu_prefill+igpu_slack_decode",
+        "index": 8,
+        "input_tokens": 563,
+        "kind": "llm",
+        "output_digest": "9e3091f9e5ac5f4093f0f0bff7f0a0829bb4e2d50eb59eeba2cd9872794321f9",
+        "output_tokens": 81,
+        "priority": 2,
+        "program_id": "mcts",
+        "scheduled_step": 7
+      },
+      {
+        "call_id": "moa-reduce",
+        "deps": [
+          "moa-map0",
+          "moa-map1",
+          "moa-map2"
+        ],
+        "flow_binding": "npu_prefill+igpu_slack_decode",
+        "index": 9,
+        "input_tokens": 579,
+        "kind": "llm",
+        "output_digest": "6bfbb3fe51e67ff57c548053b5e045a2bf05746ef16b69d8b02640dbfc0c8548",
+        "output_tokens": 93,
+        "priority": 2,
+        "program_id": "moa",
+        "scheduled_step": 9
+      },
+      {
+        "call_id": "mcts-critic",
+        "deps": [
+          "mcts-actor0",
+          "mcts-actor1"
+        ],
+        "flow_binding": "npu_prefill+igpu_slack_decode",
+        "index": 10,
+        "input_tokens": 587,
+        "kind": "llm",
+        "output_digest": "2137b31bd0da747d9400ec3488f7dd2f2551ee927cb45051ecb77b4759a1bb36",
+        "output_tokens": 85,
+        "priority": 2,
+        "program_id": "mcts",
+        "scheduled_step": 10
+      }
+    ],
+    "classification": "executed_agent_application_and_framework_trace",
+    "events": [
+      {
+        "call_id": null,
+        "details": {
+          "priority": 0
+        },
+        "event": "program_start",
+        "layer": "application",
+        "logical_time": 0,
+        "program_id": "react"
+      },
+      {
+        "call_id": null,
+        "details": {
+          "priority": 2
+        },
+        "event": "program_start",
+        "layer": "application",
+        "logical_time": 0,
+        "program_id": "moa"
+      },
+      {
+        "call_id": "react-plan",
+        "details": {
+          "deps": [],
+          "thread": "main"
+        },
+        "event": "call_release",
+        "layer": "framework",
+        "logical_time": 0,
+        "program_id": "react"
+      },
+      {
+        "call_id": "moa-map0",
+        "details": {
+          "deps": [],
+          "thread": "map0"
+        },
+        "event": "call_release",
+        "layer": "framework",
+        "logical_time": 0,
+        "program_id": "moa"
+      },
+      {
+        "call_id": "moa-map1",
+        "details": {
+          "deps": [],
+          "thread": "map1"
+        },
+        "event": "call_release",
+        "layer": "framework",
+        "logical_time": 0,
+        "program_id": "moa"
+      },
+      {
+        "call_id": "react-plan",
+        "details": {
+          "binding": "npu_prefill+igpu_reactive_decode",
+          "input_tokens": 213
+        },
+        "event": "flow_bind",
+        "layer": "framework",
+        "logical_time": 0,
+        "program_id": "react"
+      },
+      {
+        "call_id": "moa-map0",
+        "details": {
+          "binding": "npu_prefill+igpu_slack_decode",
+          "input_tokens": 451
+        },
+        "event": "flow_bind",
+        "layer": "framework",
+        "logical_time": 0,
+        "program_id": "moa"
+      },
+      {
+        "call_id": "moa-map1",
+        "details": {
+          "binding": "npu_prefill+igpu_slack_decode",
+          "input_tokens": 467
+        },
+        "event": "flow_bind",
+        "layer": "framework",
+        "logical_time": 0,
+        "program_id": "moa"
+      },
+      {
+        "call_id": "react-plan",
+        "details": {
+          "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+          "operators": 8
+        },
+        "event": "mllm_lower",
+        "layer": "framework",
+        "logical_time": 0,
+        "program_id": "react"
+      },
+      {
+        "call_id": "moa-map0",
+        "details": {
+          "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+          "operators": 8
+        },
+        "event": "mllm_lower",
+        "layer": "framework",
+        "logical_time": 0,
+        "program_id": "moa"
+      },
+      {
+        "call_id": "moa-map1",
+        "details": {
+          "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+          "operators": 8
+        },
+        "event": "mllm_lower",
+        "layer": "framework",
+        "logical_time": 0,
+        "program_id": "moa"
+      },
+      {
+        "call_id": "moa-map2",
+        "details": {
+          "deps": [],
+          "thread": "map2"
+        },
+        "event": "call_release",
+        "layer": "framework",
+        "logical_time": 1,
+        "program_id": "moa"
+      },
+      {
+        "call_id": "moa-map2",
+        "details": {
+          "binding": "npu_prefill+igpu_slack_decode",
+          "input_tokens": 483
+        },
+        "event": "flow_bind",
+        "layer": "framework",
+        "logical_time": 1,
+        "program_id": "moa"
+      },
+      {
+        "call_id": "moa-map2",
+        "details": {
+          "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+          "operators": 8
+        },
+        "event": "mllm_lower",
+        "layer": "framework",
+        "logical_time": 1,
+        "program_id": "moa"
+      },
+      {
+        "call_id": null,
+        "details": {
+          "priority": 2
+        },
+        "event": "program_start",
+        "layer": "application",
+        "logical_time": 2,
+        "program_id": "mcts"
+      },
+      {
+        "call_id": "mcts-root",
+        "details": {
+          "deps": [],
+          "thread": "root"
+        },
+        "event": "call_release",
+        "layer": "framework",
+        "logical_time": 2,
+        "program_id": "mcts"
+      },
+      {
+        "call_id": "mcts-root",
+        "details": {
+          "binding": "npu_prefill+igpu_slack_decode",
+          "input_tokens": 515
+        },
+        "event": "flow_bind",
+        "layer": "framework",
+        "logical_time": 2,
+        "program_id": "mcts"
+      },
+      {
+        "call_id": "mcts-root",
+        "details": {
+          "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+          "operators": 8
+        },
+        "event": "mllm_lower",
+        "layer": "framework",
+        "logical_time": 2,
+        "program_id": "mcts"
+      },
+      {
+        "call_id": "moa-map0",
+        "details": {
+          "output_digest": "85da5f01f2dcdf7e990c7ce94e158e461ba815ee7cbd013000e0cacfadad40c0"
+        },
+        "event": "call_complete",
+        "layer": "framework",
+        "logical_time": 3,
+        "program_id": "moa"
+      },
+      {
+        "call_id": "moa-map2",
+        "details": {
+          "output_digest": "7e5f75abf47b340349ee432a768f0205322a13618511ad25a232c0ceafa0302a"
+        },
+        "event": "call_complete",
+        "layer": "framework",
+        "logical_time": 3,
+        "program_id": "moa"
+      },
+      {
+        "call_id": "react-plan",
+        "details": {
+          "output_digest": "43111fdd9f4dd7533141e4e321048fbcd42a5d0d4bf2f302d84b2d363a863efe"
+        },
+        "event": "call_complete",
+        "layer": "framework",
+        "logical_time": 4,
+        "program_id": "react"
+      },
+      {
+        "call_id": "moa-map1",
+        "details": {
+          "output_digest": "8998b7b475e04fc670dd5a7634b02a7f86717e079bfc07c36156177f3fc0e3fe"
+        },
+        "event": "call_complete",
+        "layer": "framework",
+        "logical_time": 5,
+        "program_id": "moa"
+      },
+      {
+        "call_id": "mcts-root",
+        "details": {
+          "output_digest": "6933db27d060e6293c9e19bb33c8ce08bf2326c7a82ae372c415cac75a07678f"
+        },
+        "event": "call_complete",
+        "layer": "framework",
+        "logical_time": 5,
+        "program_id": "mcts"
+      },
+      {
+        "call_id": "react-tool",
+        "details": {
+          "deps": [
+            "react-plan"
+          ],
+          "thread": "main"
+        },
+        "event": "call_release",
+        "layer": "framework",
+        "logical_time": 5,
+        "program_id": "react"
+      },
+      {
+        "call_id": "react-tool",
+        "details": {
+          "tool": "deterministic_lookup"
+        },
+        "event": "tool_execute",
+        "layer": "framework",
+        "logical_time": 5,
+        "program_id": "react"
+      },
+      {
+        "call_id": "react-tool",
+        "details": {
+          "output_digest": "f2a74c34b8a8b749005baa550f8a410616b413c5884067676298587320c7285a"
+        },
+        "event": "call_complete",
+        "layer": "framework",
+        "logical_time": 6,
+        "program_id": "react"
+      },
+      {
+        "call_id": "react-answer",
+        "details": {
+          "deps": [
+            "react-tool"
+          ],
+          "thread": "main"
+        },
+        "event": "call_release",
+        "layer": "framework",
+        "logical_time": 6,
+        "program_id": "react"
+      },
+      {
+        "call_id": "mcts-actor0",
+        "details": {
+          "deps": [
+            "mcts-root"
+          ],
+          "thread": "actor0"
+        },
+        "event": "call_release",
+        "layer": "framework",
+        "logical_time": 6,
+        "program_id": "mcts"
+      },
+      {
+        "call_id": "react-answer",
+        "details": {
+          "binding": "npu_prefill+igpu_reactive_decode",
+          "input_tokens": 261
+        },
+        "event": "flow_bind",
+        "layer": "framework",
+        "logical_time": 6,
+        "program_id": "react"
+      },
+      {
+        "call_id": "mcts-actor0",
+        "details": {
+          "binding": "npu_prefill+igpu_slack_decode",
+          "input_tokens": 551
+        },
+        "event": "flow_bind",
+        "layer": "framework",
+        "logical_time": 6,
+        "program_id": "mcts"
+      },
+      {
+        "call_id": "react-answer",
+        "details": {
+          "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+          "operators": 8
+        },
+        "event": "mllm_lower",
+        "layer": "framework",
+        "logical_time": 6,
+        "program_id": "react"
+      },
+      {
+        "call_id": "mcts-actor0",
+        "details": {
+          "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+          "operators": 8
+        },
+        "event": "mllm_lower",
+        "layer": "framework",
+        "logical_time": 6,
+        "program_id": "mcts"
+      },
+      {
+        "call_id": "mcts-actor1",
+        "details": {
+          "deps": [
+            "mcts-root"
+          ],
+          "thread": "actor1"
+        },
+        "event": "call_release",
+        "layer": "framework",
+        "logical_time": 7,
+        "program_id": "mcts"
+      },
+      {
+        "call_id": "mcts-actor1",
+        "details": {
+          "binding": "npu_prefill+igpu_slack_decode",
+          "input_tokens": 563
+        },
+        "event": "flow_bind",
+        "layer": "framework",
+        "logical_time": 7,
+        "program_id": "mcts"
+      },
+      {
+        "call_id": "mcts-actor1",
+        "details": {
+          "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+          "operators": 8
+        },
+        "event": "mllm_lower",
+        "layer": "framework",
+        "logical_time": 7,
+        "program_id": "mcts"
+      },
+      {
+        "call_id": null,
+        "details": {
+          "calls": 3
+        },
+        "event": "program_complete",
+        "layer": "application",
+        "logical_time": 9,
+        "program_id": "react"
+      },
+      {
+        "call_id": "react-answer",
+        "details": {
+          "output_digest": "e6425025bb26db20caa50bf09b23c4379226779a077bca6f73fa391c667b4e0e"
+        },
+        "event": "call_complete",
+        "layer": "framework",
+        "logical_time": 9,
+        "program_id": "react"
+      },
+      {
+        "call_id": "mcts-actor1",
+        "details": {
+          "output_digest": "9e3091f9e5ac5f4093f0f0bff7f0a0829bb4e2d50eb59eeba2cd9872794321f9"
+        },
+        "event": "call_complete",
+        "layer": "framework",
+        "logical_time": 9,
+        "program_id": "mcts"
+      },
+      {
+        "call_id": "moa-reduce",
+        "details": {
+          "deps": [
+            "moa-map0",
+            "moa-map1",
+            "moa-map2"
+          ],
+          "thread": "reduce"
+        },
+        "event": "call_release",
+        "layer": "framework",
+        "logical_time": 9,
+        "program_id": "moa"
+      },
+      {
+        "call_id": "moa-reduce",
+        "details": {
+          "binding": "npu_prefill+igpu_slack_decode",
+          "input_tokens": 579
+        },
+        "event": "flow_bind",
+        "layer": "framework",
+        "logical_time": 9,
+        "program_id": "moa"
+      },
+      {
+        "call_id": "moa-reduce",
+        "details": {
+          "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+          "operators": 8
+        },
+        "event": "mllm_lower",
+        "layer": "framework",
+        "logical_time": 9,
+        "program_id": "moa"
+      },
+      {
+        "call_id": "mcts-actor0",
+        "details": {
+          "output_digest": "fc452a6a0cb202dc564acfbb7f49fc383ec578889150650b04e5a0b581e66011"
+        },
+        "event": "call_complete",
+        "layer": "framework",
+        "logical_time": 10,
+        "program_id": "mcts"
+      },
+      {
+        "call_id": "mcts-critic",
+        "details": {
+          "deps": [
+            "mcts-actor0",
+            "mcts-actor1"
+          ],
+          "thread": "critic"
+        },
+        "event": "call_release",
+        "layer": "framework",
+        "logical_time": 10,
+        "program_id": "mcts"
+      },
+      {
+        "call_id": "mcts-critic",
+        "details": {
+          "binding": "npu_prefill+igpu_slack_decode",
+          "input_tokens": 587
+        },
+        "event": "flow_bind",
+        "layer": "framework",
+        "logical_time": 10,
+        "program_id": "mcts"
+      },
+      {
+        "call_id": "mcts-critic",
+        "details": {
+          "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+          "operators": 8
+        },
+        "event": "mllm_lower",
+        "layer": "framework",
+        "logical_time": 10,
+        "program_id": "mcts"
+      },
+      {
+        "call_id": null,
+        "details": {
+          "calls": 4
+        },
+        "event": "program_complete",
+        "layer": "application",
+        "logical_time": 13,
+        "program_id": "moa"
+      },
+      {
+        "call_id": null,
+        "details": {
+          "calls": 4
+        },
+        "event": "program_complete",
+        "layer": "application",
+        "logical_time": 13,
+        "program_id": "mcts"
+      },
+      {
+        "call_id": "moa-reduce",
+        "details": {
+          "output_digest": "6bfbb3fe51e67ff57c548053b5e045a2bf05746ef16b69d8b02640dbfc0c8548"
+        },
+        "event": "call_complete",
+        "layer": "framework",
+        "logical_time": 13,
+        "program_id": "moa"
+      },
+      {
+        "call_id": "mcts-critic",
+        "details": {
+          "output_digest": "2137b31bd0da747d9400ec3488f7dd2f2551ee927cb45051ecb77b4759a1bb36"
+        },
+        "event": "call_complete",
+        "layer": "framework",
+        "logical_time": 13,
+        "program_id": "mcts"
+      }
+    ],
+    "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+    "model_mir": "integrations/mllm/fixtures/transformer_slice.mir",
+    "operator_template": [
+      {
+        "deps": [],
+        "duration": 1024,
+        "engine": "me",
+        "index": 0,
+        "op_type": "LinearOp",
+        "source_line": 4
+      },
+      {
+        "deps": [],
+        "duration": 1024,
+        "engine": "me",
+        "index": 1,
+        "op_type": "LinearOp",
+        "source_line": 5
+      },
+      {
+        "deps": [
+          0
+        ],
+        "duration": 1024,
+        "engine": "de",
+        "index": 2,
+        "op_type": "CastTypeOp",
+        "source_line": 6
+      },
+      {
+        "deps": [
+          1
+        ],
+        "duration": 1024,
+        "engine": "ve",
+        "index": 3,
+        "op_type": "RMSNormOp",
+        "source_line": 7
+      },
+      {
+        "deps": [
+          2,
+          3
+        ],
+        "duration": 1024,
+        "engine": "ve",
+        "index": 4,
+        "op_type": "AddOp",
+        "source_line": 8
+      },
+      {
+        "deps": [
+          3
+        ],
+        "duration": 1024,
+        "engine": "de",
+        "index": 5,
+        "op_type": "TransposeOp",
+        "source_line": 9
+      },
+      {
+        "deps": [
+          4,
+          5
+        ],
+        "duration": 1024,
+        "engine": "me",
+        "index": 6,
+        "op_type": "MatMulOp",
+        "source_line": 10
+      },
+      {
+        "deps": [
+          6
+        ],
+        "duration": 1024,
+        "engine": "ve",
+        "index": 7,
+        "op_type": "SoftmaxOp",
+        "source_line": 11
+      }
+    ],
+    "output_digest": "4347e5adb9552f704a3397dc94afd6186911c8c07aa7c144ce57161f806733bd",
+    "run_id": "run_028",
+    "schema_version": 1,
+    "summary": {
+      "calls": 11,
+      "events": 49,
+      "llm_calls": 10,
+      "operators_per_llm_call": 8,
+      "pass": true,
+      "programs": 3,
+      "tool_calls": 1
+    }
+  },
+  "application_trace": "artifacts/app_traces/revised-agent-application-run_028.json",
+  "application_trace_sha256": "8f38938a1e6f45e7c43b6d8336543fc9b313d5ef0da4ee6969d1ea679bbe5450",
+  "classification": "agentix_mllm_agentxpu_to_neutral_riscv_tisa_hptpe_compilation",
+  "generated_header": "system_sim/software/generated/agentsys_revised_app_trace.h",
+  "generated_header_sha256": "5c9cfcdd52453348ec4e561db39a94459bbb689ad2fa977d015a394872b7835d",
+  "hardware_calls": [
+    {
+      "call_id": "react-plan",
+      "decode_batch_cap": 3,
+      "deps_mask": 0,
+      "descriptors": [
+        {
+          "control": 5764613044499906560,
+          "deps_mask": 0,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "reactive",
+          "flow_code": 0,
+          "index": 0,
+          "op_type": "RMSNormOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 6,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 109775232407961600
+        },
+        {
+          "control": 5764613045573648641,
+          "deps_mask": 0,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "reactive",
+          "flow_code": 0,
+          "index": 1,
+          "op_type": "AddOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 7,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 126663731055689728
+        },
+        {
+          "control": 5764613046647521794,
+          "deps_mask": 2,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "reactive",
+          "flow_code": 0,
+          "index": 2,
+          "op_type": "RMSNormOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 8,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 145804029473062912
+        },
+        {
+          "control": 5764613031346635523,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "reactive",
+          "flow_code": 0,
+          "index": 3,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 10,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 182958726353780736
+        },
+        {
+          "control": 5764613032420377604,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "reactive",
+          "flow_code": 0,
+          "index": 4,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 11,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 202099024771153920
+        },
+        {
+          "control": 5764613033494119685,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "reactive",
+          "flow_code": 0,
+          "index": 5,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 12,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 216735723561156608
+        },
+        {
+          "control": 14992488705947076102,
+          "deps_mask": 8,
+          "duration": 80,
+          "engine": "de",
+          "flow_class": "reactive",
+          "flow_code": 0,
+          "index": 6,
+          "op_type": "ViewOp",
+          "placement": "data",
+          "placement_code": 2,
+          "preemptible": 1,
+          "source_index": 13,
+          "stage": "decode_handoff",
+          "stage_code": 1,
+          "tilemem": 237001921882226688
+        },
+        {
+          "control": 14992488707024488199,
+          "deps_mask": 64,
+          "duration": 80,
+          "engine": "de",
+          "flow_class": "reactive",
+          "flow_code": 0,
+          "index": 7,
+          "op_type": "TransposeOp",
+          "placement": "data",
+          "placement_code": 2,
+          "preemptible": 1,
+          "source_index": 14,
+          "stage": "decode_handoff",
+          "stage_code": 1,
+          "tilemem": 253890420488011776
+        }
+      ],
+      "elastic_hptpe_percent": 50,
+      "flow_class": "reactive",
+      "flow_code": 0,
+      "index": 0,
+      "input_tokens": 213,
+      "kind": "llm",
+      "output_tokens": 78,
+      "prefill_chunk_tokens": 16,
+      "priority": 0,
+      "program_code": 0,
+      "program_first": 1,
+      "program_id": "react",
+      "program_last": 0,
+      "tool_cycles": 0
+    },
+    {
+      "call_id": "moa-map0",
+      "decode_batch_cap": 16,
+      "deps_mask": 0,
+      "descriptors": [
+        {
+          "control": 8070456053847818240,
+          "deps_mask": 0,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 0,
+          "op_type": "RMSNormOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 6,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 109775232407961600
+        },
+        {
+          "control": 8070456054921560321,
+          "deps_mask": 0,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 1,
+          "op_type": "AddOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 7,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 126663731055689728
+        },
+        {
+          "control": 8070456055995433474,
+          "deps_mask": 2,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 2,
+          "op_type": "RMSNormOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 8,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 145804029473062912
+        },
+        {
+          "control": 8070456040694547203,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 3,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 10,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 182958726353780736
+        },
+        {
+          "control": 8070456041768289284,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 4,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 11,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 202099024771153920
+        },
+        {
+          "control": 8070456042842031365,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 5,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 12,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 216735723561156608
+        },
+        {
+          "control": 17298331715294987782,
+          "deps_mask": 8,
+          "duration": 80,
+          "engine": "de",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 6,
+          "op_type": "ViewOp",
+          "placement": "data",
+          "placement_code": 2,
+          "preemptible": 1,
+          "source_index": 13,
+          "stage": "decode_handoff",
+          "stage_code": 1,
+          "tilemem": 237001921882226688
+        },
+        {
+          "control": 17298331716372399879,
+          "deps_mask": 64,
+          "duration": 80,
+          "engine": "de",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 7,
+          "op_type": "TransposeOp",
+          "placement": "data",
+          "placement_code": 2,
+          "preemptible": 1,
+          "source_index": 14,
+          "stage": "decode_handoff",
+          "stage_code": 1,
+          "tilemem": 253890420488011776
+        }
+      ],
+      "elastic_hptpe_percent": 50,
+      "flow_class": "proactive",
+      "flow_code": 1,
+      "index": 1,
+      "input_tokens": 451,
+      "kind": "llm",
+      "output_tokens": 90,
+      "prefill_chunk_tokens": 16,
+      "priority": 2,
+      "program_code": 1,
+      "program_first": 1,
+      "program_id": "moa",
+      "program_last": 0,
+      "tool_cycles": 0
+    },
+    {
+      "call_id": "moa-map1",
+      "decode_batch_cap": 16,
+      "deps_mask": 0,
+      "descriptors": [
+        {
+          "control": 8070456053847818240,
+          "deps_mask": 0,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 0,
+          "op_type": "RMSNormOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 6,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 109775232407961600
+        },
+        {
+          "control": 8070456054921560321,
+          "deps_mask": 0,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 1,
+          "op_type": "AddOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 7,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 126663731055689728
+        },
+        {
+          "control": 8070456055995433474,
+          "deps_mask": 2,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 2,
+          "op_type": "RMSNormOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 8,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 145804029473062912
+        },
+        {
+          "control": 8070456040694547203,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 3,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 10,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 182958726353780736
+        },
+        {
+          "control": 8070456041768289284,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 4,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 11,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 202099024771153920
+        },
+        {
+          "control": 8070456042842031365,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 5,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 12,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 216735723561156608
+        },
+        {
+          "control": 17298331715294987782,
+          "deps_mask": 8,
+          "duration": 80,
+          "engine": "de",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 6,
+          "op_type": "ViewOp",
+          "placement": "data",
+          "placement_code": 2,
+          "preemptible": 1,
+          "source_index": 13,
+          "stage": "decode_handoff",
+          "stage_code": 1,
+          "tilemem": 237001921882226688
+        },
+        {
+          "control": 17298331716372399879,
+          "deps_mask": 64,
+          "duration": 80,
+          "engine": "de",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 7,
+          "op_type": "TransposeOp",
+          "placement": "data",
+          "placement_code": 2,
+          "preemptible": 1,
+          "source_index": 14,
+          "stage": "decode_handoff",
+          "stage_code": 1,
+          "tilemem": 253890420488011776
+        }
+      ],
+      "elastic_hptpe_percent": 50,
+      "flow_class": "proactive",
+      "flow_code": 1,
+      "index": 2,
+      "input_tokens": 467,
+      "kind": "llm",
+      "output_tokens": 96,
+      "prefill_chunk_tokens": 16,
+      "priority": 2,
+      "program_code": 1,
+      "program_first": 0,
+      "program_id": "moa",
+      "program_last": 0,
+      "tool_cycles": 0
+    },
+    {
+      "call_id": "moa-map2",
+      "decode_batch_cap": 16,
+      "deps_mask": 0,
+      "descriptors": [
+        {
+          "control": 8070456053847818240,
+          "deps_mask": 0,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 0,
+          "op_type": "RMSNormOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 6,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 109775232407961600
+        },
+        {
+          "control": 8070456054921560321,
+          "deps_mask": 0,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 1,
+          "op_type": "AddOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 7,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 126663731055689728
+        },
+        {
+          "control": 8070456055995433474,
+          "deps_mask": 2,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 2,
+          "op_type": "RMSNormOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 8,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 145804029473062912
+        },
+        {
+          "control": 8070456040694547203,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 3,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 10,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 182958726353780736
+        },
+        {
+          "control": 8070456041768289284,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 4,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 11,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 202099024771153920
+        },
+        {
+          "control": 8070456042842031365,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 5,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 12,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 216735723561156608
+        },
+        {
+          "control": 17298331715294987782,
+          "deps_mask": 8,
+          "duration": 80,
+          "engine": "de",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 6,
+          "op_type": "ViewOp",
+          "placement": "data",
+          "placement_code": 2,
+          "preemptible": 1,
+          "source_index": 13,
+          "stage": "decode_handoff",
+          "stage_code": 1,
+          "tilemem": 237001921882226688
+        },
+        {
+          "control": 17298331716372399879,
+          "deps_mask": 64,
+          "duration": 80,
+          "engine": "de",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 7,
+          "op_type": "TransposeOp",
+          "placement": "data",
+          "placement_code": 2,
+          "preemptible": 1,
+          "source_index": 14,
+          "stage": "decode_handoff",
+          "stage_code": 1,
+          "tilemem": 253890420488011776
+        }
+      ],
+      "elastic_hptpe_percent": 50,
+      "flow_class": "proactive",
+      "flow_code": 1,
+      "index": 3,
+      "input_tokens": 483,
+      "kind": "llm",
+      "output_tokens": 87,
+      "prefill_chunk_tokens": 16,
+      "priority": 2,
+      "program_code": 1,
+      "program_first": 0,
+      "program_id": "moa",
+      "program_last": 0,
+      "tool_cycles": 0
+    },
+    {
+      "call_id": "mcts-root",
+      "decode_batch_cap": 16,
+      "deps_mask": 0,
+      "descriptors": [
+        {
+          "control": 8070456053847818240,
+          "deps_mask": 0,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 0,
+          "op_type": "RMSNormOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 6,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 109775232407961600
+        },
+        {
+          "control": 8070456054921560321,
+          "deps_mask": 0,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 1,
+          "op_type": "AddOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 7,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 126663731055689728
+        },
+        {
+          "control": 8070456055995433474,
+          "deps_mask": 2,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 2,
+          "op_type": "RMSNormOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 8,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 145804029473062912
+        },
+        {
+          "control": 8070456040694547203,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 3,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 10,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 182958726353780736
+        },
+        {
+          "control": 8070456041768289284,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 4,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 11,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 202099024771153920
+        },
+        {
+          "control": 8070456042842031365,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 5,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 12,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 216735723561156608
+        },
+        {
+          "control": 17298331715294987782,
+          "deps_mask": 8,
+          "duration": 80,
+          "engine": "de",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 6,
+          "op_type": "ViewOp",
+          "placement": "data",
+          "placement_code": 2,
+          "preemptible": 1,
+          "source_index": 13,
+          "stage": "decode_handoff",
+          "stage_code": 1,
+          "tilemem": 237001921882226688
+        },
+        {
+          "control": 17298331716372399879,
+          "deps_mask": 64,
+          "duration": 80,
+          "engine": "de",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 7,
+          "op_type": "TransposeOp",
+          "placement": "data",
+          "placement_code": 2,
+          "preemptible": 1,
+          "source_index": 14,
+          "stage": "decode_handoff",
+          "stage_code": 1,
+          "tilemem": 253890420488011776
+        }
+      ],
+      "elastic_hptpe_percent": 50,
+      "flow_class": "proactive",
+      "flow_code": 1,
+      "index": 4,
+      "input_tokens": 515,
+      "kind": "llm",
+      "output_tokens": 85,
+      "prefill_chunk_tokens": 16,
+      "priority": 2,
+      "program_code": 2,
+      "program_first": 1,
+      "program_id": "mcts",
+      "program_last": 0,
+      "tool_cycles": 0
+    },
+    {
+      "call_id": "react-tool",
+      "decode_batch_cap": 3,
+      "deps_mask": 1,
+      "descriptors": [],
+      "elastic_hptpe_percent": 50,
+      "flow_class": "reactive",
+      "flow_code": 0,
+      "index": 5,
+      "input_tokens": 253,
+      "kind": "tool",
+      "output_tokens": 72,
+      "prefill_chunk_tokens": 16,
+      "priority": 0,
+      "program_code": 0,
+      "program_first": 0,
+      "program_id": "react",
+      "program_last": 0,
+      "tool_cycles": 256
+    },
+    {
+      "call_id": "react-answer",
+      "decode_batch_cap": 3,
+      "deps_mask": 32,
+      "descriptors": [
+        {
+          "control": 5764613044499906560,
+          "deps_mask": 0,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "reactive",
+          "flow_code": 0,
+          "index": 0,
+          "op_type": "RMSNormOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 6,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 109775232407961600
+        },
+        {
+          "control": 5764613045573648641,
+          "deps_mask": 0,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "reactive",
+          "flow_code": 0,
+          "index": 1,
+          "op_type": "AddOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 7,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 126663731055689728
+        },
+        {
+          "control": 5764613046647521794,
+          "deps_mask": 2,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "reactive",
+          "flow_code": 0,
+          "index": 2,
+          "op_type": "RMSNormOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 8,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 145804029473062912
+        },
+        {
+          "control": 5764613031346635523,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "reactive",
+          "flow_code": 0,
+          "index": 3,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 10,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 182958726353780736
+        },
+        {
+          "control": 5764613032420377604,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "reactive",
+          "flow_code": 0,
+          "index": 4,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 11,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 202099024771153920
+        },
+        {
+          "control": 5764613033494119685,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "reactive",
+          "flow_code": 0,
+          "index": 5,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 12,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 216735723561156608
+        },
+        {
+          "control": 14992488705947076102,
+          "deps_mask": 8,
+          "duration": 80,
+          "engine": "de",
+          "flow_class": "reactive",
+          "flow_code": 0,
+          "index": 6,
+          "op_type": "ViewOp",
+          "placement": "data",
+          "placement_code": 2,
+          "preemptible": 1,
+          "source_index": 13,
+          "stage": "decode_handoff",
+          "stage_code": 1,
+          "tilemem": 237001921882226688
+        },
+        {
+          "control": 14992488707024488199,
+          "deps_mask": 64,
+          "duration": 80,
+          "engine": "de",
+          "flow_class": "reactive",
+          "flow_code": 0,
+          "index": 7,
+          "op_type": "TransposeOp",
+          "placement": "data",
+          "placement_code": 2,
+          "preemptible": 1,
+          "source_index": 14,
+          "stage": "decode_handoff",
+          "stage_code": 1,
+          "tilemem": 253890420488011776
+        }
+      ],
+      "elastic_hptpe_percent": 50,
+      "flow_class": "reactive",
+      "flow_code": 0,
+      "index": 6,
+      "input_tokens": 261,
+      "kind": "llm",
+      "output_tokens": 76,
+      "prefill_chunk_tokens": 16,
+      "priority": 0,
+      "program_code": 0,
+      "program_first": 0,
+      "program_id": "react",
+      "program_last": 1,
+      "tool_cycles": 0
+    },
+    {
+      "call_id": "mcts-actor0",
+      "decode_batch_cap": 16,
+      "deps_mask": 16,
+      "descriptors": [
+        {
+          "control": 8070456053847818240,
+          "deps_mask": 0,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 0,
+          "op_type": "RMSNormOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 6,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 109775232407961600
+        },
+        {
+          "control": 8070456054921560321,
+          "deps_mask": 0,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 1,
+          "op_type": "AddOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 7,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 126663731055689728
+        },
+        {
+          "control": 8070456055995433474,
+          "deps_mask": 2,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 2,
+          "op_type": "RMSNormOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 8,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 145804029473062912
+        },
+        {
+          "control": 8070456040694547203,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 3,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 10,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 182958726353780736
+        },
+        {
+          "control": 8070456041768289284,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 4,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 11,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 202099024771153920
+        },
+        {
+          "control": 8070456042842031365,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 5,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 12,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 216735723561156608
+        },
+        {
+          "control": 17298331715294987782,
+          "deps_mask": 8,
+          "duration": 80,
+          "engine": "de",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 6,
+          "op_type": "ViewOp",
+          "placement": "data",
+          "placement_code": 2,
+          "preemptible": 1,
+          "source_index": 13,
+          "stage": "decode_handoff",
+          "stage_code": 1,
+          "tilemem": 237001921882226688
+        },
+        {
+          "control": 17298331716372399879,
+          "deps_mask": 64,
+          "duration": 80,
+          "engine": "de",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 7,
+          "op_type": "TransposeOp",
+          "placement": "data",
+          "placement_code": 2,
+          "preemptible": 1,
+          "source_index": 14,
+          "stage": "decode_handoff",
+          "stage_code": 1,
+          "tilemem": 253890420488011776
+        }
+      ],
+      "elastic_hptpe_percent": 50,
+      "flow_class": "proactive",
+      "flow_code": 1,
+      "index": 7,
+      "input_tokens": 551,
+      "kind": "llm",
+      "output_tokens": 89,
+      "prefill_chunk_tokens": 16,
+      "priority": 2,
+      "program_code": 2,
+      "program_first": 0,
+      "program_id": "mcts",
+      "program_last": 0,
+      "tool_cycles": 0
+    },
+    {
+      "call_id": "mcts-actor1",
+      "decode_batch_cap": 16,
+      "deps_mask": 16,
+      "descriptors": [
+        {
+          "control": 8070456053847818240,
+          "deps_mask": 0,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 0,
+          "op_type": "RMSNormOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 6,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 109775232407961600
+        },
+        {
+          "control": 8070456054921560321,
+          "deps_mask": 0,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 1,
+          "op_type": "AddOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 7,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 126663731055689728
+        },
+        {
+          "control": 8070456055995433474,
+          "deps_mask": 2,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 2,
+          "op_type": "RMSNormOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 8,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 145804029473062912
+        },
+        {
+          "control": 8070456040694547203,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 3,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 10,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 182958726353780736
+        },
+        {
+          "control": 8070456041768289284,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 4,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 11,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 202099024771153920
+        },
+        {
+          "control": 8070456042842031365,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 5,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 12,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 216735723561156608
+        },
+        {
+          "control": 17298331715294987782,
+          "deps_mask": 8,
+          "duration": 80,
+          "engine": "de",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 6,
+          "op_type": "ViewOp",
+          "placement": "data",
+          "placement_code": 2,
+          "preemptible": 1,
+          "source_index": 13,
+          "stage": "decode_handoff",
+          "stage_code": 1,
+          "tilemem": 237001921882226688
+        },
+        {
+          "control": 17298331716372399879,
+          "deps_mask": 64,
+          "duration": 80,
+          "engine": "de",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 7,
+          "op_type": "TransposeOp",
+          "placement": "data",
+          "placement_code": 2,
+          "preemptible": 1,
+          "source_index": 14,
+          "stage": "decode_handoff",
+          "stage_code": 1,
+          "tilemem": 253890420488011776
+        }
+      ],
+      "elastic_hptpe_percent": 50,
+      "flow_class": "proactive",
+      "flow_code": 1,
+      "index": 8,
+      "input_tokens": 563,
+      "kind": "llm",
+      "output_tokens": 81,
+      "prefill_chunk_tokens": 16,
+      "priority": 2,
+      "program_code": 2,
+      "program_first": 0,
+      "program_id": "mcts",
+      "program_last": 0,
+      "tool_cycles": 0
+    },
+    {
+      "call_id": "moa-reduce",
+      "decode_batch_cap": 16,
+      "deps_mask": 14,
+      "descriptors": [
+        {
+          "control": 8070456053847818240,
+          "deps_mask": 0,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 0,
+          "op_type": "RMSNormOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 6,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 109775232407961600
+        },
+        {
+          "control": 8070456054921560321,
+          "deps_mask": 0,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 1,
+          "op_type": "AddOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 7,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 126663731055689728
+        },
+        {
+          "control": 8070456055995433474,
+          "deps_mask": 2,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 2,
+          "op_type": "RMSNormOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 8,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 145804029473062912
+        },
+        {
+          "control": 8070456040694547203,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 3,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 10,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 182958726353780736
+        },
+        {
+          "control": 8070456041768289284,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 4,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 11,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 202099024771153920
+        },
+        {
+          "control": 8070456042842031365,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 5,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 12,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 216735723561156608
+        },
+        {
+          "control": 17298331715294987782,
+          "deps_mask": 8,
+          "duration": 80,
+          "engine": "de",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 6,
+          "op_type": "ViewOp",
+          "placement": "data",
+          "placement_code": 2,
+          "preemptible": 1,
+          "source_index": 13,
+          "stage": "decode_handoff",
+          "stage_code": 1,
+          "tilemem": 237001921882226688
+        },
+        {
+          "control": 17298331716372399879,
+          "deps_mask": 64,
+          "duration": 80,
+          "engine": "de",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 7,
+          "op_type": "TransposeOp",
+          "placement": "data",
+          "placement_code": 2,
+          "preemptible": 1,
+          "source_index": 14,
+          "stage": "decode_handoff",
+          "stage_code": 1,
+          "tilemem": 253890420488011776
+        }
+      ],
+      "elastic_hptpe_percent": 50,
+      "flow_class": "proactive",
+      "flow_code": 1,
+      "index": 9,
+      "input_tokens": 579,
+      "kind": "llm",
+      "output_tokens": 93,
+      "prefill_chunk_tokens": 16,
+      "priority": 2,
+      "program_code": 1,
+      "program_first": 0,
+      "program_id": "moa",
+      "program_last": 1,
+      "tool_cycles": 0
+    },
+    {
+      "call_id": "mcts-critic",
+      "decode_batch_cap": 16,
+      "deps_mask": 384,
+      "descriptors": [
+        {
+          "control": 8070456053847818240,
+          "deps_mask": 0,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 0,
+          "op_type": "RMSNormOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 6,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 109775232407961600
+        },
+        {
+          "control": 8070456054921560321,
+          "deps_mask": 0,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 1,
+          "op_type": "AddOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 7,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 126663731055689728
+        },
+        {
+          "control": 8070456055995433474,
+          "deps_mask": 2,
+          "duration": 80,
+          "engine": "ve",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 2,
+          "op_type": "RMSNormOp",
+          "placement": "vector",
+          "placement_code": 1,
+          "preemptible": 1,
+          "source_index": 8,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 145804029473062912
+        },
+        {
+          "control": 8070456040694547203,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 3,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 10,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 182958726353780736
+        },
+        {
+          "control": 8070456041768289284,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 4,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 11,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 202099024771153920
+        },
+        {
+          "control": 8070456042842031365,
+          "deps_mask": 1,
+          "duration": 80,
+          "engine": "me",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 5,
+          "op_type": "LinearOp",
+          "placement": "hptpe",
+          "placement_code": 0,
+          "preemptible": 1,
+          "source_index": 12,
+          "stage": "prefill",
+          "stage_code": 0,
+          "tilemem": 216735723561156608
+        },
+        {
+          "control": 17298331715294987782,
+          "deps_mask": 8,
+          "duration": 80,
+          "engine": "de",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 6,
+          "op_type": "ViewOp",
+          "placement": "data",
+          "placement_code": 2,
+          "preemptible": 1,
+          "source_index": 13,
+          "stage": "decode_handoff",
+          "stage_code": 1,
+          "tilemem": 237001921882226688
+        },
+        {
+          "control": 17298331716372399879,
+          "deps_mask": 64,
+          "duration": 80,
+          "engine": "de",
+          "flow_class": "proactive",
+          "flow_code": 1,
+          "index": 7,
+          "op_type": "TransposeOp",
+          "placement": "data",
+          "placement_code": 2,
+          "preemptible": 1,
+          "source_index": 14,
+          "stage": "decode_handoff",
+          "stage_code": 1,
+          "tilemem": 253890420488011776
+        }
+      ],
+      "elastic_hptpe_percent": 50,
+      "flow_class": "proactive",
+      "flow_code": 1,
+      "index": 10,
+      "input_tokens": 587,
+      "kind": "llm",
+      "output_tokens": 85,
+      "prefill_chunk_tokens": 16,
+      "priority": 2,
+      "program_code": 2,
+      "program_first": 0,
+      "program_id": "mcts",
+      "program_last": 1,
+      "tool_cycles": 0
+    }
+  ],
+  "mllm": {
+    "commit": "50ad5a9b6fbea742e38b5b31776c187e50319c8e",
+    "mir": ".references/mllm/examples/qwen3_qnn_aot/qwen3_qnn_aot_1.7B.mir",
+    "mir_sha256": "9fdd051818320885ad2934f997878609de53f1c24db812adf5f3eec2d90d3593",
+    "selected_operator_digest": "2ce653ac177a8ee59753fccb6869873e3a332ab78ed03c7cebe09f2cc370a383",
+    "selected_operators": [
+      {
+        "deps": [
+          1
+        ],
+        "device": "CPU",
+        "duration": 1024,
+        "engine": "ve",
+        "index": 6,
+        "inputs": [
+          {
+            "bytes": 131072,
+            "dtype": "UInt16PerTensor",
+            "shape": [
+              1,
+              32,
+              2048
+            ],
+            "ssa": "8266"
+          }
+        ],
+        "op_type": "RMSNormOp",
+        "outputs": [
+          {
+            "bytes": 131072,
+            "dtype": "UInt16PerTensor",
+            "shape": [
+              1,
+              32,
+              2048
+            ],
+            "ssa": "8269"
+          }
+        ],
+        "source_line": 366
+      },
+      {
+        "deps": [
+          1
+        ],
+        "device": "CPU",
+        "duration": 1024,
+        "engine": "ve",
+        "index": 7,
+        "inputs": [
+          {
+            "bytes": 131072,
+            "dtype": "UInt16PerTensor",
+            "shape": [
+              1,
+              32,
+              2048
+            ],
+            "ssa": "8266"
+          },
+          {
+            "bytes": 131072,
+            "dtype": "UInt16PerTensor",
+            "shape": [
+              1,
+              32,
+              2048
+            ],
+            "ssa": "8311"
+          }
+        ],
+        "op_type": "AddOp",
+        "outputs": [
+          {
+            "bytes": 131072,
+            "dtype": "UInt16PerTensor",
+            "shape": [
+              1,
+              32,
+              2048
+            ],
+            "ssa": "8312"
+          }
+        ],
+        "source_line": 368
+      },
+      {
+        "deps": [
+          7
+        ],
+        "device": "CPU",
+        "duration": 1024,
+        "engine": "ve",
+        "index": 8,
+        "inputs": [
+          {
+            "bytes": 131072,
+            "dtype": "UInt16PerTensor",
+            "shape": [
+              1,
+              32,
+              2048
+            ],
+            "ssa": "8312"
+          }
+        ],
+        "op_type": "RMSNormOp",
+        "outputs": [
+          {
+            "bytes": 131072,
+            "dtype": "UInt16PerTensor",
+            "shape": [
+              1,
+              32,
+              2048
+            ],
+            "ssa": "8313"
+          }
+        ],
+        "source_line": 369
+      },
+      {
+        "deps": [
+          6
+        ],
+        "device": "CPU",
+        "duration": 1024,
+        "engine": "me",
+        "index": 10,
+        "inputs": [
+          {
+            "bytes": 131072,
+            "dtype": "UInt16PerTensor",
+            "shape": [
+              1,
+              32,
+              2048
+            ],
+            "ssa": "8269"
+          }
+        ],
+        "op_type": "LinearOp",
+        "outputs": [
+          {
+            "bytes": 131072,
+            "dtype": "UInt16PerTensor",
+            "shape": [
+              1,
+              32,
+              2048
+            ],
+            "ssa": "8270"
+          }
+        ],
+        "source_line": 377
+      },
+      {
+        "deps": [
+          6
+        ],
+        "device": "CPU",
+        "duration": 1024,
+        "engine": "me",
+        "index": 11,
+        "inputs": [
+          {
+            "bytes": 131072,
+            "dtype": "UInt16PerTensor",
+            "shape": [
+              1,
+              32,
+              2048
+            ],
+            "ssa": "8269"
+          }
+        ],
+        "op_type": "LinearOp",
+        "outputs": [
+          {
+            "bytes": 65536,
+            "dtype": "UInt16PerTensor",
+            "shape": [
+              1,
+              32,
+              1024
+            ],
+            "ssa": "8271"
+          }
+        ],
+        "source_line": 378
+      },
+      {
+        "deps": [
+          6
+        ],
+        "device": "CPU",
+        "duration": 1024,
+        "engine": "me",
+        "index": 12,
+        "inputs": [
+          {
+            "bytes": 131072,
+            "dtype": "UInt16PerTensor",
+            "shape": [
+              1,
+              32,
+              2048
+            ],
+            "ssa": "8269"
+          }
+        ],
+        "op_type": "LinearOp",
+        "outputs": [
+          {
+            "bytes": 65536,
+            "dtype": "UInt16PerTensor",
+            "shape": [
+              1,
+              32,
+              1024
+            ],
+            "ssa": "8272"
+          }
+        ],
+        "source_line": 379
+      },
+      {
+        "deps": [
+          10
+        ],
+        "device": "CPU",
+        "duration": 1024,
+        "engine": "de",
+        "index": 13,
+        "inputs": [
+          {
+            "bytes": 131072,
+            "dtype": "UInt16PerTensor",
+            "shape": [
+              1,
+              32,
+              2048
+            ],
+            "ssa": "8270"
+          }
+        ],
+        "op_type": "ViewOp",
+        "outputs": [
+          {
+            "bytes": 131072,
+            "dtype": "UInt16PerTensor",
+            "shape": [
+              1,
+              32,
+              16,
+              128
+            ],
+            "ssa": "8270"
+          }
+        ],
+        "source_line": 380
+      },
+      {
+        "deps": [
+          13
+        ],
+        "device": "CPU",
+        "duration": 1024,
+        "engine": "de",
+        "index": 14,
+        "inputs": [
+          {
+            "bytes": 131072,
+            "dtype": "UInt16PerTensor",
+            "shape": [
+              1,
+              32,
+              16,
+              128
+            ],
+            "ssa": "8270"
+          }
+        ],
+        "op_type": "TransposeOp",
+        "outputs": [
+          {
+            "bytes": 131072,
+            "dtype": "UInt16PerTensor",
+            "shape": [
+              1,
+              16,
+              32,
+              128
+            ],
+            "ssa": "8273"
+          }
+        ],
+        "source_line": 381
+      }
+    ],
+    "selected_source_indices": [
+      6,
+      7,
+      8,
+      10,
+      11,
+      12,
+      13,
+      14
+    ]
+  },
+  "run_id": "run_028",
+  "schema_version": 1,
+  "summary": {
+    "calls": 11,
+    "data_descriptors": 20,
+    "dependencies": 6,
+    "descriptors": 80,
+    "hptpe_descriptors": 30,
+    "llm_calls": 10,
+    "native_engine_counts": {
+      "de": 2,
+      "me": 3,
+      "ve": 3
+    },
+    "pass": true,
+    "preemptible_descriptors": 80,
+    "proactive_flows": 8,
+    "programs": 3,
+    "reactive_flows": 2,
+    "tool_calls": 1,
+    "vector_descriptors": 30
+  }
+}

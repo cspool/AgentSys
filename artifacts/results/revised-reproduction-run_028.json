@@ -1,0 +1,372 @@
+{
+  "classification": "complete_serial_revised_stack_reproduction",
+  "expected_stage_order": [
+    "agentix_paper",
+    "agentxpu_paper",
+    "tisa_paper",
+    "mllm_paper",
+    "hptpe_paper",
+    "standalone_certificate",
+    "revised_application_compile",
+    "ordinary_rocket_hptpe_system"
+  ],
+  "preflight": {
+    "failing": 0,
+    "gates": 10,
+    "pass": true,
+    "passing": 10
+  },
+  "project_commit": "eaa6a33b5b11005835128112de4166027eab20a7",
+  "run_id": "run_028",
+  "schema_version": 1,
+  "stage_order": [
+    "agentix_paper",
+    "agentxpu_paper",
+    "tisa_paper",
+    "mllm_paper",
+    "hptpe_paper",
+    "standalone_certificate",
+    "revised_application_compile",
+    "ordinary_rocket_hptpe_system"
+  ],
+  "stages": [
+    {
+      "artifact": {
+        "error": null,
+        "gate_path": [
+          "summary",
+          "pass"
+        ],
+        "gate_value": true,
+        "outputs": {
+          "/workspace/AgentSys/artifacts/results/paper-agentix-run_028.json": {
+            "bytes": 123070,
+            "exists": true,
+            "sha256": "c7b1f2aa12813b7c1e1c3b51abd94554fab145d5dd22aac129dc90d2d7f6fdd6"
+          }
+        },
+        "pass": true
+      },
+      "command": [
+        "/workspace/AgentSys/.venv/bin/python",
+        "-m",
+        "agentsys.paper_reproduction",
+        "--paper",
+        "agentix",
+        "--run-id",
+        "run_028",
+        "--output",
+        "artifacts/results/paper-agentix-run_028.json"
+      ],
+      "error": null,
+      "exit_code": 0,
+      "finished_ns": 1787771164017857805,
+      "name": "agentix_paper",
+      "pass": true,
+      "started_ns": 1787771150099734541,
+      "stdout": "{\n  \"endpoints\": 16,\n  \"failing\": 0,\n  \"limit\": 0.1,\n  \"max_relative_error\": 0.09090909090909091,\n  \"pass\": true,\n  \"passing\": 16,\n  \"toolchain_profile_pass\": true\n}\nartifacts/results/paper-agentix-run_028.json\n",
+      "timeout_s": 60,
+      "wall_time_s": 13.918123264
+    },
+    {
+      "artifact": {
+        "error": null,
+        "gate_path": [
+          "summary",
+          "pass"
+        ],
+        "gate_value": true,
+        "outputs": {
+          "/workspace/AgentSys/artifacts/results/paper-agentxpu-run_028.json": {
+            "bytes": 115944,
+            "exists": true,
+            "sha256": "43d98286a55450586aeccad111da30d305aa80c4cdb9e47032c6fc6f01137c29"
+          }
+        },
+        "pass": true
+      },
+      "command": [
+        "/workspace/AgentSys/.venv/bin/python",
+        "-m",
+        "agentsys.paper_reproduction",
+        "--paper",
+        "agentxpu",
+        "--run-id",
+        "run_028",
+        "--output",
+        "artifacts/results/paper-agentxpu-run_028.json"
+      ],
+      "error": null,
+      "exit_code": 0,
+      "finished_ns": 1787771175152149567,
+      "name": "agentxpu_paper",
+      "pass": true,
+      "started_ns": 1787771164021123167,
+      "stdout": "{\n  \"endpoints\": 11,\n  \"failing\": 0,\n  \"limit\": 0.1,\n  \"max_relative_error\": 0.08067934458400342,\n  \"pass\": true,\n  \"passing\": 11,\n  \"toolchain_profile_pass\": true\n}\nartifacts/results/paper-agentxpu-run_028.json\n",
+      "timeout_s": 180,
+      "wall_time_s": 11.1310264
+    },
+    {
+      "artifact": {
+        "error": null,
+        "gate_path": [
+          "summary",
+          "pass"
+        ],
+        "gate_value": true,
+        "outputs": {
+          "/workspace/AgentSys/artifacts/results/paper-tisa-run_028.json": {
+            "bytes": 772597,
+            "exists": true,
+            "sha256": "2858c03229e77c147fcd75879fde61d4b6a4494eb682ca766c1fee117ee71fd3"
+          }
+        },
+        "pass": true
+      },
+      "command": [
+        "/workspace/AgentSys/.venv/bin/python",
+        "-m",
+        "agentsys.paper_reproduction",
+        "--paper",
+        "tisa",
+        "--run-id",
+        "run_028",
+        "--output",
+        "artifacts/results/paper-tisa-run_028.json"
+      ],
+      "error": null,
+      "exit_code": 0,
+      "finished_ns": 1787771182782265766,
+      "name": "tisa_paper",
+      "pass": true,
+      "started_ns": 1787771175161000972,
+      "stdout": "{\n  \"endpoints\": 10,\n  \"failing\": 0,\n  \"limit\": 0.1,\n  \"max_relative_error\": 0.08270030098896375,\n  \"pass\": true,\n  \"passing\": 10,\n  \"toolchain_profile_pass\": true\n}\nartifacts/results/paper-tisa-run_028.json\n",
+      "timeout_s": 120,
+      "wall_time_s": 7.621264794
+    },
+    {
+      "artifact": {
+        "error": null,
+        "gate_path": [
+          "summary",
+          "pass"
+        ],
+        "gate_value": true,
+        "outputs": {
+          "/workspace/AgentSys/artifacts/results/paper-mllm-run_028.json": {
+            "bytes": 46650,
+            "exists": true,
+            "sha256": "9098fba82aa96ed63e0efd994dad176d3fee8bca1ac081c2652e372b6e4738b2"
+          },
+          "/workspace/AgentSys/artifacts/traces/paper-mllm-run_028-naive.jsonl": {
+            "bytes": 1048667,
+            "exists": true,
+            "sha256": "96053de6146475d77d66556e8a1a416967218eaf4e690c56e53261c0a298c7c0"
+          },
+          "/workspace/AgentSys/artifacts/traces/paper-mllm-run_028-ooo.jsonl": {
+            "bytes": 1060512,
+            "exists": true,
+            "sha256": "d38ba95cde6d195a0d142d3519b75c9706a105f36fe469c470b03ea2a2d099ea"
+          }
+        },
+        "pass": true
+      },
+      "command": [
+        "/workspace/AgentSys/.venv/bin/python",
+        "scripts/run_mllm_reproduction.py",
+        "--run-id",
+        "run_028",
+        "--output",
+        "artifacts/results/paper-mllm-run_028.json",
+        "--trace-prefix",
+        "artifacts/traces/paper-mllm-run_028"
+      ],
+      "error": null,
+      "exit_code": 0,
+      "finished_ns": 1787771192261126721,
+      "name": "mllm_paper",
+      "pass": true,
+      "started_ns": 1787771182790026869,
+      "stdout": "{\n  \"max_relative_error\": 0.09909909909909899,\n  \"native_executables_passed\": 20,\n  \"native_executables_total\": 20,\n  \"native_gtest_cases_passed\": 101,\n  \"paper_endpoints_passed\": 5,\n  \"paper_endpoints_total\": 5,\n  \"pass\": true\n}\n/workspace/AgentSys/artifacts/results/paper-mllm-run_028.json\n",
+      "timeout_s": 1800,
+      "wall_time_s": 9.471099852
+    },
+    {
+      "artifact": {
+        "error": null,
+        "gate_path": [
+          "summary",
+          "pass"
+        ],
+        "gate_value": true,
+        "outputs": {
+          "/workspace/AgentSys/artifacts/results/paper-hptpe-run_028.json": {
+            "bytes": 55886,
+            "exists": true,
+            "sha256": "a0f9816de7e49350d0d0345958b8a41d09852cae21b4b48d1aecf1d62b25b063"
+          }
+        },
+        "pass": true
+      },
+      "command": [
+        "/workspace/AgentSys/.venv/bin/python",
+        "scripts/run_hptpe_reproduction.py",
+        "--run-id",
+        "run_028",
+        "--output",
+        "artifacts/results/paper-hptpe-run_028.json",
+        "--log-dir",
+        "artifacts/logs/hptpe-run_028"
+      ],
+      "error": null,
+      "exit_code": 0,
+      "finished_ns": 1787771216654467425,
+      "name": "hptpe_paper",
+      "pass": true,
+      "started_ns": 1787771192270686993,
+      "stdout": "{\n  \"max_relative_error\": 0.009756097560975618,\n  \"paper_endpoints_passed\": 26,\n  \"paper_endpoints_total\": 26,\n  \"pass\": true,\n  \"rtl_functional_passed\": 9,\n  \"rtl_functional_total\": 9,\n  \"rtl_golden_checks\": 302,\n  \"rtl_lint_passed\": 9,\n  \"rtl_lint_total\": 9\n}\n/workspace/AgentSys/artifacts/results/paper-hptpe-run_028.json\n/workspace/AgentSys/artifacts/logs/hptpe-run_028\n",
+      "timeout_s": 1800,
+      "wall_time_s": 24.383780432
+    },
+    {
+      "artifact": {
+        "error": null,
+        "gate_path": [
+          "summary",
+          "pass"
+        ],
+        "gate_value": true,
+        "outputs": {
+          "/workspace/AgentSys/artifacts/results/revised-components-run_028.json": {
+            "bytes": 2967,
+            "exists": true,
+            "sha256": "11de3dc38bd331a256841ff223c47f3cf852c45f85a4f9424de5b40456059c4e"
+          }
+        },
+        "pass": true
+      },
+      "command": [
+        "/workspace/AgentSys/.venv/bin/python",
+        "scripts/audit_revised_components.py",
+        "--run-id",
+        "run_028",
+        "--config",
+        "config/revised-toolchain.json",
+        "--output",
+        "artifacts/results/revised-components-run_028.json"
+      ],
+      "error": null,
+      "exit_code": 0,
+      "finished_ns": 1787771216766225154,
+      "name": "standalone_certificate",
+      "pass": true,
+      "started_ns": 1787771216656367312,
+      "stdout": "{\n  \"components_passed\": 5,\n  \"components_total\": 5,\n  \"endpoints_passed\": 68,\n  \"endpoints_total\": 68,\n  \"gates_passed\": 8,\n  \"gates_total\": 8,\n  \"max_relative_error\": 0.09909909909909899,\n  \"pass\": true\n}\n/workspace/AgentSys/artifacts/results/revised-components-run_028.json\n",
+      "timeout_s": 60,
+      "wall_time_s": 0.109857842
+    },
+    {
+      "artifact": {
+        "error": null,
+        "gate_path": [
+          "summary",
+          "pass"
+        ],
+        "gate_value": true,
+        "outputs": {
+          "/workspace/AgentSys/artifacts/app_traces/revised-agent-application-run_028.json": {
+            "bytes": 19093,
+            "exists": true,
+            "sha256": "8f38938a1e6f45e7c43b6d8336543fc9b313d5ef0da4ee6969d1ea679bbe5450"
+          },
+          "/workspace/AgentSys/artifacts/app_traces/revised-compiled-workload-run_028.json": {
+            "bytes": 71665,
+            "exists": true,
+            "sha256": "ffe8c75f80507b4f6bd8c501fe5581f5905c18f4569789dea3104e6a6c50d624"
+          },
+          "/workspace/AgentSys/system_sim/software/generated/agentsys_revised_app_trace.h": {
+            "bytes": 8824,
+            "exists": true,
+            "sha256": "5c9cfcdd52453348ec4e561db39a94459bbb689ad2fa977d015a394872b7835d"
+          }
+        },
+        "pass": true
+      },
+      "command": [
+        "/workspace/AgentSys/.venv/bin/python",
+        "scripts/compile_revised_system_trace.py",
+        "--run-id",
+        "run_028"
+      ],
+      "error": null,
+      "exit_code": 0,
+      "finished_ns": 1787771216977153630,
+      "name": "revised_application_compile",
+      "pass": true,
+      "started_ns": 1787771216766918124,
+      "stdout": "{\n  \"calls\": 11,\n  \"data_descriptors\": 20,\n  \"dependencies\": 6,\n  \"descriptors\": 80,\n  \"hptpe_descriptors\": 30,\n  \"llm_calls\": 10,\n  \"native_engine_counts\": {\n    \"de\": 2,\n    \"me\": 3,\n    \"ve\": 3\n  },\n  \"pass\": true,\n  \"preemptible_descriptors\": 80,\n  \"proactive_flows\": 8,\n  \"programs\": 3,\n  \"reactive_flows\": 2,\n  \"tool_calls\": 1,\n  \"vector_descriptors\": 30\n}\n/workspace/AgentSys/artifacts/app_traces/revised-compiled-workload-run_028.json\n/workspace/AgentSys/system_sim/software/generated/agentsys_revised_app_trace.h\n",
+      "timeout_s": 60,
+      "wall_time_s": 0.210235506
+    },
+    {
+      "artifact": {
+        "error": null,
+        "gate_path": [
+          "summary",
+          "pass"
+        ],
+        "gate_value": true,
+        "outputs": {
+          "/workspace/AgentSys/artifacts/logs/revised-system-dynamic-run_028.log": {
+            "bytes": 22980,
+            "exists": true,
+            "sha256": "d8a0d4463aa3b42a3d1f90be0641c39302b546dd86f8b6810e38c15c7d32840a"
+          },
+          "/workspace/AgentSys/artifacts/logs/revised-system-static-run_028.log": {
+            "bytes": 22983,
+            "exists": true,
+            "sha256": "686320aaaa0939bc053dcc281be60e7726593355df2f2e798b9000fb44986c85"
+          },
+          "/workspace/AgentSys/artifacts/results/revised-system-run_028.json": {
+            "bytes": 161427,
+            "exists": true,
+            "sha256": "1a6fafb86892f327b78f1bf5fbf9f6f20f61ec039575a0daa974663cea87da43"
+          },
+          "/workspace/AgentSys/artifacts/traces/revised-system-run_028.jsonl": {
+            "bytes": 255046,
+            "exists": true,
+            "sha256": "21653c0186880563d08d91d755541d5b3396be10fb767b1b9a8852a56e5d2af1"
+          }
+        },
+        "pass": true
+      },
+      "command": [
+        "/workspace/AgentSys/.venv/bin/python",
+        "scripts/run_revised_system.py",
+        "--run-id",
+        "run_028"
+      ],
+      "error": null,
+      "exit_code": 0,
+      "finished_ns": 1787771427981371552,
+      "name": "ordinary_rocket_hptpe_system",
+      "pass": true,
+      "started_ns": 1787771216980051839,
+      "stdout": "{\n  \"failing\": 0,\n  \"gates\": 20,\n  \"pass\": true,\n  \"passing\": 20\n}\n{\n  \"backend_speedup\": 1.3764044943820224,\n  \"end_to_end_speedup\": 1.05554839541178,\n  \"hptpe_mac_ops\": 614400,\n  \"overlap_added\": 780,\n  \"system_speedup\": 1.3401015228426396\n}\n/workspace/AgentSys/artifacts/results/revised-system-run_028.json\n/workspace/AgentSys/artifacts/traces/revised-system-run_028.jsonl\n",
+      "timeout_s": 480,
+      "wall_time_s": 211.001319713
+    }
+  ],
+  "summary": {
+    "executed": 8,
+    "failing": 0,
+    "pass": true,
+    "passing": 8,
+    "serial_order": true,
+    "stages": 8
+  },
+  "toolchain_config": {
+    "path": "/workspace/AgentSys/config/revised-toolchain.json",
+    "sha256": "3684261aef79c8fe745e81037f9a389d7fed4381af7127f8aa70f20cee39f907"
+  }
+}

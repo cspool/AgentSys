@@ -4,7 +4,7 @@
 
 项目目录：`/workspace/AgentSys`
 
-状态：修订后的五组件独立复现与普通 RISC-V + HPTPE XPU 系统集成均已完成；run 028 正在执行最终串行工具链重放与证书签发。结果边界见“证据分级与限制”。
+状态：已完成。run 028 通过 8/8 串行阶段、12/12 工具链门禁和 15/15 最终证书要求。结果边界见“证据分级与限制”。
 
 ## 摘要
 
@@ -517,4 +517,4 @@ AgentSys 已从方向草案转化为可执行、可重放、可审计的修订�
 
 集成性能没有通过弱化基线获得。run 026 的 2.000× 因 static 逐算子串行而被保留为失败；run 027 预先恢复论文的强静态 stage pipeline 和 7-cycle dynamic dispatch 后得到 backend/system/end-to-end 1.376/1.340/1.056×，精确落在注册范围。结果也再次说明，CPU/framework 开销会稀释 XPU 收益，带宽与数据流会迁移瓶颈。
 
-最终架构中 CPU 是普通 RISC-V，活动链为 mllm → Agent.xpu → TISA → HPTPE；ATX 只保留历史证据。run 028 的职责是用 `agentsys-reproduce-revised` 对已冻结机制做八阶段串行重放、fresh tests/lint 和最终证书签发，不再修改模型或阈值。
+最终架构中 CPU 是普通 RISC-V，活动链为 mllm → Agent.xpu → TISA → HPTPE；ATX 只保留历史证据。run 028 已用 `agentsys-reproduce-revised` 对冻结机制完成八阶段串行重放：8/8 stages、12/12 toolchain gates、15/15 requirements，fresh tests/lint 全部通过，模型和阈值均未修改。

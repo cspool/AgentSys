@@ -216,6 +216,7 @@ def build_revised_certificate(
         config["revised_system_trace"],
         "artifacts/logs/revised-system-static-run_028.log",
         "artifacts/logs/revised-system-dynamic-run_028.log",
+        "experiments/h13-revised-stack/final-toolchain-analysis-run_028.md",
     ]
     required_files: dict[str, Any] = {}
     for relative in dict.fromkeys(configured_files + artifact_files):
@@ -310,7 +311,8 @@ def build_revised_certificate(
         "serial_reproduction_8": reproduction["summary"]["pass"]
         and reproduction["summary"]["executed"] == 8
         and reproduction["summary"]["passing"] == 8
-        and reproduction["summary"]["serial_order"],
+        and reproduction["summary"]["serial_order"]
+        and reproduction["toolchain_config"]["sha256"] == _sha256(config_path),
         "toolchain_12": toolchain["summary"]
         == {"failing": 0, "gates": 12, "pass": True, "passing": 12}
         and toolchain["level"] == "full",
