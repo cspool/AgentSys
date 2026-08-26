@@ -9,7 +9,7 @@ body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d111
 </head>
 <body>
 <h1>AgentSys：从 program DAG 到 NPU engine</h1>
-<p class="lead">四篇论文独立实现与10%复现、真实 Chipyard/Ramulator2、完整工具链与六层优先级证据</p>
+<p class="lead">Agent应用→框架/MIR→RISC-V软件→Rocket CPU+XPU，并保留四篇论文与真实模拟器证据</p>
 
 <div class="grid">
   <div class="card"><div class="value">55/55</div><div class="label">论文端点通过</div></div>
@@ -17,7 +17,8 @@ body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d111
   <div class="card"><div class="value">17/17</div><div class="label">Chipyard 门禁</div></div>
   <div class="card"><div class="value">636/636</div><div class="label">优先级继承检查</div></div>
   <div class="card"><div class="value">9/9</div><div class="label">串行重放阶段</div></div>
-  <div class="card"><div class="value">15/15</div><div class="label">最终要求</div></div>
+  <div class="card"><div class="value">17/17</div><div class="label">最终要求</div></div>
+  <div class="card"><div class="value">200</div><div class="label">CPU+XPU Trace事件</div></div>
 </div>
 
 <h2>研究问题</h2>
@@ -53,8 +54,10 @@ body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d111
 <tr><td>Ramulator2</td><td>双通道内存 166400→82854 cycles；总 TISA 仅 1.009×</td><td class="pass">7/7</td></tr>
 <tr><td>Full stack</td><td>reactive 相对 baseline 3.027×，相对 dynamic-only 1.333×</td><td class="pass">10/10</td></tr>
 <tr><td>Pinned toolchain</td><td>Python/工具/分论文 profile/源码/patch/build/overlay/结果全部闭合</td><td class="pass">12/12</td></tr>
-<tr><td>Serial reproduction</td><td>9 个论文与系统支撑阶段严格顺序执行</td><td class="pass">9/9</td></tr>
+<tr><td>Serial reproduction</td><td>11个应用、论文与系统支撑阶段严格顺序执行</td><td class="pass">11/11</td></tr>
 <tr><td>Closed mechanisms</td><td>31个开放可执行替代端点；参数化复放为0</td><td class="pass">2/2</td></tr>
+<tr><td>Application→CPU+XPU</td><td>11 Call / 80 descriptor / 200 event；backend 1.336×</td><td class="pass">13/13</td></tr>
+<tr><td>End-to-end toolchain</td><td>应用编译、论文复现、legacy和trace Chipyard全部串行</td><td class="pass">11/11</td></tr>
 </tbody>
 </table>
 
@@ -68,6 +71,6 @@ body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#0d111
 <p class="note">Agentix A100/vLLM与ATX私有Sniper由论文配置、曲线/工作负载校准的开放事件模拟器替代，仍不等价原硬件；Agent.xpu/TISA属于source-grounded simulation；Rocket+Verilator和Ramulator2是真实开源simulator执行。</p>
 
 <h2>交付</h2>
-<p>主报告：<code>ISCA26_G3_Agent全栈系统加速.md</code><br>源码检索：<code>docs/source-discovery.md</code><br>工具链配置：<code>config/toolchain.json</code><br>分论文结果：<code>artifacts/results/paper-*-run_019.json</code><br>串行重放：<code>artifacts/results/reproduction-run_019.json</code><br>机器证书：<code>artifacts/results/final-certificate.json</code><br>统一 trace：<code>artifacts/traces/full-stack-run_008.jsonl</code></p>
+<p>主报告：<code>ISCA26_G3_Agent全栈系统加速.md</code><br>系统路径：<code>docs/system-trace.md</code><br>工具链配置：<code>config/toolchain.json</code><br>分论文结果：<code>artifacts/results/paper-*-run_019.json</code><br>CPU+XPU结果：<code>artifacts/results/system-trace-run_021.json</code><br>系统trace：<code>artifacts/traces/system-trace-run_021.jsonl</code><br>机器证书：<code>artifacts/results/final-certificate.json</code></p>
 </body>
 </html>

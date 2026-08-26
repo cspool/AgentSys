@@ -2783,10 +2783,10 @@
     }
   },
   "environment": {
-    "project_commit": "53d53a79a521cfb53b00ff809123a833714b7385",
+    "project_commit": "54fb34d96b0adbb4dafdc1a9b7f879845400680b",
     "python": "3.11.15 (main, Jul 23 2026, 14:43:45) [Clang 22.1.3 ]",
     "toolchain_config": "/workspace/AgentSys/config/toolchain.json",
-    "toolchain_config_sha256": "cd5cd8997c7c41df354166dd8f552e6dd4383b075e035a94ea1f79a3550617b8"
+    "toolchain_config_sha256": "7df0728962685e1d2cef3140ff4680416ce9032ca8d9fbc4712aefe336953c01"
   },
   "evidence_classes": {
     "executable_or_source_grounded": 11,
@@ -2848,5 +2848,5 @@
       }
     }
   },
-  "wall_time_s": 12.286350965499878
+  "wall_time_s": 10.111362934112549
 }

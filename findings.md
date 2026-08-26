@@ -62,6 +62,8 @@ Runs 017–018 tighten the live contract to 10% and replace the combined direct-
 
 Runs 019–020 replace the remaining 31 parameterized endpoints with executable open substitutes. Agentix now derives SLO throughput from actual program/call scheduling and KV-swap traces; ATX derives cycles from UTE/queue/stream/LDQ/bus/buffer events. All 55 endpoints still pass at 10%, with a new maximum of 9.09%; parameterized component replay is zero and the final certificate is 15/15.
 
+Run 021 closes the physical integration gap: one executed ReAct/MoA/MCTS trace and native mllm graph compile into a second RISC-V ELF and run on both Rocket+RoCC systems. The resulting 200-event trace measures application/framework/software/CPU/XPU/DMA. Dynamic issue is 1.336× at the backend, 1.312× at controller-system scope and 1.084× end to end, exposing host/runtime dilution rather than assuming gains compose unchanged.
+
 ## Toolchain Closure
 
 - Python 3.11 and the four environment packages are hash-locked with `uv.lock`; system tools, seven source revisions, compatibility patches, build products and Chipyard overlays are checked separately.
@@ -71,3 +73,4 @@ Runs 019–020 replace the remaining 31 parameterized endpoints with executable 
 - Run 018 consumes only those four paper artifacts for endpoint accuracy and combines paper-profile 4/4, toolchain 12/12, serial replay 9/9, pytest and RTL lint into one 14/14 certificate.
 - Run 019 adds an independently tested public Autellix reference (58 tests), an executable Agentix SLO-capacity/KV simulator and an executable ATX/UTE microarchitecture simulator; none reads endpoint targets while executing.
 - Run 020 reports 24 direct source-grounded endpoints, 31 open executable closed-platform substitutes and zero parameterized component replays.
+- Run 021 adds two application/compilation artifacts, the trace ELF, 11/11 serial stages and 13/13 real CPU+XPU gates; the per-layer paper errors are 9.09/8.07/3.10/8.27%, all below 15%.

@@ -85,6 +85,8 @@ REQUIRED_FILES = (
     "experiments/h11-open-substitutes/protocol.md",
     "experiments/h11-open-substitutes/analysis.md",
     "experiments/h12-system-trace/protocol.md",
+    "experiments/h12-system-trace/analysis.md",
+    "docs/system-trace.md",
     "artifacts/results/paper-agentix-run_019.json",
     "artifacts/results/paper-agentxpu-run_019.json",
     "artifacts/results/paper-atx-run_019.json",

@@ -232,7 +232,8 @@ def compile_and_write(
     calls = compile_application_trace(application)
     header = render_header(application, calls)
     header_path.parent.mkdir(parents=True, exist_ok=True)
-    header_path.write_text(header, encoding="utf-8")
+    if not header_path.is_file() or header_path.read_text(encoding="utf-8") != header:
+        header_path.write_text(header, encoding="utf-8")
     manifest = {
         "schema_version": 1,
         "run_id": run_id,

@@ -97,12 +97,18 @@ hypotheses:
     motivation: "Replace parameterized component closure with self-implemented closed-platform mechanisms."
     parent: null
     priority: high
+  - id: H12
+    statement: "An executed Agent application and native model trace can compile into RISC-V software, run on Rocket CPU+XPU, and preserve useful cross-layer performance evidence."
+    status: supported
+    motivation: "Close the application-framework-software-hardware system integration requirement."
+    parent: null
+    priority: high
 
 experiments:
   proxy_metric: "maximum absolute relative error across preregistered paper endpoints (must be <= 0.10), with per-paper toolchains and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 20
+  total_runs: 22
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -244,11 +250,25 @@ experiments:
       wall_time_min: 0.59
       change_summary: "Closed-platform certificate passes 15/15 requirements, 55/55 endpoints, fresh 35-test pytest, 58 reference tests and RTL lint."
       timestamp: "2026-08-26"
+    - run_id: "run_021"
+      hypothesis: "H12"
+      metric_value: 0.09090909090909091
+      delta: 0.0
+      wall_time_min: 3.71
+      change_summary: "Eleven stages and CPU+XPU trace 13/13 pass; 200 measured events expose 1.336x backend and 1.084x application speedups."
+      timestamp: "2026-08-26"
+    - run_id: "run_022"
+      hypothesis: "completion audit"
+      metric_value: 0.09090909090909091
+      delta: 0.0
+      wall_time_min: 0.63
+      change_summary: "Application-to-hardware certificate passes 17/17 requirements, 55/55 endpoints, fresh 38-test pytest and RTL lint."
+      timestamp: "2026-08-26"
 
 outer_loop:
-  cycle: 8
+  cycle: 9
   last_direction: conclude
-  last_reflection: "All four paper profiles, two self-implemented closed-platform substitutes, the 10% contract, nine serial stages, real simulator evidence, tests, documentation, and the 15/15 certificate pass."
+  last_reflection: "The executed application, framework/MIR compiler, RISC-V runtime, Rocket CPU+XPU, 200-event trace, per-layer paper gates, tests, documentation, and 17/17 certificate all pass."
 
 workspace:
   findings: "findings.md"
