@@ -131,7 +131,9 @@ ME (OS MAC)         VE              DE ── SRAM/DMA/Ramulator2 DDR
 | RTL | `rtl/agentsys/*.sv` |
 | bare-metal | `system_sim/software/*` |
 | 安装脚本 | `scripts/bootstrap_references.sh`、`install_agentsys_chipyard.sh`、`build_ramulator2.sh` |
-| 单元/不变量测试 | `tests/`（当前 21 tests） |
+| 完整工具链 | `config/toolchain.json`、`uv.lock`、`scripts/setup_toolchain.sh` |
+| 串行总入口 | `.venv/bin/agentsys-reproduce-all` |
+| 单元/不变量测试 | `tests/`（当前 25 tests） |
 | 原始结果 | `artifacts/results/*.json`、`artifacts/traces/*.jsonl` |
 | 分项报告 | `docs/*.md`、`experiments/*/analysis.md` |
 
@@ -263,17 +265,37 @@ Full stack 相对 baseline 的 makespan/reactive speedup 为 2.033/3.027×；相
 7. Full-stack result 是新实验，无论文 target；priority responsiveness 与 throughput 存在明确 trade-off。
 8. 当前 ME 为功能完整的 OS MAC 参考实现，不是 HPTPE 全规模阵列；WS 极低带宽优势提示需后续 dataflow adaptation。
 
+## 工具链与配置
+
+工具链不再依赖报告中的隐式环境状态。`config/toolchain.json` 是单一机器可读清单，固定 Python 3.11、pytest/cmake/ninja 版本、9 类系统命令、6 个外部源码 revision、2 个 Chipyard compatibility patch、4 个构建产物、4 个 Chipyard overlay，以及 8 个实验的严格串行顺序。`uv.lock` 保存 Python 包与 wheel/sdist hash。
+
+`scripts/setup_toolchain.sh` 完成以下闭环：
+
+1. `uv sync --frozen` 创建锁定的 Python 环境；
+2. 获取并验证 MLX_dev、LLM.xpu、HPTPE、mllm、Ramulator2；
+3. 使用 clang/clang++ 16 构建 Ramulator2；
+4. 向固定 Chipyard checkout 安装 Scala/RTL overlay；
+5. 构建 bare-metal ELF 和 Static/Dynamic Rocket+Verilator；
+6. 执行 built-level 工具链审计，检查版本、commit、可执行文件及 overlay hash。
+
+`.venv/bin/agentsys-reproduce-all` 严格按 direct paper、Agentix aggregate、ATX aggregate、mllm、full stack、Ramulator2、ablations、Chipyard 的顺序执行。每个 stage 退出后先检查 JSON gate、全部输出存在且非空及 SHA-256，随后才启动下一项；manifest 还验证相邻 stage 的 `next.started_ns >= previous.finished_ns`。完整说明见 `docs/toolchain.md`。
+
 ## 环境与重放
 
 ### 1. Python 与引用仓库
 
 ```bash
 cd /workspace/AgentSys
-uv python install 3.11
-uv venv --python 3.11 .venv
-uv pip install --python .venv/bin/python -e . pytest 'cmake>=3.28,<4' ninja
-bash scripts/bootstrap_references.sh
-.venv/bin/python -m pytest
+bash scripts/setup_toolchain.sh
+# 已完成构建时可做非修改式验证
+bash scripts/setup_toolchain.sh --verify-only
+```
+
+完整串行重放及最终证书：
+
+```bash
+.venv/bin/agentsys-reproduce-all --dry-run
+.venv/bin/agentsys-reproduce-all
 ```
 
 ### 2. 论文端点
@@ -328,6 +350,8 @@ bash scripts/build_ramulator2.sh
 | 论文核心数值误差 ≤15% | 55/55 endpoints，max 8.33% | 通过 |
 | 逐层 baseline 与消融 | run 013 + full four-way table | 通过 |
 | 两张 4090 不替代 A100 | evidence boundary | 遵守 |
+| 锁定且完整的工具链配置 | toolchain run 015，11/11 gates | 通过 |
+| 八项实验严格串行重放 | reproduction run 015，8/8 stages | 通过 |
 
 ## 参考资料
 

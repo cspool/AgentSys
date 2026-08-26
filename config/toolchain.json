@@ -1,0 +1,229 @@
+{
+  "schema_version": 1,
+  "python": {
+    "major_minor": "3.11",
+    "executable": ".venv/bin/python",
+    "packages": {
+      "cmake": "3.31.10",
+      "ninja": "1.13.0",
+      "pytest": "9.1.1"
+    }
+  },
+  "tools": [
+    {
+      "name": "uv",
+      "argv": ["uv", "--version"],
+      "contains": "uv 0.12"
+    },
+    {
+      "name": "git",
+      "argv": ["git", "--version"],
+      "contains": "git version"
+    },
+    {
+      "name": "make",
+      "argv": ["make", "--version"],
+      "contains": "GNU Make"
+    },
+    {
+      "name": "cmake",
+      "argv": [".venv/bin/cmake", "--version"],
+      "contains": "cmake version 3.31.10"
+    },
+    {
+      "name": "ninja",
+      "argv": [".venv/bin/ninja", "--version"],
+      "contains": "1.13.0"
+    },
+    {
+      "name": "verilator",
+      "argv": ["verilator", "--version"],
+      "contains": "Verilator 4.034"
+    },
+    {
+      "name": "clang16",
+      "argv": ["clang++-16", "--version"],
+      "contains": "clang version 16.0.6"
+    },
+    {
+      "name": "java11",
+      "argv": ["java", "-version"],
+      "contains": "11.0.11"
+    },
+    {
+      "name": "riscv_gcc",
+      "argv": ["/root/chipyard/esp-tools-install/bin/riscv64-unknown-elf-gcc", "--version"],
+      "contains": "9.2.0"
+    }
+  ],
+  "references": [
+    {
+      "name": "MLX_dev_sys",
+      "path": ".references/MLX_dev_sys",
+      "url": "https://github.com/cspool/MLX_dev.git",
+      "commit": "b3a6d59f2ed634ea6181f5a29f3fa96281b1f384"
+    },
+    {
+      "name": "LLM.xpu",
+      "path": ".references/LLM.xpu",
+      "url": "https://github.com/xinming-wei/LLM.xpu.git",
+      "commit": "689be270aa29bb88447e3867cd97d85a55f454d5"
+    },
+    {
+      "name": "HPTPE",
+      "path": ".references/HPTPE",
+      "url": "https://github.com/wqzustc/High-Performance-Tensor-Processing-Engines.git",
+      "commit": "ebe4db7d2d3c36d10c47683d7689f65f5c4ca3e4"
+    },
+    {
+      "name": "mllm",
+      "path": ".references/mllm",
+      "url": "https://github.com/UbiquitousLearning/mllm.git",
+      "commit": "50ad5a9b6fbea742e38b5b31776c187e50319c8e"
+    },
+    {
+      "name": "ramulator2",
+      "path": ".references/ramulator2",
+      "url": "https://github.com/CMU-SAFARI/ramulator2.git",
+      "commit": "be93be78055d922aa1d4d33e15bcc8f2b0c61a9d"
+    },
+    {
+      "name": "chipyard",
+      "path": "/root/chipyard",
+      "commit": "b5d013190d637e634113cb5179f8c8885df1945a"
+    }
+  ],
+  "build_outputs": [
+    {
+      "name": "ramulator2",
+      "path": ".references/ramulator2/build-clang/ramulator2",
+      "executable": true
+    },
+    {
+      "name": "baremetal_elf",
+      "path": "system_sim/build/software/agentsys-system.riscv",
+      "executable": true,
+      "inputs": [
+        "system_sim/software/Makefile",
+        "system_sim/software/agentsys_runtime.h",
+        "system_sim/software/agentsys_system_test.c"
+      ]
+    },
+    {
+      "name": "chipyard_static",
+      "path": "/root/chipyard/sims/verilator/simulator-chipyard-AgentSysStaticRocketConfig",
+      "executable": true,
+      "inputs": [
+        "/root/chipyard/generators/chipyard/src/main/scala/AgentSysRoCC.scala",
+        "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_engines.sv",
+        "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_tisa_scheduler.sv",
+        "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_rocc_controller.sv"
+      ]
+    },
+    {
+      "name": "chipyard_dynamic",
+      "path": "/root/chipyard/sims/verilator/simulator-chipyard-AgentSysDynamicRocketConfig",
+      "executable": true,
+      "inputs": [
+        "/root/chipyard/generators/chipyard/src/main/scala/AgentSysRoCC.scala",
+        "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_engines.sv",
+        "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_tisa_scheduler.sv",
+        "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_rocc_controller.sv"
+      ]
+    }
+  ],
+  "chipyard_patches": [
+    {
+      "name": "chisel3_stable_dependencies",
+      "repository": "/root/chipyard/tools/chisel3",
+      "patch": "patches/chipyard/chisel3-stable-deps.patch"
+    },
+    {
+      "name": "treadle_stable_firrtl",
+      "repository": "/root/chipyard/tools/treadle",
+      "patch": "patches/chipyard/treadle-stable-firrtl.patch"
+    }
+  ],
+  "chipyard_overlays": [
+    {
+      "name": "scala",
+      "source": "system_sim/chipyard/AgentSysRoCC.scala",
+      "installed": "/root/chipyard/generators/chipyard/src/main/scala/AgentSysRoCC.scala"
+    },
+    {
+      "name": "engines",
+      "source": "rtl/agentsys/agentsys_engines.sv",
+      "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_engines.sv"
+    },
+    {
+      "name": "scheduler",
+      "source": "rtl/agentsys/agentsys_tisa_scheduler.sv",
+      "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_tisa_scheduler.sv"
+    },
+    {
+      "name": "controller",
+      "source": "rtl/agentsys/agentsys_rocc_controller.sv",
+      "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_rocc_controller.sv"
+    }
+  ],
+  "reproduction_manifest": "artifacts/results/reproduction-run_015.json",
+  "toolchain_audit": "artifacts/results/toolchain-run_015.json",
+  "stages": [
+    {
+      "name": "direct_paper",
+      "command": ["{python}", "-m", "agentsys.experiments", "--run-id", "run_011", "--output", "artifacts/results/run_011.json"],
+      "outputs": ["artifacts/results/run_011.json"],
+      "gate_path": ["summary", "all_executed_endpoints_within_15pct"],
+      "timeout_s": 180
+    },
+    {
+      "name": "agentix_aggregate",
+      "command": ["{python}", "scripts/run_agentix_model.py", "--run-id", "run_010", "--output", "artifacts/results/agentix-run_010.json"],
+      "outputs": ["artifacts/results/agentix-run_010.json"],
+      "gate_path": ["summary", "pass"],
+      "timeout_s": 60
+    },
+    {
+      "name": "atx_aggregate",
+      "command": ["{python}", "scripts/run_atx_model.py", "--run-id", "run_004", "--output", "artifacts/results/atx-run_004.json"],
+      "outputs": ["artifacts/results/atx-run_004.json"],
+      "gate_path": ["summary", "pass"],
+      "timeout_s": 60
+    },
+    {
+      "name": "mllm_backend",
+      "command": ["{python}", "scripts/run_mllm_backend.py", "--run-id", "run_006", "--max-ops", "160", "--output", "artifacts/results/mllm-run_006.json", "--trace-output", "artifacts/traces/mllm-qwen3-run_006.jsonl"],
+      "outputs": ["artifacts/results/mllm-run_006.json", "artifacts/traces/mllm-qwen3-run_006.jsonl"],
+      "gate_path": ["summary", "pass"],
+      "timeout_s": 120
+    },
+    {
+      "name": "full_stack",
+      "command": ["{python}", "scripts/run_full_stack.py", "--run-id", "run_008", "--output", "artifacts/results/full-stack-run_008.json", "--trace-output", "artifacts/traces/full-stack-run_008.jsonl"],
+      "outputs": ["artifacts/results/full-stack-run_008.json", "artifacts/traces/full-stack-run_008.jsonl"],
+      "gate_path": ["summary", "pass"],
+      "timeout_s": 120
+    },
+    {
+      "name": "ramulator2",
+      "command": ["{python}", "scripts/run_ramulator2.py", "--run-id", "run_012", "--max-records", "32768", "--output", "artifacts/results/ramulator2-run_012.json"],
+      "outputs": ["artifacts/results/ramulator2-run_012.json", "artifacts/ramulator2/qwen3-de.trace", "artifacts/ramulator2/ddr4-1ch.yaml", "artifacts/ramulator2/ddr4-2ch.yaml"],
+      "gate_path": ["summary", "pass"],
+      "timeout_s": 180
+    },
+    {
+      "name": "ablations",
+      "command": ["{python}", "scripts/run_ablations.py", "--run-id", "run_013", "--output", "artifacts/results/ablations-run_013.json"],
+      "outputs": ["artifacts/results/ablations-run_013.json"],
+      "gate_path": ["summary", "pass"],
+      "timeout_s": 120
+    },
+    {
+      "name": "chipyard",
+      "command": ["{python}", "scripts/run_agentsys_chipyard.py", "--run-id", "run_003", "--output", "artifacts/results/chipyard-run_003.json"],
+      "outputs": ["artifacts/results/chipyard-run_003.json"],
+      "gate_path": ["summary", "pass"],
+      "timeout_s": 420
+    }
+  ]
+}

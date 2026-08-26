@@ -19,6 +19,8 @@ ARTIFACTS = {
     "full_stack": "artifacts/results/full-stack-run_008.json",
     "ramulator2": "artifacts/results/ramulator2-run_012.json",
     "ablations": "artifacts/results/ablations-run_013.json",
+    "reproduction": "artifacts/results/reproduction-run_015.json",
+    "toolchain": "artifacts/results/toolchain-run_015.json",
 }
 
 
@@ -49,6 +51,14 @@ REQUIRED_FILES = (
     "system_sim/software/agentsys_system_test.c",
     "scripts/install_agentsys_chipyard.sh",
     "scripts/build_ramulator2.sh",
+    "scripts/setup_toolchain.sh",
+    ".python-version",
+    "uv.lock",
+    "config/toolchain.json",
+    "src/agentsys/toolchain.py",
+    "src/agentsys/reproduce.py",
+    "artifacts/results/reproduction-run_015.json",
+    "artifacts/results/toolchain-run_015.json",
     "artifacts/traces/full-stack-run_008.jsonl",
 )
 
@@ -125,6 +135,17 @@ def build_certificate(*, run_id: str = "run_014", run_checks: bool = True) -> di
         "full_stack_10": loaded["full_stack"]["summary"]["pass"] and loaded["full_stack"]["summary"]["gates"] == 10,
         "ramulator2_7": loaded["ramulator2"]["summary"]["pass"] and loaded["ramulator2"]["summary"]["gates"] == 7,
         "ablations_7": loaded["ablations"]["summary"]["pass"] and loaded["ablations"]["summary"]["gates"] == 7,
+        "serial_reproduction_8": (
+            loaded["reproduction"]["summary"]["pass"]
+            and loaded["reproduction"]["summary"]["executed"] == 8
+            and loaded["reproduction"]["summary"]["passing"] == 8
+            and loaded["reproduction"]["summary"]["serial_order"]
+        ),
+        "toolchain_11": (
+            loaded["toolchain"]["summary"]["pass"]
+            and loaded["toolchain"]["summary"]["gates"] == 11
+            and loaded["toolchain"]["level"] == "full"
+        ),
     }
 
     required_files = {
@@ -146,8 +167,10 @@ def build_certificate(*, run_id: str = "run_014", run_checks: bool = True) -> di
         "## 实验方法",
         "## 论文核心结果复现",
         "## 限制与不应外推的结论",
+        "## 工具链与配置",
         "## 环境与重放",
         "## 验收矩阵",
+        "agentsys-reproduce-all",
         "55/55",
         "636/636",
     )
@@ -229,4 +252,3 @@ def write_certificate(path: Path, *, run_id: str = "run_014") -> dict[str, Any]:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return result
-

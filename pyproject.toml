@@ -6,11 +6,20 @@ build-backend = "setuptools.build_meta"
 name = "agentsys-sim"
 version = "0.1.0"
 description = "Trace-driven Agentix/Agent.xpu/ATX/TISA full-stack simulator"
-requires-python = ">=3.10"
+requires-python = ">=3.11,<3.12"
 dependencies = []
 
 [project.scripts]
 agentsys-reproduce = "agentsys.experiments:main"
+agentsys-reproduce-all = "agentsys.reproduce:main"
+agentsys-toolchain = "agentsys.toolchain:main"
+
+[dependency-groups]
+dev = [
+  "cmake==3.31.10",
+  "ninja==1.13.0",
+  "pytest==9.1.1",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -18,4 +27,3 @@ where = ["src"]
 [tool.pytest.ini_options]
 addopts = "-q"
 testpaths = ["tests"]
-
