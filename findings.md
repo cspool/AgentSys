@@ -12,7 +12,7 @@ The available evidence requires distinct labels. Agentix's published evaluation 
 
 Final synthesis: urgency must participate at call release before it can be preserved below; semantic tile scheduling becomes beneficial only at the intended coarse granularity; prefetch/bandwidth gains are largest before the critical path shifts to compute; and dataflow choice remains workload/bandwidth dependent. These conditions explain both the successful stack and its observed trade-offs.
 
-The revised architecture removes ATX from the integrated CPU path. Run 023 now closes the first new standalone gate: mllm itself is built and executed, while llm.npu's chunk sharing, shadow-outlier path and out-of-order subgraph scheduling are independently modeled over a native mllm graph. HPTPE remains the gating hardware component; the old four-lane ME cannot satisfy it.
+The revised architecture removes ATX from the integrated CPU path. Run 023 closes mllm itself plus llm.npu's chunk sharing, shadow-outlier path and out-of-order scheduling. Run 024 closes HPTPE's released OPT1/2/3/4C RTL and report endpoints. The old four-lane Chipyard ME still cannot satisfy the integrated hardware requirement; standalone HPTPE completion now supplies the exact module family it must be replaced with.
 
 ## Key Results
 
@@ -33,6 +33,7 @@ The revised architecture removes ATX from the integrated CPU path. Run 023 now c
 - Run 012 closes real DDR modeling: official Ramulator2 halves memory service with two channels, but total TISA improves only 1.009× because ME becomes critical. This separates bandwidth benefit from bottleneck migration.
 - Run 013 completes the sensitivity suite: TISA's timing knee is W=4, fine preemption modestly improves tails, and current OS ME dataflow can be 3.851× worse than WS under extreme bandwidth pressure. Gains are constrained by shifting bottlenecks, not monotonic knobs.
 - Run 023 builds pinned mllm v2 and passes 20/20 native executables with 101 gtest cases. Its native-MIR-driven llm.npu model executes 4,480 subgraphs and 18,336 dependency checks per schedule; chunk sharing is 1.974×, shadow outliers 6.600×, OOO latency reduction 32.91%, and NPU bubble 33.33%→0.636%. All 5 endpoints pass at 15%, max error 9.91%.
+- Run 024 executes HPTPE OPT1 OS/WS/Cube, OPT2, OPT3 and OPT4C: 9/9 organizations, 302 signed golden checks and 9/9 full-scale lint pass. All 26 endpoints pass at 15%, max error 0.98%; OS/WS/Cube frequency gains are 2.097/1.667/1.575x.
 
 ## Patterns and Insights
 
@@ -44,6 +45,7 @@ The revised architecture removes ATX from the integrated CPU path. Run 023 now c
 - Chipyard confirms that semantic issue can produce an end-to-end benefit even after real Rocket custom-instruction and cache/DMA overhead: backend improvement 33.3% becomes 28.9% over the controller busy interval and 25.8% at host launch/wait.
 - Dynamic tile scheduling only helps above its intended granularity. Correct semantic mapping alone is insufficient when backend lowering emits sub-7-cycle tiles; the mllm adapter must preserve a hardware-realistic tile scale.
 - mllm's real build and its paper mechanism are separate gates. A valid MIR parser/TISA speedup does not reproduce llm.npu; conversely, source-grounded llm.npu scheduling does not become Qualcomm device measurement.
+- HPTPE separates executable functionality/cycles from PPA provenance. Open RTL can be re-executed, but absolute SAED32 frequency/area remains author-DC-report evidence without a Synopsys license.
 
 ## Lessons and Constraints
 
@@ -71,6 +73,8 @@ Run 021 closes the physical integration gap: one executed ReAct/MoA/MCTS trace a
 
 Run 023 starts the revised stack. Real mllm framework execution passes 20/20 selected binaries and 101 gtests; the three llm.npu mechanisms pass 5/5 paper endpoints at 9.91% maximum error. The 22.4× cross-platform headline remains explicitly unverified because the Qualcomm phones and five original baselines are unavailable.
 
+Run 024 closes the revised hardware component before integration: HPTPE passes 9/9 RTL organizations and 26/26 endpoints at 0.98%. OPT3/OPT4C cycle values are real open-RTL execution; 24 absolute PPA values remain author report replay.
+
 ## Toolchain Closure
 
 - Python 3.11 and the four environment packages are hash-locked with `uv.lock`; system tools, seven source revisions, compatibility patches, build products and Chipyard overlays are checked separately.
@@ -82,3 +86,4 @@ Run 023 starts the revised stack. Real mllm framework execution passes 20/20 sel
 - Run 020 reports 24 direct source-grounded endpoints, 31 open executable closed-platform substitutes and zero parameterized component replays.
 - Run 021 adds two application/compilation artifacts, the trace ELF, 11/11 serial stages and 13/13 real CPU+XPU gates; the per-layer paper errors are 9.09/8.07/3.10/8.27%, all below 15%.
 - Run 023 introduces `revised_build_outputs`/`revised_component_profiles` without changing the historical run-022 contract. The mllm profile combines a real Clang-16 build/test artifact with native-MIR-driven llm.npu performance evidence.
+- Run 024 adds pinned Verilator 5.050 and Icarus 11 to the revised namespace and registers an independent HPTPE profile without mutating the historical four-paper/55-endpoint contract.

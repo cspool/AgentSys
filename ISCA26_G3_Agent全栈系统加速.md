@@ -167,6 +167,12 @@ ME (OS MAC)         VE              DE ── SRAM/DMA/Ramulator2 DDR
 - Chipyard checkout 的系统内存仍是 DRAMSim2；这是其固定平台属性。
 - `src/agentsys/ramulator.py` 另行使用官方 Ramulator2 v2.0a，模拟 NPU data path 的 DDR4-2400R 一/双通道敏感度，避免把两个 memory simulator 混称为同一证据。
 
+### HPTPE独立复现（run 024）
+
+固定官方commit `ebe4db7d`的OPT1 OS/WS/Cube基线与compressed array、OPT2 same-bit-weight compressor、OPT3 sparse PE和OPT4C column array全部进入真实RTL门禁。Icarus 11与固定Verilator 5.050共执行9/9种组织、302个signed INT8 golden GEMM/vector checks；Verilator 4.034另对9/9个默认全规模top完成lint。OPT3在256次K=32、std=20向量中为2.07 cycles/operand，OPT4C在32次4×32×4 GEMM中为2.27，分别对应论文2.05/2.28。
+
+仓库内12组成功的SAED32 Synopsys DC operating point被逐文件解析为24个frequency/total-cell-area端点；加上2个实跑cycle端点，26/26通过，最大误差0.98%。OPT1 OS/WS/Cube频率分别提升2.097/1.667/1.575×，cell-area ratio为0.962/1.126/1.054。绝对PPA是作者报告复核，不是本机新DC综合。官方filelist引用的`OPT1/systolic_array_ws/array_opt1_based/top.v`在commit中缺失；本项目仅从公开WS baseline top与OPT1 PE接口重建wavefront wrapper，实际compressed PE/Booth/CSA仍执行官方RTL，wrapper通过full-scale lint和GEMM测试。
+
 ## 代码与产物
 
 | 范围 | 主要文件 |
@@ -174,6 +180,7 @@ ME (OS MAC)         VE              DE ── SRAM/DMA/Ramulator2 DDR
 | 核心 simulator | `src/agentsys/{agentix,agentxpu,atx,tisa,fullstack}.py` |
 | 闭源平台替代模拟器 | `src/agentsys/{agentix_serving_simulator,atx_simulator}.py` |
 | mllm/llm.npu独立复现 | `src/agentsys/{mllm_native,mllm_npu}.py`、`scripts/run_mllm_reproduction.py` |
+| HPTPE独立复现 | `src/agentsys/hptpe.py`、`scripts/run_hptpe_reproduction.py`、`integrations/hptpe/rtl/opt1_ws_top.v` |
 | 论文实验驱动/验收 | `src/agentsys/{agentix_model,atx_model,paper_reproduction}.py` |
 | mllm / DDR | `src/agentsys/{mllm_backend,ramulator}.py` |
 | 消融 | `src/agentsys/ablations.py`、`scripts/run_*.py` |
@@ -338,7 +345,7 @@ Full stack 相对 baseline 的 makespan/reactive speedup 为 2.033/3.027×；相
 5. Chipyard 系统路径使用 DRAMSim2；Ramulator2 是独立 NPU-memory experiment，二者没有伪装成单一 integrated memory backend。
 6. mllm已真实构建并执行无权重原生测试，llm.npu机制性能仍是source-grounded CPU/NPU事件模拟；没有Qualcomm QNN设备或完整Qwen3权重，因而不验证原手机吞吐、生成质量或22.4×跨平台平均值。
 7. Full-stack result 是新实验，无论文 target；priority responsiveness 与 throughput 存在明确 trade-off。
-8. 当前 ME 为功能完整的 OS MAC 参考实现，不是 HPTPE 全规模阵列；WS 极低带宽优势提示需后续 dataflow adaptation。
+8. HPTPE已独立复现，但当前Chipyard ME仍是旧四路OS MAC，尚未替换为已测HPTPE阵列；run 024不能单独证明系统集成完成。HPTPE绝对PPA来自作者DC报告复核而非本机重新综合。
 9. run 021是语义保持的compiled-trace execution，不是在Rocket上运行Python解释器、完整agent框架或LLM权重；它证明从真实应用/框架trace到CPU+XPU软件与硬件执行的闭环。
 
 ## 工具链与配置
@@ -460,4 +467,4 @@ bash scripts/build_ramulator2.sh
 
 AgentSys 已从方向草案转化为可执行、可重放、可审计的全栈实验系统，并由四篇独立论文工具链和锁定的十一阶段总入口完成重放。除分层模拟外，真实Agent应用与mllm框架trace已经编译成RISC-V软件，在Rocket CPU+XPU上执行并产生200-event系统trace。最强证据是五条相互校验的链：四份论文结果均在15%内、闭源机制由开放可执行替代实现、真实CPU+XPU/DMA系统执行、六层priority/dependency闭合、最终工具链17/17验收闭合。实验同时表明，跨层优化没有免费午餐：priority提升reactive responsiveness会牺牲部分throughput，DDR扩容会把瓶颈推向ME，过小tile会让dynamic scheduler得不偿失，CPU/framework开销还会把1.336× XPU收益稀释为1.084×端到端收益。
 
-上述结论对应既有run 021原型范围。按最新范围，mllm/llm.npu已在run 023独立通过；最终结论仍需等待HPTPE复现、Agent.xpu/TISA/Agentix无改动复验，并将这些已测模块接入普通RISC-V+TISA/HPTPE XPU后重新签发。现有run 022证书不代表该修订范围已经完成。
+上述结论对应既有run 021原型范围。按最新范围，mllm/llm.npu已在run 023独立通过，HPTPE已在run 024独立通过；最终结论仍需完成Agent.xpu/TISA/Agentix无改动复验，并将这些已测模块接入普通RISC-V+TISA/HPTPE XPU后重新签发。现有run 022证书不代表该修订范围已经完成。

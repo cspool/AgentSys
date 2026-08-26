@@ -226,6 +226,12 @@
         ".references/mllm/CMakeLists.txt",
         ".references/mllm/tasks/build_x86.yaml"
       ]
+    },
+    {
+      "name": "verilator5_hptpe",
+      "path": ".references/verilator5/bin/verilator_bin",
+      "executable": true,
+      "inputs": ["scripts/build_verilator5.sh"]
     }
   ],
   "revised_component_profiles": {
@@ -235,8 +241,36 @@
       "expected_endpoints": 5,
       "sources": ["data/paper_targets.json", "experiments/h13-revised-stack/mllm-build-clang16.yaml", "src/agentsys/mllm_backend.py", "src/agentsys/mllm_native.py", "src/agentsys/mllm_npu.py", "scripts/run_mllm_reproduction.py"],
       "references": ["mllm"]
+    },
+    "hptpe": {
+      "command": ["{python}", "scripts/run_hptpe_reproduction.py", "--run-id", "run_024", "--output", "artifacts/results/paper-hptpe-run_024.json", "--log-dir", "artifacts/logs/hptpe-run_024"],
+      "output": "artifacts/results/paper-hptpe-run_024.json",
+      "expected_endpoints": 26,
+      "sources": ["data/paper_targets.json", "src/agentsys/hptpe.py", "scripts/run_hptpe_reproduction.py", "scripts/build_verilator5.sh", "integrations/hptpe/rtl/opt1_ws_top.v"],
+      "references": ["HPTPE", "verilator5"]
     }
   },
+  "revised_references": [
+    {
+      "name": "verilator5",
+      "path": ".references/verilator5",
+      "url": "https://github.com/verilator/verilator.git",
+      "tag": "v5.050",
+      "commit": "848d926ebd4addacacd294dc84e35d9d4ae8078c"
+    }
+  ],
+  "revised_tools": [
+    {
+      "name": "iverilog",
+      "argv": ["iverilog", "-V"],
+      "contains": "Icarus Verilog version 11.0"
+    },
+    {
+      "name": "verilator5",
+      "argv": ["env", "VERILATOR_ROOT=.references/verilator5", ".references/verilator5/bin/verilator", "--version"],
+      "contains": "Verilator 5.050"
+    }
+  ],
   "reproduction_manifest": "artifacts/results/reproduction-run_021.json",
   "toolchain_audit": "artifacts/results/toolchain-run_021.json",
   "stages": [

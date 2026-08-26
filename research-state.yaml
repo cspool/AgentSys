@@ -116,7 +116,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 23
+  total_runs: 24
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -279,11 +279,18 @@ experiments:
       wall_time_min: 13.0
       change_summary: "Pinned mllm v2 builds and passes 20/20 native executables (101 gtests); llm.npu mechanisms pass 5/5 endpoints with 9.91% maximum error."
       timestamp: "2026-08-26"
+    - run_id: "run_024"
+      hypothesis: "H13/HPTPE"
+      metric_value: 0.009756097560975618
+      delta: -0.08934300153812337
+      wall_time_min: 6.0
+      change_summary: "Official HPTPE OPT1/2/3/4C passes 9/9 RTL organizations, 302 golden checks, 9/9 full-scale lint and 26/26 endpoints with 0.98% maximum error."
+      timestamp: "2026-08-26"
 
 outer_loop:
-  cycle: 10
+  cycle: 11
   last_direction: deepen
-  last_reflection: "Run 023 closes standalone mllm/llm.npu with real framework execution and source-grounded mechanism performance; HPTPE is now the blocking standalone component before unchanged revalidation and ordinary-RISC-V integration."
+  last_reflection: "Runs 023-024 close standalone mllm/llm.npu and HPTPE. Next, re-run Agentix/TISA/Agent.xpu unchanged under the revised 15% certificate, then integrate the tested HPTPE array into ordinary-RISC-V Chipyard."
 
 workspace:
   findings: "findings.md"

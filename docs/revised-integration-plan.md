@@ -10,7 +10,7 @@
 ## Ordered plan
 
 1. Freeze the ordinary RISC-V baseline and a neutral CPU↔XPU command/DMA interface.
-2. Independently reproduce mllm, Agent.xpu and HPTPE mechanisms and paper experiments with complete pinned toolchains. mllm/llm.npu is complete in run 023 (5/5 endpoints, 9.91% maximum error); HPTPE and final unchanged revalidation remain open.
+2. Independently reproduce mllm, Agent.xpu and HPTPE mechanisms and paper experiments with complete pinned toolchains. mllm/llm.npu is complete in run 023 (5/5 endpoints, 9.91% maximum error); HPTPE is complete in run 024 (26/26 endpoints, 0.98% maximum error). Final unchanged Agentix/TISA/Agent.xpu revalidation remains open.
 3. Integrate mllm operators into Agent.xpu flows, then lower them through TISA onto the HPTPE XPU in Chipyard.
 4. Execute an end-to-end Agent trace on ordinary RISC-V+XPU and verify identical logical work, dependencies, DMA and outputs across baselines.
 5. Require every layer's paper result to remain within 15%, then regenerate the report and completion certificate.
