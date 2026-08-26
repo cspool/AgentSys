@@ -116,7 +116,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 25
+  total_runs: 26
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -293,11 +293,18 @@ experiments:
       wall_time_min: 0.2
       change_summary: "Unchanged Agentix/Agent.xpu/TISA revalidation plus mllm/HPTPE passes 5/5 active components, 68/68 endpoints and 8/8 gates; ATX is excluded."
       timestamp: "2026-08-26"
+    - run_id: "run_026"
+      hypothesis: "H13/integration"
+      metric_value: 0.22699386503067487
+      delta: 0.12789485592967588
+      wall_time_min: 3.67
+      change_summary: "Real ordinary-Rocket plus HPTPE integration passes 18/19 gates and emits 860 events; identical work/checksum holds, but 2.000x backend speedup exceeds the locked 1.14--1.63x TISA range."
+      timestamp: "2026-08-26"
 
 outer_loop:
-  cycle: 12
+  cycle: 13
   last_direction: deepen
-  last_reflection: "Run 025 closes all standalone prerequisites at 68/68 endpoints. Direction remains DEEPEN: vendor the tested HPTPE array, remove ATX semantics, and execute the revised application-to-hardware path on ordinary-RISC-V Chipyard."
+  last_reflection: "Run 026 closes physical integration and lineage but overstates dynamic scheduling at 2.000x. Direction remains DEEPEN: retain the negative result, preregister a source-grounded dynamic issue cost/concurrency constraint, and preserve all work/checksum gates."
 
 workspace:
   findings: "findings.md"

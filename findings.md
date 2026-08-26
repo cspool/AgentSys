@@ -35,6 +35,7 @@ The revised architecture removes ATX from the integrated CPU path. Run 023 close
 - Run 023 builds pinned mllm v2 and passes 20/20 native executables with 101 gtest cases. Its native-MIR-driven llm.npu model executes 4,480 subgraphs and 18,336 dependency checks per schedule; chunk sharing is 1.974×, shadow outliers 6.600×, OOO latency reduction 32.91%, and NPU bubble 33.33%→0.636%. All 5 endpoints pass at 15%, max error 9.91%.
 - Run 024 executes HPTPE OPT1 OS/WS/Cube, OPT2, OPT3 and OPT4C: 9/9 organizations, 302 signed golden checks and 9/9 full-scale lint pass. All 26 endpoints pass at 15%, max error 0.98%; OS/WS/Cube frequency gains are 2.097/1.667/1.575x.
 - Run 025 reruns Agentix/Agent.xpu/TISA unchanged and combines all active standalone evidence. Five of five components, 68/68 endpoints and 8/8 gates pass at 9.91% global maximum error. ATX is a machine-checked excluded component.
+- Run 026 physically integrates the revised stack on ordinary Rocket and the released HPTPE 16x16 array. Eighteen of 19 gates pass, 860 cross-layer events are recorded, and static/dynamic work and checksum match. The 2.000x backend speedup exceeds the locked TISA 1.14--1.63x range, so this is a retained negative result rather than completion evidence.
 
 ## Patterns and Insights
 
@@ -47,6 +48,7 @@ The revised architecture removes ATX from the integrated CPU path. Run 023 close
 - Dynamic tile scheduling only helps above its intended granularity. Correct semantic mapping alone is insufficient when backend lowering emits sub-7-cycle tiles; the mllm adapter must preserve a hardware-realistic tile scale.
 - mllm's real build and its paper mechanism are separate gates. A valid MIR parser/TISA speedup does not reproduce llm.npu; conversely, source-grounded llm.npu scheduling does not become Qualcomm device measurement.
 - HPTPE separates executable functionality/cycles from PPA provenance. Open RTL can be re-executed, but absolute SAED32 frequency/area remains author-DC-report evidence without a Synopsys license.
+- Perfect three-engine occupancy can overstate TISA's published gain even when every work-conservation invariant passes. Integrated performance fidelity therefore needs a source-grounded scheduling cost/concurrency constraint in addition to functional RTL correctness.
 
 ## Lessons and Constraints
 
@@ -77,6 +79,11 @@ Run 023 starts the revised stack. Real mllm framework execution passes 20/20 sel
 Run 024 closes the revised hardware component before integration: HPTPE passes 9/9 RTL organizations and 26/26 endpoints at 0.98%. OPT3/OPT4C cycle values are real open-RTL execution; 24 absolute PPA values remain author report replay.
 
 Run 025 closes the standalone prerequisite: Agentix 16, Agent.xpu 11, TISA 10, mllm 5 and HPTPE 26 endpoints all pass, totaling 68. The next metric is no longer component error optimization; it is preservation of these mechanisms and work invariants in the revised Chipyard path.
+
+Run 026 preserves those mechanisms through the physical Chipyard path, but its
+unconstrained ME/VE/DE overlap yields 2.000x rather than the registered
+1.14--1.63x TISA range. The next run must change only the dynamic scheduling
+cost/concurrency model and retain all run-026 work and lineage invariants.
 
 ## Toolchain Closure
 
