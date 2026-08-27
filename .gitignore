@@ -4,10 +4,12 @@ __pycache__/
 *.py[cod]
 .venv/
 .venv-gpu/
+.venv-mlx/
 .tools/
 .cuda-toolkit/
 build/
 dist/
 *.egg-info/
 artifacts/tmp/
+artifacts/mlx_standalone/*/build/
 chipyard-overlay/generated/
