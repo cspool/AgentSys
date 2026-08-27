@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "name": "planner_debate",
+  "description": "Reactive planner plus proactive two-critic debate and merge.",
+  "agentix": {"policy": "plas", "batch_size": 2},
+  "agentxpu": {
+    "heg_prefill_chunk_tokens": 32,
+    "max_reactive_decode_batch": 2,
+    "max_decode_batch": 8,
+    "heg_igpu_prefill_share": 0.4
+  },
+  "programs": [
+    {"id": "planner", "priority": "reactive", "arrival": 0},
+    {"id": "debate", "priority": "proactive", "arrival": 0}
+  ],
+  "models": [
+    {
+      "id": "qwen3_1_7b",
+      "framework_mir": "integrations/mllm/fixtures/transformer_slice.mir",
+      "hardware_mir": ".references/mllm/examples/qwen3_qnn_aot/qwen3_qnn_aot_1.7B.mir",
+      "selected_source_indices": [6, 7, 8, 10, 11, 12, 13, 14],
+      "duration_divisors": {"me": 12.8, "ve": 12.8, "de": 12.8},
+      "stages": [0, 0, 0, 0, 0, 0, 1, 1]
+    }
+  ],
+  "calls": [
+    {"id": "planner-seed", "program": "planner", "kind": "llm", "duration": 3, "thread": "seed", "input_tokens": 320, "output_tokens": 72, "model": "qwen3_1_7b"},
+    {"id": "planner-tool", "program": "planner", "kind": "tool", "duration": 2, "deps": ["planner-seed"], "thread": "tool", "input_tokens": 48, "output_tokens": 16, "tool": "deterministic_lookup", "tool_cycles": 192},
+    {"id": "planner-final", "program": "planner", "kind": "llm", "duration": 4, "deps": ["planner-tool"], "thread": "final", "input_tokens": 384, "output_tokens": 96, "model": "qwen3_1_7b"},
+    {"id": "critic-a", "program": "debate", "kind": "llm", "duration": 5, "thread": "critic-a", "input_tokens": 512, "output_tokens": 80, "model": "qwen3_1_7b"},
+    {"id": "critic-b", "program": "debate", "kind": "llm", "duration": 4, "thread": "critic-b", "input_tokens": 448, "output_tokens": 88, "model": "qwen3_1_7b"},
+    {"id": "critic-merge", "program": "debate", "kind": "llm", "duration": 3, "deps": ["critic-a", "critic-b", "planner-seed"], "thread": "merge", "input_tokens": 640, "output_tokens": 104, "model": "qwen3_1_7b"}
+  ],
+  "hardware": {
+    "profile": "rocket_tisa8_hptpe16x16",
+    "tisa_window": 8,
+    "dispatch_latency": 7,
+    "hptpe_rows": 16,
+    "hptpe_cols": 16,
+    "input_beats": 6,
+    "output_beats": 3
+  },
+  "expectations": {"dynamic_faster": true}
+}

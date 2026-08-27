@@ -117,9 +117,9 @@ def parse_revised_output(output: str) -> dict[str, Any]:
     raw = _fields(summary_match.group(2))
     summary: dict[str, Any] = {"verdict": summary_match.group(1)}
     for key, value in raw.items():
-        if key in {"backend", "abi"}:
+        if key in {"backend", "abi", "workload"}:
             summary[key] = value
-        elif key in {"checksum", "app_digest", "mir_digest"}:
+        elif key in {"checksum", "app_digest", "mir_digest", "workload_digest"}:
             summary[key] = int(value, 16)
             summary[f"{key}_hex"] = value
         elif key in {"flows", "placements"}:

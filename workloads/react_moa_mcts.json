@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "name": "react_moa_mcts",
+  "description": "Certified mixed ReAct, Mixture-of-Agents and MCTS workload from run 028.",
+  "agentix": {"policy": "atlas", "batch_size": 3},
+  "agentxpu": {
+    "heg_prefill_chunk_tokens": 16,
+    "max_reactive_decode_batch": 3,
+    "max_decode_batch": 16,
+    "heg_igpu_prefill_share": 0.5
+  },
+  "programs": [
+    {"id": "react", "priority": "reactive", "arrival": 0},
+    {"id": "moa", "priority": "proactive", "arrival": 0},
+    {"id": "mcts", "priority": "proactive", "arrival": 1}
+  ],
+  "models": [
+    {
+      "id": "qwen3_1_7b",
+      "framework_mir": "integrations/mllm/fixtures/transformer_slice.mir",
+      "hardware_mir": ".references/mllm/examples/qwen3_qnn_aot/qwen3_qnn_aot_1.7B.mir",
+      "selected_source_indices": [6, 7, 8, 10, 11, 12, 13, 14],
+      "duration_divisors": {"me": 12.8, "ve": 12.8, "de": 12.8},
+      "stages": [0, 0, 0, 0, 0, 0, 1, 1]
+    }
+  ],
+  "calls": [
+    {"id": "react-plan", "program": "react", "kind": "llm", "duration": 4, "input_tokens": 213, "output_tokens": 78, "model": "qwen3_1_7b"},
+    {"id": "react-tool", "program": "react", "kind": "tool", "duration": 1, "deps": ["react-plan"], "external_delay": 1, "input_tokens": 253, "output_tokens": 72, "tool": "deterministic_lookup", "tool_cycles": 256},
+    {"id": "react-answer", "program": "react", "kind": "llm", "duration": 3, "deps": ["react-tool"], "input_tokens": 261, "output_tokens": 76, "model": "qwen3_1_7b"},
+    {"id": "moa-map0", "program": "moa", "kind": "llm", "duration": 3, "thread": "map0", "input_tokens": 451, "output_tokens": 90, "model": "qwen3_1_7b"},
+    {"id": "moa-map1", "program": "moa", "kind": "llm", "duration": 5, "thread": "map1", "input_tokens": 467, "output_tokens": 96, "model": "qwen3_1_7b"},
+    {"id": "moa-map2", "program": "moa", "kind": "llm", "duration": 2, "thread": "map2", "input_tokens": 483, "output_tokens": 87, "model": "qwen3_1_7b"},
+    {"id": "moa-reduce", "program": "moa", "kind": "llm", "duration": 4, "deps": ["moa-map0", "moa-map1", "moa-map2"], "thread": "reduce", "input_tokens": 579, "output_tokens": 93, "model": "qwen3_1_7b"},
+    {"id": "mcts-root", "program": "mcts", "kind": "llm", "duration": 3, "thread": "root", "input_tokens": 515, "output_tokens": 85, "model": "qwen3_1_7b"},
+    {"id": "mcts-actor0", "program": "mcts", "kind": "llm", "duration": 4, "deps": ["mcts-root"], "thread": "actor0", "input_tokens": 551, "output_tokens": 89, "model": "qwen3_1_7b"},
+    {"id": "mcts-actor1", "program": "mcts", "kind": "llm", "duration": 2, "deps": ["mcts-root"], "thread": "actor1", "input_tokens": 563, "output_tokens": 81, "model": "qwen3_1_7b"},
+    {"id": "mcts-critic", "program": "mcts", "kind": "llm", "duration": 3, "deps": ["mcts-actor0", "mcts-actor1"], "thread": "critic", "input_tokens": 587, "output_tokens": 85, "model": "qwen3_1_7b"}
+  ],
+  "hardware": {
+    "profile": "rocket_tisa8_hptpe16x16",
+    "tisa_window": 8,
+    "dispatch_latency": 7,
+    "hptpe_rows": 16,
+    "hptpe_cols": 16,
+    "input_beats": 8,
+    "output_beats": 4
+  },
+  "expectations": {
+    "dynamic_faster": true,
+    "require_static_overlap": true,
+    "backend_speedup_range": [1.14, 1.63]
+  }
+}

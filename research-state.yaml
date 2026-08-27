@@ -122,7 +122,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 28
+  total_runs: 29
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -320,11 +320,18 @@ experiments:
       wall_time_min: 5.2
       change_summary: "Eight serial stages, 12/12 toolchain gates and 15/15 final requirements pass; five components remain 68/68 at 9.91%, and Rocket+HPTPE reproduces 1.376x with 860 events."
       timestamp: "2026-08-26"
+    - run_id: "run_029"
+      hypothesis: "H14/manifest workload switching"
+      metric_value: 0.5
+      delta: null
+      wall_time_min: 4.0
+      change_summary: "Three manifests compile to distinct ELFs and react_tool passes 17/17 real-system gates; planner_debate reveals schedule-dependent HPTPE state and a split stdout trace marker, so only 1/2 executed switched workloads passes."
+      timestamp: "2026-08-27"
 
 outer_loop:
-  cycle: 16
+  cycle: 17
   last_direction: broaden
-  last_reflection: "The run-028 stack is complete only for one registered workload. H14 broadens the system to manifest-driven workload switching and per-layer parameter regression, beginning with three source-edit-free Agent DAGs."
+  last_reflection: "Run 029 proves the manifest/ELF switch path but exposes two hidden fixed-load artifacts. Direction remains DEEPEN: reset HPTPE per descriptor and move hardware trace evidence off shared UART stdout before rerunning all three workloads."
 
 workspace:
   findings: "findings.md"

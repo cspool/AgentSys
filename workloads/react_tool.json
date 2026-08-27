@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "name": "react_tool",
+  "description": "Single reactive LLM-tool-LLM chain for small-workload switching.",
+  "agentix": {"policy": "atlas", "batch_size": 1},
+  "agentxpu": {
+    "heg_prefill_chunk_tokens": 8,
+    "max_reactive_decode_batch": 2,
+    "max_decode_batch": 8,
+    "heg_igpu_prefill_share": 0.5
+  },
+  "programs": [
+    {"id": "assistant", "priority": "reactive", "arrival": 0}
+  ],
+  "models": [
+    {
+      "id": "qwen3_1_7b",
+      "framework_mir": "integrations/mllm/fixtures/transformer_slice.mir",
+      "hardware_mir": ".references/mllm/examples/qwen3_qnn_aot/qwen3_qnn_aot_1.7B.mir",
+      "selected_source_indices": [6, 7, 8, 10, 11, 12, 13, 14],
+      "duration_divisors": {"me": 12.8, "ve": 12.8, "de": 12.8},
+      "stages": [0, 0, 0, 0, 0, 0, 1, 1]
+    }
+  ],
+  "calls": [
+    {"id": "plan", "program": "assistant", "kind": "llm", "duration": 3, "input_tokens": 192, "output_tokens": 48, "model": "qwen3_1_7b"},
+    {"id": "lookup", "program": "assistant", "kind": "tool", "duration": 1, "deps": ["plan"], "external_delay": 1, "input_tokens": 32, "output_tokens": 8, "tool": "deterministic_lookup", "tool_cycles": 128},
+    {"id": "answer", "program": "assistant", "kind": "llm", "duration": 4, "deps": ["lookup"], "input_tokens": 224, "output_tokens": 64, "model": "qwen3_1_7b"}
+  ],
+  "hardware": {
+    "profile": "rocket_tisa8_hptpe16x16",
+    "tisa_window": 8,
+    "dispatch_latency": 7,
+    "hptpe_rows": 16,
+    "hptpe_cols": 16,
+    "input_beats": 4,
+    "output_beats": 2
+  },
+  "expectations": {}
+}

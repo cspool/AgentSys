@@ -382,10 +382,25 @@ class AgentixSimulator:
             # Program wait follows Agentix Fig. 2: JCT minus total model service
             # for single-threaded programs. For DAGs, subtract the critical path.
             longest_path: dict[str, int] = {}
-            for state in program_calls:
-                longest_path[state.spec.call_id] = state.spec.duration + max(
-                    (longest_path[dep] for dep in state.spec.deps), default=0
+            program_call_ids = {state.spec.call_id for state in program_calls}
+
+            def internal_path(call_id: str) -> int:
+                if call_id in longest_path:
+                    return longest_path[call_id]
+                state = states[call_id]
+                # Cross-program edges delay release but are not model service
+                # performed by this program. Only internal parents contribute
+                # to its critical-path service subtraction.
+                parent_paths = (
+                    internal_path(dependency)
+                    for dependency in state.spec.deps
+                    if dependency in program_call_ids
                 )
+                longest_path[call_id] = state.spec.duration + max(parent_paths, default=0)
+                return longest_path[call_id]
+
+            for state in program_calls:
+                internal_path(state.spec.call_id)
             service = max(longest_path.values())
             program_completion[program_id] = completion
             program_wait[program_id] = completion - arrival - service

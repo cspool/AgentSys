@@ -1,0 +1,161 @@
+{
+  "artifacts": {
+    "application": "/workspace/AgentSys/artifacts/workloads/planner_debate/0fbd066467fc/run_029/application.json",
+    "compiled": "/workspace/AgentSys/artifacts/workloads/planner_debate/0fbd066467fc/run_029/compiled.json",
+    "elf": "/workspace/AgentSys/artifacts/workloads/planner_debate/0fbd066467fc/run_029/software/workload.riscv",
+    "header": "/workspace/AgentSys/artifacts/workloads/planner_debate/0fbd066467fc/run_029/generated/workload.h",
+    "system": "/workspace/AgentSys/artifacts/workloads/planner_debate/0fbd066467fc/run_029/system.json",
+    "trace": "/workspace/AgentSys/artifacts/workloads/planner_debate/0fbd066467fc/run_029/system-trace.jsonl"
+  },
+  "classification": "parameterized_agent_workload_end_to_end_pipeline",
+  "output_dir": "/workspace/AgentSys/artifacts/workloads/planner_debate/0fbd066467fc/run_029",
+  "run_id": "run_029",
+  "schema_version": 1,
+  "stages": [
+    {
+      "finished_ns": 1787798089331073205,
+      "name": "agentix_application",
+      "outputs": {
+        "/workspace/AgentSys/artifacts/workloads/planner_debate/0fbd066467fc/run_029/application.json": {
+          "bytes": 23950,
+          "sha256": "78e64b2d5c9d0676aef19dbd290c732f599dc7b78e38e49868f088aef4dd110e"
+        }
+      },
+      "pass": true,
+      "started_ns": 1787798089324125931,
+      "wall_time_s": 0.006947274
+    },
+    {
+      "finished_ns": 1787798089576285104,
+      "name": "mllm_agentxpu_tisa_compile",
+      "outputs": {
+        "/workspace/AgentSys/artifacts/workloads/planner_debate/0fbd066467fc/run_029/compiled.json": {
+          "bytes": 31271,
+          "sha256": "8fa6e30e5a2ad2ed6442a406d5f56edd40c033718d2593e5bf9c960a42d73682"
+        },
+        "/workspace/AgentSys/artifacts/workloads/planner_debate/0fbd066467fc/run_029/generated/workload.h": {
+          "bytes": 6079,
+          "sha256": "413a6a32f14b13fcc0139ec8e6213b37b1d1c5b0fbc316e0dc954031780d1c82"
+        }
+      },
+      "pass": true,
+      "started_ns": 1787798089331140960,
+      "wall_time_s": 0.245144144
+    },
+    {
+      "details": {
+        "classification": "parameterized_workload_riscv_elf_build",
+        "command": [
+          "/root/chipyard/esp-tools-install/bin/riscv64-unknown-elf-gcc",
+          "-std=gnu99",
+          "-O2",
+          "-g",
+          "-fno-common",
+          "-fno-builtin-printf",
+          "-Wall",
+          "-Wextra",
+          "-I/root/chipyard/tests",
+          "-I/workspace/AgentSys/system_sim/software",
+          "-DAGENTSYS_REVISED_TRACE_HEADER=\"/workspace/AgentSys/artifacts/workloads/planner_debate/0fbd066467fc/run_029/generated/workload.h\"",
+          "/workspace/AgentSys/system_sim/software/agentsys_revised_system_test.c",
+          "-static",
+          "-specs=htif_nano.specs",
+          "-o",
+          "/workspace/AgentSys/artifacts/workloads/planner_debate/0fbd066467fc/run_029/software/workload.riscv"
+        ],
+        "elf": "/workspace/AgentSys/artifacts/workloads/planner_debate/0fbd066467fc/run_029/software/workload.riscv",
+        "elf_bytes": 103112,
+        "elf_sha256": "fe63a7a9623f16ebcf6e6aa5a15e19453590eadfd0010a98d70b5cfc9a11dfc3",
+        "exit_code": 0,
+        "header": "/workspace/AgentSys/artifacts/workloads/planner_debate/0fbd066467fc/run_029/generated/workload.h",
+        "header_sha256": "413a6a32f14b13fcc0139ec8e6213b37b1d1c5b0fbc316e0dc954031780d1c82",
+        "output": "",
+        "pass": true,
+        "runtime_sha256": "60010b0567268d7f440f61fa7ec41a474ebf47c5946e4f3cb7d970915e16ab46",
+        "source_sha256": "8038788fdca5267b04f64336a09fa7a8327d185696f1ffb6db5cb433d5f128fd"
+      },
+      "finished_ns": 1787798089991027850,
+      "name": "riscv_elf_build",
+      "outputs": {
+        "/workspace/AgentSys/artifacts/workloads/planner_debate/0fbd066467fc/run_029/software/workload.riscv": {
+          "bytes": 103112,
+          "sha256": "fe63a7a9623f16ebcf6e6aa5a15e19453590eadfd0010a98d70b5cfc9a11dfc3"
+        }
+      },
+      "pass": true,
+      "started_ns": 1787798089576393812,
+      "wall_time_s": 0.414634038
+    },
+    {
+      "finished_ns": 1787798242002663163,
+      "name": "rocket_tisa_hptpe_system",
+      "outputs": {
+        "/workspace/AgentSys/artifacts/workloads/planner_debate/0fbd066467fc/run_029/logs/dynamic.log": {
+          "bytes": 12174,
+          "sha256": "88a4b94b4c9eb54c47201f051567471568f08484eec74f60a6af0f4eced51621"
+        },
+        "/workspace/AgentSys/artifacts/workloads/planner_debate/0fbd066467fc/run_029/logs/static.log": {
+          "bytes": 12176,
+          "sha256": "8ce63fee16d8029a6f3720ac009a6428f364df530016152537ff54d46e88362c"
+        },
+        "/workspace/AgentSys/artifacts/workloads/planner_debate/0fbd066467fc/run_029/system-trace.jsonl": {
+          "bytes": 180262,
+          "sha256": "2fc4a659d81b0798de2c45c9ca1fa9083b7100307c11c1fdfea82619e6364e74"
+        },
+        "/workspace/AgentSys/artifacts/workloads/planner_debate/0fbd066467fc/run_029/system.json": {
+          "bytes": 87702,
+          "sha256": "ac572f1d6fb50bf3e94adf313a790fd61c2a7e038e9fcd9776aa6e9f809d63b5"
+        }
+      },
+      "pass": false,
+      "started_ns": 1787798089991216427,
+      "wall_time_s": 152.011446736
+    }
+  ],
+  "summary": {
+    "failing": 1,
+    "pass": false,
+    "passing": 3,
+    "serial_order": true,
+    "stages": 4,
+    "system_executed": true
+  },
+  "system_summary": {
+    "failing": 2,
+    "gates": 18,
+    "pass": false,
+    "passing": 16
+  },
+  "workload": {
+    "agentix": {
+      "batch_size": 2,
+      "policy": "plas"
+    },
+    "agentxpu": {
+      "heg_igpu_prefill_share": 0.4,
+      "heg_prefill_chunk_tokens": 32,
+      "max_decode_batch": 8,
+      "max_reactive_decode_batch": 2
+    },
+    "hardware": {
+      "dispatch_latency": 7,
+      "hptpe_cols": 16,
+      "hptpe_rows": 16,
+      "input_beats": 6,
+      "output_beats": 3,
+      "profile": "rocket_tisa8_hptpe16x16",
+      "tisa_window": 8
+    },
+    "name": "planner_debate",
+    "schema_version": 1,
+    "sha256": "0fbd066467fc52055e53c9cbf7264796f1fbf88aa9788f4838d73a8a8c343631",
+    "source": "/workspace/AgentSys/workloads/planner_debate.json",
+    "summary": {
+      "calls": 6,
+      "llm_calls": 5,
+      "models": 1,
+      "programs": 2,
+      "tool_calls": 1
+    }
+  }
+}

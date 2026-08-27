@@ -38,6 +38,7 @@ The revised architecture removes ATX from the integrated CPU path. Run 023 close
 - Run 026 physically integrates the revised stack on ordinary Rocket and the released HPTPE 16x16 array. Eighteen of 19 gates pass, 860 cross-layer events are recorded, and static/dynamic work and checksum match. The 2.000x backend speedup exceeds the locked TISA 1.14--1.63x range, so this is a retained negative result rather than completion evidence.
 - Run 027 restores the paper's strong-static stage baseline and exact seven-cycle dynamic dispatch. All 20 gates pass: backend/system/CPU-observed speedups are 1.376/1.340/1.056x, 860 events cover 11 layers, and 614,400 HPTPE MACs plus checksum remain identical.
 - Run 028 reruns the complete active stack in eight strict serial stages. Reproduction is 8/8, toolchain audit 12/12 and final certificate 15/15; fresh pytest, dispatch RTL, legacy lint and full HPTPE/RoCC lint all pass. The five active components remain 68/68 at 9.91% maximum error.
+- Run 029 generalizes the frontend to versioned workload manifests and per-workload ELFs. `react_tool` passes 17/17 with 16 descriptors and 180 events, proving source-edit-free switching. A cross-program `planner_debate` workload exposes two hidden fixed-load artifacts: HPTPE pipeline state makes ME tile checksums schedule-dependent, and shared UART/RTL stdout can split a trace marker inside its prefix.
 
 ## Patterns and Insights
 
@@ -51,6 +52,7 @@ The revised architecture removes ATX from the integrated CPU path. Run 023 close
 - mllm's real build and its paper mechanism are separate gates. A valid MIR parser/TISA speedup does not reproduce llm.npu; conversely, source-grounded llm.npu scheduling does not become Qualcomm device measurement.
 - HPTPE separates executable functionality/cycles from PPA provenance. Open RTL can be re-executed, but absolute SAED32 frequency/area remains author-DC-report evidence without a Synopsys license.
 - Perfect three-engine occupancy can overstate TISA's published gain even when every work-conservation invariant passes. Integrated performance fidelity therefore needs a source-grounded scheduling cost/concurrency constraint in addition to functional RTL correctness.
+- Aggregate XOR equality is insufficient for functional validation: an even number of repeated call patterns can cancel identical per-call static/dynamic checksum differences. Generic workload testing must compare every tile and reset accelerator-local pipeline state per descriptor.
 
 ## Lessons and Constraints
 
