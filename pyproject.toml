@@ -29,6 +29,7 @@ agentsys-hybrid-profile-audit = "agentsys.hybrid_profile_audit:main"
 agentsys-certificate-hybrid = "agentsys.hybrid_certificate:main"
 agentsys-mlx-reference-audit = "agentsys.mlx_reference:main"
 agentsys-mlx-standalone = "agentsys.mlx_standalone:main"
+agentsys-mlx-chipyard = "agentsys.mlx_chipyard:main"
 
 [dependency-groups]
 dev = [

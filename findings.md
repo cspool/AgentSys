@@ -53,6 +53,7 @@ The revised architecture removes ATX from the integrated CPU path. Run 023 close
 - Run 041 closes H15 and the expanded goal with a profiler-backed 22/22 certificate. The frozen react-tool plan remains 13/13 natively; Nsight audit is 9/9 with all 16 MIR ranges plus GPU/NCCL/transfer classes. Fresh 90-test pytest, mllm CUDA dual-GPU idempotence, dispatch and both RTL lints pass. Every evidence boundary and artifact hash is retained.
 - Run 042 reopens and qualifies MLX as the new active hardware basis: current sys commit plus Chipyard pass 10/10 source/evidence gates, with 21 unchanged core files, real 4x4 RTL/cycle/Rocket evidence and 5/5 target-informed e2e rows at 5.85% max error. The external repository's strict full-paper <=10% result remains honestly false (1/18); Agent-specific lowering/integration is still required.
 - Run 043 freshly rebuilds the active MLX cycle model and physical 4x4 RTL outside the reference tree. Ten of ten gates and 8/8 golden runs pass; identical per-PE programs produce different global interleavings, all ten opcodes have measured timing, and target-free cycle/RTL ratios span 1.193x–2.098x. Rocket and Agent integration remain open.
+- Run 044 closes the MLX+ordinary-Rocket substrate at 12/12. Two freshly built Rocket configs execute four distinct ELFs 8/8 with exact golden/ABI, run-043 kernel identity, conserved work, real HellaCache DMA and `system=DMA+kernel+2`; 12 installed files byte-match current MLX and no paper target is consumed.
 
 ## Patterns and Insights
 

@@ -162,7 +162,7 @@ hypotheses:
     priority: high
   - id: H17
     statement: "AgentSys can independently rebuild and execute the MLX cycle model, physical 4x4 RTL and Rocket RoCC/DMA path while preserving exact functional work and exposing parameterized multi-layer mechanisms."
-    status: pending
+    status: supported
     motivation: "Establish standalone MLX mechanism evidence before Agent integration."
     parent: null
     priority: high
@@ -174,7 +174,7 @@ hypotheses:
     priority: high
   - id: H17.2
     statement: "Ordinary Rocket can execute fresh MLX cycle/RTL bare-metal workloads through custom0 and real HellaCache DMA with exact standalone kernel behavior and goldens."
-    status: pending
+    status: supported
     motivation: "Validate the complete CPU/ABI/DMA/accelerator substrate before replacing the workload frontend."
     parent: H17
     priority: high
@@ -195,7 +195,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 43
+  total_runs: 44
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -498,11 +498,18 @@ experiments:
       wall_time_min: 0.8
       change_summary: "Fresh builds and four workloads pass 10/10 and 8/8 goldens; per-PE programs match, global issue order differs, all ten opcodes have timing, and target-free cycle/RTL ratios are 1.193x-2.098x."
       timestamp: "2026-08-27"
+    - run_id: "run_044"
+      hypothesis: "H17.2/ordinary Rocket plus MLX RoCC-DMA system"
+      metric_value: 0.0
+      delta: 0.0
+      wall_time_min: 15.0
+      change_summary: "Two Rocket configs and four ELFs pass 12/12 and 8/8 goldens; ABI, standalone kernel identity, work, DMA, system/host cycles, installed-source hashes and source cleanliness all hold."
+      timestamp: "2026-08-27"
 
 outer_loop:
-  cycle: 32
+  cycle: 33
   last_direction: deepen
-  last_reflection: "Run 043 independently closes MLX standalone mechanisms. Install the exact RoCC/RTL overlays into Chipyard and execute fresh ordinary-Rocket DMA/system runs before Agent-specific lowering."
+  last_reflection: "Run 044 closes the exact MLX CPU/ABI/DMA substrate. Implement Agentix/mllm/Agent.xpu/TISA-to-MLX spatial lowering and a CPU call runtime using these unchanged simulators."
 
 workspace:
   findings: "findings.md"

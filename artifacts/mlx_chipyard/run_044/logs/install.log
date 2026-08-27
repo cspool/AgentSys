@@ -1,0 +1,7 @@
+MLX active: 2a457dfaf8faf9bcda72f92c5d66e9a6a9b3b50f
+Chipyard: b5d013190d637e634113cb5179f8c8885df1945a
+Installed MLX Chipyard integration at b5d013190d637e634113cb5179f8c8885df1945a
+  Compatibility: stable FIRRTL/Treadle dependencies for retired snapshots
+  Scala: /root/chipyard/generators/chipyard/src/main/scala/MLXRoCC.scala
+  RTL resources: 11 files in /root/chipyard/generators/chipyard/src/main/resources/vsrc
+AgentSys MLX Chipyard overlay verified: 12/12 files
