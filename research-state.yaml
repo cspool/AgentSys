@@ -208,6 +208,12 @@ hypotheses:
     motivation: "Demonstrate complete reproducibility before issuing the final MLX+CPU certificate."
     parent: H19
     priority: high
+  - id: H19.3
+    statement: "A source-commit-anchored certificate can audit the full MLX+CPU replay, auxiliary GPU runtime, all files/hashes/boundaries and fresh tests plus RTL checks with no remaining requirement gap."
+    status: pending
+    motivation: "Prove requirement-by-requirement completion of the revised objective."
+    parent: H19
+    priority: high
 
 experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
