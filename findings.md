@@ -58,6 +58,7 @@ The revised architecture removes ATX from the integrated CPU path. Run 023 close
 - Run 046 closes H18: three switchable Agent DAGs pass 9/9 global and 10/10 per-workload gates on ordinary Rocket+MLX. Distinct ELFs execute 20 calls (17 MLX, 3 CPU tools), 765 lineaged spatial micro-ops and 14-layer traces; exact goldens/work/checksums and backend switching hold, with cache-aware DMA 344 then 216 cycles.
 - Run 047 adds MLX as a real sixth paper layer: 73/73 endpoints and six parameter switches pass at max 9.91%, with fresh react-tool cycle→RTL 264→152 and identical work. MLX's five rows are explicitly target-informed (5.85% in-sample, 20.77% LOO); the external strict full-paper result remains negative 1/18.
 - Run 048 freshly replays the complete MLX+CPU stack in five strict stages and 24 MLX executions. Source10/standalone10/Chipyard12, six-layer 73/73 and three-Agent 9/9 all pass under 10/10 global gates; primary hardware, hashes and target-informed/LOO/negative-full-paper boundaries remain unchanged.
+- Run 049 closes the revised goal with a source-anchored 25/25 certificate and five fresh checks (105 pytest plus MLX setup/overlay/Icarus/Verilator). Primary Rocket+MLX, three Agent DAGs, six-layer 73/73, auxiliary GPU runtime and every artifact/boundary gate pass; MLX strict full-paper remains explicitly 1/18, not claimed complete.
 
 ## Patterns and Insights
 

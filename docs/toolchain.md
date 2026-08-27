@@ -17,6 +17,9 @@ physical 4x4 RTL, and runs the six-layer 73-endpoint matrix. Run 048 passes five
 strict serial stages and 10/10 global gates with 24 fresh MLX executions. HPTPE
 and native GPU paths below are retained as optional/historical evidence, not the
 primary final accelerator.
+The source-commit-anchored run-049 certificate passes 25/25 requirements, five
+fresh checks and 105 tests. Its authoritative path is
+`artifacts/results/mlx-cpu-final-certificate-run_049.json`.
 
 ## Native dual-GPU plus Rocket vertical system
 

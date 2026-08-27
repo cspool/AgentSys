@@ -2,7 +2,7 @@
 project:
   title: "AgentSys: dynamic-agent full-stack scheduling from program DAG to NPU tile"
   question: "Can Agentix, Agent.xpu, mllm/llm.npu, TISA, HPTPE and MLX be reproduced with explicit 10% paper-regression contracts, then compose switchable Agent DAGs through an ordinary-RISC-V Rocket CPU plus real MLX cycle/4x4-RTL hardware simulation?"
-  status: active
+  status: complete
   started: "2026-08-25"
   domain: "computer systems and architecture"
 
@@ -192,7 +192,7 @@ hypotheses:
     priority: high
   - id: H19
     statement: "A six-paper-layer parameter matrix including MLX can retain all registered matching-configuration endpoints within 10%, exercise every layer switch and issue a fresh MLX+CPU completion certificate."
-    status: pending
+    status: supported
     motivation: "Close parameterization, numerical regression and final reproducibility for the revised hardware target."
     parent: null
     priority: high
@@ -210,7 +210,7 @@ hypotheses:
     priority: high
   - id: H19.3
     statement: "A source-commit-anchored certificate can audit the full MLX+CPU replay, auxiliary GPU runtime, all files/hashes/boundaries and fresh tests plus RTL checks with no remaining requirement gap."
-    status: pending
+    status: supported
     motivation: "Prove requirement-by-requirement completion of the revised objective."
     parent: H19
     priority: high
@@ -219,7 +219,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 48
+  total_runs: 49
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -557,11 +557,18 @@ experiments:
       wall_time_min: 19.45
       change_summary: "Five strict stages and 10/10 gates pass with 24 fresh MLX executions: source10, standalone10, Chipyard12, six-layer73/73 and three-Agent9/9; hashes and evidence boundaries remain fixed."
       timestamp: "2026-08-27"
+    - run_id: "run_049"
+      hypothesis: "H19/final source-anchored MLX+CPU certificate"
+      metric_value: 0.09909909909909899
+      delta: 0.0
+      wall_time_min: 0.8
+      change_summary: "Final certificate passes 25/25 and five fresh checks with 105 pytest; complete replay, 73/73, three Agent DAGs, auxiliary GPU evidence, files/hashes and MLX numeric-scope boundaries all pass."
+      timestamp: "2026-08-27"
 
 outer_loop:
-  cycle: 37
-  last_direction: validate
-  last_reflection: "Run 048 closes fresh end-to-end reproducibility. The remaining task is a source-commit-anchored certificate with full pytest, tool/setup verification, MLX RTL lint/build evidence, required-file/report audit and explicit numeric-scope limits."
+  cycle: 38
+  last_direction: conclude
+  last_reflection: "Run 049 closes the MLX+ordinary-CPU objective with 25/25 source-anchored requirements and fresh tests/tool/RTL checks, while preserving the target-informed and incomplete-full-paper MLX boundary."
 
 workspace:
   findings: "findings.md"

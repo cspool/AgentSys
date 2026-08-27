@@ -36,6 +36,17 @@ bash scripts/install_mlx_chipyard.sh
 run 048依次执行source audit、standalone fresh build、Rocket fresh execution、
 六层73端点matrix和三Agent replay，共24次MLX执行；5/5阶段与10/10全局gate通过。
 
+最终证书：
+
+```bash
+.venv-mlx/bin/agentsys-certificate-mlx \
+  --run-id run_049 \
+  --output artifacts/results/mlx-cpu-final-certificate-run_049.json
+```
+
+run 049通过25/25 requirements和5/5 fresh checks；完整pytest为105/105，
+`full_goal_complete=true`。
+
 切换负载会重新执行Agentix、生成mllm/Agent.xpu/TISA manifest、45-op MLX
 micro-lineage、Agent call C header和独立RISC-V ELF，然后在两套MLX Rocket
 simulator上执行。无需修改仓库源码。

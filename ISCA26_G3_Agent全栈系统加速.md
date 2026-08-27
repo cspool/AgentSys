@@ -392,6 +392,7 @@ Full stack 相对 baseline 的 makespan/reactive speedup 为 2.033/3.027×；相
 7. Full-stack result 是新实验，无论文 target；priority responsiveness 与 throughput 存在明确 trade-off。
 8. HPTPE 已在 run 027 接入 Chipyard，系统实际实例化 16×16 OPT1 OS 阵列并执行 614,400 个 MAC；但绝对 PPA 仍来自作者 DC 报告复核而非本机重新综合，不能把 Verilator cycle 当作 SAED32 时钟/面积测量。
 9. run 021是语义保持的compiled-trace execution，不是在Rocket上运行Python解释器、完整agent框架或LLM权重；它证明从真实应用/框架trace到CPU+XPU软件与硬件执行的闭环。
+10. MLX_dev `sys`是对论文未公开模拟器/RTL的开放surrogate，不是作者原始实现。本项目使用其公开4×4 RTL/RoCC作为活动硬件，并新增Agent编译链；MLX的5个数值点是target-informed回归（最大拟合误差5.85%、LOO最大20.77%），外部严格全论文结果仍为1/18，不能改写为完整论文复现。
 
 ## 工具链与配置
 
@@ -409,6 +410,10 @@ Full stack 相对 baseline 的 makespan/reactive speedup 为 2.033/3.027×；相
 `.venv/bin/agentsys-reproduce-revised` 严格按 Agentix、Agent.xpu、TISA、mllm、HPTPE、68端点证书、应用编译、Rocket+HPTPE 系统执行的顺序运行。每个 stage 退出后检查 JSON gate、全部输出与 SHA-256；manifest 验证 `next.started_ns >= previous.finished_ns`。最终证书还重新执行 pytest、独立 7-cycle dispatch RTL test、legacy RTL lint 和包含官方 HPTPE 的完整 revised RTL lint。完整说明见 `docs/toolchain.md`。
 
 参数化扩展由`config/parameterized-system.json`和`config/layer-regression-matrix.json`控制。`scripts/setup_parameterized_toolchain.sh`复用已锁定的编译器/RTL环境并验证三个manifest及68端点matrix；`agentsys-reproduce-parameterized`随后严格串行执行五层matrix和三套workload→ELF→双Rocket pipeline，最后运行fresh pytest、专用trace测试和两类RTL lint签发新证书。
+
+当前最高层硬件已经重构为普通Rocket+MLX。`config/mlx-active-source.json`固定当前MLX_dev `sys@2a457df`和Chipyard；`scripts/setup_mlx_toolchain.sh`建立NumPy/PyYAML编译环境，`scripts/install_mlx_chipyard.sh`逐字节安装Scala和11个RTL资源。Agent JSON依次经过Agentix、mllm MIR、Agent.xpu和TISA-to-MLX lowering，生成带完整call DAG的C header与独立RISC-V ELF；Rocket执行CPU工具和custom0 config/launch/wait/status，MLX可切换抽象cycle model或物理4×4/16-PE RTL。
+
+run 046三种Agent负载产生20个call、17个MLX launch、3个CPU tool和765条MLX spatial micro-op lineage；每个workload的cycle/RTL logical checksum、golden、指令和DMA字节一致。多call执行还测得Rocket cache复用：第一次DMA为344 cycles，后续为216，而MLX kernel保持132/76 cycles per call。run 047将MLX加入第六论文层，73/73注册端点和6个参数开关在10%门槛内通过。run 048用`agentsys-reproduce-mlx-complete`重新执行5个严格串行阶段和24次MLX仿真，10/10全局gate通过。
 
 run 033–040进一步补齐本机双GPU/多CPU层。`scripts/setup_gpu_runtime.sh`建立独立PyTorch CUDA 12.8/NCCL/NVML环境；`scripts/setup_mllm_cuda.sh`使用SHA固定的micromamba和NVIDIA CUDA 12.8.1 Conda包安装项目内nvcc，构建mllm CUDA lifecycle backend，并应用一个有hash的shutdown-order补丁。上游固定版本的四个CUDA `.cu`仍为空、没有op factory，因此真实算子明确由`agentsys_mir_cuda_operator_adapter`实现，不冒充上游mllm完整GPU inference。
 
@@ -435,6 +440,32 @@ bash scripts/setup_revised_toolchain.sh --verify-only
 
 .venv/bin/agentsys-reproduce-revised --dry-run
 .venv/bin/agentsys-reproduce-revised
+```
+
+### 0A. 当前MLX+CPU最高层入口
+
+```bash
+cd /workspace/AgentSys
+bash scripts/setup_mlx_toolchain.sh
+bash scripts/install_mlx_chipyard.sh
+
+# source audit → standalone → Rocket → 73端点matrix → 三Agent负载
+.venv-mlx/bin/agentsys-reproduce-mlx-complete \
+  --config config/mlx-complete-system.json --run-id run_048
+
+# 任意切换一个Agent负载
+.venv-mlx/bin/agentsys-run-mlx-agent \
+  --workload workloads/react_tool.json \
+  --run-id demo --output-dir artifacts/mlx_demo/react_tool
+
+# 六论文层参数与10%回归
+.venv-mlx/bin/agentsys-mlx-layer-regression \
+  --matrix config/mlx-six-layer-matrix.json --run-id demo
+
+# 最终证书
+.venv-mlx/bin/agentsys-certificate-mlx \
+  --run-id run_049 \
+  --output artifacts/results/mlx-cpu-final-certificate-run_049.json
 ```
 
 本机双GPU+双NUMA+Rocket垂直入口：
@@ -529,6 +560,15 @@ bash scripts/build_ramulator2.sh
 
 | 目标 | 权威证据 | 状态 |
 |---|---|---|
+| MLX当前源码/边界审计 | run 042：21个核心文件，10/10；严格全论文1/18保持false | 通过 |
+| MLX cycle/物理4×4 RTL | run 043：fresh build，4 workload×2 backend，10/10 | 8/8 golden |
+| 普通Rocket+MLX RoCC/DMA | run 044：2 configs、4 ELF、12/12，kernel与standalone一致 | 8/8通过 |
+| Agentix→mllm→Agent.xpu→TISA→MLX | run 046：3 DAG、20 calls、765 micro-ops、14-layer trace | 9/9全局，10/10各负载 |
+| MLX backend参数切换 | react_tool cycle→RTL，kernel 264→152，logical work相同 | 通过 |
+| Rocket cache-aware多launch | DMA 344→216，bytes/kernel/golden不变 | 三负载通过 |
+| 六论文层相同配置≤10% | run 047/048：73/73 endpoints，max 9.91%，6 switches | 通过 |
+| 完整MLX+CPU fresh replay | run 048：5/5 strict stages、24次MLX执行、10/10 | 通过 |
+| 最终MLX+CPU证书 | `mlx-cpu-final-certificate-run_049`：25/25、fresh 5/5、pytest 105/105 | 通过 |
 | Agent→双GPU/双NUMA→双Rocket垂直系统 | run 040：3 workloads，11/11全局，13/13 native/workload，9/9 hybrid/workload | 通过 |
 | workload-derived真实CUDA MIR算子 | run 040：80/16/40 ops；每call 3 ME+3 VE+2 DE，H2D/D2H/NCCL齐全 | 通过（AgentSys adapter） |
 | GPU placement参数切换 | `round_robin`→`gpu0_only`改变resource signature，calls/deps/MIR/XPU工作不变 | 3/3通过 |
@@ -597,3 +637,9 @@ H15补齐了run 032尚缺的本机GPU运行时和多CPU执行。run 039先证明
 因此当前工具链可从“切换一个Agent JSON”一路得到Agentix软件调度、mllm/Agent.xpu编译计划、本机GPU/CPU实测、RISC-V ELF、Rocket/TISA/HPTPE仿真以及五层论文回归结果。论文同配置准确度和本机硬件测量继续分栏：68个论文端点全部在10%内，本机4090/Xeon数据只作为真实执行与校准证据。
 
 run 041最后对冻结的`react_tool` native plan执行Nsight采样，16/16逐MIR NVTX range以及GEMM、归一化/elementwise、copy/transpose、NCCL、H2D/D2H均被捕获；原生13/13、profile audit 9/9。随后`agentsys-certificate-hybrid`现场重跑90项pytest、mllm CUDA双卡幂等测试、TISA dispatch和两类RTL lint，最终22/22 requirements通过并设置`full_goal_complete=true`。权威结果为`artifacts/results/hybrid-system-certificate-run_041.json`。
+
+新目标进一步把主硬件从GPU/HPTPE切换为MLX+普通CPU。run 042–044先独立固定并重建MLX source、cycle model、物理4×4 RTL和Rocket custom0/HellaCache DMA；run 045保留了第一次多call审计失败并识别cache warmup；run 046再将三种Agent DAG完整串联到MLX。最终活动链为Agent JSON→Agentix→mllm→Agent.xpu→TISA-to-MLX→RISC-V ELF→ordinary Rocket+MLX，ATX与HPTPE不在活动ELF中，GPU运行时作为辅助实测后端保留。
+
+run 047/048证明该重构没有牺牲论文层合同：六层73/73注册端点均在10%以内、最大9.91%，三种Agent负载和cycle/RTL切换均fresh执行。MLX五行的target-informed属性、20.77% LOO误差以及严格全论文1/18未完成状态都作为硬gate保留。因此这里的“完整系统”是软件/编译/CPU/MLX执行和已注册回归闭环，不是对未公开MLX作者模拟器或整篇论文所有图表的虚假声明。
+
+run 049最终现场执行完整pytest、MLX环境/源码验证、12-file Chipyard overlay、Icarus cycle compile和物理4×4 RTL Verilator lint，5/5 fresh checks全部通过。最终`artifacts/results/mlx-cpu-final-certificate-run_049.json`为25/25 requirements、105/105 tests并设置`full_goal_complete=true`；该证书取代run 041成为当前MLX+CPU目标的最高层完成证据，run 041仅作为辅助GPU路径证据保留。
