@@ -166,6 +166,12 @@ hypotheses:
     motivation: "Establish standalone MLX mechanism evidence before Agent integration."
     parent: null
     priority: high
+  - id: H17.1
+    statement: "Fresh local builds of the active MLX cycle model and physical 4x4 RTL can execute four identical spatial programs with exact goldens and distinct concurrency behavior."
+    status: pending
+    motivation: "Reproduce the MLX hardware mechanisms independently before installing the Rocket interface."
+    parent: H17
+    priority: high
   - id: H18
     statement: "Three Agent DAGs can lower through Agentix, mllm, Agent.xpu and TISA into per-call MLX spatial programs and execute as distinct RISC-V ELFs on ordinary Rocket plus both MLX backends."
     status: pending
