@@ -30,6 +30,7 @@ agentsys-certificate-hybrid = "agentsys.hybrid_certificate:main"
 agentsys-mlx-reference-audit = "agentsys.mlx_reference:main"
 agentsys-mlx-standalone = "agentsys.mlx_standalone:main"
 agentsys-mlx-chipyard = "agentsys.mlx_chipyard:main"
+agentsys-run-mlx-agent = "agentsys.mlx_agent_system:main"
 
 [dependency-groups]
 dev = [

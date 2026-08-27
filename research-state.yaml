@@ -201,7 +201,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 44
+  total_runs: 45
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -511,11 +511,18 @@ experiments:
       wall_time_min: 15.0
       change_summary: "Two Rocket configs and four ELFs pass 12/12 and 8/8 goldens; ABI, standalone kernel identity, work, DMA, system/host cycles, installed-source hashes and source cleanliness all hold."
       timestamp: "2026-08-27"
+    - run_id: "run_045"
+      hypothesis: "H18.1/first Agent DAG to Rocket+MLX execution"
+      metric_value: 0.2
+      delta: null
+      wall_time_min: 2.0
+      change_summary: "Retained react_tool 8/10: compilation and both 3-call executions are functionally exact, but two runner gates assume seven rather than six stages and repeat cold DMA; observed per-backend DMA is 344 then 216 via cache reuse."
+      timestamp: "2026-08-27"
 
 outer_loop:
-  cycle: 33
-  last_direction: deepen
-  last_reflection: "Run 044 closes the exact MLX CPU/ABI/DMA substrate. Implement Agentix/mllm/Agent.xpu/TISA-to-MLX spatial lowering and a CPU call runtime using these unchanged simulators."
+  cycle: 34
+  last_direction: recover
+  last_reflection: "Run 045 validates the vertical implementation and reveals repeat-launch cache reuse plus two auditor mistakes. Correct only stage counting and per-call DMA aggregation, lock cold/warm behavior, then run all three DAGs."
 
 workspace:
   findings: "findings.md"
