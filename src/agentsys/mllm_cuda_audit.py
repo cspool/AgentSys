@@ -96,8 +96,8 @@ def audit_mllm_cuda(
     }
     cache = build_dir / "CMakeCache.txt"
     target_candidates = {
-        "cuda_ops": build_dir / "lib/libMllmCUDABackendCudaOps.so",
-        "cuda_backend": build_dir / "lib/libMllmCUDABackend.so",
+        "cuda_ops": build_dir / "bin/libMllmCUDABackendCudaOps.so",
+        "cuda_backend": build_dir / "bin/libMllmCUDABackend.so",
         "device_test": build_dir / "bin/Mllm-Test-CUDA-DeviceInfo",
     }
     targets = {
@@ -111,7 +111,12 @@ def audit_mllm_cuda(
     }
     library_env = os.environ.copy()
     library_env["LD_LIBRARY_PATH"] = os.pathsep.join(
-        [str(build_dir / "lib"), str(build_dir / "bin"), library_env.get("LD_LIBRARY_PATH", "")]
+        [
+            str(build_dir / "bin"),
+            str(PROJECT_ROOT / ".cuda-toolkit/lib"),
+            str(PROJECT_ROOT / ".cuda-toolkit/targets/x86_64-linux/lib"),
+            library_env.get("LD_LIBRARY_PATH", ""),
+        ]
     )
     device_test = (
         _run([str(target_candidates["device_test"])], env=library_env)

@@ -1,0 +1,785 @@
+/workspace/AgentSys/.tools/micromamba: OK
+⚠ Shard Index for nvidia/label/cuda-12.8.1/linux-64 not available, falling back to flat repodata
+Using Flat Repodata for nvidia/label/cuda-12.8.1/linux-64                                       ✔ Starting
+Using Flat Repodata for nvidia/label/cuda-12.8.1/linux-64                                 ✔ Done (0.0 sec)
+⚠ Shard Index for nvidia/label/cuda-12.8.1/noarch not available, falling back to flat repodata
+Using Flat Repodata for nvidia/label/cuda-12.8.1/noarch                                         ✔ Starting
+Using Flat Repodata for nvidia/label/cuda-12.8.1/noarch                                   ✔ Done (0.0 sec)
+Using Cached Shard Index for conda-forge/linux-64                                                   ✔ Done
+Using Cached Shard Index for conda-forge/noarch                                                     ✔ Done
+Fetching and Parsing Packages' Shards                                                           ⧖ Starting
+Fetching and Parsing Packages' Shards                                                     ✔ Done (0.2 sec)
+Parsing Packages' Records                                                                 ✔ Done (0.4 sec)
+
+Resolving Environment                                                                           ⧖ Starting
+Resolving Environment                                                                     ✔ Done (0.2 sec)
+
+Transaction
+
+  Prefix: /workspace/AgentSys/.cuda-toolkit
+
+  Updating specs:
+
+   - cuda-nvcc=12.8.93
+   - cuda-cudart-dev=12.8.90
+   - cuda-nvml-dev
+
+
+  Package                        Version  Build                 Channel                        Size
+─────────────────────────────────────────────────────────────────────────────────────────────────────
+  Install:
+─────────────────────────────────────────────────────────────────────────────────────────────────────
+
+  + _openmp_mutex                    4.5  20_gnu                conda-forge                  Cached
+  + binutils_impl_linux-64        2.46.1  default_hfdba357_102  conda-forge                  Cached
+  + binutils_linux-64             2.46.1  default_h4852527_102  conda-forge                  Cached
+  + cuda-cccl_linux-64           12.8.90  0                     nvidia/label/cuda-12.8.1     Cached
+  + cuda-crt-dev_linux-64        12.8.93  0                     nvidia/label/cuda-12.8.1     Cached
+  + cuda-crt-tools               12.8.93  0                     nvidia/label/cuda-12.8.1     Cached
+  + cuda-cudart                  12.8.90  0                     nvidia/label/cuda-12.8.1     Cached
+  + cuda-cudart-dev              12.8.90  0                     nvidia/label/cuda-12.8.1     Cached
+  + cuda-cudart-dev_linux-64     12.8.90  0                     nvidia/label/cuda-12.8.1     Cached
+  + cuda-cudart-static           12.8.90  0                     nvidia/label/cuda-12.8.1     Cached
+  + cuda-cudart-static_linux-64  12.8.90  0                     nvidia/label/cuda-12.8.1     Cached
+  + cuda-cudart_linux-64         12.8.90  0                     nvidia/label/cuda-12.8.1     Cached
+  + cuda-driver-dev_linux-64     12.8.90  0                     nvidia/label/cuda-12.8.1     Cached
+  + cuda-nvcc                    12.8.93  0                     nvidia/label/cuda-12.8.1     Cached
+  + cuda-nvcc-dev_linux-64       12.8.93  0                     nvidia/label/cuda-12.8.1     Cached
+  + cuda-nvcc-impl               12.8.93  0                     nvidia/label/cuda-12.8.1     Cached
+  + cuda-nvcc-tools              12.8.93  0                     nvidia/label/cuda-12.8.1     Cached
+  + cuda-nvcc_linux-64           12.8.93  0                     nvidia/label/cuda-12.8.1     Cached
+  + cuda-nvml-dev                12.8.90  0                     nvidia/label/cuda-12.8.1     Cached
+  + cuda-nvvm-dev_linux-64       12.8.93  0                     nvidia/label/cuda-12.8.1     Cached
+  + cuda-nvvm-impl               12.8.93  0                     nvidia/label/cuda-12.8.1     Cached
+  + cuda-nvvm-tools              12.8.93  0                     nvidia/label/cuda-12.8.1     Cached
+  + cuda-version                    12.8  3                     nvidia/label/cuda-12.8.1     Cached
+  + gcc_impl_linux-64             13.4.0  h649a46b_20           conda-forge                  Cached
+  + gcc_linux-64                  13.4.0  h5174b15_28           conda-forge                  Cached
+  + gxx_impl_linux-64             13.4.0  h5415f34_20           conda-forge                  Cached
+  + gxx_linux-64                  13.4.0  hb11295d_28           conda-forge                  Cached
+  + kernel-headers_linux-64       4.18.0  he073ed8_9            conda-forge                  Cached
+  + ld_impl_linux-64              2.46.1  default_hbd61a6d_102  conda-forge                  Cached
+  + libgcc                        16.2.0  ha9f2e26_4            conda-forge                  Cached
+  + libgcc-devel_linux-64         13.4.0  hd1d28cc_120          conda-forge                  Cached
+  + libgcc-ng                     16.2.0  h69a702a_4            conda-forge                  Cached
+  + libgomp                       16.2.0  he0feb66_4            conda-forge                  Cached
+  + libsanitizer                  13.4.0  hf18ac3d_20           conda-forge                  Cached
+  + libstdcxx                     16.2.0  h934c35e_4            conda-forge                  Cached
+  + libstdcxx-devel_linux-64      13.4.0  h6963c3b_120          conda-forge                  Cached
+  + libstdcxx-ng                  16.2.0  hdf11a46_4            conda-forge                  Cached
+  + libzlib                        1.3.2  h25fd6f3_3            conda-forge                  Cached
+  + sysroot_linux-64                2.28  h4ee821c_9            conda-forge                  Cached
+  + tzdata                         2026c  h151e31d_0            conda-forge                  Cached
+  + zstd                           1.5.7  hb78ec9c_7            conda-forge                  Cached
+
+  Summary:
+
+  Install: 41 packages
+
+  Total download: 0 B
+
+─────────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+
+Transaction starting
+Linking cuda-version-12.8-3
+Linking cuda-nvvm-dev_linux-64-12.8.93-0
+Linking cuda-crt-dev_linux-64-12.8.93-0
+Linking cuda-driver-dev_linux-64-12.8.90-0
+Linking cuda-cudart-static_linux-64-12.8.90-0
+Linking cuda-cudart_linux-64-12.8.90-0
+Linking kernel-headers_linux-64-4.18.0-he073ed8_9
+Linking tzdata-2026c-h151e31d_0
+Linking libstdcxx-devel_linux-64-13.4.0-h6963c3b_120
+Linking libgcc-devel_linux-64-13.4.0-hd1d28cc_120
+Linking sysroot_linux-64-2.28-h4ee821c_9
+Linking libgomp-16.2.0-he0feb66_4
+Linking libzlib-1.3.2-h25fd6f3_3
+Linking _openmp_mutex-4.5-20_gnu
+Linking zstd-1.5.7-hb78ec9c_7
+Linking libgcc-16.2.0-ha9f2e26_4
+Linking ld_impl_linux-64-2.46.1-default_hbd61a6d_102
+Linking libstdcxx-16.2.0-h934c35e_4
+Linking libgcc-ng-16.2.0-h69a702a_4
+Linking binutils_impl_linux-64-2.46.1-default_hfdba357_102
+Linking libsanitizer-13.4.0-hf18ac3d_20
+Linking libstdcxx-ng-16.2.0-hdf11a46_4
+Linking binutils_linux-64-2.46.1-default_h4852527_102
+Linking gcc_impl_linux-64-13.4.0-h649a46b_20
+Linking gxx_impl_linux-64-13.4.0-h5415f34_20
+Linking gcc_linux-64-13.4.0-h5174b15_28
+Linking gxx_linux-64-13.4.0-hb11295d_28
+Linking cuda-crt-tools-12.8.93-0
+Linking cuda-cccl_linux-64-12.8.90-0
+Linking cuda-nvvm-tools-12.8.93-0
+Linking cuda-nvvm-impl-12.8.93-0
+Linking cuda-cudart-static-12.8.90-0
+Linking cuda-cudart-12.8.90-0
+Linking cuda-nvml-dev-12.8.90-0
+Linking cuda-nvcc-tools-12.8.93-0
+Linking cuda-nvcc-dev_linux-64-12.8.93-0
+Linking cuda-cudart-dev_linux-64-12.8.90-0
+Linking cuda-cudart-dev-12.8.90-0
+Linking cuda-nvcc-impl-12.8.93-0
+Linking cuda-nvcc_linux-64-12.8.93-0
+Linking cuda-nvcc-12.8.93-0
+
+Transaction finished
+
+
+To activate this environment, use:
+
+    micromamba activate /workspace/AgentSys/.cuda-toolkit
+
+Or to execute a single command in this environment, use:
+
+    micromamba run -p /workspace/AgentSys/.cuda-toolkit mycommand
+
+-- CXX Compiler=Clang
+-- CXX Compiler version=16.0.6
+-- MLLM_GIT_COMMIT_HASH=50ad5a9b6fbea742e38b5b31776c187e50319c8e
+-- CPM: Adding package stdexec@ (nvhpc-25.03.rc1)
+-- System           : Linux-6.8.0-138-generic
+-- System name      : Linux
+-- System ver       : 6.8.0-138-generic
+-- 
+-- Library ver      : 0.11.0
+-- Build date       : 2026-08-27
+-- Build year       : 2026
+-- 
+-- Creating symlink from /workspace/AgentSys/.references/mllm/compile_commands.json to /workspace/AgentSys/.references/mllm/build-x86-cuda/compile_commands.json...
+-- CPM: Adding package icm@1.5.0 (v1.5.0)
+-- Could NOT find OpenMP_C (missing: OpenMP_C_FLAGS OpenMP_C_LIB_NAMES) 
+-- Could NOT find OpenMP_CXX (missing: OpenMP_CXX_FLAGS OpenMP_CXX_LIB_NAMES) 
+-- Could NOT find OpenMP (missing: OpenMP_C_FOUND OpenMP_CXX_FOUND) 
+-- OpenMP not found via find_package, but trying with -fopenmp flag directly
+-- Using OpenMP via find_package
+-- OpenMP CXX_FLAGS=-fopenmp
+-- OpenMP CXX_LIB_NAMES=NOTFOUND
+-- OpenMP OpenMP_omp_LIBRARY=
+-- OpenMP OpenMP_CXX_INCLUDE_DIR=
+-- {fmt} version: 11.2.0
+-- Build type: Release
+-- Proceeding with version: 25.12.19.0
+-- CMAKE_CXX_FLAGS: 
+-- CPM: Adding package highway@1.3.0 (1.3.0)
+CMake Deprecation Warning at build-x86-cuda/_deps/highway-src/CMakeLists.txt:28 (cmake_policy):
+  The OLD behavior for policy CMP0111 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+
+
+-- Detected target triple: x86_64-pc-linux-gnu
+-- Setting C++ macro TVM_FFI_USE_LIBBACKTRACE - 1
+-- Setting C++ macro TVM_FFI_BACKTRACE_ON_SEGFAULT - 1
+-- nvcc path : /workspace/AgentSys/.cuda-toolkit/bin/nvcc
+-- Configuring done (1.9s)
+-- Generating done (0.2s)
+-- Build files have been written to: /workspace/AgentSys/.references/mllm/build-x86-cuda
+[0/2] Re-checking globbed directories...
+[1/6] Building CUDA object mllm/backends/cuda/CMakeFiles/MllmCUDABackendCudaOps.dir/kernels/embedding.cu.o
+[2/6] Building CUDA object mllm/backends/cuda/CMakeFiles/MllmCUDABackendCudaOps.dir/kernels/reduce.cu.o
+[3/6] Building CUDA object mllm/backends/cuda/CMakeFiles/MllmCUDABackendCudaOps.dir/kernels/topk.cu.o
+[4/6] Building CUDA object mllm/backends/cuda/CMakeFiles/MllmCUDABackendCudaOps.dir/kernels/elementwise.cu.o
+[5/6] Linking CUDA shared library bin/libMllmCUDABackendCudaOps.so
+[0/2] Re-checking globbed directories...
+[1/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/backends/base/Allocator.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[2/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/FlexMatmulOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[3/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/EinsumOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[4/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/CumsumOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[5/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/ReLU2Op.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[6/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/RepeatInterleaveOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[7/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/SlicePrimitives.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[8/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/DeviceTypes.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[9/206] Building CXX object third_party/flatbuffers/CMakeFiles/flatbuffers.dir/src/file_manager.cpp.o
+[10/206] Building CXX object third_party/flatbuffers/CMakeFiles/flatbuffers.dir/src/file_name_manager.cpp.o
+[11/206] Building C object third_party/xxHash/CMakeFiles/xxhash_impl.dir/src/xxhash.c.o
+[12/206] Building CXX object third_party/flatbuffers/CMakeFiles/flatbuffers.dir/src/util.cpp.o
+[13/206] Building C object third_party/xxHash/CMakeFiles/xxhash_impl.dir/src/xxh_x86dispatch.c.o
+[14/206] Linking C static library lib/libxxhash_static.a
+[15/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/BaseOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[16/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/TensorViewImpl.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[17/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/GraphOps.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[18/206] Building CXX object third_party/flatbuffers/CMakeFiles/flatbuffers.dir/src/reflection.cpp.o
+[19/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/MatMulOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[20/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/MappedFile.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[21/206] Building CXX object third_party/flatbuffers/CMakeFiles/flatbuffers.dir/src/idl_gen_text.cpp.o
+[22/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/DataTypes.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[23/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/MultimodalRoPEOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[24/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/CopyOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[25/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/FlashAttn2WithSinkAndSwaOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[26/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/AvgPool1dOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[27/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/ParamOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[28/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/RadixAttnDiffDimOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[29/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/PadOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[30/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/RadixAttnWithSinkAndSwaDiffDimOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[31/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/CloneOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[32/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/ArgsortOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[33/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/hints/Android.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[34/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/hints/CpuStates.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[35/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/ContiguousOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[36/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/hints/MmapBehaviors.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[37/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/GatherOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[38/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/MaskedScatterOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[39/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/hints/PThreadBehaviors.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[40/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/SiLUOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[41/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/Perf.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[42/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/GroupedQueryAttentionDecodeOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[43/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/STFTOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[44/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/EmbeddingOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[45/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/Scatter2ShardsOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[46/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/RadixAttnOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[47/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/LayerNormOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[48/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/ISTFTOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[49/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/CastTypeOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[50/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/Conv3DOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[51/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/Planning.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[52/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/backends/base/Backend.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[53/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/LayerNorm2DOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[54/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/PermuteOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[55/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/QuickGELUOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[56/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/Conv1DOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[57/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/FlashAttention2Op.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[58/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/prefix_cache/TLB.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[59/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/RMSNormOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[60/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/utils/Log.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[61/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/Conv2DOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[62/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/GELUOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[63/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/RepeatOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[64/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/ConcatOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[65/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/CausalMaskOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[66/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/IndexOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[67/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/ParameterFile.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[68/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/ReLUOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[69/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/InterpolateOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[70/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/FillOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[71/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/CmpOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[72/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/RoPEOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[73/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/SigmoidOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[74/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/SliceOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[75/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/PagedAttnOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[76/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/ReshapeOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[77/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/ReduceOps.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[78/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/KVCacheOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[79/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/HpcThreadPool.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[80/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/SoftmaxOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[81/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/TransposeOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[82/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/SessionTCB.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[83/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/ElewiseOps.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[84/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/StackOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[85/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/LinearOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[86/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/AbstractNnNode.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[87/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/prefix_cache/HaHaHash.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[88/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/TensorStorage.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[89/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/SplitOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[90/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/Task.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[91/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/backends/base/PluginSystem.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[92/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/TopKOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[93/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/CausalMask.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[94/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/Conv2D.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[95/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/PagedAttn.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[96/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/RMSNorm.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[97/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/AvgPool1d.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[98/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/LayerNorm.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[99/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/QuickGELU.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[100/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/GroupedQueryAttentionDecode.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[101/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/GELU.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[102/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/Conv1D.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[103/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/KVCache.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[104/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/RoPE.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[105/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/MultimodalRoPE.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[106/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/Conv3D.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[107/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/LayerNorm2D.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[108/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/Embedding.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[109/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/Linear.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[110/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/Softmax.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[111/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/SiLU.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[112/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/Sigmoid.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[113/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/jit/_primitives/Bytecode.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[114/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/jit/JITUtils.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[115/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/jit/binary/PackageFile.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[116/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/VisionRoPEOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[117/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/RadixAttn.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[118/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/STFT.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[119/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/ReLU.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[120/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/mlir_ext/mllm2mlir/Mllm2MlirCanonicalizationPass.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[121/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/mlir_ext/mllm2mlir/Mllm2MlirPass.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[122/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/preprocessor/tokenizers/Unicode.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[123/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/VisionRoPE.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[124/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/layers/Param.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[125/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/ViewOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[126/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/prefix_cache/Cache.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[127/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/prefix_cache/Allocator.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[128/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/PassManager.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[129/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/ir/builtin/Interface.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[130/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/X2XOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[131/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/mllm.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[132/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/io/Primitives.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[133/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/Layer.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[134/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/preprocessor/tokenizers/llama_cpp_unicode/unicode-data.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[135/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/preprocessor/audio/Audio.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[136/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/aops/WhereOp.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[137/206] Building CXX object mllm/backends/cuda/CMakeFiles/MllmCUDABackend.dir/CudaDispatcher.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[138/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/__/third_party/wenet_audio/fft.cc.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[139/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/preprocessor/tokenizers/AutoTokenizer.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[140/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/jit/JITRunner.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[141/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/passes/Pattern.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[142/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/lmcache/StaticCache.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[143/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/passes/Pass.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[144/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/BuddyMemPool.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[145/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/passes/LLMCanonicalizationPipeline.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[146/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/Dispatcher.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[147/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/prefix_cache/RadixTree.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[148/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/models/minicpm_o2_6/tokenization_chattts.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[149/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/service/Service.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[150/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/MemoryManager.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[151/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/__/third_party/wenet_audio/feature_pipeline.cc.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[152/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/io/CpuMemoryDiskDispatcher.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[153/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/lmcache/KVHeadStaticCache.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[154/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/core/Tensor.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[155/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/service/Session.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[156/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/Functional.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[157/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/ir/dbg/Op.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[158/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/Context.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[159/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/ir/Trace.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[160/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/ir/cf/Op.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[161/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/ir/builtin/Op.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[162/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/ir/graph/Op.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[163/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/preprocessor/visual/ImageTransform.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[164/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/lmcache/PrefixCache.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[165/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/DispatcherManager.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[166/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/ir/builtin/Attribute.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[167/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/ConfigFile.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[168/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/ir/tensor/Value.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[169/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/ir/program/Op.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[170/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/passes/EagerMemorySolverPass.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[171/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/passes/EliminateDbgInfoPass.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[172/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/lmcache/DynamicCache.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[173/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/symbolic_expr/Eval.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[174/206] Building CXX object mllm/backends/cuda/CMakeFiles/MllmCUDABackend.dir/CudaAllocator.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[175/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/ir/Node.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[176/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/ir/linalg/Attribute.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[177/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/nn/Module.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[178/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/passes/ExtractConstantTensorPass.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[179/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/passes/FlattenTensorAndLinalgSymbol2ProgramSymbolPass.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[180/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/preprocessor/tokenizers/WordPiece.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[181/206] Building CXX object mllm/backends/cuda/CMakeFiles/MllmCUDABackend.dir/CudaCommons.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[182/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/ir/IRTraceDispatcher.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[183/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/engine/prefix_cache/ZenFS.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[184/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/passes/ExtractSymbolsPass.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[185/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/passes/ProgramIntrinsicIdIndexPass.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[186/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/passes/ProgramModeConfigPass.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[187/206] Building CXX object third_party/flatbuffers/CMakeFiles/flatbuffers.dir/src/idl_parser.cpp.o
+[188/206] Linking CXX static library lib/libflatbuffers.a
+[189/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/preprocessor/tokenizers/BPE.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[190/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/preprocessor/tokenizers/BPEUTF8.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[191/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/symbolic_expr/Parser.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[192/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/preprocessor/tokenizers/llama_cpp_unicode/unicode.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[193/206] Building CXX object mllm/backends/cuda/CMakeFiles/MllmCUDABackend.dir/CudaBackend.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[194/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/ir/tensor/Op.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[195/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/models/ARGeneration.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[196/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/jit/binary/LinalgIRSerialization.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[197/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/passes/ProgramLoweringPipeline.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[198/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/jit/binary/IRSerialization.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[199/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/ir/linalg/Op.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[200/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/jit/interpreter/IRInterpreter.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[201/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/preprocessor/visual/Image.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[202/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/models/minicpm_o2_6/streaming_generation.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[203/206] Building CXX object mllm/CMakeFiles/MllmRT.dir/compile/jit/interpreter/AopsFromJson.cpp.o
+warning: unknown warning option '-Wno-c++26-extensions' [-Wunknown-warning-option]
+1 warning generated.
+[204/206] Linking CXX shared library bin/libMllmRT.so
+FAILED: [code=1] bin/libMllmRT.so 
+: && /usr/bin/clang++-16 -fPIC -O3 -DNDEBUG   -shared -Wl,-soname,libMllmRT.so -o bin/libMllmRT.so mllm/CMakeFiles/MllmRT.dir/mllm.cpp.o mllm/CMakeFiles/MllmRT.dir/backends/base/Backend.cpp.o mllm/CMakeFiles/MllmRT.dir/backends/base/Allocator.cpp.o mllm/CMakeFiles/MllmRT.dir/backends/base/PluginSystem.cpp.o mllm/CMakeFiles/MllmRT.dir/core/BaseOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/DataTypes.cpp.o mllm/CMakeFiles/MllmRT.dir/core/DeviceTypes.cpp.o mllm/CMakeFiles/MllmRT.dir/core/MappedFile.cpp.o mllm/CMakeFiles/MllmRT.dir/core/ParameterFile.cpp.o mllm/CMakeFiles/MllmRT.dir/core/SlicePrimitives.cpp.o mllm/CMakeFiles/MllmRT.dir/core/Tensor.cpp.o mllm/CMakeFiles/MllmRT.dir/core/TensorStorage.cpp.o mllm/CMakeFiles/MllmRT.dir/core/TensorViewImpl.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/ArgsortOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/AvgPool1dOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/CastTypeOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/CausalMaskOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/CloneOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/CmpOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/ConcatOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/ContiguousOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/Conv1DOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/Conv2DOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/Conv3DOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/CopyOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/CumsumOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/EinsumOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/ElewiseOps.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/EmbeddingOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/FillOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/FlashAttention2Op.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/FlashAttn2WithSinkAndSwaOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/FlexMatmulOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/GELUOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/GatherOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/GraphOps.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/GroupedQueryAttentionDecodeOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/ISTFTOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/IndexOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/InterpolateOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/KVCacheOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/LayerNorm2DOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/LayerNormOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/LinearOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/MaskedScatterOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/MatMulOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/MultimodalRoPEOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/PadOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/PagedAttnOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/ParamOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/PermuteOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/QuickGELUOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/RMSNormOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/RadixAttnDiffDimOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/RadixAttnOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/RadixAttnWithSinkAndSwaDiffDimOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/ReLU2Op.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/ReLUOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/ReduceOps.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/RepeatInterleaveOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/RepeatOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/ReshapeOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/RoPEOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/STFTOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/Scatter2ShardsOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/SiLUOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/SigmoidOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/SliceOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/SoftmaxOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/SplitOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/StackOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/TopKOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/TransposeOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/ViewOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/VisionRoPEOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/WhereOp.cpp.o mllm/CMakeFiles/MllmRT.dir/core/aops/X2XOp.cpp.o mllm/CMakeFiles/MllmRT.dir/utils/Log.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/BuddyMemPool.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/ConfigFile.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/Context.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/Dispatcher.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/DispatcherManager.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/HpcThreadPool.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/MemoryManager.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/Perf.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/SessionTCB.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/Task.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/hints/Android.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/hints/CpuStates.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/hints/MmapBehaviors.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/hints/PThreadBehaviors.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/io/CpuMemoryDiskDispatcher.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/io/Primitives.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/prefix_cache/Allocator.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/prefix_cache/Cache.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/prefix_cache/HaHaHash.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/prefix_cache/RadixTree.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/prefix_cache/TLB.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/prefix_cache/ZenFS.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/service/Service.cpp.o mllm/CMakeFiles/MllmRT.dir/engine/service/Session.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/AbstractNnNode.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/Functional.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/Layer.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/Module.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/Planning.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/AvgPool1d.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/CausalMask.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/Conv1D.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/Conv2D.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/Conv3D.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/Embedding.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/GELU.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/GroupedQueryAttentionDecode.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/KVCache.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/LayerNorm.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/LayerNorm2D.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/Linear.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/MultimodalRoPE.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/PagedAttn.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/Param.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/QuickGELU.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/RMSNorm.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/RadixAttn.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/ReLU.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/RoPE.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/STFT.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/SiLU.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/Sigmoid.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/Softmax.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/layers/VisionRoPE.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/lmcache/DynamicCache.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/lmcache/KVHeadStaticCache.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/lmcache/PrefixCache.cpp.o mllm/CMakeFiles/MllmRT.dir/nn/lmcache/StaticCache.cpp.o mllm/CMakeFiles/MllmRT.dir/preprocessor/audio/Audio.cpp.o mllm/CMakeFiles/MllmRT.dir/preprocessor/tokenizers/AutoTokenizer.cpp.o mllm/CMakeFiles/MllmRT.dir/preprocessor/tokenizers/BPE.cpp.o mllm/CMakeFiles/MllmRT.dir/preprocessor/tokenizers/BPEUTF8.cpp.o mllm/CMakeFiles/MllmRT.dir/preprocessor/tokenizers/Unicode.cpp.o mllm/CMakeFiles/MllmRT.dir/preprocessor/tokenizers/WordPiece.cpp.o mllm/CMakeFiles/MllmRT.dir/preprocessor/tokenizers/llama_cpp_unicode/unicode-data.cpp.o mllm/CMakeFiles/MllmRT.dir/preprocessor/tokenizers/llama_cpp_unicode/unicode.cpp.o mllm/CMakeFiles/MllmRT.dir/preprocessor/visual/Image.cpp.o mllm/CMakeFiles/MllmRT.dir/preprocessor/visual/ImageTransform.cpp.o mllm/CMakeFiles/MllmRT.dir/models/ARGeneration.cpp.o mllm/CMakeFiles/MllmRT.dir/models/minicpm_o2_6/streaming_generation.cpp.o mllm/CMakeFiles/MllmRT.dir/models/minicpm_o2_6/tokenization_chattts.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/PassManager.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/ir/IRTraceDispatcher.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/ir/Node.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/ir/Trace.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/ir/builtin/Attribute.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/ir/builtin/Interface.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/ir/builtin/Op.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/ir/cf/Op.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/ir/dbg/Op.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/ir/graph/Op.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/ir/linalg/Attribute.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/ir/linalg/Op.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/ir/program/Op.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/ir/tensor/Op.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/ir/tensor/Value.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/jit/JITRunner.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/jit/JITUtils.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/jit/_primitives/Bytecode.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/jit/binary/IRSerialization.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/jit/binary/LinalgIRSerialization.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/jit/binary/PackageFile.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/jit/interpreter/AopsFromJson.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/jit/interpreter/IRInterpreter.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/mlir_ext/mllm2mlir/Mllm2MlirCanonicalizationPass.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/mlir_ext/mllm2mlir/Mllm2MlirPass.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/passes/EagerMemorySolverPass.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/passes/EliminateDbgInfoPass.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/passes/ExtractConstantTensorPass.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/passes/ExtractSymbolsPass.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/passes/FlattenTensorAndLinalgSymbol2ProgramSymbolPass.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/passes/LLMCanonicalizationPipeline.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/passes/Pass.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/passes/Pattern.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/passes/ProgramIntrinsicIdIndexPass.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/passes/ProgramLoweringPipeline.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/passes/ProgramModeConfigPass.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/symbolic_expr/Eval.cpp.o mllm/CMakeFiles/MllmRT.dir/compile/symbolic_expr/Parser.cpp.o mllm/CMakeFiles/MllmRT.dir/__/third_party/wenet_audio/feature_pipeline.cc.o mllm/CMakeFiles/MllmRT.dir/__/third_party/wenet_audio/fft.cc.o  lib/libxxhash_static.a  lib/libflatbuffers.a  -fopenmp  -fopenmp  -lpthread && :
+/usr/bin/ld: cannot find -lomp
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+ninja: build stopped: subcommand failed.

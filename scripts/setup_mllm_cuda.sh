@@ -65,7 +65,7 @@ env \
     -DMLLM_ENABLE_TEST=ON \
     -DMLLM_ENABLE_BENCHMARK=OFF \
     -DMLLM_ENABLE_EXAMPLE=OFF \
-    -DMLLM_ENABLE_TOOLS=OFF \
+    -DMLLM_ENABLE_TOOLS=ON \
     -DMLLM_BUILD_EXT_OP_SET=OFF \
     -DMLLM_BUILD_EXT_OP_SET_TEST=OFF \
     -DHWY_ENABLE_TESTS=OFF \
@@ -75,5 +75,10 @@ env \
     -DMLLM_KERNEL_USE_THREADS=ON \
     -DMLLM_KERNEL_THREADS_VENDOR_OPENMP=ON
 
-cmake --build "${mllm_root}/build-x86-cuda" --target \
-  MllmCUDABackendCudaOps MllmCUDABackend Mllm-Test-CUDA-DeviceInfo
+for target in MllmCUDABackendCudaOps MllmCUDABackend Mllm-Test-CUDA-DeviceInfo; do
+  cmake --build "${mllm_root}/build-x86-cuda" --target "${target}"
+done
+
+env \
+  LD_LIBRARY_PATH="${mllm_root}/build-x86-cuda/bin:${cuda_root}/lib:${cuda_root}/targets/x86_64-linux/lib" \
+  "${mllm_root}/build-x86-cuda/bin/Mllm-Test-CUDA-DeviceInfo"

@@ -75,3 +75,25 @@ def test_run035_recovers_nvcc_and_retains_upstream_cmake_failure() -> None:
     assert "target \"mllm-params-inspector\" which does not exist" in (
         PROJECT_ROOT / "artifacts/logs/mllm-cuda-setup-run_035.log"
     ).read_text(encoding="utf-8")
+
+
+def test_run036_builds_cuda_objects_and_retains_openmp_link_failure() -> None:
+    result = json.loads(
+        (PROJECT_ROOT / "artifacts/results/mllm-cuda-run_036.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert result["summary"] == {
+        "failing": 4,
+        "gates": 13,
+        "pass": False,
+        "passing": 9,
+    }
+    assert result["build"]["targets"]["cuda_ops"]["exists"]
+    assert not result["build"]["targets"]["cuda_backend"]["exists"]
+    assert not result["build"]["targets"]["device_test"]["exists"]
+    log = (PROJECT_ROOT / "artifacts/logs/mllm-cuda-setup-run_036.log").read_text(
+        encoding="utf-8"
+    )
+    assert "Linking CUDA shared library bin/libMllmCUDABackendCudaOps.so" in log
+    assert "cannot find -lomp" in log

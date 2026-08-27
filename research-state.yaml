@@ -152,7 +152,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 35
+  total_runs: 36
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -399,11 +399,18 @@ experiments:
       wall_time_min: 3.0
       change_summary: "Local nvcc 12.8.93 and six recovery/toolchain gates pass (9/13 total); upstream mllm's unconditional install of a disabled tools target blocks configure before CUDA build/device/link."
       timestamp: "2026-08-27"
+    - run_id: "run_036"
+      hypothesis: "H15.2/mllm CUDA target generation"
+      metric_value: 0.3076923076923077
+      delta: 0.0
+      wall_time_min: 1.0
+      change_summary: "Tools-on fixes configure and nvcc links the empty CUDA-ops library, but missing Clang libomp blocks MllmRT and therefore CUDA backend/device/link evidence; 9/13 pass."
+      timestamp: "2026-08-27"
 
 outer_loop:
-  cycle: 24
+  cycle: 25
   last_direction: recover
-  last_reflection: "Run 035 proves the local CUDA compiler recovery and isolates a second block to mllm's tools-off CMake install rule. Enable the upstream tools target only; keep CUDA, source and build targets fixed."
+  last_reflection: "Run 036 proves CUDA object compilation and isolates the remaining link block to mllm's optional Clang OpenMP fallback. Disable that vendor while retaining mllm's internal thread pool and all CUDA pins."
 
 workspace:
   findings: "findings.md"
