@@ -9,9 +9,11 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any
 
+from .paths import chipyard_source_identity, resolve_chipyard_root
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-CHIPYARD_ROOT = Path("/root/chipyard")
+CHIPYARD_ROOT = resolve_chipyard_root()
 SIM_ROOT = CHIPYARD_ROOT / "sims" / "verilator"
 ELF = PROJECT_ROOT / "system_sim/build/software/agentsys-revised-system.riscv"
 COMPILED_MANIFEST = PROJECT_ROOT / "artifacts/app_traces/revised-compiled-workload-run_028.json"
@@ -423,7 +425,7 @@ def run_revised_system(*, run_id: str = "run_028", timeout_s: float = 300.0) -> 
         "run_id": run_id,
         "classification": "real_ordinary_rocket_plus_tisa_hptpe_agent_system_trace",
         "project_commit": _git_head(PROJECT_ROOT),
-        "chipyard_commit": _git_head(CHIPYARD_ROOT),
+        "chipyard_commit": chipyard_source_identity(CHIPYARD_ROOT)["commit"],
         "elf": str(ELF),
         "elf_sha256": _sha256(ELF),
         "compiled_manifest": str(COMPILED_MANIFEST.relative_to(PROJECT_ROOT)),

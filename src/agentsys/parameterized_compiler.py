@@ -9,6 +9,7 @@ from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
+from .paths import resolve_chipyard_root
 from .mllm_backend import MllmOperator, operator_digest, parse_mir
 from .model import Engine
 from .revised_system_compiler import (
@@ -393,8 +394,9 @@ def build_parameterized_elf(
     header_path: Path,
     elf_path: Path,
     *,
-    chipyard_root: Path = Path("/root/chipyard"),
+    chipyard_root: Path | None = None,
 ) -> dict[str, Any]:
+    chipyard_root = chipyard_root or resolve_chipyard_root()
     compiler = chipyard_root / "esp-tools-install/bin/riscv64-unknown-elf-gcc"
     source = PROJECT_ROOT / "system_sim/software/agentsys_revised_system_test.c"
     runtime = PROJECT_ROOT / "system_sim/software/agentsys_xpu_runtime.h"

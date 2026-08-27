@@ -53,7 +53,7 @@
     },
     {
       "name": "riscv_gcc",
-      "argv": ["/root/chipyard/esp-tools-install/bin/riscv64-unknown-elf-gcc", "--version"],
+      "argv": ["${AGENTSYS_CHIPYARD_ROOT}/esp-tools-install/bin/riscv64-unknown-elf-gcc", "--version"],
       "contains": "9.2.0"
     }
   ],
@@ -97,7 +97,7 @@
     },
     {
       "name": "chipyard",
-      "path": "/root/chipyard",
+      "path": "${AGENTSYS_CHIPYARD_ROOT}",
       "commit": "b5d013190d637e634113cb5179f8c8885df1945a"
     }
   ],
@@ -130,36 +130,36 @@
     },
     {
       "name": "chipyard_static",
-      "path": "/root/chipyard/sims/verilator/simulator-chipyard-AgentSysStaticRocketConfig",
+      "path": "${AGENTSYS_CHIPYARD_ROOT}/sims/verilator/simulator-chipyard-AgentSysStaticRocketConfig",
       "executable": true,
       "inputs": [
-        "/root/chipyard/generators/chipyard/src/main/scala/AgentSysRoCC.scala",
-        "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_engines.sv",
-        "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_tisa_scheduler.sv",
-        "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_rocc_controller.sv"
+        "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/scala/AgentSysRoCC.scala",
+        "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/agentsys_engines.sv",
+        "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/agentsys_tisa_scheduler.sv",
+        "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/agentsys_rocc_controller.sv"
       ]
     },
     {
       "name": "chipyard_dynamic",
-      "path": "/root/chipyard/sims/verilator/simulator-chipyard-AgentSysDynamicRocketConfig",
+      "path": "${AGENTSYS_CHIPYARD_ROOT}/sims/verilator/simulator-chipyard-AgentSysDynamicRocketConfig",
       "executable": true,
       "inputs": [
-        "/root/chipyard/generators/chipyard/src/main/scala/AgentSysRoCC.scala",
-        "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_engines.sv",
-        "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_tisa_scheduler.sv",
-        "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_rocc_controller.sv"
+        "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/scala/AgentSysRoCC.scala",
+        "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/agentsys_engines.sv",
+        "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/agentsys_tisa_scheduler.sv",
+        "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/agentsys_rocc_controller.sv"
       ]
     }
   ],
   "chipyard_patches": [
     {
       "name": "chisel3_stable_dependencies",
-      "repository": "/root/chipyard/tools/chisel3",
+      "repository": "${AGENTSYS_CHIPYARD_ROOT}/tools/chisel3",
       "patch": "patches/chipyard/chisel3-stable-deps.patch"
     },
     {
       "name": "treadle_stable_firrtl",
-      "repository": "/root/chipyard/tools/treadle",
+      "repository": "${AGENTSYS_CHIPYARD_ROOT}/tools/treadle",
       "patch": "patches/chipyard/treadle-stable-firrtl.patch"
     }
   ],
@@ -167,22 +167,22 @@
     {
       "name": "scala",
       "source": "system_sim/chipyard/AgentSysRoCC.scala",
-      "installed": "/root/chipyard/generators/chipyard/src/main/scala/AgentSysRoCC.scala"
+      "installed": "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/scala/AgentSysRoCC.scala"
     },
     {
       "name": "engines",
       "source": "rtl/agentsys/agentsys_engines.sv",
-      "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_engines.sv"
+      "installed": "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/agentsys_engines.sv"
     },
     {
       "name": "scheduler",
       "source": "rtl/agentsys/agentsys_tisa_scheduler.sv",
-      "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_tisa_scheduler.sv"
+      "installed": "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/agentsys_tisa_scheduler.sv"
     },
     {
       "name": "controller",
       "source": "rtl/agentsys/agentsys_rocc_controller.sv",
-      "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_rocc_controller.sv"
+      "installed": "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/agentsys_rocc_controller.sv"
     }
   ],
   "paper_profiles": {

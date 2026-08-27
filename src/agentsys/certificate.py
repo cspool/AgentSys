@@ -6,6 +6,7 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
+from .paths import chipyard_source_identity, resolve_chipyard_root
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
@@ -35,7 +36,7 @@ REFERENCE_COMMITS = {
     ".references/mllm": "50ad5a9b6fbea742e38b5b31776c187e50319c8e",
     ".references/ramulator2": "be93be78055d922aa1d4d33e15bcc8f2b0c61a9d",
     ".references/autellix": "1df19874d1fb10e497b7185bf813fdd7be189683",
-    "/root/chipyard": "b5d013190d637e634113cb5179f8c8885df1945a",
+    str(resolve_chipyard_root()): "b5d013190d637e634113cb5179f8c8885df1945a",
 }
 
 
@@ -115,6 +116,8 @@ def _git_head(path_text: str) -> str | None:
     path = Path(path_text) if path_text.startswith("/") else PROJECT_ROOT / path_text
     if not path.exists():
         return None
+    if path.resolve() == resolve_chipyard_root():
+        return chipyard_source_identity(path)["commit"]
     try:
         return subprocess.check_output(
             ["git", "-C", str(path), "rev-parse", "HEAD"],

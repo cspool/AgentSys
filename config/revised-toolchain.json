@@ -27,7 +27,7 @@
     {"name": "chipyard_verilator", "argv": ["verilator", "--version"], "contains": "Verilator 4.034"},
     {"name": "clang16", "argv": ["clang++-16", "--version"], "contains": "clang version 16.0.6"},
     {"name": "java11", "argv": ["java", "-version"], "contains": "11.0.11"},
-    {"name": "riscv_gcc", "argv": ["/root/chipyard/esp-tools-install/bin/riscv64-unknown-elf-gcc", "--version"], "contains": "9.2.0"},
+    {"name": "riscv_gcc", "argv": ["${AGENTSYS_CHIPYARD_ROOT}/esp-tools-install/bin/riscv64-unknown-elf-gcc", "--version"], "contains": "9.2.0"},
     {"name": "iverilog", "argv": ["iverilog", "-V"], "contains": "Icarus Verilog version 11.0"},
     {"name": "verilator5", "argv": ["env", "VERILATOR_ROOT=.references/verilator5", ".references/verilator5/bin/verilator", "--version"], "contains": "Verilator 5.050"}
   ],
@@ -38,7 +38,7 @@
     {"name": "mllm", "role": "active_framework", "path": ".references/mllm", "commit": "50ad5a9b6fbea742e38b5b31776c187e50319c8e"},
     {"name": "autellix", "role": "agentix_public_reference", "path": ".references/autellix", "commit": "1df19874d1fb10e497b7185bf813fdd7be189683"},
     {"name": "verilator5", "role": "hptpe_simulator", "path": ".references/verilator5", "commit": "848d926ebd4addacacd294dc84e35d9d4ae8078c"},
-    {"name": "chipyard", "role": "ordinary_riscv_system", "path": "/root/chipyard", "commit": "b5d013190d637e634113cb5179f8c8885df1945a"}
+    {"name": "chipyard", "role": "ordinary_riscv_system", "path": "${AGENTSYS_CHIPYARD_ROOT}", "commit": "b5d013190d637e634113cb5179f8c8885df1945a"}
   ],
   "build_outputs": [
     {
@@ -63,38 +63,38 @@
     },
     {
       "name": "revised_chipyard_static",
-      "path": "/root/chipyard/sims/verilator/simulator-chipyard-AgentSysRevisedStaticRocketConfig",
+      "path": "${AGENTSYS_CHIPYARD_ROOT}/sims/verilator/simulator-chipyard-AgentSysRevisedStaticRocketConfig",
       "executable": true,
       "inputs": ["system_sim/chipyard/AgentSysRevisedRoCC.scala", "rtl/agentsys/agentsys_revised_engines.sv", "rtl/agentsys/agentsys_tisa_scheduler.sv", "rtl/agentsys/agentsys_revised_rocc_controller.sv", ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/top.v"]
     },
     {
       "name": "revised_chipyard_dynamic",
-      "path": "/root/chipyard/sims/verilator/simulator-chipyard-AgentSysRevisedDynamicRocketConfig",
+      "path": "${AGENTSYS_CHIPYARD_ROOT}/sims/verilator/simulator-chipyard-AgentSysRevisedDynamicRocketConfig",
       "executable": true,
       "inputs": ["system_sim/chipyard/AgentSysRevisedRoCC.scala", "rtl/agentsys/agentsys_revised_engines.sv", "rtl/agentsys/agentsys_tisa_scheduler.sv", "rtl/agentsys/agentsys_revised_rocc_controller.sv", ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/top.v"]
     }
   ],
   "chipyard_patches": [
-    {"name": "chisel3_stable_dependencies", "repository": "/root/chipyard/tools/chisel3", "patch": "patches/chipyard/chisel3-stable-deps.patch"},
-    {"name": "treadle_stable_firrtl", "repository": "/root/chipyard/tools/treadle", "patch": "patches/chipyard/treadle-stable-firrtl.patch"}
+    {"name": "chisel3_stable_dependencies", "repository": "${AGENTSYS_CHIPYARD_ROOT}/tools/chisel3", "patch": "patches/chipyard/chisel3-stable-deps.patch"},
+    {"name": "treadle_stable_firrtl", "repository": "${AGENTSYS_CHIPYARD_ROOT}/tools/treadle", "patch": "patches/chipyard/treadle-stable-firrtl.patch"}
   ],
   "chipyard_overlays": [
-    {"name": "revised_scala", "source": "system_sim/chipyard/AgentSysRevisedRoCC.scala", "installed": "/root/chipyard/generators/chipyard/src/main/scala/AgentSysRevisedRoCC.scala"},
-    {"name": "revised_engines", "source": "rtl/agentsys/agentsys_revised_engines.sv", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_revised_engines.sv"},
-    {"name": "tisa_scheduler", "source": "rtl/agentsys/agentsys_tisa_scheduler.sv", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_tisa_scheduler.sv"},
-    {"name": "revised_controller", "source": "rtl/agentsys/agentsys_revised_rocc_controller.sv", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/agentsys_revised_rocc_controller.sv"},
-    {"name": "hptpe_timescale", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/sim/timescale.sv", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_timescale.sv"},
-    {"name": "hptpe_booth_pp1", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/booth_partial_product_generator_pp1.v", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_booth_pp1.v"},
-    {"name": "hptpe_booth_pp", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/booth_partial_product_generator.v", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_booth_pp.v"},
-    {"name": "hptpe_booth_gen", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/booth_pp_gen.v", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_booth_gen.v"},
-    {"name": "hptpe_dw02_tree", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/DW02_tree.sv", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_dw02_tree.sv"},
-    {"name": "hptpe_pipeline", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/get_pipline_mulwidth.v", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_pipeline.v"},
-    {"name": "hptpe_inv_converter", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/inv_conveter_8.v", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_inv_converter.v"},
-    {"name": "hptpe_inv_unit_nor", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/inv_unit_nor_out.v", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_inv_unit_nor.v"},
-    {"name": "hptpe_inv_unit", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/inv_unit.v", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_inv_unit.v"},
-    {"name": "hptpe_opt1_mac", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/opt1_mac.v", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_opt1_mac.v"},
-    {"name": "hptpe_pe", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/pe.v", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_pe.v"},
-    {"name": "hptpe_top", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/top.v", "installed": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/hptpe_top.v"}
+    {"name": "revised_scala", "source": "system_sim/chipyard/AgentSysRevisedRoCC.scala", "installed": "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/scala/AgentSysRevisedRoCC.scala"},
+    {"name": "revised_engines", "source": "rtl/agentsys/agentsys_revised_engines.sv", "installed": "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/agentsys_revised_engines.sv"},
+    {"name": "tisa_scheduler", "source": "rtl/agentsys/agentsys_tisa_scheduler.sv", "installed": "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/agentsys_tisa_scheduler.sv"},
+    {"name": "revised_controller", "source": "rtl/agentsys/agentsys_revised_rocc_controller.sv", "installed": "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/agentsys_revised_rocc_controller.sv"},
+    {"name": "hptpe_timescale", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/sim/timescale.sv", "installed": "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/hptpe_timescale.sv"},
+    {"name": "hptpe_booth_pp1", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/booth_partial_product_generator_pp1.v", "installed": "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/hptpe_booth_pp1.v"},
+    {"name": "hptpe_booth_pp", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/booth_partial_product_generator.v", "installed": "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/hptpe_booth_pp.v"},
+    {"name": "hptpe_booth_gen", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/booth_pp_gen.v", "installed": "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/hptpe_booth_gen.v"},
+    {"name": "hptpe_dw02_tree", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/DW02_tree.sv", "installed": "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/hptpe_dw02_tree.sv"},
+    {"name": "hptpe_pipeline", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/get_pipline_mulwidth.v", "installed": "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/hptpe_pipeline.v"},
+    {"name": "hptpe_inv_converter", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/inv_conveter_8.v", "installed": "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/hptpe_inv_converter.v"},
+    {"name": "hptpe_inv_unit_nor", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/inv_unit_nor_out.v", "installed": "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/hptpe_inv_unit_nor.v"},
+    {"name": "hptpe_inv_unit", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/inv_unit.v", "installed": "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/hptpe_inv_unit.v"},
+    {"name": "hptpe_opt1_mac", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/opt1_mac.v", "installed": "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/hptpe_opt1_mac.v"},
+    {"name": "hptpe_pe", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/pe.v", "installed": "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/hptpe_pe.v"},
+    {"name": "hptpe_top", "source": ".references/HPTPE/OPT1/systolic_array_os/array_opt1_based/top.v", "installed": "${AGENTSYS_CHIPYARD_ROOT}/generators/chipyard/src/main/resources/vsrc/hptpe_top.v"}
   ],
   "paper_profiles": {
     "agentix": {

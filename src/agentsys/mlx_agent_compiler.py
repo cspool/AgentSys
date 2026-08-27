@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from .mlx_reference import DEFAULT_CONFIG as DEFAULT_SOURCE_CONFIG
+from .paths import expand_chipyard_tokens
 from .workload import AgentWorkload, PROJECT_ROOT
 
 
@@ -165,7 +166,9 @@ def compile_agent_mlx(
         compiled["workload"]["sha256"],
     } != {workload.sha256}:
         raise ValueError("Agent/application/compiled identity mismatch")
-    source_config = json.loads(source_config_path.read_text(encoding="utf-8"))
+    source_config = expand_chipyard_tokens(
+        json.loads(source_config_path.read_text(encoding="utf-8"))
+    )
     source_root = (PROJECT_ROOT / source_config["active_path"]).resolve()
     system_manifest_path = (
         source_root / "artifacts/environment/h205/mlx-system-workload-manifest.json"
@@ -309,7 +312,9 @@ def build_agent_mlx_elf(
     elf_path: Path,
     source_config_path: Path = DEFAULT_SOURCE_CONFIG,
 ) -> dict[str, Any]:
-    source_config = json.loads(source_config_path.read_text(encoding="utf-8"))
+    source_config = expand_chipyard_tokens(
+        json.loads(source_config_path.read_text(encoding="utf-8"))
+    )
     source_root = (PROJECT_ROOT / source_config["active_path"]).resolve()
     chipyard = Path(source_config["chipyard"]["path"])
     compiler = chipyard / "esp-tools-install/bin/riscv64-unknown-elf-gcc"

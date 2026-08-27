@@ -8,9 +8,11 @@ import time
 from pathlib import Path
 from typing import Any
 
+from .paths import chipyard_source_identity, resolve_chipyard_root
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-CHIPYARD_ROOT = Path("/root/chipyard")
+CHIPYARD_ROOT = resolve_chipyard_root()
 SIM_ROOT = CHIPYARD_ROOT / "sims" / "verilator"
 ELF = PROJECT_ROOT / "system_sim" / "build" / "software" / "agentsys-system.riscv"
 
@@ -148,7 +150,7 @@ def run_chipyard_audit(*, run_id: str = "run_003", timeout_s: float = 180.0) -> 
         "schema_version": 1,
         "run_id": run_id,
         "classification": "real_chipyard_rocket_verilator_functional_system_evidence",
-        "chipyard_commit": git_head(CHIPYARD_ROOT),
+        "chipyard_commit": chipyard_source_identity(CHIPYARD_ROOT)["commit"],
         "project_commit": git_head(PROJECT_ROOT),
         "elf": str(ELF),
         "elf_sha256": sha256(ELF),
@@ -176,4 +178,3 @@ def write_chipyard_audit(path: Path, *, run_id: str = "run_003") -> dict[str, An
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return result
-

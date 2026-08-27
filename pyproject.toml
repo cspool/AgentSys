@@ -35,6 +35,8 @@ agentsys-reproduce-mlx-agent = "agentsys.mlx_agent_reproduce:main"
 agentsys-mlx-layer-regression = "agentsys.mlx_layer_regression:main"
 agentsys-reproduce-mlx-complete = "agentsys.mlx_complete_reproduce:main"
 agentsys-certificate-mlx = "agentsys.mlx_certificate:main"
+agentsys-reproduce-portable = "agentsys.portable_reproduce:main"
+agentsys-certificate-portable = "agentsys.portable_certificate:main"
 
 [dependency-groups]
 dev = [

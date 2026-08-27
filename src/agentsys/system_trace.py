@@ -9,9 +9,11 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any
 
+from .paths import chipyard_source_identity, resolve_chipyard_root
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
-CHIPYARD_ROOT = Path("/root/chipyard")
+CHIPYARD_ROOT = resolve_chipyard_root()
 SIM_ROOT = CHIPYARD_ROOT / "sims/verilator"
 TRACE_ELF = PROJECT_ROOT / "system_sim/build/software/agentsys-trace-system.riscv"
 COMPILED_MANIFEST = PROJECT_ROOT / "artifacts/app_traces/compiled-system-workload-run_021.json"
@@ -257,7 +259,7 @@ def run_system_trace(*, run_id: str = "run_021", timeout_s: float = 240.0) -> tu
         "run_id": run_id,
         "classification": "real_rocket_cpu_plus_rocc_xpu_agent_trace_simulation",
         "project_commit": _git_head(PROJECT_ROOT),
-        "chipyard_commit": _git_head(CHIPYARD_ROOT),
+        "chipyard_commit": chipyard_source_identity(CHIPYARD_ROOT)["commit"],
         "elf": str(TRACE_ELF),
         "elf_sha256": _sha256(TRACE_ELF),
         "compiled_manifest": str(COMPILED_MANIFEST.relative_to(PROJECT_ROOT)),

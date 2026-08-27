@@ -2,6 +2,9 @@
 set -euo pipefail
 
 project_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+source "${project_root}/scripts/chipyard_paths.sh"
+chipyard_root=$(agentsys_chipyard_root "${project_root}")
+export AGENTSYS_CHIPYARD_ROOT=${chipyard_root}
 target="${project_root}/.references/MLX_dev_active"
 url="https://github.com/cspool/MLX_dev.git"
 commit="2a457dfaf8faf9bcda72f92c5d66e9a6a9b3b50f"
@@ -22,8 +25,7 @@ if [[ -n $(git -C "${target}" status --porcelain --untracked-files=no) ]]; then
   echo "MLX active checkout has tracked modifications" >&2
   exit 3
 fi
-test "$(git -C /root/chipyard rev-parse HEAD)" = \
-  "b5d013190d637e634113cb5179f8c8885df1945a"
+agentsys_require_chipyard_source "${chipyard_root}"
 
 echo "MLX active: ${observed}"
-echo "Chipyard: $(git -C /root/chipyard rev-parse HEAD)"
+echo "Chipyard: $(agentsys_chipyard_commit "${chipyard_root}")"

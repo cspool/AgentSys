@@ -2,7 +2,9 @@
 set -euo pipefail
 
 project_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
-chipyard_root=${CHIPYARD_ROOT:-/root/chipyard}
+source "${project_root}/scripts/chipyard_paths.sh"
+chipyard_root=$(agentsys_chipyard_root "${project_root}")
+export AGENTSYS_CHIPYARD_ROOT=${chipyard_root}
 jobs=${AGENTSYS_JOBS:-4}
 verify_only=0
 
@@ -23,6 +25,7 @@ if [[ ${verify_only} -eq 0 ]]; then
   uv python install 3.11
   uv sync --frozen
 
+  bash scripts/bootstrap_chipyard.sh
   bash scripts/bootstrap_references.sh
   AGENTSYS_JOBS="${jobs}" bash scripts/build_ramulator2.sh
   bash scripts/install_agentsys_chipyard.sh "${chipyard_root}"
@@ -38,6 +41,10 @@ if [[ ${verify_only} -eq 0 ]]; then
   set -u
   make -C "${chipyard_root}/sims/verilator" -j"${jobs}" CONFIG=AgentSysStaticRocketConfig
   make -C "${chipyard_root}/sims/verilator" -j"${jobs}" CONFIG=AgentSysDynamicRocketConfig
+fi
+
+if [[ ${verify_only} -eq 1 ]]; then
+  bash scripts/bootstrap_chipyard.sh --verify-only
 fi
 
 "${project_root}/.venv/bin/python" -m agentsys.toolchain \

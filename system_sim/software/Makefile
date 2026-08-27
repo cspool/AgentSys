@@ -1,8 +1,8 @@
-CHIPYARD_ROOT ?= /root/chipyard
+PROJECT_ROOT := $(abspath ../..)
+CHIPYARD_ROOT ?= $(PROJECT_ROOT)/chipyard
 RISCV ?= $(CHIPYARD_ROOT)/esp-tools-install
 GCC := $(RISCV)/bin/riscv64-unknown-elf-gcc
 OBJDUMP := $(RISCV)/bin/riscv64-unknown-elf-objdump
-PROJECT_ROOT := $(abspath ../..)
 BUILD_DIR := $(PROJECT_ROOT)/system_sim/build/software
 CFLAGS := -std=gnu99 -O2 -g -fno-common -fno-builtin-printf -Wall -Wextra \
           -I$(CHIPYARD_ROOT)/tests -I$(PROJECT_ROOT)/system_sim/software

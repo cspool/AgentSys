@@ -8,6 +8,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any
 
+from .paths import chipyard_source_identity
 from .revised_system import (
     CHIPYARD_ROOT,
     PROJECT_ROOT,
@@ -348,7 +349,7 @@ def run_parameterized_system(
         "run_id": run_id,
         "classification": "parameterized_agent_workload_real_rocket_tisa_hptpe_simulation",
         "project_commit": _git_head(PROJECT_ROOT),
-        "chipyard_commit": _git_head(CHIPYARD_ROOT),
+        "chipyard_commit": chipyard_source_identity(CHIPYARD_ROOT)["commit"],
         "workload": workload.to_contract_dict(),
         "compiled_manifest": str(compiled_path),
         "compiled_manifest_sha256": _sha256(compiled_path),

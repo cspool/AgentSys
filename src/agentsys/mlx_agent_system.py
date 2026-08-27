@@ -11,6 +11,7 @@ from typing import Any, Callable
 
 from .mlx_agent_compiler import build_agent_mlx_elf, compile_agent_mlx
 from .mlx_reference import DEFAULT_CONFIG as DEFAULT_SOURCE_CONFIG
+from .paths import expand_chipyard_tokens
 from .parameterized_application import write_parameterized_application
 from .parameterized_compiler import compile_parameterized_workload
 from .workload import AgentWorkload, PROJECT_ROOT, load_agent_workload
@@ -285,7 +286,9 @@ def run_agent_mlx_system(
     )
     stages.append(stage)
 
-    source_config = json.loads(source_config_path.read_text(encoding="utf-8"))
+    source_config = expand_chipyard_tokens(
+        json.loads(source_config_path.read_text(encoding="utf-8"))
+    )
     chipyard = Path(source_config["chipyard"]["path"])
     backend_results: dict[str, dict[str, Any]] = {}
     for backend, config_name in BACKENDS.items():

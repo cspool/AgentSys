@@ -11,6 +11,7 @@ from typing import Any, Mapping
 from .agentix_model import run_agentix_aggregate
 from .atx_model import run_atx_audit
 from .experiments import PROJECT_ROOT, TARGETS_PATH, _agentix_run, _agentxpu_run, _tisa_run
+from .paths import chipyard_source_identity
 from .toolchain import DEFAULT_CONFIG, atomic_write_json, load_toolchain_config, resolve_path, sha256
 
 
@@ -47,7 +48,11 @@ def audit_paper_profile(
     for name in profile["references"]:
         reference = references[name]
         path = resolve_path(reference["path"], project_root=project_root)
-        observed = _git_head(path)
+        observed = (
+            chipyard_source_identity(path)["commit"]
+            if name == "chipyard"
+            else _git_head(path)
+        )
         reference_details[name] = {
             "path": str(path),
             "expected": reference["commit"],

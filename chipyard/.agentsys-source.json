@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "classification": "vendored_chipyard_upstream_identity",
+  "upstream_commit": "b5d013190d637e634113cb5179f8c8885df1945a",
+  "identity_files": {
+    ".gitmodules": "a68296a7895492e162652068d795249bb773b4078c09c5534387165f9c14dcd3",
+    "build.sbt": "f0428b6ba1bdf646d353a8bdd61e5a8c8461afa9157fe7846389f25527b4d7f7",
+    "common.mk": "22d2aaf89158e839a81327ba6e4c6c1dbbef0fed624458045a5d44d7b8010f3e",
+    "generators/chipyard/src/main/scala/config/RocketConfigs.scala": "8a77759d620c9c31a5e206fbfa877ebb52832d41ad4f7882dd6dd1bc107db53d",
+    "project/build.properties": "ef0027fa322ca439f465803fdfa777a1216a4ed32e8fcaea3e7b038b4510e632"
+  }
+}

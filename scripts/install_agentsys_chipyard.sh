@@ -2,18 +2,16 @@
 set -euo pipefail
 
 project_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
-chipyard_root=${1:-/root/chipyard}
-expected_commit=b5d013190d637e634113cb5179f8c8885df1945a
+source "${project_root}/scripts/chipyard_paths.sh"
+chipyard_root=${1:-$(agentsys_chipyard_root "${project_root}")}
+export AGENTSYS_CHIPYARD_ROOT=${chipyard_root}
 
 if [[ ! -d "${chipyard_root}/generators/chipyard/src/main" ]]; then
   echo "Chipyard source tree not found: ${chipyard_root}" >&2
   exit 2
 fi
-observed_commit=$(git -C "${chipyard_root}" rev-parse HEAD)
-if [[ "${observed_commit}" != "${expected_commit}" ]]; then
-  echo "Chipyard commit mismatch: ${observed_commit} (expected ${expected_commit})" >&2
-  exit 2
-fi
+agentsys_require_chipyard_source "${chipyard_root}"
+observed_commit=$(agentsys_chipyard_commit "${chipyard_root}")
 
 apply_compatibility_patch() {
   local repository=$1
@@ -61,4 +59,3 @@ done
 echo "Installed AgentSys Chipyard integration at ${observed_commit}"
 echo "  Scala: ${scala_target}"
 echo "  RTL resources: ${#rtl_files[@]} files in ${vsrc_target}"
-

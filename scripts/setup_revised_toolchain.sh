@@ -2,7 +2,9 @@
 set -euo pipefail
 
 project_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
-chipyard_root=${CHIPYARD_ROOT:-/root/chipyard}
+source "${project_root}/scripts/chipyard_paths.sh"
+chipyard_root=$(agentsys_chipyard_root "${project_root}")
+export AGENTSYS_CHIPYARD_ROOT=${chipyard_root}
 jobs=${AGENTSYS_JOBS:-4}
 verify_only=0
 
@@ -19,10 +21,10 @@ if [[ ${verify_only} -eq 0 ]]; then
   command -v uv >/dev/null
   command -v clang++-16 >/dev/null
   command -v iverilog >/dev/null
-  test -f "${chipyard_root}/env.sh"
 
   uv python install 3.11
   uv sync --frozen
+  bash scripts/bootstrap_chipyard.sh
   bash scripts/bootstrap_references.sh
   bash scripts/build_verilator5.sh
   bash scripts/build_mllm_native.sh
@@ -35,6 +37,10 @@ if [[ ${verify_only} -eq 0 ]]; then
   set -u
   make -C "${chipyard_root}/sims/verilator" -j"${jobs}" CONFIG=AgentSysRevisedStaticRocketConfig
   make -C "${chipyard_root}/sims/verilator" -j"${jobs}" CONFIG=AgentSysRevisedDynamicRocketConfig
+fi
+
+if [[ ${verify_only} -eq 1 ]]; then
+  bash scripts/bootstrap_chipyard.sh --verify-only
 fi
 
 "${project_root}/.venv/bin/python" -m agentsys.toolchain \

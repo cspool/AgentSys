@@ -10,6 +10,7 @@ from dataclasses import asdict, replace
 from pathlib import Path
 from typing import Any
 
+from .paths import chipyard_source_identity, resolve_chipyard_root
 from .agentix import AgentixPolicy, AgentixSimulator, agentix_figure2_workload
 from .agentxpu import AgentXPUSimulator, XPUConfig, XPUmode, poisson_mixed_flows
 from .tisa import TISAMode, TISASimulator
@@ -375,7 +376,7 @@ def run_reproduction(run_id: str) -> dict[str, Any]:
                 "llm_xpu": _git_head(PROJECT_ROOT / ".references" / "LLM.xpu"),
                 "hptpe": _git_head(PROJECT_ROOT / ".references" / "HPTPE"),
                 "mllm": _git_head(PROJECT_ROOT / ".references" / "mllm"),
-                "chipyard": _git_head(Path("/root/chipyard")),
+                "chipyard": chipyard_source_identity(resolve_chipyard_root())["commit"],
             },
         },
         "sections": sections,

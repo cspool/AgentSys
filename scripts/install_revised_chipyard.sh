@@ -2,12 +2,15 @@
 set -euo pipefail
 
 project_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
-chipyard_root=${1:-/root/chipyard}
+source "${project_root}/scripts/chipyard_paths.sh"
+chipyard_root=${1:-$(agentsys_chipyard_root "${project_root}")}
+export AGENTSYS_CHIPYARD_ROOT=${chipyard_root}
 hptpe_root="${project_root}/.references/HPTPE"
 expected_chipyard=b5d013190d637e634113cb5179f8c8885df1945a
 expected_hptpe=ebe4db7d2d3c36d10c47683d7689f65f5c4ca3e4
 
-test "$(git -C "${chipyard_root}" rev-parse HEAD)" = "${expected_chipyard}"
+agentsys_require_chipyard_source "${chipyard_root}"
+test "$(agentsys_chipyard_commit "${chipyard_root}")" = "${expected_chipyard}"
 test "$(git -C "${hptpe_root}" rev-parse HEAD)" = "${expected_hptpe}"
 
 apply_compatibility_patch() {

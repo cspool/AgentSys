@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from .mlx_reference import DEFAULT_CONFIG as DEFAULT_SOURCE_CONFIG
+from .paths import chipyard_source_identity, expand_chipyard_tokens
 from .workload import PROJECT_ROOT
 
 
@@ -91,7 +92,9 @@ def run_mlx_chipyard(
     output_dir: Path | None = None,
     build: bool = True,
 ) -> dict[str, Any]:
-    source_config = json.loads(source_config_path.read_text(encoding="utf-8"))
+    source_config = expand_chipyard_tokens(
+        json.loads(source_config_path.read_text(encoding="utf-8"))
+    )
     source_root = (PROJECT_ROOT / source_config["active_path"]).resolve()
     chipyard = Path(source_config["chipyard"]["path"])
     output_dir = (
@@ -263,9 +266,8 @@ def run_mlx_chipyard(
         },
         "chipyard": {
             "path": str(chipyard),
-            "commit": subprocess.check_output(
-                ["git", "-C", str(chipyard), "rev-parse", "HEAD"], text=True
-            ).strip(),
+            "commit": chipyard_source_identity(chipyard)["commit"],
+            "source_identity": chipyard_source_identity(chipyard),
             "installed": {
                 str(target): {"source": _evidence(source), "target": _evidence(target)}
                 for source, target in installed_pairs

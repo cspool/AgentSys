@@ -11,6 +11,12 @@ import tempfile
 from pathlib import Path
 from typing import Any, Iterable, Mapping
 
+from .paths import (
+    chipyard_source_identity,
+    expand_chipyard_tokens,
+    resolve_chipyard_root,
+)
+
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_CONFIG = PROJECT_ROOT / "config/toolchain.json"
@@ -72,8 +78,16 @@ def atomic_write_json(path: Path, value: Mapping[str, Any]) -> None:
     os.replace(temporary, path)
 
 
-def load_toolchain_config(path: Path = DEFAULT_CONFIG) -> dict[str, Any]:
-    value = json.loads(path.read_text(encoding="utf-8"))
+def load_toolchain_config(
+    path: Path = DEFAULT_CONFIG,
+    *,
+    project_root: Path = PROJECT_ROOT,
+    chipyard_root: Path | None = None,
+) -> dict[str, Any]:
+    root = chipyard_root or resolve_chipyard_root(project_root=project_root)
+    value = expand_chipyard_tokens(
+        json.loads(path.read_text(encoding="utf-8")), chipyard_root=root
+    )
     required = {
         "schema_version",
         "python",
@@ -198,7 +212,7 @@ def build_toolchain_audit(
 ) -> dict[str, Any]:
     if level not in {"source", "built", "full"}:
         raise ValueError(f"invalid toolchain audit level: {level}")
-    config = load_toolchain_config(config_path)
+    config = load_toolchain_config(config_path, project_root=project_root)
     gates: dict[str, dict[str, Any]] = {}
 
     stage_names = [stage["name"] for stage in config["stages"]]
@@ -246,7 +260,11 @@ def build_toolchain_audit(
     references: dict[str, Any] = {}
     for reference in config["references"]:
         path = resolve_path(reference["path"], project_root=project_root)
-        observed = _git_head(path)
+        observed = (
+            chipyard_source_identity(path)["commit"]
+            if reference["name"] == "chipyard"
+            else _git_head(path)
+        )
         passed = observed == reference["commit"]
         references[reference["name"]] = {
             "path": str(path),

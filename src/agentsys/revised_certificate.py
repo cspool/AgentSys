@@ -8,6 +8,7 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
+from .paths import chipyard_source_identity, resolve_chipyard_root
 from .toolchain import PROJECT_ROOT, load_toolchain_config, resolve_path
 
 
@@ -81,7 +82,10 @@ def _dispatch_check() -> dict[str, Any]:
 
 
 def _revised_lint_command() -> list[str]:
-    vsrc = "/root/chipyard/generators/chipyard/src/main/resources/vsrc"
+    vsrc = str(
+        resolve_chipyard_root()
+        / "generators/chipyard/src/main/resources/vsrc"
+    )
     return [
         "verilator",
         "--lint-only",
@@ -229,7 +233,11 @@ def build_revised_certificate(
     references: dict[str, Any] = {}
     for reference in config["references"]:
         path = resolve_path(reference["path"])
-        observed = _git_head(path)
+        observed = (
+            chipyard_source_identity(path)["commit"]
+            if reference["name"] == "chipyard"
+            else _git_head(path)
+        )
         references[reference["name"]] = {
             "role": reference.get("role"),
             "expected": reference["commit"],

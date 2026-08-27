@@ -7,6 +7,7 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
+from .paths import chipyard_source_identity, expand_chipyard_tokens
 from .workload import PROJECT_ROOT
 
 
@@ -31,7 +32,7 @@ def audit_mlx_reference(
     *, config_path: Path = DEFAULT_CONFIG, run_id: str = "run_042"
 ) -> dict[str, Any]:
     config_path = config_path.resolve()
-    config = _json(config_path)
+    config = expand_chipyard_tokens(_json(config_path))
     if config.get("schema_version") != 1:
         raise ValueError("unsupported MLX active-source contract")
     active = (PROJECT_ROOT / config["active_path"]).resolve()
@@ -157,6 +158,7 @@ def audit_mlx_reference(
         and handoff["primary_final_hardware"]
         == "ordinary_single_core_Rocket_plus_MLX",
     }
+    chipyard_identity = chipyard_source_identity(Path(config["chipyard"]["path"]))
     result = {
         "schema_version": 1,
         "run_id": run_id,
@@ -171,7 +173,8 @@ def audit_mlx_reference(
         "chipyard": {
             "path": config["chipyard"]["path"],
             "expected_commit": config["chipyard"]["commit"],
-            "observed_commit": _git_head(Path(config["chipyard"]["path"])),
+            "observed_commit": chipyard_identity["commit"],
+            "source_identity": chipyard_identity,
         },
         "sources": source_evidence,
         "frozen_evidence": {
