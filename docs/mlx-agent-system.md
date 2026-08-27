@@ -67,6 +67,8 @@ gate、16/16证书要求和114/114 pytest通过；substrate、三Agent与73端�
 run 052进一步把输出按`run_id`隔离，并以实现闭包而非易失的当前HEAD相等
 条件签发证书。25/25构建gitlink、2/2兼容补丁、19/19 requirements和
 117/117 pytest通过；16次fresh Rocket与73/73端点结果逐字段保持不变。
+证据提交`a71e78e`之后再次重签仍为19/19和117/117，源码闭包的changed与
+untracked路径均为空。
 
 切换负载会重新执行Agentix、生成mllm/Agent.xpu/TISA manifest、45-op MLX
 micro-lineage、Agent call C header和独立RISC-V ELF，然后在两套MLX Rocket

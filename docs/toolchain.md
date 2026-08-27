@@ -42,6 +42,9 @@ The certificate passes 19/19 requirements, three fresh checks and 117 tests;
 73/73 endpoints remain within 10% with 9.91% maximum error. Evidence-only
 descendant commits may be re-signed, but any registered implementation-path
 change is rejected.
+The preregistered descendant check was executed after evidence commit
+`a71e78e360ff1899e62f2050632d362ee93a1314`: all 19 requirements and 117 tests
+passed again, with no changed or untracked implementation path.
 
 ## Native dual-GPU plus Rocket vertical system
 

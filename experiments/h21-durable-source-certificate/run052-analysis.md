@@ -76,9 +76,14 @@ records:
 - 73/73 paper endpoints, maximum relative error 9.91%;
 - exact substrate, Agent and endpoint equality to the frozen baselines.
 
-The final H21 gate additionally requires this certificate to pass when rerun
-from a descendant containing only result and report files.  That check is
-recorded after the evidence commit so that it tests the condition it claims.
+The run-052 evidence and reports were then committed as
+`a71e78e360ff1899e62f2050632d362ee93a1314`, a descendant that changed no
+registered implementation path.  The certificate was rerun from that exact
+checkout and again passed 19/19 requirements, three fresh checks and 117/117
+pytest cases.  Its stored source-closure record has
+`expected_commit=ab774620...`, `current_commit=a71e78e...`, an empty
+`changed_paths`, an empty `untracked_paths` and `pass=true`.  This directly
+satisfies the preregistered descendant re-sign gate.
 
 ## Evidence boundary
 

@@ -31,7 +31,7 @@
         "pytest"
       ],
       "exit_code": 0,
-      "output": "........................................................................ [ 61%]\n.............................................                            [100%]\n117 passed in 43.86s\n",
+      "output": "........................................................................ [ 61%]\n.............................................                            [100%]\n117 passed in 45.88s\n",
       "pass": true
     }
   },
@@ -425,7 +425,7 @@
   "implementation_commit": "ab7746201d9840904ede594d9dd765f7f11d3029",
   "implementation_source_closure": {
     "changed_paths": [],
-    "current_commit": "ab7746201d9840904ede594d9dd765f7f11d3029",
+    "current_commit": "a71e78e360ff1899e62f2050632d362ee93a1314",
     "expected_commit": "ab7746201d9840904ede594d9dd765f7f11d3029",
     "expected_commit_exists": true,
     "expected_commit_is_ancestor": true,
@@ -451,7 +451,7 @@
     "pass": true,
     "untracked_paths": []
   },
-  "project_commit": "ab7746201d9840904ede594d9dd765f7f11d3029",
+  "project_commit": "a71e78e360ff1899e62f2050632d362ee93a1314",
   "replay": {
     "path": "/workspace/AgentSys/artifacts/project_local_chipyard/run_052/reproduction.json",
     "sha256": "f25754250fabf00c7362e27ca68376121cbe62eade59849701c2cb781380fcc4"

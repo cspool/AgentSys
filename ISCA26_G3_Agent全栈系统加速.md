@@ -4,7 +4,7 @@
 
 项目目录：`/workspace/AgentSys`
 
-状态：已完成并通过可持续源码闭包重新认证。run 052 以实现commit `ab7746201d9840904ede594d9dd765f7f11d3029`为锚，完成4/4严格串行阶段、16次fresh Rocket执行和19/19证书要求；117/117 pytest与73/73注册端点通过，最大误差9.91%。结果边界见“证据分级与限制”。
+状态：已完成并通过可持续源码闭包重新认证。run 052 以实现commit `ab7746201d9840904ede594d9dd765f7f11d3029`为锚，完成4/4严格串行阶段、16次fresh Rocket执行和19/19证书要求；117/117 pytest与73/73注册端点通过，最大误差9.91%。证据提交`a71e78e`后再次重签仍为19/19，且实现闭包无changed/untracked路径。结果边界见“证据分级与限制”。
 
 ## 摘要
 
@@ -672,4 +672,4 @@ run 049最终现场执行完整pytest、MLX环境/源码验证、12-file Chipyar
 
 Chipyard源码随后进入AgentSys仓库，使run 049的commit锚和机器全局路径不再覆盖当前树。H20因此不把旧证书继续当作完成证明。run 051从实现commit `d7b209189f7c15351186fb4571395ea83a4631f5`出发，在项目内Chipyard重新生成cycle/物理RTL两套模拟器并执行16次Rocket；4/4 stages、9/9 replay gates、16/16 certificate requirements和114/114 tests全部通过。该证书逐字段证明run 044/046/048的功能、周期、Agent工作与73个端点没有漂移，随后由可持续重签的run 052证书取代。
 
-H21进一步消除了“提交证据后HEAD变化会让实现证书立即过期”的循环。run 052从实现commit `ab7746201d9840904ede594d9dd765f7f11d3029` fresh执行1,121.467 s，4/4 stages、9/9 replay gates、16次Rocket、19/19 certificate requirements和117/117 tests全部通过；25个实际构建gitlink与2个兼容补丁也逐项精确核验。该证书允许结果/报告提交成为实现锚点的后继，但任何注册实现路径变化仍会失败，因此可重签性不以放松源码、功能或10%性能门槛为代价。
+H21进一步消除了“提交证据后HEAD变化会让实现证书立即过期”的循环。run 052从实现commit `ab7746201d9840904ede594d9dd765f7f11d3029` fresh执行1,121.467 s，4/4 stages、9/9 replay gates、16次Rocket、19/19 certificate requirements和117/117 tests全部通过；25个实际构建gitlink与2个兼容补丁也逐项精确核验。提交结果与报告为`a71e78e`后，证书现场再跑117项测试并再次19/19通过，记录ancestor=true、changed_paths=[]和untracked_paths=[]。因此可重签性不以放松源码、功能或10%性能门槛为代价。

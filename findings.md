@@ -130,8 +130,9 @@ self-expiring proof condition. The certificate now binds the complete active
 implementation closure to an ancestor commit, verifies 25 exact Chipyard build
 gitlinks and two compatibility-patched files, and isolates outputs by run ID.
 Its initial signing passes 19/19 requirements and 117 tests after 16 fresh
-Rocket executions. A later evidence-only commit must still be re-signed before
-H21 is considered closed; any active-source difference remains a hard failure.
+Rocket executions. The same certificate then passes 19/19 and 117/117 again
+from evidence-only descendant `a71e78e`, with empty changed/untracked source
+paths. H21 is closed; any active-source difference remains a hard failure.
 
 ## Toolchain Closure
 

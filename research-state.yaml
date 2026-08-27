@@ -595,13 +595,13 @@ experiments:
       metric_value: 0.09909909909909899
       delta: 0.0
       wall_time_min: 18.69
-      change_summary: "Four serial stages and 16 fresh Rocket executions pass in 1,121.467 s; 73/73 endpoints remain exact at max 9.91%, and a 25-gitlink/2-patch implementation-closure certificate passes 19/19 with 117 pytest."
+      change_summary: "Four serial stages and 16 fresh Rocket executions pass in 1,121.467 s; 73/73 endpoints remain exact at max 9.91%. The 25-gitlink/2-patch certificate passes 19/19 with 117 pytest both at implementation commit ab77462 and evidence-only descendant a71e78e."
       timestamp: "2026-08-27"
 
 outer_loop:
   cycle: 40
   last_direction: conclude
-  last_reflection: "Run 052 preserves exact run-044/046/048 behavior while making the certificate durable across evidence-only descendants: the implementation closure, 25 gitlinks and two patches remain exact, 16 fresh Rocket runs pass, and 73/73 endpoints stay within 10%. The target-informed and incomplete-full-paper MLX boundary is unchanged."
+  last_reflection: "Run 052 preserves exact run-044/046/048 behavior and the certificate re-signs successfully from evidence-only descendant a71e78e: the implementation closure, 25 gitlinks and two patches remain exact, 16 fresh Rocket runs pass, and 73/73 endpoints stay within 10%. The target-informed and incomplete-full-paper MLX boundary is unchanged."
 
 workspace:
   findings: "findings.md"
