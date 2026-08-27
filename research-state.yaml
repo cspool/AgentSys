@@ -331,7 +331,7 @@ experiments:
 outer_loop:
   cycle: 17
   last_direction: broaden
-  last_reflection: "Run 029 proves the manifest/ELF switch path but exposes two hidden fixed-load artifacts. Direction remains DEEPEN: reset HPTPE per descriptor and move hardware trace evidence off shared UART stdout before rerunning all three workloads."
+  last_reflection: "Run 029 proves the manifest/ELF switch path but exposes two hidden fixed-load artifacts. Run 030 is preregistered to reset HPTPE per descriptor, use lossless dedicated tile logs and require per-tile static/dynamic checksum identity across all three workloads."
 
 workspace:
   findings: "findings.md"
