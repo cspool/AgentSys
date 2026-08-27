@@ -12,4 +12,5 @@ dist/
 *.egg-info/
 artifacts/tmp/
 artifacts/mlx_standalone/*/build/
+artifacts/mlx_complete/*/standalone/build/
 chipyard-overlay/generated/

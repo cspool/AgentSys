@@ -1,0 +1,407 @@
+{
+  "artifacts": {
+    "agent_header": "/workspace/AgentSys/artifacts/mlx_complete/run_048/agent-workloads/workloads/react_tool/generated/agent-mlx.h",
+    "application": "/workspace/AgentSys/artifacts/mlx_complete/run_048/agent-workloads/workloads/react_tool/application.json",
+    "compiled_mlx": "/workspace/AgentSys/artifacts/mlx_complete/run_048/agent-workloads/workloads/react_tool/compiled-mlx.json",
+    "compiled_tisa": "/workspace/AgentSys/artifacts/mlx_complete/run_048/agent-workloads/workloads/react_tool/compiled-tisa.json",
+    "elf": "/workspace/AgentSys/artifacts/mlx_complete/run_048/agent-workloads/workloads/react_tool/software/agent-mlx.riscv",
+    "trace": "/workspace/AgentSys/artifacts/mlx_complete/run_048/agent-workloads/workloads/react_tool/system-trace.jsonl"
+  },
+  "backend_gates": {
+    "cycle": {
+      "aggregate_hardware": true,
+      "cache_warm_dma": true,
+      "calls_exact": true,
+      "dependencies_and_complete": true,
+      "exit_identity_abi": true,
+      "llm_tool_launch_counts": true,
+      "metadata": true,
+      "per_call_hardware": true
+    },
+    "rtl": {
+      "aggregate_hardware": true,
+      "cache_warm_dma": true,
+      "calls_exact": true,
+      "dependencies_and_complete": true,
+      "exit_identity_abi": true,
+      "llm_tool_launch_counts": true,
+      "metadata": true,
+      "per_call_hardware": true
+    }
+  },
+  "backend_results": {
+    "cycle": {
+      "backend": "cycle",
+      "config": "MLXCycleRocketConfig",
+      "elf_sha256": "fa7f7fa934bc6a92e79756ca2c3154b09ce8e9b7d8dd8494cef84bde6b20e94a",
+      "log": {
+        "bytes": 10883,
+        "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/agent-workloads/workloads/react_tool/logs/cycle.log",
+        "sha256": "c42fedbc394752a2837ed3222385e4fd2a7e2080dc7618673143188dfca64b0f"
+      },
+      "parsed": {
+        "calls": [
+          {
+            "abi": 1296848897,
+            "backend": "cycle",
+            "call": "plan",
+            "checksum": 3835832285575832054,
+            "compute": 15,
+            "conflicts": 152,
+            "dma": 344,
+            "dma_bytes": 576,
+            "first": 1,
+            "hops": 10,
+            "host_config": 1016,
+            "host_launch_wait": 492,
+            "index": 0,
+            "instructions": 45,
+            "kernel": 132,
+            "kind": "llm",
+            "last": 0,
+            "load": 19,
+            "mismatches": 0,
+            "program": "assistant",
+            "stall": 40,
+            "store": 5,
+            "system": 478,
+            "wait": 5,
+            "xfer": 6
+          },
+          {
+            "call": "lookup",
+            "checksum": 12416051725460437156,
+            "cpu_cycles": 1553,
+            "first": 0,
+            "index": 1,
+            "kind": "tool",
+            "last": 0,
+            "program": "assistant"
+          },
+          {
+            "abi": 1296848897,
+            "backend": "cycle",
+            "call": "answer",
+            "checksum": 4026276495589112290,
+            "compute": 15,
+            "conflicts": 152,
+            "dma": 216,
+            "dma_bytes": 576,
+            "first": 0,
+            "hops": 10,
+            "host_config": 752,
+            "host_launch_wait": 366,
+            "index": 2,
+            "instructions": 45,
+            "kernel": 132,
+            "kind": "llm",
+            "last": 1,
+            "load": 19,
+            "mismatches": 0,
+            "program": "assistant",
+            "stall": 40,
+            "store": 5,
+            "system": 350,
+            "wait": 5,
+            "xfer": 6
+          }
+        ],
+        "summary": {
+          "app_digest": 12714181964464045513,
+          "backend": "cycle",
+          "calls": 3,
+          "checksum": 7193036325891084939,
+          "completed": 7,
+          "compute": 30,
+          "conflicts": 304,
+          "dependencies": 0,
+          "dma": 560,
+          "dma_bytes": 1152,
+          "hops": 20,
+          "host_config": 1768,
+          "host_launch_wait": 858,
+          "instructions": 90,
+          "kernel": 264,
+          "launches": 2,
+          "llm_calls": 2,
+          "load": 38,
+          "mir_digest": 3235365380905668325,
+          "mismatches": 0,
+          "programs": 1,
+          "stall": 80,
+          "store": 10,
+          "system": 828,
+          "tool_calls": 1,
+          "workload": "react_tool",
+          "workload_digest": 18432236755843734611,
+          "xfer": 12
+        }
+      },
+      "returncode": 0,
+      "simulator": {
+        "path": "/root/chipyard/sims/verilator/simulator-chipyard-MLXCycleRocketConfig",
+        "sha256": "b22375a6900985ea838fa8c4a271776b4c5e76c9bb956bc8346b494eae7e44fa"
+      },
+      "summary": {
+        "pass": true
+      },
+      "wall_time_s": 61.684558813
+    },
+    "rtl": {
+      "backend": "rtl",
+      "config": "MLXRTLRocketConfig",
+      "elf_sha256": "fa7f7fa934bc6a92e79756ca2c3154b09ce8e9b7d8dd8494cef84bde6b20e94a",
+      "log": {
+        "bytes": 13580,
+        "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/agent-workloads/workloads/react_tool/logs/rtl.log",
+        "sha256": "936bc7f43735629ca5a28ff2370b6f38a5f850f1d9e76e721814b91d485c9a3c"
+      },
+      "parsed": {
+        "calls": [
+          {
+            "abi": 1296848897,
+            "backend": "rtl",
+            "call": "plan",
+            "checksum": 3835832285575832054,
+            "compute": 15,
+            "conflicts": 0,
+            "dma": 344,
+            "dma_bytes": 576,
+            "first": 1,
+            "hops": 12,
+            "host_config": 1016,
+            "host_launch_wait": 436,
+            "index": 0,
+            "instructions": 45,
+            "kernel": 76,
+            "kind": "llm",
+            "last": 0,
+            "load": 19,
+            "mismatches": 0,
+            "program": "assistant",
+            "stall": 263,
+            "store": 5,
+            "system": 422,
+            "wait": 13,
+            "xfer": 6
+          },
+          {
+            "call": "lookup",
+            "checksum": 12416051725460437156,
+            "cpu_cycles": 1553,
+            "first": 0,
+            "index": 1,
+            "kind": "tool",
+            "last": 0,
+            "program": "assistant"
+          },
+          {
+            "abi": 1296848897,
+            "backend": "rtl",
+            "call": "answer",
+            "checksum": 4026276495589112290,
+            "compute": 15,
+            "conflicts": 0,
+            "dma": 216,
+            "dma_bytes": 576,
+            "first": 0,
+            "hops": 12,
+            "host_config": 755,
+            "host_launch_wait": 310,
+            "index": 2,
+            "instructions": 45,
+            "kernel": 76,
+            "kind": "llm",
+            "last": 1,
+            "load": 19,
+            "mismatches": 0,
+            "program": "assistant",
+            "stall": 263,
+            "store": 5,
+            "system": 294,
+            "wait": 13,
+            "xfer": 6
+          }
+        ],
+        "summary": {
+          "app_digest": 12714181964464045513,
+          "backend": "rtl",
+          "calls": 3,
+          "checksum": 7193036325891084939,
+          "completed": 7,
+          "compute": 30,
+          "conflicts": 0,
+          "dependencies": 0,
+          "dma": 560,
+          "dma_bytes": 1152,
+          "hops": 24,
+          "host_config": 1771,
+          "host_launch_wait": 746,
+          "instructions": 90,
+          "kernel": 152,
+          "launches": 2,
+          "llm_calls": 2,
+          "load": 38,
+          "mir_digest": 3235365380905668325,
+          "mismatches": 0,
+          "programs": 1,
+          "stall": 526,
+          "store": 10,
+          "system": 716,
+          "tool_calls": 1,
+          "workload": "react_tool",
+          "workload_digest": 18432236755843734611,
+          "xfer": 12
+        }
+      },
+      "returncode": 0,
+      "simulator": {
+        "path": "/root/chipyard/sims/verilator/simulator-chipyard-MLXRTLRocketConfig",
+        "sha256": "56d670c7200383e30956559d75891be7e99827b690ff21e135f88d9df98e47d9"
+      },
+      "summary": {
+        "pass": true
+      },
+      "wall_time_s": 74.682172621
+    }
+  },
+  "classification": "vertical_agentix_mllm_agentxpu_tisa_ordinary_rocket_mlx_system",
+  "compiler_summary": {
+    "calls": 3,
+    "llm_calls": 2,
+    "mir_sources_per_llm": 8,
+    "mlx_dma_bytes": 1152,
+    "mlx_instructions": 90,
+    "mlx_micro_ops": 90,
+    "mlx_micro_ops_per_llm": 45,
+    "pass": true,
+    "programs": 1,
+    "tool_calls": 1
+  },
+  "evidence_boundary": "AgentSys maps upstream mllm/TISA identities onto a qualified MLX template; this is not an MLX_dev-provided Agent compiler",
+  "gates": {
+    "backend_parameter_switch": true,
+    "compiler_lineage": true,
+    "distinct_backend_execution": true,
+    "frozen_counts": true,
+    "ordinary_cpu_no_atx_hptpe": true,
+    "parents": true,
+    "same_logical_work": true,
+    "serial_six_stages": true,
+    "trace_layers_and_calls": true,
+    "workload_identity": true
+  },
+  "run_id": "run_048",
+  "schema_version": 1,
+  "stages": [
+    {
+      "finished_ns": 405462070964876,
+      "name": "agentix_application",
+      "pass": true,
+      "started_ns": 405462065167399,
+      "wall_time_s": 0.005797477
+    },
+    {
+      "finished_ns": 405462218485437,
+      "name": "mllm_agentxpu_tisa_compile",
+      "pass": true,
+      "started_ns": 405462070971840,
+      "wall_time_s": 0.147513597
+    },
+    {
+      "finished_ns": 405462221788545,
+      "name": "tisa_to_mlx_spatial_compile",
+      "pass": true,
+      "started_ns": 405462218490736,
+      "wall_time_s": 0.003297809
+    },
+    {
+      "finished_ns": 405462390432404,
+      "name": "ordinary_riscv_elf_build",
+      "pass": true,
+      "started_ns": 405462221792558,
+      "wall_time_s": 0.168639846
+    },
+    {
+      "finished_ns": 405524109636177,
+      "name": "rocket_mlx_cycle",
+      "pass": true,
+      "started_ns": 405462390585148,
+      "wall_time_s": 61.719051029
+    },
+    {
+      "finished_ns": 405598831770872,
+      "name": "rocket_mlx_rtl",
+      "pass": true,
+      "started_ns": 405524109753700,
+      "wall_time_s": 74.722017172
+    }
+  ],
+  "summary": {
+    "calls": 3,
+    "cycle_kernel": 264,
+    "failing": 0,
+    "gates": 10,
+    "llm_calls": 2,
+    "mlx_micro_ops": 90,
+    "pass": true,
+    "passing": 10,
+    "programs": 1,
+    "rtl_kernel": 152,
+    "tool_calls": 1,
+    "trace_events": 158
+  },
+  "trace": {
+    "events": 158,
+    "layers": [
+      "agentxpu",
+      "application",
+      "cpu",
+      "dma",
+      "framework",
+      "mllm",
+      "mlx",
+      "mlx_network",
+      "mlx_pe",
+      "mlx_spm",
+      "mlx_tag",
+      "result",
+      "software",
+      "tisa"
+    ],
+    "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/agent-workloads/workloads/react_tool/system-trace.jsonl",
+    "sha256": "37d088457fd0951e4a2d2842de45652753558188fa05efe29490d4c2ecbe751d"
+  },
+  "workload": {
+    "agentix": {
+      "batch_size": 1,
+      "policy": "atlas"
+    },
+    "agentxpu": {
+      "heg_igpu_prefill_share": 0.5,
+      "heg_prefill_chunk_tokens": 8,
+      "max_decode_batch": 8,
+      "max_reactive_decode_batch": 2
+    },
+    "hardware": {
+      "dispatch_latency": 7,
+      "hptpe_cols": 16,
+      "hptpe_rows": 16,
+      "input_beats": 4,
+      "output_beats": 2,
+      "profile": "rocket_tisa8_hptpe16x16",
+      "tisa_window": 8
+    },
+    "name": "react_tool",
+    "schema_version": 1,
+    "sha256": "ffcc75abd7f6dc53c5329a1e65963d903cece2551d52e63640710de9893ca220",
+    "source": "/workspace/AgentSys/workloads/react_tool.json",
+    "summary": {
+      "calls": 3,
+      "llm_calls": 2,
+      "models": 1,
+      "programs": 1,
+      "tool_calls": 1
+    }
+  }
+}

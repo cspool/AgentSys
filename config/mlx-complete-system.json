@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "classification": "complete_parameterized_agent_mlx_cpu_experiment_system",
+  "source_config": "config/mlx-active-source.json",
+  "layer_matrix": "config/mlx-six-layer-matrix.json",
+  "agent_system": "config/mlx-agent-system.json",
+  "output_root": "artifacts/mlx_complete/run_048",
+  "manifest": "artifacts/mlx_complete/run_048/reproduction.json",
+  "expected_stage_order": [
+    "mlx_source_audit",
+    "mlx_standalone_fresh",
+    "mlx_chipyard_fresh_execution",
+    "six_layer_regression",
+    "three_agent_mlx_workloads"
+  ]
+}

@@ -20,11 +20,17 @@ def _sha256(path: Path) -> str:
 
 
 def run_mlx_agent_reproduction(
-    *, config_path: Path = DEFAULT_CONFIG, run_id: str = "run_046"
+    *,
+    config_path: Path = DEFAULT_CONFIG,
+    run_id: str = "run_046",
+    output_root: Path | None = None,
+    manifest_path: Path | None = None,
 ) -> dict[str, Any]:
     config_path = config_path.resolve()
     config = json.loads(config_path.read_text(encoding="utf-8"))
-    output_root = (PROJECT_ROOT / config["output_root"]).resolve()
+    output_root = (
+        output_root or PROJECT_ROOT / config["output_root"]
+    ).resolve()
     output_root.mkdir(parents=True, exist_ok=True)
     stages: list[dict[str, Any]] = []
     results: dict[str, dict[str, Any]] = {}
@@ -145,7 +151,9 @@ def run_mlx_agent_reproduction(
             "pass": all(gates.values()),
         },
     }
-    manifest_path = (PROJECT_ROOT / config["manifest"]).resolve()
+    manifest_path = (
+        manifest_path or PROJECT_ROOT / config["manifest"]
+    ).resolve()
     manifest_path.parent.mkdir(parents=True, exist_ok=True)
     manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     manifest["output"] = str(manifest_path)
@@ -156,8 +164,15 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Serially reproduce three Agent DAGs on Rocket+MLX")
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
     parser.add_argument("--run-id", default="run_046")
+    parser.add_argument("--output-root", type=Path)
+    parser.add_argument("--manifest", type=Path)
     args = parser.parse_args(argv)
-    result = run_mlx_agent_reproduction(config_path=args.config, run_id=args.run_id)
+    result = run_mlx_agent_reproduction(
+        config_path=args.config,
+        run_id=args.run_id,
+        output_root=args.output_root,
+        manifest_path=args.manifest,
+    )
     print(json.dumps(result["summary"], indent=2, sort_keys=True))
     print(result["output"])
     return 0 if result["summary"]["pass"] else 1

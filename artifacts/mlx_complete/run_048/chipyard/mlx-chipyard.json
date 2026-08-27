@@ -1,0 +1,807 @@
+{
+  "chipyard": {
+    "commit": "b5d013190d637e634113cb5179f8c8885df1945a",
+    "installed": {
+      "/root/chipyard/generators/chipyard/src/main/resources/vsrc/mlx_array_4x4.sv": {
+        "source": {
+          "bytes": 29909,
+          "path": "/workspace/AgentSys/.references/MLX_dev_active/rtl/mlx/mlx_array_4x4.sv",
+          "sha256": "d7bc82fcd05aef3eb3b964b1b17df2d1664b2307dfd16c3e2c38eabd19dcf705"
+        },
+        "target": {
+          "bytes": 29909,
+          "path": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/mlx_array_4x4.sv",
+          "sha256": "d7bc82fcd05aef3eb3b964b1b17df2d1664b2307dfd16c3e2c38eabd19dcf705"
+        }
+      },
+      "/root/chipyard/generators/chipyard/src/main/resources/vsrc/mlx_config_network.sv": {
+        "source": {
+          "bytes": 1133,
+          "path": "/workspace/AgentSys/.references/MLX_dev_active/rtl/mlx/mlx_config_network.sv",
+          "sha256": "126129efe7c498d4ed677ecd35eaa8cd34e7d0c9e97a6c2ec68ff64f4ed24c94"
+        },
+        "target": {
+          "bytes": 1133,
+          "path": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/mlx_config_network.sv",
+          "sha256": "126129efe7c498d4ed677ecd35eaa8cd34e7d0c9e97a6c2ec68ff64f4ed24c94"
+        }
+      },
+      "/root/chipyard/generators/chipyard/src/main/resources/vsrc/mlx_control_logic.sv": {
+        "source": {
+          "bytes": 2838,
+          "path": "/workspace/AgentSys/.references/MLX_dev_active/rtl/mlx/mlx_control_logic.sv",
+          "sha256": "41a03e5335603f6af222cab3f8e8ee5b7261983c1fa14702217dfda477dced1c"
+        },
+        "target": {
+          "bytes": 2838,
+          "path": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/mlx_control_logic.sv",
+          "sha256": "41a03e5335603f6af222cab3f8e8ee5b7261983c1fa14702217dfda477dced1c"
+        }
+      },
+      "/root/chipyard/generators/chipyard/src/main/resources/vsrc/mlx_cycle_model.sv": {
+        "source": {
+          "bytes": 14735,
+          "path": "/workspace/AgentSys/.references/MLX_dev_active/rtl/mlx/mlx_cycle_model.sv",
+          "sha256": "0b05457380d366cbb4d3c8608d7339db03b13fafc1398230a396dd3e66ced418"
+        },
+        "target": {
+          "bytes": 14735,
+          "path": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/mlx_cycle_model.sv",
+          "sha256": "0b05457380d366cbb4d3c8608d7339db03b13fafc1398230a396dd3e66ced418"
+        }
+      },
+      "/root/chipyard/generators/chipyard/src/main/resources/vsrc/mlx_data_network.sv": {
+        "source": {
+          "bytes": 4853,
+          "path": "/workspace/AgentSys/.references/MLX_dev_active/rtl/mlx/mlx_data_network.sv",
+          "sha256": "5a4a1f7ecd3bc238f48d205d323ab42ef0d3688d5a176ad453abeafe33eb66d4"
+        },
+        "target": {
+          "bytes": 4853,
+          "path": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/mlx_data_network.sv",
+          "sha256": "5a4a1f7ecd3bc238f48d205d323ab42ef0d3688d5a176ad453abeafe33eb66d4"
+        }
+      },
+      "/root/chipyard/generators/chipyard/src/main/resources/vsrc/mlx_fp16.sv": {
+        "source": {
+          "bytes": 8907,
+          "path": "/workspace/AgentSys/.references/MLX_dev_active/rtl/mlx/mlx_fp16.sv",
+          "sha256": "f45ffefe787524fc5f0aa68462d1a14e51958f55e1674aef331e3c035b37b862"
+        },
+        "target": {
+          "bytes": 8907,
+          "path": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/mlx_fp16.sv",
+          "sha256": "f45ffefe787524fc5f0aa68462d1a14e51958f55e1674aef331e3c035b37b862"
+        }
+      },
+      "/root/chipyard/generators/chipyard/src/main/resources/vsrc/mlx_fu.sv": {
+        "source": {
+          "bytes": 4102,
+          "path": "/workspace/AgentSys/.references/MLX_dev_active/rtl/mlx/mlx_fu.sv",
+          "sha256": "5c4296e38931c970e021deacfc007241c259beafa610a75f5c36e0a1cf84d689"
+        },
+        "target": {
+          "bytes": 4102,
+          "path": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/mlx_fu.sv",
+          "sha256": "5c4296e38931c970e021deacfc007241c259beafa610a75f5c36e0a1cf84d689"
+        }
+      },
+      "/root/chipyard/generators/chipyard/src/main/resources/vsrc/mlx_pe_top.sv": {
+        "source": {
+          "bytes": 12984,
+          "path": "/workspace/AgentSys/.references/MLX_dev_active/rtl/mlx/mlx_pe_top.sv",
+          "sha256": "5ce9cbadc9204da7a670b45740191ca601ffbdc61c743375bb97889cf0e87811"
+        },
+        "target": {
+          "bytes": 12984,
+          "path": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/mlx_pe_top.sv",
+          "sha256": "5ce9cbadc9204da7a670b45740191ca601ffbdc61c743375bb97889cf0e87811"
+        }
+      },
+      "/root/chipyard/generators/chipyard/src/main/resources/vsrc/mlx_register_file.sv": {
+        "source": {
+          "bytes": 1968,
+          "path": "/workspace/AgentSys/.references/MLX_dev_active/rtl/mlx/mlx_register_file.sv",
+          "sha256": "382db26113d800efb7b6ed3065f3a9e2ba76782b3e2e28af26ba89ff0b163b25"
+        },
+        "target": {
+          "bytes": 1968,
+          "path": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/mlx_register_file.sv",
+          "sha256": "382db26113d800efb7b6ed3065f3a9e2ba76782b3e2e28af26ba89ff0b163b25"
+        }
+      },
+      "/root/chipyard/generators/chipyard/src/main/resources/vsrc/mlx_rocc_controller.sv": {
+        "source": {
+          "bytes": 16635,
+          "path": "/workspace/AgentSys/.references/MLX_dev_active/rtl/mlx/mlx_rocc_controller.sv",
+          "sha256": "655f604d42e3af9a8ff5eaa97a0dac1d2479f3f492531a2ae38da67d7644d805"
+        },
+        "target": {
+          "bytes": 16635,
+          "path": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/mlx_rocc_controller.sv",
+          "sha256": "655f604d42e3af9a8ff5eaa97a0dac1d2479f3f492531a2ae38da67d7644d805"
+        }
+      },
+      "/root/chipyard/generators/chipyard/src/main/resources/vsrc/mlx_tag_buffer.sv": {
+        "source": {
+          "bytes": 3174,
+          "path": "/workspace/AgentSys/.references/MLX_dev_active/rtl/mlx/mlx_tag_buffer.sv",
+          "sha256": "36f4349af7a24146a23f698b294c754fda847885021e4255bcde6a17d02fcbd1"
+        },
+        "target": {
+          "bytes": 3174,
+          "path": "/root/chipyard/generators/chipyard/src/main/resources/vsrc/mlx_tag_buffer.sv",
+          "sha256": "36f4349af7a24146a23f698b294c754fda847885021e4255bcde6a17d02fcbd1"
+        }
+      },
+      "/root/chipyard/generators/chipyard/src/main/scala/MLXRoCC.scala": {
+        "source": {
+          "bytes": 5256,
+          "path": "/workspace/AgentSys/.references/MLX_dev_active/system_sim/chipyard/MLXRoCC.scala",
+          "sha256": "9e5e3cf300d77da6ae08e7ac0b0ab77633bfaf2bc229dc012f24451f21022319"
+        },
+        "target": {
+          "bytes": 5256,
+          "path": "/root/chipyard/generators/chipyard/src/main/scala/MLXRoCC.scala",
+          "sha256": "9e5e3cf300d77da6ae08e7ac0b0ab77633bfaf2bc229dc012f24451f21022319"
+        }
+      }
+    },
+    "path": "/root/chipyard"
+  },
+  "classification": "measured_ordinary_rocket_custom0_dma_mlx_cycle_and_rtl_system",
+  "gates": {
+    "abi_and_backend_status": true,
+    "active_source_clean": true,
+    "dma_contract": true,
+    "eight_golden_runs": true,
+    "four_distinct_elfs": true,
+    "host_cycle_contract": true,
+    "installed_sources_match": true,
+    "operation_conservation": true,
+    "standalone_kernel_identity": true,
+    "system_cycle_contract": true,
+    "target_free": true,
+    "two_simulators": true
+  },
+  "paper_performance_targets_consumed": false,
+  "records": [
+    {
+      "backend": "cycle",
+      "checks": {
+        "abi": true,
+        "dma": true,
+        "exit_and_identity": true,
+        "host_accounting": true,
+        "kernel_and_instructions": true,
+        "operation_accounting": true,
+        "system_accounting": true
+      },
+      "config": "MLXCycleRocketConfig",
+      "elf": {
+        "bytes": 69336,
+        "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/software/mlx-bsmm.riscv",
+        "sha256": "9a3f5ea212efa9485622a1ca1c326215f9f42d0dd0b70e2e69eb9985ebc834a3"
+      },
+      "execution": {
+        "command": [
+          "/root/chipyard/sims/verilator/simulator-chipyard-MLXCycleRocketConfig",
+          "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/software/mlx-bsmm.riscv"
+        ],
+        "exit_code": 0,
+        "log": {
+          "bytes": 5078,
+          "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/logs/cycle/bsmm.log",
+          "sha256": "09cbb73caf21fc8f0e9c1334d4bbf0e6bb3eacb93e77cf6fb226e2c0be178900"
+        },
+        "pass": true,
+        "wall_time_s": 32.166196473
+      },
+      "pass": true,
+      "simulator": {
+        "bytes": 8511168,
+        "path": "/root/chipyard/sims/verilator/simulator-chipyard-MLXCycleRocketConfig",
+        "sha256": "b22375a6900985ea838fa8c4a271776b4c5e76c9bb956bc8346b494eae7e44fa"
+      },
+      "summary": {
+        "abi": 1296848897,
+        "backend": "cycle",
+        "compute": 16,
+        "conflicts": 171,
+        "dma": 328,
+        "dma_bytes": 576,
+        "hops": 13,
+        "host_config": 960,
+        "host_launch_wait": 496,
+        "host_total": 1456,
+        "instructions": 44,
+        "kernel": 128,
+        "load": 18,
+        "mismatches": 0,
+        "store": 2,
+        "sync_stall": 0,
+        "system": 458,
+        "wait": 5,
+        "workload": "bsmm",
+        "xfer": 8
+      },
+      "workload": "bsmm"
+    },
+    {
+      "backend": "cycle",
+      "checks": {
+        "abi": true,
+        "dma": true,
+        "exit_and_identity": true,
+        "host_accounting": true,
+        "kernel_and_instructions": true,
+        "operation_accounting": true,
+        "system_accounting": true
+      },
+      "config": "MLXCycleRocketConfig",
+      "elf": {
+        "bytes": 69080,
+        "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/software/mlx-fft_cmp.riscv",
+        "sha256": "6a1f57565980942f995a10130d5cf9db32977a6b5a4148d12b5a92c370b4d417"
+      },
+      "execution": {
+        "command": [
+          "/root/chipyard/sims/verilator/simulator-chipyard-MLXCycleRocketConfig",
+          "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/software/mlx-fft_cmp.riscv"
+        ],
+        "exit_code": 0,
+        "log": {
+          "bytes": 4081,
+          "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/logs/cycle/fft_cmp.log",
+          "sha256": "4ecb05396d8801703b9c9d425e40bf11d1e0bdb7db73de5d0cf1e7126c851859"
+        },
+        "pass": true,
+        "wall_time_s": 29.458937831
+      },
+      "pass": true,
+      "simulator": {
+        "bytes": 8511168,
+        "path": "/root/chipyard/sims/verilator/simulator-chipyard-MLXCycleRocketConfig",
+        "sha256": "b22375a6900985ea838fa8c4a271776b4c5e76c9bb956bc8346b494eae7e44fa"
+      },
+      "summary": {
+        "abi": 1296848897,
+        "backend": "cycle",
+        "compute": 11,
+        "conflicts": 115,
+        "dma": 288,
+        "dma_bytes": 512,
+        "hops": 13,
+        "host_config": 791,
+        "host_launch_wait": 423,
+        "host_total": 1214,
+        "instructions": 34,
+        "kernel": 95,
+        "load": 13,
+        "mismatches": 0,
+        "store": 2,
+        "sync_stall": 9,
+        "system": 385,
+        "wait": 5,
+        "workload": "fft_cmp",
+        "xfer": 8
+      },
+      "workload": "fft_cmp"
+    },
+    {
+      "backend": "cycle",
+      "checks": {
+        "abi": true,
+        "dma": true,
+        "exit_and_identity": true,
+        "host_accounting": true,
+        "kernel_and_instructions": true,
+        "operation_accounting": true,
+        "system_accounting": true
+      },
+      "config": "MLXCycleRocketConfig",
+      "elf": {
+        "bytes": 68872,
+        "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/software/mlx-swa.riscv",
+        "sha256": "8746be795ad496dcc37427187ec6ee3206aa3a2a50d857ee8119d6ade39a6dba"
+      },
+      "execution": {
+        "command": [
+          "/root/chipyard/sims/verilator/simulator-chipyard-MLXCycleRocketConfig",
+          "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/software/mlx-swa.riscv"
+        ],
+        "exit_code": 0,
+        "log": {
+          "bytes": 3348,
+          "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/logs/cycle/swa.log",
+          "sha256": "b58917e0e69d0fa60df7b159103c6a9546a14c339fd58c96efc908b3b39eb26d"
+        },
+        "pass": true,
+        "wall_time_s": 30.305952512
+      },
+      "pass": true,
+      "simulator": {
+        "bytes": 8511168,
+        "path": "/root/chipyard/sims/verilator/simulator-chipyard-MLXCycleRocketConfig",
+        "sha256": "b22375a6900985ea838fa8c4a271776b4c5e76c9bb956bc8346b494eae7e44fa"
+      },
+      "summary": {
+        "abi": 1296848897,
+        "backend": "cycle",
+        "compute": 10,
+        "conflicts": 26,
+        "dma": 248,
+        "dma_bytes": 448,
+        "hops": 10,
+        "host_config": 651,
+        "host_launch_wait": 387,
+        "host_total": 1038,
+        "instructions": 25,
+        "kernel": 99,
+        "load": 6,
+        "mismatches": 0,
+        "store": 2,
+        "sync_stall": 28,
+        "system": 349,
+        "wait": 5,
+        "workload": "swa",
+        "xfer": 7
+      },
+      "workload": "swa"
+    },
+    {
+      "backend": "cycle",
+      "checks": {
+        "abi": true,
+        "dma": true,
+        "exit_and_identity": true,
+        "host_accounting": true,
+        "kernel_and_instructions": true,
+        "operation_accounting": true,
+        "system_accounting": true
+      },
+      "config": "MLXCycleRocketConfig",
+      "elf": {
+        "bytes": 68920,
+        "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/software/mlx-transformer_block.riscv",
+        "sha256": "044aaaa7ab78ff7b55d577acddf5637774df4a410e9f2a895554089c773fa9f1"
+      },
+      "execution": {
+        "command": [
+          "/root/chipyard/sims/verilator/simulator-chipyard-MLXCycleRocketConfig",
+          "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/software/mlx-transformer_block.riscv"
+        ],
+        "exit_code": 0,
+        "log": {
+          "bytes": 4995,
+          "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/logs/cycle/transformer_block.log",
+          "sha256": "83459d5ee7321cf6ac547b80c7347bf2dc7dffd9e801ffe379a7ab491e9e47b4"
+        },
+        "pass": true,
+        "wall_time_s": 31.101707996
+      },
+      "pass": true,
+      "simulator": {
+        "bytes": 8511168,
+        "path": "/root/chipyard/sims/verilator/simulator-chipyard-MLXCycleRocketConfig",
+        "sha256": "b22375a6900985ea838fa8c4a271776b4c5e76c9bb956bc8346b494eae7e44fa"
+      },
+      "summary": {
+        "abi": 1296848897,
+        "backend": "cycle",
+        "compute": 15,
+        "conflicts": 152,
+        "dma": 344,
+        "dma_bytes": 576,
+        "hops": 10,
+        "host_config": 982,
+        "host_launch_wait": 515,
+        "host_total": 1497,
+        "instructions": 45,
+        "kernel": 132,
+        "load": 19,
+        "mismatches": 0,
+        "store": 5,
+        "sync_stall": 40,
+        "system": 478,
+        "wait": 5,
+        "workload": "transformer_block",
+        "xfer": 6
+      },
+      "workload": "transformer_block"
+    },
+    {
+      "backend": "rtl",
+      "checks": {
+        "abi": true,
+        "dma": true,
+        "exit_and_identity": true,
+        "host_accounting": true,
+        "kernel_and_instructions": true,
+        "operation_accounting": true,
+        "system_accounting": true
+      },
+      "config": "MLXRTLRocketConfig",
+      "elf": {
+        "bytes": 69336,
+        "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/software/mlx-bsmm.riscv",
+        "sha256": "9a3f5ea212efa9485622a1ca1c326215f9f42d0dd0b70e2e69eb9985ebc834a3"
+      },
+      "execution": {
+        "command": [
+          "/root/chipyard/sims/verilator/simulator-chipyard-MLXRTLRocketConfig",
+          "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/software/mlx-bsmm.riscv"
+        ],
+        "exit_code": 0,
+        "log": {
+          "bytes": 6189,
+          "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/logs/rtl/bsmm.log",
+          "sha256": "ba65b15b589a4486a1ba1a0a1728a7a45dec09d3005215cb1e8d885d54678fad"
+        },
+        "pass": true,
+        "wall_time_s": 36.829251211
+      },
+      "pass": true,
+      "simulator": {
+        "bytes": 10439064,
+        "path": "/root/chipyard/sims/verilator/simulator-chipyard-MLXRTLRocketConfig",
+        "sha256": "56d670c7200383e30956559d75891be7e99827b690ff21e135f88d9df98e47d9"
+      },
+      "summary": {
+        "abi": 1296848897,
+        "backend": "rtl",
+        "compute": 16,
+        "conflicts": 1,
+        "dma": 328,
+        "dma_bytes": 576,
+        "hops": 14,
+        "host_config": 960,
+        "host_launch_wait": 429,
+        "host_total": 1389,
+        "instructions": 44,
+        "kernel": 61,
+        "load": 18,
+        "mismatches": 0,
+        "store": 2,
+        "sync_stall": 202,
+        "system": 391,
+        "wait": 13,
+        "workload": "bsmm",
+        "xfer": 8
+      },
+      "workload": "bsmm"
+    },
+    {
+      "backend": "rtl",
+      "checks": {
+        "abi": true,
+        "dma": true,
+        "exit_and_identity": true,
+        "host_accounting": true,
+        "kernel_and_instructions": true,
+        "operation_accounting": true,
+        "system_accounting": true
+      },
+      "config": "MLXRTLRocketConfig",
+      "elf": {
+        "bytes": 69080,
+        "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/software/mlx-fft_cmp.riscv",
+        "sha256": "6a1f57565980942f995a10130d5cf9db32977a6b5a4148d12b5a92c370b4d417"
+      },
+      "execution": {
+        "command": [
+          "/root/chipyard/sims/verilator/simulator-chipyard-MLXRTLRocketConfig",
+          "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/software/mlx-fft_cmp.riscv"
+        ],
+        "exit_code": 0,
+        "log": {
+          "bytes": 4940,
+          "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/logs/rtl/fft_cmp.log",
+          "sha256": "e6eba89780f18d2d493c299636b9ddf2587dced16ee697f448befa5269952695"
+        },
+        "pass": true,
+        "wall_time_s": 37.018401393
+      },
+      "pass": true,
+      "simulator": {
+        "bytes": 10439064,
+        "path": "/root/chipyard/sims/verilator/simulator-chipyard-MLXRTLRocketConfig",
+        "sha256": "56d670c7200383e30956559d75891be7e99827b690ff21e135f88d9df98e47d9"
+      },
+      "summary": {
+        "abi": 1296848897,
+        "backend": "rtl",
+        "compute": 11,
+        "conflicts": 0,
+        "dma": 288,
+        "dma_bytes": 512,
+        "hops": 14,
+        "host_config": 791,
+        "host_launch_wait": 377,
+        "host_total": 1168,
+        "instructions": 34,
+        "kernel": 49,
+        "load": 13,
+        "mismatches": 0,
+        "store": 2,
+        "sync_stall": 148,
+        "system": 339,
+        "wait": 13,
+        "workload": "fft_cmp",
+        "xfer": 8
+      },
+      "workload": "fft_cmp"
+    },
+    {
+      "backend": "rtl",
+      "checks": {
+        "abi": true,
+        "dma": true,
+        "exit_and_identity": true,
+        "host_accounting": true,
+        "kernel_and_instructions": true,
+        "operation_accounting": true,
+        "system_accounting": true
+      },
+      "config": "MLXRTLRocketConfig",
+      "elf": {
+        "bytes": 68872,
+        "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/software/mlx-swa.riscv",
+        "sha256": "8746be795ad496dcc37427187ec6ee3206aa3a2a50d857ee8119d6ade39a6dba"
+      },
+      "execution": {
+        "command": [
+          "/root/chipyard/sims/verilator/simulator-chipyard-MLXRTLRocketConfig",
+          "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/software/mlx-swa.riscv"
+        ],
+        "exit_code": 0,
+        "log": {
+          "bytes": 3791,
+          "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/logs/rtl/swa.log",
+          "sha256": "a1ff8a893f254e45c2b73a473e4db92c4ffe7bb0c4ff51dd8ba0639fa00a6266"
+        },
+        "pass": true,
+        "wall_time_s": 38.070458186
+      },
+      "pass": true,
+      "simulator": {
+        "bytes": 10439064,
+        "path": "/root/chipyard/sims/verilator/simulator-chipyard-MLXRTLRocketConfig",
+        "sha256": "56d670c7200383e30956559d75891be7e99827b690ff21e135f88d9df98e47d9"
+      },
+      "summary": {
+        "abi": 1296848897,
+        "backend": "rtl",
+        "compute": 10,
+        "conflicts": 0,
+        "dma": 248,
+        "dma_bytes": 448,
+        "hops": 11,
+        "host_config": 651,
+        "host_launch_wait": 371,
+        "host_total": 1022,
+        "instructions": 25,
+        "kernel": 83,
+        "load": 6,
+        "mismatches": 0,
+        "store": 2,
+        "sync_stall": 83,
+        "system": 333,
+        "wait": 13,
+        "workload": "swa",
+        "xfer": 7
+      },
+      "workload": "swa"
+    },
+    {
+      "backend": "rtl",
+      "checks": {
+        "abi": true,
+        "dma": true,
+        "exit_and_identity": true,
+        "host_accounting": true,
+        "kernel_and_instructions": true,
+        "operation_accounting": true,
+        "system_accounting": true
+      },
+      "config": "MLXRTLRocketConfig",
+      "elf": {
+        "bytes": 68920,
+        "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/software/mlx-transformer_block.riscv",
+        "sha256": "044aaaa7ab78ff7b55d577acddf5637774df4a410e9f2a895554089c773fa9f1"
+      },
+      "execution": {
+        "command": [
+          "/root/chipyard/sims/verilator/simulator-chipyard-MLXRTLRocketConfig",
+          "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/software/mlx-transformer_block.riscv"
+        ],
+        "exit_code": 0,
+        "log": {
+          "bytes": 6345,
+          "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/logs/rtl/transformer_block.log",
+          "sha256": "a10ceaf463163267b2f7b6bfce7d4604205b4a0ac30a00be35498533f2daa330"
+        },
+        "pass": true,
+        "wall_time_s": 37.883588163
+      },
+      "pass": true,
+      "simulator": {
+        "bytes": 10439064,
+        "path": "/root/chipyard/sims/verilator/simulator-chipyard-MLXRTLRocketConfig",
+        "sha256": "56d670c7200383e30956559d75891be7e99827b690ff21e135f88d9df98e47d9"
+      },
+      "summary": {
+        "abi": 1296848897,
+        "backend": "rtl",
+        "compute": 15,
+        "conflicts": 0,
+        "dma": 344,
+        "dma_bytes": 576,
+        "hops": 12,
+        "host_config": 982,
+        "host_launch_wait": 459,
+        "host_total": 1441,
+        "instructions": 45,
+        "kernel": 76,
+        "load": 19,
+        "mismatches": 0,
+        "store": 5,
+        "sync_stall": 263,
+        "system": 422,
+        "wait": 13,
+        "workload": "transformer_block",
+        "xfer": 6
+      },
+      "workload": "transformer_block"
+    }
+  ],
+  "run_id": "run_048",
+  "schema_version": 1,
+  "source": {
+    "clean": true,
+    "commit": "2a457dfaf8faf9bcda72f92c5d66e9a6a9b3b50f",
+    "manifest": {
+      "bytes": 78320,
+      "path": "/workspace/AgentSys/.references/MLX_dev_active/artifacts/environment/h205/mlx-system-workload-manifest.json",
+      "sha256": "7a65171b887d32ae5a0b641f351e87365d021b6a0d94e56793187a8ca5dd62bc"
+    },
+    "path": "/workspace/AgentSys/.references/MLX_dev_active",
+    "software": {
+      "bytes": 2489,
+      "path": "/workspace/AgentSys/system_sim/software/agentsys_mlx_smoke.c",
+      "sha256": "8b3e5a0ec2eaa9cb98da726c9ad804da32918b261cf14f536685f247863c9ed7"
+    },
+    "standalone_parent": {
+      "bytes": 17200,
+      "path": "/workspace/AgentSys/artifacts/mlx_standalone/run_043/mlx-standalone.json",
+      "sha256": "06b49fb99373e0d8351ced77144c197c5d970c20369ed8d6981af652ee2403b0"
+    }
+  },
+  "stages": {
+    "elf_bsmm": {
+      "command": [
+        "/root/chipyard/esp-tools-install/bin/riscv64-unknown-elf-gcc",
+        "-std=gnu99",
+        "-O2",
+        "-g",
+        "-fno-common",
+        "-fno-builtin-printf",
+        "-Wall",
+        "-Wextra",
+        "-I/root/chipyard/tests",
+        "-I/workspace/AgentSys/.references/MLX_dev_active/system_sim/software",
+        "-I/workspace/AgentSys/.references/MLX_dev_active/system_sim/generated",
+        "-DMLX_WORKLOAD_HEADER=\"bsmm.h\"",
+        "/workspace/AgentSys/system_sim/software/agentsys_mlx_smoke.c",
+        "-static",
+        "-specs=htif_nano.specs",
+        "-o",
+        "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/software/mlx-bsmm.riscv"
+      ],
+      "exit_code": 0,
+      "log": {
+        "bytes": 0,
+        "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/logs/build-elf-bsmm.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "pass": true,
+      "wall_time_s": 0.098421925
+    },
+    "elf_fft_cmp": {
+      "command": [
+        "/root/chipyard/esp-tools-install/bin/riscv64-unknown-elf-gcc",
+        "-std=gnu99",
+        "-O2",
+        "-g",
+        "-fno-common",
+        "-fno-builtin-printf",
+        "-Wall",
+        "-Wextra",
+        "-I/root/chipyard/tests",
+        "-I/workspace/AgentSys/.references/MLX_dev_active/system_sim/software",
+        "-I/workspace/AgentSys/.references/MLX_dev_active/system_sim/generated",
+        "-DMLX_WORKLOAD_HEADER=\"fft_cmp.h\"",
+        "/workspace/AgentSys/system_sim/software/agentsys_mlx_smoke.c",
+        "-static",
+        "-specs=htif_nano.specs",
+        "-o",
+        "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/software/mlx-fft_cmp.riscv"
+      ],
+      "exit_code": 0,
+      "log": {
+        "bytes": 0,
+        "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/logs/build-elf-fft_cmp.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "pass": true,
+      "wall_time_s": 0.09517722
+    },
+    "elf_swa": {
+      "command": [
+        "/root/chipyard/esp-tools-install/bin/riscv64-unknown-elf-gcc",
+        "-std=gnu99",
+        "-O2",
+        "-g",
+        "-fno-common",
+        "-fno-builtin-printf",
+        "-Wall",
+        "-Wextra",
+        "-I/root/chipyard/tests",
+        "-I/workspace/AgentSys/.references/MLX_dev_active/system_sim/software",
+        "-I/workspace/AgentSys/.references/MLX_dev_active/system_sim/generated",
+        "-DMLX_WORKLOAD_HEADER=\"swa.h\"",
+        "/workspace/AgentSys/system_sim/software/agentsys_mlx_smoke.c",
+        "-static",
+        "-specs=htif_nano.specs",
+        "-o",
+        "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/software/mlx-swa.riscv"
+      ],
+      "exit_code": 0,
+      "log": {
+        "bytes": 0,
+        "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/logs/build-elf-swa.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "pass": true,
+      "wall_time_s": 0.097762766
+    },
+    "elf_transformer_block": {
+      "command": [
+        "/root/chipyard/esp-tools-install/bin/riscv64-unknown-elf-gcc",
+        "-std=gnu99",
+        "-O2",
+        "-g",
+        "-fno-common",
+        "-fno-builtin-printf",
+        "-Wall",
+        "-Wextra",
+        "-I/root/chipyard/tests",
+        "-I/workspace/AgentSys/.references/MLX_dev_active/system_sim/software",
+        "-I/workspace/AgentSys/.references/MLX_dev_active/system_sim/generated",
+        "-DMLX_WORKLOAD_HEADER=\"transformer_block.h\"",
+        "/workspace/AgentSys/system_sim/software/agentsys_mlx_smoke.c",
+        "-static",
+        "-specs=htif_nano.specs",
+        "-o",
+        "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/software/mlx-transformer_block.riscv"
+      ],
+      "exit_code": 0,
+      "log": {
+        "bytes": 0,
+        "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/logs/build-elf-transformer_block.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "pass": true,
+      "wall_time_s": 0.086990654
+    }
+  },
+  "summary": {
+    "backends": 2,
+    "executions": 8,
+    "failing": 0,
+    "gates": 12,
+    "pass": true,
+    "passing": 12,
+    "workloads": 4
+  }
+}

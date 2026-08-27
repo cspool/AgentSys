@@ -27,7 +27,11 @@ def _identity(value: Any) -> str:
 
 
 def run_mlx_layer_regression(
-    *, matrix_path: Path = DEFAULT_MATRIX, run_id: str = "run_047"
+    *,
+    matrix_path: Path = DEFAULT_MATRIX,
+    run_id: str = "run_047",
+    output_root: Path | None = None,
+    output_path: Path | None = None,
 ) -> dict[str, Any]:
     started = time.monotonic_ns()
     matrix_path = matrix_path.resolve()
@@ -40,7 +44,9 @@ def run_mlx_layer_regression(
     limit = float(matrix["limit"])
     if limit != 0.10:
         raise ValueError("six-layer limit must be exactly 0.10")
-    output_root = (PROJECT_ROOT / matrix["output_root"]).resolve()
+    output_root = (
+        output_root or PROJECT_ROOT / matrix["output_root"]
+    ).resolve()
     output_root.mkdir(parents=True, exist_ok=True)
 
     base_matrix_path = PROJECT_ROOT / matrix["base_matrix"]
@@ -221,7 +227,9 @@ def run_mlx_layer_regression(
         },
         "wall_time_s": (time.monotonic_ns() - started) / 1e9,
     }
-    output_path = (PROJECT_ROOT / matrix["output"]).resolve()
+    output_path = (
+        output_path or PROJECT_ROOT / matrix["output"]
+    ).resolve()
     output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     result["output"] = str(output_path)
@@ -232,8 +240,15 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Execute six-layer MLX paper regression matrix")
     parser.add_argument("--matrix", type=Path, default=DEFAULT_MATRIX)
     parser.add_argument("--run-id", default="run_047")
+    parser.add_argument("--output-root", type=Path)
+    parser.add_argument("--output", type=Path)
     args = parser.parse_args(argv)
-    result = run_mlx_layer_regression(matrix_path=args.matrix, run_id=args.run_id)
+    result = run_mlx_layer_regression(
+        matrix_path=args.matrix,
+        run_id=args.run_id,
+        output_root=args.output_root,
+        output_path=args.output,
+    )
     print(json.dumps(result["summary"], indent=2, sort_keys=True))
     print(result["output"])
     return 0 if result["summary"]["pass"] else 1

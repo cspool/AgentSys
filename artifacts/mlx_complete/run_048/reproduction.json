@@ -1,0 +1,584 @@
+{
+  "classification": "complete_parameterized_agent_mlx_cpu_experiment_system",
+  "configuration": {
+    "path": "/workspace/AgentSys/config/mlx-complete-system.json",
+    "sha256": "8192b8ceb8deed50274c5ffe585fdd5a1d5fc421e50872f43fcd23a587d68f9d"
+  },
+  "evidence_boundary": "complete fresh MLX+CPU replay; registered 73-endpoint <=10% contract does not imply strict full-MLX-paper reproduction",
+  "expected_stage_order": [
+    "mlx_source_audit",
+    "mlx_standalone_fresh",
+    "mlx_chipyard_fresh_execution",
+    "six_layer_regression",
+    "three_agent_mlx_workloads"
+  ],
+  "gates": {
+    "active_source_clean": true,
+    "chipyard_12_eight_runs": true,
+    "five_strict_serial_stages": true,
+    "fresh_mlx_executions_24": true,
+    "paper_boundary": true,
+    "primary_hardware_mlx_no_atx": true,
+    "six_layers_73_endpoints": true,
+    "source_audit_10": true,
+    "standalone_10_eight_runs": true,
+    "three_agents_9": true
+  },
+  "results": {
+    "agents": {
+      "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/agent-workloads/reproduction.json",
+      "sha256": "a637bf7be4ca089cf6f23e5f5028873857cb1d8badba662399d41921288f8cfd",
+      "summary": {
+        "calls": 20,
+        "failing": 0,
+        "gates": 9,
+        "llm_calls": 17,
+        "mlx_micro_ops": 765,
+        "pass": true,
+        "passing": 9,
+        "serial_order": true,
+        "tool_calls": 3,
+        "workloads": 3
+      }
+    },
+    "chipyard": {
+      "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/chipyard/mlx-chipyard.json",
+      "sha256": "bdd6521ef0dca53b4d0a3b27ca0ed09ad5685ad30bf0fc946683d4b9623bbe29",
+      "summary": {
+        "backends": 2,
+        "executions": 8,
+        "failing": 0,
+        "gates": 12,
+        "pass": true,
+        "passing": 12,
+        "workloads": 4
+      }
+    },
+    "layers": {
+      "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/layer-regression/layer-regression.json",
+      "sha256": "0054d5a856c710b287149c50eef8d26fa76a6d401bd723897b6be1404d53f29c",
+      "summary": {
+        "endpoints": 73,
+        "failing": 0,
+        "gates": 10,
+        "gates_passing": 10,
+        "layers": 6,
+        "max_relative_error": 0.09909909909909899,
+        "parameter_switches": 6,
+        "pass": true,
+        "passing": 73
+      }
+    },
+    "source": {
+      "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/source-audit/mlx-reference-audit.json",
+      "sha256": "ac54e1baa3c19ba310d7edce8a10c81116758433c0cb843023e2d8807e3977ea",
+      "summary": {
+        "active_sources": 21,
+        "failing": 0,
+        "full_paper_complete": false,
+        "gates": 10,
+        "paper_rows_at_10pct": 5,
+        "pass": true,
+        "passing": 10
+      }
+    },
+    "standalone": {
+      "path": "/workspace/AgentSys/artifacts/mlx_complete/run_048/standalone/mlx-standalone.json",
+      "sha256": "9296beb6f8e042bf4251fdaef04c97fccc0d8f71379b4fc39fd21dd1fef51af2",
+      "summary": {
+        "executions": 8,
+        "failing": 0,
+        "gates": 10,
+        "operations": 10,
+        "pass": true,
+        "passing": 10,
+        "workloads": 4
+      }
+    }
+  },
+  "run_id": "run_048",
+  "schema_version": 1,
+  "stage_order": [
+    "mlx_source_audit",
+    "mlx_standalone_fresh",
+    "mlx_chipyard_fresh_execution",
+    "six_layer_regression",
+    "three_agent_mlx_workloads"
+  ],
+  "stages": [
+    {
+      "artifacts": {
+        "artifacts/mlx_complete/run_048/source-audit/mlx-reference-audit.json": {
+          "bytes": 16796,
+          "sha256": "ac54e1baa3c19ba310d7edce8a10c81116758433c0cb843023e2d8807e3977ea"
+        }
+      },
+      "finished_ns": 404627701351947,
+      "name": "mlx_source_audit",
+      "pass": true,
+      "started_ns": 404627673720119,
+      "summary": {
+        "active_sources": 21,
+        "failing": 0,
+        "full_paper_complete": false,
+        "gates": 10,
+        "paper_rows_at_10pct": 5,
+        "pass": true,
+        "passing": 10
+      },
+      "wall_time_s": 0.027631828
+    },
+    {
+      "artifacts": {
+        "artifacts/mlx_complete/run_048/standalone/logs/build-cycle.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "artifacts/mlx_complete/run_048/standalone/logs/build-rtl-cxx.log": {
+          "bytes": 2674,
+          "sha256": "6de2893e8dfcb6359e49ba8fd994dd1a2d68ab13e955ec0fe90b690b2c85e16d"
+        },
+        "artifacts/mlx_complete/run_048/standalone/logs/build-rtl-verilate.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "artifacts/mlx_complete/run_048/standalone/logs/cycle/bsmm.log": {
+          "bytes": 5200,
+          "sha256": "ad5761c7d16467243774ced6807ae673979151c5a9b44283bdf7ea790d9a250e"
+        },
+        "artifacts/mlx_complete/run_048/standalone/logs/cycle/fft_cmp.log": {
+          "bytes": 4210,
+          "sha256": "e1d0defcb5bdb8da870c782a9050973ecaa86b86788deeed61d98597bef865d1"
+        },
+        "artifacts/mlx_complete/run_048/standalone/logs/cycle/swa.log": {
+          "bytes": 3469,
+          "sha256": "c7569e5f4ef7fc84c888c7684b3510f4e1d1ecc354d2d2a3e0564faab82567a3"
+        },
+        "artifacts/mlx_complete/run_048/standalone/logs/cycle/transformer_block.log": {
+          "bytes": 5143,
+          "sha256": "d7a53bbe579da245a10963f8ca03be1722a0b8d22f972635b385fd6f434a9277"
+        },
+        "artifacts/mlx_complete/run_048/standalone/logs/rtl/bsmm.log": {
+          "bytes": 5821,
+          "sha256": "0dd9a9a025bfd355a60b8afc72103d9b916e4d06e52ae38657a6bd31d398f706"
+        },
+        "artifacts/mlx_complete/run_048/standalone/logs/rtl/fft_cmp.log": {
+          "bytes": 4572,
+          "sha256": "5d0a68041680a81ae5c54616ceb7e817034d61ebeecdd9cb78780b55c1cc43bb"
+        },
+        "artifacts/mlx_complete/run_048/standalone/logs/rtl/swa.log": {
+          "bytes": 3423,
+          "sha256": "f65c1a70fc86c7f5cccf9fd09343bd29fec0808e5597cd0fa8b52d40a87b1cad"
+        },
+        "artifacts/mlx_complete/run_048/standalone/logs/rtl/transformer_block.log": {
+          "bytes": 5977,
+          "sha256": "c5971203e0b9c7d804d014d7988145802df2bce8253ecd17e65b74cea0083d0c"
+        },
+        "artifacts/mlx_complete/run_048/standalone/mlx-standalone.json": {
+          "bytes": 17308,
+          "sha256": "9296beb6f8e042bf4251fdaef04c97fccc0d8f71379b4fc39fd21dd1fef51af2"
+        }
+      },
+      "finished_ns": 404681068931630,
+      "name": "mlx_standalone_fresh",
+      "pass": true,
+      "started_ns": 404627701655220,
+      "summary": {
+        "executions": 8,
+        "failing": 0,
+        "gates": 10,
+        "operations": 10,
+        "pass": true,
+        "passing": 10,
+        "workloads": 4
+      },
+      "wall_time_s": 53.36727641
+    },
+    {
+      "artifacts": {
+        "artifacts/mlx_complete/run_048/chipyard/logs/build-elf-bsmm.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "artifacts/mlx_complete/run_048/chipyard/logs/build-elf-fft_cmp.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "artifacts/mlx_complete/run_048/chipyard/logs/build-elf-swa.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "artifacts/mlx_complete/run_048/chipyard/logs/build-elf-transformer_block.log": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "artifacts/mlx_complete/run_048/chipyard/logs/cycle/bsmm.log": {
+          "bytes": 5078,
+          "sha256": "09cbb73caf21fc8f0e9c1334d4bbf0e6bb3eacb93e77cf6fb226e2c0be178900"
+        },
+        "artifacts/mlx_complete/run_048/chipyard/logs/cycle/fft_cmp.log": {
+          "bytes": 4081,
+          "sha256": "4ecb05396d8801703b9c9d425e40bf11d1e0bdb7db73de5d0cf1e7126c851859"
+        },
+        "artifacts/mlx_complete/run_048/chipyard/logs/cycle/swa.log": {
+          "bytes": 3348,
+          "sha256": "b58917e0e69d0fa60df7b159103c6a9546a14c339fd58c96efc908b3b39eb26d"
+        },
+        "artifacts/mlx_complete/run_048/chipyard/logs/cycle/transformer_block.log": {
+          "bytes": 4995,
+          "sha256": "83459d5ee7321cf6ac547b80c7347bf2dc7dffd9e801ffe379a7ab491e9e47b4"
+        },
+        "artifacts/mlx_complete/run_048/chipyard/logs/rtl/bsmm.log": {
+          "bytes": 6189,
+          "sha256": "ba65b15b589a4486a1ba1a0a1728a7a45dec09d3005215cb1e8d885d54678fad"
+        },
+        "artifacts/mlx_complete/run_048/chipyard/logs/rtl/fft_cmp.log": {
+          "bytes": 4940,
+          "sha256": "e6eba89780f18d2d493c299636b9ddf2587dced16ee697f448befa5269952695"
+        },
+        "artifacts/mlx_complete/run_048/chipyard/logs/rtl/swa.log": {
+          "bytes": 3791,
+          "sha256": "a1ff8a893f254e45c2b73a473e4db92c4ffe7bb0c4ff51dd8ba0639fa00a6266"
+        },
+        "artifacts/mlx_complete/run_048/chipyard/logs/rtl/transformer_block.log": {
+          "bytes": 6345,
+          "sha256": "a10ceaf463163267b2f7b6bfce7d4604205b4a0ac30a00be35498533f2daa330"
+        },
+        "artifacts/mlx_complete/run_048/chipyard/mlx-chipyard.json": {
+          "bytes": 28335,
+          "sha256": "bdd6521ef0dca53b4d0a3b27ca0ed09ad5685ad30bf0fc946683d4b9623bbe29"
+        },
+        "artifacts/mlx_complete/run_048/chipyard/software/mlx-bsmm.riscv": {
+          "bytes": 69336,
+          "sha256": "9a3f5ea212efa9485622a1ca1c326215f9f42d0dd0b70e2e69eb9985ebc834a3"
+        },
+        "artifacts/mlx_complete/run_048/chipyard/software/mlx-fft_cmp.riscv": {
+          "bytes": 69080,
+          "sha256": "6a1f57565980942f995a10130d5cf9db32977a6b5a4148d12b5a92c370b4d417"
+        },
+        "artifacts/mlx_complete/run_048/chipyard/software/mlx-swa.riscv": {
+          "bytes": 68872,
+          "sha256": "8746be795ad496dcc37427187ec6ee3206aa3a2a50d857ee8119d6ade39a6dba"
+        },
+        "artifacts/mlx_complete/run_048/chipyard/software/mlx-transformer_block.riscv": {
+          "bytes": 68920,
+          "sha256": "044aaaa7ab78ff7b55d577acddf5637774df4a410e9f2a895554089c773fa9f1"
+        }
+      },
+      "finished_ns": 404954625200965,
+      "name": "mlx_chipyard_fresh_execution",
+      "pass": true,
+      "started_ns": 404681070624154,
+      "summary": {
+        "backends": 2,
+        "executions": 8,
+        "failing": 0,
+        "gates": 12,
+        "pass": true,
+        "passing": 12,
+        "workloads": 4
+      },
+      "wall_time_s": 273.554576811
+    },
+    {
+      "artifacts": {
+        "artifacts/mlx_complete/run_048/layer-regression/base-five/hptpe-logs/opt1_cube.compile.log": {
+          "bytes": 257,
+          "sha256": "df348f55ff4a2816448a80ef5b242c0f4226bc77e5784851ac42d5cbd1985c1f"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/base-five/hptpe-logs/opt1_cube.run.log": {
+          "bytes": 298,
+          "sha256": "85165526e10e8db2f0965e626eb8868391b429c99166a0e453bf4378cf7cf726"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/base-five/hptpe-logs/opt1_cube_mac.compile.log": {
+          "bytes": 265,
+          "sha256": "b603cd113e107f0f905a277a1b20d37535bef7fe76f23aa93e5ba3a3823d266b"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/base-five/hptpe-logs/opt1_cube_mac.run.log": {
+          "bytes": 298,
+          "sha256": "85165526e10e8db2f0965e626eb8868391b429c99166a0e453bf4378cf7cf726"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/base-five/hptpe-logs/opt1_os.compile.log": {
+          "bytes": 253,
+          "sha256": "e4d437523a9b4398f396a6cb502ed54ee93508da3a9b3aa0f43c4b66e089100d"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/base-five/hptpe-logs/opt1_os.run.log": {
+          "bytes": 246,
+          "sha256": "4b2721063a5be01ea4f6f80ea38d2bdff266e3801633d78c0cf74d9c5a4677b5"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/base-five/hptpe-logs/opt1_os_mac.compile.log": {
+          "bytes": 261,
+          "sha256": "2c820755d798674281d2a6e79203f7c71128a358e1b7d61a7b24c7434e8d07ce"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/base-five/hptpe-logs/opt1_os_mac.run.log": {
+          "bytes": 246,
+          "sha256": "4b2721063a5be01ea4f6f80ea38d2bdff266e3801633d78c0cf74d9c5a4677b5"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/base-five/hptpe-logs/opt1_ws.compile.log": {
+          "bytes": 445,
+          "sha256": "20ea22154eaeb2219d024f5c82c4a70944cffab5ee60f07e02539a761d9ef7d8"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/base-five/hptpe-logs/opt1_ws.run.log": {
+          "bytes": 246,
+          "sha256": "4b2721063a5be01ea4f6f80ea38d2bdff266e3801633d78c0cf74d9c5a4677b5"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/base-five/hptpe-logs/opt1_ws_mac.compile.log": {
+          "bytes": 461,
+          "sha256": "6a88b2b9a326510f092a42bf4b45bd10a101ae2f2ca659d818dfec76c45805ed"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/base-five/hptpe-logs/opt1_ws_mac.run.log": {
+          "bytes": 246,
+          "sha256": "4b2721063a5be01ea4f6f80ea38d2bdff266e3801633d78c0cf74d9c5a4677b5"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/base-five/hptpe-logs/opt2.compile.log": {
+          "bytes": 19706,
+          "sha256": "1c3099e04044618dd153ac80d68f267edfc1c29d9ce215912bb09edbc58766e3"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/base-five/hptpe-logs/opt2.run.log": {
+          "bytes": 497,
+          "sha256": "2be8507242943dead132918437a6f0dc1f633643e71805ac10f80193e64fce92"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/base-five/hptpe-logs/opt3_pe.compile.log": {
+          "bytes": 11200,
+          "sha256": "51a1de25f40683d3b6a1d7c098dc4c6821a72de2981a6aa080dbc0b2915baee0"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/base-five/hptpe-logs/opt3_pe.run.log": {
+          "bytes": 29373,
+          "sha256": "fc977aca9ddcd274fb12700b1c2fd47c60b4a60fb931ad47a926a80e14937600"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/base-five/hptpe-logs/opt4c.compile.log": {
+          "bytes": 16326,
+          "sha256": "53659813d2ec4cd69bd96fdf6ba297b36bebaefe6f6a1a79f310ddb1fe936a30"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/base-five/hptpe-logs/opt4c.run.log": {
+          "bytes": 3966,
+          "sha256": "1e55a5158530c81d1253183179de1300ed0b40ef57e36a782829dd15df6cc12b"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/base-five/layer-regression.json": {
+          "bytes": 1163067,
+          "sha256": "b9dcbb153de694aa51db1b59b6690397217bb3dc311d762a336ccbc27ddb44cf"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/layer-regression.json": {
+          "bytes": 1171419,
+          "sha256": "0054d5a856c710b287149c50eef8d26fa76a6d401bd723897b6be1404d53f29c"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/mlx-sensitivity-react-tool/application.json": {
+          "bytes": 15645,
+          "sha256": "168951c767579fcd3f1d7dbe73b8ce5a23ea1719f112222a604f6a273f20891f"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/mlx-sensitivity-react-tool/compiled-mlx.json": {
+          "bytes": 32490,
+          "sha256": "b4545bdee7d8c3335b066f88626fa7e13986319d67b80aa23a6e1a16bd8c8387"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/mlx-sensitivity-react-tool/compiled-tisa.json": {
+          "bytes": 18353,
+          "sha256": "da874ffd1c92d395e5e94180113631d1325e8edd1036ba2c9cfba8fcd2780ee8"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/mlx-sensitivity-react-tool/generated/agent-mlx.h": {
+          "bytes": 1328,
+          "sha256": "3e12a57949d0631d6f6aedb75e746855944e6ddec4601739f3a30c43ae0b6191"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/mlx-sensitivity-react-tool/generated/tisa-workload.h": {
+          "bytes": 3936,
+          "sha256": "4cfdc562186984a15e3af81d94c06ea8fa63880ac6997efefd069f892bef7f86"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/mlx-sensitivity-react-tool/logs/cycle.log": {
+          "bytes": 10883,
+          "sha256": "447d83b66b4408257d35990e5286b9da7c82b3cd713d7bbb9d40dafb89470125"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/mlx-sensitivity-react-tool/logs/rtl.log": {
+          "bytes": 13580,
+          "sha256": "c650f9d2cdff8976840ead505c87f2744925eae2c0e74e93ee48316e0d9a111b"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/mlx-sensitivity-react-tool/mlx-agent-system.json": {
+          "bytes": 11750,
+          "sha256": "160a8afec3cc9dc472ca5ea1e90e74ca3913bb2f68525bf7d99a494501be7a5e"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/mlx-sensitivity-react-tool/software/agent-mlx.riscv": {
+          "bytes": 79408,
+          "sha256": "8bbe69b06082a770f81cc816175d6cc10094b1e56de294313293b4efcc07ebc7"
+        },
+        "artifacts/mlx_complete/run_048/layer-regression/mlx-sensitivity-react-tool/system-trace.jsonl": {
+          "bytes": 87753,
+          "sha256": "37d088457fd0951e4a2d2842de45652753558188fa05efe29490d4c2ecbe751d"
+        }
+      },
+      "finished_ns": 405166513088617,
+      "name": "six_layer_regression",
+      "pass": true,
+      "started_ns": 404954629431901,
+      "summary": {
+        "endpoints": 73,
+        "failing": 0,
+        "gates": 10,
+        "gates_passing": 10,
+        "layers": 6,
+        "max_relative_error": 0.09909909909909899,
+        "parameter_switches": 6,
+        "pass": true,
+        "passing": 73
+      },
+      "wall_time_s": 211.883656716
+    },
+    {
+      "artifacts": {
+        "artifacts/mlx_complete/run_048/agent-workloads/reproduction.json": {
+          "bytes": 5027,
+          "sha256": "a637bf7be4ca089cf6f23e5f5028873857cb1d8badba662399d41921288f8cfd"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/planner_debate/application.json": {
+          "bytes": 23950,
+          "sha256": "061316676e0117511f0574ab281ccf91df9b560acee298357fe06252667dfebf"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/planner_debate/compiled-mlx.json": {
+          "bytes": 46645,
+          "sha256": "9f052e840dcc065ee7bdce2647b90b68fa1d6b3bf11696e9e719636d58598a69"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/planner_debate/compiled-tisa.json": {
+          "bytes": 31308,
+          "sha256": "c718c6c93a4b28ac2579ae67395a92bca809b0113fd7e928c461710eb6cd934f"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/planner_debate/generated/agent-mlx.h": {
+          "bytes": 1719,
+          "sha256": "972610f8cec228f3d6a617239ba0d9c33afa451c468cd6de109ada6a6b291bf3"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/planner_debate/generated/tisa-workload.h": {
+          "bytes": 6079,
+          "sha256": "413a6a32f14b13fcc0139ec8e6213b37b1d1c5b0fbc316e0dc954031780d1c82"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/planner_debate/logs/cycle.log": {
+          "bytes": 25990,
+          "sha256": "929800ef4d5f8d58e7217d0e9c0fc77503b3cb0a25c88f6f7a448dae93c06bf3"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/planner_debate/logs/rtl.log": {
+          "bytes": 32737,
+          "sha256": "6bdecfac5507e99943be7c019ef5081552a3e00324dc22799ab5130ef2346b33"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/planner_debate/mlx-agent-system.json": {
+          "bytes": 16184,
+          "sha256": "f52e63ac025e9842061cb8bb758f38d9066e0307d94f4e79772a97243a360a4c"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/planner_debate/software/agent-mlx.riscv": {
+          "bytes": 79624,
+          "sha256": "a2eec5c2a55a2eb4f3e47cad39a7dad30953bf0a753b7eaf6441789747b37f60"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/planner_debate/system-trace.jsonl": {
+          "bytes": 217939,
+          "sha256": "f494960b49964c16f355e1338c2da14f2c62044973eeee07dab90a293f499965"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/react_moa_mcts/application.json": {
+          "bytes": 35213,
+          "sha256": "d735a90fb9bc7ce0f1e68105dc7f327027a452cf90ebc2f0534aadb0e4d48f53"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/react_moa_mcts/compiled-mlx.json": {
+          "bytes": 70151,
+          "sha256": "fc9412b39ef2f48896530500b1fdc07508bd3c044ab5de2db1c185d1cd8b727e"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/react_moa_mcts/compiled-tisa.json": {
+          "bytes": 52873,
+          "sha256": "8be55a0ebdba9d2a8f616b540381d646773c79f12c31a160d0cbf3822afa8f33"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/react_moa_mcts/generated/agent-mlx.h": {
+          "bytes": 2312,
+          "sha256": "4aad2b3dd9f0e2161e87abaac628c2d5052314a8f2c50a675ae14a3375da8a63"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/react_moa_mcts/generated/tisa-workload.h": {
+          "bytes": 9582,
+          "sha256": "b673155b16555a72def4851261ce8e74a9face20bb9525a648aa53b59390a2ed"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/react_moa_mcts/logs/cycle.log": {
+          "bytes": 51057,
+          "sha256": "3cb910d3fa1a4774ea2dd6c07d15c6f2ea592caf767138c35eb1ffc7f994d59d"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/react_moa_mcts/logs/rtl.log": {
+          "bytes": 64552,
+          "sha256": "1797a54f2d74d4bf1205005c9a0d3105f7274721326cff35b04fa3f5a0a92d46"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/react_moa_mcts/mlx-agent-system.json": {
+          "bytes": 23481,
+          "sha256": "e996befa603f6cab25921cc45935b37993659a63f916763943310a368864b63f"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/react_moa_mcts/software/agent-mlx.riscv": {
+          "bytes": 79984,
+          "sha256": "78920fa5535ee5a78a0ad1e5831ec98b5eeb364ecb2d169ba794809b9010e89f"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/react_moa_mcts/system-trace.jsonl": {
+          "bytes": 429663,
+          "sha256": "0885fc89642d58fe61f13e7f1e16817cdd95bcdf25b91cda04c07ba38f39ed94"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/react_tool/application.json": {
+          "bytes": 15645,
+          "sha256": "168951c767579fcd3f1d7dbe73b8ce5a23ea1719f112222a604f6a273f20891f"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/react_tool/compiled-mlx.json": {
+          "bytes": 32469,
+          "sha256": "8cbb402bb0558dad2ec7150e0997c0257d81f56b450f3523a9eae70a2d2326cb"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/react_tool/compiled-tisa.json": {
+          "bytes": 18339,
+          "sha256": "8739acbb3ca7218bad70bcda9cab4ccda164e5dfceb209c84b1a78d622e14496"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/react_tool/generated/agent-mlx.h": {
+          "bytes": 1328,
+          "sha256": "3e12a57949d0631d6f6aedb75e746855944e6ddec4601739f3a30c43ae0b6191"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/react_tool/generated/tisa-workload.h": {
+          "bytes": 3936,
+          "sha256": "4cfdc562186984a15e3af81d94c06ea8fa63880ac6997efefd069f892bef7f86"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/react_tool/logs/cycle.log": {
+          "bytes": 10883,
+          "sha256": "c42fedbc394752a2837ed3222385e4fd2a7e2080dc7618673143188dfca64b0f"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/react_tool/logs/rtl.log": {
+          "bytes": 13580,
+          "sha256": "936bc7f43735629ca5a28ff2370b6f38a5f850f1d9e76e721814b91d485c9a3c"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/react_tool/mlx-agent-system.json": {
+          "bytes": 11688,
+          "sha256": "b409bdb6b44b97b4a4d20b34c552ed9c9d9ab4c487e37342112d5a10fff30184"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/react_tool/software/agent-mlx.riscv": {
+          "bytes": 79408,
+          "sha256": "fa7f7fa934bc6a92e79756ca2c3154b09ce8e9b7d8dd8494cef84bde6b20e94a"
+        },
+        "artifacts/mlx_complete/run_048/agent-workloads/workloads/react_tool/system-trace.jsonl": {
+          "bytes": 87753,
+          "sha256": "37d088457fd0951e4a2d2842de45652753558188fa05efe29490d4c2ecbe751d"
+        }
+      },
+      "finished_ns": 405794340774334,
+      "name": "three_agent_mlx_workloads",
+      "pass": true,
+      "started_ns": 405166518347895,
+      "summary": {
+        "calls": 20,
+        "failing": 0,
+        "gates": 9,
+        "llm_calls": 17,
+        "mlx_micro_ops": 765,
+        "pass": true,
+        "passing": 9,
+        "serial_order": true,
+        "tool_calls": 3,
+        "workloads": 3
+      },
+      "wall_time_s": 627.822426439
+    }
+  ],
+  "summary": {
+    "agent_workloads": 3,
+    "executed": 5,
+    "failing": 0,
+    "gates": 10,
+    "gates_passing": 10,
+    "mlx_executions": 24,
+    "paper_endpoints": 73,
+    "paper_layers": 6,
+    "parameter_switches": 6,
+    "pass": true,
+    "passing": 5,
+    "serial_order": true,
+    "stages": 5
+  }
+}

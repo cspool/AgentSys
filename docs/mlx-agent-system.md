@@ -26,6 +26,16 @@ bash scripts/install_mlx_chipyard.sh
   --run-id demo --output-dir artifacts/mlx_demo/react_tool
 ```
 
+完整fresh重放入口：
+
+```bash
+.venv-mlx/bin/agentsys-reproduce-mlx-complete \
+  --config config/mlx-complete-system.json --run-id run_048
+```
+
+run 048依次执行source audit、standalone fresh build、Rocket fresh execution、
+六层73端点matrix和三Agent replay，共24次MLX执行；5/5阶段与10/10全局gate通过。
+
 切换负载会重新执行Agentix、生成mllm/Agent.xpu/TISA manifest、45-op MLX
 micro-lineage、Agent call C header和独立RISC-V ELF，然后在两套MLX Rocket
 simulator上执行。无需修改仓库源码。

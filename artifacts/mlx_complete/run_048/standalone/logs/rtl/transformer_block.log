@@ -1,0 +1,92 @@
+MLX_TRACE backend=rtl event=issue cycle=0 pe=0 pc=0 op=0 tag=0
+MLX_TRACE backend=rtl event=complete cycle=1 pe=0 pc=0 op=0
+MLX_TRACE backend=rtl event=issue cycle=2 pe=0 pc=1 op=0 tag=0
+MLX_TRACE backend=rtl event=complete cycle=3 pe=0 pc=1 op=0
+MLX_TRACE backend=rtl event=issue cycle=4 pe=0 pc=2 op=0 tag=0
+MLX_TRACE backend=rtl event=complete cycle=5 pe=0 pc=2 op=0
+MLX_TRACE backend=rtl event=issue cycle=6 pe=0 pc=3 op=2 tag=0
+MLX_TRACE backend=rtl event=issue cycle=6 pe=1 pc=0 op=0 tag=1
+MLX_TRACE backend=rtl event=complete cycle=7 pe=1 pc=0 op=0
+MLX_TRACE backend=rtl event=issue cycle=8 pe=1 pc=1 op=0 tag=1
+MLX_TRACE backend=rtl event=complete cycle=9 pe=1 pc=1 op=0
+MLX_TRACE backend=rtl event=complete cycle=10 pe=0 pc=3 op=2
+MLX_TRACE backend=rtl event=issue cycle=10 pe=1 pc=2 op=0 tag=1
+MLX_TRACE backend=rtl event=complete cycle=11 pe=1 pc=2 op=0
+MLX_TRACE backend=rtl event=issue cycle=12 pe=0 pc=4 op=1 tag=0
+MLX_TRACE backend=rtl event=complete cycle=13 pe=0 pc=4 op=1
+MLX_TRACE backend=rtl event=issue cycle=13 pe=1 pc=3 op=0 tag=1
+MLX_TRACE backend=rtl event=complete cycle=14 pe=1 pc=3 op=0
+MLX_TRACE backend=rtl event=issue cycle=15 pe=1 pc=4 op=9 tag=1
+MLX_TRACE backend=rtl event=issue cycle=15 pe=4 pc=0 op=0 tag=4
+MLX_TRACE backend=rtl event=complete cycle=16 pe=4 pc=0 op=0
+MLX_TRACE backend=rtl event=issue cycle=17 pe=5 pc=0 op=0 tag=5
+MLX_TRACE backend=rtl event=complete cycle=18 pe=1 pc=4 op=9
+MLX_TRACE backend=rtl event=complete cycle=18 pe=5 pc=0 op=0
+MLX_TRACE backend=rtl event=issue cycle=19 pe=1 pc=5 op=2 tag=1
+MLX_TRACE backend=rtl event=issue cycle=19 pe=8 pc=0 op=0 tag=8
+MLX_TRACE backend=rtl event=complete cycle=20 pe=8 pc=0 op=0
+MLX_TRACE backend=rtl event=issue cycle=21 pe=9 pc=0 op=0 tag=9
+MLX_TRACE backend=rtl event=complete cycle=22 pe=9 pc=0 op=0
+MLX_TRACE backend=rtl event=complete cycle=23 pe=1 pc=5 op=2
+MLX_TRACE backend=rtl event=issue cycle=23 pe=10 pc=0 op=0 tag=10
+MLX_TRACE backend=rtl event=complete cycle=24 pe=10 pc=0 op=0
+MLX_TRACE backend=rtl event=issue cycle=25 pe=1 pc=6 op=1 tag=1
+MLX_TRACE backend=rtl event=complete cycle=26 pe=1 pc=6 op=1
+MLX_TRACE backend=rtl event=issue cycle=26 pe=4 pc=1 op=0 tag=4
+MLX_TRACE backend=rtl event=complete cycle=27 pe=4 pc=1 op=0
+MLX_TRACE backend=rtl event=issue cycle=28 pe=4 pc=2 op=3 tag=4
+MLX_TRACE backend=rtl event=issue cycle=28 pe=5 pc=1 op=0 tag=5
+MLX_TRACE backend=rtl event=complete cycle=29 pe=5 pc=1 op=0
+MLX_TRACE backend=rtl event=issue cycle=30 pe=5 pc=2 op=0 tag=5
+MLX_TRACE backend=rtl event=complete cycle=31 pe=4 pc=2 op=3
+MLX_TRACE backend=rtl event=complete cycle=31 pe=5 pc=2 op=0
+MLX_TRACE backend=rtl event=issue cycle=32 pe=5 pc=3 op=2 tag=5
+MLX_TRACE backend=rtl event=issue cycle=32 pe=4 pc=3 op=1 tag=4
+MLX_TRACE backend=rtl event=complete cycle=33 pe=4 pc=3 op=1
+MLX_TRACE backend=rtl event=issue cycle=33 pe=4 pc=4 op=8 tag=4
+MLX_TRACE backend=rtl event=issue cycle=33 pe=10 pc=1 op=0 tag=10
+MLX_TRACE backend=rtl event=complete cycle=34 pe=10 pc=1 op=0
+MLX_TRACE backend=rtl event=complete cycle=34 pe=4 pc=4 op=8 dst_pe=8 hops=1
+MLX_TRACE backend=rtl event=issue cycle=35 pe=8 pc=1 op=3 tag=8
+MLX_TRACE backend=rtl event=issue cycle=35 pe=10 pc=2 op=0 tag=10
+MLX_TRACE backend=rtl event=complete cycle=36 pe=5 pc=3 op=2
+MLX_TRACE backend=rtl event=complete cycle=36 pe=10 pc=2 op=0
+MLX_TRACE backend=rtl event=issue cycle=37 pe=5 pc=4 op=7 tag=5
+MLX_TRACE backend=rtl event=issue cycle=37 pe=10 pc=3 op=3 tag=10
+MLX_TRACE backend=rtl event=issue cycle=37 pe=11 pc=0 op=0 tag=11
+MLX_TRACE backend=rtl event=complete cycle=38 pe=5 pc=4 op=7
+MLX_TRACE backend=rtl event=complete cycle=38 pe=8 pc=1 op=3
+MLX_TRACE backend=rtl event=complete cycle=38 pe=11 pc=0 op=0
+MLX_TRACE backend=rtl event=issue cycle=39 pe=8 pc=2 op=8 tag=8
+MLX_TRACE backend=rtl event=issue cycle=39 pe=11 pc=1 op=5 tag=11
+MLX_TRACE backend=rtl event=issue cycle=39 pe=5 pc=5 op=1 tag=5
+MLX_TRACE backend=rtl event=complete cycle=40 pe=5 pc=5 op=1
+MLX_TRACE backend=rtl event=issue cycle=40 pe=5 pc=6 op=8 tag=5
+MLX_TRACE backend=rtl event=complete cycle=40 pe=10 pc=3 op=3
+MLX_TRACE backend=rtl event=complete cycle=40 pe=8 pc=2 op=8 dst_pe=12 hops=1
+MLX_TRACE backend=rtl event=issue cycle=41 pe=10 pc=4 op=9 tag=10
+MLX_TRACE backend=rtl event=complete cycle=41 pe=5 pc=6 op=8 dst_pe=9 hops=1
+MLX_TRACE backend=rtl event=issue cycle=42 pe=9 pc=1 op=4 tag=9
+MLX_TRACE backend=rtl event=complete cycle=43 pe=9 pc=1 op=4
+MLX_TRACE backend=rtl event=issue cycle=44 pe=9 pc=2 op=8 tag=9
+MLX_TRACE backend=rtl event=complete cycle=44 pe=10 pc=4 op=9
+MLX_TRACE backend=rtl event=issue cycle=45 pe=10 pc=5 op=8 tag=10
+MLX_TRACE backend=rtl event=complete cycle=46 pe=9 pc=2 op=8 dst_pe=12 hops=1
+MLX_TRACE backend=rtl event=complete cycle=47 pe=11 pc=1 op=5
+MLX_TRACE backend=rtl event=issue cycle=47 pe=12 pc=0 op=3 tag=12
+MLX_TRACE backend=rtl event=complete cycle=47 pe=10 pc=5 op=8 dst_pe=12 hops=1
+MLX_TRACE backend=rtl event=issue cycle=48 pe=11 pc=2 op=0 tag=11
+MLX_TRACE backend=rtl event=complete cycle=49 pe=11 pc=2 op=0
+MLX_TRACE backend=rtl event=issue cycle=50 pe=11 pc=3 op=6 tag=11
+MLX_TRACE backend=rtl event=complete cycle=50 pe=12 pc=0 op=3
+MLX_TRACE backend=rtl event=complete cycle=62 pe=11 pc=3 op=6
+MLX_TRACE backend=rtl event=issue cycle=63 pe=11 pc=4 op=8 tag=11
+MLX_TRACE backend=rtl event=complete cycle=66 pe=11 pc=4 op=8 dst_pe=12 hops=1
+MLX_TRACE backend=rtl event=issue cycle=67 pe=12 pc=1 op=2 tag=12
+MLX_TRACE backend=rtl event=complete cycle=71 pe=12 pc=1 op=2
+MLX_TRACE backend=rtl event=issue cycle=72 pe=12 pc=2 op=7 tag=12
+MLX_TRACE backend=rtl event=complete cycle=73 pe=12 pc=2 op=7
+MLX_TRACE backend=rtl event=issue cycle=74 pe=12 pc=3 op=1 tag=12
+MLX_TRACE backend=rtl event=complete cycle=75 pe=12 pc=3 op=1
+MLX_BACKEND_DONE backend=rtl cycle=75 instructions=45 stalls=263 hops=12 conflicts=0
+MLX_ARRAY_PASS workload=transformer_block cycles=76 instructions=45 load=19 store=5 compute=15 xfer=6 stalls=263 hops=12 conflicts=0

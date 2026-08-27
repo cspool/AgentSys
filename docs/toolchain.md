@@ -1,5 +1,23 @@
 # AgentSys pinned toolchains
 
+## Active MLX + ordinary-CPU system
+
+The current primary hardware replay is:
+
+```bash
+bash scripts/setup_mlx_toolchain.sh
+bash scripts/install_mlx_chipyard.sh
+.venv-mlx/bin/agentsys-reproduce-mlx-complete \
+  --config config/mlx-complete-system.json --run-id run_048
+```
+
+It compiles Agentix/mllm/Agent.xpu/TISA call graphs into MLX spatial programs
+and distinct ordinary-Rocket ELFs, executes both the serialized cycle model and
+physical 4x4 RTL, and runs the six-layer 73-endpoint matrix. Run 048 passes five
+strict serial stages and 10/10 global gates with 24 fresh MLX executions. HPTPE
+and native GPU paths below are retained as optional/historical evidence, not the
+primary final accelerator.
+
 ## Native dual-GPU plus Rocket vertical system
 
 The highest-level active replay is now:
