@@ -1,0 +1,1019 @@
+{
+  "agentix_result": {
+    "anti_starvation_promotions": 0,
+    "call_completion": {
+      "critic-a": 8,
+      "critic-b": 9,
+      "critic-merge": 12,
+      "planner-final": 9,
+      "planner-seed": 3,
+      "planner-tool": 5
+    },
+    "makespan": 12,
+    "policy": "plas",
+    "program_completion": {
+      "debate": 12,
+      "planner": 9
+    },
+    "program_wait": {
+      "debate": 4,
+      "planner": 0
+    },
+    "slices": [
+      {
+        "call_id": "planner-seed",
+        "end": 1,
+        "inherited_service": 0,
+        "lane": 0,
+        "program_id": "planner",
+        "queue_level": 0,
+        "start": 0
+      },
+      {
+        "call_id": "critic-a",
+        "end": 1,
+        "inherited_service": 0,
+        "lane": 1,
+        "program_id": "debate",
+        "queue_level": 0,
+        "start": 0
+      },
+      {
+        "call_id": "planner-seed",
+        "end": 2,
+        "inherited_service": 0,
+        "lane": 0,
+        "program_id": "planner",
+        "queue_level": 1,
+        "start": 1
+      },
+      {
+        "call_id": "critic-b",
+        "end": 2,
+        "inherited_service": 0,
+        "lane": 1,
+        "program_id": "debate",
+        "queue_level": 0,
+        "start": 1
+      },
+      {
+        "call_id": "planner-seed",
+        "end": 3,
+        "inherited_service": 0,
+        "lane": 0,
+        "program_id": "planner",
+        "queue_level": 1,
+        "start": 2
+      },
+      {
+        "call_id": "critic-a",
+        "end": 3,
+        "inherited_service": 0,
+        "lane": 1,
+        "program_id": "debate",
+        "queue_level": 1,
+        "start": 2
+      },
+      {
+        "call_id": "planner-tool",
+        "end": 4,
+        "inherited_service": 3,
+        "lane": 0,
+        "program_id": "planner",
+        "queue_level": 2,
+        "start": 3
+      },
+      {
+        "call_id": "critic-a",
+        "end": 4,
+        "inherited_service": 0,
+        "lane": 1,
+        "program_id": "debate",
+        "queue_level": 1,
+        "start": 3
+      },
+      {
+        "call_id": "planner-tool",
+        "end": 5,
+        "inherited_service": 3,
+        "lane": 0,
+        "program_id": "planner",
+        "queue_level": 2,
+        "start": 4
+      },
+      {
+        "call_id": "critic-b",
+        "end": 5,
+        "inherited_service": 0,
+        "lane": 1,
+        "program_id": "debate",
+        "queue_level": 1,
+        "start": 4
+      },
+      {
+        "call_id": "planner-final",
+        "end": 6,
+        "inherited_service": 5,
+        "lane": 0,
+        "program_id": "planner",
+        "queue_level": 2,
+        "start": 5
+      },
+      {
+        "call_id": "critic-b",
+        "end": 6,
+        "inherited_service": 0,
+        "lane": 1,
+        "program_id": "debate",
+        "queue_level": 1,
+        "start": 5
+      },
+      {
+        "call_id": "planner-final",
+        "end": 7,
+        "inherited_service": 5,
+        "lane": 0,
+        "program_id": "planner",
+        "queue_level": 2,
+        "start": 6
+      },
+      {
+        "call_id": "critic-a",
+        "end": 7,
+        "inherited_service": 0,
+        "lane": 1,
+        "program_id": "debate",
+        "queue_level": 2,
+        "start": 6
+      },
+      {
+        "call_id": "planner-final",
+        "end": 8,
+        "inherited_service": 5,
+        "lane": 0,
+        "program_id": "planner",
+        "queue_level": 2,
+        "start": 7
+      },
+      {
+        "call_id": "critic-a",
+        "end": 8,
+        "inherited_service": 0,
+        "lane": 1,
+        "program_id": "debate",
+        "queue_level": 2,
+        "start": 7
+      },
+      {
+        "call_id": "planner-final",
+        "end": 9,
+        "inherited_service": 5,
+        "lane": 0,
+        "program_id": "planner",
+        "queue_level": 2,
+        "start": 8
+      },
+      {
+        "call_id": "critic-b",
+        "end": 9,
+        "inherited_service": 0,
+        "lane": 1,
+        "program_id": "debate",
+        "queue_level": 2,
+        "start": 8
+      },
+      {
+        "call_id": "critic-merge",
+        "end": 10,
+        "inherited_service": 9,
+        "lane": 0,
+        "program_id": "debate",
+        "queue_level": 3,
+        "start": 9
+      },
+      {
+        "call_id": "critic-merge",
+        "end": 11,
+        "inherited_service": 9,
+        "lane": 0,
+        "program_id": "debate",
+        "queue_level": 3,
+        "start": 10
+      },
+      {
+        "call_id": "critic-merge",
+        "end": 12,
+        "inherited_service": 9,
+        "lane": 0,
+        "program_id": "debate",
+        "queue_level": 3,
+        "start": 11
+      }
+    ],
+    "total_call_wait": 8,
+    "total_wait": 4
+  },
+  "application": "planner_debate",
+  "calls": [
+    {
+      "call_id": "planner-seed",
+      "deps": [],
+      "flow_binding": "npu_prefill+igpu_reactive_decode",
+      "index": 0,
+      "input_tokens": 320,
+      "kind": "llm",
+      "model_profile": "qwen3_1_7b",
+      "output_digest": "06ad59761ee1af613bb9644ca4e57785e59741c0fb7f8d9c7bee4235b402072c",
+      "output_tokens": 72,
+      "priority": 0,
+      "program_code": 0,
+      "program_id": "planner",
+      "scheduled_step": 0,
+      "tool_cycles": 0,
+      "tool_kind": null
+    },
+    {
+      "call_id": "critic-a",
+      "deps": [],
+      "flow_binding": "npu_prefill+igpu_slack_decode",
+      "index": 1,
+      "input_tokens": 512,
+      "kind": "llm",
+      "model_profile": "qwen3_1_7b",
+      "output_digest": "ebd77c356a3e4e9121f072afedd212fd68dcb7868f681f961569f13318ce6470",
+      "output_tokens": 80,
+      "priority": 2,
+      "program_code": 1,
+      "program_id": "debate",
+      "scheduled_step": 0,
+      "tool_cycles": 0,
+      "tool_kind": null
+    },
+    {
+      "call_id": "critic-b",
+      "deps": [],
+      "flow_binding": "npu_prefill+igpu_slack_decode",
+      "index": 2,
+      "input_tokens": 448,
+      "kind": "llm",
+      "model_profile": "qwen3_1_7b",
+      "output_digest": "7e3d3f67166103fb507be1375ba0db54a18b61b7fc0fcfe943e907e0e88c2268",
+      "output_tokens": 88,
+      "priority": 2,
+      "program_code": 1,
+      "program_id": "debate",
+      "scheduled_step": 1,
+      "tool_cycles": 0,
+      "tool_kind": null
+    },
+    {
+      "call_id": "planner-tool",
+      "deps": [
+        "planner-seed"
+      ],
+      "flow_binding": "rocket_cpu_tool",
+      "index": 3,
+      "input_tokens": 48,
+      "kind": "tool",
+      "model_profile": null,
+      "output_digest": "a14d6f95cbb732dbed7e5952735e2d53678bf9b91ca12e8ce5c1dbd523c867dd",
+      "output_tokens": 16,
+      "priority": 0,
+      "program_code": 0,
+      "program_id": "planner",
+      "scheduled_step": 3,
+      "tool_cycles": 192,
+      "tool_kind": "deterministic_lookup"
+    },
+    {
+      "call_id": "planner-final",
+      "deps": [
+        "planner-tool"
+      ],
+      "flow_binding": "npu_prefill+igpu_reactive_decode",
+      "index": 4,
+      "input_tokens": 384,
+      "kind": "llm",
+      "model_profile": "qwen3_1_7b",
+      "output_digest": "0bcc3597ba22ec089e5ca2f652f53e8f6ec009f1614919c5b6c77f3cf3ff59c1",
+      "output_tokens": 96,
+      "priority": 0,
+      "program_code": 0,
+      "program_id": "planner",
+      "scheduled_step": 5,
+      "tool_cycles": 0,
+      "tool_kind": null
+    },
+    {
+      "call_id": "critic-merge",
+      "deps": [
+        "critic-a",
+        "critic-b",
+        "planner-seed"
+      ],
+      "flow_binding": "npu_prefill+igpu_slack_decode",
+      "index": 5,
+      "input_tokens": 640,
+      "kind": "llm",
+      "model_profile": "qwen3_1_7b",
+      "output_digest": "7bd42627ca9437fb005355270c4cccd99c6aba1fa3ec4122c2b5f7d932af4875",
+      "output_tokens": 104,
+      "priority": 2,
+      "program_code": 1,
+      "program_id": "debate",
+      "scheduled_step": 9,
+      "tool_cycles": 0,
+      "tool_kind": null
+    }
+  ],
+  "classification": "manifest_driven_executed_agent_application",
+  "events": [
+    {
+      "call_id": null,
+      "details": {
+        "priority": 0
+      },
+      "event": "program_start",
+      "layer": "application",
+      "logical_time": 0,
+      "program_id": "planner"
+    },
+    {
+      "call_id": null,
+      "details": {
+        "priority": 2
+      },
+      "event": "program_start",
+      "layer": "application",
+      "logical_time": 0,
+      "program_id": "debate"
+    },
+    {
+      "call_id": "planner-seed",
+      "details": {
+        "deps": [],
+        "thread": "seed"
+      },
+      "event": "call_release",
+      "layer": "framework",
+      "logical_time": 0,
+      "program_id": "planner"
+    },
+    {
+      "call_id": "critic-a",
+      "details": {
+        "deps": [],
+        "thread": "critic-a"
+      },
+      "event": "call_release",
+      "layer": "framework",
+      "logical_time": 0,
+      "program_id": "debate"
+    },
+    {
+      "call_id": "planner-seed",
+      "details": {
+        "binding": "npu_prefill+igpu_reactive_decode",
+        "input_tokens": 320,
+        "model_profile": "qwen3_1_7b"
+      },
+      "event": "flow_bind",
+      "layer": "framework",
+      "logical_time": 0,
+      "program_id": "planner"
+    },
+    {
+      "call_id": "critic-a",
+      "details": {
+        "binding": "npu_prefill+igpu_slack_decode",
+        "input_tokens": 512,
+        "model_profile": "qwen3_1_7b"
+      },
+      "event": "flow_bind",
+      "layer": "framework",
+      "logical_time": 0,
+      "program_id": "debate"
+    },
+    {
+      "call_id": "planner-seed",
+      "details": {
+        "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+        "model_profile": "qwen3_1_7b",
+        "selected_operators": 8
+      },
+      "event": "mllm_lower",
+      "layer": "framework",
+      "logical_time": 0,
+      "program_id": "planner"
+    },
+    {
+      "call_id": "critic-a",
+      "details": {
+        "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+        "model_profile": "qwen3_1_7b",
+        "selected_operators": 8
+      },
+      "event": "mllm_lower",
+      "layer": "framework",
+      "logical_time": 0,
+      "program_id": "debate"
+    },
+    {
+      "call_id": "critic-b",
+      "details": {
+        "deps": [],
+        "thread": "critic-b"
+      },
+      "event": "call_release",
+      "layer": "framework",
+      "logical_time": 1,
+      "program_id": "debate"
+    },
+    {
+      "call_id": "critic-b",
+      "details": {
+        "binding": "npu_prefill+igpu_slack_decode",
+        "input_tokens": 448,
+        "model_profile": "qwen3_1_7b"
+      },
+      "event": "flow_bind",
+      "layer": "framework",
+      "logical_time": 1,
+      "program_id": "debate"
+    },
+    {
+      "call_id": "critic-b",
+      "details": {
+        "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+        "model_profile": "qwen3_1_7b",
+        "selected_operators": 8
+      },
+      "event": "mllm_lower",
+      "layer": "framework",
+      "logical_time": 1,
+      "program_id": "debate"
+    },
+    {
+      "call_id": "planner-seed",
+      "details": {
+        "output_digest": "06ad59761ee1af613bb9644ca4e57785e59741c0fb7f8d9c7bee4235b402072c"
+      },
+      "event": "call_complete",
+      "layer": "framework",
+      "logical_time": 3,
+      "program_id": "planner"
+    },
+    {
+      "call_id": "planner-tool",
+      "details": {
+        "deps": [
+          "planner-seed"
+        ],
+        "thread": "tool"
+      },
+      "event": "call_release",
+      "layer": "framework",
+      "logical_time": 3,
+      "program_id": "planner"
+    },
+    {
+      "call_id": "planner-tool",
+      "details": {
+        "cycles": 192,
+        "tool": "deterministic_lookup"
+      },
+      "event": "tool_execute",
+      "layer": "framework",
+      "logical_time": 3,
+      "program_id": "planner"
+    },
+    {
+      "call_id": "critic-a",
+      "details": {
+        "output_digest": "ebd77c356a3e4e9121f072afedd212fd68dcb7868f681f961569f13318ce6470"
+      },
+      "event": "call_complete",
+      "layer": "framework",
+      "logical_time": 5,
+      "program_id": "debate"
+    },
+    {
+      "call_id": "critic-b",
+      "details": {
+        "output_digest": "7e3d3f67166103fb507be1375ba0db54a18b61b7fc0fcfe943e907e0e88c2268"
+      },
+      "event": "call_complete",
+      "layer": "framework",
+      "logical_time": 5,
+      "program_id": "debate"
+    },
+    {
+      "call_id": "planner-tool",
+      "details": {
+        "output_digest": "a14d6f95cbb732dbed7e5952735e2d53678bf9b91ca12e8ce5c1dbd523c867dd"
+      },
+      "event": "call_complete",
+      "layer": "framework",
+      "logical_time": 5,
+      "program_id": "planner"
+    },
+    {
+      "call_id": "planner-final",
+      "details": {
+        "deps": [
+          "planner-tool"
+        ],
+        "thread": "final"
+      },
+      "event": "call_release",
+      "layer": "framework",
+      "logical_time": 5,
+      "program_id": "planner"
+    },
+    {
+      "call_id": "planner-final",
+      "details": {
+        "binding": "npu_prefill+igpu_reactive_decode",
+        "input_tokens": 384,
+        "model_profile": "qwen3_1_7b"
+      },
+      "event": "flow_bind",
+      "layer": "framework",
+      "logical_time": 5,
+      "program_id": "planner"
+    },
+    {
+      "call_id": "planner-final",
+      "details": {
+        "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+        "model_profile": "qwen3_1_7b",
+        "selected_operators": 8
+      },
+      "event": "mllm_lower",
+      "layer": "framework",
+      "logical_time": 5,
+      "program_id": "planner"
+    },
+    {
+      "call_id": null,
+      "details": {
+        "calls": 3
+      },
+      "event": "program_complete",
+      "layer": "application",
+      "logical_time": 9,
+      "program_id": "planner"
+    },
+    {
+      "call_id": "planner-final",
+      "details": {
+        "output_digest": "0bcc3597ba22ec089e5ca2f652f53e8f6ec009f1614919c5b6c77f3cf3ff59c1"
+      },
+      "event": "call_complete",
+      "layer": "framework",
+      "logical_time": 9,
+      "program_id": "planner"
+    },
+    {
+      "call_id": "critic-merge",
+      "details": {
+        "deps": [
+          "critic-a",
+          "critic-b",
+          "planner-seed"
+        ],
+        "thread": "merge"
+      },
+      "event": "call_release",
+      "layer": "framework",
+      "logical_time": 9,
+      "program_id": "debate"
+    },
+    {
+      "call_id": "critic-merge",
+      "details": {
+        "binding": "npu_prefill+igpu_slack_decode",
+        "input_tokens": 640,
+        "model_profile": "qwen3_1_7b"
+      },
+      "event": "flow_bind",
+      "layer": "framework",
+      "logical_time": 9,
+      "program_id": "debate"
+    },
+    {
+      "call_id": "critic-merge",
+      "details": {
+        "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+        "model_profile": "qwen3_1_7b",
+        "selected_operators": 8
+      },
+      "event": "mllm_lower",
+      "layer": "framework",
+      "logical_time": 9,
+      "program_id": "debate"
+    },
+    {
+      "call_id": null,
+      "details": {
+        "calls": 3
+      },
+      "event": "program_complete",
+      "layer": "application",
+      "logical_time": 12,
+      "program_id": "debate"
+    },
+    {
+      "call_id": "critic-merge",
+      "details": {
+        "output_digest": "7bd42627ca9437fb005355270c4cccd99c6aba1fa3ec4122c2b5f7d932af4875"
+      },
+      "event": "call_complete",
+      "layer": "framework",
+      "logical_time": 12,
+      "program_id": "debate"
+    }
+  ],
+  "models": {
+    "qwen3_1_7b": {
+      "duration_divisors": {
+        "de": 12.8,
+        "me": 12.8,
+        "ve": 12.8
+      },
+      "framework_mir": "/workspace/AgentSys/integrations/mllm/fixtures/transformer_slice.mir",
+      "framework_mir_sha256": "4f392102a90490100a66db3fed0cf4695fbe6be554c8fdd97ca1b905feefb318",
+      "framework_operator_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+      "framework_operators": [
+        {
+          "deps": [],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "me",
+          "index": 0,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "0"
+            }
+          ],
+          "op_type": "LinearOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "1"
+            }
+          ],
+          "source_line": 4
+        },
+        {
+          "deps": [],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "me",
+          "index": 1,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "0"
+            }
+          ],
+          "op_type": "LinearOp",
+          "outputs": [
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                1024
+              ],
+              "ssa": "2"
+            }
+          ],
+          "source_line": 5
+        },
+        {
+          "deps": [
+            0
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "de",
+          "index": 2,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "1"
+            }
+          ],
+          "op_type": "CastTypeOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "Float16",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "3"
+            }
+          ],
+          "source_line": 6
+        },
+        {
+          "deps": [
+            1
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "ve",
+          "index": 3,
+          "inputs": [
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                1024
+              ],
+              "ssa": "2"
+            }
+          ],
+          "op_type": "RMSNormOp",
+          "outputs": [
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                1024
+              ],
+              "ssa": "4"
+            }
+          ],
+          "source_line": 7
+        },
+        {
+          "deps": [
+            2,
+            3
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "ve",
+          "index": 4,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "Float16",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "3"
+            },
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                1024
+              ],
+              "ssa": "4"
+            }
+          ],
+          "op_type": "AddOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "5"
+            }
+          ],
+          "source_line": 8
+        },
+        {
+          "deps": [
+            3
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "de",
+          "index": 5,
+          "inputs": [
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                1024
+              ],
+              "ssa": "4"
+            }
+          ],
+          "op_type": "TransposeOp",
+          "outputs": [
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                16,
+                64,
+                32
+              ],
+              "ssa": "6"
+            }
+          ],
+          "source_line": 9
+        },
+        {
+          "deps": [
+            4,
+            5
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "me",
+          "index": 6,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "5"
+            },
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                16,
+                64,
+                32
+              ],
+              "ssa": "6"
+            }
+          ],
+          "op_type": "MatMulOp",
+          "outputs": [
+            {
+              "bytes": 32768,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                16,
+                32,
+                32
+              ],
+              "ssa": "7"
+            }
+          ],
+          "source_line": 10
+        },
+        {
+          "deps": [
+            6
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "ve",
+          "index": 7,
+          "inputs": [
+            {
+              "bytes": 32768,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                16,
+                32,
+                32
+              ],
+              "ssa": "7"
+            }
+          ],
+          "op_type": "SoftmaxOp",
+          "outputs": [
+            {
+              "bytes": 32768,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                16,
+                32,
+                32
+              ],
+              "ssa": "8"
+            }
+          ],
+          "source_line": 11
+        }
+      ],
+      "hardware_mir": "/workspace/AgentSys/.references/mllm/examples/qwen3_qnn_aot/qwen3_qnn_aot_1.7B.mir",
+      "hardware_mir_sha256": "9fdd051818320885ad2934f997878609de53f1c24db812adf5f3eec2d90d3593",
+      "selected_source_indices": [
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "stages": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ]
+    }
+  },
+  "output_digest": "d9d843ddd613dcd080d599912e96f29fbade0bda0bb1acac3df9ef168b62663b",
+  "run_id": "run_052",
+  "schema_version": 1,
+  "summary": {
+    "calls": 6,
+    "events": 27,
+    "llm_calls": 5,
+    "pass": true,
+    "programs": 2,
+    "tool_calls": 1
+  },
+  "workload": {
+    "agentix": {
+      "batch_size": 2,
+      "policy": "plas"
+    },
+    "agentxpu": {
+      "heg_igpu_prefill_share": 0.4,
+      "heg_prefill_chunk_tokens": 32,
+      "max_decode_batch": 8,
+      "max_reactive_decode_batch": 2
+    },
+    "hardware": {
+      "dispatch_latency": 7,
+      "hptpe_cols": 16,
+      "hptpe_rows": 16,
+      "input_beats": 6,
+      "output_beats": 3,
+      "profile": "rocket_tisa8_hptpe16x16",
+      "tisa_window": 8
+    },
+    "name": "planner_debate",
+    "schema_version": 1,
+    "sha256": "0fbd066467fc52055e53c9cbf7264796f1fbf88aa9788f4838d73a8a8c343631",
+    "source": "/workspace/AgentSys/workloads/planner_debate.json",
+    "summary": {
+      "calls": 6,
+      "llm_calls": 5,
+      "models": 1,
+      "programs": 2,
+      "tool_calls": 1
+    }
+  }
+}

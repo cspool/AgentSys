@@ -1,0 +1,175 @@
+{
+  "classification": "complete_switchable_agent_to_ordinary_rocket_mlx_system",
+  "configuration": {
+    "path": "/workspace/AgentSys/config/mlx-agent-system.json",
+    "sha256": "2f467210b7584b5dc122ef3e3d7957bc69f47c7a34dcda5318f2acb201684877"
+  },
+  "evidence_boundary": "AgentSys Agent/mllm/TISA-to-MLX compiler on open-surrogate MLX RTL; no paper performance target consumed",
+  "gates": {
+    "all_backend_gates": true,
+    "all_system_gates": true,
+    "backend_switch_changes_cycles": true,
+    "cache_aware_aggregate_counters": true,
+    "expected_call_and_micro_counts": true,
+    "source_clean_and_pinned": true,
+    "three_distinct_artifact_chains": true,
+    "three_serial_workloads": true,
+    "trace_layer_contract": true
+  },
+  "run_id": "run_052",
+  "schema_version": 1,
+  "stages": [
+    {
+      "finished_ns": 444442623566575,
+      "name": "workload_react_moa_mcts",
+      "pass": true,
+      "started_ns": 444145248956331,
+      "wall_time_s": 297.374610244
+    },
+    {
+      "finished_ns": 444583192026954,
+      "name": "workload_react_tool",
+      "pass": true,
+      "started_ns": 444442624921374,
+      "wall_time_s": 140.56710558
+    },
+    {
+      "finished_ns": 444788121914962,
+      "name": "workload_planner_debate",
+      "pass": true,
+      "started_ns": 444583192638364,
+      "wall_time_s": 204.929276598
+    }
+  ],
+  "summary": {
+    "calls": 20,
+    "failing": 0,
+    "gates": 9,
+    "llm_calls": 17,
+    "mlx_micro_ops": 765,
+    "pass": true,
+    "passing": 9,
+    "serial_order": true,
+    "tool_calls": 3,
+    "workloads": 3
+  },
+  "workloads": {
+    "planner_debate": {
+      "path": "/workspace/AgentSys/artifacts/project_local_chipyard/run_052/agents/workloads/planner_debate/mlx-agent-system.json",
+      "sha256": "8901757c40223fed734984ea775971dda15cc253a215ba71f72dc922f32c4dad",
+      "summary": {
+        "calls": 6,
+        "cycle_kernel": 660,
+        "failing": 0,
+        "gates": 10,
+        "llm_calls": 5,
+        "mlx_micro_ops": 225,
+        "pass": true,
+        "passing": 10,
+        "programs": 2,
+        "rtl_kernel": 380,
+        "tool_calls": 1,
+        "trace_events": 385
+      },
+      "trace": {
+        "events": 385,
+        "layers": [
+          "agentxpu",
+          "application",
+          "cpu",
+          "dma",
+          "framework",
+          "mllm",
+          "mlx",
+          "mlx_network",
+          "mlx_pe",
+          "mlx_spm",
+          "mlx_tag",
+          "result",
+          "software",
+          "tisa"
+        ],
+        "path": "/workspace/AgentSys/artifacts/project_local_chipyard/run_052/agents/workloads/planner_debate/system-trace.jsonl",
+        "sha256": "f494960b49964c16f355e1338c2da14f2c62044973eeee07dab90a293f499965"
+      }
+    },
+    "react_moa_mcts": {
+      "path": "/workspace/AgentSys/artifacts/project_local_chipyard/run_052/agents/workloads/react_moa_mcts/mlx-agent-system.json",
+      "sha256": "3cfa0907f2ee98d121230df72560259599ce590532542c7b32f2a5b85bb62088",
+      "summary": {
+        "calls": 11,
+        "cycle_kernel": 1320,
+        "failing": 0,
+        "gates": 10,
+        "llm_calls": 10,
+        "mlx_micro_ops": 450,
+        "pass": true,
+        "passing": 10,
+        "programs": 3,
+        "rtl_kernel": 760,
+        "tool_calls": 1,
+        "trace_events": 762
+      },
+      "trace": {
+        "events": 762,
+        "layers": [
+          "agentxpu",
+          "application",
+          "cpu",
+          "dma",
+          "framework",
+          "mllm",
+          "mlx",
+          "mlx_network",
+          "mlx_pe",
+          "mlx_spm",
+          "mlx_tag",
+          "result",
+          "software",
+          "tisa"
+        ],
+        "path": "/workspace/AgentSys/artifacts/project_local_chipyard/run_052/agents/workloads/react_moa_mcts/system-trace.jsonl",
+        "sha256": "0885fc89642d58fe61f13e7f1e16817cdd95bcdf25b91cda04c07ba38f39ed94"
+      }
+    },
+    "react_tool": {
+      "path": "/workspace/AgentSys/artifacts/project_local_chipyard/run_052/agents/workloads/react_tool/mlx-agent-system.json",
+      "sha256": "4f8c967a7aa20dec3feb27f98b3cb3d7b0021aa5c3ea24f470327ded79a40c04",
+      "summary": {
+        "calls": 3,
+        "cycle_kernel": 264,
+        "failing": 0,
+        "gates": 10,
+        "llm_calls": 2,
+        "mlx_micro_ops": 90,
+        "pass": true,
+        "passing": 10,
+        "programs": 1,
+        "rtl_kernel": 152,
+        "tool_calls": 1,
+        "trace_events": 158
+      },
+      "trace": {
+        "events": 158,
+        "layers": [
+          "agentxpu",
+          "application",
+          "cpu",
+          "dma",
+          "framework",
+          "mllm",
+          "mlx",
+          "mlx_network",
+          "mlx_pe",
+          "mlx_spm",
+          "mlx_tag",
+          "result",
+          "software",
+          "tisa"
+        ],
+        "path": "/workspace/AgentSys/artifacts/project_local_chipyard/run_052/agents/workloads/react_tool/system-trace.jsonl",
+        "sha256": "37d088457fd0951e4a2d2842de45652753558188fa05efe29490d4c2ecbe751d"
+      }
+    }
+  }
+}

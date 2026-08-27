@@ -13,10 +13,10 @@ bash scripts/install_mlx_chipyard.sh
   --config config/mlx-complete-system.json --run-id run_048
 
 .venv/bin/agentsys-reproduce-portable \
-  --config config/project-local-chipyard.json --run-id run_051
+  --config config/project-local-chipyard.json --run-id run_052
 .venv/bin/agentsys-certificate-portable \
-  --config config/project-local-chipyard.json --run-id run_051 \
-  --expected-commit d7b209189f7c15351186fb4571395ea83a4631f5
+  --config config/project-local-chipyard.json --run-id run_052 \
+  --expected-commit ab7746201d9840904ede594d9dd765f7f11d3029
 ```
 
 It compiles Agentix/mllm/Agent.xpu/TISA call graphs into MLX spatial programs
@@ -34,6 +34,14 @@ current-tree portability evidence. It defaults to the validated project-local
 parsed results exactly, and passes 16/16 requirements plus 114 tests. The
 authoritative certificate is
 `artifacts/results/project-local-chipyard-certificate-run_051.json`.
+Run 052 supersedes run 051 for current certification. It isolates outputs by a
+validated run ID, pins the complete implementation closure to commit
+`ab7746201d9840904ede594d9dd765f7f11d3029`, verifies 25 exact build gitlinks
+and two compatibility-patch hashes, then repeats 16 fresh Rocket executions.
+The certificate passes 19/19 requirements, three fresh checks and 117 tests;
+73/73 endpoints remain within 10% with 9.91% maximum error. Evidence-only
+descendant commits may be re-signed, but any registered implementation-path
+change is rejected.
 
 ## Native dual-GPU plus Rocket vertical system
 

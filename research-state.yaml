@@ -220,12 +220,18 @@ hypotheses:
     motivation: "Close the machine-specific /root path and stale run-049 commit-anchor gaps introduced when Chipyard sources were added to the repository."
     parent: null
     priority: high
+  - id: H21
+    statement: "A complete implementation-source closure plus exact executable Chipyard build closure can remain certifiable after evidence-only descendant commits without weakening any functional, numerical or scope-boundary gate."
+    status: supported
+    motivation: "Remove the run-051 certificate's self-expiring exact-HEAD condition and pin the actual 22+3 gitlinks plus compatibility-patched build inputs."
+    parent: H20
+    priority: high
 
 experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 51
+  total_runs: 52
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -584,11 +590,18 @@ experiments:
       wall_time_min: 19.5
       change_summary: "Implementation-anchored replay passes 4/4 serial stages, 9/9 global gates and 16 fresh Rocket executions; exact baseline comparison plus three fresh checks issue a 16/16 certificate with 114 pytest."
       timestamp: "2026-08-27"
+    - run_id: "run_052"
+      hypothesis: "H21/durable implementation-closure certificate"
+      metric_value: 0.09909909909909899
+      delta: 0.0
+      wall_time_min: 18.69
+      change_summary: "Four serial stages and 16 fresh Rocket executions pass in 1,121.467 s; 73/73 endpoints remain exact at max 9.91%, and a 25-gitlink/2-patch implementation-closure certificate passes 19/19 with 117 pytest."
+      timestamp: "2026-08-27"
 
 outer_loop:
-  cycle: 39
+  cycle: 40
   last_direction: conclude
-  last_reflection: "Run 051 closes the post-vendoring portability gap: the exact implementation commit defaults to a validated project-local Chipyard, rebuilds both simulators, reproduces run-044/046/048 exactly and passes a 16/16 certificate. The target-informed and incomplete-full-paper MLX boundary is unchanged."
+  last_reflection: "Run 052 preserves exact run-044/046/048 behavior while making the certificate durable across evidence-only descendants: the implementation closure, 25 gitlinks and two patches remain exact, 16 fresh Rocket runs pass, and 73/73 endpoints stay within 10%. The target-informed and incomplete-full-paper MLX boundary is unchanged."
 
 workspace:
   findings: "findings.md"

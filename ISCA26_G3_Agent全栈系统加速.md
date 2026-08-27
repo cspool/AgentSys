@@ -1,14 +1,14 @@
 # G3：Agent 应用全栈系统加速——实现与实验报告
 
-更新日期：2026-08-26
+更新日期：2026-08-27
 
 项目目录：`/workspace/AgentSys`
 
-状态：已完成并在当前源码重新认证。run 051 以项目内 Chipyard 为默认根，完成4/4严格串行阶段、16次fresh Rocket执行和16/16证书要求；73/73注册端点最大误差9.91%。结果边界见“证据分级与限制”。
+状态：已完成并通过可持续源码闭包重新认证。run 052 以实现commit `ab7746201d9840904ede594d9dd765f7f11d3029`为锚，完成4/4严格串行阶段、16次fresh Rocket执行和19/19证书要求；117/117 pytest与73/73注册端点通过，最大误差9.91%。结果边界见“证据分级与限制”。
 
 ## 摘要
 
-动态 Agent 程序会在 program、LLM call、异构 flow、NPU tile 和执行引擎之间连续产生依赖、排队与优先级变化。单独优化任一层，无法保证上层紧急程序在下层仍被及时执行。本项目实现的最终活动路径为 `Agent 应用 → Agentix → mllm → Agent.xpu → TISA → HPTPE XPU → 普通 RISC-V Rocket`。CPU 采用普通 RISC-V，ATX 不进入最终结构、ABI 或性能结论。
+动态 Agent 程序会在 program、LLM call、异构 flow、NPU tile 和执行引擎之间连续产生依赖、排队与优先级变化。单独优化任一层，无法保证上层紧急程序在下层仍被及时执行。当前主活动路径为 `Agent JSON → Agentix → mllm → Agent.xpu → TISA-to-MLX → RISC-V ELF → 普通 Rocket CPU + MLX cycle/物理4×4 RTL`。较早的Rocket+HPTPE与双GPU路径保留为独立机制、集成和本机测量证据；ATX不进入当前结构、ABI或性能结论。
 
 五个活动组件先独立复现：Agentix 16/16、Agent.xpu 11/11、TISA 10/10、mllm/llm.npu 5/5、HPTPE 26/26，共 68/68 个预登记端点通过 15% 门槛，最大误差 9.91%。mllm 还通过 20/20 个上游原生可执行文件与 101 个 gtest；HPTPE 通过 9/9 个 RTL 组织、302 个 signed golden checks 和 9/9 个全规模 lint。
 
@@ -20,11 +20,13 @@ H14进一步把固定负载改造成完整参数化实验系统。`agentsys-run-
 
 run 051进一步关闭了源码进入仓库后的可移植性缺口：活动Python、shell、Makefile和JSON不再绑定`/root/chipyard`，默认选择并哈希验证项目内`chipyard/`，自动初始化Chipyard构建闭包和RISC-V工具链。两套Rocket+MLX模拟器均在项目内fresh build；随后8次substrate、6次Agent和2次MLX sensitivity运行逐字段等于run 044/046/048。最终证书以实现commit `d7b209189f7c15351186fb4571395ea83a4631f5`为锚，114/114 pytest通过。
 
+run 052修复了run 051证书在提交结果文件后无法从当前HEAD重签的自失效问题。新证书要求指定实现commit是当前HEAD祖先，并对`src/scripts/config/RTL/Chipyard/tests/workloads`等完整实现闭包逐路径比较；任何tracked、staged、unstaged或untracked实现漂移都会失败，只有结果与说明文档提交可以后继。Chipyard preflight同时精确验证22+3个gitlink、Chisel3/Treadle两处补丁哈希与允许的tracked diff。fresh重放耗时1,121.467 s，保持4/4阶段、9/9全局gate、16次Rocket、73/73端点和9.91%最大误差；初始证书为19/19且117/117 pytest通过。
+
 这些结果支持“跨层优先级与动态调度能够叠加，但收益受释放时机、tile 粒度、强基线、数据流和带宽瓶颈约束”的结论。项目没有将 Rocket 或开放替代模拟器冒充论文所用的 A100、Intel Core Ultra、Qualcomm 手机、Epoch 真硅片或 SAED32 综合环境。
 
 ## 一句话论证
 
-在动态 Agent 服务中，AgentSys 将 Agentix、mllm、Agent.xpu、TISA 与 HPTPE 落到普通 Rocket 系统；68 个论文端点与 860-event 真实系统 trace 共同证明机制、工具链和工作守恒，同时显式保留原始专有平台边界。
+在动态 Agent 服务中，AgentSys 将 Agentix、mllm、Agent.xpu 与TISA-to-MLX落到普通Rocket系统；73个注册端点、三种Agent DAG和cycle/物理RTL执行共同验证机制、工具链与工作守恒，同时显式保留target-informed MLX和原始专有平台边界。
 
 ## 术语与约定
 
@@ -46,7 +48,7 @@ run 051进一步关闭了源码进入仓库后的可移植性缺口：活动Pyth
 
 ### 目标论文清单
 
-修订后的“论文性能复现”严格指 Agentix、Agent.xpu、TISA、mllm/llm.npu 和 HPTPE 五个活动组件。五份独立 profile 在 `config/revised-toolchain.json.paper_profiles` 中注册命令、源码、revision、输出和端点数量。ATX 四组件旧合同保留在 `config/toolchain.json`，但不进入修订证书。MLX_dev `sys` 只作为 Chipyard/RoCC 工程参考，不作为性能来源。
+修订后的基础“论文性能复现”指Agentix、Agent.xpu、TISA、mllm/llm.npu和HPTPE五个组件。五份独立profile在`config/revised-toolchain.json.paper_profiles`中注册命令、源码、revision、输出和端点数量。ATX四组件旧合同保留在`config/toolchain.json`，但不进入修订证书。当前MLX层使用MLX_dev `sys`作为Chipyard/RoCC开放surrogate，并另行注册5个明确标注为target-informed的回归点；这些点进入73端点合同，但不构成对MLX原作者未公开模拟器或整篇论文的独立复现。
 
 ## 研究问题与贡献
 
@@ -61,7 +63,7 @@ run 051进一步关闭了源码进入仓库后的可移植性缺口：活动Pyth
 
 - 实现可执行的 Agentix PLAS/ATLAS、Agent.xpu flow scheduler、mllm/llm.npu机制和 TISA scheduler，而非仅整理设计说明。
 - 为 mllm v2 增加原生 MIR trace consumer/backend，直接解析 Qwen3-1.7B MIR 的 SSA、shape、dtype 和 operator dependency，并执行上游 runtime/CPU backend 测试。
-- 在 `/root/chipyard` 固定 commit 上实现中立 `xpu_v2` custom0 RoCC、HellaCache DMA、8-entry TISA window、HPTPE 16×16 ME、VE/DE 和 bare-metal runtime。
+- 在项目内固定Chipyard commit上实现中立`xpu_v2` custom0 RoCC、HellaCache DMA、8-entry TISA window、HPTPE 16×16 ME、VE/DE和bare-metal runtime，并进一步实现当前MLX custom0/HellaCache路径。
 - 使用官方 Ramulator2 v2.0a 实际运行 Qwen3 DE trace，并把测得的 DDR service factor 回注 TISA DE latency。
 - 生成统一 11 层 JSONL 系统 trace、消融、机器可读结果和最终审计，而不是用汇总文字代替原始证据。
 - 执行 ReAct、Mixture-of-Agents 与 MCTS 应用，把框架 Call/Flow 和上游 mllm MIR 编译成 RISC-V ELF，在 Static/Dynamic Rocket+HPTPE 上运行并回收 application 到 PE 阵列的 cycle trace。
@@ -422,6 +424,8 @@ run 046三种Agent负载产生20个call、17个MLX launch、3个CPU tool和765�
 
 run 051在实现commit之后重新执行项目内Chipyard preflight、4 ELF×2 backend substrate、3 DAG×2 backend和六层sensitivity，共16次fresh Rocket。四阶段wall time分别为0.048/270.900/648.838/209.385 s，严格串行且9/9全局gate通过。证书逐项比较解析后的8个substrate record、三种Agent的call/backend/trace签名以及73个端点；除产物位置外与run 044/046/048完全相同。
 
+run 052把上述证书从“HEAD必须恰好等于实现commit”改为不放宽的实现闭包合同。`config/project-local-chipyard.json`按已校验的`run_id`隔离输出，避免新实验覆盖run 051。`chipyard/.agentsys-source.json`登记25个实际构建gitlink和两份补丁后文件SHA-256；Python与shell preflight都核对精确revision、tracked diff和补丁内容。实现闭包锚定`ab7746201d9840904ede594d9dd765f7f11d3029`，而证据提交只要不改变注册实现路径即可重签。
+
 run 033–040进一步补齐本机双GPU/多CPU层。`scripts/setup_gpu_runtime.sh`建立独立PyTorch CUDA 12.8/NCCL/NVML环境；`scripts/setup_mllm_cuda.sh`使用SHA固定的micromamba和NVIDIA CUDA 12.8.1 Conda包安装项目内nvcc，构建mllm CUDA lifecycle backend，并应用一个有hash的shutdown-order补丁。上游固定版本的四个CUDA `.cu`仍为空、没有op factory，因此真实算子明确由`agentsys_mir_cuda_operator_adapter`实现，不冒充上游mllm完整GPU inference。
 
 `config/hybrid-system.json`是新的最高层配置。它将相同Agent call同时绑定到Agentix调度、mllm MIR、Agent.xpu flow/stage、GPU/NUMA placement和TISA/HPTPE descriptors；GPU域执行真实CUDA/NCCL，RISC-V域执行静态/动态Rocket+HPTPE。合并trace保留`host_monotonic_ns`、`rocket_static_cycle`和`rocket_dynamic_cycle`三个时钟域，只按workload SHA/call ID建立身份关系，不伪造跨域时间换算。run 040三负载分别产生993/209/504条合并事件，全局11/11通过，论文回归仍为68/68、最大误差9.91%。
@@ -476,13 +480,13 @@ bash scripts/install_mlx_chipyard.sh
   --run-id run_049 \
   --output artifacts/results/mlx-cpu-final-certificate-run_049.json
 
-# 当前post-vendoring项目内Chipyard严格重放与证书
+# 当前项目内Chipyard严格重放与可持续源码闭包证书
 .venv/bin/agentsys-reproduce-portable \
-  --config config/project-local-chipyard.json --run-id run_051
+  --config config/project-local-chipyard.json --run-id run_052
 .venv/bin/agentsys-certificate-portable \
   --config config/project-local-chipyard.json \
-  --run-id run_051 \
-  --expected-commit d7b209189f7c15351186fb4571395ea83a4631f5
+  --run-id run_052 \
+  --expected-commit ab7746201d9840904ede594d9dd765f7f11d3029
 ```
 
 本机双GPU+双NUMA+Rocket垂直入口：
@@ -556,11 +560,12 @@ make -C system_sim/software -j4 all
 ### 4. Chipyard
 
 ```bash
-bash scripts/install_agentsys_chipyard.sh /root/chipyard
+bash scripts/bootstrap_chipyard.sh
+bash scripts/install_agentsys_chipyard.sh "$PWD/chipyard"
 make -C system_sim/software -j4 all
-source /root/chipyard/env.sh
-make -C /root/chipyard/sims/verilator CONFIG=AgentSysStaticRocketConfig -j4
-make -C /root/chipyard/sims/verilator CONFIG=AgentSysDynamicRocketConfig -j4
+source chipyard/env.sh
+make -C chipyard/sims/verilator CONFIG=AgentSysStaticRocketConfig -j4
+make -C chipyard/sims/verilator CONFIG=AgentSysDynamicRocketConfig -j4
 cd /workspace/AgentSys
 .venv/bin/python scripts/run_agentsys_chipyard.py
 ```
@@ -577,10 +582,10 @@ bash scripts/build_ramulator2.sh
 
 | 目标 | 权威证据 | 状态 |
 |---|---|---|
-| 项目内Chipyard自动配置 | run 051：hashed source identity、22+3固定gitlink闭包、默认local root、无效override fail-closed | 通过 |
-| post-vendoring严格重放 | run 051：4/4 serial stages、9/9 gates、16次fresh Rocket | 通过 |
-| 当前实现commit证书 | `project-local-chipyard-certificate-run_051`：16/16、fresh 3/3、pytest 114/114 | 通过 |
-| 历史结果逐字段不漂移 | run 051 vs 044/046/048：substrate/Agent/73 endpoints exact | 通过 |
+| 项目内Chipyard自动配置 | run 052：hashed source identity、25/25精确gitlink、2/2补丁哈希、默认local root、无效override fail-closed | 通过 |
+| 可隔离的严格重放 | run 052：run-id隔离、4/4 serial stages、9/9 gates、16次fresh Rocket | 通过 |
+| 可持续实现闭包证书 | `project-local-chipyard-certificate-run_052`：19/19、fresh 3/3、pytest 117/117 | 通过 |
+| 历史结果逐字段不漂移 | run 052 vs 044/046/048：substrate/Agent/73 endpoints exact | 通过 |
 | MLX当前源码/边界审计 | run 042：21个核心文件，10/10；严格全论文1/18保持false | 通过 |
 | MLX cycle/物理4×4 RTL | run 043：fresh build，4 workload×2 backend，10/10 | 8/8 golden |
 | 普通Rocket+MLX RoCC/DMA | run 044：2 configs、4 ELF、12/12，kernel与standalone一致 | 8/8通过 |
@@ -647,7 +652,7 @@ AgentSys 已从方向草案转化为可执行、可重放、可审计的修订�
 
 集成性能没有通过弱化基线获得。run 026 的 2.000× 因 static 逐算子串行而被保留为失败；run 027 预先恢复论文的强静态 stage pipeline 和 7-cycle dynamic dispatch 后得到 backend/system/end-to-end 1.376/1.340/1.056×，精确落在注册范围。结果也再次说明，CPU/framework 开销会稀释 XPU 收益，带宽与数据流会迁移瓶颈。
 
-最终架构中 CPU 是普通 RISC-V，活动链为 mllm → Agent.xpu → TISA → HPTPE；ATX 只保留历史证据。run 028 已用 `agentsys-reproduce-revised` 对冻结机制完成八阶段串行重放：8/8 stages、12/12 toolchain gates、15/15 requirements，fresh tests/lint 全部通过，模型和阈值均未修改。
+run 028阶段的修订架构使用普通RISC-V与mllm→Agent.xpu→TISA→HPTPE，ATX只保留历史证据；该路径已用`agentsys-reproduce-revised`完成8/8串行阶段、12/12工具链gate和15/15 requirements。当前最终硬件随后在run 042–052切换为普通Rocket+MLX，HPTPE路径保留为已验证的前序集成而不进入当前Agent ELF。
 
 H14消除了该结论只适用于一个固定trace的限制。上层现在可直接提交版本化Agent manifest，系统会执行Agentix、mllm/Agent.xpu lowering、生成独立RISC-V ELF并在同一Rocket+HPTPE模拟器上得到完整结果。run 030的三种DAG和run 031的五层参数matrix共同证明：负载可切换、配置实际生效、硬件工作随负载缩放，并且相同论文配置下68个性能点全部保持在10%以内。
 
@@ -655,7 +660,7 @@ run 032用`agentsys-reproduce-parameterized`重新串行执行五层matrix和三
 
 H15补齐了run 032尚缺的本机GPU运行时和多CPU执行。run 039先证明固定mllm CUDA lifecycle可在两张4090上构建、枚举并安全退出，同时机器审计上游CUDA算子为空；run 040随后将三种Agent DAG逐call编译为双GPU/NUMA placement和同源Rocket/TISA/HPTPE工作。三组native trace均完整执行全部MIR算子、CPU预处理、传输和NCCL，三组Rocket trace仍保持逐tile checksum一致，合并结果按身份而非虚假时间尺度串联。
 
-因此当前工具链可从“切换一个Agent JSON”一路得到Agentix软件调度、mllm/Agent.xpu编译计划、本机GPU/CPU实测、RISC-V ELF、Rocket/TISA/HPTPE仿真以及五层论文回归结果。论文同配置准确度和本机硬件测量继续分栏：68个论文端点全部在10%内，本机4090/Xeon数据只作为真实执行与校准证据。
+因此当前工具链可从“切换一个Agent JSON”一路得到Agentix软件调度、mllm/Agent.xpu编译计划、TISA-to-MLX空间程序、RISC-V ELF以及Rocket+MLX cycle/物理RTL结果；GPU和Rocket+HPTPE继续作为辅助实测与前序机制证据。论文同配置准确度和本机硬件测量继续分栏：73个注册端点全部在10%内，本机4090/Xeon数据不替代原论文平台。
 
 run 041最后对冻结的`react_tool` native plan执行Nsight采样，16/16逐MIR NVTX range以及GEMM、归一化/elementwise、copy/transpose、NCCL、H2D/D2H均被捕获；原生13/13、profile audit 9/9。随后`agentsys-certificate-hybrid`现场重跑90项pytest、mllm CUDA双卡幂等测试、TISA dispatch和两类RTL lint，最终22/22 requirements通过并设置`full_goal_complete=true`。权威结果为`artifacts/results/hybrid-system-certificate-run_041.json`。
 
@@ -665,4 +670,6 @@ run 047/048证明该重构没有牺牲论文层合同：六层73/73注册端点�
 
 run 049最终现场执行完整pytest、MLX环境/源码验证、12-file Chipyard overlay、Icarus cycle compile和物理4×4 RTL Verilator lint，5/5 fresh checks全部通过。最终`artifacts/results/mlx-cpu-final-certificate-run_049.json`为25/25 requirements、105/105 tests并设置`full_goal_complete=true`；该证书取代run 041成为当前MLX+CPU目标的最高层完成证据，run 041仅作为辅助GPU路径证据保留。
 
-Chipyard源码随后进入AgentSys仓库，使run 049的commit锚和机器全局路径不再覆盖当前树。H20因此不把旧证书继续当作完成证明。run 051从实现commit `d7b209189f7c15351186fb4571395ea83a4631f5`出发，在项目内Chipyard重新生成cycle/物理RTL两套模拟器并执行16次Rocket；4/4 stages、9/9 replay gates、16/16 certificate requirements和114/114 tests全部通过。新证书逐字段证明run 044/046/048的功能、周期、Agent工作与73个端点没有漂移，现为当前源码最高层完成证据。
+Chipyard源码随后进入AgentSys仓库，使run 049的commit锚和机器全局路径不再覆盖当前树。H20因此不把旧证书继续当作完成证明。run 051从实现commit `d7b209189f7c15351186fb4571395ea83a4631f5`出发，在项目内Chipyard重新生成cycle/物理RTL两套模拟器并执行16次Rocket；4/4 stages、9/9 replay gates、16/16 certificate requirements和114/114 tests全部通过。该证书逐字段证明run 044/046/048的功能、周期、Agent工作与73个端点没有漂移，随后由可持续重签的run 052证书取代。
+
+H21进一步消除了“提交证据后HEAD变化会让实现证书立即过期”的循环。run 052从实现commit `ab7746201d9840904ede594d9dd765f7f11d3029` fresh执行1,121.467 s，4/4 stages、9/9 replay gates、16次Rocket、19/19 certificate requirements和117/117 tests全部通过；25个实际构建gitlink与2个兼容补丁也逐项精确核验。该证书允许结果/报告提交成为实现锚点的后继，但任何注册实现路径变化仍会失败，因此可重签性不以放松源码、功能或10%性能门槛为代价。

@@ -53,16 +53,20 @@ Chipyard源码进入仓库后的当前入口与证书为：
 
 ```bash
 .venv/bin/agentsys-reproduce-portable \
-  --config config/project-local-chipyard.json --run-id run_051
+  --config config/project-local-chipyard.json --run-id run_052
 .venv/bin/agentsys-certificate-portable \
-  --config config/project-local-chipyard.json --run-id run_051 \
-  --expected-commit d7b209189f7c15351186fb4571395ea83a4631f5
+  --config config/project-local-chipyard.json --run-id run_052 \
+  --expected-commit ab7746201d9840904ede594d9dd765f7f11d3029
 ```
 
 run 051使用项目内`chipyard/`fresh执行16次Rocket，4/4阶段、9/9 replay
 gate、16/16证书要求和114/114 pytest通过；substrate、三Agent与73端点解析
 结果逐字段等于run 044/046/048。显式`AGENTSYS_CHIPYARD_ROOT`可覆盖默认根，
 无效override会fail closed。
+
+run 052进一步把输出按`run_id`隔离，并以实现闭包而非易失的当前HEAD相等
+条件签发证书。25/25构建gitlink、2/2兼容补丁、19/19 requirements和
+117/117 pytest通过；16次fresh Rocket与73/73端点结果逐字段保持不变。
 
 切换负载会重新执行Agentix、生成mllm/Agent.xpu/TISA manifest、45-op MLX
 micro-lineage、Agent call C header和独立RISC-V ELF，然后在两套MLX Rocket

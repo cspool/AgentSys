@@ -125,6 +125,14 @@ the same 9.91% maximum error. Sixteen fresh repository-local Rocket executions
 and exact run-044/046/048 signatures replace the stale run-049 `/root`-bound
 certificate with a post-vendoring, implementation-SHA-anchored result.
 
+Run 052 preserves the same numerical and functional result while removing a
+self-expiring proof condition. The certificate now binds the complete active
+implementation closure to an ancestor commit, verifies 25 exact Chipyard build
+gitlinks and two compatibility-patched files, and isolates outputs by run ID.
+Its initial signing passes 19/19 requirements and 117 tests after 16 fresh
+Rocket executions. A later evidence-only commit must still be re-signed before
+H21 is considered closed; any active-source difference remains a hard failure.
+
 ## Toolchain Closure
 
 - Python 3.11 and the four environment packages are hash-locked with `uv.lock`; system tools, seven source revisions, compatibility patches, build products and Chipyard overlays are checked separately.

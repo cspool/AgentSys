@@ -1,0 +1,2 @@
+/tmp/hptpe-opt1_os-jcx01ii6/testbench.sv:40: warning: task definition for "initialize" has an empty port declaration list!
+/tmp/hptpe-opt1_os-jcx01ii6/testbench.sv:101: warning: task definition for "random_test_gemm" has an empty port declaration list!
