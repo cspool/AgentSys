@@ -2,7 +2,7 @@
 project:
   title: "AgentSys: dynamic-agent full-stack scheduling from program DAG to NPU tile"
   question: "Can Agentix, Agent.xpu, mllm/llm.npu, TISA and HPTPE be independently reproduced within 15%, then compose on an ordinary-RISC-V Chipyard CPU+XPU system?"
-  status: concluded
+  status: active
   started: "2026-08-25"
   domain: "computer systems and architecture"
 
@@ -109,6 +109,12 @@ hypotheses:
     statement: "Independently reproduced mllm, Agent.xpu and HPTPE components can integrate through TISA into an ordinary-RISC-V CPU+XPU system without losing their paper-level performance behavior."
     status: supported
     motivation: "Implement the revised final architecture without ATX in the CPU path."
+    parent: null
+    priority: high
+  - id: H14
+    statement: "A versioned workload manifest can switch complete Agent DAGs and layer parameters through compilation, per-workload RISC-V ELF generation and Rocket+HPTPE execution without source edits, while paper-matched regression profiles remain within 10%."
+    status: pending
+    motivation: "Generalize the certified fixed workload into the user-requested parameterized experimental system."
     parent: null
     priority: high
 
@@ -316,9 +322,9 @@ experiments:
       timestamp: "2026-08-26"
 
 outer_loop:
-  cycle: 15
-  last_direction: conclude
-  last_reflection: "Run 028 closes the revised goal: 68/68 standalone endpoints, real 20/20 ordinary-Rocket+HPTPE integration, 8/8 serial replay, 12/12 toolchain audit and 15/15 final certificate."
+  cycle: 16
+  last_direction: broaden
+  last_reflection: "The run-028 stack is complete only for one registered workload. H14 broadens the system to manifest-driven workload switching and per-layer parameter regression, beginning with three source-edit-free Agent DAGs."
 
 workspace:
   findings: "findings.md"
