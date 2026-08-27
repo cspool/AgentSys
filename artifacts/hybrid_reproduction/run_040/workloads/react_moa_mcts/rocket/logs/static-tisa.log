@@ -1,0 +1,160 @@
+AGENTSYS_TISA_ISSUE call=0 cycle=0 index=0 engine=ve source=6 flow=0 stage=0 placement=1 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_ISSUE call=0 cycle=81 index=1 engine=ve source=7 flow=0 stage=0 placement=1 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE call=0 cycle=81 index=0 engine=ve source=6 checksum=c212bd8b717393da
+AGENTSYS_TISA_ISSUE call=0 cycle=82 index=3 engine=me source=10 flow=0 stage=0 placement=0 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE call=0 cycle=162 index=1 engine=ve source=7 checksum=c312bdcf7173d08a
+AGENTSYS_TISA_ISSUE call=0 cycle=163 index=4 engine=me source=11 flow=0 stage=0 placement=0 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_ISSUE call=0 cycle=163 index=2 engine=ve source=8 flow=0 stage=0 placement=1 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE call=0 cycle=163 index=3 engine=me source=10 checksum=71f35147bb273fec
+AGENTSYS_TISA_ISSUE call=0 cycle=244 index=5 engine=me source=12 flow=0 stage=0 placement=0 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE call=0 cycle=244 index=4 engine=me source=11 checksum=56cea6b071e013a5
+AGENTSYS_TISA_COMPLETE call=0 cycle=244 index=2 engine=ve source=8 checksum=c012be0b71701098
+AGENTSYS_TISA_COMPLETE call=0 cycle=325 index=5 engine=me source=12 checksum=2ae0d76587c148c3
+AGENTSYS_TISA_ISSUE call=0 cycle=326 index=6 engine=de source=13 flow=0 stage=1 placement=2 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE call=0 cycle=407 index=6 engine=de source=13 checksum=5f00093ba8ce052f
+AGENTSYS_TISA_ISSUE call=0 cycle=408 index=7 engine=de source=14 flow=0 stage=1 placement=2 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE call=0 cycle=489 index=7 engine=de source=14 checksum=5e0009f7a8cec497
+AGENTSYS_TISA_ISSUE call=1 cycle=0 index=0 engine=ve source=6 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE call=1 cycle=81 index=1 engine=ve source=7 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=1 cycle=81 index=0 engine=ve source=6 checksum=c2129d8b71739bda
+AGENTSYS_TISA_ISSUE call=1 cycle=82 index=3 engine=me source=10 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=1 cycle=162 index=1 engine=ve source=7 checksum=c3129dcf7173d88a
+AGENTSYS_TISA_ISSUE call=1 cycle=163 index=4 engine=me source=11 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE call=1 cycle=163 index=2 engine=ve source=8 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=1 cycle=163 index=3 engine=me source=10 checksum=186d69d0ebf48c33
+AGENTSYS_TISA_ISSUE call=1 cycle=244 index=5 engine=me source=12 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=1 cycle=244 index=4 engine=me source=11 checksum=ceb594ba0789e218
+AGENTSYS_TISA_COMPLETE call=1 cycle=244 index=2 engine=ve source=8 checksum=c0129e0b71701898
+AGENTSYS_TISA_COMPLETE call=1 cycle=325 index=5 engine=me source=12 checksum=73359c46b70aaa41
+AGENTSYS_TISA_ISSUE call=1 cycle=326 index=6 engine=de source=13 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=1 cycle=407 index=6 engine=de source=13 checksum=5f00293ba8ce0d2f
+AGENTSYS_TISA_ISSUE call=1 cycle=408 index=7 engine=de source=14 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=1 cycle=489 index=7 engine=de source=14 checksum=5e0029f7a8cecc97
+AGENTSYS_TISA_ISSUE call=2 cycle=0 index=0 engine=ve source=6 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE call=2 cycle=81 index=1 engine=ve source=7 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=2 cycle=81 index=0 engine=ve source=6 checksum=c2129d8b71739bda
+AGENTSYS_TISA_ISSUE call=2 cycle=82 index=3 engine=me source=10 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=2 cycle=162 index=1 engine=ve source=7 checksum=c3129dcf7173d88a
+AGENTSYS_TISA_ISSUE call=2 cycle=163 index=4 engine=me source=11 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE call=2 cycle=163 index=2 engine=ve source=8 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=2 cycle=163 index=3 engine=me source=10 checksum=186d69d0ebf48c33
+AGENTSYS_TISA_ISSUE call=2 cycle=244 index=5 engine=me source=12 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=2 cycle=244 index=4 engine=me source=11 checksum=ceb594ba0789e218
+AGENTSYS_TISA_COMPLETE call=2 cycle=244 index=2 engine=ve source=8 checksum=c0129e0b71701898
+AGENTSYS_TISA_COMPLETE call=2 cycle=325 index=5 engine=me source=12 checksum=73359c46b70aaa41
+AGENTSYS_TISA_ISSUE call=2 cycle=326 index=6 engine=de source=13 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=2 cycle=407 index=6 engine=de source=13 checksum=5f00293ba8ce0d2f
+AGENTSYS_TISA_ISSUE call=2 cycle=408 index=7 engine=de source=14 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=2 cycle=489 index=7 engine=de source=14 checksum=5e0029f7a8cecc97
+AGENTSYS_TISA_ISSUE call=3 cycle=0 index=0 engine=ve source=6 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE call=3 cycle=81 index=1 engine=ve source=7 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=3 cycle=81 index=0 engine=ve source=6 checksum=c2129d8b71739bda
+AGENTSYS_TISA_ISSUE call=3 cycle=82 index=3 engine=me source=10 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=3 cycle=162 index=1 engine=ve source=7 checksum=c3129dcf7173d88a
+AGENTSYS_TISA_ISSUE call=3 cycle=163 index=4 engine=me source=11 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE call=3 cycle=163 index=2 engine=ve source=8 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=3 cycle=163 index=3 engine=me source=10 checksum=186d69d0ebf48c33
+AGENTSYS_TISA_ISSUE call=3 cycle=244 index=5 engine=me source=12 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=3 cycle=244 index=4 engine=me source=11 checksum=ceb594ba0789e218
+AGENTSYS_TISA_COMPLETE call=3 cycle=244 index=2 engine=ve source=8 checksum=c0129e0b71701898
+AGENTSYS_TISA_COMPLETE call=3 cycle=325 index=5 engine=me source=12 checksum=73359c46b70aaa41
+AGENTSYS_TISA_ISSUE call=3 cycle=326 index=6 engine=de source=13 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=3 cycle=407 index=6 engine=de source=13 checksum=5f00293ba8ce0d2f
+AGENTSYS_TISA_ISSUE call=3 cycle=408 index=7 engine=de source=14 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=3 cycle=489 index=7 engine=de source=14 checksum=5e0029f7a8cecc97
+AGENTSYS_TISA_ISSUE call=4 cycle=0 index=0 engine=ve source=6 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE call=4 cycle=81 index=1 engine=ve source=7 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=4 cycle=81 index=0 engine=ve source=6 checksum=c2129d8b71739bda
+AGENTSYS_TISA_ISSUE call=4 cycle=82 index=3 engine=me source=10 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=4 cycle=162 index=1 engine=ve source=7 checksum=c3129dcf7173d88a
+AGENTSYS_TISA_ISSUE call=4 cycle=163 index=4 engine=me source=11 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE call=4 cycle=163 index=2 engine=ve source=8 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=4 cycle=163 index=3 engine=me source=10 checksum=186d69d0ebf48c33
+AGENTSYS_TISA_ISSUE call=4 cycle=244 index=5 engine=me source=12 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=4 cycle=244 index=4 engine=me source=11 checksum=ceb594ba0789e218
+AGENTSYS_TISA_COMPLETE call=4 cycle=244 index=2 engine=ve source=8 checksum=c0129e0b71701898
+AGENTSYS_TISA_COMPLETE call=4 cycle=325 index=5 engine=me source=12 checksum=73359c46b70aaa41
+AGENTSYS_TISA_ISSUE call=4 cycle=326 index=6 engine=de source=13 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=4 cycle=407 index=6 engine=de source=13 checksum=5f00293ba8ce0d2f
+AGENTSYS_TISA_ISSUE call=4 cycle=408 index=7 engine=de source=14 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=4 cycle=489 index=7 engine=de source=14 checksum=5e0029f7a8cecc97
+AGENTSYS_TISA_ISSUE call=6 cycle=0 index=0 engine=ve source=6 flow=0 stage=0 placement=1 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_ISSUE call=6 cycle=81 index=1 engine=ve source=7 flow=0 stage=0 placement=1 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE call=6 cycle=81 index=0 engine=ve source=6 checksum=c212bd8b717393da
+AGENTSYS_TISA_ISSUE call=6 cycle=82 index=3 engine=me source=10 flow=0 stage=0 placement=0 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE call=6 cycle=162 index=1 engine=ve source=7 checksum=c312bdcf7173d08a
+AGENTSYS_TISA_ISSUE call=6 cycle=163 index=4 engine=me source=11 flow=0 stage=0 placement=0 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_ISSUE call=6 cycle=163 index=2 engine=ve source=8 flow=0 stage=0 placement=1 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE call=6 cycle=163 index=3 engine=me source=10 checksum=71f35147bb273fec
+AGENTSYS_TISA_ISSUE call=6 cycle=244 index=5 engine=me source=12 flow=0 stage=0 placement=0 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE call=6 cycle=244 index=4 engine=me source=11 checksum=56cea6b071e013a5
+AGENTSYS_TISA_COMPLETE call=6 cycle=244 index=2 engine=ve source=8 checksum=c012be0b71701098
+AGENTSYS_TISA_COMPLETE call=6 cycle=325 index=5 engine=me source=12 checksum=2ae0d76587c148c3
+AGENTSYS_TISA_ISSUE call=6 cycle=326 index=6 engine=de source=13 flow=0 stage=1 placement=2 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE call=6 cycle=407 index=6 engine=de source=13 checksum=5f00093ba8ce052f
+AGENTSYS_TISA_ISSUE call=6 cycle=408 index=7 engine=de source=14 flow=0 stage=1 placement=2 preemptible=1 priority=0 duration=80
+AGENTSYS_TISA_COMPLETE call=6 cycle=489 index=7 engine=de source=14 checksum=5e0009f7a8cec497
+AGENTSYS_TISA_ISSUE call=7 cycle=0 index=0 engine=ve source=6 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE call=7 cycle=81 index=1 engine=ve source=7 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=7 cycle=81 index=0 engine=ve source=6 checksum=c2129d8b71739bda
+AGENTSYS_TISA_ISSUE call=7 cycle=82 index=3 engine=me source=10 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=7 cycle=162 index=1 engine=ve source=7 checksum=c3129dcf7173d88a
+AGENTSYS_TISA_ISSUE call=7 cycle=163 index=4 engine=me source=11 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE call=7 cycle=163 index=2 engine=ve source=8 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=7 cycle=163 index=3 engine=me source=10 checksum=186d69d0ebf48c33
+AGENTSYS_TISA_ISSUE call=7 cycle=244 index=5 engine=me source=12 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=7 cycle=244 index=4 engine=me source=11 checksum=ceb594ba0789e218
+AGENTSYS_TISA_COMPLETE call=7 cycle=244 index=2 engine=ve source=8 checksum=c0129e0b71701898
+AGENTSYS_TISA_COMPLETE call=7 cycle=325 index=5 engine=me source=12 checksum=73359c46b70aaa41
+AGENTSYS_TISA_ISSUE call=7 cycle=326 index=6 engine=de source=13 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=7 cycle=407 index=6 engine=de source=13 checksum=5f00293ba8ce0d2f
+AGENTSYS_TISA_ISSUE call=7 cycle=408 index=7 engine=de source=14 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=7 cycle=489 index=7 engine=de source=14 checksum=5e0029f7a8cecc97
+AGENTSYS_TISA_ISSUE call=8 cycle=0 index=0 engine=ve source=6 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE call=8 cycle=81 index=1 engine=ve source=7 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=8 cycle=81 index=0 engine=ve source=6 checksum=c2129d8b71739bda
+AGENTSYS_TISA_ISSUE call=8 cycle=82 index=3 engine=me source=10 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=8 cycle=162 index=1 engine=ve source=7 checksum=c3129dcf7173d88a
+AGENTSYS_TISA_ISSUE call=8 cycle=163 index=4 engine=me source=11 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE call=8 cycle=163 index=2 engine=ve source=8 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=8 cycle=163 index=3 engine=me source=10 checksum=186d69d0ebf48c33
+AGENTSYS_TISA_ISSUE call=8 cycle=244 index=5 engine=me source=12 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=8 cycle=244 index=4 engine=me source=11 checksum=ceb594ba0789e218
+AGENTSYS_TISA_COMPLETE call=8 cycle=244 index=2 engine=ve source=8 checksum=c0129e0b71701898
+AGENTSYS_TISA_COMPLETE call=8 cycle=325 index=5 engine=me source=12 checksum=73359c46b70aaa41
+AGENTSYS_TISA_ISSUE call=8 cycle=326 index=6 engine=de source=13 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=8 cycle=407 index=6 engine=de source=13 checksum=5f00293ba8ce0d2f
+AGENTSYS_TISA_ISSUE call=8 cycle=408 index=7 engine=de source=14 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=8 cycle=489 index=7 engine=de source=14 checksum=5e0029f7a8cecc97
+AGENTSYS_TISA_ISSUE call=9 cycle=0 index=0 engine=ve source=6 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE call=9 cycle=81 index=1 engine=ve source=7 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=9 cycle=81 index=0 engine=ve source=6 checksum=c2129d8b71739bda
+AGENTSYS_TISA_ISSUE call=9 cycle=82 index=3 engine=me source=10 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=9 cycle=162 index=1 engine=ve source=7 checksum=c3129dcf7173d88a
+AGENTSYS_TISA_ISSUE call=9 cycle=163 index=4 engine=me source=11 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE call=9 cycle=163 index=2 engine=ve source=8 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=9 cycle=163 index=3 engine=me source=10 checksum=186d69d0ebf48c33
+AGENTSYS_TISA_ISSUE call=9 cycle=244 index=5 engine=me source=12 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=9 cycle=244 index=4 engine=me source=11 checksum=ceb594ba0789e218
+AGENTSYS_TISA_COMPLETE call=9 cycle=244 index=2 engine=ve source=8 checksum=c0129e0b71701898
+AGENTSYS_TISA_COMPLETE call=9 cycle=325 index=5 engine=me source=12 checksum=73359c46b70aaa41
+AGENTSYS_TISA_ISSUE call=9 cycle=326 index=6 engine=de source=13 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=9 cycle=407 index=6 engine=de source=13 checksum=5f00293ba8ce0d2f
+AGENTSYS_TISA_ISSUE call=9 cycle=408 index=7 engine=de source=14 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=9 cycle=489 index=7 engine=de source=14 checksum=5e0029f7a8cecc97
+AGENTSYS_TISA_ISSUE call=10 cycle=0 index=0 engine=ve source=6 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE call=10 cycle=81 index=1 engine=ve source=7 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=10 cycle=81 index=0 engine=ve source=6 checksum=c2129d8b71739bda
+AGENTSYS_TISA_ISSUE call=10 cycle=82 index=3 engine=me source=10 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=10 cycle=162 index=1 engine=ve source=7 checksum=c3129dcf7173d88a
+AGENTSYS_TISA_ISSUE call=10 cycle=163 index=4 engine=me source=11 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_ISSUE call=10 cycle=163 index=2 engine=ve source=8 flow=1 stage=0 placement=1 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=10 cycle=163 index=3 engine=me source=10 checksum=186d69d0ebf48c33
+AGENTSYS_TISA_ISSUE call=10 cycle=244 index=5 engine=me source=12 flow=1 stage=0 placement=0 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=10 cycle=244 index=4 engine=me source=11 checksum=ceb594ba0789e218
+AGENTSYS_TISA_COMPLETE call=10 cycle=244 index=2 engine=ve source=8 checksum=c0129e0b71701898
+AGENTSYS_TISA_COMPLETE call=10 cycle=325 index=5 engine=me source=12 checksum=73359c46b70aaa41
+AGENTSYS_TISA_ISSUE call=10 cycle=326 index=6 engine=de source=13 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=10 cycle=407 index=6 engine=de source=13 checksum=5f00293ba8ce0d2f
+AGENTSYS_TISA_ISSUE call=10 cycle=408 index=7 engine=de source=14 flow=1 stage=1 placement=2 preemptible=1 priority=2 duration=80
+AGENTSYS_TISA_COMPLETE call=10 cycle=489 index=7 engine=de source=14 checksum=5e0029f7a8cecc97

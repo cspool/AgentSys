@@ -1,0 +1,169 @@
+{
+  "artifacts": {
+    "application": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/application.json",
+    "compiled": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/compiled.json",
+    "elf": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/software/workload.riscv",
+    "header": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/generated/workload.h",
+    "system": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/system.json",
+    "trace": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/system-trace.jsonl"
+  },
+  "classification": "parameterized_agent_workload_end_to_end_pipeline",
+  "output_dir": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket",
+  "run_id": "run_040",
+  "schema_version": 1,
+  "stages": [
+    {
+      "finished_ns": 1787811851814930195,
+      "name": "agentix_application",
+      "outputs": {
+        "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/application.json": {
+          "bytes": 23950,
+          "sha256": "59b5ba7e202176d4d652c3489b4be92135ca2a802636158d7a1383a8161bb6c8"
+        }
+      },
+      "pass": true,
+      "started_ns": 1787811851806521319,
+      "wall_time_s": 0.008408876
+    },
+    {
+      "finished_ns": 1787811852114130779,
+      "name": "mllm_agentxpu_tisa_compile",
+      "outputs": {
+        "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/compiled.json": {
+          "bytes": 31299,
+          "sha256": "5570eee27fda8f4c915821f6cfdc4166aa4f4649518dd238039377c28d3b081c"
+        },
+        "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/generated/workload.h": {
+          "bytes": 6079,
+          "sha256": "413a6a32f14b13fcc0139ec8e6213b37b1d1c5b0fbc316e0dc954031780d1c82"
+        }
+      },
+      "pass": true,
+      "started_ns": 1787811851815047028,
+      "wall_time_s": 0.299083751
+    },
+    {
+      "details": {
+        "classification": "parameterized_workload_riscv_elf_build",
+        "command": [
+          "/root/chipyard/esp-tools-install/bin/riscv64-unknown-elf-gcc",
+          "-std=gnu99",
+          "-O2",
+          "-g",
+          "-fno-common",
+          "-fno-builtin-printf",
+          "-Wall",
+          "-Wextra",
+          "-I/root/chipyard/tests",
+          "-I/workspace/AgentSys/system_sim/software",
+          "-DAGENTSYS_REVISED_TRACE_HEADER=\"/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/generated/workload.h\"",
+          "/workspace/AgentSys/system_sim/software/agentsys_revised_system_test.c",
+          "-static",
+          "-specs=htif_nano.specs",
+          "-o",
+          "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/software/workload.riscv"
+        ],
+        "elf": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/software/workload.riscv",
+        "elf_bytes": 103128,
+        "elf_sha256": "5ee5da1664f083672f352c4c13777494a72ed1a8f457e37fb0c0bd2828ed6c17",
+        "exit_code": 0,
+        "header": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/generated/workload.h",
+        "header_sha256": "413a6a32f14b13fcc0139ec8e6213b37b1d1c5b0fbc316e0dc954031780d1c82",
+        "output": "",
+        "pass": true,
+        "runtime_sha256": "60010b0567268d7f440f61fa7ec41a474ebf47c5946e4f3cb7d970915e16ab46",
+        "source_sha256": "8038788fdca5267b04f64336a09fa7a8327d185696f1ffb6db5cb433d5f128fd"
+      },
+      "finished_ns": 1787811852525004165,
+      "name": "riscv_elf_build",
+      "outputs": {
+        "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/software/workload.riscv": {
+          "bytes": 103128,
+          "sha256": "5ee5da1664f083672f352c4c13777494a72ed1a8f457e37fb0c0bd2828ed6c17"
+        }
+      },
+      "pass": true,
+      "started_ns": 1787811852114247197,
+      "wall_time_s": 0.410756968
+    },
+    {
+      "finished_ns": 1787812008618840214,
+      "name": "rocket_tisa_hptpe_system",
+      "outputs": {
+        "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/logs/dynamic-tisa.log": {
+          "bytes": 8865,
+          "sha256": "0f316cafa7b1b2a5a253d30677ad6147c90739a59abd5d6815c8e441dfd4845f"
+        },
+        "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/logs/dynamic.log": {
+          "bytes": 3869,
+          "sha256": "528700be98c46be4c7ec777ff2a96b4911c5b92fa741bded491663d1dfbf26bb"
+        },
+        "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/logs/static-tisa.log": {
+          "bytes": 8865,
+          "sha256": "b32fa31d9ebb4d9df435a246422e3dfebed01ff829a17c663e7eaa6544e90fea"
+        },
+        "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/logs/static.log": {
+          "bytes": 3871,
+          "sha256": "2e12f48f0c2bd95ce6021af8ee12e704e8132c8f4921cfa5016671b6af4c26a1"
+        },
+        "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/system-trace.jsonl": {
+          "bytes": 181120,
+          "sha256": "34134bdfc629e4784da6141f9dd670865146a2133b8b770e948d19f286db1dcb"
+        },
+        "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/system.json": {
+          "bytes": 71778,
+          "sha256": "15c4a1a95226b8796665cc99004792113ac5dcef36947f7e0524e18625b0074f"
+        }
+      },
+      "pass": true,
+      "started_ns": 1787811852525425786,
+      "wall_time_s": 156.093414428
+    }
+  ],
+  "summary": {
+    "failing": 0,
+    "pass": true,
+    "passing": 4,
+    "serial_order": true,
+    "stages": 4,
+    "system_executed": true
+  },
+  "system_summary": {
+    "failing": 0,
+    "gates": 19,
+    "pass": true,
+    "passing": 19
+  },
+  "workload": {
+    "agentix": {
+      "batch_size": 2,
+      "policy": "plas"
+    },
+    "agentxpu": {
+      "heg_igpu_prefill_share": 0.4,
+      "heg_prefill_chunk_tokens": 32,
+      "max_decode_batch": 8,
+      "max_reactive_decode_batch": 2
+    },
+    "hardware": {
+      "dispatch_latency": 7,
+      "hptpe_cols": 16,
+      "hptpe_rows": 16,
+      "input_beats": 6,
+      "output_beats": 3,
+      "profile": "rocket_tisa8_hptpe16x16",
+      "tisa_window": 8
+    },
+    "name": "planner_debate",
+    "schema_version": 1,
+    "sha256": "0fbd066467fc52055e53c9cbf7264796f1fbf88aa9788f4838d73a8a8c343631",
+    "source": "/workspace/AgentSys/workloads/planner_debate.json",
+    "summary": {
+      "calls": 6,
+      "llm_calls": 5,
+      "models": 1,
+      "programs": 2,
+      "tool_calls": 1
+    }
+  }
+}

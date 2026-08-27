@@ -149,7 +149,7 @@ hypotheses:
     priority: high
   - id: H15.3
     statement: "Three Agent DAGs can compile into workload-aware dual-GPU/dual-NUMA execution and the same Rocket+TISA/HPTPE call graph, producing an identity-linked multi-clock trace while preserving 68/68 paper regression within 10%."
-    status: pending
+    status: supported
     motivation: "Close the vertical software-framework-compiler-runtime-hardware integration rather than benchmarking an isolated GPU kernel."
     parent: H15
     priority: high
@@ -158,7 +158,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 39
+  total_runs: 40
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -433,11 +433,18 @@ experiments:
       wall_time_min: 0.25
       change_summary: "A hashed one-line shutdown-order patch yields 13/13; all targets build and two consecutive device tests each discover both RTX4090s and exit zero, with real driver/NVML linkage."
       timestamp: "2026-08-27"
+    - run_id: "run_040"
+      hypothesis: "H15.3/workload-aware dual-GPU and Rocket vertical system"
+      metric_value: 0.09909909909909899
+      delta: null
+      wall_time_min: 10.0
+      change_summary: "Four serial stages and 11/11 gates pass: three DAGs execute 80/16/40 real CUDA MIR ops plus 860/180/436 Rocket events, merge three clock domains by identity, switch GPU placement and retain 68/68 at 10%."
+      timestamp: "2026-08-27"
 
 outer_loop:
-  cycle: 28
-  last_direction: integrate
-  last_reflection: "Run 039 closes the official mllm CUDA lifecycle/toolchain boundary. Build a separately labeled MIR-driven real-kernel adapter, compile all three Agent DAGs into GPU/NUMA placements, and merge their traces with Rocket+TISA/HPTPE."
+  cycle: 29
+  last_direction: validate
+  last_reflection: "Run 040 closes the three-workload vertical execution mechanism. A final fresh certificate must replay tests, verify profiler/transport evidence, audit every artifact/hash and only then close H15/the expanded goal."
 
 workspace:
   findings: "findings.md"

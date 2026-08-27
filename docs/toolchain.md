@@ -1,5 +1,21 @@
 # AgentSys pinned toolchains
 
+## Native dual-GPU plus Rocket vertical system
+
+The highest-level active replay is now:
+
+```bash
+bash scripts/setup_gpu_runtime.sh
+bash scripts/setup_mllm_cuda.sh
+.venv-gpu/bin/agentsys-reproduce-hybrid --config config/hybrid-system.json
+```
+
+It preserves the parameterized CPU+XPU pipeline below, adds a real dual-RTX4090/
+dual-NUMA MIR execution adapter, and merges both clock domains by workload/call
+identity. Run 040 passes three workloads, six parameter switches, 68/68 paper
+endpoints at 10%, 11/11 global gates and 13/13 native gates per workload. See
+`docs/hybrid-system.md` for the artifact contract and evidence boundary.
+
 ## Complete parameterized experiment system
 
 The current top-level setup and replay commands are:

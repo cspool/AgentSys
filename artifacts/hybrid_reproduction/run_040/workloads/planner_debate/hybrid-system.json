@@ -1,0 +1,218 @@
+{
+  "artifacts": {
+    "application": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/application.json",
+    "compiled": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/compiled.json",
+    "elf": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/software/workload.riscv",
+    "header": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/generated/workload.h",
+    "hybrid_plan": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/hybrid-plan.json",
+    "hybrid_trace": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/hybrid-trace.jsonl",
+    "native_runtime": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/native/native-runtime.json",
+    "native_trace": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/native/native-trace.jsonl",
+    "pipeline": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/pipeline.json",
+    "placement_variant": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/hybrid-plan-gpu0-only.json",
+    "rocket_system": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/system.json",
+    "rocket_trace": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/system-trace.jsonl"
+  },
+  "classification": "vertical_agent_to_dual_gpu_and_rocket_tisa_hptpe_experiment",
+  "configuration": {
+    "path": "/workspace/AgentSys/config/hybrid-system.json",
+    "sha256": "cf2d8d63affe9658cba30dfbdad6fc36eb0c3e9fbcca32cda58ab26aad4590d7"
+  },
+  "evidence_boundary": "AgentSys MIR-to-CUDA adapter plus upstream mllm lifecycle scaffold; local RTX4090 execution is not A100 paper reproduction",
+  "gates": {
+    "hybrid_plan": true,
+    "lineage_hashes": true,
+    "merged_trace": true,
+    "mllm_cuda_boundary": true,
+    "native_runtime": true,
+    "placement_sensitivity": true,
+    "rocket_event_contract": true,
+    "rocket_pipeline": true,
+    "serial_order": true
+  },
+  "native_summary": {
+    "calls": 6,
+    "events": 68,
+    "failing": 0,
+    "gates": 13,
+    "gpus": 2,
+    "llm_calls": 5,
+    "mir_operators": 40,
+    "numa_nodes": 2,
+    "pass": true,
+    "passing": 13,
+    "tool_calls": 1
+  },
+  "placement_sensitivity": {
+    "baseline": "round_robin",
+    "baseline_signature": [
+      0,
+      1,
+      0,
+      1,
+      0
+    ],
+    "changed": true,
+    "logical_work_invariant": true,
+    "pass": true,
+    "variant": "gpu0_only",
+    "variant_signature": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "plan_summary": {
+    "calls": 6,
+    "de_operators": 10,
+    "gpu_rank_llm_calls": [
+      3,
+      2
+    ],
+    "gpu_ranks_used": 2,
+    "llm_calls": 5,
+    "me_operators": 15,
+    "mir_operators": 40,
+    "pass": true,
+    "programs": 2,
+    "tool_calls": 1,
+    "ve_operators": 15,
+    "waves": 3,
+    "xpu_descriptors": 40
+  },
+  "rocket_summary": {
+    "failing": 0,
+    "gates": 19,
+    "pass": true,
+    "passing": 19
+  },
+  "run_id": "run_040",
+  "schema_version": 1,
+  "stages": [
+    {
+      "finished_ns": 396453036729174,
+      "name": "agentix_mllm_agentxpu_riscv_rocket_tisa_hptpe",
+      "pass": true,
+      "started_ns": 396296220356905,
+      "wall_time_s": 156.816372269
+    },
+    {
+      "finished_ns": 396453051330403,
+      "name": "hybrid_plan_compile",
+      "pass": true,
+      "started_ns": 396453036812720,
+      "wall_time_s": 0.014517683
+    },
+    {
+      "finished_ns": 396453062169318,
+      "name": "gpu_placement_sensitivity_compile",
+      "pass": true,
+      "started_ns": 396453051370260,
+      "wall_time_s": 0.010799058
+    },
+    {
+      "finished_ns": 396456661404178,
+      "name": "real_dual_gpu_dual_numa_runtime",
+      "pass": true,
+      "started_ns": 396453062318595,
+      "wall_time_s": 3.599085583
+    },
+    {
+      "finished_ns": 396456691202550,
+      "name": "multi_clock_trace_merge",
+      "pass": true,
+      "started_ns": 396456661446675,
+      "wall_time_s": 0.029755875
+    }
+  ],
+  "summary": {
+    "calls": 6,
+    "failing": 0,
+    "gates": 9,
+    "hybrid_events": 504,
+    "llm_calls": 5,
+    "mir_operators": 40,
+    "native_events": 68,
+    "pass": true,
+    "passing": 9,
+    "rocket_events": 436,
+    "stages": 5,
+    "tool_calls": 1
+  },
+  "trace": {
+    "alignment": "call_identity_only_no_cross_domain_time_conversion",
+    "clock_domains": [
+      "host_monotonic_ns",
+      "rocket_dynamic_cycle",
+      "rocket_static_cycle"
+    ],
+    "events": 504,
+    "gates": {
+      "call_identity": true,
+      "event_conservation": true,
+      "separate_clock_domains": true,
+      "vertical_layers": true,
+      "workload_identity": true
+    },
+    "layers": [
+      "agentxpu",
+      "application",
+      "cpu",
+      "cuda",
+      "dma",
+      "framework",
+      "gpu",
+      "hptpe",
+      "mllm",
+      "nccl",
+      "software",
+      "tisa",
+      "ve_de",
+      "xpu"
+    ],
+    "native_events": 68,
+    "path": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/hybrid-trace.jsonl",
+    "rocket_events": 436,
+    "sha256": "e410b5569a334c836d936fcfb6a6c80c164b3bac5b1b5f03511dc8db27b5c633",
+    "summary": {
+      "failing": 0,
+      "gates": 5,
+      "pass": true,
+      "passing": 5
+    }
+  },
+  "workload": {
+    "agentix": {
+      "batch_size": 2,
+      "policy": "plas"
+    },
+    "agentxpu": {
+      "heg_igpu_prefill_share": 0.4,
+      "heg_prefill_chunk_tokens": 32,
+      "max_decode_batch": 8,
+      "max_reactive_decode_batch": 2
+    },
+    "hardware": {
+      "dispatch_latency": 7,
+      "hptpe_cols": 16,
+      "hptpe_rows": 16,
+      "input_beats": 6,
+      "output_beats": 3,
+      "profile": "rocket_tisa8_hptpe16x16",
+      "tisa_window": 8
+    },
+    "name": "planner_debate",
+    "schema_version": 1,
+    "sha256": "0fbd066467fc52055e53c9cbf7264796f1fbf88aa9788f4838d73a8a8c343631",
+    "source": "/workspace/AgentSys/workloads/planner_debate.json",
+    "summary": {
+      "calls": 6,
+      "llm_calls": 5,
+      "models": 1,
+      "programs": 2,
+      "tool_calls": 1
+    }
+  }
+}

@@ -1,0 +1,212 @@
+{
+  "artifacts": {
+    "application": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_tool/rocket/application.json",
+    "compiled": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_tool/rocket/compiled.json",
+    "elf": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_tool/rocket/software/workload.riscv",
+    "header": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_tool/rocket/generated/workload.h",
+    "hybrid_plan": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_tool/hybrid-plan.json",
+    "hybrid_trace": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_tool/hybrid-trace.jsonl",
+    "native_runtime": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_tool/native/native-runtime.json",
+    "native_trace": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_tool/native/native-trace.jsonl",
+    "pipeline": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_tool/rocket/pipeline.json",
+    "placement_variant": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_tool/hybrid-plan-gpu0-only.json",
+    "rocket_system": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_tool/rocket/system.json",
+    "rocket_trace": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_tool/rocket/system-trace.jsonl"
+  },
+  "classification": "vertical_agent_to_dual_gpu_and_rocket_tisa_hptpe_experiment",
+  "configuration": {
+    "path": "/workspace/AgentSys/config/hybrid-system.json",
+    "sha256": "cf2d8d63affe9658cba30dfbdad6fc36eb0c3e9fbcca32cda58ab26aad4590d7"
+  },
+  "evidence_boundary": "AgentSys MIR-to-CUDA adapter plus upstream mllm lifecycle scaffold; local RTX4090 execution is not A100 paper reproduction",
+  "gates": {
+    "hybrid_plan": true,
+    "lineage_hashes": true,
+    "merged_trace": true,
+    "mllm_cuda_boundary": true,
+    "native_runtime": true,
+    "placement_sensitivity": true,
+    "rocket_event_contract": true,
+    "rocket_pipeline": true,
+    "serial_order": true
+  },
+  "native_summary": {
+    "calls": 3,
+    "events": 29,
+    "failing": 0,
+    "gates": 13,
+    "gpus": 2,
+    "llm_calls": 2,
+    "mir_operators": 16,
+    "numa_nodes": 2,
+    "pass": true,
+    "passing": 13,
+    "tool_calls": 1
+  },
+  "placement_sensitivity": {
+    "baseline": "round_robin",
+    "baseline_signature": [
+      0,
+      1
+    ],
+    "changed": true,
+    "logical_work_invariant": true,
+    "pass": true,
+    "variant": "gpu0_only",
+    "variant_signature": [
+      0,
+      0
+    ]
+  },
+  "plan_summary": {
+    "calls": 3,
+    "de_operators": 4,
+    "gpu_rank_llm_calls": [
+      1,
+      1
+    ],
+    "gpu_ranks_used": 2,
+    "llm_calls": 2,
+    "me_operators": 6,
+    "mir_operators": 16,
+    "pass": true,
+    "programs": 1,
+    "tool_calls": 1,
+    "ve_operators": 6,
+    "waves": 3,
+    "xpu_descriptors": 16
+  },
+  "rocket_summary": {
+    "failing": 0,
+    "gates": 18,
+    "pass": true,
+    "passing": 18
+  },
+  "run_id": "run_040",
+  "schema_version": 1,
+  "stages": [
+    {
+      "finished_ns": 396292019605797,
+      "name": "agentix_mllm_agentxpu_riscv_rocket_tisa_hptpe",
+      "pass": true,
+      "started_ns": 396178979296841,
+      "wall_time_s": 113.040308956
+    },
+    {
+      "finished_ns": 396292026322174,
+      "name": "hybrid_plan_compile",
+      "pass": true,
+      "started_ns": 396292019686814,
+      "wall_time_s": 0.00663536
+    },
+    {
+      "finished_ns": 396292032888092,
+      "name": "gpu_placement_sensitivity_compile",
+      "pass": true,
+      "started_ns": 396292026357961,
+      "wall_time_s": 0.006530131
+    },
+    {
+      "finished_ns": 396296200694128,
+      "name": "real_dual_gpu_dual_numa_runtime",
+      "pass": true,
+      "started_ns": 396292032994853,
+      "wall_time_s": 4.167699275
+    },
+    {
+      "finished_ns": 396296214942627,
+      "name": "multi_clock_trace_merge",
+      "pass": true,
+      "started_ns": 396296200748712,
+      "wall_time_s": 0.014193915
+    }
+  ],
+  "summary": {
+    "calls": 3,
+    "failing": 0,
+    "gates": 9,
+    "hybrid_events": 209,
+    "llm_calls": 2,
+    "mir_operators": 16,
+    "native_events": 29,
+    "pass": true,
+    "passing": 9,
+    "rocket_events": 180,
+    "stages": 5,
+    "tool_calls": 1
+  },
+  "trace": {
+    "alignment": "call_identity_only_no_cross_domain_time_conversion",
+    "clock_domains": [
+      "host_monotonic_ns",
+      "rocket_dynamic_cycle",
+      "rocket_static_cycle"
+    ],
+    "events": 209,
+    "gates": {
+      "call_identity": true,
+      "event_conservation": true,
+      "separate_clock_domains": true,
+      "vertical_layers": true,
+      "workload_identity": true
+    },
+    "layers": [
+      "agentxpu",
+      "application",
+      "cpu",
+      "cuda",
+      "dma",
+      "framework",
+      "gpu",
+      "hptpe",
+      "mllm",
+      "nccl",
+      "software",
+      "tisa",
+      "ve_de",
+      "xpu"
+    ],
+    "native_events": 29,
+    "path": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_tool/hybrid-trace.jsonl",
+    "rocket_events": 180,
+    "sha256": "27cb3c4f5661c01653fef90402ec7bfd35c63485844b119831cff2eaf7529aac",
+    "summary": {
+      "failing": 0,
+      "gates": 5,
+      "pass": true,
+      "passing": 5
+    }
+  },
+  "workload": {
+    "agentix": {
+      "batch_size": 1,
+      "policy": "atlas"
+    },
+    "agentxpu": {
+      "heg_igpu_prefill_share": 0.5,
+      "heg_prefill_chunk_tokens": 8,
+      "max_decode_batch": 8,
+      "max_reactive_decode_batch": 2
+    },
+    "hardware": {
+      "dispatch_latency": 7,
+      "hptpe_cols": 16,
+      "hptpe_rows": 16,
+      "input_beats": 4,
+      "output_beats": 2,
+      "profile": "rocket_tisa8_hptpe16x16",
+      "tisa_window": 8
+    },
+    "name": "react_tool",
+    "schema_version": 1,
+    "sha256": "ffcc75abd7f6dc53c5329a1e65963d903cece2551d52e63640710de9893ca220",
+    "source": "/workspace/AgentSys/workloads/react_tool.json",
+    "summary": {
+      "calls": 3,
+      "llm_calls": 2,
+      "models": 1,
+      "programs": 1,
+      "tool_calls": 1
+    }
+  }
+}

@@ -1,5 +1,11 @@
 # Parameterized Agent workload toolchain
 
+The same manifests can now drive the native dual-GPU plus Rocket co-experiment
+through `agentsys-run-hybrid`. This adds a workload-derived GPU/NUMA plan and
+real MIR operator execution while retaining the header/ELF/TISA/HPTPE outputs.
+The complete command and result layout are documented in
+`docs/hybrid-system.md`.
+
 ## One-command switching
 
 The active entry point accepts a versioned JSON workload and produces an

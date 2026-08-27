@@ -1,0 +1,32 @@
+ubuntu:1538434:1538434 [0] NCCL INFO Bootstrap: Using eno1:192.168.31.116<0>
+ubuntu:1538434:1538434 [0] NCCL INFO cudaDriverVersion 13020
+ubuntu:1538434:1538434 [0] NCCL INFO NCCL version 2.26.2+cuda12.2
+ubuntu:1538434:1538434 [0] NCCL INFO Comm config Blocking set to 0
+ubuntu:1538434:1538638 [0] NCCL INFO NET/Plugin: Could not find: libnccl-net.so. Using internal net plugin.
+ubuntu:1538434:1538638 [0] NCCL INFO NET/IB : No device found.
+ubuntu:1538434:1538638 [0] NCCL INFO NET/IB : Using ; OOB eno1:192.168.31.116<0>
+ubuntu:1538434:1538638 [0] NCCL INFO NET/Socket : Using [0]eno1:192.168.31.116<0> [1]enxbe3af2b6059f:169.254.3.1<0> [2]Mihomo:198.18.0.1<0>
+ubuntu:1538434:1538638 [0] NCCL INFO PROFILER/Plugin: Could not find: libnccl-profiler.so. 
+ubuntu:1538434:1538638 [0] NCCL INFO Using network Socket
+ubuntu:1538434:1538638 [0] NCCL INFO ncclCommInitRankConfig comm 0x596663bfb3d0 rank 0 nranks 2 cudaDev 0 nvmlDev 0 busId 17000 commId 0x5612c822f083d669 - Init START
+ubuntu:1538434:1538638 [0] NCCL INFO RAS client listening socket at 127.0.0.1<28028>
+ubuntu:1538434:1538638 [0] NCCL INFO Bootstrap timings total 0.001064 (create 0.000033, send 0.000127, recv 0.000524, ring 0.000088, delay 0.000000)
+ubuntu:1538434:1538638 [0] NCCL INFO Setting affinity for GPU 0 to ffff,0000ffff
+ubuntu:1538434:1538638 [0] NCCL INFO comm 0x596663bfb3d0 rank 0 nRanks 2 nNodes 1 localRanks 2 localRank 0 MNNVL 0
+ubuntu:1538434:1538638 [0] NCCL INFO Channel 00/02 : 0 1
+ubuntu:1538434:1538638 [0] NCCL INFO Channel 01/02 : 0 1
+ubuntu:1538434:1538638 [0] NCCL INFO Trees [0] 1/-1/-1->0->-1 [1] 1/-1/-1->0->-1
+ubuntu:1538434:1538638 [0] NCCL INFO P2P Chunksize set to 131072
+ubuntu:1538434:1538638 [0] NCCL INFO Check P2P Type intraNodeP2pSupport 0 directMode 0
+ubuntu:1538434:1538650 [0] NCCL INFO [Proxy Service UDS] Device 0 CPU core 34
+ubuntu:1538434:1538649 [0] NCCL INFO [Proxy Service] Device 0 CPU core 37
+ubuntu:1538434:1538638 [0] NCCL INFO threadThresholds 8/8/64 | 16/8/64 | 512 | 512
+ubuntu:1538434:1538638 [0] NCCL INFO 2 coll channels, 2 collnet channels, 0 nvls channels, 2 p2p channels, 2 p2p channels per peer
+ubuntu:1538434:1538638 [0] NCCL INFO CC Off, workFifoBytes 1048576
+ubuntu:1538434:1538638 [0] NCCL INFO TUNER/Plugin: Could not find: libnccl-tuner.so. Using internal tuner plugin.
+ubuntu:1538434:1538638 [0] NCCL INFO ncclCommInitRankConfig comm 0x596663bfb3d0 rank 0 nranks 2 cudaDev 0 nvmlDev 0 busId 17000 commId 0x5612c822f083d669 - Init COMPLETE
+ubuntu:1538434:1538638 [0] NCCL INFO Init timings - ncclCommInitRankConfig: rank 0 nranks 2 total 0.18 (kernels 0.14, alloc 0.00, bootstrap 0.00, allgathers 0.02, topo 0.01, graphs 0.00, connections 0.00, rest 0.00)
+ubuntu:1538434:1538655 [0] NCCL INFO Channel 00 : 0[0] -> 1[1] via SHM/direct/direct
+ubuntu:1538434:1538655 [0] NCCL INFO Channel 01 : 0[0] -> 1[1] via SHM/direct/direct
+ubuntu:1538434:1538655 [0] NCCL INFO Connected all rings, use ring PXN 0 GDR 1
+ubuntu:1538434:1538704 [0] NCCL INFO comm 0x596663bfb3d0 rank 0 nranks 2 cudaDev 0 busId 17000 - Destroy COMPLETE

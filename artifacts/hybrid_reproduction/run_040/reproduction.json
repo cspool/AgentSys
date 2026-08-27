@@ -1,0 +1,425 @@
+{
+  "classification": "workload_aware_dual_gpu_dual_numa_rocket_tisa_hptpe_system",
+  "configuration": {
+    "path": "/workspace/AgentSys/config/hybrid-system.json",
+    "sha256": "cf2d8d63affe9658cba30dfbdad6fc36eb0c3e9fbcca32cda58ab26aad4590d7"
+  },
+  "evidence_boundary": "local RTX4090/Xeon execution plus separate paper-config simulation/RTL regression",
+  "gates": {
+    "adapter_evidence_boundary": true,
+    "all_multi_clock_traces": true,
+    "all_native_dual_gpu_numa": true,
+    "all_rocket_tisa_hptpe": true,
+    "five_paper_switches": true,
+    "gpu_placement_parameter_switch": true,
+    "mllm_cuda_lifecycle_13": true,
+    "paper_regression_68_at_10_percent": true,
+    "serial_four_stages": true,
+    "three_distinct_hybrid_workloads": true,
+    "workload_call_counts": true
+  },
+  "layer_regression": {
+    "path": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/layer-regression/layer-regression.json",
+    "sha256": "ba92353392cdd615f09ac56724a932428df4495a3967f0cd168462413d523691",
+    "summary": {
+      "endpoints": 68,
+      "failing": 0,
+      "gates": 9,
+      "gates_passing": 9,
+      "layers": 5,
+      "max_relative_error": 0.09909909909909899,
+      "parameter_switches": 5,
+      "pass": true,
+      "passing": 68
+    }
+  },
+  "run_id": "run_040",
+  "schema_version": 1,
+  "stages": [
+    {
+      "finished_ns": 395953329432918,
+      "name": "five_paper_layer_regression",
+      "pass": true,
+      "started_ns": 395881284083887,
+      "wall_time_s": 72.045349031
+    },
+    {
+      "finished_ns": 396178977872661,
+      "name": "hybrid_workload_react_moa_mcts",
+      "pass": true,
+      "started_ns": 395953330260876,
+      "wall_time_s": 225.647611785
+    },
+    {
+      "finished_ns": 396296217708432,
+      "name": "hybrid_workload_react_tool",
+      "pass": true,
+      "started_ns": 396178978589854,
+      "wall_time_s": 117.239118578
+    },
+    {
+      "finished_ns": 396456694684969,
+      "name": "hybrid_workload_planner_debate",
+      "pass": true,
+      "started_ns": 396296218896537,
+      "wall_time_s": 160.475788432
+    }
+  ],
+  "summary": {
+    "executed": 4,
+    "failing": 0,
+    "gates": 11,
+    "max_relative_error": 0.09909909909909899,
+    "paper_endpoints": 68,
+    "paper_endpoints_passing": 68,
+    "paper_layers": 5,
+    "parameter_switches": 6,
+    "pass": true,
+    "passing": 11,
+    "serial_order": true,
+    "stages": 4,
+    "workloads": 3
+  },
+  "workloads": {
+    "planner_debate": {
+      "native_summary": {
+        "calls": 6,
+        "events": 68,
+        "failing": 0,
+        "gates": 13,
+        "gpus": 2,
+        "llm_calls": 5,
+        "mir_operators": 40,
+        "numa_nodes": 2,
+        "pass": true,
+        "passing": 13,
+        "tool_calls": 1
+      },
+      "path": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/hybrid-system.json",
+      "placement_sensitivity": {
+        "baseline": "round_robin",
+        "baseline_signature": [
+          0,
+          1,
+          0,
+          1,
+          0
+        ],
+        "changed": true,
+        "logical_work_invariant": true,
+        "pass": true,
+        "variant": "gpu0_only",
+        "variant_signature": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "plan_summary": {
+        "calls": 6,
+        "de_operators": 10,
+        "gpu_rank_llm_calls": [
+          3,
+          2
+        ],
+        "gpu_ranks_used": 2,
+        "llm_calls": 5,
+        "me_operators": 15,
+        "mir_operators": 40,
+        "pass": true,
+        "programs": 2,
+        "tool_calls": 1,
+        "ve_operators": 15,
+        "waves": 3,
+        "xpu_descriptors": 40
+      },
+      "sha256": "b274400ae0b9d4d985afbe58dcf88c29f4f2f93f5e80e46685825b1270defd9f",
+      "summary": {
+        "calls": 6,
+        "failing": 0,
+        "gates": 9,
+        "hybrid_events": 504,
+        "llm_calls": 5,
+        "mir_operators": 40,
+        "native_events": 68,
+        "pass": true,
+        "passing": 9,
+        "rocket_events": 436,
+        "stages": 5,
+        "tool_calls": 1
+      },
+      "trace": {
+        "alignment": "call_identity_only_no_cross_domain_time_conversion",
+        "clock_domains": [
+          "host_monotonic_ns",
+          "rocket_dynamic_cycle",
+          "rocket_static_cycle"
+        ],
+        "events": 504,
+        "gates": {
+          "call_identity": true,
+          "event_conservation": true,
+          "separate_clock_domains": true,
+          "vertical_layers": true,
+          "workload_identity": true
+        },
+        "layers": [
+          "agentxpu",
+          "application",
+          "cpu",
+          "cuda",
+          "dma",
+          "framework",
+          "gpu",
+          "hptpe",
+          "mllm",
+          "nccl",
+          "software",
+          "tisa",
+          "ve_de",
+          "xpu"
+        ],
+        "native_events": 68,
+        "path": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/hybrid-trace.jsonl",
+        "rocket_events": 436,
+        "sha256": "e410b5569a334c836d936fcfb6a6c80c164b3bac5b1b5f03511dc8db27b5c633",
+        "summary": {
+          "failing": 0,
+          "gates": 5,
+          "pass": true,
+          "passing": 5
+        }
+      }
+    },
+    "react_moa_mcts": {
+      "native_summary": {
+        "calls": 11,
+        "events": 133,
+        "failing": 0,
+        "gates": 13,
+        "gpus": 2,
+        "llm_calls": 10,
+        "mir_operators": 80,
+        "numa_nodes": 2,
+        "pass": true,
+        "passing": 13,
+        "tool_calls": 1
+      },
+      "path": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_moa_mcts/hybrid-system.json",
+      "placement_sensitivity": {
+        "baseline": "round_robin",
+        "baseline_signature": [
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1,
+          0,
+          1
+        ],
+        "changed": true,
+        "logical_work_invariant": true,
+        "pass": true,
+        "variant": "gpu0_only",
+        "variant_signature": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      },
+      "plan_summary": {
+        "calls": 11,
+        "de_operators": 20,
+        "gpu_rank_llm_calls": [
+          5,
+          5
+        ],
+        "gpu_ranks_used": 2,
+        "llm_calls": 10,
+        "me_operators": 30,
+        "mir_operators": 80,
+        "pass": true,
+        "programs": 3,
+        "tool_calls": 1,
+        "ve_operators": 30,
+        "waves": 3,
+        "xpu_descriptors": 80
+      },
+      "sha256": "8c4f13fc3574d818db0b5613032dc2ac8330ddece24e17f696911173694396f2",
+      "summary": {
+        "calls": 11,
+        "failing": 0,
+        "gates": 9,
+        "hybrid_events": 993,
+        "llm_calls": 10,
+        "mir_operators": 80,
+        "native_events": 133,
+        "pass": true,
+        "passing": 9,
+        "rocket_events": 860,
+        "stages": 5,
+        "tool_calls": 1
+      },
+      "trace": {
+        "alignment": "call_identity_only_no_cross_domain_time_conversion",
+        "clock_domains": [
+          "host_monotonic_ns",
+          "rocket_dynamic_cycle",
+          "rocket_static_cycle"
+        ],
+        "events": 993,
+        "gates": {
+          "call_identity": true,
+          "event_conservation": true,
+          "separate_clock_domains": true,
+          "vertical_layers": true,
+          "workload_identity": true
+        },
+        "layers": [
+          "agentxpu",
+          "application",
+          "cpu",
+          "cuda",
+          "dma",
+          "framework",
+          "gpu",
+          "hptpe",
+          "mllm",
+          "nccl",
+          "software",
+          "tisa",
+          "ve_de",
+          "xpu"
+        ],
+        "native_events": 133,
+        "path": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_moa_mcts/hybrid-trace.jsonl",
+        "rocket_events": 860,
+        "sha256": "6512630b6a9dfe7959002ac1b01660a99f95c578d878d791e0eaef2f5e0d8f3f",
+        "summary": {
+          "failing": 0,
+          "gates": 5,
+          "pass": true,
+          "passing": 5
+        }
+      }
+    },
+    "react_tool": {
+      "native_summary": {
+        "calls": 3,
+        "events": 29,
+        "failing": 0,
+        "gates": 13,
+        "gpus": 2,
+        "llm_calls": 2,
+        "mir_operators": 16,
+        "numa_nodes": 2,
+        "pass": true,
+        "passing": 13,
+        "tool_calls": 1
+      },
+      "path": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_tool/hybrid-system.json",
+      "placement_sensitivity": {
+        "baseline": "round_robin",
+        "baseline_signature": [
+          0,
+          1
+        ],
+        "changed": true,
+        "logical_work_invariant": true,
+        "pass": true,
+        "variant": "gpu0_only",
+        "variant_signature": [
+          0,
+          0
+        ]
+      },
+      "plan_summary": {
+        "calls": 3,
+        "de_operators": 4,
+        "gpu_rank_llm_calls": [
+          1,
+          1
+        ],
+        "gpu_ranks_used": 2,
+        "llm_calls": 2,
+        "me_operators": 6,
+        "mir_operators": 16,
+        "pass": true,
+        "programs": 1,
+        "tool_calls": 1,
+        "ve_operators": 6,
+        "waves": 3,
+        "xpu_descriptors": 16
+      },
+      "sha256": "9ee469aa7a45692713373088940c89374c8f27ad3a8c38658063ec40c5867fbb",
+      "summary": {
+        "calls": 3,
+        "failing": 0,
+        "gates": 9,
+        "hybrid_events": 209,
+        "llm_calls": 2,
+        "mir_operators": 16,
+        "native_events": 29,
+        "pass": true,
+        "passing": 9,
+        "rocket_events": 180,
+        "stages": 5,
+        "tool_calls": 1
+      },
+      "trace": {
+        "alignment": "call_identity_only_no_cross_domain_time_conversion",
+        "clock_domains": [
+          "host_monotonic_ns",
+          "rocket_dynamic_cycle",
+          "rocket_static_cycle"
+        ],
+        "events": 209,
+        "gates": {
+          "call_identity": true,
+          "event_conservation": true,
+          "separate_clock_domains": true,
+          "vertical_layers": true,
+          "workload_identity": true
+        },
+        "layers": [
+          "agentxpu",
+          "application",
+          "cpu",
+          "cuda",
+          "dma",
+          "framework",
+          "gpu",
+          "hptpe",
+          "mllm",
+          "nccl",
+          "software",
+          "tisa",
+          "ve_de",
+          "xpu"
+        ],
+        "native_events": 29,
+        "path": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_tool/hybrid-trace.jsonl",
+        "rocket_events": 180,
+        "sha256": "27cb3c4f5661c01653fef90402ec7bfd35c63485844b119831cff2eaf7529aac",
+        "summary": {
+          "failing": 0,
+          "gates": 5,
+          "pass": true,
+          "passing": 5
+        }
+      }
+    }
+  }
+}

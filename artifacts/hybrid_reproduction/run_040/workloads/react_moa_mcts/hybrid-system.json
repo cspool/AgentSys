@@ -1,0 +1,228 @@
+{
+  "artifacts": {
+    "application": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_moa_mcts/rocket/application.json",
+    "compiled": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_moa_mcts/rocket/compiled.json",
+    "elf": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_moa_mcts/rocket/software/workload.riscv",
+    "header": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_moa_mcts/rocket/generated/workload.h",
+    "hybrid_plan": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_moa_mcts/hybrid-plan.json",
+    "hybrid_trace": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_moa_mcts/hybrid-trace.jsonl",
+    "native_runtime": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_moa_mcts/native/native-runtime.json",
+    "native_trace": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_moa_mcts/native/native-trace.jsonl",
+    "pipeline": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_moa_mcts/rocket/pipeline.json",
+    "placement_variant": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_moa_mcts/hybrid-plan-gpu0-only.json",
+    "rocket_system": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_moa_mcts/rocket/system.json",
+    "rocket_trace": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_moa_mcts/rocket/system-trace.jsonl"
+  },
+  "classification": "vertical_agent_to_dual_gpu_and_rocket_tisa_hptpe_experiment",
+  "configuration": {
+    "path": "/workspace/AgentSys/config/hybrid-system.json",
+    "sha256": "cf2d8d63affe9658cba30dfbdad6fc36eb0c3e9fbcca32cda58ab26aad4590d7"
+  },
+  "evidence_boundary": "AgentSys MIR-to-CUDA adapter plus upstream mllm lifecycle scaffold; local RTX4090 execution is not A100 paper reproduction",
+  "gates": {
+    "hybrid_plan": true,
+    "lineage_hashes": true,
+    "merged_trace": true,
+    "mllm_cuda_boundary": true,
+    "native_runtime": true,
+    "placement_sensitivity": true,
+    "rocket_event_contract": true,
+    "rocket_pipeline": true,
+    "serial_order": true
+  },
+  "native_summary": {
+    "calls": 11,
+    "events": 133,
+    "failing": 0,
+    "gates": 13,
+    "gpus": 2,
+    "llm_calls": 10,
+    "mir_operators": 80,
+    "numa_nodes": 2,
+    "pass": true,
+    "passing": 13,
+    "tool_calls": 1
+  },
+  "placement_sensitivity": {
+    "baseline": "round_robin",
+    "baseline_signature": [
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1
+    ],
+    "changed": true,
+    "logical_work_invariant": true,
+    "pass": true,
+    "variant": "gpu0_only",
+    "variant_signature": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "plan_summary": {
+    "calls": 11,
+    "de_operators": 20,
+    "gpu_rank_llm_calls": [
+      5,
+      5
+    ],
+    "gpu_ranks_used": 2,
+    "llm_calls": 10,
+    "me_operators": 30,
+    "mir_operators": 80,
+    "pass": true,
+    "programs": 3,
+    "tool_calls": 1,
+    "ve_operators": 30,
+    "waves": 3,
+    "xpu_descriptors": 80
+  },
+  "rocket_summary": {
+    "failing": 0,
+    "gates": 21,
+    "pass": true,
+    "passing": 21
+  },
+  "run_id": "run_040",
+  "schema_version": 1,
+  "stages": [
+    {
+      "finished_ns": 396173710252895,
+      "name": "agentix_mllm_agentxpu_riscv_rocket_tisa_hptpe",
+      "pass": true,
+      "started_ns": 395953330988813,
+      "wall_time_s": 220.379264082
+    },
+    {
+      "finished_ns": 396173727009669,
+      "name": "hybrid_plan_compile",
+      "pass": true,
+      "started_ns": 396173710331590,
+      "wall_time_s": 0.016678079
+    },
+    {
+      "finished_ns": 396173739428728,
+      "name": "gpu_placement_sensitivity_compile",
+      "pass": true,
+      "started_ns": 396173727035969,
+      "wall_time_s": 0.012392759
+    },
+    {
+      "finished_ns": 396178943763126,
+      "name": "real_dual_gpu_dual_numa_runtime",
+      "pass": true,
+      "started_ns": 396173739615748,
+      "wall_time_s": 5.204147378
+    },
+    {
+      "finished_ns": 396178974963824,
+      "name": "multi_clock_trace_merge",
+      "pass": true,
+      "started_ns": 396178943791236,
+      "wall_time_s": 0.031172588
+    }
+  ],
+  "summary": {
+    "calls": 11,
+    "failing": 0,
+    "gates": 9,
+    "hybrid_events": 993,
+    "llm_calls": 10,
+    "mir_operators": 80,
+    "native_events": 133,
+    "pass": true,
+    "passing": 9,
+    "rocket_events": 860,
+    "stages": 5,
+    "tool_calls": 1
+  },
+  "trace": {
+    "alignment": "call_identity_only_no_cross_domain_time_conversion",
+    "clock_domains": [
+      "host_monotonic_ns",
+      "rocket_dynamic_cycle",
+      "rocket_static_cycle"
+    ],
+    "events": 993,
+    "gates": {
+      "call_identity": true,
+      "event_conservation": true,
+      "separate_clock_domains": true,
+      "vertical_layers": true,
+      "workload_identity": true
+    },
+    "layers": [
+      "agentxpu",
+      "application",
+      "cpu",
+      "cuda",
+      "dma",
+      "framework",
+      "gpu",
+      "hptpe",
+      "mllm",
+      "nccl",
+      "software",
+      "tisa",
+      "ve_de",
+      "xpu"
+    ],
+    "native_events": 133,
+    "path": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/react_moa_mcts/hybrid-trace.jsonl",
+    "rocket_events": 860,
+    "sha256": "6512630b6a9dfe7959002ac1b01660a99f95c578d878d791e0eaef2f5e0d8f3f",
+    "summary": {
+      "failing": 0,
+      "gates": 5,
+      "pass": true,
+      "passing": 5
+    }
+  },
+  "workload": {
+    "agentix": {
+      "batch_size": 3,
+      "policy": "atlas"
+    },
+    "agentxpu": {
+      "heg_igpu_prefill_share": 0.5,
+      "heg_prefill_chunk_tokens": 16,
+      "max_decode_batch": 16,
+      "max_reactive_decode_batch": 3
+    },
+    "hardware": {
+      "dispatch_latency": 7,
+      "hptpe_cols": 16,
+      "hptpe_rows": 16,
+      "input_beats": 8,
+      "output_beats": 4,
+      "profile": "rocket_tisa8_hptpe16x16",
+      "tisa_window": 8
+    },
+    "name": "react_moa_mcts",
+    "schema_version": 1,
+    "sha256": "9239befff9e01643487a18197e3035dd819ebb57c78f73fa4d2ceb4ca24b8b0e",
+    "source": "/workspace/AgentSys/workloads/react_moa_mcts.json",
+    "summary": {
+      "calls": 11,
+      "llm_calls": 10,
+      "models": 1,
+      "programs": 3,
+      "tool_calls": 1
+    }
+  }
+}

@@ -410,6 +410,10 @@ Full stack 相对 baseline 的 makespan/reactive speedup 为 2.033/3.027×；相
 
 参数化扩展由`config/parameterized-system.json`和`config/layer-regression-matrix.json`控制。`scripts/setup_parameterized_toolchain.sh`复用已锁定的编译器/RTL环境并验证三个manifest及68端点matrix；`agentsys-reproduce-parameterized`随后严格串行执行五层matrix和三套workload→ELF→双Rocket pipeline，最后运行fresh pytest、专用trace测试和两类RTL lint签发新证书。
 
+run 033–040进一步补齐本机双GPU/多CPU层。`scripts/setup_gpu_runtime.sh`建立独立PyTorch CUDA 12.8/NCCL/NVML环境；`scripts/setup_mllm_cuda.sh`使用SHA固定的micromamba和NVIDIA CUDA 12.8.1 Conda包安装项目内nvcc，构建mllm CUDA lifecycle backend，并应用一个有hash的shutdown-order补丁。上游固定版本的四个CUDA `.cu`仍为空、没有op factory，因此真实算子明确由`agentsys_mir_cuda_operator_adapter`实现，不冒充上游mllm完整GPU inference。
+
+`config/hybrid-system.json`是新的最高层配置。它将相同Agent call同时绑定到Agentix调度、mllm MIR、Agent.xpu flow/stage、GPU/NUMA placement和TISA/HPTPE descriptors；GPU域执行真实CUDA/NCCL，RISC-V域执行静态/动态Rocket+HPTPE。合并trace保留`host_monotonic_ns`、`rocket_static_cycle`和`rocket_dynamic_cycle`三个时钟域，只按workload SHA/call ID建立身份关系，不伪造跨域时间换算。run 040三负载分别产生993/209/504条合并事件，全局11/11通过，论文回归仍为68/68、最大误差9.91%。
+
 ## 环境与重放
 
 ### 0. 参数化活动入口
@@ -431,6 +435,22 @@ bash scripts/setup_revised_toolchain.sh --verify-only
 
 .venv/bin/agentsys-reproduce-revised --dry-run
 .venv/bin/agentsys-reproduce-revised
+```
+
+本机双GPU+双NUMA+Rocket垂直入口：
+
+```bash
+bash scripts/setup_gpu_runtime.sh
+bash scripts/setup_mllm_cuda.sh
+
+.venv-gpu/bin/agentsys-reproduce-hybrid \
+  --config config/hybrid-system.json --run-id run_040
+
+# 切换一个Agent负载即可重新生成GPU plan、RISC-V ELF和两类系统结果
+.venv-gpu/bin/agentsys-run-hybrid \
+  --workload workloads/react_tool.json \
+  --config config/hybrid-system.json \
+  --run-id demo --output-dir artifacts/hybrid_demo/react_tool
 ```
 
 若只重放最终系统：
@@ -509,6 +529,12 @@ bash scripts/build_ramulator2.sh
 
 | 目标 | 权威证据 | 状态 |
 |---|---|---|
+| Agent→双GPU/双NUMA→双Rocket垂直系统 | run 040：3 workloads，11/11全局，13/13 native/workload，9/9 hybrid/workload | 通过 |
+| workload-derived真实CUDA MIR算子 | run 040：80/16/40 ops；每call 3 ME+3 VE+2 DE，H2D/D2H/NCCL齐全 | 通过（AgentSys adapter） |
+| GPU placement参数切换 | `round_robin`→`gpu0_only`改变resource signature，calls/deps/MIR/XPU工作不变 | 3/3通过 |
+| 多时钟系统trace | 993/209/504 events，host ns与static/dynamic Rocket cycle分域保存 | 通过 |
+| mllm CUDA工具链/生命周期 | run 039：nvcc 12.8.93，3 targets，两次双4090 test，13/13 | 通过，空kernel边界已标注 |
+| 本机GPU拓扑与通信 | run 033/040：双RTX4090、双NUMA、P2P=false、NCCL SHM/direct/direct | 通过 |
 | 任意manifest切换Agent负载 | run 030：react_moa_mcts/react_tool/planner_debate，4-stage pipelines | 3/3通过 |
 | 隔离的header/ELF/system trace | workload SHA目录，3个不同header/ELF hash | 通过 |
 | 参数化系统trace | 80/16/40 descriptors，860/180/436 events，11 layers | 通过 |
@@ -564,3 +590,7 @@ AgentSys 已从方向草案转化为可执行、可重放、可审计的修订�
 H14消除了该结论只适用于一个固定trace的限制。上层现在可直接提交版本化Agent manifest，系统会执行Agentix、mllm/Agent.xpu lowering、生成独立RISC-V ELF并在同一Rocket+HPTPE模拟器上得到完整结果。run 030的三种DAG和run 031的五层参数matrix共同证明：负载可切换、配置实际生效、硬件工作随负载缩放，并且相同论文配置下68个性能点全部保持在10%以内。
 
 run 032用`agentsys-reproduce-parameterized`重新串行执行五层matrix和三种Agent负载，4/4 stages全部通过，随后fresh pytest、专用file-trace、legacy lint与完整HPTPE/RoCC lint签发15/15证书。因此“负载可切换”和“每层参数化回归”均有新鲜的端到端证据，而非仅依赖run 030/031旧artifact。
+
+H15补齐了run 032尚缺的本机GPU运行时和多CPU执行。run 039先证明固定mllm CUDA lifecycle可在两张4090上构建、枚举并安全退出，同时机器审计上游CUDA算子为空；run 040随后将三种Agent DAG逐call编译为双GPU/NUMA placement和同源Rocket/TISA/HPTPE工作。三组native trace均完整执行全部MIR算子、CPU预处理、传输和NCCL，三组Rocket trace仍保持逐tile checksum一致，合并结果按身份而非虚假时间尺度串联。
+
+因此当前工具链可从“切换一个Agent JSON”一路得到Agentix软件调度、mllm/Agent.xpu编译计划、本机GPU/CPU实测、RISC-V ELF、Rocket/TISA/HPTPE仿真以及五层论文回归结果。论文同配置准确度和本机硬件测量继续分栏：68个论文端点全部在10%内，本机4090/Xeon数据只作为真实执行与校准证据。
