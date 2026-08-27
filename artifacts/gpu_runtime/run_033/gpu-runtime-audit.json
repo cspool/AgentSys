@@ -1,0 +1,63 @@
+{
+  "api_rows": 44,
+  "classification": "native_dual_gpu_multicpu_runtime_and_nsight_audit",
+  "evidence": {
+    "artifacts/gpu_runtime/environment.json": {
+      "bytes": 245,
+      "sha256": "fa7cfd74b6360455b9f789fd2b70c2aeec7a209e3d5b54c72ac577b5f8dd03b0"
+    },
+    "artifacts/gpu_runtime/pip-freeze.txt": {
+      "bytes": 676,
+      "sha256": "f5468e2a6859351db5e92a67bd76c23a876f0b0f416da97a53c4e549e37593f5"
+    },
+    "artifacts/gpu_runtime/run_033/gpu-runtime.json": {
+      "bytes": 16185,
+      "sha256": "59b20ddfc3ecc0f493d3ab5f965b0ec0a63be9c1c56dd586024e00a8a44db152"
+    },
+    "artifacts/gpu_runtime/run_033/nsight-dual-gpu.nsys-rep": {
+      "bytes": 1304062,
+      "sha256": "d2d3c851cb3011452f3324e74289cd372a3100dd226cac9633f09310d4fe5538"
+    },
+    "artifacts/gpu_runtime/run_033/nsight-dual-gpu.sqlite": {
+      "bytes": 5246976,
+      "sha256": "a1aeebc7a42be5940441b55495e2b64035732fd84b66fca932ab0fd84fbb2c36"
+    },
+    "artifacts/gpu_runtime/run_033/nsight-runtime/gpu-runtime.json": {
+      "bytes": 16231,
+      "sha256": "24c859c53f17bb9eb43e6e1ef4559fb8afd486480d5f2bc4a834222ffb7aceb7"
+    },
+    "artifacts/gpu_runtime/run_033/nsight-stats_cuda_api_sum.csv": {
+      "bytes": 3134,
+      "sha256": "5a8b0da5bc34b133562f8d7218082c1389f3b66f910b57494a804cea000a3394"
+    },
+    "artifacts/gpu_runtime/run_033/nsight-stats_cuda_gpu_kern_sum.csv": {
+      "bytes": 3037,
+      "sha256": "c2590bb4f1a39ed76ee04ca7105e28b8ac7ac5baeaa3c402021ecc89744886ad"
+    },
+    "artifacts/gpu_runtime/run_033/nsight-stats_cuda_gpu_mem_time_sum.csv": {
+      "bytes": 316,
+      "sha256": "5aa24e5b08f82ce585005c3bf26d734ac8f7b012eb2c0e1ae8e088074c6e5a35"
+    }
+  },
+  "gates": {
+    "local_measurement_boundary": true,
+    "nsight_cuda_api": true,
+    "nsight_kernels": true,
+    "nsight_memory": true,
+    "nsight_report": true,
+    "p2p_false_and_collective_correct": true,
+    "profiled_runtime_11": true,
+    "runtime_11": true,
+    "software_lock": true
+  },
+  "kernel_rows": 7,
+  "memory_rows": 3,
+  "run_id": "run_033",
+  "schema_version": 1,
+  "summary": {
+    "failing": 0,
+    "gates": 9,
+    "pass": true,
+    "passing": 9
+  }
+}

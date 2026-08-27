@@ -1,0 +1,16 @@
+{
+  "devices": [
+    "NVIDIA GeForce RTX 4090",
+    "NVIDIA GeForce RTX 4090"
+  ],
+  "driver": "595.84",
+  "nccl": [
+    2,
+    26,
+    2
+  ],
+  "numpy": "2.2.6",
+  "nvidia_ml_py": "13.610.43",
+  "torch": "2.7.0+cu128",
+  "torch_cuda": "12.8"
+}

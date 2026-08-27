@@ -3,9 +3,9 @@
 __pycache__/
 *.py[cod]
 .venv/
+.venv-gpu/
 build/
 dist/
 *.egg-info/
 artifacts/tmp/
 chipyard-overlay/generated/
-

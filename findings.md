@@ -42,6 +42,7 @@ The revised architecture removes ATX from the integrated CPU path. Run 023 close
 - Run 030 fixes both artifacts and supports H14.1. Three source-edit-free workloads pass real dual-Rocket execution with 80/16/40 descriptors and 860/180/436 events. Dedicated TISA logs have zero repairs, every tile checksum is static/dynamic identical, and HPTPE work scales exactly with LLM call count.
 - Run 031 supports H14.2: one executable matrix drives five layer configurations, reruns 68 unique paper endpoints at a uniform 10% limit and exercises five output-changing sensitivity variants. Max errors remain 9.09/8.07/8.27/9.91/0.98% for Agentix/Agent.xpu/TISA/mllm/HPTPE.
 - Run 032 closes H14 and the parameterized-system goal: a single serial entry point reruns the five-layer matrix and three workload→ELF→dual-Rocket paths, then passes a 15/15 fresh certificate. Workload, configuration, header, ELF, tile and paper-result identities are all machine-linked.
+- Run 033 supports H15.1 on the actual host: two NUMA-pinned processes execute real CPU work, CUDA FP16 GEMM/SiLU and pinned H2D/D2H transfers on two distinct RTX 4090s, followed by a correct 64 MiB NCCL all-reduce. Runtime gates are 11/11 and the independent CUDA/NVML/Nsight audit is 9/9; peer access is unavailable in both directions. This is explicitly local 4090/Xeon evidence, not an A100/Core-Ultra paper reproduction.
 
 ## Patterns and Insights
 

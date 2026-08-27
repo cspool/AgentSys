@@ -137,7 +137,7 @@ hypotheses:
     priority: high
   - id: H15.1
     statement: "Two NUMA-pinned processes can execute real kernels and collectives on both local RTX4090 GPUs with correct checksums and machine-readable CUDA/NVML/Nsight evidence."
-    status: pending
+    status: supported
     motivation: "Establish authoritative native hardware evidence before vertical integration."
     parent: H15
     priority: high
@@ -146,7 +146,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 32
+  total_runs: 33
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -372,11 +372,18 @@ experiments:
       wall_time_min: 10.2
       change_summary: "Four serial stages and 15/15 certificate requirements pass: 3 workloads, 5 layers, 5 parameter switches and 68/68 paper endpoints at 10%, with fresh tests and RTL checks."
       timestamp: "2026-08-27"
+    - run_id: "run_033"
+      hypothesis: "H15.1/native dual-GPU dual-NUMA runtime"
+      metric_value: 0.09909909909909899
+      delta: 0.0
+      wall_time_min: 0.07
+      change_summary: "Two NUMA-pinned RTX4090 ranks pass 11/11 runtime and 9/9 evidence gates with real CUDA kernels/transfers, correct NCCL, NVML identity and Nsight CUDA traces."
+      timestamp: "2026-08-27"
 
 outer_loop:
-  cycle: 21
-  last_direction: broaden
-  last_reflection: "Run 032 closes CPU+XPU parameterization but not native GPU hardware execution. H15 broadens to the measured 2xRTX4090/2-socket NUMA host, beginning with a pinned CUDA/NCCL/NVML/Nsight runtime."
+  cycle: 22
+  last_direction: integrate
+  last_reflection: "Run 033 closes authoritative local dual-GPU/dual-NUMA execution. H15 now requires workload-dependent GPU plans, merged CPU/GPU/Rocket/TISA/HPTPE traces and a final replay that keeps paper-matched regression separate and within 10%."
 
 workspace:
   findings: "findings.md"

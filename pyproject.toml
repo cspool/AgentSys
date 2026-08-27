@@ -19,6 +19,8 @@ agentsys-run-workload = "agentsys.workload_pipeline:main"
 agentsys-layer-regression = "agentsys.layer_regression:main"
 agentsys-reproduce-parameterized = "agentsys.parameterized_reproduce:main"
 agentsys-certificate-parameterized = "agentsys.parameterized_certificate:main"
+agentsys-gpu-runtime = "agentsys.gpu_runtime:main"
+agentsys-gpu-runtime-audit = "agentsys.gpu_runtime_audit:main"
 
 [dependency-groups]
 dev = [
