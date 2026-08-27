@@ -117,12 +117,24 @@ hypotheses:
     motivation: "Generalize the certified fixed workload into the user-requested parameterized experimental system."
     parent: null
     priority: high
+  - id: H14.1
+    statement: "Three versioned Agent manifests can switch application DAGs through per-workload ELF generation and real Rocket+HPTPE execution without source edits."
+    status: supported
+    motivation: "Establish the workload-switching foundation before varying hardware and paper profiles."
+    parent: H14
+    priority: high
+  - id: H14.2
+    statement: "A machine-readable layer-parameter matrix can reproduce every paper endpoint under its matching workload/configuration with <=10% relative error and traceable configuration identity."
+    status: pending
+    motivation: "Close the remaining per-layer parameter experiment requirement."
+    parent: H14
+    priority: high
 
 experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 29
+  total_runs: 30
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -327,11 +339,18 @@ experiments:
       wall_time_min: 4.0
       change_summary: "Three manifests compile to distinct ELFs and react_tool passes 17/17 real-system gates; planner_debate reveals schedule-dependent HPTPE state and a split stdout trace marker, so only 1/2 executed switched workloads passes."
       timestamp: "2026-08-27"
+    - run_id: "run_030"
+      hypothesis: "H14.1/schedule-invariant workload switching"
+      metric_value: 1.0
+      delta: 0.5
+      wall_time_min: 15.0
+      change_summary: "All three manifests pass end-to-end with 21/21, 18/18 and 19/19 gates; per-tile checksums match, dedicated logs need zero repairs and HPTPE work scales across 80/16/40 descriptors."
+      timestamp: "2026-08-27"
 
 outer_loop:
-  cycle: 17
+  cycle: 18
   last_direction: broaden
-  last_reflection: "Run 029 proves the manifest/ELF switch path but exposes two hidden fixed-load artifacts. Run 030 is preregistered to reset HPTPE per descriptor, use lossless dedicated tile logs and require per-tile static/dynamic checksum identity across all three workloads."
+  last_reflection: "Run 030 supports H14.1 with three complete source-edit-free workload executions. Direction remains DEEPEN into H14.2: explicit per-layer parameter matrices and same-workload/config paper regression at <=10%."
 
 workspace:
   findings: "findings.md"

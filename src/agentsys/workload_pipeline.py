@@ -137,6 +137,8 @@ def run_workload_pipeline(
                 trace_path,
                 output_dir / "logs/static.log",
                 output_dir / "logs/dynamic.log",
+                output_dir / "logs/static-tisa.log",
+                output_dir / "logs/dynamic-tisa.log",
             )
         }
         evidence["pass"] = bool(system["summary"]["pass"])

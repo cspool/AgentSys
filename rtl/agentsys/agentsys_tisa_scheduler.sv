@@ -17,6 +17,7 @@ module agentsys_tisa_scheduler #(
     input  wire [63:0] cfg_word_i,
     input  wire        launch_i,
     input  wire [63:0] input_checksum_i,
+    input  wire [7:0]  trace_call_i,
     input  wire        cancel_valid_i,
     input  wire [7:0]  cancel_task_mask_i,
     input  wire        prefetch_valid_i,
@@ -52,6 +53,20 @@ module agentsys_tisa_scheduler #(
   localparam ENGINE_ME = 2'd0;
   localparam ENGINE_VE = 2'd1;
   localparam ENGINE_DE = 2'd2;
+
+`ifndef SYNTHESIS
+  integer trace_fd;
+  string trace_path;
+  initial begin
+    trace_fd = 0;
+    trace_path = "";
+    if (TRACE && $value$plusargs("agentsys_tisa_trace=%s", trace_path)) begin
+      trace_fd = $fopen(trace_path, "w");
+      if (trace_fd == 0)
+        $fatal(1, "cannot open agentsys_tisa_trace output");
+    end
+  end
+`endif
 
   reg [63:0] control_q [0:ENTRIES-1];
   reg [63:0] tilemem_q [0:ENTRIES-1];
@@ -536,13 +551,24 @@ module agentsys_tisa_scheduler #(
           stat_me_issued_o <= stat_me_issued_o + 1'b1;
           me_index_q <= issue_me_index;
 `ifndef SYNTHESIS
-          if (TRACE)
-            $display("AGENTSYS_TISA_ISSUE cycle=%0d index=%0d engine=me source=%0d flow=%0d stage=%0d placement=%0d preemptible=%0d priority=%0d duration=%0d",
-                     stat_cycles_o, issue_me_index,
-                     tilemem_q[issue_me_index][63:54], control_q[issue_me_index][61],
-                     control_q[issue_me_index][63], control_q[issue_me_index][35:34],
-                     control_q[issue_me_index][62], control_q[issue_me_index][27:26],
-                     control_q[issue_me_index][51:36]);
+          if (TRACE) begin
+            if (trace_fd != 0) begin
+              $fdisplay(trace_fd, "AGENTSYS_TISA_ISSUE call=%0d cycle=%0d index=%0d engine=me source=%0d flow=%0d stage=%0d placement=%0d preemptible=%0d priority=%0d duration=%0d",
+                        trace_call_i, stat_cycles_o, issue_me_index,
+                        tilemem_q[issue_me_index][63:54], control_q[issue_me_index][61],
+                        control_q[issue_me_index][63], control_q[issue_me_index][35:34],
+                        control_q[issue_me_index][62], control_q[issue_me_index][27:26],
+                        control_q[issue_me_index][51:36]);
+              $fflush(trace_fd);
+            end else begin
+              $display("AGENTSYS_TISA_ISSUE call=%0d cycle=%0d index=%0d engine=me source=%0d flow=%0d stage=%0d placement=%0d preemptible=%0d priority=%0d duration=%0d",
+                       trace_call_i, stat_cycles_o, issue_me_index,
+                       tilemem_q[issue_me_index][63:54], control_q[issue_me_index][61],
+                       control_q[issue_me_index][63], control_q[issue_me_index][35:34],
+                       control_q[issue_me_index][62], control_q[issue_me_index][27:26],
+                       control_q[issue_me_index][51:36]);
+            end
+          end
 `endif
           if (prefetched_mask_q[issue_me_index]) begin
             stat_prefetch_hits_o <= stat_prefetch_hits_o + 1'b1;
@@ -553,13 +579,24 @@ module agentsys_tisa_scheduler #(
           stat_ve_issued_o <= stat_ve_issued_o + 1'b1;
           ve_index_q <= issue_ve_index;
 `ifndef SYNTHESIS
-          if (TRACE)
-            $display("AGENTSYS_TISA_ISSUE cycle=%0d index=%0d engine=ve source=%0d flow=%0d stage=%0d placement=%0d preemptible=%0d priority=%0d duration=%0d",
-                     stat_cycles_o, issue_ve_index,
-                     tilemem_q[issue_ve_index][63:54], control_q[issue_ve_index][61],
-                     control_q[issue_ve_index][63], control_q[issue_ve_index][35:34],
-                     control_q[issue_ve_index][62], control_q[issue_ve_index][27:26],
-                     control_q[issue_ve_index][51:36]);
+          if (TRACE) begin
+            if (trace_fd != 0) begin
+              $fdisplay(trace_fd, "AGENTSYS_TISA_ISSUE call=%0d cycle=%0d index=%0d engine=ve source=%0d flow=%0d stage=%0d placement=%0d preemptible=%0d priority=%0d duration=%0d",
+                        trace_call_i, stat_cycles_o, issue_ve_index,
+                        tilemem_q[issue_ve_index][63:54], control_q[issue_ve_index][61],
+                        control_q[issue_ve_index][63], control_q[issue_ve_index][35:34],
+                        control_q[issue_ve_index][62], control_q[issue_ve_index][27:26],
+                        control_q[issue_ve_index][51:36]);
+              $fflush(trace_fd);
+            end else begin
+              $display("AGENTSYS_TISA_ISSUE call=%0d cycle=%0d index=%0d engine=ve source=%0d flow=%0d stage=%0d placement=%0d preemptible=%0d priority=%0d duration=%0d",
+                       trace_call_i, stat_cycles_o, issue_ve_index,
+                       tilemem_q[issue_ve_index][63:54], control_q[issue_ve_index][61],
+                       control_q[issue_ve_index][63], control_q[issue_ve_index][35:34],
+                       control_q[issue_ve_index][62], control_q[issue_ve_index][27:26],
+                       control_q[issue_ve_index][51:36]);
+            end
+          end
 `endif
           if (prefetched_mask_q[issue_ve_index]) begin
             stat_prefetch_hits_o <= stat_prefetch_hits_o + 1'b1;
@@ -570,13 +607,24 @@ module agentsys_tisa_scheduler #(
           stat_de_issued_o <= stat_de_issued_o + 1'b1;
           de_index_q <= issue_de_index;
 `ifndef SYNTHESIS
-          if (TRACE)
-            $display("AGENTSYS_TISA_ISSUE cycle=%0d index=%0d engine=de source=%0d flow=%0d stage=%0d placement=%0d preemptible=%0d priority=%0d duration=%0d",
-                     stat_cycles_o, issue_de_index,
-                     tilemem_q[issue_de_index][63:54], control_q[issue_de_index][61],
-                     control_q[issue_de_index][63], control_q[issue_de_index][35:34],
-                     control_q[issue_de_index][62], control_q[issue_de_index][27:26],
-                     control_q[issue_de_index][51:36]);
+          if (TRACE) begin
+            if (trace_fd != 0) begin
+              $fdisplay(trace_fd, "AGENTSYS_TISA_ISSUE call=%0d cycle=%0d index=%0d engine=de source=%0d flow=%0d stage=%0d placement=%0d preemptible=%0d priority=%0d duration=%0d",
+                        trace_call_i, stat_cycles_o, issue_de_index,
+                        tilemem_q[issue_de_index][63:54], control_q[issue_de_index][61],
+                        control_q[issue_de_index][63], control_q[issue_de_index][35:34],
+                        control_q[issue_de_index][62], control_q[issue_de_index][27:26],
+                        control_q[issue_de_index][51:36]);
+              $fflush(trace_fd);
+            end else begin
+              $display("AGENTSYS_TISA_ISSUE call=%0d cycle=%0d index=%0d engine=de source=%0d flow=%0d stage=%0d placement=%0d preemptible=%0d priority=%0d duration=%0d",
+                       trace_call_i, stat_cycles_o, issue_de_index,
+                       tilemem_q[issue_de_index][63:54], control_q[issue_de_index][61],
+                       control_q[issue_de_index][63], control_q[issue_de_index][35:34],
+                       control_q[issue_de_index][62], control_q[issue_de_index][27:26],
+                       control_q[issue_de_index][51:36]);
+            end
+          end
 `endif
           if (prefetched_mask_q[issue_de_index]) begin
             stat_prefetch_hits_o <= stat_prefetch_hits_o + 1'b1;
@@ -585,15 +633,42 @@ module agentsys_tisa_scheduler #(
         end
 
 `ifndef SYNTHESIS
-        if (TRACE && me_done)
-          $display("AGENTSYS_TISA_COMPLETE cycle=%0d index=%0d engine=me source=%0d checksum=%016x",
-                   stat_cycles_o, me_index_q, tilemem_q[me_index_q][63:54], me_checksum);
-        if (TRACE && ve_done)
-          $display("AGENTSYS_TISA_COMPLETE cycle=%0d index=%0d engine=ve source=%0d checksum=%016x",
-                   stat_cycles_o, ve_index_q, tilemem_q[ve_index_q][63:54], ve_checksum);
-        if (TRACE && de_done)
-          $display("AGENTSYS_TISA_COMPLETE cycle=%0d index=%0d engine=de source=%0d checksum=%016x",
-                   stat_cycles_o, de_index_q, tilemem_q[de_index_q][63:54], de_checksum);
+        if (TRACE && me_done) begin
+          if (trace_fd != 0) begin
+            $fdisplay(trace_fd, "AGENTSYS_TISA_COMPLETE call=%0d cycle=%0d index=%0d engine=me source=%0d checksum=%016x",
+                      trace_call_i, stat_cycles_o, me_index_q,
+                      tilemem_q[me_index_q][63:54], me_checksum);
+            $fflush(trace_fd);
+          end else begin
+            $display("AGENTSYS_TISA_COMPLETE call=%0d cycle=%0d index=%0d engine=me source=%0d checksum=%016x",
+                     trace_call_i, stat_cycles_o, me_index_q,
+                     tilemem_q[me_index_q][63:54], me_checksum);
+          end
+        end
+        if (TRACE && ve_done) begin
+          if (trace_fd != 0) begin
+            $fdisplay(trace_fd, "AGENTSYS_TISA_COMPLETE call=%0d cycle=%0d index=%0d engine=ve source=%0d checksum=%016x",
+                      trace_call_i, stat_cycles_o, ve_index_q,
+                      tilemem_q[ve_index_q][63:54], ve_checksum);
+            $fflush(trace_fd);
+          end else begin
+            $display("AGENTSYS_TISA_COMPLETE call=%0d cycle=%0d index=%0d engine=ve source=%0d checksum=%016x",
+                     trace_call_i, stat_cycles_o, ve_index_q,
+                     tilemem_q[ve_index_q][63:54], ve_checksum);
+          end
+        end
+        if (TRACE && de_done) begin
+          if (trace_fd != 0) begin
+            $fdisplay(trace_fd, "AGENTSYS_TISA_COMPLETE call=%0d cycle=%0d index=%0d engine=de source=%0d checksum=%016x",
+                      trace_call_i, stat_cycles_o, de_index_q,
+                      tilemem_q[de_index_q][63:54], de_checksum);
+            $fflush(trace_fd);
+          end else begin
+            $display("AGENTSYS_TISA_COMPLETE call=%0d cycle=%0d index=%0d engine=de source=%0d checksum=%016x",
+                     trace_call_i, stat_cycles_o, de_index_q,
+                     tilemem_q[de_index_q][63:54], de_checksum);
+          end
+        end
 `endif
 
         if ((terminal_next & active_mask_q) == active_mask_q

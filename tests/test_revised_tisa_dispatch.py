@@ -13,6 +13,7 @@ def test_revised_tisa_dispatch_pipeline(tmp_path: Path) -> None:
     vvp = shutil.which("vvp")
     assert iverilog is not None and vvp is not None
     executable = tmp_path / "tisa-dispatch.vvp"
+    trace = tmp_path / "tisa-dispatch.log"
     subprocess.run(
         [
             iverilog,
@@ -28,6 +29,14 @@ def test_revised_tisa_dispatch_pipeline(tmp_path: Path) -> None:
         cwd=ROOT,
     )
     completed = subprocess.run(
-        [vvp, str(executable)], check=True, cwd=ROOT, text=True, capture_output=True
+        [vvp, str(executable), f"+agentsys_tisa_trace={trace}"],
+        check=True,
+        cwd=ROOT,
+        text=True,
+        capture_output=True,
     )
     assert "AGENTSYS_TISA_DISPATCH_PASS static_first=0 dynamic_first=7" in completed.stdout
+    lines = trace.read_text(encoding="utf-8").splitlines()
+    assert len(lines) == 6
+    assert sum("AGENTSYS_TISA_ISSUE call=9" in line for line in lines) == 3
+    assert sum("AGENTSYS_TISA_COMPLETE call=9" in line for line in lines) == 3

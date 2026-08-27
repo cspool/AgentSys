@@ -189,6 +189,7 @@ module agentsys_revised_rocc_controller #(
       .cfg_valid_i(backend_cfg_valid), .cfg_target_i(command_target),
       .cfg_index_i(command_index), .cfg_word_i(cmd_rs1_i),
       .launch_i(backend_launch), .input_checksum_i(input_checksum_q),
+      .trace_call_i(call_tag_q),
       .cancel_valid_i(1'b0), .cancel_task_mask_i(8'd0),
       .prefetch_valid_i(1'b0), .prefetch_index_i(3'd0),
       .busy_o(backend_busy), .done_o(backend_done),

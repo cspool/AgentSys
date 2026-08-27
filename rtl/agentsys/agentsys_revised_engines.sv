@@ -24,6 +24,7 @@ module agentsys_matrix_engine (
   reg [15:0] step_q;
   reg [63:0] seed_q;
   wire clear_array = start_i && !busy_o;
+  wire array_rst_n = rst_n && !clear_array;
   // The released array has no clock-enable. Gate it at the wrapper so ordinary
   // Rocket control/DMA cycles do not mutate or evaluate 256 idle PEs.
   wire array_clk = clk && (busy_o || start_i);
@@ -49,7 +50,10 @@ module agentsys_matrix_engine (
       .WIDTH(WIDTH),
       .ACC_WIDTH(ACC_WIDTH)
   ) hptpe_opt1_os_array (
-      .rst_n(rst_n),
+      // clc clears accumulation state; the local reset also clears all
+      // released-array pipeline registers so descriptor results cannot depend
+      // on the previous ME tile or on static/dynamic issue timing.
+      .rst_n(array_rst_n),
       .clk(array_clk),
       .A(array_a),
       .B(array_b),

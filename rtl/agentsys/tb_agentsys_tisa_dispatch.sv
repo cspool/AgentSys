@@ -129,6 +129,7 @@ module tb_agentsys_tisa_dispatch;
       .DISPATCH_LATENCY(7)
   ) dut_static (
       `CONNECT_COMMON,
+      .trace_call_i(8'd0),
       .done_o(static_done), .result_checksum_o(static_result),
       .stat_cycles_o(static_cycles), .stat_submitted_o(),
       .stat_issued_o(static_issued), .stat_completed_o(static_completed)
@@ -136,9 +137,10 @@ module tb_agentsys_tisa_dispatch;
 
   agentsys_tisa_scheduler #(
       .DYNAMIC(1), .ENTRIES(8), .INCLUDE_ENGINE_CHECKSUM(1),
-      .DISPATCH_LATENCY(7)
+      .DISPATCH_LATENCY(7), .TRACE(1)
   ) dut_dynamic (
       `CONNECT_COMMON,
+      .trace_call_i(8'd9),
       .done_o(dynamic_done), .result_checksum_o(dynamic_result),
       .stat_cycles_o(dynamic_cycles), .stat_submitted_o(),
       .stat_issued_o(dynamic_issued), .stat_completed_o(dynamic_completed)

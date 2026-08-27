@@ -37,9 +37,18 @@ def _run_backend(
     simulator = SIM_ROOT / f"simulator-chipyard-{config}"
     if not simulator.is_file() or not elf_path.is_file():
         raise FileNotFoundError(f"missing simulator or workload ELF: {simulator}, {elf_path}")
+    tile_log_path = log_path.with_name(log_path.stem + "-tisa.log")
+    tile_log_path.parent.mkdir(parents=True, exist_ok=True)
+    tile_log_path.unlink(missing_ok=True)
     started = time.time()
     process = subprocess.run(
-        [str(simulator), str(elf_path)],
+        [
+            str(simulator),
+            "+permissive",
+            f"+agentsys_tisa_trace={tile_log_path}",
+            "+permissive-off",
+            str(elf_path),
+        ],
         cwd=SIM_ROOT,
         text=True,
         stdout=subprocess.PIPE,
@@ -49,6 +58,9 @@ def _run_backend(
     )
     log_path.parent.mkdir(parents=True, exist_ok=True)
     log_path.write_text(process.stdout, encoding="utf-8")
+    if not tile_log_path.is_file() or tile_log_path.stat().st_size == 0:
+        raise RuntimeError(f"dedicated TISA trace was not produced: {tile_log_path}")
+    tile_log = tile_log_path.read_text(encoding="utf-8")
     return {
         "backend": backend,
         "config": config,
@@ -58,7 +70,9 @@ def _run_backend(
         "wall_time_s": time.time() - started,
         "raw_log": str(log_path),
         "raw_log_sha256": _sha256(log_path),
-        "parsed": parse_revised_output(process.stdout),
+        "tile_log": str(tile_log_path),
+        "tile_log_sha256": _sha256(tile_log_path),
+        "parsed": parse_revised_output(process.stdout + "\n" + tile_log),
         "log": process.stdout,
     }
 
@@ -122,6 +136,21 @@ def _first_issue_gate(
     return len(first_by_call) == expected_calls and set(first_by_call.values()) == {
         expected_cycle
     }
+
+
+def _per_tile_checksum_gate(
+    static: dict[str, Any], dynamic: dict[str, Any]
+) -> bool:
+    def values(parsed: dict[str, Any]) -> dict[tuple[int, int, str], int]:
+        return {
+            (event["call_index"], event["index"], event["engine"]): event["checksum"]
+            for event in parsed["hardware"]
+            if event["event"] == "complete"
+        }
+
+    static_values = values(static)
+    dynamic_values = values(dynamic)
+    return bool(static_values) and static_values == dynamic_values
 
 
 def _summary_matches(
@@ -246,8 +275,13 @@ def run_parameterized_system(
         "dependencies_dynamic": _dependency_gate(dynamic_parsed["calls"]),
         "tile_trace_static": _tile_gate(static_parsed, compiled),
         "tile_trace_dynamic": _tile_gate(dynamic_parsed, compiled),
-        "hardware_transport_complete": static_parsed["transport"]["complete"]
-        and dynamic_parsed["transport"]["complete"],
+        "dedicated_hardware_transport": static_parsed["transport"]
+        == {"repaired_frames": 0, "complete": True}
+        and dynamic_parsed["transport"]
+        == {"repaired_frames": 0, "complete": True},
+        "per_tile_checksum_identity": _per_tile_checksum_gate(
+            static_parsed, dynamic_parsed
+        ),
         "dispatch_profile": static_summary["dispatch_latency"] == 0
         and dynamic_summary["dispatch_latency"] == workload.hardware.dispatch_latency
         and _first_issue_gate(static_parsed, expected_calls=llm_calls, expected_cycle=0)
