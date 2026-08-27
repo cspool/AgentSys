@@ -141,6 +141,12 @@ hypotheses:
     motivation: "Establish authoritative native hardware evidence before vertical integration."
     parent: H15
     priority: high
+  - id: H15.2
+    statement: "The pinned upstream mllm CUDA backend can build and discover both RTX4090 devices with a locked CUDA 12.8 toolchain, while its implementation boundary is machine-audited before adding an AgentSys execution adapter."
+    status: pending
+    motivation: "Close the GPU framework/toolchain dependency and avoid overstating the upstream CUDA backend's current capabilities."
+    parent: H15
+    priority: high
 
 experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
