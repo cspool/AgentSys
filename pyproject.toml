@@ -17,6 +17,8 @@ agentsys-toolchain = "agentsys.toolchain:main"
 agentsys-reproduce-revised = "agentsys.revised_reproduce:main"
 agentsys-run-workload = "agentsys.workload_pipeline:main"
 agentsys-layer-regression = "agentsys.layer_regression:main"
+agentsys-reproduce-parameterized = "agentsys.parameterized_reproduce:main"
+agentsys-certificate-parameterized = "agentsys.parameterized_certificate:main"
 
 [dependency-groups]
 dev = [

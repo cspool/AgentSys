@@ -34,6 +34,13 @@ No repository source is rewritten when switching workloads. When the hardware
 profile remains `rocket_tisa8_hptpe16x16`, the existing simulators are reused;
 only the generated header and ELF are rebuilt.
 
+To reproduce the layer matrix and all checked-in workloads as one strict serial
+experiment, run:
+
+```bash
+.venv/bin/agentsys-reproduce-parameterized
+```
+
 ## Manifest contract
 
 Each JSON declares:

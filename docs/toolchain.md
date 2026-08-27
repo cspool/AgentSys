@@ -1,5 +1,32 @@
 # AgentSys pinned toolchains
 
+## Complete parameterized experiment system
+
+The current top-level setup and replay commands are:
+
+```bash
+bash scripts/setup_parameterized_toolchain.sh
+bash scripts/setup_parameterized_toolchain.sh --verify-only
+.venv/bin/agentsys-reproduce-parameterized
+```
+
+The replay reads `config/parameterized-system.json`, executes the five-layer
+10%-error regression matrix and then compiles/runs all three checked-in Agent
+workloads serially on static/dynamic Rocket+HPTPE. It produces
+`artifacts/parameterized_reproduction/run_032/reproduction.json` and a fresh
+parameterized-system certificate.
+
+For interactive experiments use:
+
+```bash
+.venv/bin/agentsys-run-workload --workload workloads/react_tool.json --run-id demo
+.venv/bin/agentsys-layer-regression --matrix config/layer-regression-matrix.json
+```
+
+See `docs/parameterized-workloads.md` and `docs/layer-regression.md` for schema,
+parameter and evidence contracts. The revised fixed-workload toolchain below is
+now the pinned build/runtime foundation rather than the highest-level interface.
+
 ## Active revised toolchain
 
 The active architecture is:

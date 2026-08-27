@@ -4,7 +4,7 @@
 
 项目目录：`/workspace/AgentSys`
 
-状态：已完成。run 028 通过 8/8 串行阶段、12/12 工具链门禁和 15/15 最终证书要求。结果边界见“证据分级与限制”。
+状态：参数化扩展已实现并通过 run 030/031；run 032 正在执行最终串行重放与证书签发。结果边界见“证据分级与限制”。
 
 ## 摘要
 
@@ -13,6 +13,10 @@
 五个活动组件先独立复现：Agentix 16/16、Agent.xpu 11/11、TISA 10/10、mllm/llm.npu 5/5、HPTPE 26/26，共 68/68 个预登记端点通过 15% 门槛，最大误差 9.91%。mllm 还通过 20/20 个上游原生可执行文件与 101 个 gtest；HPTPE 通过 9/9 个 RTL 组织、302 个 signed golden checks 和 9/9 个全规模 lint。
 
 集成阶段把上游 Qwen3 QNN-AOT MIR 的 80 个描述符编译进同一 RISC-V ELF，并在真实 Chipyard Rocket+Verilator static/dynamic 系统上执行。run 027 的 20/20 门禁全部通过：强静态/动态后端为 4,900/3,560 周期（1.376×），系统区间为 1.340×，CPU 观测端到端为 1.056×；两端均执行 614,400 个 HPTPE MAC、相同 DMA 和逐位相同校验和。最终 trace 含 860 events、11 个层次，并为每个 TISA issue/complete 保留 mllm 源算子、Agent.xpu flow/stage/placement 和 HPTPE/VE/DE 落点。
+
+H14进一步把固定负载改造成完整参数化实验系统。`agentsys-run-workload`可从JSON切换Agent DAG、Agentix策略、Agent.xpu参数、mllm MIR/operator、tool、DMA和兼容硬件profile，自动生成隔离的header、RISC-V ELF和系统trace。`react_moa_mcts`、`react_tool`、`planner_debate`三种负载分别产生80/16/40 descriptors、860/180/436 events并全部通过。专用 TISA 文件通道逐tile记录显式call ID，六份日志均为零修复。
+
+`agentsys-layer-regression`从同一matrix实际驱动五层参数，并在相同论文workload/config下重新审计68/68 endpoints，统一误差门槛10%，最大误差9.91%。Agentix batch、Agent.xpu chunk、TISA window、mllm prompt和HPTPE organization五个敏感性切换均改变真实输出。
 
 这些结果支持“跨层优先级与动态调度能够叠加，但收益受释放时机、tile 粒度、强基线、数据流和带宽瓶颈约束”的结论。项目没有将 Rocket 或开放替代模拟器冒充论文所用的 A100、Intel Core Ultra、Qualcomm 手机、Epoch 真硅片或 SAED32 综合环境。
 
@@ -106,6 +110,26 @@ ReAct / MoA / MCTS
 ```
 
 run 026 首先通过功能与 lineage，但由于把 static baseline 逐算子串行化，得到 2.000×，超过注册的 1.14–1.63×，因此作为 18/19 负结果保留。run 027 在结果前锁定论文的强静态 stage pipeline 与 7-cycle dynamic dispatch，得到 1.376× 并通过 20/20 门禁；阈值没有事后放宽。
+
+### 参数化负载与逐层实验（run 030/031）
+
+负载不再写死在 Python 函数。版本化 manifest 描述 program/call DAG、priority、arrival、LLM/tool、token shape、MIR与source operators、Agentix/Agent.xpu参数、TISA/HPTPE profile和可选性能期望。每个 workload 使用 canonical SHA-256，所有产物写入独立目录；兼容已安装硬件时只重编译 header/ELF，不重编译模拟器。
+
+```bash
+.venv/bin/agentsys-run-workload --workload workloads/react_tool.json --run-id demo
+.venv/bin/agentsys-layer-regression --matrix config/layer-regression-matrix.json
+.venv/bin/agentsys-reproduce-parameterized
+```
+
+run 029 首次切换负载时发现两个旧固定负载掩盖的问题：HPTPE pipeline state 使第2/3个ME tile结果依赖调度顺序，UART还可在marker名字内部切断RTL日志。run 030 在descriptor start周期局部复位完整HPTPE pipeline，并把TISA issue/complete写入plusarg选择的专用文件。系统现在逐个比较 `(call, descriptor, engine)` checksum，而不只比较可能发生XOR抵消的aggregate。
+
+| Workload | Programs/calls | Descriptors | Trace | HPTPE MACs | Gates |
+|---|---:|---:|---:|---:|---:|
+| react_moa_mcts | 3/11 | 80 | 860 | 614,400 | 21/21 |
+| react_tool | 1/3 | 16 | 180 | 122,880 | 18/18 |
+| planner_debate | 2/6 | 40 | 436 | 307,200 | 19/19 |
+
+run 031 的五层matrix通过9/9 gates：Agentix/Agent.xpu/TISA/mllm/HPTPE分别为16/11/10/5/26 endpoints，合计68/68；最大误差分别为9.09/8.07/8.27/9.91/0.98%。参数变体不是论文点，只用于证明配置被实现消费，而不是无效metadata。
 
 ### 既有run 021原型结构（历史）
 
@@ -384,12 +408,24 @@ Full stack 相对 baseline 的 makespan/reactive speedup 为 2.033/3.027×；相
 
 `.venv/bin/agentsys-reproduce-revised` 严格按 Agentix、Agent.xpu、TISA、mllm、HPTPE、68端点证书、应用编译、Rocket+HPTPE 系统执行的顺序运行。每个 stage 退出后检查 JSON gate、全部输出与 SHA-256；manifest 验证 `next.started_ns >= previous.finished_ns`。最终证书还重新执行 pytest、独立 7-cycle dispatch RTL test、legacy RTL lint 和包含官方 HPTPE 的完整 revised RTL lint。完整说明见 `docs/toolchain.md`。
 
+参数化扩展由`config/parameterized-system.json`和`config/layer-regression-matrix.json`控制。`scripts/setup_parameterized_toolchain.sh`复用已锁定的编译器/RTL环境并验证三个manifest及68端点matrix；`agentsys-reproduce-parameterized`随后严格串行执行五层matrix和三套workload→ELF→双Rocket pipeline，最后运行fresh pytest、专用trace测试和两类RTL lint签发新证书。
+
 ## 环境与重放
 
-### 0. 修订后的活动入口
+### 0. 参数化活动入口
 
 ```bash
 cd /workspace/AgentSys
+bash scripts/setup_parameterized_toolchain.sh
+bash scripts/setup_parameterized_toolchain.sh --verify-only
+
+.venv/bin/agentsys-reproduce-parameterized
+
+# 单独切换负载或逐层参数实验
+.venv/bin/agentsys-run-workload --workload workloads/react_tool.json --run-id demo
+.venv/bin/agentsys-layer-regression --matrix config/layer-regression-matrix.json
+
+# 固定 run-028 合同仍可重放
 bash scripts/setup_revised_toolchain.sh
 bash scripts/setup_revised_toolchain.sh --verify-only
 
@@ -473,6 +509,12 @@ bash scripts/build_ramulator2.sh
 
 | 目标 | 权威证据 | 状态 |
 |---|---|---|
+| 任意manifest切换Agent负载 | run 030：react_moa_mcts/react_tool/planner_debate，4-stage pipelines | 3/3通过 |
+| 隔离的header/ELF/system trace | workload SHA目录，3个不同header/ELF hash | 通过 |
+| 参数化系统trace | 80/16/40 descriptors，860/180/436 events，11 layers | 通过 |
+| 无损逐tile硬件证据 | 专用 TISA 文件，显式call ID，6/6日志零修复 | 通过 |
+| 五层参数实际生效 | run 031：5/5 consumed configurations + 5/5 changed metrics | 通过 |
+| 相同论文workload/config≤10% | run 031：68/68 endpoints，max 9.91% | 通过 |
 | 五个活动组件独立复现 | run 023/024/025：Agentix/Agent.xpu/TISA/mllm/HPTPE，68/68，max 9.91% | 通过 |
 | 普通 RISC-V 中立 XPU ABI | run 027：`xpu_v2` 仅 config/launch/wait/status/clear，ATX 不在活动路径 | 通过 |
 | mllm → Agent.xpu → TISA → HPTPE | run 027：80 native descriptors、614,400 HPTPE MAC、相同 checksum | 通过 |
@@ -490,7 +532,7 @@ bash scripts/build_ramulator2.sh
 | HPTPE完整PE阵列、VE/DE、SRAM/DMA | run 024 standalone + run 027 integrated 16×16 array | 通过，PPA边界已标注 |
 | Ramulator2 DDR | official run 012 | 通过 |
 | program priority 下传 | 636/636 inheritance + urgency test | 通过 |
-| 论文核心数值误差 ≤10% | 四份独立结果，55/55 endpoints，max 9.09% | 通过 |
+| 历史四篇论文核心数值误差 ≤10% | 旧范围55/55 endpoints，max 9.09% | 通过（历史） |
 | 闭源机制自行实现 | Agentix 13 + ATX 18 open executable substitutes；parameterized=0 | 通过 |
 | 逐层 baseline 与消融 | run 013 + full four-way table | 通过 |
 | 两张 4090 不替代 A100 | evidence boundary | 遵守 |
@@ -518,3 +560,5 @@ AgentSys 已从方向草案转化为可执行、可重放、可审计的修订�
 集成性能没有通过弱化基线获得。run 026 的 2.000× 因 static 逐算子串行而被保留为失败；run 027 预先恢复论文的强静态 stage pipeline 和 7-cycle dynamic dispatch 后得到 backend/system/end-to-end 1.376/1.340/1.056×，精确落在注册范围。结果也再次说明，CPU/framework 开销会稀释 XPU 收益，带宽与数据流会迁移瓶颈。
 
 最终架构中 CPU 是普通 RISC-V，活动链为 mllm → Agent.xpu → TISA → HPTPE；ATX 只保留历史证据。run 028 已用 `agentsys-reproduce-revised` 对冻结机制完成八阶段串行重放：8/8 stages、12/12 toolchain gates、15/15 requirements，fresh tests/lint 全部通过，模型和阈值均未修改。
+
+H14消除了该结论只适用于一个固定trace的限制。上层现在可直接提交版本化Agent manifest，系统会执行Agentix、mllm/Agent.xpu lowering、生成独立RISC-V ELF并在同一Rocket+HPTPE模拟器上得到完整结果。run 030的三种DAG和run 031的五层参数matrix共同证明：负载可切换、配置实际生效、硬件工作随负载缩放，并且相同论文配置下68个性能点全部保持在10%以内。
