@@ -125,7 +125,7 @@ hypotheses:
     priority: high
   - id: H14.2
     statement: "A machine-readable layer-parameter matrix can reproduce every paper endpoint under its matching workload/configuration with <=10% relative error and traceable configuration identity."
-    status: pending
+    status: supported
     motivation: "Close the remaining per-layer parameter experiment requirement."
     parent: H14
     priority: high
@@ -134,7 +134,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 30
+  total_runs: 31
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -346,11 +346,18 @@ experiments:
       wall_time_min: 15.0
       change_summary: "All three manifests pass end-to-end with 21/21, 18/18 and 19/19 gates; per-tile checksums match, dedicated logs need zero repairs and HPTPE work scales across 80/16/40 descriptors."
       timestamp: "2026-08-27"
+    - run_id: "run_031"
+      hypothesis: "H14.2/executable layer regression matrix"
+      metric_value: 0.09909909909909899
+      delta: null
+      wall_time_min: 1.0
+      change_summary: "Five consumed configs and five sensitivity switches pass; 68/68 unique endpoints are re-audited at 10% with 9.91% maximum error, preserving native/RTL/system gates."
+      timestamp: "2026-08-27"
 
 outer_loop:
-  cycle: 18
+  cycle: 19
   last_direction: broaden
-  last_reflection: "Run 030 supports H14.1. H14.2 is preregistered as an executable five-layer matrix: 68 paper endpoints at <=10%, configuration/workload SHA identity and a real output-changing sensitivity switch per layer."
+  last_reflection: "Run 031 supports H14.2 with 68/68 endpoints at 10% and real parameter effects across five layers. Remaining work is final integration of workload/matrix entry points into setup, serial replay, documentation and a renewed completion certificate."
 
 workspace:
   findings: "findings.md"

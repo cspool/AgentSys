@@ -16,6 +16,7 @@ agentsys-paper-reproduce = "agentsys.paper_reproduction:main"
 agentsys-toolchain = "agentsys.toolchain:main"
 agentsys-reproduce-revised = "agentsys.revised_reproduce:main"
 agentsys-run-workload = "agentsys.workload_pipeline:main"
+agentsys-layer-regression = "agentsys.layer_regression:main"
 
 [dependency-groups]
 dev = [

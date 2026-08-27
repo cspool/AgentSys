@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "limit": 0.10,
+  "targets": "data/paper_targets.json",
+  "active_layers": ["agentix", "agentxpu", "tisa", "mllm", "hptpe"],
+  "layers": {
+    "agentix": {
+      "paper_workload": "agentix_figure2_and_serving_aggregate",
+      "expected_endpoints": 16,
+      "baseline": {
+        "workload": "agentix_figure2",
+        "batch_size": 2,
+        "queue_bounds": [0, 2, 3, 7, 15],
+        "queue_quanta": [1, 1, 1, 1, 1],
+        "policies": ["fcfs", "mlfq", "plas"]
+      },
+      "aggregate_profile": "executable_open_agentix_serving_substitute_v1",
+      "sensitivity": {"batch_size": 1},
+      "sensitivity_metric": "figure2.fcfs.total_wait"
+    },
+    "agentxpu": {
+      "paper_workload": "mixed_poisson_3b_8b_and_proactive_saturation",
+      "expected_endpoints": 11,
+      "baseline": {
+        "base_config": {"tick_s": 0.01, "heg_prefill_chunk_tokens": 16},
+        "model_rate_scales": {"3b": 1.0, "8b": 0.48},
+        "reactive_rates_min": [1.0, 3.0, 5.0],
+        "mixed_duration_s": 900.0,
+        "mixed_proactive_rate_min": 6.0,
+        "mixed_seeds": [100, 101, 102],
+        "representative_model": "3b",
+        "representative_rate": "3",
+        "proactive_duration_s": 300.0,
+        "proactive_rate_min": 40.0,
+        "proactive_seed": 44
+      },
+      "sensitivity": {"heg_prefill_chunk_tokens": 32},
+      "sensitivity_metric": "3b.rate3.heg.reactive_mean_latency_s"
+    },
+    "tisa": {
+      "paper_workload": "resnet50_bert_gptj_llama2_fa3_h128",
+      "expected_endpoints": 10,
+      "baseline": {
+        "window": 8,
+        "dispatch_latency": 7,
+        "iterations": 32,
+        "models": ["resnet50", "bert", "gptj", "llama2"],
+        "fa3_model": "fa3_h128"
+      },
+      "sensitivity": {"window": 2},
+      "sensitivity_metric": "llama2.dynamic.cycles"
+    },
+    "mllm": {
+      "paper_workload": "qwen3_qnn_aot_llm_npu",
+      "expected_endpoints": 5,
+      "baseline": {
+        "prompt_tokens": 1024,
+        "chunk_tokens": 32,
+        "graph_ablation_prompt_tokens": 512,
+        "profile_prompt_tokens": 256,
+        "npu_profile_us": 315000.0,
+        "cpu_to_npu_time_ratio": 0.5,
+        "scheduler_overhead_us": 3.0,
+        "per_group_overhead_low": 8.1,
+        "per_group_overhead_high": 10.7,
+        "outlier_channel_fraction": 0.002,
+        "outlier_layer_pruning": 0.85,
+        "hot_channel_fraction": 0.03,
+        "graph_create_ms": 450.0,
+        "graph_optimize_ms": 3300.0
+      },
+      "sensitivity": {"prompt_tokens": 512},
+      "sensitivity_metric": "invariants.task_count",
+      "native_framework_artifact": "artifacts/results/paper-mllm-run_028.json"
+    },
+    "hptpe": {
+      "paper_workload": "official_opt1_opt2_opt3_opt4c_rtl_and_dc_reports",
+      "expected_endpoints": 26,
+      "expected_rtl_cases": [
+        "opt1_os_mac", "opt1_os", "opt1_ws_mac", "opt1_ws",
+        "opt1_cube_mac", "opt1_cube", "opt2", "opt3_pe", "opt4c"
+      ],
+      "sensitivity_metric": "distinct_rtl_organization_signatures"
+    }
+  },
+  "system_workload_results": [
+    "artifacts/workloads/react_moa_mcts/9239befff9e0/run_030/system.json",
+    "artifacts/workloads/react_tool/ffcc75abd7f6/run_030/system.json",
+    "artifacts/workloads/planner_debate/0fbd066467fc/run_030/system.json"
+  ]
+}

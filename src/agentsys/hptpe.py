@@ -552,10 +552,15 @@ def evaluate_hptpe_endpoints(
     rtl: dict[str, Any],
     *,
     target_path: Path = PAPER_TARGETS,
+    limit_override: float | None = None,
 ) -> dict[str, Any]:
     targets_root = json.loads(target_path.read_text(encoding="utf-8"))
     targets = targets_root["hptpe"]
-    limit = float(targets_root["revised_stack_max_relative_error"])
+    limit = (
+        float(limit_override)
+        if limit_override is not None
+        else float(targets_root["revised_stack_max_relative_error"])
+    )
     endpoints: list[dict[str, Any]] = []
     for point in dc["points"]:
         target = _nested(targets, point["target_path"])
@@ -610,14 +615,19 @@ def evaluate_hptpe_endpoints(
     }
 
 
-def run_hptpe_reproduction(*, run_id: str, log_dir: Path | None = None) -> dict[str, Any]:
+def run_hptpe_reproduction(
+    *,
+    run_id: str,
+    log_dir: Path | None = None,
+    limit: float | None = None,
+) -> dict[str, Any]:
     if _git_head(HPTPE_ROOT) != HPTPE_COMMIT:
         raise RuntimeError("HPTPE reference revision drift")
     if _git_head(VERILATOR5_ROOT) != VERILATOR5_COMMIT:
         raise RuntimeError("Verilator 5 reference revision drift")
     rtl = run_rtl_suite(log_dir=log_dir)
     dc = parse_dc_reports()
-    accuracy = evaluate_hptpe_endpoints(dc, rtl)
+    accuracy = evaluate_hptpe_endpoints(dc, rtl, limit_override=limit)
     point = {item["name"]: item for item in dc["points"]}
     derived = {
         dataflow: {
@@ -640,6 +650,21 @@ def run_hptpe_reproduction(*, run_id: str, log_dir: Path | None = None) -> dict[
             "official_ws_top_missing": not _rel("OPT1/systolic_array_ws/array_opt1_based/top.v").exists(),
             "reconstructed_ws_top": str(WS_OPT_TOP.relative_to(PROJECT_ROOT)),
             "reconstructed_ws_top_sha256": _sha256(WS_OPT_TOP),
+        },
+        "configuration": {
+            "rtl_cases": [
+                {
+                    "name": case.name,
+                    "simulator": case.simulator,
+                    "top": case.top,
+                    "rank": case.rank,
+                    "parameters": dict(case.parameters),
+                    "trials": case.trials,
+                }
+                for case in RTL_CASES
+            ],
+            "lint_cases": [case.name for case in LINT_CASES],
+            "dc_report_points": [spec.name for spec in REPORT_SPECS],
         },
         "rtl": rtl,
         "dc_reports": dc,

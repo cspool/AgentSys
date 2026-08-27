@@ -40,6 +40,7 @@ The revised architecture removes ATX from the integrated CPU path. Run 023 close
 - Run 028 reruns the complete active stack in eight strict serial stages. Reproduction is 8/8, toolchain audit 12/12 and final certificate 15/15; fresh pytest, dispatch RTL, legacy lint and full HPTPE/RoCC lint all pass. The five active components remain 68/68 at 9.91% maximum error.
 - Run 029 generalizes the frontend to versioned workload manifests and per-workload ELFs. `react_tool` passes 17/17 with 16 descriptors and 180 events, proving source-edit-free switching. A cross-program `planner_debate` workload exposes two hidden fixed-load artifacts: HPTPE pipeline state makes ME tile checksums schedule-dependent, and shared UART/RTL stdout can split a trace marker inside its prefix.
 - Run 030 fixes both artifacts and supports H14.1. Three source-edit-free workloads pass real dual-Rocket execution with 80/16/40 descriptors and 860/180/436 events. Dedicated TISA logs have zero repairs, every tile checksum is static/dynamic identical, and HPTPE work scales exactly with LLM call count.
+- Run 031 supports H14.2: one executable matrix drives five layer configurations, reruns 68 unique paper endpoints at a uniform 10% limit and exercises five output-changing sensitivity variants. Max errors remain 9.09/8.07/8.27/9.91/0.98% for Agentix/Agent.xpu/TISA/mllm/HPTPE.
 
 ## Patterns and Insights
 
@@ -55,6 +56,7 @@ The revised architecture removes ATX from the integrated CPU path. Run 023 close
 - Perfect three-engine occupancy can overstate TISA's published gain even when every work-conservation invariant passes. Integrated performance fidelity therefore needs a source-grounded scheduling cost/concurrency constraint in addition to functional RTL correctness.
 - Aggregate XOR equality is insufficient for functional validation: an even number of repeated call patterns can cancel identical per-call static/dynamic checksum differences. Generic workload testing must compare every tile and reset accelerator-local pipeline state per descriptor.
 - Workload parameterization should separate functional gates from optional performance expectations. A new DAG may legitimately have no scheduling opportunity; only manifests tied to a paper/configuration should impose a numerical speedup range.
+- Configuration provenance must be executable: the runner compares returned implementation config with matrix input and separately hashes baseline/variant payloads. A parameter listed only in documentation is not evidence of parameterization.
 
 ## Lessons and Constraints
 

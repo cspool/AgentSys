@@ -432,10 +432,19 @@ def _range_error(observed: float, bounds: list[float]) -> float:
     return abs(observed - boundary) / abs(boundary)
 
 
-def evaluate_mllm_endpoints(result: dict[str, Any], *, target_path: Path = PAPER_TARGETS) -> dict[str, Any]:
+def evaluate_mllm_endpoints(
+    result: dict[str, Any],
+    *,
+    target_path: Path = PAPER_TARGETS,
+    limit_override: float | None = None,
+) -> dict[str, Any]:
     targets = json.loads(target_path.read_text(encoding="utf-8"))
     paper = targets["mllm"]
-    limit = float(targets["revised_stack_max_relative_error"])
+    limit = (
+        float(limit_override)
+        if limit_override is not None
+        else float(targets["revised_stack_max_relative_error"])
+    )
     observed = {
         "chunk_sharing_speedup": result["chunk_sharing"]["speedup"],
         "shadow_outlier_speedup": result["shadow_outlier"]["speedup"],
@@ -480,8 +489,13 @@ def evaluate_mllm_endpoints(result: dict[str, Any], *, target_path: Path = PAPER
     }
 
 
-def run_mllm_npu_reproduction(*, run_id: str) -> dict[str, Any]:
-    config = LlmNpuConfig()
+def run_mllm_npu_reproduction(
+    *,
+    run_id: str,
+    config: LlmNpuConfig | None = None,
+    limit: float | None = None,
+) -> dict[str, Any]:
+    config = config or LlmNpuConfig()
     config.validate()
     graph = native_graph_contract()
     if graph["chunk_tokens"] != config.chunk_tokens:
@@ -536,7 +550,9 @@ def run_mllm_npu_reproduction(*, run_id: str) -> dict[str, Any]:
             "native_graph_consumed": graph["operator_count"] > 0,
         },
     }
-    result["paper_accuracy"] = evaluate_mllm_endpoints(result)
+    result["paper_accuracy"] = evaluate_mllm_endpoints(
+        result, limit_override=limit
+    )
     result["summary"] = {
         "pass": result["paper_accuracy"]["pass"] and all(result["invariants"].values()),
         "paper_endpoints_passed": result["paper_accuracy"]["passed"],

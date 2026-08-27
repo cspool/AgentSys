@@ -58,15 +58,30 @@ def _range(name: str, observed: float, bounds: list[float], limit: float) -> dic
     }
 
 
-def _agentix_run(targets: dict[str, Any], limit: float) -> dict[str, Any]:
+def _agentix_run(
+    targets: dict[str, Any],
+    limit: float,
+    configuration: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    configured = {
+        "workload": "agentix_figure2",
+        "batch_size": 2,
+        "queue_bounds": [0, 2, 3, 7, 15],
+        "queue_quanta": [1, 1, 1, 1, 1],
+        "policies": ["fcfs", "mlfq", "plas"],
+        **(configuration or {}),
+    }
+    if configured["workload"] != "agentix_figure2":
+        raise ValueError(f"unknown Agentix regression workload: {configured['workload']}")
+    policies = tuple(AgentixPolicy(value) for value in configured["policies"])
     simulator = AgentixSimulator(
-        batch_size=2,
-        queue_bounds=(0, 2, 3, 7, 15),
-        queue_quanta=(1, 1, 1, 1, 1),
+        batch_size=int(configured["batch_size"]),
+        queue_bounds=tuple(int(value) for value in configured["queue_bounds"]),
+        queue_quanta=tuple(int(value) for value in configured["queue_quanta"]),
     )
     results = {
         policy.value: simulator.run(agentix_figure2_workload(), policy)
-        for policy in (AgentixPolicy.FCFS, AgentixPolicy.MLFQ, AgentixPolicy.PLAS)
+        for policy in policies
     }
     audit = [
         _point(
@@ -80,21 +95,35 @@ def _agentix_run(targets: dict[str, Any], limit: float) -> dict[str, Any]:
     return {
         "classification": "confirmatory_algorithmic_replay",
         "configuration": {
-            "batch_size": 2,
-            "queue_bounds": [0, 2, 3, 7, 15],
-            "queue_quanta": [1, 1, 1, 1, 1],
+            **configured,
         },
         "results": {key: value.to_dict() for key, value in results.items()},
         "audit": audit,
     }
 
 
-def _tisa_run(targets: dict[str, Any], limit: float) -> dict[str, Any]:
-    simulator = TISASimulator(window=8, dispatch_latency=7)
+def _tisa_run(
+    targets: dict[str, Any],
+    limit: float,
+    configuration: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    configured = {
+        "window": 8,
+        "dispatch_latency": 7,
+        "iterations": 32,
+        "models": ["resnet50", "bert", "gptj", "llama2"],
+        "fa3_model": "fa3_h128",
+        **(configuration or {}),
+    }
+    simulator = TISASimulator(
+        window=int(configured["window"]),
+        dispatch_latency=int(configured["dispatch_latency"]),
+    )
     results: dict[str, Any] = {}
     audit: list[dict[str, Any]] = []
-    for model, target in targets["dynamic_vs_naive"].items():
-        workload = tisa_model_workload(model, iterations=32)
+    for model in configured["models"]:
+        target = targets["dynamic_vs_naive"][model]
+        workload = tisa_model_workload(model, iterations=int(configured["iterations"]))
         naive = simulator.run(workload.tiles, TISAMode.NAIVE)
         static = simulator.run(workload.tiles, TISAMode.STATIC)
         dynamic = simulator.run(workload.tiles, TISAMode.DYNAMIC)
@@ -119,7 +148,8 @@ def _tisa_run(targets: dict[str, Any], limit: float) -> dict[str, Any]:
             "dynamic_vs_static": dynamic_vs_static,
         }
 
-    fa3 = tisa_model_workload("fa3_h128", iterations=32)
+    fa3_name = str(configured["fa3_model"])
+    fa3 = tisa_model_workload(fa3_name, iterations=int(configured["iterations"]))
     fa3_static = simulator.run(fa3.tiles, TISAMode.STATIC)
     fa3_dynamic = simulator.run(fa3.tiles, TISAMode.DYNAMIC)
     util_improvement = (
@@ -141,28 +171,47 @@ def _tisa_run(targets: dict[str, Any], limit: float) -> dict[str, Any]:
             limit,
         )
     )
-    results["fa3_h128"] = {
+    results[fa3_name] = {
         "static": fa3_static.to_dict(),
         "dynamic": fa3_dynamic.to_dict(),
         "utilization_improvement": util_improvement,
     }
     return {
         "classification": "source_grounded_cycle_simulation",
-        "configuration": {"window": 8, "dispatch_latency": 7, "iterations": 32},
+        "configuration": configured,
         "results": results,
         "audit": audit,
     }
 
 
-def _agentxpu_run(targets: dict[str, Any], limit: float) -> dict[str, Any]:
-    base_config = XPUConfig(tick_s=0.01)
+def _agentxpu_run(
+    targets: dict[str, Any],
+    limit: float,
+    configuration: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    configured = {
+        "base_config": {"tick_s": 0.01},
+        "model_rate_scales": {"3b": 1.0, "8b": 0.48},
+        "reactive_rates_min": [1.0, 3.0, 5.0],
+        "mixed_duration_s": 900.0,
+        "mixed_proactive_rate_min": 6.0,
+        "mixed_seeds": [100, 101, 102],
+        "representative_model": "3b",
+        "representative_rate": "3",
+        "proactive_duration_s": 300.0,
+        "proactive_rate_min": 40.0,
+        "proactive_seed": 44,
+        **(configuration or {}),
+    }
+    base_config = XPUConfig(**configured["base_config"])
     results: dict[str, Any] = {"3b": {}, "8b": {}}
     audit: list[dict[str, Any]] = []
 
-    for label, rate_scale, expected in (
-        ("3b", 1.0, targets["reactive_latency_reduction_3b"]),
-        ("8b", 0.48, targets["reactive_latency_reduction_8b"]),
+    for label, expected in (
+        ("3b", targets["reactive_latency_reduction_3b"]),
+        ("8b", targets["reactive_latency_reduction_8b"]),
     ):
+        rate_scale = float(configured["model_rate_scales"][label])
         config = replace(
             base_config,
             igpu_prefill_tokens_s=base_config.igpu_prefill_tokens_s * rate_scale,
@@ -172,12 +221,12 @@ def _agentxpu_run(targets: dict[str, Any], limit: float) -> dict[str, Any]:
             heg_decode_tokens_s=base_config.heg_decode_tokens_s * rate_scale,
         )
         simulator = AgentXPUSimulator(config)
-        for index, reactive_rate in enumerate((1.0, 3.0, 5.0)):
+        for index, reactive_rate in enumerate(configured["reactive_rates_min"]):
             flows = poisson_mixed_flows(
-                duration_s=900.0,
-                proactive_rate_min=6.0,
+                duration_s=float(configured["mixed_duration_s"]),
+                proactive_rate_min=float(configured["mixed_proactive_rate_min"]),
                 reactive_rate_min=reactive_rate,
-                seed=100 + index,
+                seed=int(configured["mixed_seeds"][index]),
             )
             igpu = simulator.run(flows, XPUmode.IGPU)
             heg = simulator.run(flows, XPUmode.HEG)
@@ -199,7 +248,9 @@ def _agentxpu_run(targets: dict[str, Any], limit: float) -> dict[str, Any]:
                 "reactive_latency_reduction": reduction,
             }
 
-    representative = results["3b"]["3"]
+    representative = results[str(configured["representative_model"])][
+        str(configured["representative_rate"])
+    ]
     representative_igpu = representative["igpu"]
     representative_heg = representative["heg"]
     pending = representative_heg["reactive_prefill_pending_s"]
@@ -226,10 +277,10 @@ def _agentxpu_run(targets: dict[str, Any], limit: float) -> dict[str, Any]:
         )
     )
     serial_flows = poisson_mixed_flows(
-        duration_s=900.0,
-        proactive_rate_min=6.0,
-        reactive_rate_min=3.0,
-        seed=101,
+        duration_s=float(configured["mixed_duration_s"]),
+        proactive_rate_min=float(configured["mixed_proactive_rate_min"]),
+        reactive_rate_min=float(configured["representative_rate"]),
+        seed=int(configured["mixed_seeds"][1]),
     )
     serial_result = AgentXPUSimulator(base_config).run(serial_flows, XPUmode.SERIAL)
     serial_util_reduction = 1.0 - representative_heg["igpu_utilization"] / serial_result.igpu_utilization
@@ -251,10 +302,10 @@ def _agentxpu_run(targets: dict[str, Any], limit: float) -> dict[str, Any]:
     )
 
     proactive_flows = poisson_mixed_flows(
-        duration_s=300.0,
-        proactive_rate_min=40.0,
+        duration_s=float(configured["proactive_duration_s"]),
+        proactive_rate_min=float(configured["proactive_rate_min"]),
         reactive_rate_min=0.0,
-        seed=44,
+        seed=int(configured["proactive_seed"]),
     )
     proactive_sim = AgentXPUSimulator(base_config)
     proactive_igpu = proactive_sim.run(proactive_flows, XPUmode.IGPU)
@@ -283,6 +334,7 @@ def _agentxpu_run(targets: dict[str, Any], limit: float) -> dict[str, Any]:
     results["configuration"] = asdict(base_config)
     return {
         "classification": "source_grounded_trace_simulation",
+        "configuration": configured,
         "results": results,
         "audit": audit,
     }
