@@ -15,6 +15,21 @@ fi
 
 agentsys_require_chipyard_source "${chipyard_root}"
 
+ensure_compatibility_patch() {
+  local repository=$1
+  local patch_path=$2
+  if git -C "${repository}" apply --reverse --check "${patch_path}" 2>/dev/null; then
+    return 0
+  fi
+  if [[ ${verify_only} -eq 0 ]] && \
+     git -C "${repository}" apply --check "${patch_path}" 2>/dev/null; then
+    git -C "${repository}" apply "${patch_path}"
+    return 0
+  fi
+  echo "Chipyard compatibility patch is not applied exactly: ${patch_path}" >&2
+  return 4
+}
+
 if [[ ${verify_only} -eq 0 ]]; then
   required_submodules=(
     generators/boom
@@ -86,6 +101,13 @@ EOF
   grep -Fqx "${source_line}" "${chipyard_root}/env.sh" || \
     printf '%s\n' "${source_line}" >> "${chipyard_root}/env.sh"
 fi
+
+ensure_compatibility_patch \
+  "${chipyard_root}/tools/chisel3" \
+  "${project_root}/patches/chipyard/chisel3-stable-deps.patch"
+ensure_compatibility_patch \
+  "${chipyard_root}/tools/treadle" \
+  "${project_root}/patches/chipyard/treadle-stable-firrtl.patch"
 
 agentsys_require_chipyard_build "${chipyard_root}"
 echo "AgentSys Chipyard ready: ${chipyard_root} ($(agentsys_chipyard_commit "${chipyard_root}"))"

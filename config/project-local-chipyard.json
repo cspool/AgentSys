@@ -10,9 +10,9 @@
     "project_local_three_agent_dags",
     "project_local_six_layer_regression"
   ],
-  "output_root": "artifacts/project_local_chipyard/run_051",
-  "manifest": "artifacts/project_local_chipyard/run_051/reproduction.json",
-  "certificate": "artifacts/results/project-local-chipyard-certificate-run_051.json",
+  "output_root": "artifacts/project_local_chipyard/{run_id}",
+  "manifest": "artifacts/project_local_chipyard/{run_id}/reproduction.json",
+  "certificate": "artifacts/results/project-local-chipyard-certificate-{run_id}.json",
   "baselines": {
     "chipyard": "artifacts/mlx_chipyard/run_044/mlx-chipyard.json",
     "agents": "artifacts/mlx_agent/run_046/reproduction.json",

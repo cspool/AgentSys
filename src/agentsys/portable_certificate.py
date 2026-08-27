@@ -10,6 +10,8 @@ from pathlib import Path
 from typing import Any
 
 from .paths import (
+    CHIPYARD_BUILD_GITLINKS,
+    CHIPYARD_PATCHED_FILES,
     CHIPYARD_TOKEN,
     PROJECT_ROOT,
     ChipyardPathError,
@@ -17,6 +19,7 @@ from .paths import (
     chipyard_source_identity,
     resolve_chipyard_root,
 )
+from .portable_reproduce import DEFAULT_RUN_ID, resolve_run_path
 from .revised_certificate import _run
 
 
@@ -31,25 +34,125 @@ def _json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def _git_head() -> str:
+IMPLEMENTATION_PATHS = (
+    ".gitignore",
+    ".gitmodules",
+    ".python-version",
+    "pyproject.toml",
+    "uv.lock",
+    "chipyard",
+    "config",
+    "data",
+    "docker",
+    "integrations",
+    "patches",
+    "rtl",
+    "scripts",
+    "src",
+    "system_sim",
+    "tests",
+    "workloads",
+)
+
+
+def _git_head(project_root: Path = PROJECT_ROOT) -> str:
     return subprocess.check_output(
-        ["git", "-C", str(PROJECT_ROOT), "rev-parse", "HEAD"], text=True
+        ["git", "-C", str(project_root), "rev-parse", "HEAD"], text=True
     ).strip()
 
 
-def _tracked_clean() -> bool:
-    return not subprocess.check_output(
+def implementation_source_closure(
+    expected_commit: str,
+    *,
+    project_root: Path = PROJECT_ROOT,
+    implementation_paths: tuple[str, ...] = IMPLEMENTATION_PATHS,
+) -> dict[str, Any]:
+    """Prove active source equals an ancestor implementation commit.
+
+    Evidence and documentation commits may follow the implementation commit,
+    but tracked, staged, unstaged, or untracked changes under the registered
+    implementation paths are rejected.
+    """
+
+    project_root = project_root.resolve()
+    current_commit = _git_head(project_root)
+    exists = subprocess.run(
         [
             "git",
             "-C",
-            str(PROJECT_ROOT),
-            "status",
-            "--porcelain",
-            "--untracked-files=no",
-            "--ignore-submodules=dirty",
+            str(project_root),
+            "cat-file",
+            "-e",
+            f"{expected_commit}^{{commit}}",
         ],
+        check=False,
+        capture_output=True,
         text=True,
-    ).strip()
+    ).returncode == 0
+    ancestor = exists and subprocess.run(
+        [
+            "git",
+            "-C",
+            str(project_root),
+            "merge-base",
+            "--is-ancestor",
+            expected_commit,
+            current_commit,
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    ).returncode == 0
+
+    changed: list[str] = []
+    if exists:
+        difference = subprocess.run(
+            [
+                "git",
+                "-C",
+                str(project_root),
+                "diff",
+                "--name-status",
+                "--ignore-submodules=dirty",
+                expected_commit,
+                "--",
+                *implementation_paths,
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        changed = difference.stdout.splitlines()
+        if difference.returncode != 0:
+            changed.append(f"git-diff-error:{difference.stderr.strip()}")
+    untracked_result = subprocess.run(
+        [
+            "git",
+            "-C",
+            str(project_root),
+            "ls-files",
+            "--others",
+            "--exclude-standard",
+            "--",
+            *implementation_paths,
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    untracked = untracked_result.stdout.splitlines()
+    if untracked_result.returncode != 0:
+        untracked.append(f"git-ls-files-error:{untracked_result.stderr.strip()}")
+    return {
+        "expected_commit": expected_commit,
+        "current_commit": current_commit,
+        "expected_commit_exists": exists,
+        "expected_commit_is_ancestor": ancestor,
+        "implementation_paths": list(implementation_paths),
+        "changed_paths": changed,
+        "untracked_paths": untracked,
+        "pass": exists and ancestor and not changed and not untracked,
+    }
 
 
 def endpoint_signature(result: dict[str, Any]) -> list[tuple[Any, ...]]:
@@ -127,15 +230,16 @@ def build_portable_certificate(
     *,
     expected_commit: str,
     config_path: Path = DEFAULT_CONFIG,
-    run_id: str = "run_051",
+    run_id: str = DEFAULT_RUN_ID,
     run_checks: bool = True,
 ) -> dict[str, Any]:
     if not re.fullmatch(r"[0-9a-f]{40}", expected_commit):
         raise ValueError("expected_commit must be a full 40-character Git SHA")
     config_path = config_path.resolve()
     config = _json(config_path)
-    replay_path = (PROJECT_ROOT / config["manifest"]).resolve()
+    replay_path = resolve_run_path(config["manifest"], run_id=run_id)
     replay = _json(replay_path)
+    source_closure = implementation_source_closure(expected_commit)
     current_results = {
         name: _json(Path(item["path"])) for name, item in replay["results"].items()
     }
@@ -181,6 +285,7 @@ def build_portable_certificate(
         "src/agentsys/portable_certificate.py",
         "config/project-local-chipyard.json",
         "experiments/h20-project-local-chipyard/protocol.md",
+        "experiments/h21-durable-source-certificate/protocol.md",
     )
     files = {
         relative: {
@@ -223,9 +328,9 @@ def build_portable_certificate(
     current_agents = current_results["agents"]
     current_substrate = current_results["substrate"]
     gates = {
-        "exact_implementation_commit": _git_head() == expected_commit
-        and replay["project_commit"] == expected_commit
-        and _tracked_clean(),
+        "implementation_source_closure": source_closure["pass"],
+        "replay_implementation_commit": replay["project_commit"]
+        == expected_commit,
         "replay_four_stages_nine_gates": replay["summary"]["pass"]
         and replay["summary"]["executed"] == replay["summary"]["stages"] == 4
         and replay["summary"]["gates_passing"] == replay["summary"]["gates"] == 9,
@@ -239,6 +344,14 @@ def build_portable_certificate(
         == "b5d013190d637e634113cb5179f8c8885df1945a"
         and identity["kind"] == "vendored_source_snapshot"
         and preflight["pass"],
+        "chipyard_25_gitlinks_exact": len(preflight["gitlinks"])
+        == len(CHIPYARD_BUILD_GITLINKS)
+        == 25
+        and all(item["pass"] for item in preflight["gitlinks"].values()),
+        "chipyard_compatibility_patches_exact": len(preflight["patched_files"])
+        == len(CHIPYARD_PATCHED_FILES)
+        == 2
+        and all(item["pass"] for item in preflight["patched_files"].values()),
         "portable_manifest_tokens": all(CHIPYARD_TOKEN in text for text in raw_configs.values())
         and all("/" + "root" + "/chipyard" not in text for text in raw_configs.values()),
         "substrate_exact_baseline": current_substrate["summary"]
@@ -275,12 +388,14 @@ def build_portable_certificate(
         "fresh_checks": checks_pass and (pytest_count is not None if checks else True),
     }
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "run_id": run_id,
-        "classification": "post_vendoring_project_local_chipyard_certificate",
+        "classification": "durable_project_local_chipyard_certificate",
         "evidence_boundary": replay["evidence_boundary"],
         "project_commit": _git_head(),
+        "implementation_commit": expected_commit,
         "expected_commit": expected_commit,
+        "implementation_source_closure": source_closure,
         "configuration": {"path": str(config_path), "sha256": _sha256(config_path)},
         "replay": {"path": str(replay_path), "sha256": _sha256(replay_path)},
         "chipyard": {"identity": identity, "preflight": preflight},
@@ -309,12 +424,12 @@ def main(argv: list[str] | None = None) -> int:
         description="Certify the project-local Chipyard AgentSys replay"
     )
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
-    parser.add_argument("--run-id", default="run_051")
+    parser.add_argument("--run-id", default=DEFAULT_RUN_ID)
     parser.add_argument("--expected-commit", required=True)
     parser.add_argument("--output", type=Path)
     args = parser.parse_args(argv)
     config = _json(args.config)
-    output = args.output or PROJECT_ROOT / config["certificate"]
+    output = args.output or resolve_run_path(config["certificate"], run_id=args.run_id)
     result = build_portable_certificate(
         expected_commit=args.expected_commit,
         config_path=args.config,

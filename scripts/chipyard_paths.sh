@@ -63,4 +63,54 @@ agentsys_require_chipyard_build() {
       return 3
     fi
   done
+
+  local project_root
+  project_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+  local contract_marker=${project_root}/chipyard/.agentsys-source.json
+  if [[ ! -f ${contract_marker} ]]; then
+    echo "AgentSys Chipyard build-closure marker is missing: ${contract_marker}" >&2
+    return 3
+  fi
+
+  local expected observed changed allowed
+  while IFS=$'\t' read -r relative expected; do
+    observed=$(git -C "${chipyard_root}/${relative}" rev-parse HEAD 2>/dev/null || true)
+    if [[ ${observed} != ${expected} ]]; then
+      echo "Chipyard gitlink mismatch: ${relative} ${observed:-missing} != ${expected}" >&2
+      return 3
+    fi
+    changed=$(git -C "${chipyard_root}/${relative}" diff --name-only HEAD --)
+    allowed=
+    if [[ ${relative} == tools/chisel3 || ${relative} == tools/treadle ]]; then
+      allowed=build.sbt
+    fi
+    if [[ ${changed} != ${allowed} ]]; then
+      echo "Unexpected tracked Chipyard gitlink changes: ${relative}: ${changed:-none}" >&2
+      return 3
+    fi
+  done < <(python3 - "${contract_marker}" <<'PY'
+import json
+import sys
+
+marker = json.load(open(sys.argv[1], encoding="utf-8"))
+for path, commit in marker["build_gitlinks"].items():
+    print(f"{path}\t{commit}")
+PY
+  )
+
+  while IFS=$'\t' read -r relative expected; do
+    observed=$(sha256sum "${chipyard_root}/${relative}" 2>/dev/null | awk '{print $1}')
+    if [[ ${observed} != ${expected} ]]; then
+      echo "Chipyard patched-file mismatch: ${relative} ${observed:-missing} != ${expected}" >&2
+      return 3
+    fi
+  done < <(python3 - "${contract_marker}" <<'PY'
+import json
+import sys
+
+marker = json.load(open(sys.argv[1], encoding="utf-8"))
+for path, digest in marker["patched_files"].items():
+    print(f"{path}\t{digest}")
+PY
+  )
 }

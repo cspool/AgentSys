@@ -3,6 +3,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import subprocess
 import time
 from pathlib import Path
@@ -20,6 +21,8 @@ from .paths import (
 
 
 DEFAULT_CONFIG = PROJECT_ROOT / "config/project-local-chipyard.json"
+DEFAULT_RUN_ID = "run_052"
+RUN_ID_PATTERN = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]*")
 
 
 def _sha256(path: Path) -> str:
@@ -30,6 +33,24 @@ def _git_head() -> str:
     return subprocess.check_output(
         ["git", "-C", str(PROJECT_ROOT), "rev-parse", "HEAD"], text=True
     ).strip()
+
+
+def resolve_run_path(value: str, *, run_id: str) -> Path:
+    """Resolve a run-scoped config path without allowing path traversal."""
+
+    if not RUN_ID_PATTERN.fullmatch(run_id):
+        raise ValueError(
+            "run_id must start with an alphanumeric character and contain only "
+            "letters, digits, '.', '_' or '-'"
+        )
+    rendered = value.replace("{run_id}", run_id)
+    path = Path(rendered)
+    resolved = (path if path.is_absolute() else PROJECT_ROOT / path).resolve()
+    try:
+        resolved.relative_to(PROJECT_ROOT)
+    except ValueError as error:
+        raise ValueError(f"run-scoped path escapes the project root: {value}") from error
+    return resolved
 
 
 def _write(path: Path, value: dict[str, Any]) -> None:
@@ -56,7 +77,7 @@ def _stage(
 def run_portable_reproduction(
     *,
     config_path: Path = DEFAULT_CONFIG,
-    run_id: str = "run_051",
+    run_id: str = DEFAULT_RUN_ID,
     output_root: Path | None = None,
     manifest_path: Path | None = None,
 ) -> dict[str, Any]:
@@ -65,8 +86,10 @@ def run_portable_reproduction(
     if config.get("schema_version") != 1:
         raise ValueError("unsupported project-local replay schema")
     output_root = (
-        output_root or PROJECT_ROOT / config["output_root"]
-    ).resolve()
+        output_root.resolve()
+        if output_root is not None
+        else resolve_run_path(config["output_root"], run_id=run_id)
+    )
     output_root.mkdir(parents=True, exist_ok=True)
     source_commit = _git_head()
     stages: list[dict[str, Any]] = []
@@ -250,8 +273,10 @@ def run_portable_reproduction(
         },
     }
     manifest_path = (
-        manifest_path or PROJECT_ROOT / config["manifest"]
-    ).resolve()
+        manifest_path.resolve()
+        if manifest_path is not None
+        else resolve_run_path(config["manifest"], run_id=run_id)
+    )
     _write(manifest_path, manifest)
     manifest["output"] = str(manifest_path)
     return manifest
@@ -262,7 +287,7 @@ def main(argv: list[str] | None = None) -> int:
         description="Replay AgentSys on the repository-local Chipyard source"
     )
     parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
-    parser.add_argument("--run-id", default="run_051")
+    parser.add_argument("--run-id", default=DEFAULT_RUN_ID)
     parser.add_argument("--output-root", type=Path)
     parser.add_argument("--manifest", type=Path)
     args = parser.parse_args(argv)

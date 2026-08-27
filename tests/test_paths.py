@@ -5,10 +5,13 @@ from pathlib import Path
 import pytest
 
 from agentsys.paths import (
+    CHIPYARD_BUILD_GITLINKS,
+    CHIPYARD_PATCHED_FILES,
     CHIPYARD_TOKEN,
     CHIPYARD_UPSTREAM_COMMIT,
     PROJECT_ROOT,
     ChipyardPathError,
+    chipyard_build_preflight,
     chipyard_source_identity,
     expand_chipyard_tokens,
     resolve_chipyard_root,
@@ -23,6 +26,15 @@ def test_default_chipyard_root_is_vendored_source(monkeypatch: pytest.MonkeyPatc
     assert identity["kind"] == "vendored_source_snapshot"
     assert identity["commit"] == CHIPYARD_UPSTREAM_COMMIT
     assert all(item["pass"] for item in identity["identity_files"].values())
+
+
+def test_chipyard_build_closure_pins_gitlinks_and_compatibility_patches() -> None:
+    preflight = chipyard_build_preflight()
+    assert preflight["pass"]
+    assert len(preflight["gitlinks"]) == len(CHIPYARD_BUILD_GITLINKS) == 25
+    assert len(preflight["patched_files"]) == len(CHIPYARD_PATCHED_FILES) == 2
+    assert all(item["pass"] for item in preflight["gitlinks"].values())
+    assert all(item["pass"] for item in preflight["patched_files"].values())
 
 
 def test_explicit_chipyard_override_is_honored(monkeypatch: pytest.MonkeyPatch) -> None:
