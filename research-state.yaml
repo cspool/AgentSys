@@ -184,6 +184,12 @@ hypotheses:
     motivation: "Close the requested vertical Agent software-to-MLX+CPU system."
     parent: null
     priority: high
+  - id: H18.1
+    statement: "Three Agent manifests can compile into distinct dependency-aware ordinary-Rocket ELFs that execute every LLM call on both unchanged MLX backends with exact per-call goldens and counter conservation."
+    status: pending
+    motivation: "Implement and test the full software/framework/compiler/CPU/MLX vertical path before adding paper regression."
+    parent: H18
+    priority: high
   - id: H19
     statement: "A six-paper-layer parameter matrix including MLX can retain all registered matching-configuration endpoints within 10%, exercise every layer switch and issue a fresh MLX+CPU completion certificate."
     status: pending
