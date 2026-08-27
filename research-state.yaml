@@ -196,6 +196,12 @@ hypotheses:
     motivation: "Close parameterization, numerical regression and final reproducibility for the revised hardware target."
     parent: null
     priority: high
+  - id: H19.1
+    statement: "An executable six-layer matrix can add five explicitly target-informed MLX paper rows, retain all 73 registered endpoints within 10%, and exercise an unchanged-work cycle-to-RTL MLX switch."
+    status: pending
+    motivation: "Close the new hardware layer's numerical and parameter-control contract before final certification."
+    parent: H19
+    priority: high
 
 experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
