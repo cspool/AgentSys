@@ -55,6 +55,7 @@ The revised architecture removes ATX from the integrated CPU path. Run 023 close
 - Run 043 freshly rebuilds the active MLX cycle model and physical 4x4 RTL outside the reference tree. Ten of ten gates and 8/8 golden runs pass; identical per-PE programs produce different global interleavings, all ten opcodes have measured timing, and target-free cycle/RTL ratios span 1.193x–2.098x. Rocket and Agent integration remain open.
 - Run 044 closes the MLX+ordinary-Rocket substrate at 12/12. Two freshly built Rocket configs execute four distinct ELFs 8/8 with exact golden/ABI, run-043 kernel identity, conserved work, real HellaCache DMA and `system=DMA+kernel+2`; 12 installed files byte-match current MLX and no paper target is consumed.
 - Run 045's first Agent-to-MLX ELF is functionally complete but retained at 8/10 due two auditor bugs. Its second LLM launch sees Rocket-cache reuse: DMA drops 344→216 cycles on both MLX backends while kernel, bytes, instructions, golden and checksum stay exact. This multi-call CPU/accelerator effect invalidates constant cold-DMA aggregation and must become an explicit contract.
+- Run 046 closes H18: three switchable Agent DAGs pass 9/9 global and 10/10 per-workload gates on ordinary Rocket+MLX. Distinct ELFs execute 20 calls (17 MLX, 3 CPU tools), 765 lineaged spatial micro-ops and 14-layer traces; exact goldens/work/checksums and backend switching hold, with cache-aware DMA 344 then 216 cycles.
 
 ## Patterns and Insights
 

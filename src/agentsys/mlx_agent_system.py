@@ -359,10 +359,19 @@ def run_agent_mlx_system(
                 and item["mismatches"] == 0
                 for item in llm_records
             ),
-            "aggregate_hardware": final["kernel"] == expected_llm * expected_kernel
-            and final["instructions"] == expected_llm * 45
-            and final["dma_bytes"] == expected_llm * 576
-            and final["system"] == expected_llm * (344 + expected_kernel + 2),
+            "aggregate_hardware": final["kernel"]
+            == sum(item["kernel"] for item in llm_records)
+            == expected_llm * expected_kernel
+            and final["instructions"]
+            == sum(item["instructions"] for item in llm_records)
+            == expected_llm * 45
+            and final["dma_bytes"]
+            == sum(item["dma_bytes"] for item in llm_records)
+            == expected_llm * 576
+            and final["dma"] == sum(item["dma"] for item in llm_records)
+            and final["system"] == sum(item["system"] for item in llm_records),
+            "cache_warm_dma": [item["dma"] for item in llm_records]
+            == [344, *([216] * (expected_llm - 1))],
             "metadata": all(
                 item["program"] == calls_by_id[str(item["call"])]["program_id"]
                 and item["first"] == calls_by_id[str(item["call"])]["program_first"]
@@ -397,7 +406,7 @@ def run_agent_mlx_system(
             handle.write(json.dumps(event, sort_keys=True) + "\n")
     layers = sorted({event["layer"] for event in trace})
     gates = {
-        "serial_seven_stages": len(stages) == 7
+        "serial_six_stages": len(stages) == 6
         and all(stage["pass"] for stage in stages)
         and all(
             later["started_ns"] >= earlier["finished_ns"]

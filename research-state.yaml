@@ -180,13 +180,13 @@ hypotheses:
     priority: high
   - id: H18
     statement: "Three Agent DAGs can lower through Agentix, mllm, Agent.xpu and TISA into per-call MLX spatial programs and execute as distinct RISC-V ELFs on ordinary Rocket plus both MLX backends."
-    status: pending
+    status: supported
     motivation: "Close the requested vertical Agent software-to-MLX+CPU system."
     parent: null
     priority: high
   - id: H18.1
     statement: "Three Agent manifests can compile into distinct dependency-aware ordinary-Rocket ELFs that execute every LLM call on both unchanged MLX backends with exact per-call goldens and counter conservation."
-    status: pending
+    status: supported
     motivation: "Implement and test the full software/framework/compiler/CPU/MLX vertical path before adding paper regression."
     parent: H18
     priority: high
@@ -201,7 +201,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 45
+  total_runs: 46
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -518,11 +518,18 @@ experiments:
       wall_time_min: 2.0
       change_summary: "Retained react_tool 8/10: compilation and both 3-call executions are functionally exact, but two runner gates assume seven rather than six stages and repeat cold DMA; observed per-backend DMA is 344 then 216 via cache reuse."
       timestamp: "2026-08-27"
+    - run_id: "run_046"
+      hypothesis: "H18/three Agent DAGs on ordinary Rocket plus MLX"
+      metric_value: 0.0
+      delta: -0.2
+      wall_time_min: 10.5
+      change_summary: "Three serial workloads pass 9/9 globally and 10/10 each: 20 calls, 17 MLX launches, 3 CPU tools, 765 lineaged micro-ops, distinct ELFs, exact goldens/work/checksums and cache-aware DMA all hold."
+      timestamp: "2026-08-27"
 
 outer_loop:
-  cycle: 34
-  last_direction: recover
-  last_reflection: "Run 045 validates the vertical implementation and reveals repeat-launch cache reuse plus two auditor mistakes. Correct only stage counting and per-call DMA aggregation, lock cold/warm behavior, then run all three DAGs."
+  cycle: 35
+  last_direction: broaden
+  last_reflection: "Run 046 closes workload switching and vertical MLX+CPU mechanisms. Add MLX as a sixth explicit paper-regression layer, exercise its backend/mechanism parameters and issue a fresh end-to-end certificate."
 
 workspace:
   findings: "findings.md"

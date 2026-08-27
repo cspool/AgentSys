@@ -1,0 +1,64 @@
+# AgentSys MLX+普通 RISC-V CPU 垂直实验系统
+
+活动硬件路径现为：
+
+```text
+Agent JSON → Agentix → mllm MIR → Agent.xpu → TISA-to-MLX lowering
+           → Agent call table + MLX spatial microprogram → RISC-V ELF
+           → ordinary Rocket CPU/tool runtime → custom0/HellaCache DMA
+           → MLX cycle model or physical 4x4/16-PE RTL
+```
+
+## 环境与运行
+
+```bash
+cd /workspace/AgentSys
+bash scripts/setup_mlx_toolchain.sh
+bash scripts/install_mlx_chipyard.sh
+
+# 三种Agent负载严格串行重放
+.venv-mlx/bin/agentsys-reproduce-mlx-agent \
+  --config config/mlx-agent-system.json --run-id run_046
+
+# 只切换一个负载
+.venv-mlx/bin/agentsys-run-mlx-agent \
+  --workload workloads/react_tool.json \
+  --run-id demo --output-dir artifacts/mlx_demo/react_tool
+```
+
+切换负载会重新执行Agentix、生成mllm/Agent.xpu/TISA manifest、45-op MLX
+micro-lineage、Agent call C header和独立RISC-V ELF，然后在两套MLX Rocket
+simulator上执行。无需修改仓库源码。
+
+## 编译和运行合同
+
+每个LLM call保留8个Qwen3 MIR source（3 ME、3 VE、2 DE），并映射到经过
+独立验证的Transformer空间模板：45条MLX指令、9个活跃PE、8入1出向量、
+576字节DMA。micro-lineage为每条空间指令记录PE/PC/op/tag/route以及对应MIR
+source index/type/TISA engine。工具call只在普通Rocket上执行。
+
+Rocket软件逐call检查DAG dependency、program first/last、ABI magic和FP16
+golden，并导出Agent.xpu flow、prefill chunk和decode batch。两种硬件backend是
+真实参数开关：cycle model使用串行ready-tag服务，RTL物理实例化16个PE。
+
+## run 046
+
+| workload | calls | LLM/tool | micro-ops | cycle/RTL kernel | trace events |
+|---|---:|---:|---:|---:|---:|
+| react_moa_mcts | 11 | 10/1 | 450 | 1320/760 | 762 |
+| react_tool | 3 | 2/1 | 90 | 264/152 | 158 |
+| planner_debate | 6 | 5/1 | 225 | 660/380 | 385 |
+
+全局9/9，每个workload 10/10。三个header/ELF hash均不同；20个call、17个
+MLX launch和3个CPU tool全部执行一次，cycle/RTL logical checksum一致。
+
+重复launch揭示真实cache效应：同一ELF第一次DMA为344 cycles，后续为216；
+kernel仍固定132/76，字节数固定576。系统按逐call计数求和，不把cold smoke
+结果机械乘以call数。
+
+## 证据边界
+
+MLX_dev是公开surrogate，不是论文作者未公开的完整模拟器/RTL。Agent编译器是
+AgentSys新增实现。MLX论文5个目标拟合e2e点可用于明确标注的数值回归，但不能
+替代目标无关的RTL/Chipyard机制证据，也不能把外部仓库1/18的严格全论文结果改写
+为完成。
