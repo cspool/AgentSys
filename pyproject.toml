@@ -32,6 +32,7 @@ agentsys-mlx-standalone = "agentsys.mlx_standalone:main"
 agentsys-mlx-chipyard = "agentsys.mlx_chipyard:main"
 agentsys-run-mlx-agent = "agentsys.mlx_agent_system:main"
 agentsys-reproduce-mlx-agent = "agentsys.mlx_agent_reproduce:main"
+agentsys-mlx-layer-regression = "agentsys.mlx_layer_regression:main"
 
 [dependency-groups]
 dev = [

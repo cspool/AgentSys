@@ -198,7 +198,7 @@ hypotheses:
     priority: high
   - id: H19.1
     statement: "An executable six-layer matrix can add five explicitly target-informed MLX paper rows, retain all 73 registered endpoints within 10%, and exercise an unchanged-work cycle-to-RTL MLX switch."
-    status: pending
+    status: supported
     motivation: "Close the new hardware layer's numerical and parameter-control contract before final certification."
     parent: H19
     priority: high
@@ -207,7 +207,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 46
+  total_runs: 47
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -531,11 +531,18 @@ experiments:
       wall_time_min: 10.5
       change_summary: "Three serial workloads pass 9/9 globally and 10/10 each: 20 calls, 17 MLX launches, 3 CPU tools, 765 lineaged micro-ops, distinct ELFs, exact goldens/work/checksums and cache-aware DMA all hold."
       timestamp: "2026-08-27"
+    - run_id: "run_047"
+      hypothesis: "H19.1/six-layer MLX paper regression matrix"
+      metric_value: 0.09909909909909899
+      delta: 0.0
+      wall_time_min: 3.5
+      change_summary: "Six layers pass 73/73 endpoints, six switches and 10/10 gates; fresh MLX cycle-to-RTL is 264-to-152 with identical work, while target-informed 5.85% fit, 20.77% LOO and negative full-paper scope stay explicit."
+      timestamp: "2026-08-27"
 
 outer_loop:
-  cycle: 35
-  last_direction: broaden
-  last_reflection: "Run 046 closes workload switching and vertical MLX+CPU mechanisms. Add MLX as a sixth explicit paper-regression layer, exercise its backend/mechanism parameters and issue a fresh end-to-end certificate."
+  cycle: 36
+  last_direction: validate
+  last_reflection: "Run 047 closes the six-layer numerical/parameter contract. A final fresh replay must rebuild/audit MLX, rerun three Agent workloads, tests/lints and issue a source-hashed MLX+CPU certificate without overstating full-paper reproduction."
 
 workspace:
   findings: "findings.md"

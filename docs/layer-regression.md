@@ -50,3 +50,19 @@ Sensitivity variants demonstrate parameter control; they are not fitted paper
 endpoints. Only the baseline configuration is compared with a paper point. This
 prevents a parameter selected after seeing residuals from being mislabeled as a
 confirmatory reproduction.
+
+## MLX+CPU six-layer matrix
+
+The revised hardware goal uses:
+
+```bash
+.venv-mlx/bin/agentsys-mlx-layer-regression \
+  --matrix config/mlx-six-layer-matrix.json --run-id run_047
+```
+
+It retains the five layers above and adds MLX as the sixth paper layer. Run 047
+passes 73/73 endpoints and six parameter switches; MLX's fresh mechanism switch
+executes `react_tool` on cycle/RTL Rocket backends (264→152 kernel cycles) with
+identical work. The five MLX numerical rows have 5.85% maximum in-sample error
+but are target-informed and not independent validation; 20.77% leave-one-out
+error and the negative strict-full-paper certificate remain exported.

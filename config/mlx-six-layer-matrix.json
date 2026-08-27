@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "classification": "six_paper_layer_parameter_and_10_percent_regression_matrix",
+  "limit": 0.10,
+  "base_matrix": "config/layer-regression-matrix.json",
+  "active_layers": ["agentix", "agentxpu", "tisa", "mllm", "hptpe", "mlx"],
+  "mlx": {
+    "paper_workload": "figure21_transformer_e2e_sequence_length_128_to_2048",
+    "expected_endpoints": 5,
+    "source_artifact": ".references/MLX_dev_active/artifacts/results/paper-aligned-e2e-estimate-run179.json",
+    "source_sha256": "6a54b7f32fa2214b6cf201028d29f4f803a7010e4766f58c14d2c1e784cf56dd",
+    "full_paper_artifact": ".references/MLX_dev_active/artifacts/results/full-paper-completion-certificate-run042.json",
+    "baseline": {
+      "sequence_lengths": [128, 256, 512, 1024, 2048],
+      "array": "physical_4x4_16pe",
+      "vector_lanes": 32,
+      "spatial_template": "transformer_block_45ops_9pe",
+      "paper_model": "three_parameter_target_informed_e2e"
+    },
+    "sensitivity": {
+      "workload": "workloads/react_tool.json",
+      "baseline_backend": "cycle",
+      "variant_backend": "rtl",
+      "metric": "aggregate_kernel_cycles",
+      "expected_baseline": 264,
+      "expected_variant": 152
+    },
+    "parents": {
+      "standalone": "artifacts/mlx_standalone/run_043/mlx-standalone.json",
+      "chipyard": "artifacts/mlx_chipyard/run_044/mlx-chipyard.json",
+      "agent_workloads": "artifacts/mlx_agent/run_046/reproduction.json"
+    }
+  },
+  "output_root": "artifacts/mlx_layer_regression/run_047",
+  "output": "artifacts/mlx_layer_regression/run_047/layer-regression.json"
+}

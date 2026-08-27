@@ -1,0 +1,37 @@
+[1;32mSUCCESS: times_a=1, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=2, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=3, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=4, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=5, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=6, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=7, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=8, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=9, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=10, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=11, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=12, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=13, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=14, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=15, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=16, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=17, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=18, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=19, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=20, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=21, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=22, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=23, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=24, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=25, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=26, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=27, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=28, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=29, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=30, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=31, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[1;32mSUCCESS: times_a=32, all elements match in matrix_c and tpe_matrix for size A[4,32] * B[32,4] = C[4,4]![0m
+[31mAverage cal_cycle for per-operand = 2.27[0m
+- /tmp/hptpe-opt4c-9k3wn4jq/testbench.sv:232: Verilog $finish
+- S i m u l a t i o n   R e p o r t: Verilator 5.050 2026-07-01
+- Verilator: $finish at 30us; walltime 0.011 s; speed 2.857 ms/s
+- Verilator: cpu 0.011 s on 1 threads; allocated 6 MB
