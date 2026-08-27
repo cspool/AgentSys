@@ -113,3 +113,27 @@ def test_run037_links_core_and_retains_conda_nvml_stub_path_failure() -> None:
     assert "Linking CXX shared library bin/libMllmRT.so" in log
     assert "cannot find -lnvidia-ml" in log
     assert (PROJECT_ROOT / ".cuda-toolkit/targets/x86_64-linux/lib/stubs/libnvidia-ml.so").is_file()
+
+
+def test_run038_builds_backend_and_exposes_cuda_shutdown_order_bug() -> None:
+    result = json.loads(
+        (PROJECT_ROOT / "artifacts/results/mllm-cuda-run_038.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert result["summary"] == {
+        "failing": 2,
+        "gates": 13,
+        "pass": False,
+        "passing": 11,
+    }
+    assert all(item["exists"] for item in result["build"]["targets"].values())
+    assert result["gates"]["cuda_driver_runtime_nvml_link"]
+    assert not result["gates"]["two_gpu_device_test"]
+    assert result["device_test"]["output"].count(
+        "Found device: NVIDIA GeForce RTX 4090"
+    ) == 2
+    assert "driver shutting down" in result["device_test"]["output"]
+    source = (MLLM_ROOT / "mllm/mllm.cpp").read_text(encoding="utf-8")
+    assert "This line is needed for cuda !!!" in source
+    assert "// Context::instance().memoryManager()->clearAll();" in source

@@ -62,6 +62,8 @@ env \
     -DCMAKE_C_COMPILER=clang-16 \
     -DCMAKE_CXX_COMPILER=clang++-16 \
     -DCMAKE_CUDA_HOST_COMPILER=clang++-16 \
+    -DCMAKE_SHARED_LINKER_FLAGS="-L${cuda_root}/targets/x86_64-linux/lib/stubs" \
+    -DCMAKE_EXE_LINKER_FLAGS="-L${cuda_root}/targets/x86_64-linux/lib/stubs" \
     -DCMAKE_CUDA_ARCHITECTURES=89 \
     -DCUDAToolkit_ROOT="${cuda_root}" \
     -DMLLM_BUILD_CUDA_BACKEND=ON \

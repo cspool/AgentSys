@@ -152,7 +152,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 37
+  total_runs: 38
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -413,11 +413,18 @@ experiments:
       wall_time_min: 1.0
       change_summary: "OpenMP-off links MllmRT; CUDA backend stops at a Conda NVML-stub search-path mismatch, leaving target/device/link gates false and 9/13 passing."
       timestamp: "2026-08-27"
+    - run_id: "run_038"
+      hypothesis: "H15.2/mllm CUDA device initialization"
+      metric_value: 0.15384615384615385
+      delta: -0.15384615384615385
+      wall_time_min: 0.5
+      change_summary: "Three CUDA targets and linkage pass; both GPUs are discovered, then upstream's commented CUDA memory clear causes cudaFree after driver shutdown and SIGABRT, leaving 11/13."
+      timestamp: "2026-08-27"
 
 outer_loop:
-  cycle: 26
+  cycle: 27
   last_direction: recover
-  last_reflection: "Run 037 links the core and isolates the remaining failure to mllm's CUDA-stub search path versus the NVIDIA Conda layout. Add only the existing target stub directory."
+  last_reflection: "Run 038 builds and discovers both GPUs, isolating final failure to a one-line upstream shutdown-order FIXME. Apply that exact framework patch as a hashed overlay and rerun idempotently."
 
 workspace:
   findings: "findings.md"

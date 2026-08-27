@@ -119,7 +119,10 @@ def audit_mllm_cuda(
         ]
     )
     device_test = (
-        _run([str(target_candidates["device_test"])], env=library_env)
+        _run(
+            ["stdbuf", "-oL", "-eL", str(target_candidates["device_test"])],
+            env=library_env,
+        )
         if targets["device_test"]["exists"]
         else {"command": [], "exit_code": None, "output": "device test not built", "pass": False}
     )
