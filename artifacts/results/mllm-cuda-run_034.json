@@ -1,0 +1,102 @@
+{
+  "build": {
+    "cache": "/workspace/AgentSys/.references/mllm/build-x86-cuda/CMakeCache.txt",
+    "cuda_architectures": null,
+    "cuda_backend": null,
+    "cuda_compiler": null,
+    "path": "/workspace/AgentSys/.references/mllm/build-x86-cuda",
+    "targets": {
+      "cuda_backend": {
+        "bytes": 0,
+        "exists": false,
+        "path": "/workspace/AgentSys/.references/mllm/build-x86-cuda/lib/libMllmCUDABackend.so",
+        "sha256": null
+      },
+      "cuda_ops": {
+        "bytes": 0,
+        "exists": false,
+        "path": "/workspace/AgentSys/.references/mllm/build-x86-cuda/lib/libMllmCUDABackendCudaOps.so",
+        "sha256": null
+      },
+      "device_test": {
+        "bytes": 0,
+        "exists": false,
+        "path": "/workspace/AgentSys/.references/mllm/build-x86-cuda/bin/Mllm-Test-CUDA-DeviceInfo",
+        "sha256": null
+      }
+    }
+  },
+  "classification": "pinned_upstream_mllm_cuda_backend_audit",
+  "compiler": {
+    "nvcc_path": null,
+    "probe": {
+      "command": [],
+      "exit_code": null,
+      "output": "nvcc not found",
+      "pass": false
+    },
+    "wheel": "nvidia-cuda-nvcc-cu12",
+    "wheel_version": "12.8.93"
+  },
+  "device_test": {
+    "command": [],
+    "exit_code": null,
+    "output": "device test not built",
+    "pass": false
+  },
+  "evidence_boundary": "upstream CUDA initialization/allocator scaffold; not full mllm CUDA inference",
+  "gates": {
+    "cuda_cache": false,
+    "cuda_driver_runtime_nvml_link": false,
+    "nvcc_12_8": false,
+    "pinned_cuda_submodules": true,
+    "prior_mllm_and_regression_intact": true,
+    "three_build_targets": false,
+    "two_gpu_device_test": false,
+    "upstream_boundary_audited": true
+  },
+  "linkage": {
+    "command": [],
+    "exit_code": null,
+    "output": "CUDA backend not built",
+    "pass": false
+  },
+  "mllm": {
+    "commit": "50ad5a9b6fbea742e38b5b31776c187e50319c8e",
+    "path": "/workspace/AgentSys/.references/mllm"
+  },
+  "run_id": "run_034",
+  "schema_version": 1,
+  "source_boundary": {
+    "classification": "upstream_cuda_device_metadata_and_allocator_scaffold",
+    "kernel_translation_units": [
+      "mllm/backends/cuda/kernels/elementwise.cu",
+      "mllm/backends/cuda/kernels/embedding.cu",
+      "mllm/backends/cuda/kernels/reduce.cu",
+      "mllm/backends/cuda/kernels/topk.cu"
+    ],
+    "noncomment_lines": {
+      "mllm/backends/cuda/kernels/elementwise.cu": [],
+      "mllm/backends/cuda/kernels/embedding.cu": [],
+      "mllm/backends/cuda/kernels/reduce.cu": [],
+      "mllm/backends/cuda/kernels/topk.cu": []
+    },
+    "op_factory_registration": false
+  },
+  "submodules": {
+    "mllm/backends/cuda/vendors/cccl": {
+      "expected": "9c40ed11560fa8ffd21abe4cdc8dc3ce875e48e3",
+      "observed": "9c40ed11560fa8ffd21abe4cdc8dc3ce875e48e3"
+    },
+    "mllm/backends/cuda/vendors/cutlass": {
+      "expected": "e51efbfe18fe4f4cbb66ab814c55bf4aa0185491",
+      "observed": "e51efbfe18fe4f4cbb66ab814c55bf4aa0185491"
+    }
+  },
+  "summary": {
+    "failing": 5,
+    "gates": 8,
+    "pass": false,
+    "passing": 3
+  }
+}

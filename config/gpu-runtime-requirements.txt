@@ -1,3 +1,4 @@
 torch==2.7.0+cu128
 numpy==2.2.6
 nvidia-ml-py==13.610.43
+nvidia-cuda-nvcc-cu12==12.8.93

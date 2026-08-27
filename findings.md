@@ -43,6 +43,7 @@ The revised architecture removes ATX from the integrated CPU path. Run 023 close
 - Run 031 supports H14.2: one executable matrix drives five layer configurations, reruns 68 unique paper endpoints at a uniform 10% limit and exercises five output-changing sensitivity variants. Max errors remain 9.09/8.07/8.27/9.91/0.98% for Agentix/Agent.xpu/TISA/mllm/HPTPE.
 - Run 032 closes H14 and the parameterized-system goal: a single serial entry point reruns the five-layer matrix and three workload→ELF→dual-Rocket paths, then passes a 15/15 fresh certificate. Workload, configuration, header, ELF, tile and paper-result identities are all machine-linked.
 - Run 033 supports H15.1 on the actual host: two NUMA-pinned processes execute real CPU work, CUDA FP16 GEMM/SiLU and pinned H2D/D2H transfers on two distinct RTX 4090s, followed by a correct 64 MiB NCCL all-reduce. Runtime gates are 11/11 and the independent CUDA/NVML/Nsight audit is 9/9; peer access is unavailable in both directions. This is explicitly local 4090/Xeon evidence, not an A100/Core-Ultra paper reproduction.
+- Run 034 retains a dependency/toolchain failure rather than masking it: NVIDIA's pinned Linux Python compiler wheel contains ptxas/NVVM but no `nvcc` driver, so the official mllm CUDA configure/build cannot start and only 3/8 gates pass. Its CCCL/CUTLASS commits are present, and source inspection proves the pinned upstream CUDA backend has empty kernel translation units and no registered op factory; later AgentSys CUDA execution must be labeled as an adapter.
 
 ## Patterns and Insights
 

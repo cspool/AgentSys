@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+project_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+mllm_root="${project_root}/.references/mllm"
+gpu_python="${project_root}/.venv-gpu/bin/python"
+
+test "$(git -C "${mllm_root}" rev-parse HEAD)" = \
+  "50ad5a9b6fbea742e38b5b31776c187e50319c8e"
+test "$("${gpu_python}" -c 'import importlib.metadata; print(importlib.metadata.version("nvidia-cuda-nvcc-cu12"))')" = \
+  "12.8.93"
+
+git -C "${mllm_root}" submodule update --init --checkout \
+  mllm/backends/cuda/vendors/cccl \
+  mllm/backends/cuda/vendors/cutlass
+
+nvcc_path=${CUDACXX:-}
+if [[ -z ${nvcc_path} ]]; then
+  nvcc_path=$(command -v nvcc || true)
+fi
+if [[ -z ${nvcc_path} || ! -x ${nvcc_path} ]]; then
+  echo "CUDA compiler driver is absent; the official Python wheel contains compiler components but no Linux nvcc front-end." >&2
+  exit 1
+fi
+
+cuda_root=$(cd "$(dirname "${nvcc_path}")/.." && pwd)
+env \
+  PATH="${project_root}/.venv/bin:$(dirname "${nvcc_path}"):/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
+  CUDACXX="${nvcc_path}" \
+  cmake -S "${mllm_root}" -B "${mllm_root}/build-x86-cuda" -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_CUDA_ARCHITECTURES=89 \
+    -DCUDAToolkit_ROOT="${cuda_root}" \
+    -DMLLM_BUILD_CUDA_BACKEND=ON \
+    -DMLLM_ENABLE_TEST=ON \
+    -DMLLM_ENABLE_BENCHMARK=OFF \
+    -DMLLM_ENABLE_EXAMPLE=OFF \
+    -DMLLM_ENABLE_TOOLS=OFF \
+    -DMLLM_BUILD_EXT_OP_SET=OFF \
+    -DMLLM_BUILD_EXT_OP_SET_TEST=OFF \
+    -DHWY_ENABLE_TESTS=OFF \
+    -DHWY_ENABLE_EXAMPLES=OFF \
+    -DHWY_ENABLE_CONTRIB=OFF \
+    -DMLLM_CPU_BACKEND_COMPILE_OPTIONS=-march=native \
+    -DMLLM_KERNEL_USE_THREADS=ON \
+    -DMLLM_KERNEL_THREADS_VENDOR_OPENMP=ON
+
+cmake --build "${mllm_root}/build-x86-cuda" --target \
+  MllmCUDABackendCudaOps MllmCUDABackend Mllm-Test-CUDA-DeviceInfo

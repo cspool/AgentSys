@@ -19,7 +19,8 @@ if [[ ${verify_only} -eq 0 ]]; then
     --index-url https://download.pytorch.org/whl/cu128 \
     'torch==2.7.0'
   uv pip install --python "${gpu_python}" \
-    'numpy==2.2.6' 'nvidia-ml-py==13.610.43'
+    'numpy==2.2.6' 'nvidia-ml-py==13.610.43' \
+    'nvidia-cuda-nvcc-cu12==12.8.93'
   uv pip install --python "${gpu_python}" --no-deps -e .
 fi
 
@@ -43,6 +44,7 @@ evidence = {
     "nccl": list(torch.cuda.nccl.version()),
     "numpy": importlib.metadata.version("numpy"),
     "nvidia_ml_py": importlib.metadata.version("nvidia-ml-py"),
+    "nvidia_cuda_nvcc_cu12": importlib.metadata.version("nvidia-cuda-nvcc-cu12"),
     "driver": driver,
     "devices": [torch.cuda.get_device_name(i) for i in range(2)],
 }

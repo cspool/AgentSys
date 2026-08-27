@@ -152,7 +152,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 33
+  total_runs: 34
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -385,11 +385,18 @@ experiments:
       wall_time_min: 0.07
       change_summary: "Two NUMA-pinned RTX4090 ranks pass 11/11 runtime and 9/9 evidence gates with real CUDA kernels/transfers, correct NCCL, NVML identity and Nsight CUDA traces."
       timestamp: "2026-08-27"
+    - run_id: "run_034"
+      hypothesis: "H15.2/pinned upstream mllm CUDA backend"
+      metric_value: 0.625
+      delta: null
+      wall_time_min: 0.2
+      change_summary: "Retained 3/8 negative result: the NVIDIA Python wheel lacks a Linux nvcc driver; submodule pins, source-boundary audit and prior mllm/regression integrity pass, while configure/build/device/link remain blocked."
+      timestamp: "2026-08-27"
 
 outer_loop:
-  cycle: 22
-  last_direction: integrate
-  last_reflection: "Run 033 closes authoritative local dual-GPU/dual-NUMA execution. H15 now requires workload-dependent GPU plans, merged CPU/GPU/Rocket/TISA/HPTPE traces and a final replay that keeps paper-matched regression separate and within 10%."
+  cycle: 23
+  last_direction: recover
+  last_reflection: "Run 034 localizes the mllm CUDA build block to packaging: the Python wheel lacks nvcc. Recover with a project-local NVIDIA Conda CUDA 12.8 compiler, keeping source pins/options fixed, before workload integration."
 
 workspace:
   findings: "findings.md"

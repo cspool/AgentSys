@@ -21,6 +21,7 @@ agentsys-reproduce-parameterized = "agentsys.parameterized_reproduce:main"
 agentsys-certificate-parameterized = "agentsys.parameterized_certificate:main"
 agentsys-gpu-runtime = "agentsys.gpu_runtime:main"
 agentsys-gpu-runtime-audit = "agentsys.gpu_runtime_audit:main"
+agentsys-mllm-cuda-audit = "agentsys.mllm_cuda_audit:main"
 
 [dependency-groups]
 dev = [
