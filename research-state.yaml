@@ -350,7 +350,7 @@ experiments:
 outer_loop:
   cycle: 18
   last_direction: broaden
-  last_reflection: "Run 030 supports H14.1 with three complete source-edit-free workload executions. Direction remains DEEPEN into H14.2: explicit per-layer parameter matrices and same-workload/config paper regression at <=10%."
+  last_reflection: "Run 030 supports H14.1. H14.2 is preregistered as an executable five-layer matrix: 68 paper endpoints at <=10%, configuration/workload SHA identity and a real output-changing sensitivity switch per layer."
 
 workspace:
   findings: "findings.md"
