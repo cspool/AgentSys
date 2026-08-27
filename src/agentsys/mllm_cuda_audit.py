@@ -75,6 +75,8 @@ def audit_mllm_cuda(
     run_id: str,
     build_dir: Path = DEFAULT_BUILD_DIR,
     nvcc: Path | None = None,
+    recovery_evidence: bool = False,
+    setup_log: Path | None = None,
 ) -> dict[str, Any]:
     nvcc_text = str(nvcc) if nvcc is not None else os.environ.get("CUDACXX")
     nvcc_text = nvcc_text or shutil.which("nvcc")
@@ -172,6 +174,71 @@ def audit_mllm_cuda(
         and layer["summary"]["endpoints"] == layer["summary"]["passing"] == 68
         and layer["summary"]["max_relative_error"] <= 0.10,
     }
+    recovery: dict[str, Any] | None = None
+    if recovery_evidence:
+        micromamba = PROJECT_ROOT / ".tools/micromamba"
+        package_path = PROJECT_ROOT / "artifacts/gpu_runtime/cuda-conda-packages.json"
+        explicit_path = PROJECT_ROOT / "artifacts/gpu_runtime/cuda-conda-explicit.txt"
+        packages = (
+            json.loads(package_path.read_text(encoding="utf-8"))
+            if package_path.is_file()
+            else []
+        )
+        cuda_packages = {item["name"]: item for item in packages if item["name"].startswith("cuda-")}
+        setup_log = setup_log or PROJECT_ROOT / f"artifacts/logs/mllm-cuda-setup-{run_id}.log"
+        setup_text = setup_log.read_text(encoding="utf-8") if setup_log.is_file() else ""
+        micromamba_version = (
+            subprocess.check_output([str(micromamba), "--version"], text=True).strip()
+            if micromamba.is_file()
+            else None
+        )
+        installed_packages = subprocess.check_output(
+            ["dpkg-query", "-W", "-f=${binary:Package}\n"], text=True
+        ).splitlines()
+        driver_versions = subprocess.check_output(
+            ["nvidia-smi", "--query-gpu=driver_version", "--format=csv,noheader"],
+            text=True,
+        ).splitlines()
+        recovery = {
+            "micromamba": {
+                "path": str(micromamba),
+                "version": micromamba_version,
+                "sha256": _sha256(micromamba) if micromamba.is_file() else None,
+            },
+            "conda_packages": packages,
+            "explicit_lock": {
+                "path": str(explicit_path),
+                "sha256": _sha256(explicit_path) if explicit_path.is_file() else None,
+            },
+            "setup_log": {
+                "path": str(setup_log),
+                "sha256": _sha256(setup_log) if setup_log.is_file() else None,
+            },
+            "driver_versions": driver_versions,
+        }
+        gates.update(
+            {
+                "recovery_micromamba_pin": micromamba_version == "2.8.1"
+                and recovery["micromamba"]["sha256"]
+                == "9689782d863c05a1bf5d2d371ba527104e7a4eb4310c1637d8653b751aed9c82",
+                "recovery_cuda_conda_lock": explicit_path.is_file()
+                and cuda_packages.get("cuda-nvcc", {}).get("version") == "12.8.93"
+                and cuda_packages.get("cuda-cudart-dev", {}).get("version") == "12.8.90"
+                and cuda_packages.get("cuda-nvml-dev", {}).get("version") == "12.8.90"
+                and all(
+                    item.get("channel") == "nvidia/label/cuda-12.8.1"
+                    for item in cuda_packages.values()
+                ),
+                "recovery_build_log_and_devices": setup_log.is_file()
+                and "CXX compiler identification is Clang 16.0.6" in setup_text
+                and "CUDA compiler identification is NVIDIA 12.8.93" in setup_text
+                and setup_text.count("Found device: NVIDIA GeForce RTX 4090") == 2,
+                "recovery_boundary_unchanged": gates["upstream_boundary_audited"],
+                "recovery_project_local_only": not Path("/usr/local/cuda").exists()
+                and not any(name.startswith("cuda-") for name in installed_packages)
+                and driver_versions == ["595.84", "595.84"],
+            }
+        )
     return {
         "schema_version": 1,
         "run_id": run_id,
@@ -198,6 +265,7 @@ def audit_mllm_cuda(
         "device_test": device_test,
         "linkage": ldd,
         "source_boundary": source_boundary,
+        "recovery": recovery,
         "gates": gates,
         "summary": {
             "gates": len(gates),
@@ -213,13 +281,21 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--run-id", default="run_034")
     parser.add_argument("--build-dir", type=Path, default=DEFAULT_BUILD_DIR)
     parser.add_argument("--nvcc", type=Path)
+    parser.add_argument("--recovery-evidence", action="store_true")
+    parser.add_argument("--setup-log", type=Path)
     parser.add_argument(
         "--output",
         type=Path,
         default=PROJECT_ROOT / "artifacts/results/mllm-cuda-run_034.json",
     )
     args = parser.parse_args(argv)
-    result = audit_mllm_cuda(run_id=args.run_id, build_dir=args.build_dir, nvcc=args.nvcc)
+    result = audit_mllm_cuda(
+        run_id=args.run_id,
+        build_dir=args.build_dir,
+        nvcc=args.nvcc,
+        recovery_evidence=args.recovery_evidence,
+        setup_log=args.setup_log,
+    )
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps(result["summary"], indent=2, sort_keys=True))

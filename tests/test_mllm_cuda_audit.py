@@ -43,3 +43,35 @@ def test_upstream_mllm_cuda_boundary_is_not_overstated() -> None:
     assert not result["gates"]["nvcc_12_8"]
     assert (MLLM_ROOT / "mllm/backends/cuda/vendors/cccl/.git").is_file()
     assert (MLLM_ROOT / "mllm/backends/cuda/vendors/cutlass/.git").is_file()
+
+
+def test_run035_recovers_nvcc_and_retains_upstream_cmake_failure() -> None:
+    result = json.loads(
+        (PROJECT_ROOT / "artifacts/results/mllm-cuda-run_035.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert result["compiler"]["probe"]["pass"]
+    assert "release 12.8" in result["compiler"]["probe"]["output"]
+    assert result["build"]["cuda_backend"] == "ON"
+    assert result["build"]["cuda_architectures"] == "89"
+    assert result["summary"] == {
+        "failing": 4,
+        "gates": 13,
+        "pass": False,
+        "passing": 9,
+    }
+    for gate in (
+        "nvcc_12_8",
+        "cuda_cache",
+        "recovery_micromamba_pin",
+        "recovery_cuda_conda_lock",
+        "recovery_boundary_unchanged",
+        "recovery_project_local_only",
+    ):
+        assert result["gates"][gate]
+    assert not result["gates"]["three_build_targets"]
+    assert not result["gates"]["two_gpu_device_test"]
+    assert "target \"mllm-params-inspector\" which does not exist" in (
+        PROJECT_ROOT / "artifacts/logs/mllm-cuda-setup-run_035.log"
+    ).read_text(encoding="utf-8")

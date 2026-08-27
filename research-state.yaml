@@ -152,7 +152,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 34
+  total_runs: 35
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -392,11 +392,18 @@ experiments:
       wall_time_min: 0.2
       change_summary: "Retained 3/8 negative result: the NVIDIA Python wheel lacks a Linux nvcc driver; submodule pins, source-boundary audit and prior mllm/regression integrity pass, while configure/build/device/link remain blocked."
       timestamp: "2026-08-27"
+    - run_id: "run_035"
+      hypothesis: "H15.2/project-local NVIDIA CUDA compiler recovery"
+      metric_value: 0.3076923076923077
+      delta: -0.3173076923076923
+      wall_time_min: 3.0
+      change_summary: "Local nvcc 12.8.93 and six recovery/toolchain gates pass (9/13 total); upstream mllm's unconditional install of a disabled tools target blocks configure before CUDA build/device/link."
+      timestamp: "2026-08-27"
 
 outer_loop:
-  cycle: 23
+  cycle: 24
   last_direction: recover
-  last_reflection: "Run 034 localizes the mllm CUDA build block to packaging: the Python wheel lacks nvcc. Recover with a project-local NVIDIA Conda CUDA 12.8 compiler, keeping source pins/options fixed, before workload integration."
+  last_reflection: "Run 035 proves the local CUDA compiler recovery and isolates a second block to mllm's tools-off CMake install rule. Enable the upstream tools target only; keep CUDA, source and build targets fixed."
 
 workspace:
   findings: "findings.md"

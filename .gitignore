@@ -4,6 +4,8 @@ __pycache__/
 *.py[cod]
 .venv/
 .venv-gpu/
+.tools/
+.cuda-toolkit/
 build/
 dist/
 *.egg-info/
