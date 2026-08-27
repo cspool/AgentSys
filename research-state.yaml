@@ -1,8 +1,8 @@
 # Research State — Central Project Tracking
 project:
   title: "AgentSys: dynamic-agent full-stack scheduling from program DAG to NPU tile"
-  question: "Can Agentix, Agent.xpu, mllm/llm.npu, TISA and HPTPE be independently reproduced within 10%, then compose from switchable Agent DAGs through native dual-GPU/dual-NUMA execution and ordinary-RISC-V Rocket+HPTPE simulation?"
-  status: complete
+  question: "Can Agentix, Agent.xpu, mllm/llm.npu, TISA, HPTPE and MLX be reproduced with explicit 10% paper-regression contracts, then compose switchable Agent DAGs through an ordinary-RISC-V Rocket CPU plus real MLX cycle/4x4-RTL hardware simulation?"
+  status: active
   started: "2026-08-25"
   domain: "computer systems and architecture"
 
@@ -37,6 +37,7 @@ literature:
     - "Agent.xpu paper testbed is Intel Core Ultra 5 125H, not the available x86/Chipyard system."
     - "llm.npu uses proprietary Qualcomm QNN on Xiaomi/Redmi devices; local evidence must remain source-grounded simulation plus real mllm framework execution."
     - "HPTPE includes author-generated Synopsys DC reports and a SAED32 library, but a fresh licensed DC run is unavailable."
+    - "MLX_dev is an open surrogate, not the authors' unpublished simulator/RTL; its own strict full-paper <=10% certificate is false, so calibrated five-row regression and target-free mechanism evidence must remain separate."
 
 hypotheses:
   - id: H1
@@ -152,6 +153,30 @@ hypotheses:
     status: supported
     motivation: "Close the vertical software-framework-compiler-runtime-hardware integration rather than benchmarking an isolated GPU kernel."
     parent: H15
+    priority: high
+  - id: H16
+    statement: "The current MLX_dev sys source and evidence can be pinned and audited as an active MLX+ordinary-Rocket basis without inheriting its unsupported full-paper reproduction claims."
+    status: pending
+    motivation: "Rebase the final hardware from HPTPE/GPU to MLX using authoritative source and explicit evidence boundaries."
+    parent: null
+    priority: high
+  - id: H17
+    statement: "AgentSys can independently rebuild and execute the MLX cycle model, physical 4x4 RTL and Rocket RoCC/DMA path while preserving exact functional work and exposing parameterized multi-layer mechanisms."
+    status: pending
+    motivation: "Establish standalone MLX mechanism evidence before Agent integration."
+    parent: null
+    priority: high
+  - id: H18
+    statement: "Three Agent DAGs can lower through Agentix, mllm, Agent.xpu and TISA into per-call MLX spatial programs and execute as distinct RISC-V ELFs on ordinary Rocket plus both MLX backends."
+    status: pending
+    motivation: "Close the requested vertical Agent software-to-MLX+CPU system."
+    parent: null
+    priority: high
+  - id: H19
+    statement: "A six-paper-layer parameter matrix including MLX can retain all registered matching-configuration endpoints within 10%, exercise every layer switch and issue a fresh MLX+CPU completion certificate."
+    status: pending
+    motivation: "Close parameterization, numerical regression and final reproducibility for the revised hardware target."
+    parent: null
     priority: high
 
 experiments:
