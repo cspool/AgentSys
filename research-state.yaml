@@ -357,7 +357,7 @@ experiments:
 outer_loop:
   cycle: 19
   last_direction: broaden
-  last_reflection: "Run 031 supports H14.2 with 68/68 endpoints at 10% and real parameter effects across five layers. Remaining work is final integration of workload/matrix entry points into setup, serial replay, documentation and a renewed completion certificate."
+  last_reflection: "Run 031 supports H14.2. Run 032 is preregistered to serially replay the matrix plus all three workload/ELF/system paths, refresh documentation and issue the final parameterized-system certificate."
 
 workspace:
   findings: "findings.md"
