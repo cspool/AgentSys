@@ -1,8 +1,8 @@
 # Research State — Central Project Tracking
 project:
   title: "AgentSys: dynamic-agent full-stack scheduling from program DAG to NPU tile"
-  question: "Can Agentix, Agent.xpu, mllm/llm.npu, TISA and HPTPE be independently reproduced within 15%, then compose on an ordinary-RISC-V Chipyard CPU+XPU system?"
-  status: active
+  question: "Can Agentix, Agent.xpu, mllm/llm.npu, TISA and HPTPE be independently reproduced within 10%, then compose from switchable Agent DAGs through native dual-GPU/dual-NUMA execution and ordinary-RISC-V Rocket+HPTPE simulation?"
+  status: complete
   started: "2026-08-25"
   domain: "computer systems and architecture"
 
@@ -131,7 +131,7 @@ hypotheses:
     priority: high
   - id: H15
     statement: "The parameterized Agent experiment system can extend to native dual-RTX4090 plus dual-NUMA-CPU execution, then merge real CUDA/CPU traces with Rocket+TISA/HPTPE while preserving paper-config regression within 10%."
-    status: pending
+    status: supported
     motivation: "Close the explicit GPU hardware-runtime and multi-CPU system gap."
     parent: null
     priority: high
@@ -158,7 +158,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 40
+  total_runs: 41
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -440,11 +440,18 @@ experiments:
       wall_time_min: 10.0
       change_summary: "Four serial stages and 11/11 gates pass: three DAGs execute 80/16/40 real CUDA MIR ops plus 860/180/436 Rocket events, merge three clock domains by identity, switch GPU placement and retain 68/68 at 10%."
       timestamp: "2026-08-27"
+    - run_id: "run_041"
+      hypothesis: "H15/final profiler-backed hybrid certificate"
+      metric_value: 0.09909909909909899
+      delta: 0.0
+      wall_time_min: 1.2
+      change_summary: "Profiled native 13/13, Nsight 9/9 and five fresh checks (90 pytest plus framework/RTL) feed a 22/22 certificate with full_goal_complete=true; all 68 endpoints remain <=10%."
+      timestamp: "2026-08-27"
 
 outer_loop:
-  cycle: 29
-  last_direction: validate
-  last_reflection: "Run 040 closes the three-workload vertical execution mechanism. A final fresh certificate must replay tests, verify profiler/transport evidence, audit every artifact/hash and only then close H15/the expanded goal."
+  cycle: 30
+  last_direction: conclude
+  last_reflection: "Run 041 closes H15 with profiler-backed native execution, full artifact/hash audit and fresh framework/RTL checks. The final system keeps local measurement and paper-platform regression explicitly separate."
 
 workspace:
   findings: "findings.md"

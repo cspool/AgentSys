@@ -24,6 +24,7 @@ nsys profile \
 
 for report in cuda_gpu_kern_sum cuda_api_sum cuda_gpu_mem_time_sum; do
   nsys stats \
+    --force-export=true \
     --force-overwrite=true \
     --report "${report}" \
     --format csv \

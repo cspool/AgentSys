@@ -39,6 +39,22 @@ CPU matrix shape/线程数和算子迭代数；原五层参数继续由
 不同的 GPU resource signature，同时 calls、dependencies、MIR ops 和 XPU
 descriptors 保持逐项相同。
 
+最终 profiler 与证书入口：
+
+```bash
+bash scripts/profile_hybrid_runtime.sh run_041
+.venv-gpu/bin/agentsys-certificate-hybrid --run-id run_041
+```
+
+前者对冻结的 `react_tool` plan 重跑原生路径并导出 Nsight
+kernel/API/memory/NVTX 证据；后者审计 run 033/039/040/041、全部 artifact hash、
+fresh pytest 和 RTL lint。
+
+run 041 的最终证书位于
+`artifacts/results/hybrid-system-certificate-run_041.json`：22/22 requirements，
+90/90 fresh pytest，五项现场检查全部通过，`full_goal_complete=true`。Nsight
+审计为9/9，包含16/16 MIR NVTX ranges。
+
 ## run 040 结果
 
 | workload | LLM/tool | GPU0/GPU1 calls | MIR CUDA ops | native events | Rocket events | merged events |

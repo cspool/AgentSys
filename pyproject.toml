@@ -25,6 +25,8 @@ agentsys-mllm-cuda-audit = "agentsys.mllm_cuda_audit:main"
 agentsys-run-hybrid = "agentsys.hybrid_system:main"
 agentsys-hybrid-runtime = "agentsys.hybrid_runtime:main"
 agentsys-reproduce-hybrid = "agentsys.hybrid_reproduce:main"
+agentsys-hybrid-profile-audit = "agentsys.hybrid_profile_audit:main"
+agentsys-certificate-hybrid = "agentsys.hybrid_certificate:main"
 
 [dependency-groups]
 dev = [

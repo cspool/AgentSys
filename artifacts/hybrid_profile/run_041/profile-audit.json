@@ -1,0 +1,106 @@
+{
+  "classification": "nsight_profiled_workload_aware_dual_gpu_mir_adapter_audit",
+  "evidence": {
+    "artifacts/hybrid_profile/run_041/native/native-runtime.json": {
+      "bytes": 30077,
+      "sha256": "a00155553341bc2ff9f3c252132755797b91d30583ec878a60b5df7a92e3c9b0"
+    },
+    "artifacts/hybrid_profile/run_041/native/native-trace.jsonl": {
+      "bytes": 15842,
+      "sha256": "7762ad8e4a273313e3e7ef919a1180cb3a3f83606033623f8f1bbc9847033507"
+    },
+    "artifacts/hybrid_profile/run_041/native/rank0-nccl.log": {
+      "bytes": 3052,
+      "sha256": "aa5150a7bdfe3b9465187ee4d1c6076c41a326d9074fa4b3573724a08cd8414b"
+    },
+    "artifacts/hybrid_profile/run_041/native/rank1-nccl.log": {
+      "bytes": 2789,
+      "sha256": "20dc1619918916deff11ed7d39c546ebedfb576e9ad79d4d070abcc7fccd55d6"
+    },
+    "artifacts/hybrid_profile/run_041/nsight-stats_cuda_api_sum.csv": {
+      "bytes": 3211,
+      "sha256": "a92c662be6ac1b3bb8a8ec540fd7ac8db5c8beaa76fdcbf99dcdb5617b705bc7"
+    },
+    "artifacts/hybrid_profile/run_041/nsight-stats_cuda_gpu_kern_sum.csv": {
+      "bytes": 5105,
+      "sha256": "64d8e5e612e69fa91070da7c68555197ad0ae36d4124662eeca3b28d54670b28"
+    },
+    "artifacts/hybrid_profile/run_041/nsight-stats_cuda_gpu_mem_time_sum.csv": {
+      "bytes": 295,
+      "sha256": "bccbfe3bc6a15cd895f0d9bc670f7a1a43f57284b14db2a23ee1e45ebb77602f"
+    },
+    "artifacts/hybrid_profile/run_041/nsight-stats_nvtx_sum.csv": {
+      "bytes": 2006,
+      "sha256": "ea753e99c11d26a5a4fd6c799c0a29e75d054f07bfec2ef29368adaedbab15d6"
+    },
+    "artifacts/hybrid_profile/run_041/profile.log": {
+      "bytes": 1395,
+      "sha256": "3c1dc2107344111806a64badd4191cb717b1714455946a1357d6432b8b11e8cc"
+    },
+    "artifacts/hybrid_profile/run_041/react-tool.nsys-rep": {
+      "bytes": 1829424,
+      "sha256": "dde56f9b1371dd9c8a3a33cffcfff1eae91d24c70b8bf46431919b73a3df94d3"
+    },
+    "artifacts/hybrid_profile/run_041/react-tool.sqlite": {
+      "bytes": 6733824,
+      "sha256": "886bf667a8c65644eb13264b531e362e2b50b8020e4651d994589c960211cc11"
+    }
+  },
+  "expected_nvtx_ranges": [
+    "agentsys.mllm::answer::10::LinearOp",
+    "agentsys.mllm::answer::11::LinearOp",
+    "agentsys.mllm::answer::12::LinearOp",
+    "agentsys.mllm::answer::13::ViewOp",
+    "agentsys.mllm::answer::14::TransposeOp",
+    "agentsys.mllm::answer::6::RMSNormOp",
+    "agentsys.mllm::answer::7::AddOp",
+    "agentsys.mllm::answer::8::RMSNormOp",
+    "agentsys.mllm::plan::10::LinearOp",
+    "agentsys.mllm::plan::11::LinearOp",
+    "agentsys.mllm::plan::12::LinearOp",
+    "agentsys.mllm::plan::13::ViewOp",
+    "agentsys.mllm::plan::14::TransposeOp",
+    "agentsys.mllm::plan::6::RMSNormOp",
+    "agentsys.mllm::plan::7::AddOp",
+    "agentsys.mllm::plan::8::RMSNormOp"
+  ],
+  "gates": {
+    "all_mir_nvtx_ranges": true,
+    "cuda_api": true,
+    "cuda_kernel_classes": true,
+    "cuda_memory": true,
+    "evidence_boundary": true,
+    "native_runtime_13": true,
+    "nccl_shm_transport": true,
+    "profile_reports": true,
+    "trace_parameter_consumption": true
+  },
+  "native_summary": {
+    "calls": 3,
+    "events": 29,
+    "failing": 0,
+    "gates": 13,
+    "gpus": 2,
+    "llm_calls": 2,
+    "mir_operators": 16,
+    "numa_nodes": 2,
+    "pass": true,
+    "passing": 13,
+    "tool_calls": 1
+  },
+  "profile_dir": "/workspace/AgentSys/artifacts/hybrid_profile/run_041",
+  "rows": {
+    "apis": 45,
+    "kernels": 15,
+    "memory": 3,
+    "nvtx": 20
+  },
+  "run_id": "run_041",
+  "schema_version": 1,
+  "summary": {
+    "failing": 0,
+    "gates": 9,
+    "pass": true,
+    "passing": 9
+  }
+}

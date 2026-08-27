@@ -1,0 +1,19 @@
+{
+  "calls": 3,
+  "events": 29,
+  "failing": 0,
+  "gates": 13,
+  "gpus": 2,
+  "llm_calls": 2,
+  "mir_operators": 16,
+  "numa_nodes": 2,
+  "pass": true,
+  "passing": 13,
+  "tool_calls": 1
+}
+/workspace/AgentSys/artifacts/hybrid_profile/run_041/native/native-runtime.json
+Collecting data...
+Generating '/tmp/nsys-root/nsys-report-fde5.qdstrm'
+[1/1] [0%                          ] react-tool.nsys-rep[1/1] [0%                          ] react-tool.nsys-rep[1/1] [5%                          ] react-tool.nsys-rep[1/1] [7%                          ] react-tool.nsys-rep[1/1] [9%                          ] react-tool.nsys-rep[1/1] [11%                         ] react-tool.nsys-rep[1/1] [13%                         ] react-tool.nsys-rep[1/1] [=15%                        ] react-tool.nsys-rep[1/1] [=17%                        ] react-tool.nsys-rep[1/1] [==19%                       ] react-tool.nsys-rep[1/1] [==20%                       ] react-tool.nsys-rep[1/1] [=======================93%  ] react-tool.nsys-rep[1/1] [=======================96%  ] react-tool.nsys-rep[1/1] [========================98% ] react-tool.nsys-rep[1/1] [========================100%] react-tool.nsys-rep[1/1] [========================100%] react-tool.nsys-rep[1/1] [========================100%] react-tool.nsys-rep
+Generated:
+	/workspace/AgentSys/artifacts/hybrid_profile/run_041/react-tool.nsys-rep

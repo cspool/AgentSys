@@ -1,0 +1,21 @@
+Time (%),Total Time (ns),Instances,Avg (ns),Med (ns),Min (ns),Max (ns),StdDev (ns),Style,Range
+27.8,365754019,2,182877009.5,182877009.5,181627904,184126115,1766501.9,PushPop,NCCL:ncclCommDestroy
+17.2,226319180,2,113159590.0,113159590.0,25866744,200452436,123450726.7,PushPop,NCCL:ncclCommInitRankConfig
+16.5,216576629,1,216576629.0,216576629.0,216576629,216576629,0.0,PushPop,:agentsys.mllm::plan::10::LinearOp
+16.2,213281950,1,213281950.0,213281950.0,213281950,213281950,0.0,PushPop,:agentsys.mllm::answer::10::LinearOp
+11.0,144042806,1,144042806.0,144042806.0,144042806,144042806,0.0,PushPop,:agentsys.mllm::answer::6::RMSNormOp
+10.9,143389946,1,143389946.0,143389946.0,143389946,143389946,0.0,PushPop,:agentsys.mllm::plan::6::RMSNormOp
+0.1,1583973,16,98998.3,74802.5,50889,236182,56309.3,PushPop,NCCL:ncclAllReduce
+0.0,496563,1,496563.0,496563.0,496563,496563,0.0,PushPop,:agentsys.mllm::plan::14::TransposeOp
+0.0,351592,1,351592.0,351592.0,351592,351592,0.0,PushPop,:agentsys.mllm::plan::8::RMSNormOp
+0.0,333745,1,333745.0,333745.0,333745,333745,0.0,PushPop,:agentsys.mllm::answer::8::RMSNormOp
+0.0,333601,1,333601.0,333601.0,333601,333601,0.0,PushPop,:agentsys.mllm::plan::7::AddOp
+0.0,317002,1,317002.0,317002.0,317002,317002,0.0,PushPop,:agentsys.mllm::answer::14::TransposeOp
+0.0,300317,1,300317.0,300317.0,300317,300317,0.0,PushPop,:agentsys.mllm::plan::12::LinearOp
+0.0,281615,1,281615.0,281615.0,281615,281615,0.0,PushPop,:agentsys.mllm::plan::11::LinearOp
+0.0,267915,1,267915.0,267915.0,267915,267915,0.0,PushPop,:agentsys.mllm::answer::7::AddOp
+0.0,257106,1,257106.0,257106.0,257106,257106,0.0,PushPop,:agentsys.mllm::answer::11::LinearOp
+0.0,188299,1,188299.0,188299.0,188299,188299,0.0,PushPop,:agentsys.mllm::plan::13::ViewOp
+0.0,144813,1,144813.0,144813.0,144813,144813,0.0,PushPop,:agentsys.mllm::answer::13::ViewOp
+0.0,120556,1,120556.0,120556.0,120556,120556,0.0,PushPop,:agentsys.mllm::answer::12::LinearOp
+0.0,110184,2,55092.0,55092.0,48309,61875,9592.6,PushPop,NCCL:ncclCommFinalize

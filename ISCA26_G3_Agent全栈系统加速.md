@@ -535,6 +535,7 @@ bash scripts/build_ramulator2.sh
 | 多时钟系统trace | 993/209/504 events，host ns与static/dynamic Rocket cycle分域保存 | 通过 |
 | mllm CUDA工具链/生命周期 | run 039：nvcc 12.8.93，3 targets，两次双4090 test，13/13 | 通过，空kernel边界已标注 |
 | 本机GPU拓扑与通信 | run 033/040：双RTX4090、双NUMA、P2P=false、NCCL SHM/direct/direct | 通过 |
+| 最终profiler-backed证书 | run 041：Nsight 9/9、fresh checks 5/5、22/22 requirements | `hybrid-system-certificate-run_041` |
 | 任意manifest切换Agent负载 | run 030：react_moa_mcts/react_tool/planner_debate，4-stage pipelines | 3/3通过 |
 | 隔离的header/ELF/system trace | workload SHA目录，3个不同header/ELF hash | 通过 |
 | 参数化系统trace | 80/16/40 descriptors，860/180/436 events，11 layers | 通过 |
@@ -594,3 +595,5 @@ run 032用`agentsys-reproduce-parameterized`重新串行执行五层matrix和三
 H15补齐了run 032尚缺的本机GPU运行时和多CPU执行。run 039先证明固定mllm CUDA lifecycle可在两张4090上构建、枚举并安全退出，同时机器审计上游CUDA算子为空；run 040随后将三种Agent DAG逐call编译为双GPU/NUMA placement和同源Rocket/TISA/HPTPE工作。三组native trace均完整执行全部MIR算子、CPU预处理、传输和NCCL，三组Rocket trace仍保持逐tile checksum一致，合并结果按身份而非虚假时间尺度串联。
 
 因此当前工具链可从“切换一个Agent JSON”一路得到Agentix软件调度、mllm/Agent.xpu编译计划、本机GPU/CPU实测、RISC-V ELF、Rocket/TISA/HPTPE仿真以及五层论文回归结果。论文同配置准确度和本机硬件测量继续分栏：68个论文端点全部在10%内，本机4090/Xeon数据只作为真实执行与校准证据。
+
+run 041最后对冻结的`react_tool` native plan执行Nsight采样，16/16逐MIR NVTX range以及GEMM、归一化/elementwise、copy/transpose、NCCL、H2D/D2H均被捕获；原生13/13、profile audit 9/9。随后`agentsys-certificate-hybrid`现场重跑90项pytest、mllm CUDA双卡幂等测试、TISA dispatch和两类RTL lint，最终22/22 requirements通过并设置`full_goal_complete=true`。权威结果为`artifacts/results/hybrid-system-certificate-run_041.json`。

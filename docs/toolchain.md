@@ -15,6 +15,8 @@ dual-NUMA MIR execution adapter, and merges both clock domains by workload/call
 identity. Run 040 passes three workloads, six parameter switches, 68/68 paper
 endpoints at 10%, 11/11 global gates and 13/13 native gates per workload. See
 `docs/hybrid-system.md` for the artifact contract and evidence boundary.
+The final profiler-backed run-041 certificate passes 22/22 requirements and is
+stored at `artifacts/results/hybrid-system-certificate-run_041.json`.
 
 ## Complete parameterized experiment system
 
