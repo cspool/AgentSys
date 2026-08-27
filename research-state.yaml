@@ -143,7 +143,7 @@ hypotheses:
     priority: high
   - id: H15.2
     statement: "The pinned upstream mllm CUDA backend can build and discover both RTX4090 devices with a locked CUDA 12.8 toolchain, while its implementation boundary is machine-audited before adding an AgentSys execution adapter."
-    status: pending
+    status: supported
     motivation: "Close the GPU framework/toolchain dependency and avoid overstating the upstream CUDA backend's current capabilities."
     parent: H15
     priority: high
@@ -152,7 +152,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 38
+  total_runs: 39
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -420,11 +420,18 @@ experiments:
       wall_time_min: 0.5
       change_summary: "Three CUDA targets and linkage pass; both GPUs are discovered, then upstream's commented CUDA memory clear causes cudaFree after driver shutdown and SIGABRT, leaving 11/13."
       timestamp: "2026-08-27"
+    - run_id: "run_039"
+      hypothesis: "H15.2/patched upstream mllm CUDA lifecycle"
+      metric_value: 0.0
+      delta: -0.15384615384615385
+      wall_time_min: 0.25
+      change_summary: "A hashed one-line shutdown-order patch yields 13/13; all targets build and two consecutive device tests each discover both RTX4090s and exit zero, with real driver/NVML linkage."
+      timestamp: "2026-08-27"
 
 outer_loop:
-  cycle: 27
-  last_direction: recover
-  last_reflection: "Run 038 builds and discovers both GPUs, isolating final failure to a one-line upstream shutdown-order FIXME. Apply that exact framework patch as a hashed overlay and rerun idempotently."
+  cycle: 28
+  last_direction: integrate
+  last_reflection: "Run 039 closes the official mllm CUDA lifecycle/toolchain boundary. Build a separately labeled MIR-driven real-kernel adapter, compile all three Agent DAGs into GPU/NUMA placements, and merge their traces with Rocket+TISA/HPTPE."
 
 workspace:
   findings: "findings.md"

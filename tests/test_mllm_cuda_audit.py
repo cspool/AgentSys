@@ -134,6 +134,42 @@ def test_run038_builds_backend_and_exposes_cuda_shutdown_order_bug() -> None:
         "Found device: NVIDIA GeForce RTX 4090"
     ) == 2
     assert "driver shutting down" in result["device_test"]["output"]
-    source = (MLLM_ROOT / "mllm/mllm.cpp").read_text(encoding="utf-8")
-    assert "This line is needed for cuda !!!" in source
-    assert "// Context::instance().memoryManager()->clearAll();" in source
+    assert "framework_patch" not in result
+
+
+def test_run039_patched_backend_passes_twice_with_exact_boundary() -> None:
+    result = json.loads(
+        (PROJECT_ROOT / "artifacts/results/mllm-cuda-run_039.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert result["summary"] == {
+        "failing": 0,
+        "gates": 13,
+        "pass": True,
+        "passing": 13,
+    }
+    assert all(result["gates"].values())
+    assert result["device_test"]["exit_code"] == 0
+    assert result["device_test"]["output"].count(
+        "Found device: NVIDIA GeForce RTX 4090"
+    ) == 2
+    assert result["framework_patch"]["applied"]
+    assert result["framework_patch"]["sha256"] == (
+        "8d5514345283fe37f8ece4d0a0bd4d679804afe9eb5e25b90433d0a41afafd3c"
+    )
+    assert result["framework_patch"]["upstream_diff"].count(
+        "+  Context::instance().memoryManager()->clearAll();"
+    ) == 1
+    linkage = result["linkage"]["output"]
+    assert "/usr/lib/x86_64-linux-gnu/libcuda.so.1" in linkage
+    assert "/usr/lib/x86_64-linux-gnu/libnvidia-ml.so.1" in linkage
+    first = (PROJECT_ROOT / "artifacts/logs/mllm-cuda-setup-run_039-first.log").read_text(
+        encoding="utf-8"
+    )
+    second = (PROJECT_ROOT / "artifacts/logs/mllm-cuda-setup-run_039-second.log").read_text(
+        encoding="utf-8"
+    )
+    assert first.count("Found device: NVIDIA GeForce RTX 4090") == 2
+    assert second.count("Found device: NVIDIA GeForce RTX 4090") == 2
+    assert second.count("ninja: no work to do.") == 3

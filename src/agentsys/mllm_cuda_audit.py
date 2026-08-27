@@ -143,6 +143,22 @@ def audit_mllm_cuda(
         ),
         "classification": "upstream_cuda_device_metadata_and_allocator_scaffold",
     }
+    patch_path = PROJECT_ROOT / "integrations/mllm/patches/cuda-shutdown-order.patch"
+    shutdown_source = MLLM_ROOT / "mllm/mllm.cpp"
+    shutdown_text = shutdown_source.read_text(encoding="utf-8")
+    framework_patch = {
+        "path": str(patch_path),
+        "sha256": _sha256(patch_path) if patch_path.is_file() else None,
+        "applied": shutdown_text.count(
+            "  Context::instance().memoryManager()->clearAll();"
+        )
+        == 1
+        and "// Context::instance().memoryManager()->clearAll();" not in shutdown_text,
+        "upstream_diff": subprocess.check_output(
+            ["git", "-C", str(MLLM_ROOT), "diff", "--", "mllm/mllm.cpp"],
+            text=True,
+        ),
+    }
     native = json.loads(
         (PROJECT_ROOT / "artifacts/results/mllm-native-run_023.json").read_text(encoding="utf-8")
     )
@@ -238,8 +254,15 @@ def audit_mllm_cuda(
                     for item in cuda_packages.values()
                 ),
                 "recovery_build_log_and_devices": setup_log.is_file()
-                and "CXX compiler identification is Clang 16.0.6" in setup_text
-                and "CUDA compiler identification is NVIDIA 12.8.93" in setup_text
+                and (
+                    "CXX compiler identification is Clang 16.0.6" in setup_text
+                    or "CXX Compiler version=16.0.6" in setup_text
+                )
+                and (
+                    "CUDA compiler identification is NVIDIA 12.8.93" in setup_text
+                    or "nvcc path : /workspace/AgentSys/.cuda-toolkit/bin/nvcc"
+                    in setup_text
+                )
                 and setup_text.count("Found device: NVIDIA GeForce RTX 4090") == 2,
                 "recovery_boundary_unchanged": gates["upstream_boundary_audited"],
                 "recovery_project_local_only": not Path("/usr/local/cuda").exists()
@@ -273,6 +296,7 @@ def audit_mllm_cuda(
         "device_test": device_test,
         "linkage": ldd,
         "source_boundary": source_boundary,
+        "framework_patch": framework_patch,
         "recovery": recovery,
         "gates": gates,
         "summary": {

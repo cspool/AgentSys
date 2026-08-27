@@ -48,6 +48,7 @@ The revised architecture removes ATX from the integrated CPU path. Run 023 close
 - Run 036 enables the missing upstream tools target, configures successfully, and nvcc compiles all four mllm CUDA units plus `libMllmCUDABackendCudaOps.so`. Linking then stops because mllm's Clang OpenMP fallback injects `-lomp` although no OpenMP runtime exists; 9/13 gates remain passing and no device-test claim is made.
 - Run 037 removes optional OpenMP and successfully links mllm's core runtime. CUDA backend linking then exposes a Conda layout mismatch: packaged CUDA/NVML stubs exist under `targets/x86_64-linux/lib/stubs`, while mllm searches `lib/stubs`; the run remains 9/13 and localizes the final library-search issue.
 - Run 038 fixes the stub search and builds all three upstream CUDA targets; the test enumerates both RTX 4090s and linkage resolves. It then aborts during teardown because mllm's own explicitly CUDA-required memory-manager clear call is commented out, causing `cudaFree` after driver shutdown. This 11/13 result motivates a traceable one-line framework patch.
+- Run 039 supports H15.2 with 13/13 gates. A hashed one-line framework patch enables mllm's own CUDA-required pre-shutdown memory clear; two consecutive builds/tests each enumerate both RTX4090s and exit zero. Linkage uses local cudart and real host driver/NVML. The upstream CUDA backend remains honestly bounded to metadata/allocator lifecycle because its CUDA units are empty and no op factories exist.
 
 ## Patterns and Insights
 

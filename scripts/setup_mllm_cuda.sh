@@ -7,6 +7,7 @@ gpu_python="${project_root}/.venv-gpu/bin/python"
 micromamba="${project_root}/.tools/micromamba"
 micromamba_root="${project_root}/.tools/micromamba-root"
 cuda_prefix="${project_root}/.cuda-toolkit"
+shutdown_patch="${project_root}/integrations/mllm/patches/cuda-shutdown-order.patch"
 micromamba_url="https://github.com/mamba-org/micromamba-releases/releases/download/2.8.1-0/micromamba-linux-64"
 micromamba_sha="9689782d863c05a1bf5d2d371ba527104e7a4eb4310c1637d8653b751aed9c82"
 
@@ -18,6 +19,13 @@ test "$("${gpu_python}" -c 'import importlib.metadata; print(importlib.metadata.
 git -C "${mllm_root}" submodule update --init --checkout \
   mllm/backends/cuda/vendors/cccl \
   mllm/backends/cuda/vendors/cutlass
+
+if git -C "${mllm_root}" apply --reverse --check "${shutdown_patch}" 2>/dev/null; then
+  : # Exact patch is already applied.
+else
+  git -C "${mllm_root}" apply --check "${shutdown_patch}"
+  git -C "${mllm_root}" apply "${shutdown_patch}"
+fi
 
 nvcc_path=${CUDACXX:-}
 if [[ -z ${nvcc_path} ]]; then
@@ -86,4 +94,4 @@ done
 
 env \
   LD_LIBRARY_PATH="${mllm_root}/build-x86-cuda/bin:${cuda_root}/lib:${cuda_root}/targets/x86_64-linux/lib" \
-  "${mllm_root}/build-x86-cuda/bin/Mllm-Test-CUDA-DeviceInfo"
+  stdbuf -oL -eL "${mllm_root}/build-x86-cuda/bin/Mllm-Test-CUDA-DeviceInfo"
