@@ -1,0 +1,2 @@
+[1;32mSUCCESS: times_a=0, times_b=0, all elements match in matrix_c and tpe_matrix for size A[          2,4,4] * B[          2,4,4] = C[2,4,4]![0m
+[1;32mSUCCESS: times_a=1, times_b=0, all elements match in matrix_c and tpe_matrix for size A[          2,4,4] * B[          2,4,4] = C[2,4,4]![0m

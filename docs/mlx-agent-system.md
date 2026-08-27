@@ -13,6 +13,8 @@ Agent JSON → Agentix → mllm MIR → Agent.xpu → TISA-to-MLX lowering
 
 ```bash
 cd /workspace/AgentSys
+bash scripts/bootstrap_chipyard.sh
+bash scripts/bootstrap_chipyard.sh --verify-only
 bash scripts/setup_mlx_toolchain.sh
 bash scripts/install_mlx_chipyard.sh
 
@@ -46,6 +48,21 @@ run 048依次执行source audit、standalone fresh build、Rocket fresh executio
 
 run 049通过25/25 requirements和5/5 fresh checks；完整pytest为105/105，
 `full_goal_complete=true`。
+
+Chipyard源码进入仓库后的当前入口与证书为：
+
+```bash
+.venv/bin/agentsys-reproduce-portable \
+  --config config/project-local-chipyard.json --run-id run_051
+.venv/bin/agentsys-certificate-portable \
+  --config config/project-local-chipyard.json --run-id run_051 \
+  --expected-commit d7b209189f7c15351186fb4571395ea83a4631f5
+```
+
+run 051使用项目内`chipyard/`fresh执行16次Rocket，4/4阶段、9/9 replay
+gate、16/16证书要求和114/114 pytest通过；substrate、三Agent与73端点解析
+结果逐字段等于run 044/046/048。显式`AGENTSYS_CHIPYARD_ROOT`可覆盖默认根，
+无效override会fail closed。
 
 切换负载会重新执行Agentix、生成mllm/Agent.xpu/TISA manifest、45-op MLX
 micro-lineage、Agent call C header和独立RISC-V ELF，然后在两套MLX Rocket

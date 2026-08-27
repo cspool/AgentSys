@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AgentSys H20 — Project-local Chipyard</title>
+  <style>
+    :root { color-scheme: dark; --bg:#0b1020; --card:#151d33; --ink:#eef3ff; --muted:#9fb0d0; --ok:#57e39f; --line:#2a385b; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:radial-gradient(circle at 20% 0,#1a2850 0,var(--bg) 42%); color:var(--ink); font:16px/1.55 system-ui,sans-serif; }
+    main { max-width:1050px; margin:auto; padding:56px 28px 72px; }
+    h1 { font-size:clamp(34px,6vw,66px); line-height:1.02; margin:0 0 18px; letter-spacing:-.04em; }
+    h2 { margin-top:42px; }
+    p { color:var(--muted); max-width:850px; }
+    .badge { display:inline-block; color:#06150e; background:var(--ok); padding:5px 11px; border-radius:999px; font-weight:750; margin-bottom:18px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; margin:28px 0; }
+    .card { background:linear-gradient(145deg,#192440,var(--card)); border:1px solid var(--line); border-radius:16px; padding:20px; }
+    .n { font-size:36px; font-weight:800; color:var(--ok); }
+    .label { color:var(--muted); }
+    table { width:100%; border-collapse:collapse; background:rgba(21,29,51,.8); border-radius:14px; overflow:hidden; }
+    th,td { padding:13px 15px; border-bottom:1px solid var(--line); text-align:left; }
+    th { color:#bed0f7; }
+    code { color:#c8d8ff; }
+    .boundary { border-left:4px solid #ffbd66; padding:8px 18px; background:#251e1b; border-radius:4px 12px 12px 4px; }
+  </style>
+</head>
+<body><main>
+  <div class="badge">H20 SUPPORTED</div>
+  <h1>Chipyard 现已真正属于项目</h1>
+  <p>AgentSys 不再依赖机器全局 <code>/root</code> 路径。实现提交
+    <code>d7b209189f7c15351186fb4571395ea83a4631f5</code> 默认选择、验证、构建并运行仓库内
+    <code>chipyard/</code>，随后以 16 次 fresh Rocket 执行重认证全部活动结果。</p>
+
+  <div class="grid">
+    <div class="card"><div class="n">4/4</div><div class="label">严格串行阶段</div></div>
+    <div class="card"><div class="n">16</div><div class="label">fresh Rocket 执行</div></div>
+    <div class="card"><div class="n">73/73</div><div class="label">论文回归端点</div></div>
+    <div class="card"><div class="n">9.91%</div><div class="label">最大相对误差</div></div>
+    <div class="card"><div class="n">114</div><div class="label">pytest 通过</div></div>
+    <div class="card"><div class="n">16/16</div><div class="label">最终证书要求</div></div>
+  </div>
+
+  <h2>run 051</h2>
+  <table>
+    <thead><tr><th>阶段</th><th>墙钟时间</th><th>硬结果</th></tr></thead>
+    <tbody>
+      <tr><td>项目内源码/构建 preflight</td><td>0.048 s</td><td>hashed identity + build closure</td></tr>
+      <tr><td>4 ELF × cycle/RTL substrate</td><td>270.900 s</td><td>12/12，8/8 executions</td></tr>
+      <tr><td>3 Agent DAG × cycle/RTL</td><td>648.838 s</td><td>9/9，20 calls，765 micro-ops</td></tr>
+      <tr><td>六层 matrix + sensitivity</td><td>209.385 s</td><td>10/10，73/73 endpoints</td></tr>
+    </tbody>
+  </table>
+
+  <h2>不是“路径换了所以算通过”</h2>
+  <p>证书逐字段比较 run 044/046/048：8 个 substrate record、三种 Agent 的 call/backend/trace
+    签名，以及 73 个 endpoint 的 observed/target/error/limit/pass 全部一致。只有新产物所在目录被规范化。</p>
+
+  <p class="boundary"><strong>证据边界不变：</strong>MLX 的五个数值点仍是 target-informed；LOO 最大误差仍为
+    20.77%；外部严格全论文证书仍为 1/18。本轮增强的是源码可移植性与可重放性，不把开放 surrogate
+    冒充作者未公开模拟器。</p>
+</main></body>
+</html>

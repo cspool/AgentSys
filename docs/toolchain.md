@@ -5,10 +5,18 @@
 The current primary hardware replay is:
 
 ```bash
+bash scripts/bootstrap_chipyard.sh
+bash scripts/bootstrap_chipyard.sh --verify-only
 bash scripts/setup_mlx_toolchain.sh
 bash scripts/install_mlx_chipyard.sh
 .venv-mlx/bin/agentsys-reproduce-mlx-complete \
   --config config/mlx-complete-system.json --run-id run_048
+
+.venv/bin/agentsys-reproduce-portable \
+  --config config/project-local-chipyard.json --run-id run_051
+.venv/bin/agentsys-certificate-portable \
+  --config config/project-local-chipyard.json --run-id run_051 \
+  --expected-commit d7b209189f7c15351186fb4571395ea83a4631f5
 ```
 
 It compiles Agentix/mllm/Agent.xpu/TISA call graphs into MLX spatial programs
@@ -20,6 +28,12 @@ primary final accelerator.
 The source-commit-anchored run-049 certificate passes 25/25 requirements, five
 fresh checks and 105 tests. Its authoritative path is
 `artifacts/results/mlx-cpu-final-certificate-run_049.json`.
+After the Chipyard source snapshot was vendored, run 051 supersedes run 049 for
+current-tree portability evidence. It defaults to the validated project-local
+`chipyard/`, freshly executes 16 Rocket runs, reproduces the run-044/046/048
+parsed results exactly, and passes 16/16 requirements plus 114 tests. The
+authoritative certificate is
+`artifacts/results/project-local-chipyard-certificate-run_051.json`.
 
 ## Native dual-GPU plus Rocket vertical system
 
@@ -141,8 +155,11 @@ Nanosecond start/finish times independently prove serial order.
 ## Rebuild details
 
 The setup script may mutate only `.venv`, `.references`, generated artifacts,
-the explicitly selected Chipyard checkout and build directories. It never resets
-a repository to resolve drift. It fails if a pinned commit differs.
+and the explicitly selected Chipyard build/dependency directories. By default
+that root is the repository-local `chipyard/`; `AGENTSYS_CHIPYARD_ROOT` is the
+only override. The resolver checks the vendored source marker or a standalone
+checkout commit and fails closed on drift. It never resets a repository to
+resolve drift.
 
 mllm is configured from
 `experiments/h13-revised-stack/mllm-build-clang16.yaml`; HPTPE uses Icarus for

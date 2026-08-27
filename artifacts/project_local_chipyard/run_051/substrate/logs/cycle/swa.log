@@ -1,0 +1,48 @@
+This emulator compiled with JTAG Remote Bitbang client. To enable, use +jtag_rbb_enable=1.
+Listening on port 35519
+AGENTSYS_MLX_SMOKE_PASS workload=swa backend=cycle wait=5 host_config=651 host_launch_wait=387 system=349 dma=248 kernel=99 instructions=25 load=6 store=2 compute=10 xfer=7 sync_stall=28 hops=10 conflicts=26 dma_bytes=448 abi=4d4c5801 mismatches=0
+[UART] UART0 is here (stdin/stdout).
+MLX_TRACE backend=cycle event=issue cycle=0 pe=0 pc=0 op=0 tag=0
+MLX_TRACE backend=cycle event=issue cycle=2 pe=0 pc=1 op=0 tag=0
+MLX_TRACE backend=cycle event=issue cycle=4 pe=0 pc=2 op=9 tag=0
+MLX_TRACE backend=cycle event=complete cycle=7 pe=0 op=compute
+MLX_TRACE backend=cycle event=issue cycle=8 pe=0 pc=3 op=8 tag=0
+MLX_TRACE backend=cycle event=complete cycle=9 pe=0 op=xfer dst_pe=4
+MLX_TRACE backend=cycle event=issue cycle=10 pe=1 pc=0 op=0 tag=1
+MLX_TRACE backend=cycle event=issue cycle=12 pe=1 pc=1 op=0 tag=1
+MLX_TRACE backend=cycle event=issue cycle=14 pe=1 pc=2 op=9 tag=1
+MLX_TRACE backend=cycle event=complete cycle=17 pe=1 op=compute
+MLX_TRACE backend=cycle event=issue cycle=18 pe=1 pc=3 op=8 tag=1
+MLX_TRACE backend=cycle event=complete cycle=20 pe=1 op=xfer dst_pe=4
+MLX_TRACE backend=cycle event=issue cycle=21 pe=2 pc=0 op=0 tag=2
+MLX_TRACE backend=cycle event=issue cycle=23 pe=2 pc=1 op=8 tag=2
+MLX_TRACE backend=cycle event=complete cycle=25 pe=2 op=xfer dst_pe=5
+MLX_TRACE backend=cycle event=issue cycle=26 pe=3 pc=0 op=0 tag=3
+MLX_TRACE backend=cycle event=issue cycle=28 pe=3 pc=1 op=8 tag=3
+MLX_TRACE backend=cycle event=complete cycle=30 pe=3 op=xfer dst_pe=5
+MLX_TRACE backend=cycle event=issue cycle=31 pe=4 pc=0 op=4 tag=4
+MLX_TRACE backend=cycle event=complete cycle=32 pe=4 op=compute
+MLX_TRACE backend=cycle event=issue cycle=33 pe=4 pc=1 op=5 tag=4
+MLX_TRACE backend=cycle event=complete cycle=41 pe=4 op=compute
+MLX_TRACE backend=cycle event=issue cycle=42 pe=4 pc=2 op=5 tag=4
+MLX_TRACE backend=cycle event=complete cycle=50 pe=4 op=compute
+MLX_TRACE backend=cycle event=issue cycle=51 pe=4 pc=3 op=3 tag=4
+MLX_TRACE backend=cycle event=complete cycle=54 pe=4 op=compute
+MLX_TRACE backend=cycle event=issue cycle=55 pe=4 pc=4 op=1 tag=4
+MLX_TRACE backend=cycle event=issue cycle=56 pe=4 pc=5 op=8 tag=4
+MLX_TRACE backend=cycle event=complete cycle=57 pe=4 op=xfer dst_pe=5
+MLX_TRACE backend=cycle event=issue cycle=58 pe=4 pc=6 op=8 tag=4
+MLX_TRACE backend=cycle event=complete cycle=59 pe=4 op=xfer dst_pe=5
+MLX_TRACE backend=cycle event=issue cycle=60 pe=4 pc=7 op=8 tag=4
+MLX_TRACE backend=cycle event=complete cycle=61 pe=4 op=xfer dst_pe=5
+MLX_TRACE backend=cycle event=issue cycle=62 pe=5 pc=0 op=6 tag=5
+MLX_TRACE backend=cycle event=complete cycle=74 pe=5 op=compute
+MLX_TRACE backend=cycle event=issue cycle=75 pe=5 pc=1 op=6 tag=5
+MLX_TRACE backend=cycle event=complete cycle=87 pe=5 op=compute
+MLX_TRACE backend=cycle event=issue cycle=88 pe=5 pc=2 op=9 tag=5
+MLX_TRACE backend=cycle event=complete cycle=91 pe=5 op=compute
+MLX_TRACE backend=cycle event=issue cycle=92 pe=5 pc=3 op=2 tag=5
+MLX_TRACE backend=cycle event=complete cycle=96 pe=5 op=compute
+MLX_TRACE backend=cycle event=issue cycle=97 pe=5 pc=4 op=1 tag=5
+MLX_BACKEND_DONE backend=cycle cycle=98 instructions=25 stalls=28 hops=10 conflicts=26
+MLX_SYSTEM_DONE backend=0 system_cycles=348 dma_cycles=247 backend_cycles=99 bytes=448

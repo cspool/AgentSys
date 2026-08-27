@@ -1,0 +1,166 @@
+{
+  "chipyard_root": "/workspace/AgentSys/chipyard",
+  "classification": "project_local_chipyard_post_vendoring_replay",
+  "configuration": {
+    "path": "/workspace/AgentSys/config/project-local-chipyard.json",
+    "sha256": "a13155dd147f2fdc6127a479c2cca11da13267333294730a1e1937e07acf855c"
+  },
+  "evidence_boundary": "post-vendoring project-local Chipyard replay; registered 73-endpoint contract retains target-informed MLX and negative strict-full-paper scope",
+  "gates": {
+    "default_project_local_root": true,
+    "evidence_boundary_retained": true,
+    "exact_source_commit": true,
+    "four_strict_serial_stages": true,
+    "six_layers_73_two_runs": true,
+    "sixteen_fresh_rocket_executions": true,
+    "substrate_12_eight_runs": true,
+    "three_agents_9_six_runs": true,
+    "vendored_source_identity": true
+  },
+  "project_commit": "d7b209189f7c15351186fb4571395ea83a4631f5",
+  "results": {
+    "agents": {
+      "path": "/workspace/AgentSys/artifacts/project_local_chipyard/run_051/agents/reproduction.json",
+      "sha256": "d44f094771fd5c54cc7c32d5dd65f5420046158ec00ade5fb5769d4e4456abe9",
+      "summary": {
+        "calls": 20,
+        "failing": 0,
+        "gates": 9,
+        "llm_calls": 17,
+        "mlx_micro_ops": 765,
+        "pass": true,
+        "passing": 9,
+        "serial_order": true,
+        "tool_calls": 3,
+        "workloads": 3
+      }
+    },
+    "layers": {
+      "path": "/workspace/AgentSys/artifacts/project_local_chipyard/run_051/layers/layer-regression.json",
+      "sha256": "3e63be26eb5b031df46d350edfe02ce09fff9c20849fb52cfd5ab8ec9de58749",
+      "summary": {
+        "endpoints": 73,
+        "failing": 0,
+        "gates": 10,
+        "gates_passing": 10,
+        "layers": 6,
+        "max_relative_error": 0.09909909909909899,
+        "parameter_switches": 6,
+        "pass": true,
+        "passing": 73
+      }
+    },
+    "preflight": {
+      "path": "/workspace/AgentSys/artifacts/project_local_chipyard/run_051/preflight.json",
+      "sha256": "c5ae16d5367fea11b9d9ea0e21c8cc90fc4580cafee0860751865e34b1f2471f",
+      "summary": {
+        "failing": 0,
+        "gates": 10,
+        "pass": true,
+        "passing": 10
+      }
+    },
+    "substrate": {
+      "path": "/workspace/AgentSys/artifacts/project_local_chipyard/run_051/substrate/mlx-chipyard.json",
+      "sha256": "5d31804d8a615fcd51ab8604f34720817c1eedcd86279d1451a9d3c38965658c",
+      "summary": {
+        "backends": 2,
+        "executions": 8,
+        "failing": 0,
+        "gates": 12,
+        "pass": true,
+        "passing": 12,
+        "workloads": 4
+      }
+    }
+  },
+  "run_id": "run_051",
+  "schema_version": 1,
+  "stage_order": [
+    "project_local_chipyard_preflight",
+    "project_local_mlx_substrate",
+    "project_local_three_agent_dags",
+    "project_local_six_layer_regression"
+  ],
+  "stages": [
+    {
+      "finished_ns": 438524482758505,
+      "name": "project_local_chipyard_preflight",
+      "pass": true,
+      "started_ns": 438524434827630,
+      "summary": {
+        "failing": 0,
+        "gates": 10,
+        "pass": true,
+        "passing": 10
+      },
+      "wall_time_s": 0.047930875
+    },
+    {
+      "finished_ns": 438795383125781,
+      "name": "project_local_mlx_substrate",
+      "pass": true,
+      "started_ns": 438524482776354,
+      "summary": {
+        "backends": 2,
+        "executions": 8,
+        "failing": 0,
+        "gates": 12,
+        "pass": true,
+        "passing": 12,
+        "workloads": 4
+      },
+      "wall_time_s": 270.900349427
+    },
+    {
+      "finished_ns": 439444221614308,
+      "name": "project_local_three_agent_dags",
+      "pass": true,
+      "started_ns": 438795383161626,
+      "summary": {
+        "calls": 20,
+        "failing": 0,
+        "gates": 9,
+        "llm_calls": 17,
+        "mlx_micro_ops": 765,
+        "pass": true,
+        "passing": 9,
+        "serial_order": true,
+        "tool_calls": 3,
+        "workloads": 3
+      },
+      "wall_time_s": 648.838452682
+    },
+    {
+      "finished_ns": 439653606804311,
+      "name": "project_local_six_layer_regression",
+      "pass": true,
+      "started_ns": 439444221648661,
+      "summary": {
+        "endpoints": 73,
+        "failing": 0,
+        "gates": 10,
+        "gates_passing": 10,
+        "layers": 6,
+        "max_relative_error": 0.09909909909909899,
+        "parameter_switches": 6,
+        "pass": true,
+        "passing": 73
+      },
+      "wall_time_s": 209.38515565
+    }
+  ],
+  "summary": {
+    "agent_workloads": 3,
+    "executed": 4,
+    "failing": 0,
+    "fresh_rocket_executions": 16,
+    "gates": 9,
+    "gates_passing": 9,
+    "paper_endpoints": 73,
+    "pass": true,
+    "passing": 4,
+    "serial_order": true,
+    "stages": 4
+  }
+}

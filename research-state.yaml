@@ -1,7 +1,7 @@
 # Research State — Central Project Tracking
 project:
   title: "AgentSys: dynamic-agent full-stack scheduling from program DAG to NPU tile"
-  question: "Can Agentix, Agent.xpu, mllm/llm.npu, TISA, HPTPE and MLX be reproduced with explicit 10% paper-regression contracts, then compose switchable Agent DAGs through an ordinary-RISC-V Rocket CPU plus real MLX cycle/4x4-RTL hardware simulation?"
+  question: "Can Agentix, Agent.xpu, mllm/llm.npu, TISA, HPTPE and MLX be reproduced with explicit 10% paper-regression contracts, then compose switchable Agent DAGs through an ordinary-RISC-V Rocket CPU plus real MLX cycle/4x4-RTL hardware simulation in an automatically bootstrapped project-local Chipyard tree?"
   status: complete
   started: "2026-08-25"
   domain: "computer systems and architecture"
@@ -214,12 +214,18 @@ hypotheses:
     motivation: "Prove requirement-by-requirement completion of the revised objective."
     parent: H19
     priority: high
+  - id: H20
+    statement: "The vendored Chipyard snapshot can become the fail-closed project-local default build/execution root and recertify the post-vendoring Agent-to-MLX system with exact run-044/046/048 results."
+    status: supported
+    motivation: "Close the machine-specific /root path and stale run-049 commit-anchor gaps introduced when Chipyard sources were added to the repository."
+    parent: null
+    priority: high
 
 experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 49
+  total_runs: 51
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -564,11 +570,25 @@ experiments:
       wall_time_min: 0.8
       change_summary: "Final certificate passes 25/25 and five fresh checks with 105 pytest; complete replay, 73/73, three Agent DAGs, auxiliary GPU evidence, files/hashes and MLX numeric-scope boundaries all pass."
       timestamp: "2026-08-27"
+    - run_id: "run_050"
+      hypothesis: "H20/project-local Chipyard exploratory recovery"
+      metric_value: 0.09909909909909899
+      delta: 0.0
+      wall_time_min: 37.0
+      change_summary: "Retains and fixes three portability failures: toplevel-assuming submodule wrapper, missing Rocket/Barstools nested gitlinks and one literal token in the MLX ELF builder; project-local builds then pass substrate12, Agent9 and 73/73 with 114 tests."
+      timestamp: "2026-08-27"
+    - run_id: "run_051"
+      hypothesis: "H20/post-vendoring project-local recertification"
+      metric_value: 0.09909909909909899
+      delta: 0.0
+      wall_time_min: 19.5
+      change_summary: "Implementation-anchored replay passes 4/4 serial stages, 9/9 global gates and 16 fresh Rocket executions; exact baseline comparison plus three fresh checks issue a 16/16 certificate with 114 pytest."
+      timestamp: "2026-08-27"
 
 outer_loop:
-  cycle: 38
+  cycle: 39
   last_direction: conclude
-  last_reflection: "Run 049 closes the MLX+ordinary-CPU objective with 25/25 source-anchored requirements and fresh tests/tool/RTL checks, while preserving the target-informed and incomplete-full-paper MLX boundary."
+  last_reflection: "Run 051 closes the post-vendoring portability gap: the exact implementation commit defaults to a validated project-local Chipyard, rebuilds both simulators, reproduces run-044/046/048 exactly and passes a 16/16 certificate. The target-informed and incomplete-full-paper MLX boundary is unchanged."
 
 workspace:
   findings: "findings.md"

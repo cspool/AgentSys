@@ -59,6 +59,7 @@ The revised architecture removes ATX from the integrated CPU path. Run 023 close
 - Run 047 adds MLX as a real sixth paper layer: 73/73 endpoints and six parameter switches pass at max 9.91%, with fresh react-tool cycle→RTL 264→152 and identical work. MLX's five rows are explicitly target-informed (5.85% in-sample, 20.77% LOO); the external strict full-paper result remains negative 1/18.
 - Run 048 freshly replays the complete MLX+CPU stack in five strict stages and 24 MLX executions. Source10/standalone10/Chipyard12, six-layer 73/73 and three-Agent 9/9 all pass under 10/10 global gates; primary hardware, hashes and target-informed/LOO/negative-full-paper boundaries remain unchanged.
 - Run 049 closes the revised goal with a source-anchored 25/25 certificate and five fresh checks (105 pytest plus MLX setup/overlay/Icarus/Verilator). Primary Rocket+MLX, three Agent DAGs, six-layer 73/73, auxiliary GPU runtime and every artifact/boundary gate pass; MLX strict full-paper remains explicitly 1/18, not claimed complete.
+- Run 051 closes the post-vendoring portability gap. The exact implementation commit defaults to the repository-local Chipyard snapshot, freshly builds both Rocket+MLX simulators and executes 16 new runs. Four serial stages, 9/9 replay gates, 16/16 certificate requirements and 114 pytest pass; parsed substrate, Agent and 73-endpoint results exactly match runs 044/046/048.
 
 ## Patterns and Insights
 
@@ -75,6 +76,8 @@ The revised architecture removes ATX from the integrated CPU path. Run 023 close
 - Aggregate XOR equality is insufficient for functional validation: an even number of repeated call patterns can cancel identical per-call static/dynamic checksum differences. Generic workload testing must compare every tile and reset accelerator-local pipeline state per descriptor.
 - Workload parameterization should separate functional gates from optional performance expectations. A new DAG may legitimately have no scheduling opportunity; only manifests tied to a paper/configuration should impose a numerical speedup range.
 - Configuration provenance must be executable: the runner compares returned implementation config with matrix input and separately hashes baseline/variant payloads. A parameter listed only in documentation is not evidence of parameterization.
+- A vendored Git subtree cannot be identified with `git -C subtree rev-parse HEAD`: Git walks to the parent repository and returns the AgentSys commit. A hashed source marker plus standalone-checkout detection is required to distinguish upstream Chipyard identity from the enclosing implementation identity.
+- Chipyard's apparent top-level gitlinks hide three nested build-time dependencies that are easy to miss in a non-recursive bootstrap: Rocket API-config, Rocket HardFloat and Barstools MDF. Initializing those exact SHA-pinned closures is sufficient for both MLX configs; recursively cloning CVA6/Gemmini HDL payloads is unnecessary for this Rocket build.
 
 ## Lessons and Constraints
 
@@ -83,6 +86,7 @@ The revised architecture removes ATX from the integrated CPU path. Run 023 close
 - Combined-stack gains have no published numerical target and therefore must be reported as a new local result, not a reproduced paper point.
 - Two RTX 4090-class GPUs, when available, may provide functional/kernel baselines only; they cannot substitute for Agentix's multi-A100 evaluation.
 - Upstream aggregate test binaries can contain explicitly NYI platform cases. Preserve the unfiltered failure, then register a supported-platform subset; never silently count an NYI crash as a pass.
+- Do not let a setup script silently fall back to a machine-global checkout. An explicit invalid override must fail, while the no-override path must select and validate the project-local source before building or executing.
 
 ## Open Questions
 
@@ -115,6 +119,11 @@ Run 027 closes that mismatch using the preregistered source contract rather than
 a fitted delay. Existing Agent.xpu stage metadata defines the strong-static
 pipeline and the paper fixes dynamic dispatch at seven cycles. The real
 Rocket+HPTPE result is 1.376x with all run-026 work/lineage gates preserved.
+
+Run 051 does not improve the endpoint metric; it strengthens reproducibility at
+the same 9.91% maximum error. Sixteen fresh repository-local Rocket executions
+and exact run-044/046/048 signatures replace the stale run-049 `/root`-bound
+certificate with a post-vendoring, implementation-SHA-anchored result.
 
 ## Toolchain Closure
 

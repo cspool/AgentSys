@@ -1,0 +1,93 @@
+{
+  "checks": {
+    "barstools_mdf": true,
+    "chisel3": true,
+    "env": true,
+    "hardfloat": true,
+    "riscv_gcc": true,
+    "rocket_chip": true,
+    "rocket_config": true,
+    "simulator_cycle": true,
+    "simulator_rtl": true,
+    "treadle": true
+  },
+  "chipyard": {
+    "checks": {
+      "barstools_mdf": true,
+      "chisel3": true,
+      "env": true,
+      "hardfloat": true,
+      "riscv_gcc": true,
+      "rocket_chip": true,
+      "rocket_config": true,
+      "treadle": true
+    },
+    "identity": {
+      "commit": "b5d013190d637e634113cb5179f8c8885df1945a",
+      "identity_files": {
+        ".gitmodules": {
+          "expected": "a68296a7895492e162652068d795249bb773b4078c09c5534387165f9c14dcd3",
+          "observed": "a68296a7895492e162652068d795249bb773b4078c09c5534387165f9c14dcd3",
+          "pass": true
+        },
+        "build.sbt": {
+          "expected": "f0428b6ba1bdf646d353a8bdd61e5a8c8461afa9157fe7846389f25527b4d7f7",
+          "observed": "f0428b6ba1bdf646d353a8bdd61e5a8c8461afa9157fe7846389f25527b4d7f7",
+          "pass": true
+        },
+        "common.mk": {
+          "expected": "22d2aaf89158e839a81327ba6e4c6c1dbbef0fed624458045a5d44d7b8010f3e",
+          "observed": "22d2aaf89158e839a81327ba6e4c6c1dbbef0fed624458045a5d44d7b8010f3e",
+          "pass": true
+        },
+        "generators/chipyard/src/main/scala/config/RocketConfigs.scala": {
+          "expected": "8a77759d620c9c31a5e206fbfa877ebb52832d41ad4f7882dd6dd1bc107db53d",
+          "observed": "8a77759d620c9c31a5e206fbfa877ebb52832d41ad4f7882dd6dd1bc107db53d",
+          "pass": true
+        },
+        "project/build.properties": {
+          "expected": "ef0027fa322ca439f465803fdfa777a1216a4ed32e8fcaea3e7b038b4510e632",
+          "observed": "ef0027fa322ca439f465803fdfa777a1216a4ed32e8fcaea3e7b038b4510e632",
+          "pass": true
+        }
+      },
+      "kind": "vendored_source_snapshot",
+      "marker": "/workspace/AgentSys/chipyard/.agentsys-source.json",
+      "marker_sha256": "e676fddff406cd02516b3ca1b92e638377fe9c1614cce218f3fd6bd3f6738054",
+      "path": "/workspace/AgentSys/chipyard"
+    },
+    "pass": true,
+    "requirements": {
+      "barstools_mdf": "/workspace/AgentSys/chipyard/tools/barstools/mdf/scalalib/src/main/scala/SRAM.scala",
+      "chisel3": "/workspace/AgentSys/chipyard/tools/chisel3/build.sbt",
+      "env": "/workspace/AgentSys/chipyard/env.sh",
+      "hardfloat": "/workspace/AgentSys/chipyard/generators/rocket-chip/hardfloat/src/main/scala/primitives.scala",
+      "riscv_gcc": "/workspace/AgentSys/chipyard/esp-tools-install/bin/riscv64-unknown-elf-gcc",
+      "rocket_chip": "/workspace/AgentSys/chipyard/generators/rocket-chip/src/main/scala/rocket/RocketCore.scala",
+      "rocket_config": "/workspace/AgentSys/chipyard/generators/rocket-chip/api-config-chipsalliance/design/craft/src/config/Config.scala",
+      "treadle": "/workspace/AgentSys/chipyard/tools/treadle/build.sbt"
+    },
+    "root": "/workspace/AgentSys/chipyard"
+  },
+  "classification": "project_local_chipyard_build_preflight",
+  "run_id": "run_051",
+  "schema_version": 1,
+  "simulators": {
+    "cycle": {
+      "bytes": 8511168,
+      "path": "/workspace/AgentSys/chipyard/sims/verilator/simulator-chipyard-MLXCycleRocketConfig",
+      "sha256": "7e89a41511f47468a2607c7c971aa3fc4c65daee90105de3521547b45edf9813"
+    },
+    "rtl": {
+      "bytes": 10439064,
+      "path": "/workspace/AgentSys/chipyard/sims/verilator/simulator-chipyard-MLXRTLRocketConfig",
+      "sha256": "21555ac1eb573fdedfa67424a9086811697463cffa6dd61e5f1ac10eb3cd9416"
+    }
+  },
+  "summary": {
+    "failing": 0,
+    "gates": 10,
+    "pass": true,
+    "passing": 10
+  }
+}

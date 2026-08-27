@@ -4,7 +4,7 @@
 
 项目目录：`/workspace/AgentSys`
 
-状态：已完成。run 032 通过4/4严格串行阶段和15/15参数化系统证书要求。结果边界见“证据分级与限制”。
+状态：已完成并在当前源码重新认证。run 051 以项目内 Chipyard 为默认根，完成4/4严格串行阶段、16次fresh Rocket执行和16/16证书要求；73/73注册端点最大误差9.91%。结果边界见“证据分级与限制”。
 
 ## 摘要
 
@@ -17,6 +17,8 @@
 H14进一步把固定负载改造成完整参数化实验系统。`agentsys-run-workload`可从JSON切换Agent DAG、Agentix策略、Agent.xpu参数、mllm MIR/operator、tool、DMA和兼容硬件profile，自动生成隔离的header、RISC-V ELF和系统trace。`react_moa_mcts`、`react_tool`、`planner_debate`三种负载分别产生80/16/40 descriptors、860/180/436 events并全部通过。专用 TISA 文件通道逐tile记录显式call ID，六份日志均为零修复。
 
 `agentsys-layer-regression`从同一matrix实际驱动五层参数，并在相同论文workload/config下重新审计68/68 endpoints，统一误差门槛10%，最大误差9.91%。Agentix batch、Agent.xpu chunk、TISA window、mllm prompt和HPTPE organization五个敏感性切换均改变真实输出。
+
+run 051进一步关闭了源码进入仓库后的可移植性缺口：活动Python、shell、Makefile和JSON不再绑定`/root/chipyard`，默认选择并哈希验证项目内`chipyard/`，自动初始化Chipyard构建闭包和RISC-V工具链。两套Rocket+MLX模拟器均在项目内fresh build；随后8次substrate、6次Agent和2次MLX sensitivity运行逐字段等于run 044/046/048。最终证书以实现commit `d7b209189f7c15351186fb4571395ea83a4631f5`为锚，114/114 pytest通过。
 
 这些结果支持“跨层优先级与动态调度能够叠加，但收益受释放时机、tile 粒度、强基线、数据流和带宽瓶颈约束”的结论。项目没有将 Rocket 或开放替代模拟器冒充论文所用的 A100、Intel Core Ultra、Qualcomm 手机、Epoch 真硅片或 SAED32 综合环境。
 
@@ -236,9 +238,10 @@ Agentix、Agent.xpu和TISA在不修改机制参数的情况下重新执行，分
 | trace ELF | `system_sim/software/agentsys_trace_system_test.c`、`generated/agentsys_app_trace.h` |
 | 安装脚本 | `scripts/bootstrap_references.sh`、`install_agentsys_chipyard.sh`、`build_ramulator2.sh` |
 | 完整工具链 | `config/toolchain.json`、`uv.lock`、`scripts/setup_toolchain.sh` |
+| 项目内Chipyard合同 | `chipyard/.agentsys-source.json`、`src/agentsys/{paths,portable_reproduce,portable_certificate}.py`、`scripts/{chipyard_paths,bootstrap_chipyard}.sh` |
 | 分论文入口 | `.venv/bin/agentsys-paper-reproduce --paper {agentix,agentxpu,atx,tisa}` |
 | 串行总入口 | `.venv/bin/agentsys-reproduce-all` |
-| 单元/不变量测试 | `tests/`（当前 38 tests；另执行公开 Autellix fork 58 tests） |
+| 单元/不变量测试 | `tests/`（当前 114 tests；另保留公开 Autellix fork 58 tests证据） |
 | 原始结果 | `artifacts/results/*.json`、`artifacts/traces/*.jsonl` |
 | 分项报告 | `docs/*.md`、`experiments/*/analysis.md` |
 
@@ -413,7 +416,11 @@ Full stack 相对 baseline 的 makespan/reactive speedup 为 2.033/3.027×；相
 
 当前最高层硬件已经重构为普通Rocket+MLX。`config/mlx-active-source.json`固定当前MLX_dev `sys@2a457df`和Chipyard；`scripts/setup_mlx_toolchain.sh`建立NumPy/PyYAML编译环境，`scripts/install_mlx_chipyard.sh`逐字节安装Scala和11个RTL资源。Agent JSON依次经过Agentix、mllm MIR、Agent.xpu和TISA-to-MLX lowering，生成带完整call DAG的C header与独立RISC-V ELF；Rocket执行CPU工具和custom0 config/launch/wait/status，MLX可切换抽象cycle model或物理4×4/16-PE RTL。
 
+run 051将Chipyard从机器全局隐式依赖改为项目源码合同。`src/agentsys/paths.py`只接受显式`AGENTSYS_CHIPYARD_ROOT`或默认`$PROJECT_ROOT/chipyard`，无效override直接失败；`chipyard/.agentsys-source.json`用上游commit和五个基础文件hash验证subtree身份。`scripts/bootstrap_chipyard.sh`浅检出22个顶层SBT依赖以及Rocket API-config/HardFloat、Barstools MDF三个嵌套gitlink，复用已验证工具链或在缺失时构建ESP tools。`config/toolchain.json`、`config/revised-toolchain.json`和`config/mlx-active-source.json`只保存`${AGENTSYS_CHIPYARD_ROOT}`token，在加载时统一展开；活动源码、脚本、配置和Makefile中不存在机器专用`/root/chipyard`字面量。
+
 run 046三种Agent负载产生20个call、17个MLX launch、3个CPU tool和765条MLX spatial micro-op lineage；每个workload的cycle/RTL logical checksum、golden、指令和DMA字节一致。多call执行还测得Rocket cache复用：第一次DMA为344 cycles，后续为216，而MLX kernel保持132/76 cycles per call。run 047将MLX加入第六论文层，73/73注册端点和6个参数开关在10%门槛内通过。run 048用`agentsys-reproduce-mlx-complete`重新执行5个严格串行阶段和24次MLX仿真，10/10全局gate通过。
+
+run 051在实现commit之后重新执行项目内Chipyard preflight、4 ELF×2 backend substrate、3 DAG×2 backend和六层sensitivity，共16次fresh Rocket。四阶段wall time分别为0.048/270.900/648.838/209.385 s，严格串行且9/9全局gate通过。证书逐项比较解析后的8个substrate record、三种Agent的call/backend/trace签名以及73个端点；除产物位置外与run 044/046/048完全相同。
 
 run 033–040进一步补齐本机双GPU/多CPU层。`scripts/setup_gpu_runtime.sh`建立独立PyTorch CUDA 12.8/NCCL/NVML环境；`scripts/setup_mllm_cuda.sh`使用SHA固定的micromamba和NVIDIA CUDA 12.8.1 Conda包安装项目内nvcc，构建mllm CUDA lifecycle backend，并应用一个有hash的shutdown-order补丁。上游固定版本的四个CUDA `.cu`仍为空、没有op factory，因此真实算子明确由`agentsys_mir_cuda_operator_adapter`实现，不冒充上游mllm完整GPU inference。
 
@@ -446,6 +453,8 @@ bash scripts/setup_revised_toolchain.sh --verify-only
 
 ```bash
 cd /workspace/AgentSys
+bash scripts/bootstrap_chipyard.sh
+bash scripts/bootstrap_chipyard.sh --verify-only
 bash scripts/setup_mlx_toolchain.sh
 bash scripts/install_mlx_chipyard.sh
 
@@ -466,6 +475,14 @@ bash scripts/install_mlx_chipyard.sh
 .venv-mlx/bin/agentsys-certificate-mlx \
   --run-id run_049 \
   --output artifacts/results/mlx-cpu-final-certificate-run_049.json
+
+# 当前post-vendoring项目内Chipyard严格重放与证书
+.venv/bin/agentsys-reproduce-portable \
+  --config config/project-local-chipyard.json --run-id run_051
+.venv/bin/agentsys-certificate-portable \
+  --config config/project-local-chipyard.json \
+  --run-id run_051 \
+  --expected-commit d7b209189f7c15351186fb4571395ea83a4631f5
 ```
 
 本机双GPU+双NUMA+Rocket垂直入口：
@@ -489,7 +506,7 @@ bash scripts/setup_mllm_cuda.sh
 ```bash
 .venv/bin/python scripts/compile_revised_system_trace.py --run-id run_028
 make -C system_sim/software -j4 all
-bash scripts/install_revised_chipyard.sh /root/chipyard
+bash scripts/install_revised_chipyard.sh
 .venv/bin/python scripts/run_revised_system.py --run-id run_028
 ```
 
@@ -560,6 +577,10 @@ bash scripts/build_ramulator2.sh
 
 | 目标 | 权威证据 | 状态 |
 |---|---|---|
+| 项目内Chipyard自动配置 | run 051：hashed source identity、22+3固定gitlink闭包、默认local root、无效override fail-closed | 通过 |
+| post-vendoring严格重放 | run 051：4/4 serial stages、9/9 gates、16次fresh Rocket | 通过 |
+| 当前实现commit证书 | `project-local-chipyard-certificate-run_051`：16/16、fresh 3/3、pytest 114/114 | 通过 |
+| 历史结果逐字段不漂移 | run 051 vs 044/046/048：substrate/Agent/73 endpoints exact | 通过 |
 | MLX当前源码/边界审计 | run 042：21个核心文件，10/10；严格全论文1/18保持false | 通过 |
 | MLX cycle/物理4×4 RTL | run 043：fresh build，4 workload×2 backend，10/10 | 8/8 golden |
 | 普通Rocket+MLX RoCC/DMA | run 044：2 configs、4 ELF、12/12，kernel与standalone一致 | 8/8通过 |
@@ -643,3 +664,5 @@ run 041最后对冻结的`react_tool` native plan执行Nsight采样，16/16逐MI
 run 047/048证明该重构没有牺牲论文层合同：六层73/73注册端点均在10%以内、最大9.91%，三种Agent负载和cycle/RTL切换均fresh执行。MLX五行的target-informed属性、20.77% LOO误差以及严格全论文1/18未完成状态都作为硬gate保留。因此这里的“完整系统”是软件/编译/CPU/MLX执行和已注册回归闭环，不是对未公开MLX作者模拟器或整篇论文所有图表的虚假声明。
 
 run 049最终现场执行完整pytest、MLX环境/源码验证、12-file Chipyard overlay、Icarus cycle compile和物理4×4 RTL Verilator lint，5/5 fresh checks全部通过。最终`artifacts/results/mlx-cpu-final-certificate-run_049.json`为25/25 requirements、105/105 tests并设置`full_goal_complete=true`；该证书取代run 041成为当前MLX+CPU目标的最高层完成证据，run 041仅作为辅助GPU路径证据保留。
+
+Chipyard源码随后进入AgentSys仓库，使run 049的commit锚和机器全局路径不再覆盖当前树。H20因此不把旧证书继续当作完成证明。run 051从实现commit `d7b209189f7c15351186fb4571395ea83a4631f5`出发，在项目内Chipyard重新生成cycle/物理RTL两套模拟器并执行16次Rocket；4/4 stages、9/9 replay gates、16/16 certificate requirements和114/114 tests全部通过。新证书逐字段证明run 044/046/048的功能、周期、Agent工作与73个端点没有漂移，现为当前源码最高层完成证据。
