@@ -202,6 +202,12 @@ hypotheses:
     motivation: "Close the new hardware layer's numerical and parameter-control contract before final certification."
     parent: H19
     priority: high
+  - id: H19.2
+    statement: "A single fail-closed runner can freshly replay source audit, MLX standalone/Chipyard, six-layer regression and three Agent DAGs in strict serial order without changing registered results."
+    status: pending
+    motivation: "Demonstrate complete reproducibility before issuing the final MLX+CPU certificate."
+    parent: H19
+    priority: high
 
 experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
