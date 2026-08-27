@@ -41,6 +41,8 @@ experiment, run:
 .venv/bin/agentsys-reproduce-parameterized
 ```
 
+Run 032 executes all four stages serially and passes the final 15/15 certificate.
+
 ## Manifest contract
 
 Each JSON declares:

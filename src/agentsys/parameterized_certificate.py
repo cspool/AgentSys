@@ -127,6 +127,7 @@ def build_parameterized_certificate(
         "experiments/h14-layer-regression/protocol.md",
         "experiments/h14-layer-regression/run031-analysis.md",
         "experiments/h14-parameterized-system-final/protocol.md",
+        "experiments/h14-parameterized-system-final/run032-analysis.md",
         "ISCA26_G3_Agent全栈系统加速.md",
     ]
     file_evidence = {

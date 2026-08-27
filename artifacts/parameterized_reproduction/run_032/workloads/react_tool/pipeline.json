@@ -1,0 +1,169 @@
+{
+  "artifacts": {
+    "application": "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_tool/application.json",
+    "compiled": "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_tool/compiled.json",
+    "elf": "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_tool/software/workload.riscv",
+    "header": "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_tool/generated/workload.h",
+    "system": "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_tool/system.json",
+    "trace": "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_tool/system-trace.jsonl"
+  },
+  "classification": "parameterized_agent_workload_end_to_end_pipeline",
+  "output_dir": "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_tool",
+  "run_id": "run_032",
+  "schema_version": 1,
+  "stages": [
+    {
+      "finished_ns": 1787801541010675307,
+      "name": "agentix_application",
+      "outputs": {
+        "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_tool/application.json": {
+          "bytes": 15645,
+          "sha256": "1a314ef569eb69ca1ac4db571c024dc8028c59b229895a82d83f0dc7cc5b8042"
+        }
+      },
+      "pass": true,
+      "started_ns": 1787801541005584493,
+      "wall_time_s": 0.005090814
+    },
+    {
+      "finished_ns": 1787801541157065387,
+      "name": "mllm_agentxpu_tisa_compile",
+      "outputs": {
+        "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_tool/compiled.json": {
+          "bytes": 18330,
+          "sha256": "5570830232d9ac24fca7f2e705a1979fd49a3ded100189d8a5a440fc5442f641"
+        },
+        "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_tool/generated/workload.h": {
+          "bytes": 3936,
+          "sha256": "4cfdc562186984a15e3af81d94c06ea8fa63880ac6997efefd069f892bef7f86"
+        }
+      },
+      "pass": true,
+      "started_ns": 1787801541010743413,
+      "wall_time_s": 0.146321974
+    },
+    {
+      "details": {
+        "classification": "parameterized_workload_riscv_elf_build",
+        "command": [
+          "/root/chipyard/esp-tools-install/bin/riscv64-unknown-elf-gcc",
+          "-std=gnu99",
+          "-O2",
+          "-g",
+          "-fno-common",
+          "-fno-builtin-printf",
+          "-Wall",
+          "-Wextra",
+          "-I/root/chipyard/tests",
+          "-I/workspace/AgentSys/system_sim/software",
+          "-DAGENTSYS_REVISED_TRACE_HEADER=\"/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_tool/generated/workload.h\"",
+          "/workspace/AgentSys/system_sim/software/agentsys_revised_system_test.c",
+          "-static",
+          "-specs=htif_nano.specs",
+          "-o",
+          "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_tool/software/workload.riscv"
+        ],
+        "elf": "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_tool/software/workload.riscv",
+        "elf_bytes": 102912,
+        "elf_sha256": "fe2b358d3571ea74d30aabc8348aec0325501fecb187e2c049ee2b11af70b669",
+        "exit_code": 0,
+        "header": "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_tool/generated/workload.h",
+        "header_sha256": "4cfdc562186984a15e3af81d94c06ea8fa63880ac6997efefd069f892bef7f86",
+        "output": "",
+        "pass": true,
+        "runtime_sha256": "60010b0567268d7f440f61fa7ec41a474ebf47c5946e4f3cb7d970915e16ab46",
+        "source_sha256": "8038788fdca5267b04f64336a09fa7a8327d185696f1ffb6db5cb433d5f128fd"
+      },
+      "finished_ns": 1787801541573618136,
+      "name": "riscv_elf_build",
+      "outputs": {
+        "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_tool/software/workload.riscv": {
+          "bytes": 102912,
+          "sha256": "fe2b358d3571ea74d30aabc8348aec0325501fecb187e2c049ee2b11af70b669"
+        }
+      },
+      "pass": true,
+      "started_ns": 1787801541157156139,
+      "wall_time_s": 0.416461997
+    },
+    {
+      "finished_ns": 1787801650017676895,
+      "name": "rocket_tisa_hptpe_system",
+      "outputs": {
+        "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_tool/logs/dynamic-tisa.log": {
+          "bytes": 3546,
+          "sha256": "c8eae197f20491d66dbf788bc116015e61ebf0f6eec07b3d8351c05041c15e12"
+        },
+        "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_tool/logs/dynamic.log": {
+          "bytes": 2188,
+          "sha256": "23e9b151cf17667dfc2acf139dd2bb507f44af94eaf9b5d1303d193ca9d95bd0"
+        },
+        "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_tool/logs/static-tisa.log": {
+          "bytes": 3546,
+          "sha256": "d26ad59ae7eeb6e4bff3e34fee73c506d433b349c5abc4c6c53adcaa3ff409f0"
+        },
+        "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_tool/logs/static.log": {
+          "bytes": 2188,
+          "sha256": "ffc2aa7c2d52d08ba81b141ca3801bf8370bc434cbd17445fbbf4b0f4512df57"
+        },
+        "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_tool/system-trace.jsonl": {
+          "bytes": 72978,
+          "sha256": "a95b142bc76aedf848f4e0f830f727a38dfde8fdde92dc12e04eef93b8a03fe8"
+        },
+        "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_tool/system.json": {
+          "bytes": 36209,
+          "sha256": "9b6149ff8283a60ec666cf0159e528cbb4ca06a4ab361cd643ff0f88598d93d8"
+        }
+      },
+      "pass": true,
+      "started_ns": 1787801541574074588,
+      "wall_time_s": 108.443602307
+    }
+  ],
+  "summary": {
+    "failing": 0,
+    "pass": true,
+    "passing": 4,
+    "serial_order": true,
+    "stages": 4,
+    "system_executed": true
+  },
+  "system_summary": {
+    "failing": 0,
+    "gates": 18,
+    "pass": true,
+    "passing": 18
+  },
+  "workload": {
+    "agentix": {
+      "batch_size": 1,
+      "policy": "atlas"
+    },
+    "agentxpu": {
+      "heg_igpu_prefill_share": 0.5,
+      "heg_prefill_chunk_tokens": 8,
+      "max_decode_batch": 8,
+      "max_reactive_decode_batch": 2
+    },
+    "hardware": {
+      "dispatch_latency": 7,
+      "hptpe_cols": 16,
+      "hptpe_rows": 16,
+      "input_beats": 4,
+      "output_beats": 2,
+      "profile": "rocket_tisa8_hptpe16x16",
+      "tisa_window": 8
+    },
+    "name": "react_tool",
+    "schema_version": 1,
+    "sha256": "ffcc75abd7f6dc53c5329a1e65963d903cece2551d52e63640710de9893ca220",
+    "source": "/workspace/AgentSys/workloads/react_tool.json",
+    "summary": {
+      "calls": 3,
+      "llm_calls": 2,
+      "models": 1,
+      "programs": 1,
+      "tool_calls": 1
+    }
+  }
+}

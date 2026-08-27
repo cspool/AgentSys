@@ -2,7 +2,7 @@
 project:
   title: "AgentSys: dynamic-agent full-stack scheduling from program DAG to NPU tile"
   question: "Can Agentix, Agent.xpu, mllm/llm.npu, TISA and HPTPE be independently reproduced within 15%, then compose on an ordinary-RISC-V Chipyard CPU+XPU system?"
-  status: active
+  status: concluded
   started: "2026-08-25"
   domain: "computer systems and architecture"
 
@@ -113,7 +113,7 @@ hypotheses:
     priority: high
   - id: H14
     statement: "A versioned workload manifest can switch complete Agent DAGs and layer parameters through compilation, per-workload RISC-V ELF generation and Rocket+HPTPE execution without source edits, while paper-matched regression profiles remain within 10%."
-    status: pending
+    status: supported
     motivation: "Generalize the certified fixed workload into the user-requested parameterized experimental system."
     parent: null
     priority: high
@@ -134,7 +134,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 31
+  total_runs: 32
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -353,11 +353,18 @@ experiments:
       wall_time_min: 1.0
       change_summary: "Five consumed configs and five sensitivity switches pass; 68/68 unique endpoints are re-audited at 10% with 9.91% maximum error, preserving native/RTL/system gates."
       timestamp: "2026-08-27"
+    - run_id: "run_032"
+      hypothesis: "H14/final parameterized experiment system"
+      metric_value: 0.09909909909909899
+      delta: 0.0
+      wall_time_min: 10.2
+      change_summary: "Four serial stages and 15/15 certificate requirements pass: 3 workloads, 5 layers, 5 parameter switches and 68/68 paper endpoints at 10%, with fresh tests and RTL checks."
+      timestamp: "2026-08-27"
 
 outer_loop:
-  cycle: 19
-  last_direction: broaden
-  last_reflection: "Run 031 supports H14.2. Run 032 is preregistered to serially replay the matrix plus all three workload/ELF/system paths, refresh documentation and issue the final parameterized-system certificate."
+  cycle: 20
+  last_direction: conclude
+  last_reflection: "Run 032 completes the parameterized experiment system: 4/4 serial replay, 3/3 workload pipelines, 5/5 layer switches, 68/68 endpoints at 10% and 15/15 final requirements."
 
 workspace:
   findings: "findings.md"

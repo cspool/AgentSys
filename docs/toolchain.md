@@ -16,6 +16,13 @@ workloads serially on static/dynamic Rocket+HPTPE. It produces
 `artifacts/parameterized_reproduction/run_032/reproduction.json` and a fresh
 parameterized-system certificate.
 
+Run 032 passes 4/4 serial stages. Its authoritative outputs are:
+
+- `artifacts/parameterized_reproduction/run_032/reproduction.json`;
+- `artifacts/parameterized_reproduction/run_032/layer-regression/layer-regression.json`;
+- `artifacts/parameterized_reproduction/run_032/workloads/*/{pipeline,system}.json`;
+- `artifacts/results/parameterized-system-certificate-run_032.json`.
+
 For interactive experiments use:
 
 ```bash

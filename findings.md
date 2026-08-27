@@ -41,6 +41,7 @@ The revised architecture removes ATX from the integrated CPU path. Run 023 close
 - Run 029 generalizes the frontend to versioned workload manifests and per-workload ELFs. `react_tool` passes 17/17 with 16 descriptors and 180 events, proving source-edit-free switching. A cross-program `planner_debate` workload exposes two hidden fixed-load artifacts: HPTPE pipeline state makes ME tile checksums schedule-dependent, and shared UART/RTL stdout can split a trace marker inside its prefix.
 - Run 030 fixes both artifacts and supports H14.1. Three source-edit-free workloads pass real dual-Rocket execution with 80/16/40 descriptors and 860/180/436 events. Dedicated TISA logs have zero repairs, every tile checksum is static/dynamic identical, and HPTPE work scales exactly with LLM call count.
 - Run 031 supports H14.2: one executable matrix drives five layer configurations, reruns 68 unique paper endpoints at a uniform 10% limit and exercises five output-changing sensitivity variants. Max errors remain 9.09/8.07/8.27/9.91/0.98% for Agentix/Agent.xpu/TISA/mllm/HPTPE.
+- Run 032 closes H14 and the parameterized-system goal: a single serial entry point reruns the five-layer matrix and three workload→ELF→dual-Rocket paths, then passes a 15/15 fresh certificate. Workload, configuration, header, ELF, tile and paper-result identities are all machine-linked.
 
 ## Patterns and Insights
 

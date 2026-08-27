@@ -1,0 +1,345 @@
+{
+  "classification": "complete_parameterized_agent_experiment_system",
+  "configuration": {
+    "path": "/workspace/AgentSys/config/parameterized-system.json",
+    "sha256": "c14625a5f099488e86cf24de9a7efc46e696e6d0111448742c6737add6906b49"
+  },
+  "expected_stage_order": [
+    "five_layer_regression",
+    "workload_react_moa_mcts",
+    "workload_react_tool",
+    "workload_planner_debate"
+  ],
+  "layer_summary": {
+    "endpoints": 68,
+    "failing": 0,
+    "gates": 9,
+    "gates_passing": 9,
+    "layers": 5,
+    "max_relative_error": 0.09909909909909899,
+    "parameter_switches": 5,
+    "pass": true,
+    "passing": 68
+  },
+  "run_id": "run_032",
+  "schema_version": 1,
+  "stage_order": [
+    "five_layer_regression",
+    "workload_react_moa_mcts",
+    "workload_react_tool",
+    "workload_planner_debate"
+  ],
+  "stages": [
+    {
+      "artifacts": {
+        "artifacts/parameterized_reproduction/run_032/layer-regression/hptpe-logs/opt1_cube.compile.log": {
+          "bytes": 257,
+          "sha256": "e17667012a2f12b55bb17e91f8e9bdd1f330d949dcc7240a2314401d28e1f752"
+        },
+        "artifacts/parameterized_reproduction/run_032/layer-regression/hptpe-logs/opt1_cube.run.log": {
+          "bytes": 298,
+          "sha256": "85165526e10e8db2f0965e626eb8868391b429c99166a0e453bf4378cf7cf726"
+        },
+        "artifacts/parameterized_reproduction/run_032/layer-regression/hptpe-logs/opt1_cube_mac.compile.log": {
+          "bytes": 265,
+          "sha256": "548d1e9cd561d4c22b34a172ba582a98cf25688297cb46d09133e3109cf39c18"
+        },
+        "artifacts/parameterized_reproduction/run_032/layer-regression/hptpe-logs/opt1_cube_mac.run.log": {
+          "bytes": 298,
+          "sha256": "85165526e10e8db2f0965e626eb8868391b429c99166a0e453bf4378cf7cf726"
+        },
+        "artifacts/parameterized_reproduction/run_032/layer-regression/hptpe-logs/opt1_os.compile.log": {
+          "bytes": 253,
+          "sha256": "32ad8f241e7c7f2466578d69590fb68cb58b8f4a17eab513ece1875d0de83ba8"
+        },
+        "artifacts/parameterized_reproduction/run_032/layer-regression/hptpe-logs/opt1_os.run.log": {
+          "bytes": 246,
+          "sha256": "4b2721063a5be01ea4f6f80ea38d2bdff266e3801633d78c0cf74d9c5a4677b5"
+        },
+        "artifacts/parameterized_reproduction/run_032/layer-regression/hptpe-logs/opt1_os_mac.compile.log": {
+          "bytes": 261,
+          "sha256": "7e8856f3b04ff115e8e5f3f9956c5a44c794bfacdb5d31d5cceb6dea58cbdc12"
+        },
+        "artifacts/parameterized_reproduction/run_032/layer-regression/hptpe-logs/opt1_os_mac.run.log": {
+          "bytes": 246,
+          "sha256": "4b2721063a5be01ea4f6f80ea38d2bdff266e3801633d78c0cf74d9c5a4677b5"
+        },
+        "artifacts/parameterized_reproduction/run_032/layer-regression/hptpe-logs/opt1_ws.compile.log": {
+          "bytes": 445,
+          "sha256": "24874a3de662292a2a06e8f2f704588710e39545d894e1d8f5403f8c55c21222"
+        },
+        "artifacts/parameterized_reproduction/run_032/layer-regression/hptpe-logs/opt1_ws.run.log": {
+          "bytes": 246,
+          "sha256": "4b2721063a5be01ea4f6f80ea38d2bdff266e3801633d78c0cf74d9c5a4677b5"
+        },
+        "artifacts/parameterized_reproduction/run_032/layer-regression/hptpe-logs/opt1_ws_mac.compile.log": {
+          "bytes": 461,
+          "sha256": "22a0ab196187ae6d7b40b6540955cf754e8ff7771b8e61ffe5b8877a7c152800"
+        },
+        "artifacts/parameterized_reproduction/run_032/layer-regression/hptpe-logs/opt1_ws_mac.run.log": {
+          "bytes": 246,
+          "sha256": "4b2721063a5be01ea4f6f80ea38d2bdff266e3801633d78c0cf74d9c5a4677b5"
+        },
+        "artifacts/parameterized_reproduction/run_032/layer-regression/hptpe-logs/opt2.compile.log": {
+          "bytes": 19706,
+          "sha256": "0d2a899c9c5ec1938b4327a1d3a1f2976356fa03854b4c4f0a7f1e22f73a942d"
+        },
+        "artifacts/parameterized_reproduction/run_032/layer-regression/hptpe-logs/opt2.run.log": {
+          "bytes": 497,
+          "sha256": "baf07ce8caf8e6d5602009f29f296a4ac47ec0423d41e1304104b72b8aed204b"
+        },
+        "artifacts/parameterized_reproduction/run_032/layer-regression/hptpe-logs/opt3_pe.compile.log": {
+          "bytes": 11200,
+          "sha256": "a0380d69fdfb6c32c9bf4b031cf0ef0bb2689a9d4f9bb6b6bac9314da684b3e4"
+        },
+        "artifacts/parameterized_reproduction/run_032/layer-regression/hptpe-logs/opt3_pe.run.log": {
+          "bytes": 29373,
+          "sha256": "b48e02277dbc94b1d7a55461db3564926d628dd59607355ac6bae337ce578a35"
+        },
+        "artifacts/parameterized_reproduction/run_032/layer-regression/hptpe-logs/opt4c.compile.log": {
+          "bytes": 16326,
+          "sha256": "d538174a0db37c9ca2dec565d335f5567ccb1674ed0a8f918d58074336505511"
+        },
+        "artifacts/parameterized_reproduction/run_032/layer-regression/hptpe-logs/opt4c.run.log": {
+          "bytes": 3966,
+          "sha256": "4f43f83f01cd8897f5a62cbd504b1c1eed42f4096adaa7e59b4250b1ca8b81b3"
+        },
+        "artifacts/parameterized_reproduction/run_032/layer-regression/layer-regression.json": {
+          "bytes": 1163097,
+          "sha256": "c910b09d6c33c0dfbd44fd36d34404d684de67e9022ab842ed73509deeeefc36"
+        }
+      },
+      "finished_ns": 1787801314492700708,
+      "name": "five_layer_regression",
+      "output_root": "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/layer-regression",
+      "pass": true,
+      "result_summary": {
+        "endpoints": 68,
+        "failing": 0,
+        "gates": 9,
+        "gates_passing": 9,
+        "layers": 5,
+        "max_relative_error": 0.09909909909909899,
+        "parameter_switches": 5,
+        "pass": true,
+        "passing": 68
+      },
+      "started_ns": 1787801238623951867,
+      "wall_time_s": 75.868748841
+    },
+    {
+      "artifacts": {
+        "artifacts/parameterized_reproduction/run_032/workloads/react_moa_mcts/application.json": {
+          "bytes": 35213,
+          "sha256": "3dd5e32b150bc7ba294112cf7b3f701e0817f76fca9f848372b277210b5c7a0f"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/react_moa_mcts/compiled.json": {
+          "bytes": 52864,
+          "sha256": "9c83b1cbccfd3f67eab0db274f23ceca21e026d7bc296cd629a4634091467264"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/react_moa_mcts/generated/workload.h": {
+          "bytes": 9582,
+          "sha256": "b673155b16555a72def4851261ce8e74a9face20bb9525a648aa53b59390a2ed"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/react_moa_mcts/logs/dynamic-tisa.log": {
+          "bytes": 17746,
+          "sha256": "3a021850e5b2eba12e6cba9ba14631903d580e0c59bd719d62730fc0c3fe9d13"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/react_moa_mcts/logs/dynamic.log": {
+          "bytes": 6617,
+          "sha256": "a314df0649ea6d5b5f687b6ac4c981125a3bf6096fe130b9b2c85d3e0f953c56"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/react_moa_mcts/logs/static-tisa.log": {
+          "bytes": 17746,
+          "sha256": "9c84c228d2c15a362056190f0bedca92358616313ebb050970bb6f3d27b1984b"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/react_moa_mcts/logs/static.log": {
+          "bytes": 6619,
+          "sha256": "55cba963b2e300ba7053cdf79d566f825f8eace91efcb524813a8be8a0142495"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/react_moa_mcts/pipeline.json": {
+          "bytes": 7006,
+          "sha256": "f94647687a984cdd2dc1e6d59cb278a8ee99c9c86b4f7c6f0f1ed1b3adea6e48"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/react_moa_mcts/software/workload.riscv": {
+          "bytes": 105192,
+          "sha256": "fd560f6b18010052b8745eb76b9f383d7139688e45d9726b9d0f585a8bb3438e"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/react_moa_mcts/system-trace.jsonl": {
+          "bytes": 355667,
+          "sha256": "b797d2b9dcadc4089fc68348114137fa19af0531bcc79e10a225d3a2bb280575"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/react_moa_mcts/system.json": {
+          "bytes": 130926,
+          "sha256": "30ba254cc713d3e3b5dade0b6b65513cbacbb814ecc8471e429e00e69d5b837f"
+        }
+      },
+      "finished_ns": 1787801541002163869,
+      "name": "workload_react_moa_mcts",
+      "output_root": "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_moa_mcts",
+      "pass": true,
+      "result_summary": {
+        "failing": 0,
+        "pass": true,
+        "passing": 4,
+        "serial_order": true,
+        "stages": 4,
+        "system_executed": true
+      },
+      "started_ns": 1787801314496295191,
+      "wall_time_s": 226.505868678
+    },
+    {
+      "artifacts": {
+        "artifacts/parameterized_reproduction/run_032/workloads/react_tool/application.json": {
+          "bytes": 15645,
+          "sha256": "1a314ef569eb69ca1ac4db571c024dc8028c59b229895a82d83f0dc7cc5b8042"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/react_tool/compiled.json": {
+          "bytes": 18330,
+          "sha256": "5570830232d9ac24fca7f2e705a1979fd49a3ded100189d8a5a440fc5442f641"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/react_tool/generated/workload.h": {
+          "bytes": 3936,
+          "sha256": "4cfdc562186984a15e3af81d94c06ea8fa63880ac6997efefd069f892bef7f86"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/react_tool/logs/dynamic-tisa.log": {
+          "bytes": 3546,
+          "sha256": "c8eae197f20491d66dbf788bc116015e61ebf0f6eec07b3d8351c05041c15e12"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/react_tool/logs/dynamic.log": {
+          "bytes": 2188,
+          "sha256": "23e9b151cf17667dfc2acf139dd2bb507f44af94eaf9b5d1303d193ca9d95bd0"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/react_tool/logs/static-tisa.log": {
+          "bytes": 3546,
+          "sha256": "d26ad59ae7eeb6e4bff3e34fee73c506d433b349c5abc4c6c53adcaa3ff409f0"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/react_tool/logs/static.log": {
+          "bytes": 2188,
+          "sha256": "ffc2aa7c2d52d08ba81b141ca3801bf8370bc434cbd17445fbbf4b0f4512df57"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/react_tool/pipeline.json": {
+          "bytes": 6908,
+          "sha256": "842c20a6cf0fbd3feae1537c5b7031a709c850ce594fa5aafc45f11d6918de70"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/react_tool/software/workload.riscv": {
+          "bytes": 102912,
+          "sha256": "fe2b358d3571ea74d30aabc8348aec0325501fecb187e2c049ee2b11af70b669"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/react_tool/system-trace.jsonl": {
+          "bytes": 72978,
+          "sha256": "a95b142bc76aedf848f4e0f830f727a38dfde8fdde92dc12e04eef93b8a03fe8"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/react_tool/system.json": {
+          "bytes": 36209,
+          "sha256": "9b6149ff8283a60ec666cf0159e528cbb4ca06a4ab361cd643ff0f88598d93d8"
+        }
+      },
+      "finished_ns": 1787801650019799104,
+      "name": "workload_react_tool",
+      "output_root": "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/react_tool",
+      "pass": true,
+      "result_summary": {
+        "failing": 0,
+        "pass": true,
+        "passing": 4,
+        "serial_order": true,
+        "stages": 4,
+        "system_executed": true
+      },
+      "started_ns": 1787801541004918884,
+      "wall_time_s": 109.01488022
+    },
+    {
+      "artifacts": {
+        "artifacts/parameterized_reproduction/run_032/workloads/planner_debate/application.json": {
+          "bytes": 23950,
+          "sha256": "a1bb31480cff25241a1255569d048d983b93b927efdd5cff2867691653303dce"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/planner_debate/compiled.json": {
+          "bytes": 31299,
+          "sha256": "2c5aec93fee81613b715d9d5b816fd92f90fd7f19c8fd0d3184a2136141c74ab"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/planner_debate/generated/workload.h": {
+          "bytes": 6079,
+          "sha256": "413a6a32f14b13fcc0139ec8e6213b37b1d1c5b0fbc316e0dc954031780d1c82"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/planner_debate/logs/dynamic-tisa.log": {
+          "bytes": 8865,
+          "sha256": "0f316cafa7b1b2a5a253d30677ad6147c90739a59abd5d6815c8e441dfd4845f"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/planner_debate/logs/dynamic.log": {
+          "bytes": 3869,
+          "sha256": "a40876ef16dc42381f7ae49a2f291a3c5886d3927c340486b283e47d1efc1354"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/planner_debate/logs/static-tisa.log": {
+          "bytes": 8865,
+          "sha256": "b32fa31d9ebb4d9df435a246422e3dfebed01ff829a17c663e7eaa6544e90fea"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/planner_debate/logs/static.log": {
+          "bytes": 3871,
+          "sha256": "355eb70887de5af8e1e822b71bdc28e784b103125583b55ce3995290ab0df85c"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/planner_debate/pipeline.json": {
+          "bytes": 7001,
+          "sha256": "fc99e37efe9c35952ae685a1505429f087a27fa5d7a1d317eeadc99ce69102f2"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/planner_debate/software/workload.riscv": {
+          "bytes": 103128,
+          "sha256": "4ca235c505a2877b1e3e857673368a92b66041379b65508bd9663d293437b851"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/planner_debate/system-trace.jsonl": {
+          "bytes": 181120,
+          "sha256": "34134bdfc629e4784da6141f9dd670865146a2133b8b770e948d19f286db1dcb"
+        },
+        "artifacts/parameterized_reproduction/run_032/workloads/planner_debate/system.json": {
+          "bytes": 71778,
+          "sha256": "dd08230b7a99e748c2d228d4d0dfc2cc70d73d2502b2fe23ae195f4882d3d022"
+        }
+      },
+      "finished_ns": 1787801800578051147,
+      "name": "workload_planner_debate",
+      "output_root": "/workspace/AgentSys/artifacts/parameterized_reproduction/run_032/workloads/planner_debate",
+      "pass": true,
+      "result_summary": {
+        "failing": 0,
+        "pass": true,
+        "passing": 4,
+        "serial_order": true,
+        "stages": 4,
+        "system_executed": true
+      },
+      "started_ns": 1787801650024261882,
+      "wall_time_s": 150.553789265
+    }
+  ],
+  "summary": {
+    "executed": 4,
+    "failing": 0,
+    "pass": true,
+    "passing": 4,
+    "serial_order": true,
+    "stages": 4
+  },
+  "workload_summaries": {
+    "planner_debate": {
+      "failing": 0,
+      "gates": 19,
+      "pass": true,
+      "passing": 19
+    },
+    "react_moa_mcts": {
+      "failing": 0,
+      "gates": 21,
+      "pass": true,
+      "passing": 21
+    },
+    "react_tool": {
+      "failing": 0,
+      "gates": 18,
+      "pass": true,
+      "passing": 18
+    }
+  }
+}

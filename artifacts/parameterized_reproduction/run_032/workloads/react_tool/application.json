@@ -1,0 +1,683 @@
+{
+  "agentix_result": {
+    "anti_starvation_promotions": 0,
+    "call_completion": {
+      "answer": 9,
+      "lookup": 5,
+      "plan": 3
+    },
+    "makespan": 9,
+    "policy": "atlas",
+    "program_completion": {
+      "assistant": 9
+    },
+    "program_wait": {
+      "assistant": 1
+    },
+    "slices": [
+      {
+        "call_id": "plan",
+        "end": 1,
+        "inherited_service": 0,
+        "lane": 0,
+        "program_id": "assistant",
+        "queue_level": 0,
+        "start": 0
+      },
+      {
+        "call_id": "plan",
+        "end": 2,
+        "inherited_service": 0,
+        "lane": 0,
+        "program_id": "assistant",
+        "queue_level": 1,
+        "start": 1
+      },
+      {
+        "call_id": "plan",
+        "end": 3,
+        "inherited_service": 0,
+        "lane": 0,
+        "program_id": "assistant",
+        "queue_level": 1,
+        "start": 2
+      },
+      {
+        "call_id": "lookup",
+        "end": 5,
+        "inherited_service": 3,
+        "lane": 0,
+        "program_id": "assistant",
+        "queue_level": 2,
+        "start": 4
+      },
+      {
+        "call_id": "answer",
+        "end": 6,
+        "inherited_service": 4,
+        "lane": 0,
+        "program_id": "assistant",
+        "queue_level": 2,
+        "start": 5
+      },
+      {
+        "call_id": "answer",
+        "end": 7,
+        "inherited_service": 4,
+        "lane": 0,
+        "program_id": "assistant",
+        "queue_level": 2,
+        "start": 6
+      },
+      {
+        "call_id": "answer",
+        "end": 8,
+        "inherited_service": 4,
+        "lane": 0,
+        "program_id": "assistant",
+        "queue_level": 2,
+        "start": 7
+      },
+      {
+        "call_id": "answer",
+        "end": 9,
+        "inherited_service": 4,
+        "lane": 0,
+        "program_id": "assistant",
+        "queue_level": 2,
+        "start": 8
+      }
+    ],
+    "total_call_wait": 0,
+    "total_wait": 1
+  },
+  "application": "react_tool",
+  "calls": [
+    {
+      "call_id": "plan",
+      "deps": [],
+      "flow_binding": "npu_prefill+igpu_reactive_decode",
+      "index": 0,
+      "input_tokens": 192,
+      "kind": "llm",
+      "model_profile": "qwen3_1_7b",
+      "output_digest": "c61f450fb0b67498d11366847ca85fd13ecd08317e32cd34f01b9605ab80a627",
+      "output_tokens": 48,
+      "priority": 0,
+      "program_code": 0,
+      "program_id": "assistant",
+      "scheduled_step": 0,
+      "tool_cycles": 0,
+      "tool_kind": null
+    },
+    {
+      "call_id": "lookup",
+      "deps": [
+        "plan"
+      ],
+      "flow_binding": "rocket_cpu_tool",
+      "index": 1,
+      "input_tokens": 32,
+      "kind": "tool",
+      "model_profile": null,
+      "output_digest": "d78949e03206657f59cd6d8c5ccb25aaeffe4f4bc8bb1e0b05748048984b5537",
+      "output_tokens": 8,
+      "priority": 0,
+      "program_code": 0,
+      "program_id": "assistant",
+      "scheduled_step": 4,
+      "tool_cycles": 128,
+      "tool_kind": "deterministic_lookup"
+    },
+    {
+      "call_id": "answer",
+      "deps": [
+        "lookup"
+      ],
+      "flow_binding": "npu_prefill+igpu_reactive_decode",
+      "index": 2,
+      "input_tokens": 224,
+      "kind": "llm",
+      "model_profile": "qwen3_1_7b",
+      "output_digest": "cf0a8f8e8713d7fc13db4f90d311ca5b823bbaf9b4365664db15e020f1bcdf7c",
+      "output_tokens": 64,
+      "priority": 0,
+      "program_code": 0,
+      "program_id": "assistant",
+      "scheduled_step": 5,
+      "tool_cycles": 0,
+      "tool_kind": null
+    }
+  ],
+  "classification": "manifest_driven_executed_agent_application",
+  "events": [
+    {
+      "call_id": null,
+      "details": {
+        "priority": 0
+      },
+      "event": "program_start",
+      "layer": "application",
+      "logical_time": 0,
+      "program_id": "assistant"
+    },
+    {
+      "call_id": "plan",
+      "details": {
+        "deps": [],
+        "thread": "main"
+      },
+      "event": "call_release",
+      "layer": "framework",
+      "logical_time": 0,
+      "program_id": "assistant"
+    },
+    {
+      "call_id": "plan",
+      "details": {
+        "binding": "npu_prefill+igpu_reactive_decode",
+        "input_tokens": 192,
+        "model_profile": "qwen3_1_7b"
+      },
+      "event": "flow_bind",
+      "layer": "framework",
+      "logical_time": 0,
+      "program_id": "assistant"
+    },
+    {
+      "call_id": "plan",
+      "details": {
+        "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+        "model_profile": "qwen3_1_7b",
+        "selected_operators": 8
+      },
+      "event": "mllm_lower",
+      "layer": "framework",
+      "logical_time": 0,
+      "program_id": "assistant"
+    },
+    {
+      "call_id": "plan",
+      "details": {
+        "output_digest": "c61f450fb0b67498d11366847ca85fd13ecd08317e32cd34f01b9605ab80a627"
+      },
+      "event": "call_complete",
+      "layer": "framework",
+      "logical_time": 3,
+      "program_id": "assistant"
+    },
+    {
+      "call_id": "lookup",
+      "details": {
+        "deps": [
+          "plan"
+        ],
+        "thread": "main"
+      },
+      "event": "call_release",
+      "layer": "framework",
+      "logical_time": 4,
+      "program_id": "assistant"
+    },
+    {
+      "call_id": "lookup",
+      "details": {
+        "cycles": 128,
+        "tool": "deterministic_lookup"
+      },
+      "event": "tool_execute",
+      "layer": "framework",
+      "logical_time": 4,
+      "program_id": "assistant"
+    },
+    {
+      "call_id": "lookup",
+      "details": {
+        "output_digest": "d78949e03206657f59cd6d8c5ccb25aaeffe4f4bc8bb1e0b05748048984b5537"
+      },
+      "event": "call_complete",
+      "layer": "framework",
+      "logical_time": 5,
+      "program_id": "assistant"
+    },
+    {
+      "call_id": "answer",
+      "details": {
+        "deps": [
+          "lookup"
+        ],
+        "thread": "main"
+      },
+      "event": "call_release",
+      "layer": "framework",
+      "logical_time": 5,
+      "program_id": "assistant"
+    },
+    {
+      "call_id": "answer",
+      "details": {
+        "binding": "npu_prefill+igpu_reactive_decode",
+        "input_tokens": 224,
+        "model_profile": "qwen3_1_7b"
+      },
+      "event": "flow_bind",
+      "layer": "framework",
+      "logical_time": 5,
+      "program_id": "assistant"
+    },
+    {
+      "call_id": "answer",
+      "details": {
+        "model_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+        "model_profile": "qwen3_1_7b",
+        "selected_operators": 8
+      },
+      "event": "mllm_lower",
+      "layer": "framework",
+      "logical_time": 5,
+      "program_id": "assistant"
+    },
+    {
+      "call_id": null,
+      "details": {
+        "calls": 3
+      },
+      "event": "program_complete",
+      "layer": "application",
+      "logical_time": 9,
+      "program_id": "assistant"
+    },
+    {
+      "call_id": "answer",
+      "details": {
+        "output_digest": "cf0a8f8e8713d7fc13db4f90d311ca5b823bbaf9b4365664db15e020f1bcdf7c"
+      },
+      "event": "call_complete",
+      "layer": "framework",
+      "logical_time": 9,
+      "program_id": "assistant"
+    }
+  ],
+  "models": {
+    "qwen3_1_7b": {
+      "duration_divisors": {
+        "de": 12.8,
+        "me": 12.8,
+        "ve": 12.8
+      },
+      "framework_mir": "/workspace/AgentSys/integrations/mllm/fixtures/transformer_slice.mir",
+      "framework_mir_sha256": "4f392102a90490100a66db3fed0cf4695fbe6be554c8fdd97ca1b905feefb318",
+      "framework_operator_digest": "4277de5d4a001a77f06d6c33ec75865b4831a4b8ed54157d4d727c789cba52cd",
+      "framework_operators": [
+        {
+          "deps": [],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "me",
+          "index": 0,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "0"
+            }
+          ],
+          "op_type": "LinearOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "1"
+            }
+          ],
+          "source_line": 4
+        },
+        {
+          "deps": [],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "me",
+          "index": 1,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "0"
+            }
+          ],
+          "op_type": "LinearOp",
+          "outputs": [
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                1024
+              ],
+              "ssa": "2"
+            }
+          ],
+          "source_line": 5
+        },
+        {
+          "deps": [
+            0
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "de",
+          "index": 2,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "1"
+            }
+          ],
+          "op_type": "CastTypeOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "Float16",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "3"
+            }
+          ],
+          "source_line": 6
+        },
+        {
+          "deps": [
+            1
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "ve",
+          "index": 3,
+          "inputs": [
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                1024
+              ],
+              "ssa": "2"
+            }
+          ],
+          "op_type": "RMSNormOp",
+          "outputs": [
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                1024
+              ],
+              "ssa": "4"
+            }
+          ],
+          "source_line": 7
+        },
+        {
+          "deps": [
+            2,
+            3
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "ve",
+          "index": 4,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "Float16",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "3"
+            },
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                1024
+              ],
+              "ssa": "4"
+            }
+          ],
+          "op_type": "AddOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "5"
+            }
+          ],
+          "source_line": 8
+        },
+        {
+          "deps": [
+            3
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "de",
+          "index": 5,
+          "inputs": [
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                1024
+              ],
+              "ssa": "4"
+            }
+          ],
+          "op_type": "TransposeOp",
+          "outputs": [
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                16,
+                64,
+                32
+              ],
+              "ssa": "6"
+            }
+          ],
+          "source_line": 9
+        },
+        {
+          "deps": [
+            4,
+            5
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "me",
+          "index": 6,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "5"
+            },
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                16,
+                64,
+                32
+              ],
+              "ssa": "6"
+            }
+          ],
+          "op_type": "MatMulOp",
+          "outputs": [
+            {
+              "bytes": 32768,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                16,
+                32,
+                32
+              ],
+              "ssa": "7"
+            }
+          ],
+          "source_line": 10
+        },
+        {
+          "deps": [
+            6
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "ve",
+          "index": 7,
+          "inputs": [
+            {
+              "bytes": 32768,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                16,
+                32,
+                32
+              ],
+              "ssa": "7"
+            }
+          ],
+          "op_type": "SoftmaxOp",
+          "outputs": [
+            {
+              "bytes": 32768,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                16,
+                32,
+                32
+              ],
+              "ssa": "8"
+            }
+          ],
+          "source_line": 11
+        }
+      ],
+      "hardware_mir": "/workspace/AgentSys/.references/mllm/examples/qwen3_qnn_aot/qwen3_qnn_aot_1.7B.mir",
+      "hardware_mir_sha256": "9fdd051818320885ad2934f997878609de53f1c24db812adf5f3eec2d90d3593",
+      "selected_source_indices": [
+        6,
+        7,
+        8,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "stages": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1
+      ]
+    }
+  },
+  "output_digest": "b071d922518ebdc998a247abe23e6f6cfec3db71f30130bf8cd419a4b1eb1271",
+  "run_id": "run_032",
+  "schema_version": 1,
+  "summary": {
+    "calls": 3,
+    "events": 13,
+    "llm_calls": 2,
+    "pass": true,
+    "programs": 1,
+    "tool_calls": 1
+  },
+  "workload": {
+    "agentix": {
+      "batch_size": 1,
+      "policy": "atlas"
+    },
+    "agentxpu": {
+      "heg_igpu_prefill_share": 0.5,
+      "heg_prefill_chunk_tokens": 8,
+      "max_decode_batch": 8,
+      "max_reactive_decode_batch": 2
+    },
+    "hardware": {
+      "dispatch_latency": 7,
+      "hptpe_cols": 16,
+      "hptpe_rows": 16,
+      "input_beats": 4,
+      "output_beats": 2,
+      "profile": "rocket_tisa8_hptpe16x16",
+      "tisa_window": 8
+    },
+    "name": "react_tool",
+    "schema_version": 1,
+    "sha256": "ffcc75abd7f6dc53c5329a1e65963d903cece2551d52e63640710de9893ca220",
+    "source": "/workspace/AgentSys/workloads/react_tool.json",
+    "summary": {
+      "calls": 3,
+      "llm_calls": 2,
+      "models": 1,
+      "programs": 1,
+      "tool_calls": 1
+    }
+  }
+}

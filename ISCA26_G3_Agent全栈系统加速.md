@@ -4,7 +4,7 @@
 
 项目目录：`/workspace/AgentSys`
 
-状态：参数化扩展已实现并通过 run 030/031；run 032 正在执行最终串行重放与证书签发。结果边界见“证据分级与限制”。
+状态：已完成。run 032 通过4/4严格串行阶段和15/15参数化系统证书要求。结果边界见“证据分级与限制”。
 
 ## 摘要
 
@@ -562,3 +562,5 @@ AgentSys 已从方向草案转化为可执行、可重放、可审计的修订�
 最终架构中 CPU 是普通 RISC-V，活动链为 mllm → Agent.xpu → TISA → HPTPE；ATX 只保留历史证据。run 028 已用 `agentsys-reproduce-revised` 对冻结机制完成八阶段串行重放：8/8 stages、12/12 toolchain gates、15/15 requirements，fresh tests/lint 全部通过，模型和阈值均未修改。
 
 H14消除了该结论只适用于一个固定trace的限制。上层现在可直接提交版本化Agent manifest，系统会执行Agentix、mllm/Agent.xpu lowering、生成独立RISC-V ELF并在同一Rocket+HPTPE模拟器上得到完整结果。run 030的三种DAG和run 031的五层参数matrix共同证明：负载可切换、配置实际生效、硬件工作随负载缩放，并且相同论文配置下68个性能点全部保持在10%以内。
+
+run 032用`agentsys-reproduce-parameterized`重新串行执行五层matrix和三种Agent负载，4/4 stages全部通过，随后fresh pytest、专用file-trace、legacy lint与完整HPTPE/RoCC lint签发15/15证书。因此“负载可切换”和“每层参数化回归”均有新鲜的端到端证据，而非仅依赖run 030/031旧artifact。
