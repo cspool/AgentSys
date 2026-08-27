@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "classification": "pinned_active_mlx_cpu_source_and_evidence_contract",
+  "repository": "https://github.com/cspool/MLX_dev.git",
+  "active_path": ".references/MLX_dev_active",
+  "active_commit": "2a457dfaf8faf9bcda72f92c5d66e9a6a9b3b50f",
+  "historical_path": ".references/MLX_dev_sys",
+  "historical_commit": "b3a6d59f2ed634ea6181f5a29f3fa96281b1f384",
+  "chipyard": {
+    "path": "/root/chipyard",
+    "commit": "b5d013190d637e634113cb5179f8c8885df1945a"
+  },
+  "core_sources": [
+    "rtl/mlx/mlx_fp16.sv",
+    "rtl/mlx/mlx_fu.sv",
+    "rtl/mlx/mlx_register_file.sv",
+    "rtl/mlx/mlx_tag_buffer.sv",
+    "rtl/mlx/mlx_config_network.sv",
+    "rtl/mlx/mlx_data_network.sv",
+    "rtl/mlx/mlx_control_logic.sv",
+    "rtl/mlx/mlx_pe_top.sv",
+    "rtl/mlx/mlx_array_4x4.sv",
+    "rtl/mlx/mlx_cycle_model.sv",
+    "rtl/mlx/mlx_rocc_controller.sv",
+    "system_sim/chipyard/MLXRoCC.scala",
+    "system_sim/software/mlx_runtime.h",
+    "system_sim/software/mlx_system_test.c",
+    "system_sim/workloads/bsmm.yaml",
+    "system_sim/workloads/fft_cmp.yaml",
+    "system_sim/workloads/swa.yaml",
+    "system_sim/workloads/transformer_block.yaml",
+    "scripts/build_mlx_system_workloads.py",
+    "scripts/run_mlx_system_backends.py",
+    "scripts/run_mlx_chipyard.py"
+  ],
+  "frozen_evidence": {
+    "standalone": "artifacts/results/mlx-system-backends-run210.json",
+    "chipyard": "artifacts/results/mlx-chipyard-system-run212.json",
+    "core_claims": "artifacts/results/core-architecture-claims-run159.json",
+    "paper_e2e": "artifacts/results/paper-aligned-e2e-certificate-run181.json",
+    "full_paper": "artifacts/results/full-paper-completion-certificate-run042.json"
+  },
+  "paper_regression": {
+    "classification": "target_informed_not_independent_validation",
+    "registered_rows": 5,
+    "limit": 0.10
+  }
+}

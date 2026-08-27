@@ -26,6 +26,8 @@ clone_pinned() {
 
 clone_pinned MLX_dev_sys https://github.com/cspool/MLX_dev.git \
   b3a6d59f2ed634ea6181f5a29f3fa96281b1f384
+clone_pinned MLX_dev_active https://github.com/cspool/MLX_dev.git \
+  2a457dfaf8faf9bcda72f92c5d66e9a6a9b3b50f
 clone_pinned LLM.xpu https://github.com/xinming-wei/LLM.xpu.git \
   689be270aa29bb88447e3867cd97d85a55f454d5
 clone_pinned HPTPE https://github.com/wqzustc/High-Performance-Tensor-Processing-Engines.git \

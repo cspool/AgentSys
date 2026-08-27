@@ -27,6 +27,7 @@ agentsys-hybrid-runtime = "agentsys.hybrid_runtime:main"
 agentsys-reproduce-hybrid = "agentsys.hybrid_reproduce:main"
 agentsys-hybrid-profile-audit = "agentsys.hybrid_profile_audit:main"
 agentsys-certificate-hybrid = "agentsys.hybrid_certificate:main"
+agentsys-mlx-reference-audit = "agentsys.mlx_reference:main"
 
 [dependency-groups]
 dev = [

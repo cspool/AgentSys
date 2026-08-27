@@ -156,7 +156,7 @@ hypotheses:
     priority: high
   - id: H16
     statement: "The current MLX_dev sys source and evidence can be pinned and audited as an active MLX+ordinary-Rocket basis without inheriting its unsupported full-paper reproduction claims."
-    status: pending
+    status: supported
     motivation: "Rebase the final hardware from HPTPE/GPU to MLX using authoritative source and explicit evidence boundaries."
     parent: null
     priority: high
@@ -183,7 +183,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 41
+  total_runs: 42
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -472,11 +472,18 @@ experiments:
       wall_time_min: 1.2
       change_summary: "Profiled native 13/13, Nsight 9/9 and five fresh checks (90 pytest plus framework/RTL) feed a 22/22 certificate with full_goal_complete=true; all 68 endpoints remain <=10%."
       timestamp: "2026-08-27"
+    - run_id: "run_042"
+      hypothesis: "H16/active MLX+CPU source and evidence basis"
+      metric_value: 0.058450960425074396
+      delta: null
+      wall_time_min: 0.8
+      change_summary: "Current MLX sys/Chipyard and 21 sources pass 10/10; standalone/Chipyard/core claims qualify, five target-informed rows are <=5.85%, while negative 1/18 strict-full-paper scope remains explicit."
+      timestamp: "2026-08-27"
 
 outer_loop:
-  cycle: 30
-  last_direction: conclude
-  last_reflection: "Run 041 closes H15 with profiler-backed native execution, full artifact/hash audit and fresh framework/RTL checks. The final system keeps local measurement and paper-platform regression explicitly separate."
+  cycle: 31
+  last_direction: deepen
+  last_reflection: "Run 042 qualifies current MLX source without inheriting unsupported claims. Next rebuild cycle/RTL/Rocket paths locally, then implement Agent-specific spatial lowering and CPU execution."
 
 workspace:
   findings: "findings.md"
