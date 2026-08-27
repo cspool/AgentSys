@@ -23,6 +23,9 @@ nvcc_path=${CUDACXX:-}
 if [[ -z ${nvcc_path} ]]; then
   nvcc_path=$(command -v nvcc || true)
 fi
+if [[ -z ${nvcc_path} && -x ${cuda_prefix}/bin/nvcc ]]; then
+  nvcc_path="${cuda_prefix}/bin/nvcc"
+fi
 if [[ -z ${nvcc_path} || ! -x ${nvcc_path} ]]; then
   mkdir -p "$(dirname "${micromamba}")" "${project_root}/artifacts/gpu_runtime"
   if [[ ! -x ${micromamba} ]]; then
@@ -73,7 +76,7 @@ env \
     -DHWY_ENABLE_CONTRIB=OFF \
     -DMLLM_CPU_BACKEND_COMPILE_OPTIONS=-march=native \
     -DMLLM_KERNEL_USE_THREADS=ON \
-    -DMLLM_KERNEL_THREADS_VENDOR_OPENMP=ON
+    -DMLLM_KERNEL_THREADS_VENDOR_OPENMP=OFF
 
 for target in MllmCUDABackendCudaOps MllmCUDABackend Mllm-Test-CUDA-DeviceInfo; do
   cmake --build "${mllm_root}/build-x86-cuda" --target "${target}"

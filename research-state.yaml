@@ -152,7 +152,7 @@ experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
   baseline_value: 0.7702196725281117
   best_value: 0.08333333333333333
-  total_runs: 36
+  total_runs: 37
   trajectory:
     - run_id: "run_001"
       hypothesis: "H1/H2/H3"
@@ -406,11 +406,18 @@ experiments:
       wall_time_min: 1.0
       change_summary: "Tools-on fixes configure and nvcc links the empty CUDA-ops library, but missing Clang libomp blocks MllmRT and therefore CUDA backend/device/link evidence; 9/13 pass."
       timestamp: "2026-08-27"
+    - run_id: "run_037"
+      hypothesis: "H15.2/mllm CUDA link recovery"
+      metric_value: 0.3076923076923077
+      delta: 0.0
+      wall_time_min: 1.0
+      change_summary: "OpenMP-off links MllmRT; CUDA backend stops at a Conda NVML-stub search-path mismatch, leaving target/device/link gates false and 9/13 passing."
+      timestamp: "2026-08-27"
 
 outer_loop:
-  cycle: 25
+  cycle: 26
   last_direction: recover
-  last_reflection: "Run 036 proves CUDA object compilation and isolates the remaining link block to mllm's optional Clang OpenMP fallback. Disable that vendor while retaining mllm's internal thread pool and all CUDA pins."
+  last_reflection: "Run 037 links the core and isolates the remaining failure to mllm's CUDA-stub search path versus the NVIDIA Conda layout. Add only the existing target stub directory."
 
 workspace:
   findings: "findings.md"

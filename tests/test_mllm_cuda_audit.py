@@ -97,3 +97,19 @@ def test_run036_builds_cuda_objects_and_retains_openmp_link_failure() -> None:
     )
     assert "Linking CUDA shared library bin/libMllmCUDABackendCudaOps.so" in log
     assert "cannot find -lomp" in log
+
+
+def test_run037_links_core_and_retains_conda_nvml_stub_path_failure() -> None:
+    result = json.loads(
+        (PROJECT_ROOT / "artifacts/results/mllm-cuda-run_037.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    assert result["summary"]["passing"] == 9
+    assert result["build"]["targets"]["cuda_ops"]["exists"]
+    log = (PROJECT_ROOT / "artifacts/logs/mllm-cuda-setup-run_037.log").read_text(
+        encoding="utf-8"
+    )
+    assert "Linking CXX shared library bin/libMllmRT.so" in log
+    assert "cannot find -lnvidia-ml" in log
+    assert (PROJECT_ROOT / ".cuda-toolkit/targets/x86_64-linux/lib/stubs/libnvidia-ml.so").is_file()
