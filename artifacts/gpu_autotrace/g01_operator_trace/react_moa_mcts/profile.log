@@ -1,0 +1,18 @@
+{
+  "expected_operator_events": 1600,
+  "operator_events": 1600,
+  "total_events": 2620
+}
+{
+  "finished": 2754376915925,
+  "measured_wall_ms": 2701.198369,
+  "started": 2750451083504,
+  "warmup_done": 2751675717556,
+  "warmup_wall_ms": 1224.634052
+}
+/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_moa_mcts/native/run_metadata.json
+Collecting data...
+Generating '/tmp/nsys-root/nsys-report-ac4b.qdstrm'
+[1/1] [0%                          ] react_moa_mcts_single_gpu.nsys-rep[1/1] [0%                          ] react_moa_mcts_single_gpu.nsys-rep[1/1] [5%                          ] react_moa_mcts_single_gpu.nsys-rep[1/1] [9%                          ] react_moa_mcts_single_gpu.nsys-rep[1/1] [14%                         ] react_moa_mcts_single_gpu.nsys-rep[1/1] [==19%                       ] react_moa_mcts_single_gpu.nsys-rep[1/1] [==20%                       ] react_moa_mcts_single_gpu.nsys-rep[1/1] [=====================87%    ] react_moa_mcts_single_gpu.nsys-rep[1/1] [======================90%   ] react_moa_mcts_single_gpu.nsys-rep[1/1] [=======================96%  ] react_moa_mcts_single_gpu.nsys-rep[1/1] [========================98% ] react_moa_mcts_single_gpu.nsys-rep[1/1] [========================100%] react_moa_mcts_single_gpu.nsys-rep[1/1] [========================100%] react_moa_mcts_single_gpu.nsys-rep[1/1] [========================100%] react_moa_mcts_single_gpu.nsys-rep
+Generated:
+	/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_moa_mcts/react_moa_mcts_single_gpu.nsys-rep

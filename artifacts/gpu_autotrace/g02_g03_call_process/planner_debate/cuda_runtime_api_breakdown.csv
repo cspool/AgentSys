@@ -1,0 +1,10 @@
+workload,api,calls,ns_total,share_of_wall_pct
+planner_debate,cudaEventSynchronize,1000,25453168,1.93
+planner_debate,cudaLaunchKernel,2100,20355563,1.54
+planner_debate,cudaEventRecord,2200,10843318,0.82
+planner_debate,cudaEventCreateWithFlags,2000,4368764,0.33
+planner_debate,cudaMemcpyAsync,200,3542135,0.27
+planner_debate,cudaEventDestroy,2000,2528616,0.19
+planner_debate,cudaEventQuery,200,916445,0.07
+planner_debate,cudaStreamIsCapturing,300,283664,0.02
+planner_debate,cudaDeviceSynchronize,20,206053,0.02

@@ -1,0 +1,34 @@
+{
+  "coverage": {
+    "keys": 45,
+    "missing_template": 0,
+    "nearest_size_fallback": 0
+  },
+  "goal": "G05",
+  "instance_count_mismatch": [],
+  "lineage": "h22-gpu-autotrace",
+  "max_process_abs_err_pct": 1.0,
+  "pass": true,
+  "per_iteration": {
+    "abs_err_pct": -0.07,
+    "conservation_err_ns": 0.07500076293945312,
+    "gpu_err_pct": -0.31,
+    "observed_gpu_ns": 3323383837.625,
+    "observed_wall_ns": 6628561922.625,
+    "scale_to_conserve": 1.0006641133084495,
+    "template_absolute_host_ns": 6624162728.0,
+    "template_gpu_ns": 3313135513.5,
+    "template_scaled_sum_ns": 6628561922.700001
+  },
+  "representative": [
+    "react_tool_L",
+    "planner_debate_L"
+  ],
+  "schema_version": 1,
+  "target": "react_moa_mcts_x3_L",
+  "upstream": {
+    "template_rows": 45,
+    "w01_sqlite_sha256": "d52546eef3fa177403fda27a4da7a38b97aaa83eb6b3c2a8a16af1650dc9b04c",
+    "w02_summary_pass": true
+  }
+}

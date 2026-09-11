@@ -1,0 +1,7 @@
+workload,op_type,instances,kernel_launches,gpu_ns_total,gpu_share_pct,nvtx_cpu_ns_total,wall_share_pct,gpu_ns_per_instance
+react_moa_mcts_x3_L,LinearOp,720,23040,17375384552.0,65.35,17490508356.0,32.98,24132478.5
+react_moa_mcts_x3_L,RMSNormOp,480,107520,6786648105.0,25.53,6903717022.0,13.02,14138850.2
+react_moa_mcts_x3_L,TransposeOp,240,7680,1634155326.0,6.15,1665680274.0,3.14,6808980.5
+react_moa_mcts_x3_L,call_overhead,240,480,655418320.0,2.47,0.0,0.0,2730909.7
+react_moa_mcts_x3_L,AddOp,240,7680,135464398.0,0.51,164547592.0,0.31,564435.0
+react_moa_mcts_x3_L,ViewOp,240,0,0.0,0.0,37665310.0,0.07,0.0

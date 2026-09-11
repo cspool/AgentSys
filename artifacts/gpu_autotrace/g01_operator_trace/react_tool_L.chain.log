@@ -1,0 +1,31 @@
+{
+  "expected_operator_events": 128,
+  "operator_events": 128,
+  "total_events": 216
+}
+{
+  "finished": 3678937771859,
+  "measured_wall_ms": 1915.91013,
+  "started": 3675769695544,
+  "warmup_done": 3677021861729,
+  "warmup_wall_ms": 1252.166185
+}
+/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_tool_L/native/run_metadata.json
+Collecting data...
+Generating '/tmp/nsys-root/nsys-report-8fbd.qdstrm'
+[1/1] [0%                          ] react_tool_L_single_gpu.nsys-rep[1/1] [0%                          ] react_tool_L_single_gpu.nsys-rep[1/1] [5%                          ] react_tool_L_single_gpu.nsys-rep[1/1] [11%                         ] react_tool_L_single_gpu.nsys-rep[1/1] [==18%                       ] react_tool_L_single_gpu.nsys-rep[1/1] [==19%                       ] react_tool_L_single_gpu.nsys-rep[1/1] [==20%                       ] react_tool_L_single_gpu.nsys-rep[1/1] [======================92%   ] react_tool_L_single_gpu.nsys-rep[1/1] [=======================96%  ] react_tool_L_single_gpu.nsys-rep[1/1] [========================98% ] react_tool_L_single_gpu.nsys-rep[1/1] [========================100%] react_tool_L_single_gpu.nsys-rep[1/1] [========================100%] react_tool_L_single_gpu.nsys-rep[1/1] [========================100%] react_tool_L_single_gpu.nsys-rep
+Generated:
+	/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_tool_L/react_tool_L_single_gpu.nsys-rep
+Generating SQLite file /workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_tool_L/react_tool_L_single_gpu.sqlite from /workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_tool_L/react_tool_L_single_gpu.nsys-rep
+Processing [/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_tool_L/react_tool_L_single_gpu.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/cuda_gpu_kern_sum.py] to [/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_tool_L/nsight-stats_cuda_gpu_kern_sum.csv]... PROCESSED
+
+Generating SQLite file /workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_tool_L/react_tool_L_single_gpu.sqlite from /workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_tool_L/react_tool_L_single_gpu.nsys-rep
+Processing [/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_tool_L/react_tool_L_single_gpu.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/cuda_api_sum.py] to [/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_tool_L/nsight-stats_cuda_api_sum.csv]... PROCESSED
+
+Generating SQLite file /workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_tool_L/react_tool_L_single_gpu.sqlite from /workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_tool_L/react_tool_L_single_gpu.nsys-rep
+Processing [/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_tool_L/react_tool_L_single_gpu.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/cuda_gpu_mem_time_sum.py] to [/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_tool_L/nsight-stats_cuda_gpu_mem_time_sum.csv]... PROCESSED
+
+Generating SQLite file /workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_tool_L/react_tool_L_single_gpu.sqlite from /workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_tool_L/react_tool_L_single_gpu.nsys-rep
+Processing [/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_tool_L/react_tool_L_single_gpu.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/nvtx_sum.py] to [/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_tool_L/nsight-stats_nvtx_sum.csv]... PROCESSED
+
+w01 complete: /workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_tool_L

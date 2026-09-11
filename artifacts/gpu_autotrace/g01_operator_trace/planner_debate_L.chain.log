@@ -1,0 +1,31 @@
+{
+  "expected_operator_events": 320,
+  "operator_events": 320,
+  "total_events": 528
+}
+{
+  "finished": 3702482356047,
+  "measured_wall_ms": 8621.341587,
+  "started": 3689861427463,
+  "warmup_done": 3693861014460,
+  "warmup_wall_ms": 3999.586997
+}
+/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/planner_debate_L/native/run_metadata.json
+Collecting data...
+Generating '/tmp/nsys-root/nsys-report-3ba9.qdstrm'
+[1/1] [0%                          ] planner_debate_L_single_gpu.nsys-rep[1/1] [0%                          ] planner_debate_L_single_gpu.nsys-rep[1/1] [5%                          ] planner_debate_L_single_gpu.nsys-rep[1/1] [7%                          ] planner_debate_L_single_gpu.nsys-rep[1/1] [10%                         ] planner_debate_L_single_gpu.nsys-rep[1/1] [13%                         ] planner_debate_L_single_gpu.nsys-rep[1/1] [=16%                        ] planner_debate_L_single_gpu.nsys-rep[1/1] [==18%                       ] planner_debate_L_single_gpu.nsys-rep[1/1] [==19%                       ] planner_debate_L_single_gpu.nsys-rep[1/1] [==20%                       ] planner_debate_L_single_gpu.nsys-rep[1/1] [======================92%   ] planner_debate_L_single_gpu.nsys-rep[1/1] [=======================93%  ] planner_debate_L_single_gpu.nsys-rep[1/1] [=======================96%  ] planner_debate_L_single_gpu.nsys-rep[1/1] [========================98% ] planner_debate_L_single_gpu.nsys-rep[1/1] [========================100%] planner_debate_L_single_gpu.nsys-rep[1/1] [========================100%] planner_debate_L_single_gpu.nsys-rep[1/1] [========================100%] planner_debate_L_single_gpu.nsys-rep
+Generated:
+	/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/planner_debate_L/planner_debate_L_single_gpu.nsys-rep
+Generating SQLite file /workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/planner_debate_L/planner_debate_L_single_gpu.sqlite from /workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/planner_debate_L/planner_debate_L_single_gpu.nsys-rep
+Processing [/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/planner_debate_L/planner_debate_L_single_gpu.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/cuda_gpu_kern_sum.py] to [/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/planner_debate_L/nsight-stats_cuda_gpu_kern_sum.csv]... PROCESSED
+
+Generating SQLite file /workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/planner_debate_L/planner_debate_L_single_gpu.sqlite from /workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/planner_debate_L/planner_debate_L_single_gpu.nsys-rep
+Processing [/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/planner_debate_L/planner_debate_L_single_gpu.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/cuda_api_sum.py] to [/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/planner_debate_L/nsight-stats_cuda_api_sum.csv]... PROCESSED
+
+Generating SQLite file /workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/planner_debate_L/planner_debate_L_single_gpu.sqlite from /workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/planner_debate_L/planner_debate_L_single_gpu.nsys-rep
+Processing [/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/planner_debate_L/planner_debate_L_single_gpu.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/cuda_gpu_mem_time_sum.py] to [/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/planner_debate_L/nsight-stats_cuda_gpu_mem_time_sum.csv]... PROCESSED
+
+Generating SQLite file /workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/planner_debate_L/planner_debate_L_single_gpu.sqlite from /workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/planner_debate_L/planner_debate_L_single_gpu.nsys-rep
+Processing [/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/planner_debate_L/planner_debate_L_single_gpu.sqlite] with [/opt/nvidia/nsight-systems/2026.3.1/target-linux-x64/reports/nvtx_sum.py] to [/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/planner_debate_L/nsight-stats_nvtx_sum.csv]... PROCESSED
+
+w01 complete: /workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/planner_debate_L

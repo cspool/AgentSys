@@ -1,0 +1,13 @@
+workload,api,calls,ns_total,share_of_wall_pct
+react_moa_mcts_x3_L,cudaEventSynchronize,2400,24415164387,46.04
+react_moa_mcts_x3_L,cudaLaunchKernel,144096,679096639,1.28
+react_moa_mcts_x3_L,cudaMemsetAsync,18432,64988563,0.12
+react_moa_mcts_x3_L,cudaEventRecord,5280,24121273,0.05
+react_moa_mcts_x3_L,cudaMemcpyAsync,480,11339291,0.02
+react_moa_mcts_x3_L,cudaEventCreateWithFlags,4800,11055511,0.02
+react_moa_mcts_x3_L,cuLaunchKernel,2304,10468535,0.02
+react_moa_mcts_x3_L,cudaEventDestroy,4800,6228870,0.01
+react_moa_mcts_x3_L,cudaEventQuery,480,2266832,0.0
+react_moa_mcts_x3_L,cuKernelGetFunction,2304,1067301,0.0
+react_moa_mcts_x3_L,cudaStreamIsCapturing,720,657169,0.0
+react_moa_mcts_x3_L,cudaDeviceSynchronize,8,78992,0.0

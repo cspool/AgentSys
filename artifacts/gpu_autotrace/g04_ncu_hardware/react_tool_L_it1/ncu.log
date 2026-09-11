@@ -1,0 +1,58 @@
+==PROF== Connected to process 58236 (/home/descfly/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/bin/python3.11)
+==PROF== Profiling "distribution_elementwise_grid..." - 0: 0%....50%....100% - 18 passes
+==PROF== Profiling "vectorized_elementwise_kernel" - 1: 0%....50%....100% - 18 passes
+==PROF== Profiling "unrolled_elementwise_kernel" - 2: 0%....50%....100% - 18 passes
+==PROF== Profiling "vectorized_elementwise_kernel" - 3: 0%....50%....100% - 18 passes
+==PROF== Profiling "reduce_kernel" - 4: 0%....50%....100% - 18 passes
+==PROF== Profiling "vectorized_elementwise_kernel" - 5: 0%....50%....100% - 18 passes
+==PROF== Profiling "vectorized_elementwise_kernel" - 6: 0%....50%....100% - 18 passes
+==PROF== Profiling "elementwise_kernel" - 7: 0%....50%....100% - 18 passes
+==PROF== Profiling "vectorized_elementwise_kernel" - 8: 0%....50%....100% - 18 passes
+==PROF== Profiling "vectorized_elementwise_kernel" - 9: 0%....50%....100% - 18 passes
+==PROF== Profiling "unrolled_elementwise_kernel" - 10: 0%....50%....100% - 18 passes
+==PROF== Profiling "vectorized_elementwise_kernel" - 11: 0%....50%....100% - 18 passes
+==PROF== Profiling "reduce_kernel" - 12: 0%....50%....100% - 18 passes
+==PROF== Profiling "vectorized_elementwise_kernel" - 13: 0%....50%....100% - 18 passes
+==PROF== Profiling "vectorized_elementwise_kernel" - 14: 0%....50%....100% - 18 passes
+==PROF== Profiling "elementwise_kernel" - 15: 0%....50%....100% - 18 passes
+==PROF== Profiling "vectorized_elementwise_kernel" - 16: 0%....50%....100% - 18 passes
+==PROF== Profiling "ampere_fp16_s1688gemm_fp16_64..." - 17: 0%....50%....100% - 18 passes
+==PROF== Profiling "ampere_fp16_s1688gemm_fp16_64..." - 18: 0%....50%....100% - 18 passes
+==PROF== Profiling "ampere_fp16_s1688gemm_fp16_64..." - 19: 0%....50%....100% - 18 passes
+==PROF== Profiling "elementwise_kernel" - 20: 0%....50%....100% - 18 passes
+==PROF== Profiling "distribution_elementwise_grid..." - 21: 0%....50%....100% - 18 passes
+==PROF== Profiling "vectorized_elementwise_kernel" - 22: 0%....50%....100% - 18 passes
+==PROF== Profiling "unrolled_elementwise_kernel" - 23: 0%....50%....100% - 18 passes
+==PROF== Profiling "vectorized_elementwise_kernel" - 24: 0%....50%....100% - 18 passes
+==PROF== Profiling "reduce_kernel" - 25: 0%....50%....100% - 18 passes
+==PROF== Profiling "vectorized_elementwise_kernel" - 26: 0%....50%....100% - 18 passes
+==PROF== Profiling "vectorized_elementwise_kernel" - 27: 0%....50%....100% - 18 passes
+==PROF== Profiling "elementwise_kernel" - 28: 0%....50%....100% - 18 passes
+==PROF== Profiling "vectorized_elementwise_kernel" - 29: 0%....50%....100% - 18 passes
+==PROF== Profiling "vectorized_elementwise_kernel" - 30: 0%....50%....100% - 18 passes
+==PROF== Profiling "unrolled_elementwise_kernel" - 31: 0%....50%....100% - 18 passes
+==PROF== Profiling "vectorized_elementwise_kernel" - 32: 0%....50%....100% - 18 passes
+==PROF== Profiling "reduce_kernel" - 33: 0%....50%....100% - 18 passes
+==PROF== Profiling "vectorized_elementwise_kernel" - 34: 0%....50%....100% - 18 passes
+==PROF== Profiling "vectorized_elementwise_kernel" - 35: 0%....50%....100% - 18 passes
+==PROF== Profiling "elementwise_kernel" - 36: 0%....50%....100% - 18 passes
+==PROF== Profiling "vectorized_elementwise_kernel" - 37: 0%....50%....100% - 18 passes
+==PROF== Profiling "ampere_fp16_s1688gemm_fp16_64..." - 38: 0%....50%....100% - 18 passes
+==PROF== Profiling "ampere_fp16_s1688gemm_fp16_64..." - 39: 0%....50%....100% - 18 passes
+==PROF== Profiling "ampere_fp16_s1688gemm_fp16_64..." - 40: 0%....50%....100% - 18 passes
+==PROF== Profiling "elementwise_kernel" - 41: 0%....50%....100% - 18 passes
+{
+  "expected_operator_events": 16,
+  "operator_events": 16,
+  "total_events": 27
+}
+{
+  "finished": 3871054112334,
+  "measured_wall_ms": 28454.848842,
+  "started": 3841339624036,
+  "warmup_done": 3842599263492,
+  "warmup_wall_ms": 1259.639456
+}
+/workspace/AgentSys/artifacts/gpu_autotrace/g04_ncu_hardware/react_tool_L_it1/native/run_metadata.json
+==PROF== Disconnected from process 58236
+==PROF== Report: /workspace/AgentSys/artifacts/gpu_autotrace/g04_ncu_hardware/react_tool_L_it1/react_tool_L_it1_measured_iter0.ncu-rep

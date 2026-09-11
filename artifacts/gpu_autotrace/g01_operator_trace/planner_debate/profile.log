@@ -1,0 +1,18 @@
+{
+  "expected_operator_events": 800,
+  "operator_events": 800,
+  "total_events": 1320
+}
+{
+  "finished": 2739612726645,
+  "measured_wall_ms": 1320.031145,
+  "started": 2737445951990,
+  "warmup_done": 2738292695500,
+  "warmup_wall_ms": 846.74351
+}
+/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/planner_debate/native/run_metadata.json
+Collecting data...
+Generating '/tmp/nsys-root/nsys-report-00b1.qdstrm'
+[1/1] [0%                          ] planner_debate_single_gpu.nsys-rep[1/1] [0%                          ] planner_debate_single_gpu.nsys-rep[1/1] [5%                          ] planner_debate_single_gpu.nsys-rep[1/1] [12%                         ] planner_debate_single_gpu.nsys-rep[1/1] [==19%                       ] planner_debate_single_gpu.nsys-rep[1/1] [==20%                       ] planner_debate_single_gpu.nsys-rep[1/1] [=====================87%    ] planner_debate_single_gpu.nsys-rep[1/1] [======================90%   ] planner_debate_single_gpu.nsys-rep[1/1] [=======================96%  ] planner_debate_single_gpu.nsys-rep[1/1] [========================98% ] planner_debate_single_gpu.nsys-rep[1/1] [========================100%] planner_debate_single_gpu.nsys-rep[1/1] [========================100%] planner_debate_single_gpu.nsys-rep[1/1] [========================100%] planner_debate_single_gpu.nsys-rep
+Generated:
+	/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/planner_debate/planner_debate_single_gpu.nsys-rep

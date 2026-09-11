@@ -1,0 +1,241 @@
+{
+  "admission_ledger": {
+    "G04": {
+      "summary_sha256": "55ed1ac89ccac692f6171c7c6f8a1990c6be15afd8d85f68621df3020f9fc07c",
+      "workloads": [
+        "react_tool_L_it1",
+        "planner_debate_L_it1"
+      ]
+    },
+    "G05": {
+      "summary_sha256": "3ed470419af6e58a7ba7a0e4a77f3cec6f4a5370b6532f36dd567c362c2d30b9",
+      "target": "react_moa_mcts_x3_L"
+    },
+    "goals": {
+      "planner_debate_L": {
+        "G01": "65cd39b1417a689a31eeb753b486404467bb239bda79945a232082741f90cf26",
+        "G02_G03": "e225e65547716a80f6cee349344654b33e6e87ccfb11cff75d479cd6fbc91de3"
+      },
+      "react_moa_mcts_x3_L": {
+        "G01": "d52546eef3fa177403fda27a4da7a38b97aaa83eb6b3c2a8a16af1650dc9b04c",
+        "G02_G03": "daa379259c6bdd426a18b0b2f3f3cfb58e3f42ef7975c95c6528d10506008668"
+      },
+      "react_tool_L": {
+        "G01": "e623d672820c1ee9fb72523ce340e5d2691966c06b9166e97fe10e23dda63a4a",
+        "G02_G03": "721d5b8a3787ed3c412397c69710c3520c21d853ff741d11e7db960c5542629e"
+      }
+    }
+  },
+  "goal": [
+    "G06",
+    "G07",
+    "G08",
+    "G09",
+    "G10"
+  ],
+  "lineage": "h22-gpu-autotrace/scaled",
+  "pass": true,
+  "schema_version": 1,
+  "selection": {
+    "planner_debate_L": [
+      "host_input_generate",
+      "mir_operator:LinearOp",
+      "mir_operator:RMSNormOp"
+    ],
+    "react_moa_mcts_x3_L": [
+      "host_input_generate",
+      "mir_operator:LinearOp",
+      "mir_operator:RMSNormOp"
+    ],
+    "react_tool_L": [
+      "host_input_generate",
+      "mir_operator:LinearOp"
+    ]
+  },
+  "tables": {
+    "g06_denominators.csv": {
+      "rows": 3,
+      "schema": [
+        "lineage",
+        "workload",
+        "total_process_host_ns",
+        "iterations",
+        "process_types",
+        "instances"
+      ],
+      "sha256": "2ed5cedd5b90443a05c99d7cbfe562de240d60181414fa003709e97bcfeebadb"
+    },
+    "g06_global_ranking.csv": {
+      "rows": 51,
+      "schema": [
+        "lineage",
+        "workload",
+        "global_rank",
+        "process",
+        "cumulative_host_ns",
+        "selected"
+      ],
+      "sha256": "7a5e7bdba5b7d3f9df4331b3eff4efe7fb88360a459c9010c64b9fac2b915fdf"
+    },
+    "g06_selected_stacks.csv": {
+      "rows": 40,
+      "schema": [
+        "lineage",
+        "workload",
+        "process",
+        "stack_rank",
+        "iteration",
+        "call_id",
+        "op_index",
+        "start_ns",
+        "end_ns",
+        "host_ns",
+        "gpu_work_ns",
+        "cuda_api_ns",
+        "cuda_api_top"
+      ],
+      "sha256": "184f5b10007311d49d41e95017b1f79b1ab986b6f00b9ea8bb57f05eb2a6c0ea"
+    },
+    "g06_selection_plan.csv": {
+      "rows": 51,
+      "schema": [
+        "lineage",
+        "workload",
+        "process",
+        "instances",
+        "cumulative_host_ns",
+        "share_pct",
+        "selected",
+        "median_ns",
+        "p90_ns",
+        "max_ns",
+        "mad_ns",
+        "gpu_owning"
+      ],
+      "sha256": "d4958e7c0f60d6025c37b82ffce1c99150d9d209dfd39e1e97d72a2cbab99e37"
+    },
+    "g07_high_latency_instances.csv": {
+      "rows": 418,
+      "schema": [
+        "lineage",
+        "workload",
+        "process",
+        "iteration",
+        "call_id",
+        "op_index",
+        "host_ns",
+        "median_ns",
+        "threshold_ns",
+        "excess_ns",
+        "classification",
+        "cuda_api_top",
+        "gpu_work_ns"
+      ],
+      "sha256": "d0689b3d7114ef7a77a9740019c1ebb02d8ac55dc03f5febd24d7080e5836823"
+    },
+    "g07_host_gpu_overlap.csv": {
+      "rows": 3,
+      "schema": [
+        "lineage",
+        "workload",
+        "iteration",
+        "wall_ns",
+        "gpu_busy_ns",
+        "gpu_busy_pct",
+        "host_segments_owning_gpu_ns",
+        "host_only_ns",
+        "host_only_pct",
+        "max_concurrent_gpu_items",
+        "gpu_streams",
+        "gaps_reported",
+        "gap_ns_total"
+      ],
+      "sha256": "08ef59716877772abfc2d7dbe0cd6d3b7e29d122c8269d31d198e1f4fa2c7f52"
+    },
+    "g07_kernel_timeline_representative.csv": {
+      "rows": 25236,
+      "schema": [
+        "lineage",
+        "workload",
+        "iteration",
+        "launch_order",
+        "call_id",
+        "process",
+        "op_index",
+        "kind",
+        "family",
+        "gpu_ns",
+        "launch_latency_ns",
+        "gpu_start_rel_us"
+      ],
+      "sha256": "7faaa024311053dea5f9ef6031fb528b696b3475fe59aae1d5792ee58590b043"
+    },
+    "g07_launch_gaps.csv": {
+      "rows": 386,
+      "schema": [
+        "lineage",
+        "workload",
+        "iteration",
+        "gap_start_rel_us",
+        "gap_ns",
+        "next_gpu_item",
+        "host_processes_covering_gap"
+      ],
+      "sha256": "cc649d3f25b4ca219bd178dbd2dbf2ac5051b40e619c209276a00ff7c279706c"
+    },
+    "g07_process_timeline_representative.csv": {
+      "rows": 901,
+      "schema": [
+        "lineage",
+        "workload",
+        "iteration",
+        "call_id",
+        "call_kind",
+        "process",
+        "op_index",
+        "start_rel_us",
+        "end_rel_us",
+        "host_ns",
+        "gpu_work_ns",
+        "selected"
+      ],
+      "sha256": "3ea3f2edd0003da4039b30ac65b42170dd2ceb3cce63b89844007ca7449f116e"
+    },
+    "g08_opportunities.csv": {
+      "rows": 9,
+      "schema": [
+        "lineage",
+        "workload",
+        "opportunity",
+        "evidence",
+        "current_ns_per_iter",
+        "reference_ns_per_iter",
+        "bound_pct_of_wall",
+        "note"
+      ],
+      "sha256": "2201b36d82584fe58740b6f004e5b8826f60ee48b4be1e48d59b207894a5cc9f"
+    },
+    "g08_resource_attachment.csv": {
+      "rows": 123,
+      "schema": [
+        "lineage",
+        "workload",
+        "process",
+        "selected",
+        "share_pct",
+        "resource_status",
+        "reason",
+        "family",
+        "sm_pct",
+        "tensor_pct",
+        "dram_active_pct",
+        "dram_bw_pct_peak",
+        "l2_pct",
+        "occupancy_pct",
+        "waves_per_sm",
+        "hw_source_workload"
+      ],
+      "sha256": "f49c44c82b1699fdf5f89f2c29b94fef34a48cc4ad6897f2a7dc03c5d3627c47"
+    }
+  }
+}

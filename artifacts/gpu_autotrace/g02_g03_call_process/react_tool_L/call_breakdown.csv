@@ -1,0 +1,5 @@
+workload,call_id,call_kind,wave,matrix_size,host_ns_per_iter,host_share_pct,gpu_ns_per_iter,gpu_share_pct,gpu_over_host_pct
+react_tool_L,plan,llm,0,3072,117318639.9,48.99,48249657.0,49.98,41.13
+react_tool_L,lookup,tool,1,256,335040.2,0.14,0.0,0.0,0.0
+react_tool_L,answer,llm,2,3072,120694780.0,50.4,48288551.2,50.02,40.01
+react_tool_L,<dag>,dag,,,1117176.4,0.47,0.0,0.0,0.0

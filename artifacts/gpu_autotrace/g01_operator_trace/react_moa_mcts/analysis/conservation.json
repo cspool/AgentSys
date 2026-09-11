@@ -1,0 +1,69 @@
+{
+  "global": {
+    "total_gpu_items_in_trace": 5825,
+    "unattributed_examples": [],
+    "unattributed_gpu_items_anywhere": 0,
+    "unattributed_gpu_ns_anywhere": 0
+  },
+  "goal": "G01",
+  "gpu": {
+    "bus": "0000:b1:00.0",
+    "clock_hz": 2535000000,
+    "l2_bytes": 75497472,
+    "mem_bw_bytes_s": 1008096000000,
+    "name": "NVIDIA GeForce RTX 4090",
+    "sm_count": 128,
+    "uuid": "619e0c86-ae77-e523-7e85-97195a01f08b"
+  },
+  "iterations": {
+    "measured": 20,
+    "warmup": 5
+  },
+  "lineage": "h22-gpu-autotrace",
+  "measured": {
+    "call_overhead_gpu_ns_total": 44784944,
+    "expected_operator_instances": 1600,
+    "gpu_busy_pct_per_iter": {
+      "max": 3.53,
+      "mean": 2.5,
+      "median": 2.4450000000000003,
+      "min": 1.92
+    },
+    "gpu_busy_union_ns_total": 67123102,
+    "kernel_launches_total": 4200,
+    "operator_gpu_ns_total": 22338158,
+    "operator_instances": 1600,
+    "sum_attributed_gpu_ns_total": 67123102,
+    "unattributed_gpu_items_in_window": 0,
+    "unattributed_gpu_ns_in_window": 0,
+    "wall_ns_per_iter": {
+      "max": 151565182,
+      "mean": 135014792.2,
+      "median": 142684095.5,
+      "min": 114418046
+    },
+    "wall_ns_total": 2700295845
+  },
+  "measured_window_ns": 2701143453,
+  "pass": true,
+  "plan_sha256": "80185d341d878e7b6068c44b1bbb75025a56568fef9ebf44f5b4a00a406ec905",
+  "schema_version": 1,
+  "sqlite": "artifacts/gpu_autotrace/g01_operator_trace/react_moa_mcts/react_moa_mcts_single_gpu.sqlite",
+  "sqlite_sha256": "5d8ccc6d09d71ce68ebc59783ef76a5be7d37442232aa556b7b2b1b97338a826",
+  "warmup": {
+    "first_iter_wall_ns": 629585559,
+    "gpu_busy_pct_per_iter": {
+      "max": 2.31,
+      "mean": 1.9,
+      "median": 2.09,
+      "min": 0.62
+    },
+    "wall_ns_per_iter": {
+      "max": 629585559,
+      "mean": 244872915.6,
+      "median": 148636451,
+      "min": 147532170
+    }
+  },
+  "workload": "react_moa_mcts"
+}

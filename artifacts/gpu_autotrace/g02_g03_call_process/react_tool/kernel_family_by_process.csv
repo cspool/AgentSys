@@ -1,0 +1,13 @@
+workload,process,family,instances,gpu_ns_total,gpu_share_pct
+react_tool,d2h_stage,memcpy,40,3201134,32.82
+react_tool,h2d_stage,memcpy,40,2982006,30.58
+react_tool,mir_operator:LinearOp,gemm,120,1479091,15.17
+react_tool,mir_operator:RMSNormOp,copy,160,448753,4.6
+react_tool,mir_operator:TransposeOp,copy,40,375830,3.85
+react_tool,mir_operator:RMSNormOp,elementwise_binary,160,366605,3.76
+react_tool,mir_operator:RMSNormOp,elementwise_unary,160,281731,2.89
+react_tool,mir_operator:RMSNormOp,reduce,80,266480,2.73
+react_tool,weight_init,rng_init,40,142568,1.46
+react_tool,mir_operator:AddOp,elementwise_binary,40,80337,0.82
+react_tool,weight_init,elementwise_binary,40,75921,0.78
+react_tool,mir_operator:LinearOp,memset,120,52468,0.54

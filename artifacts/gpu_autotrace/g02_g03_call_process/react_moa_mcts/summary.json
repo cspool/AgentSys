@@ -1,0 +1,51 @@
+{
+  "clock_alignment": {
+    "max_ns": 2747706992614,
+    "min_ns": 2747706968611,
+    "offset_ns": 2747706970937,
+    "pairs": 1600,
+    "pass": true,
+    "spread_ns": 24003
+  },
+  "goal": [
+    "G02",
+    "G03"
+  ],
+  "gpu_conservation_vs_w01_ns": 0,
+  "gpu_work_ns_total": 67123102,
+  "iterations_measured": 20,
+  "lineage": "h22-gpu-autotrace",
+  "max_segment_conservation_err_ns": 0,
+  "pass": true,
+  "process_types": [
+    "host_input_generate",
+    "adapter_dispatch",
+    "mir_operator:RMSNormOp",
+    "mir_operator:LinearOp",
+    "token_preprocess_cpu",
+    "h2d_stage",
+    "d2h_stage",
+    "dag_schedule_gap",
+    "weight_init",
+    "mir_operator:TransposeOp",
+    "mir_operator:AddOp",
+    "mir_operator:ViewOp",
+    "checksum_complete",
+    "inter_operator_dispatch",
+    "agent_tool_execute_cpu",
+    "pre_d2h_alloc",
+    "iteration_tail_sync"
+  ],
+  "representative_iteration": 3,
+  "schema_version": 1,
+  "unnamed_gap_ns": 0,
+  "upstream": {
+    "native_trace_sha256": "e2640360b31b0cc39cba941072aa98cf736f0d3442cfd6e0ae21306b72ba00fa",
+    "plan_sha256": "80185d341d878e7b6068c44b1bbb75025a56568fef9ebf44f5b4a00a406ec905",
+    "sqlite_sha256": "5d8ccc6d09d71ce68ebc59783ef76a5be7d37442232aa556b7b2b1b97338a826",
+    "w01_conservation": "artifacts/gpu_autotrace/g01_operator_trace/react_moa_mcts/analysis/conservation.json"
+  },
+  "w01_operator_plus_overhead_gpu_ns": 67123102,
+  "wall_ns_total": 2700295845,
+  "workload": "react_moa_mcts"
+}

@@ -226,6 +226,12 @@ hypotheses:
     motivation: "Remove the run-051 certificate's self-expiring exact-HEAD condition and pin the actual 22+3 gitlinks plus compatibility-patched build inputs."
     parent: H20
     priority: high
+  - id: H22
+    statement: "The AutoTrace w01-w05 serial chain (operator-wise denominator, call-wise process attribution, hardware counters, template estimate, guided selective analysis) applies to AgentSys's own agent DAGs as real single-RTX-4090 execution, conserves every GPU item to one owner, and predicts a full workload from representative workloads without its trace."
+    status: supported
+    motivation: "Turn the run_041 cold-start-dominated Nsight audit into a warmed, conserved, launch-owned attribution and locate where the certified adapter spends its wall time; a scaled strand tests whether the native DAGs are too short to load the GPU."
+    parent: H15
+    priority: high
 
 experiments:
   proxy_metric: "maximum absolute relative error across preregistered active-component endpoints (H13 must be <= 0.15), with real framework/RTL execution and functional invariants as hard gates"
@@ -597,9 +603,16 @@ experiments:
       wall_time_min: 18.69
       change_summary: "Four serial stages and 16 fresh Rocket executions pass in 1,121.467 s; 73/73 endpoints remain exact at max 9.91%. The 25-gitlink/2-patch certificate passes 19/19 with 117 pytest both at implementation commit ab77462 and evidence-only descendant a71e78e."
       timestamp: "2026-08-27"
+    - run_id: "h22_gpu_autotrace"
+      hypothesis: "H22/AutoTrace chain on AgentSys single-GPU execution"
+      metric_value: 0.0007
+      delta: null
+      wall_time_min: 12.0
+      change_summary: "Two strands of w01-w05 on GPU 1 with zero conservation error: native plans are 2-3% GPU busy with host input generation at 56-75% of the wall; scaled plans (matrix x4, 32 op iterations, DAG x3) reach 40-50% GPU busy with tensor-core-bound GEMMs; representative templates predict the full workload within -10.6% (base) and -0.07% (scaled). metric_value is the scaled template error."
+      timestamp: "2026-09-11"
 
 outer_loop:
-  cycle: 40
+  cycle: 41
   last_direction: conclude
   last_reflection: "Run 052 preserves exact run-044/046/048 behavior and the certificate re-signs successfully from evidence-only descendant a71e78e: the implementation closure, 25 gitlinks and two patches remain exact, 16 fresh Rocket runs pass, and 73/73 endpoints stay within 10%. The target-informed and incomplete-full-paper MLX boundary is unchanged."
 

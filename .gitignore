@@ -14,3 +14,7 @@ artifacts/tmp/
 artifacts/mlx_standalone/*/build/
 artifacts/mlx_complete/*/standalone/build/
 chipyard-overlay/generated/
+
+# Raw AutoTrace corpus (200+ GB, hundreds of >100MB files): kept out of git
+AutoTrace/
+docker/*.bak.*

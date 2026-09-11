@@ -1,0 +1,18 @@
+{
+  "expected_operator_events": 1920,
+  "operator_events": 1920,
+  "total_events": 3144
+}
+{
+  "finished": 3787812764501,
+  "measured_wall_ms": 53029.424154,
+  "started": 3714478308754,
+  "warmup_done": 3734783340347,
+  "warmup_wall_ms": 20305.031593
+}
+/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_moa_mcts_x3_L/native/run_metadata.json
+Collecting data...
+Generating '/tmp/nsys-root/nsys-report-b861.qdstrm'
+[1/1] [0%                          ] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [0%                          ] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [5%                          ] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [6%                          ] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [7%                          ] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [8%                          ] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [9%                          ] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [10%                         ] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [11%                         ] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [12%                         ] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [13%                         ] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [14%                         ] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [=15%                        ] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [=16%                        ] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [=17%                        ] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [==18%                       ] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [==19%                       ] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [==20%                       ] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [=======================93%  ] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [=======================96%  ] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [========================98% ] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [========================100%] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [========================100%] react_moa_mcts_x3_L_single_gpu.nsys-rep[1/1] [========================100%] react_moa_mcts_x3_L_single_gpu.nsys-rep
+Generated:
+	/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_moa_mcts_x3_L/react_moa_mcts_x3_L_single_gpu.nsys-rep

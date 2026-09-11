@@ -1,0 +1,9 @@
+workload,family,instances,gpu_ns_total,gpu_share_pct
+planner_debate_L_it1,memcpy,80,106555043.0,43.66
+planner_debate_L_it1,gemm,120,92067712.0,37.72
+planner_debate_L_it1,copy,200,21551574.0,8.83
+planner_debate_L_it1,elementwise_binary,240,10693172.0,4.38
+planner_debate_L_it1,elementwise_unary,160,9358736.0,3.83
+planner_debate_L_it1,reduce,80,2450842.0,1.0
+planner_debate_L_it1,rng_init,40,1311065.0,0.54
+planner_debate_L_it1,memset,72,62015.0,0.03

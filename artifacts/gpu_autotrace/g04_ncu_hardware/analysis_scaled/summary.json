@@ -1,0 +1,33 @@
+{
+  "goal": "G04",
+  "kernels_profiled": 147,
+  "lineage": "h22-gpu-autotrace",
+  "pass": true,
+  "peak_assumptions": {
+    "dram_bytes_per_s": 1008096000000,
+    "gemm_note": "TFLOPS from NCU replay at locked base clock; utilisation reference is tensor_pipe_active_pct"
+  },
+  "provenance": {
+    "planner_debate_L_it1": {
+      "ncu_kernels": 105,
+      "ncu_kernels_joined_to_w02": 105,
+      "ncu_raw_sha256": "80b604365cc60e7b9290e8f625ffc364aba7e37f5723261e0489dc5d16ece849",
+      "ncu_rep_sha256": "31392d1a3c286e48c244470203dd7f9a593ce13596dcc4a8c1b2514bd04efffa",
+      "order_match": true,
+      "w02_kernels_in_representative_iteration": 105
+    },
+    "react_tool_L_it1": {
+      "ncu_kernels": 42,
+      "ncu_kernels_joined_to_w02": 42,
+      "ncu_raw_sha256": "ff8fa5c5dc89129556679e3997713fc7205e5a5135599b0e235a61b2152a543d",
+      "ncu_rep_sha256": "f421b776869c311157d39a47d5e38c5cae9ff4982a128e93c35a8497cd48625a",
+      "order_match": true,
+      "w02_kernels_in_representative_iteration": 42
+    }
+  },
+  "schema_version": 1,
+  "workloads": [
+    "react_tool_L_it1",
+    "planner_debate_L_it1"
+  ]
+}

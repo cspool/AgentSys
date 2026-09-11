@@ -1,0 +1,13 @@
+workload,api,calls,ns_total,share_of_wall_pct
+react_tool,cudaLaunchKernel,720,6190401,1.66
+react_tool,cudaEventSynchronize,400,5365619,1.44
+react_tool,cudaEventRecord,880,3981277,1.07
+react_tool,cuLaunchKernel,120,1901092,0.51
+react_tool,cudaEventCreateWithFlags,800,1581750,0.42
+react_tool,cudaMemcpyAsync,80,1178254,0.32
+react_tool,cudaEventDestroy,800,920053,0.25
+react_tool,cudaMemsetAsync,120,915652,0.25
+react_tool,cudaEventQuery,80,306901,0.08
+react_tool,cuKernelGetFunction,120,149054,0.04
+react_tool,cudaDeviceSynchronize,20,114368,0.03
+react_tool,cudaStreamIsCapturing,120,111496,0.03

@@ -1,0 +1,4 @@
+lineage,workload,total_process_host_ns,iterations,process_types,instances
+scaled,react_tool_L,1915725092.0,8,17,408
+scaled,planner_debate_L,8620998952.0,8,17,984
+scaled,react_moa_mcts_x3_L,53028495381.0,8,17,5816

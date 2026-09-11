@@ -1,0 +1,2469 @@
+{
+  "calls": [
+    {
+      "call_id": "planner-seed",
+      "deps": [],
+      "deps_mask": 0,
+      "index": 0,
+      "input_tokens": 320,
+      "kind": "llm",
+      "mir_operators": [
+        {
+          "deps": [
+            1
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "ve",
+          "index": 6,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8266"
+            }
+          ],
+          "op_type": "RMSNormOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8269"
+            }
+          ],
+          "source_line": 366
+        },
+        {
+          "deps": [
+            1
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "ve",
+          "index": 7,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8266"
+            },
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8311"
+            }
+          ],
+          "op_type": "AddOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8312"
+            }
+          ],
+          "source_line": 368
+        },
+        {
+          "deps": [
+            7
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "ve",
+          "index": 8,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8312"
+            }
+          ],
+          "op_type": "RMSNormOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8313"
+            }
+          ],
+          "source_line": 369
+        },
+        {
+          "deps": [
+            6
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "me",
+          "index": 10,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8269"
+            }
+          ],
+          "op_type": "LinearOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8270"
+            }
+          ],
+          "source_line": 377
+        },
+        {
+          "deps": [
+            6
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "me",
+          "index": 11,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8269"
+            }
+          ],
+          "op_type": "LinearOp",
+          "outputs": [
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                1024
+              ],
+              "ssa": "8271"
+            }
+          ],
+          "source_line": 378
+        },
+        {
+          "deps": [
+            6
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "me",
+          "index": 12,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8269"
+            }
+          ],
+          "op_type": "LinearOp",
+          "outputs": [
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                1024
+              ],
+              "ssa": "8272"
+            }
+          ],
+          "source_line": 379
+        },
+        {
+          "deps": [
+            10
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "de",
+          "index": 13,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8270"
+            }
+          ],
+          "op_type": "ViewOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                16,
+                128
+              ],
+              "ssa": "8270"
+            }
+          ],
+          "source_line": 380
+        },
+        {
+          "deps": [
+            13
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "de",
+          "index": 14,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                16,
+                128
+              ],
+              "ssa": "8270"
+            }
+          ],
+          "op_type": "TransposeOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                16,
+                32,
+                128
+              ],
+              "ssa": "8273"
+            }
+          ],
+          "source_line": 381
+        }
+      ],
+      "model": "qwen3_1_7b",
+      "native": {
+        "adapter": "agentsys_mir_cuda_operator_adapter",
+        "cpu_affinity": "0-15,32-47",
+        "device": 0,
+        "dtype": "float16",
+        "matrix_size": 3584,
+        "numa_node": 0,
+        "rank": 0
+      },
+      "output_tokens": 72,
+      "priority": 0,
+      "program_id": "planner",
+      "tool": null,
+      "wave": 0,
+      "xpu": {
+        "decode_batch_cap": 2,
+        "descriptor_digest": "4d8d6948559392d4d5e78d20b0f370a8daccf3b31747b00d5285964a9d2d1274",
+        "descriptors": [
+          {
+            "control": 5764613044499906560,
+            "deps_mask": 0,
+            "duration": 80,
+            "engine": "ve",
+            "flow_class": "reactive",
+            "flow_code": 0,
+            "index": 0,
+            "op_type": "RMSNormOp",
+            "placement": "vector",
+            "placement_code": 1,
+            "preemptible": 1,
+            "source_index": 6,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 109775232407961600
+          },
+          {
+            "control": 5764613045573648641,
+            "deps_mask": 0,
+            "duration": 80,
+            "engine": "ve",
+            "flow_class": "reactive",
+            "flow_code": 0,
+            "index": 1,
+            "op_type": "AddOp",
+            "placement": "vector",
+            "placement_code": 1,
+            "preemptible": 1,
+            "source_index": 7,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 126663731055689728
+          },
+          {
+            "control": 5764613046647521794,
+            "deps_mask": 2,
+            "duration": 80,
+            "engine": "ve",
+            "flow_class": "reactive",
+            "flow_code": 0,
+            "index": 2,
+            "op_type": "RMSNormOp",
+            "placement": "vector",
+            "placement_code": 1,
+            "preemptible": 1,
+            "source_index": 8,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 145804029473062912
+          },
+          {
+            "control": 5764613031346635523,
+            "deps_mask": 1,
+            "duration": 80,
+            "engine": "me",
+            "flow_class": "reactive",
+            "flow_code": 0,
+            "index": 3,
+            "op_type": "LinearOp",
+            "placement": "hptpe",
+            "placement_code": 0,
+            "preemptible": 1,
+            "source_index": 10,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 182958726353780736
+          },
+          {
+            "control": 5764613032420377604,
+            "deps_mask": 1,
+            "duration": 80,
+            "engine": "me",
+            "flow_class": "reactive",
+            "flow_code": 0,
+            "index": 4,
+            "op_type": "LinearOp",
+            "placement": "hptpe",
+            "placement_code": 0,
+            "preemptible": 1,
+            "source_index": 11,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 202099024771153920
+          },
+          {
+            "control": 5764613033494119685,
+            "deps_mask": 1,
+            "duration": 80,
+            "engine": "me",
+            "flow_class": "reactive",
+            "flow_code": 0,
+            "index": 5,
+            "op_type": "LinearOp",
+            "placement": "hptpe",
+            "placement_code": 0,
+            "preemptible": 1,
+            "source_index": 12,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 216735723561156608
+          },
+          {
+            "control": 14992488705947076102,
+            "deps_mask": 8,
+            "duration": 80,
+            "engine": "de",
+            "flow_class": "reactive",
+            "flow_code": 0,
+            "index": 6,
+            "op_type": "ViewOp",
+            "placement": "data",
+            "placement_code": 2,
+            "preemptible": 1,
+            "source_index": 13,
+            "stage": "stage_1",
+            "stage_code": 1,
+            "tilemem": 237001921882226688
+          },
+          {
+            "control": 14992488707024488199,
+            "deps_mask": 64,
+            "duration": 80,
+            "engine": "de",
+            "flow_class": "reactive",
+            "flow_code": 0,
+            "index": 7,
+            "op_type": "TransposeOp",
+            "placement": "data",
+            "placement_code": 2,
+            "preemptible": 1,
+            "source_index": 14,
+            "stage": "stage_1",
+            "stage_code": 1,
+            "tilemem": 253890420488011776
+          }
+        ],
+        "elastic_hptpe_percent": 60,
+        "flow_class": "reactive",
+        "prefill_chunk_tokens": 32
+      }
+    },
+    {
+      "call_id": "critic-a",
+      "deps": [],
+      "deps_mask": 0,
+      "index": 1,
+      "input_tokens": 512,
+      "kind": "llm",
+      "mir_operators": [
+        {
+          "deps": [
+            1
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "ve",
+          "index": 6,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8266"
+            }
+          ],
+          "op_type": "RMSNormOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8269"
+            }
+          ],
+          "source_line": 366
+        },
+        {
+          "deps": [
+            1
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "ve",
+          "index": 7,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8266"
+            },
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8311"
+            }
+          ],
+          "op_type": "AddOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8312"
+            }
+          ],
+          "source_line": 368
+        },
+        {
+          "deps": [
+            7
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "ve",
+          "index": 8,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8312"
+            }
+          ],
+          "op_type": "RMSNormOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8313"
+            }
+          ],
+          "source_line": 369
+        },
+        {
+          "deps": [
+            6
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "me",
+          "index": 10,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8269"
+            }
+          ],
+          "op_type": "LinearOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8270"
+            }
+          ],
+          "source_line": 377
+        },
+        {
+          "deps": [
+            6
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "me",
+          "index": 11,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8269"
+            }
+          ],
+          "op_type": "LinearOp",
+          "outputs": [
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                1024
+              ],
+              "ssa": "8271"
+            }
+          ],
+          "source_line": 378
+        },
+        {
+          "deps": [
+            6
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "me",
+          "index": 12,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8269"
+            }
+          ],
+          "op_type": "LinearOp",
+          "outputs": [
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                1024
+              ],
+              "ssa": "8272"
+            }
+          ],
+          "source_line": 379
+        },
+        {
+          "deps": [
+            10
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "de",
+          "index": 13,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8270"
+            }
+          ],
+          "op_type": "ViewOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                16,
+                128
+              ],
+              "ssa": "8270"
+            }
+          ],
+          "source_line": 380
+        },
+        {
+          "deps": [
+            13
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "de",
+          "index": 14,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                16,
+                128
+              ],
+              "ssa": "8270"
+            }
+          ],
+          "op_type": "TransposeOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                16,
+                32,
+                128
+              ],
+              "ssa": "8273"
+            }
+          ],
+          "source_line": 381
+        }
+      ],
+      "model": "qwen3_1_7b",
+      "native": {
+        "adapter": "agentsys_mir_cuda_operator_adapter",
+        "cpu_affinity": "16-31,48-63",
+        "device": 1,
+        "dtype": "float16",
+        "matrix_size": 4096,
+        "numa_node": 1,
+        "rank": 1
+      },
+      "output_tokens": 80,
+      "priority": 2,
+      "program_id": "debate",
+      "tool": null,
+      "wave": 0,
+      "xpu": {
+        "decode_batch_cap": 8,
+        "descriptor_digest": "26b4226677bacb7ca8fe8582b3d100edd5ba177fcd5d730a7d5643c9871bb944",
+        "descriptors": [
+          {
+            "control": 8070456053847818240,
+            "deps_mask": 0,
+            "duration": 80,
+            "engine": "ve",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 0,
+            "op_type": "RMSNormOp",
+            "placement": "vector",
+            "placement_code": 1,
+            "preemptible": 1,
+            "source_index": 6,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 109775232407961600
+          },
+          {
+            "control": 8070456054921560321,
+            "deps_mask": 0,
+            "duration": 80,
+            "engine": "ve",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 1,
+            "op_type": "AddOp",
+            "placement": "vector",
+            "placement_code": 1,
+            "preemptible": 1,
+            "source_index": 7,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 126663731055689728
+          },
+          {
+            "control": 8070456055995433474,
+            "deps_mask": 2,
+            "duration": 80,
+            "engine": "ve",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 2,
+            "op_type": "RMSNormOp",
+            "placement": "vector",
+            "placement_code": 1,
+            "preemptible": 1,
+            "source_index": 8,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 145804029473062912
+          },
+          {
+            "control": 8070456040694547203,
+            "deps_mask": 1,
+            "duration": 80,
+            "engine": "me",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 3,
+            "op_type": "LinearOp",
+            "placement": "hptpe",
+            "placement_code": 0,
+            "preemptible": 1,
+            "source_index": 10,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 182958726353780736
+          },
+          {
+            "control": 8070456041768289284,
+            "deps_mask": 1,
+            "duration": 80,
+            "engine": "me",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 4,
+            "op_type": "LinearOp",
+            "placement": "hptpe",
+            "placement_code": 0,
+            "preemptible": 1,
+            "source_index": 11,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 202099024771153920
+          },
+          {
+            "control": 8070456042842031365,
+            "deps_mask": 1,
+            "duration": 80,
+            "engine": "me",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 5,
+            "op_type": "LinearOp",
+            "placement": "hptpe",
+            "placement_code": 0,
+            "preemptible": 1,
+            "source_index": 12,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 216735723561156608
+          },
+          {
+            "control": 17298331715294987782,
+            "deps_mask": 8,
+            "duration": 80,
+            "engine": "de",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 6,
+            "op_type": "ViewOp",
+            "placement": "data",
+            "placement_code": 2,
+            "preemptible": 1,
+            "source_index": 13,
+            "stage": "stage_1",
+            "stage_code": 1,
+            "tilemem": 237001921882226688
+          },
+          {
+            "control": 17298331716372399879,
+            "deps_mask": 64,
+            "duration": 80,
+            "engine": "de",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 7,
+            "op_type": "TransposeOp",
+            "placement": "data",
+            "placement_code": 2,
+            "preemptible": 1,
+            "source_index": 14,
+            "stage": "stage_1",
+            "stage_code": 1,
+            "tilemem": 253890420488011776
+          }
+        ],
+        "elastic_hptpe_percent": 60,
+        "flow_class": "proactive",
+        "prefill_chunk_tokens": 32
+      }
+    },
+    {
+      "call_id": "critic-b",
+      "deps": [],
+      "deps_mask": 0,
+      "index": 2,
+      "input_tokens": 448,
+      "kind": "llm",
+      "mir_operators": [
+        {
+          "deps": [
+            1
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "ve",
+          "index": 6,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8266"
+            }
+          ],
+          "op_type": "RMSNormOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8269"
+            }
+          ],
+          "source_line": 366
+        },
+        {
+          "deps": [
+            1
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "ve",
+          "index": 7,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8266"
+            },
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8311"
+            }
+          ],
+          "op_type": "AddOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8312"
+            }
+          ],
+          "source_line": 368
+        },
+        {
+          "deps": [
+            7
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "ve",
+          "index": 8,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8312"
+            }
+          ],
+          "op_type": "RMSNormOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8313"
+            }
+          ],
+          "source_line": 369
+        },
+        {
+          "deps": [
+            6
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "me",
+          "index": 10,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8269"
+            }
+          ],
+          "op_type": "LinearOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8270"
+            }
+          ],
+          "source_line": 377
+        },
+        {
+          "deps": [
+            6
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "me",
+          "index": 11,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8269"
+            }
+          ],
+          "op_type": "LinearOp",
+          "outputs": [
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                1024
+              ],
+              "ssa": "8271"
+            }
+          ],
+          "source_line": 378
+        },
+        {
+          "deps": [
+            6
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "me",
+          "index": 12,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8269"
+            }
+          ],
+          "op_type": "LinearOp",
+          "outputs": [
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                1024
+              ],
+              "ssa": "8272"
+            }
+          ],
+          "source_line": 379
+        },
+        {
+          "deps": [
+            10
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "de",
+          "index": 13,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8270"
+            }
+          ],
+          "op_type": "ViewOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                16,
+                128
+              ],
+              "ssa": "8270"
+            }
+          ],
+          "source_line": 380
+        },
+        {
+          "deps": [
+            13
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "de",
+          "index": 14,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                16,
+                128
+              ],
+              "ssa": "8270"
+            }
+          ],
+          "op_type": "TransposeOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                16,
+                32,
+                128
+              ],
+              "ssa": "8273"
+            }
+          ],
+          "source_line": 381
+        }
+      ],
+      "model": "qwen3_1_7b",
+      "native": {
+        "adapter": "agentsys_mir_cuda_operator_adapter",
+        "cpu_affinity": "0-15,32-47",
+        "device": 0,
+        "dtype": "float16",
+        "matrix_size": 4096,
+        "numa_node": 0,
+        "rank": 0
+      },
+      "output_tokens": 88,
+      "priority": 2,
+      "program_id": "debate",
+      "tool": null,
+      "wave": 0,
+      "xpu": {
+        "decode_batch_cap": 8,
+        "descriptor_digest": "26b4226677bacb7ca8fe8582b3d100edd5ba177fcd5d730a7d5643c9871bb944",
+        "descriptors": [
+          {
+            "control": 8070456053847818240,
+            "deps_mask": 0,
+            "duration": 80,
+            "engine": "ve",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 0,
+            "op_type": "RMSNormOp",
+            "placement": "vector",
+            "placement_code": 1,
+            "preemptible": 1,
+            "source_index": 6,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 109775232407961600
+          },
+          {
+            "control": 8070456054921560321,
+            "deps_mask": 0,
+            "duration": 80,
+            "engine": "ve",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 1,
+            "op_type": "AddOp",
+            "placement": "vector",
+            "placement_code": 1,
+            "preemptible": 1,
+            "source_index": 7,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 126663731055689728
+          },
+          {
+            "control": 8070456055995433474,
+            "deps_mask": 2,
+            "duration": 80,
+            "engine": "ve",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 2,
+            "op_type": "RMSNormOp",
+            "placement": "vector",
+            "placement_code": 1,
+            "preemptible": 1,
+            "source_index": 8,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 145804029473062912
+          },
+          {
+            "control": 8070456040694547203,
+            "deps_mask": 1,
+            "duration": 80,
+            "engine": "me",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 3,
+            "op_type": "LinearOp",
+            "placement": "hptpe",
+            "placement_code": 0,
+            "preemptible": 1,
+            "source_index": 10,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 182958726353780736
+          },
+          {
+            "control": 8070456041768289284,
+            "deps_mask": 1,
+            "duration": 80,
+            "engine": "me",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 4,
+            "op_type": "LinearOp",
+            "placement": "hptpe",
+            "placement_code": 0,
+            "preemptible": 1,
+            "source_index": 11,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 202099024771153920
+          },
+          {
+            "control": 8070456042842031365,
+            "deps_mask": 1,
+            "duration": 80,
+            "engine": "me",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 5,
+            "op_type": "LinearOp",
+            "placement": "hptpe",
+            "placement_code": 0,
+            "preemptible": 1,
+            "source_index": 12,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 216735723561156608
+          },
+          {
+            "control": 17298331715294987782,
+            "deps_mask": 8,
+            "duration": 80,
+            "engine": "de",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 6,
+            "op_type": "ViewOp",
+            "placement": "data",
+            "placement_code": 2,
+            "preemptible": 1,
+            "source_index": 13,
+            "stage": "stage_1",
+            "stage_code": 1,
+            "tilemem": 237001921882226688
+          },
+          {
+            "control": 17298331716372399879,
+            "deps_mask": 64,
+            "duration": 80,
+            "engine": "de",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 7,
+            "op_type": "TransposeOp",
+            "placement": "data",
+            "placement_code": 2,
+            "preemptible": 1,
+            "source_index": 14,
+            "stage": "stage_1",
+            "stage_code": 1,
+            "tilemem": 253890420488011776
+          }
+        ],
+        "elastic_hptpe_percent": 60,
+        "flow_class": "proactive",
+        "prefill_chunk_tokens": 32
+      }
+    },
+    {
+      "call_id": "planner-tool",
+      "deps": [
+        "planner-seed"
+      ],
+      "deps_mask": 1,
+      "index": 3,
+      "input_tokens": 48,
+      "kind": "tool",
+      "mir_operators": [],
+      "model": null,
+      "native": {
+        "adapter": "agentsys_numa_cpu_tool_adapter",
+        "cpu_affinity": "0-15,32-47",
+        "device": 0,
+        "dtype": "float32",
+        "matrix_size": 256,
+        "numa_node": 0,
+        "rank": 0
+      },
+      "output_tokens": 16,
+      "priority": 0,
+      "program_id": "planner",
+      "tool": "deterministic_lookup",
+      "wave": 1,
+      "xpu": {
+        "decode_batch_cap": 2,
+        "descriptor_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "descriptors": [],
+        "elastic_hptpe_percent": 60,
+        "flow_class": "reactive",
+        "prefill_chunk_tokens": 32
+      }
+    },
+    {
+      "call_id": "critic-merge",
+      "deps": [
+        "critic-a",
+        "critic-b",
+        "planner-seed"
+      ],
+      "deps_mask": 7,
+      "index": 5,
+      "input_tokens": 640,
+      "kind": "llm",
+      "mir_operators": [
+        {
+          "deps": [
+            1
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "ve",
+          "index": 6,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8266"
+            }
+          ],
+          "op_type": "RMSNormOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8269"
+            }
+          ],
+          "source_line": 366
+        },
+        {
+          "deps": [
+            1
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "ve",
+          "index": 7,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8266"
+            },
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8311"
+            }
+          ],
+          "op_type": "AddOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8312"
+            }
+          ],
+          "source_line": 368
+        },
+        {
+          "deps": [
+            7
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "ve",
+          "index": 8,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8312"
+            }
+          ],
+          "op_type": "RMSNormOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8313"
+            }
+          ],
+          "source_line": 369
+        },
+        {
+          "deps": [
+            6
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "me",
+          "index": 10,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8269"
+            }
+          ],
+          "op_type": "LinearOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8270"
+            }
+          ],
+          "source_line": 377
+        },
+        {
+          "deps": [
+            6
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "me",
+          "index": 11,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8269"
+            }
+          ],
+          "op_type": "LinearOp",
+          "outputs": [
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                1024
+              ],
+              "ssa": "8271"
+            }
+          ],
+          "source_line": 378
+        },
+        {
+          "deps": [
+            6
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "me",
+          "index": 12,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8269"
+            }
+          ],
+          "op_type": "LinearOp",
+          "outputs": [
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                1024
+              ],
+              "ssa": "8272"
+            }
+          ],
+          "source_line": 379
+        },
+        {
+          "deps": [
+            10
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "de",
+          "index": 13,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8270"
+            }
+          ],
+          "op_type": "ViewOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                16,
+                128
+              ],
+              "ssa": "8270"
+            }
+          ],
+          "source_line": 380
+        },
+        {
+          "deps": [
+            13
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "de",
+          "index": 14,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                16,
+                128
+              ],
+              "ssa": "8270"
+            }
+          ],
+          "op_type": "TransposeOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                16,
+                32,
+                128
+              ],
+              "ssa": "8273"
+            }
+          ],
+          "source_line": 381
+        }
+      ],
+      "model": "qwen3_1_7b",
+      "native": {
+        "adapter": "agentsys_mir_cuda_operator_adapter",
+        "cpu_affinity": "0-15,32-47",
+        "device": 0,
+        "dtype": "float16",
+        "matrix_size": 4096,
+        "numa_node": 0,
+        "rank": 0
+      },
+      "output_tokens": 104,
+      "priority": 2,
+      "program_id": "debate",
+      "tool": null,
+      "wave": 1,
+      "xpu": {
+        "decode_batch_cap": 8,
+        "descriptor_digest": "26b4226677bacb7ca8fe8582b3d100edd5ba177fcd5d730a7d5643c9871bb944",
+        "descriptors": [
+          {
+            "control": 8070456053847818240,
+            "deps_mask": 0,
+            "duration": 80,
+            "engine": "ve",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 0,
+            "op_type": "RMSNormOp",
+            "placement": "vector",
+            "placement_code": 1,
+            "preemptible": 1,
+            "source_index": 6,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 109775232407961600
+          },
+          {
+            "control": 8070456054921560321,
+            "deps_mask": 0,
+            "duration": 80,
+            "engine": "ve",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 1,
+            "op_type": "AddOp",
+            "placement": "vector",
+            "placement_code": 1,
+            "preemptible": 1,
+            "source_index": 7,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 126663731055689728
+          },
+          {
+            "control": 8070456055995433474,
+            "deps_mask": 2,
+            "duration": 80,
+            "engine": "ve",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 2,
+            "op_type": "RMSNormOp",
+            "placement": "vector",
+            "placement_code": 1,
+            "preemptible": 1,
+            "source_index": 8,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 145804029473062912
+          },
+          {
+            "control": 8070456040694547203,
+            "deps_mask": 1,
+            "duration": 80,
+            "engine": "me",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 3,
+            "op_type": "LinearOp",
+            "placement": "hptpe",
+            "placement_code": 0,
+            "preemptible": 1,
+            "source_index": 10,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 182958726353780736
+          },
+          {
+            "control": 8070456041768289284,
+            "deps_mask": 1,
+            "duration": 80,
+            "engine": "me",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 4,
+            "op_type": "LinearOp",
+            "placement": "hptpe",
+            "placement_code": 0,
+            "preemptible": 1,
+            "source_index": 11,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 202099024771153920
+          },
+          {
+            "control": 8070456042842031365,
+            "deps_mask": 1,
+            "duration": 80,
+            "engine": "me",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 5,
+            "op_type": "LinearOp",
+            "placement": "hptpe",
+            "placement_code": 0,
+            "preemptible": 1,
+            "source_index": 12,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 216735723561156608
+          },
+          {
+            "control": 17298331715294987782,
+            "deps_mask": 8,
+            "duration": 80,
+            "engine": "de",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 6,
+            "op_type": "ViewOp",
+            "placement": "data",
+            "placement_code": 2,
+            "preemptible": 1,
+            "source_index": 13,
+            "stage": "stage_1",
+            "stage_code": 1,
+            "tilemem": 237001921882226688
+          },
+          {
+            "control": 17298331716372399879,
+            "deps_mask": 64,
+            "duration": 80,
+            "engine": "de",
+            "flow_class": "proactive",
+            "flow_code": 1,
+            "index": 7,
+            "op_type": "TransposeOp",
+            "placement": "data",
+            "placement_code": 2,
+            "preemptible": 1,
+            "source_index": 14,
+            "stage": "stage_1",
+            "stage_code": 1,
+            "tilemem": 253890420488011776
+          }
+        ],
+        "elastic_hptpe_percent": 60,
+        "flow_class": "proactive",
+        "prefill_chunk_tokens": 32
+      }
+    },
+    {
+      "call_id": "planner-final",
+      "deps": [
+        "planner-tool"
+      ],
+      "deps_mask": 8,
+      "index": 4,
+      "input_tokens": 384,
+      "kind": "llm",
+      "mir_operators": [
+        {
+          "deps": [
+            1
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "ve",
+          "index": 6,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8266"
+            }
+          ],
+          "op_type": "RMSNormOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8269"
+            }
+          ],
+          "source_line": 366
+        },
+        {
+          "deps": [
+            1
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "ve",
+          "index": 7,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8266"
+            },
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8311"
+            }
+          ],
+          "op_type": "AddOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8312"
+            }
+          ],
+          "source_line": 368
+        },
+        {
+          "deps": [
+            7
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "ve",
+          "index": 8,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8312"
+            }
+          ],
+          "op_type": "RMSNormOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8313"
+            }
+          ],
+          "source_line": 369
+        },
+        {
+          "deps": [
+            6
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "me",
+          "index": 10,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8269"
+            }
+          ],
+          "op_type": "LinearOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8270"
+            }
+          ],
+          "source_line": 377
+        },
+        {
+          "deps": [
+            6
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "me",
+          "index": 11,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8269"
+            }
+          ],
+          "op_type": "LinearOp",
+          "outputs": [
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                1024
+              ],
+              "ssa": "8271"
+            }
+          ],
+          "source_line": 378
+        },
+        {
+          "deps": [
+            6
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "me",
+          "index": 12,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8269"
+            }
+          ],
+          "op_type": "LinearOp",
+          "outputs": [
+            {
+              "bytes": 65536,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                1024
+              ],
+              "ssa": "8272"
+            }
+          ],
+          "source_line": 379
+        },
+        {
+          "deps": [
+            10
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "de",
+          "index": 13,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                2048
+              ],
+              "ssa": "8270"
+            }
+          ],
+          "op_type": "ViewOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                16,
+                128
+              ],
+              "ssa": "8270"
+            }
+          ],
+          "source_line": 380
+        },
+        {
+          "deps": [
+            13
+          ],
+          "device": "CPU",
+          "duration": 1024,
+          "engine": "de",
+          "index": 14,
+          "inputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                32,
+                16,
+                128
+              ],
+              "ssa": "8270"
+            }
+          ],
+          "op_type": "TransposeOp",
+          "outputs": [
+            {
+              "bytes": 131072,
+              "dtype": "UInt16PerTensor",
+              "shape": [
+                1,
+                16,
+                32,
+                128
+              ],
+              "ssa": "8273"
+            }
+          ],
+          "source_line": 381
+        }
+      ],
+      "model": "qwen3_1_7b",
+      "native": {
+        "adapter": "agentsys_mir_cuda_operator_adapter",
+        "cpu_affinity": "16-31,48-63",
+        "device": 1,
+        "dtype": "float16",
+        "matrix_size": 3584,
+        "numa_node": 1,
+        "rank": 1
+      },
+      "output_tokens": 96,
+      "priority": 0,
+      "program_id": "planner",
+      "tool": null,
+      "wave": 2,
+      "xpu": {
+        "decode_batch_cap": 2,
+        "descriptor_digest": "4d8d6948559392d4d5e78d20b0f370a8daccf3b31747b00d5285964a9d2d1274",
+        "descriptors": [
+          {
+            "control": 5764613044499906560,
+            "deps_mask": 0,
+            "duration": 80,
+            "engine": "ve",
+            "flow_class": "reactive",
+            "flow_code": 0,
+            "index": 0,
+            "op_type": "RMSNormOp",
+            "placement": "vector",
+            "placement_code": 1,
+            "preemptible": 1,
+            "source_index": 6,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 109775232407961600
+          },
+          {
+            "control": 5764613045573648641,
+            "deps_mask": 0,
+            "duration": 80,
+            "engine": "ve",
+            "flow_class": "reactive",
+            "flow_code": 0,
+            "index": 1,
+            "op_type": "AddOp",
+            "placement": "vector",
+            "placement_code": 1,
+            "preemptible": 1,
+            "source_index": 7,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 126663731055689728
+          },
+          {
+            "control": 5764613046647521794,
+            "deps_mask": 2,
+            "duration": 80,
+            "engine": "ve",
+            "flow_class": "reactive",
+            "flow_code": 0,
+            "index": 2,
+            "op_type": "RMSNormOp",
+            "placement": "vector",
+            "placement_code": 1,
+            "preemptible": 1,
+            "source_index": 8,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 145804029473062912
+          },
+          {
+            "control": 5764613031346635523,
+            "deps_mask": 1,
+            "duration": 80,
+            "engine": "me",
+            "flow_class": "reactive",
+            "flow_code": 0,
+            "index": 3,
+            "op_type": "LinearOp",
+            "placement": "hptpe",
+            "placement_code": 0,
+            "preemptible": 1,
+            "source_index": 10,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 182958726353780736
+          },
+          {
+            "control": 5764613032420377604,
+            "deps_mask": 1,
+            "duration": 80,
+            "engine": "me",
+            "flow_class": "reactive",
+            "flow_code": 0,
+            "index": 4,
+            "op_type": "LinearOp",
+            "placement": "hptpe",
+            "placement_code": 0,
+            "preemptible": 1,
+            "source_index": 11,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 202099024771153920
+          },
+          {
+            "control": 5764613033494119685,
+            "deps_mask": 1,
+            "duration": 80,
+            "engine": "me",
+            "flow_class": "reactive",
+            "flow_code": 0,
+            "index": 5,
+            "op_type": "LinearOp",
+            "placement": "hptpe",
+            "placement_code": 0,
+            "preemptible": 1,
+            "source_index": 12,
+            "stage": "stage_0",
+            "stage_code": 0,
+            "tilemem": 216735723561156608
+          },
+          {
+            "control": 14992488705947076102,
+            "deps_mask": 8,
+            "duration": 80,
+            "engine": "de",
+            "flow_class": "reactive",
+            "flow_code": 0,
+            "index": 6,
+            "op_type": "ViewOp",
+            "placement": "data",
+            "placement_code": 2,
+            "preemptible": 1,
+            "source_index": 13,
+            "stage": "stage_1",
+            "stage_code": 1,
+            "tilemem": 237001921882226688
+          },
+          {
+            "control": 14992488707024488199,
+            "deps_mask": 64,
+            "duration": 80,
+            "engine": "de",
+            "flow_class": "reactive",
+            "flow_code": 0,
+            "index": 7,
+            "op_type": "TransposeOp",
+            "placement": "data",
+            "placement_code": 2,
+            "preemptible": 1,
+            "source_index": 14,
+            "stage": "stage_1",
+            "stage_code": 1,
+            "tilemem": 253890420488011776
+          }
+        ],
+        "elastic_hptpe_percent": 60,
+        "flow_class": "reactive",
+        "prefill_chunk_tokens": 32
+      }
+    }
+  ],
+  "classification": "agent_dag_mllm_mir_to_native_gpu_and_tisa_hptpe_plan",
+  "configuration": {
+    "adapter": {
+      "cpu_matrix_size": 256,
+      "cpu_threads_per_rank": 16,
+      "dtype": "float16",
+      "matrix_base": 2048,
+      "matrix_max": 4096,
+      "matrix_step": 512,
+      "operator_iterations": 32,
+      "token_quantum": 128
+    },
+    "gpu_runtime_path": "/workspace/AgentSys/config/local-dual-gpu.json",
+    "gpu_runtime_sha256": "189283837acda599afa94303c48e5b8e397f309a9a02b34808ae121d8be07764",
+    "path": "/workspace/AgentSys/config/hybrid-system.json",
+    "placement": "round_robin",
+    "sha256": "cf2d8d63affe9658cba30dfbdad6fc36eb0c3e9fbcca32cda58ab26aad4590d7"
+  },
+  "evidence_boundary": "AgentSys MIR-to-CUDA adapter plus upstream mllm lifecycle scaffold; local RTX4090 execution is not A100 paper reproduction",
+  "lineage": {
+    "application": {
+      "path": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/application.json",
+      "sha256": "59b5ba7e202176d4d652c3489b4be92135ca2a802636158d7a1383a8161bb6c8"
+    },
+    "compiled": {
+      "path": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/compiled.json",
+      "sha256": "5570eee27fda8f4c915821f6cfdc4166aa4f4649518dd238039377c28d3b081c"
+    },
+    "generated_header": {
+      "path": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/generated/workload.h",
+      "sha256": "413a6a32f14b13fcc0139ec8e6213b37b1d1c5b0fbc316e0dc954031780d1c82"
+    },
+    "mllm_cuda_audit": {
+      "framework_patch_sha256": "8d5514345283fe37f8ece4d0a0bd4d679804afe9eb5e25b90433d0a41afafd3c",
+      "path": "/workspace/AgentSys/artifacts/results/mllm-cuda-run_039.json",
+      "sha256": "88392dfa076e7debb5c22990107b5f305c7118a694624d8ba340e8264c57b0be",
+      "source_boundary": "upstream_cuda_device_metadata_and_allocator_scaffold",
+      "summary": {
+        "failing": 0,
+        "gates": 13,
+        "pass": true,
+        "passing": 13
+      }
+    },
+    "riscv_elf": {
+      "path": "/workspace/AgentSys/artifacts/hybrid_reproduction/run_040/workloads/planner_debate/rocket/software/workload.riscv",
+      "sha256": "5ee5da1664f083672f352c4c13777494a72ed1a8f457e37fb0c0bd2828ed6c17"
+    }
+  },
+  "plan_sha256": "d91d04e18772df28dd083d6ece038152b62e617fa6a75c85f74d6843bbe37223",
+  "run_id": "run_040",
+  "schema_version": 1,
+  "summary": {
+    "calls": 6,
+    "de_operators": 10,
+    "gpu_rank_llm_calls": [
+      3,
+      2
+    ],
+    "gpu_ranks_used": 2,
+    "llm_calls": 5,
+    "me_operators": 15,
+    "mir_operators": 40,
+    "pass": true,
+    "programs": 2,
+    "tool_calls": 1,
+    "ve_operators": 15,
+    "waves": 3,
+    "xpu_descriptors": 40
+  },
+  "workload": {
+    "agentix": {
+      "batch_size": 2,
+      "policy": "plas"
+    },
+    "agentxpu": {
+      "heg_igpu_prefill_share": 0.4,
+      "heg_prefill_chunk_tokens": 32,
+      "max_decode_batch": 8,
+      "max_reactive_decode_batch": 2
+    },
+    "derived_from": {
+      "base_workload": "planner_debate",
+      "matrix_scale": 4,
+      "operator_iterations": 32,
+      "plan": "artifacts/hybrid_reproduction/run_040/workloads/planner_debate/hybrid-plan.json",
+      "repeat": 1,
+      "sha256": "aea4721200a143717c3517604db4e13f1fbdad5f23a00a67d8d0e590d11afc32"
+    },
+    "hardware": {
+      "dispatch_latency": 7,
+      "hptpe_cols": 16,
+      "hptpe_rows": 16,
+      "input_beats": 6,
+      "output_beats": 3,
+      "profile": "rocket_tisa8_hptpe16x16",
+      "tisa_window": 8
+    },
+    "name": "planner_debate_L",
+    "schema_version": 1,
+    "sha256": "0fbd066467fc52055e53c9cbf7264796f1fbf88aa9788f4838d73a8a8c343631",
+    "source": "/workspace/AgentSys/workloads/planner_debate.json",
+    "summary": {
+      "calls": 6,
+      "llm_calls": 5,
+      "models": 1,
+      "programs": 2,
+      "tool_calls": 1
+    }
+  }
+}

@@ -1,0 +1,93 @@
+lineage,workload,process,selected,share_pct,resource_status,reason,family,sm_pct,tensor_pct,dram_active_pct,dram_bw_pct_peak,l2_pct,occupancy_pct,waves_per_sm,hw_source_workload
+base,react_tool,dag_schedule_gap,False,6.75,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,react_tool,adapter_dispatch,True,13.14,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,react_tool,token_preprocess_cpu,False,2.54,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,react_tool,host_input_generate,True,56.26,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,react_tool,h2d_stage,False,1.85,not_collected_memcpy,"PCIe copy; not a kernel, see w02 h2d/d2h bytes and cuda_ms",memcpy,,,,,,,,react_tool
+base,react_tool,weight_init,False,1.58,profiled,"underutilised: SM 44 %, DRAM 1 %, L2 13 %, occ 68 %",rng_init,44.0,0.0,2.22,0.0,12.81,67.78,1.0,react_tool
+base,react_tool,weight_init,False,1.58,profiled,"underutilised: SM 2 %, DRAM 40 %, L2 19 %, occ 25 %",elementwise_binary,2.27,0.0,40.01,0.0,18.85,25.59,0.38,react_tool
+base,react_tool,mir_operator:RMSNormOp,False,5.37,profiled,"latency/launch-bound: 0.38 waves per SM, no unit above 30 % of peak",copy,2.01,0.0,39.25,0.0,22.01,29.69,0.38,react_tool
+base,react_tool,mir_operator:RMSNormOp,False,5.37,profiled,"underutilised: SM 2 %, DRAM 55 %, L2 25 %, occ 25 %",elementwise_unary,0.82,0.0,27.42,0.0,13.11,16.81,0.19,react_tool
+base,react_tool,mir_operator:RMSNormOp,False,5.37,profiled,"underutilised: SM 3 %, DRAM 44 %, L2 17 %, occ 33 %",reduce,2.63,0.0,43.36,0.0,17.06,33.23,0.12,react_tool
+base,react_tool,mir_operator:RMSNormOp,False,5.37,profiled,"latency/launch-bound: 0.00 waves per SM, no unit above 30 % of peak",elementwise_binary,6.53,0.0,25.81,0.0,13.39,38.47,0.75,react_tool
+base,react_tool,inter_operator_dispatch,False,0.62,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,react_tool,mir_operator:AddOp,False,1.11,profiled,"underutilised: SM 2 %, DRAM 38 %, L2 18 %, occ 25 %",elementwise_binary,2.34,0.0,37.92,0.0,17.82,25.01,0.38,react_tool
+base,react_tool,mir_operator:LinearOp,False,4.26,profiled,"underutilised: SM 21 %, DRAM 18 %, L2 50 %, occ 15 %",gemm,21.05,28.66,18.34,0.0,49.56,15.03,1.5,react_tool
+base,react_tool,mir_operator:ViewOp,False,0.81,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,react_tool,mir_operator:TransposeOp,False,1.37,profiled,L2-bandwidth-bound (working set in L2),copy,5.21,0.0,13.12,0.0,78.36,68.84,0.75,react_tool
+base,react_tool,pre_d2h_alloc,False,0.14,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,react_tool,d2h_stage,False,1.47,not_collected_memcpy,"PCIe copy; not a kernel, see w02 h2d/d2h bytes and cuda_ms",memcpy,,,,,,,,react_tool
+base,react_tool,checksum_complete,False,0.73,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,react_tool,agent_tool_execute_cpu,False,1.71,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,react_tool,iteration_tail_sync,False,0.28,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,planner_debate,dag_schedule_gap,False,2.32,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,planner_debate,adapter_dispatch,False,9.39,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,planner_debate,token_preprocess_cpu,False,2.32,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,planner_debate,host_input_generate,True,69.9,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,planner_debate,h2d_stage,False,1.89,not_collected_memcpy,"PCIe copy; not a kernel, see w02 h2d/d2h bytes and cuda_ms",memcpy,,,,,,,,planner_debate
+base,planner_debate,weight_init,False,1.32,profiled,"underutilised: SM 51 %, DRAM 0 %, L2 13 %, occ 67 %",rng_init,51.16,0.0,0.23,0.0,12.79,67.46,1.0,planner_debate
+base,planner_debate,weight_init,False,1.32,profiled,"underutilised: SM 3 %, DRAM 47 %, L2 22 %, occ 32 %",elementwise_binary,2.7,0.0,46.09,0.0,21.49,31.82,0.51,planner_debate
+base,planner_debate,weight_init,False,1.32,profiled,"underutilised: SM 51 %, DRAM 1 %, L2 16 %, occ 67 %",rng_init,51.25,0.0,0.58,0.0,16.17,67.42,1.0,planner_debate
+base,planner_debate,weight_init,False,1.32,profiled,"underutilised: SM 3 %, DRAM 51 %, L2 23 %, occ 40 %",elementwise_binary,2.96,0.0,51.43,0.0,23.98,40.01,0.67,planner_debate
+base,planner_debate,mir_operator:RMSNormOp,False,4.22,profiled,"underutilised: SM 15 %, DRAM 30 %, L2 29 %, occ 47 %",copy,8.35,0.0,45.57,0.0,26.25,38.72,0.51,planner_debate
+base,planner_debate,mir_operator:RMSNormOp,False,4.22,profiled,DRAM-bandwidth-bound,elementwise_unary,0.9,0.0,29.99,0.0,13.98,20.49,0.26,planner_debate
+base,planner_debate,mir_operator:RMSNormOp,False,4.22,profiled,"underutilised: SM 3 %, DRAM 52 %, L2 21 %, occ 33 %",reduce,2.74,0.0,50.4,0.0,19.81,33.25,0.15,planner_debate
+base,planner_debate,mir_operator:RMSNormOp,False,4.22,profiled,"latency/launch-bound: 0.00 waves per SM, no unit above 30 % of peak",elementwise_binary,7.27,0.0,28.23,0.0,14.5,41.16,1.02,planner_debate
+base,planner_debate,mir_operator:RMSNormOp,False,4.22,profiled,"underutilised: SM 18 %, DRAM 36 %, L2 35 %, occ 60 %",copy,9.27,0.0,51.53,0.0,29.74,48.33,0.67,planner_debate
+base,planner_debate,mir_operator:RMSNormOp,False,4.22,profiled,DRAM-bandwidth-bound,elementwise_unary,0.93,0.0,31.65,0.0,14.66,26.02,0.34,planner_debate
+base,planner_debate,mir_operator:RMSNormOp,False,4.22,profiled,"underutilised: SM 3 %, DRAM 57 %, L2 23 %, occ 33 %",reduce,2.83,0.0,57.19,0.0,22.48,33.26,0.17,planner_debate
+base,planner_debate,mir_operator:RMSNormOp,False,4.22,profiled,"latency/launch-bound: 0.00 waves per SM, no unit above 30 % of peak",elementwise_binary,7.75,0.0,30.74,0.0,15.52,41.56,1.33,planner_debate
+base,planner_debate,inter_operator_dispatch,False,0.49,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,planner_debate,mir_operator:AddOp,False,0.84,profiled,"underutilised: SM 3 %, DRAM 43 %, L2 20 %, occ 31 %",elementwise_binary,2.76,0.0,44.01,0.0,20.5,31.86,0.51,planner_debate
+base,planner_debate,mir_operator:AddOp,False,0.84,profiled,"underutilised: SM 3 %, DRAM 50 %, L2 23 %, occ 39 %",elementwise_binary,3.19,0.0,51.74,0.0,23.89,38.96,0.67,planner_debate
+base,planner_debate,mir_operator:LinearOp,False,2.8,profiled,tensor-core compute-bound,gemm,28.57,40.97,21.1,0.0,46.6,8.33,0.77,planner_debate
+base,planner_debate,mir_operator:LinearOp,False,2.8,profiled,"underutilised: SM 32 %, DRAM 20 %, L2 51 %, occ 8 %",gemm,31.48,34.17,20.26,0.0,50.65,8.33,0.5,planner_debate
+base,planner_debate,mir_operator:ViewOp,False,0.63,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,planner_debate,mir_operator:TransposeOp,False,1.02,profiled,L2-bandwidth-bound (working set in L2),copy,5.37,0.0,12.63,0.0,80.56,87.96,1.02,planner_debate
+base,planner_debate,mir_operator:TransposeOp,False,1.02,profiled,L2-bandwidth-bound (working set in L2),copy,6.98,0.0,17.13,0.0,79.66,81.21,1.33,planner_debate
+base,planner_debate,pre_d2h_alloc,False,0.11,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,planner_debate,d2h_stage,False,1.51,not_collected_memcpy,"PCIe copy; not a kernel, see w02 h2d/d2h bytes and cuda_ms",memcpy,,,,,,,,planner_debate
+base,planner_debate,checksum_complete,False,0.6,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,planner_debate,agent_tool_execute_cpu,False,0.54,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,planner_debate,iteration_tail_sync,False,0.11,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,react_moa_mcts,dag_schedule_gap,False,1.1,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,react_moa_mcts,adapter_dispatch,False,8.73,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,react_moa_mcts,token_preprocess_cpu,False,2.19,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,react_moa_mcts,host_input_generate,True,74.68,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,react_moa_mcts,h2d_stage,False,1.49,not_collected_memcpy,"PCIe copy; not a kernel, see w02 h2d/d2h bytes and cuda_ms",memcpy,,,,,,,,react_tool
+base,react_moa_mcts,h2d_stage,False,1.49,not_collected_memcpy,"PCIe copy; not a kernel, see w02 h2d/d2h bytes and cuda_ms",memcpy,,,,,,,,planner_debate
+base,react_moa_mcts,weight_init,False,1.05,profiled,"underutilised: SM 51 %, DRAM 0 %, L2 13 %, occ 67 %",rng_init,51.16,0.0,0.23,0.0,12.79,67.46,1.0,planner_debate
+base,react_moa_mcts,weight_init,False,1.05,profiled,"underutilised: SM 3 %, DRAM 47 %, L2 22 %, occ 32 %",elementwise_binary,2.7,0.0,46.09,0.0,21.49,31.82,0.51,planner_debate
+base,react_moa_mcts,weight_init,False,1.05,profiled,"underutilised: SM 51 %, DRAM 1 %, L2 16 %, occ 67 %",rng_init,51.25,0.0,0.58,0.0,16.17,67.42,1.0,planner_debate
+base,react_moa_mcts,weight_init,False,1.05,profiled,"underutilised: SM 3 %, DRAM 51 %, L2 23 %, occ 40 %",elementwise_binary,2.96,0.0,51.43,0.0,23.98,40.01,0.67,planner_debate
+base,react_moa_mcts,weight_init,False,1.05,profiled,"underutilised: SM 44 %, DRAM 1 %, L2 13 %, occ 68 %",rng_init,44.0,0.0,2.22,0.0,12.81,67.78,1.0,react_tool
+base,react_moa_mcts,weight_init,False,1.05,profiled,"underutilised: SM 2 %, DRAM 40 %, L2 19 %, occ 25 %",elementwise_binary,2.27,0.0,40.01,0.0,18.85,25.59,0.38,react_tool
+base,react_moa_mcts,mir_operator:RMSNormOp,False,3.61,profiled,"underutilised: SM 15 %, DRAM 30 %, L2 29 %, occ 47 %",copy,8.35,0.0,45.57,0.0,26.25,38.72,0.51,planner_debate
+base,react_moa_mcts,mir_operator:RMSNormOp,False,3.61,profiled,DRAM-bandwidth-bound,elementwise_unary,0.9,0.0,29.99,0.0,13.98,20.49,0.26,planner_debate
+base,react_moa_mcts,mir_operator:RMSNormOp,False,3.61,profiled,"underutilised: SM 3 %, DRAM 52 %, L2 21 %, occ 33 %",reduce,2.74,0.0,50.4,0.0,19.81,33.25,0.15,planner_debate
+base,react_moa_mcts,mir_operator:RMSNormOp,False,3.61,profiled,"latency/launch-bound: 0.00 waves per SM, no unit above 30 % of peak",elementwise_binary,7.27,0.0,28.23,0.0,14.5,41.16,1.02,planner_debate
+base,react_moa_mcts,mir_operator:RMSNormOp,False,3.61,profiled,"underutilised: SM 18 %, DRAM 36 %, L2 35 %, occ 60 %",copy,9.27,0.0,51.53,0.0,29.74,48.33,0.67,planner_debate
+base,react_moa_mcts,mir_operator:RMSNormOp,False,3.61,profiled,DRAM-bandwidth-bound,elementwise_unary,0.93,0.0,31.65,0.0,14.66,26.02,0.34,planner_debate
+base,react_moa_mcts,mir_operator:RMSNormOp,False,3.61,profiled,"underutilised: SM 3 %, DRAM 57 %, L2 23 %, occ 33 %",reduce,2.83,0.0,57.19,0.0,22.48,33.26,0.17,planner_debate
+base,react_moa_mcts,mir_operator:RMSNormOp,False,3.61,profiled,"latency/launch-bound: 0.00 waves per SM, no unit above 30 % of peak",elementwise_binary,7.75,0.0,30.74,0.0,15.52,41.56,1.33,planner_debate
+base,react_moa_mcts,mir_operator:RMSNormOp,False,3.61,profiled,"latency/launch-bound: 0.38 waves per SM, no unit above 30 % of peak",copy,2.01,0.0,39.25,0.0,22.01,29.69,0.38,react_tool
+base,react_moa_mcts,mir_operator:RMSNormOp,False,3.61,profiled,"underutilised: SM 2 %, DRAM 55 %, L2 25 %, occ 25 %",elementwise_unary,0.82,0.0,27.42,0.0,13.11,16.81,0.19,react_tool
+base,react_moa_mcts,mir_operator:RMSNormOp,False,3.61,profiled,"underutilised: SM 3 %, DRAM 44 %, L2 17 %, occ 33 %",reduce,2.63,0.0,43.36,0.0,17.06,33.23,0.12,react_tool
+base,react_moa_mcts,mir_operator:RMSNormOp,False,3.61,profiled,"latency/launch-bound: 0.00 waves per SM, no unit above 30 % of peak",elementwise_binary,6.53,0.0,25.81,0.0,13.39,38.47,0.75,react_tool
+base,react_moa_mcts,inter_operator_dispatch,False,0.42,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,react_moa_mcts,mir_operator:AddOp,False,0.76,profiled,"underutilised: SM 3 %, DRAM 43 %, L2 20 %, occ 31 %",elementwise_binary,2.76,0.0,44.01,0.0,20.5,31.86,0.51,planner_debate
+base,react_moa_mcts,mir_operator:AddOp,False,0.76,profiled,"underutilised: SM 3 %, DRAM 50 %, L2 23 %, occ 39 %",elementwise_binary,3.19,0.0,51.74,0.0,23.89,38.96,0.67,planner_debate
+base,react_moa_mcts,mir_operator:AddOp,False,0.76,profiled,"underutilised: SM 2 %, DRAM 38 %, L2 18 %, occ 25 %",elementwise_binary,2.34,0.0,37.92,0.0,17.82,25.01,0.38,react_tool
+base,react_moa_mcts,mir_operator:LinearOp,False,2.48,profiled,tensor-core compute-bound,gemm,28.57,40.97,21.1,0.0,46.6,8.33,0.77,planner_debate
+base,react_moa_mcts,mir_operator:LinearOp,False,2.48,profiled,"underutilised: SM 32 %, DRAM 20 %, L2 51 %, occ 8 %",gemm,31.48,34.17,20.26,0.0,50.65,8.33,0.5,planner_debate
+base,react_moa_mcts,mir_operator:LinearOp,False,2.48,profiled,"underutilised: SM 21 %, DRAM 18 %, L2 50 %, occ 15 %",gemm,21.05,28.66,18.34,0.0,49.56,15.03,1.5,react_tool
+base,react_moa_mcts,mir_operator:ViewOp,False,0.53,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,react_moa_mcts,mir_operator:TransposeOp,False,0.89,profiled,L2-bandwidth-bound (working set in L2),copy,5.37,0.0,12.63,0.0,80.56,87.96,1.02,planner_debate
+base,react_moa_mcts,mir_operator:TransposeOp,False,0.89,profiled,L2-bandwidth-bound (working set in L2),copy,6.98,0.0,17.13,0.0,79.66,81.21,1.33,planner_debate
+base,react_moa_mcts,mir_operator:TransposeOp,False,0.89,profiled,L2-bandwidth-bound (working set in L2),copy,5.21,0.0,13.12,0.0,78.36,68.84,0.75,react_tool
+base,react_moa_mcts,pre_d2h_alloc,False,0.1,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,react_moa_mcts,d2h_stage,False,1.21,not_collected_memcpy,"PCIe copy; not a kernel, see w02 h2d/d2h bytes and cuda_ms",memcpy,,,,,,,,react_tool
+base,react_moa_mcts,d2h_stage,False,1.21,not_collected_memcpy,"PCIe copy; not a kernel, see w02 h2d/d2h bytes and cuda_ms",memcpy,,,,,,,,planner_debate
+base,react_moa_mcts,checksum_complete,False,0.48,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,react_moa_mcts,agent_tool_execute_cpu,False,0.24,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+base,react_moa_mcts,iteration_tail_sync,False,0.05,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,

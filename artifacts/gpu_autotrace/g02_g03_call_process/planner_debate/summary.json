@@ -1,0 +1,51 @@
+{
+  "clock_alignment": {
+    "max_ns": 2734669849423,
+    "min_ns": 2734669827131,
+    "offset_ns": 2734669829060,
+    "pairs": 800,
+    "pass": true,
+    "spread_ns": 22292
+  },
+  "goal": [
+    "G02",
+    "G03"
+  ],
+  "gpu_conservation_vs_w01_ns": 0,
+  "gpu_work_ns_total": 38779345,
+  "iterations_measured": 20,
+  "lineage": "h22-gpu-autotrace",
+  "max_segment_conservation_err_ns": 0,
+  "pass": true,
+  "process_types": [
+    "host_input_generate",
+    "adapter_dispatch",
+    "mir_operator:RMSNormOp",
+    "mir_operator:LinearOp",
+    "dag_schedule_gap",
+    "token_preprocess_cpu",
+    "h2d_stage",
+    "d2h_stage",
+    "weight_init",
+    "mir_operator:TransposeOp",
+    "mir_operator:AddOp",
+    "mir_operator:ViewOp",
+    "checksum_complete",
+    "agent_tool_execute_cpu",
+    "inter_operator_dispatch",
+    "pre_d2h_alloc",
+    "iteration_tail_sync"
+  ],
+  "representative_iteration": 12,
+  "schema_version": 1,
+  "unnamed_gap_ns": 0,
+  "upstream": {
+    "native_trace_sha256": "a0d9c782b89802d76a757df1e41d1c32f78dda61abd5e78bff60fc1c6ac66899",
+    "plan_sha256": "aea4721200a143717c3517604db4e13f1fbdad5f23a00a67d8d0e590d11afc32",
+    "sqlite_sha256": "8697309211081526b2495b30f0ace876ca7b2befc3437611c453b048fccba293",
+    "w01_conservation": "artifacts/gpu_autotrace/g01_operator_trace/planner_debate/analysis/conservation.json"
+  },
+  "w01_operator_plus_overhead_gpu_ns": 38779345,
+  "wall_ns_total": 1319192426,
+  "workload": "planner_debate"
+}

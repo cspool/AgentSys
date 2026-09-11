@@ -1,0 +1,8 @@
+workload,call_id,call_kind,wave,matrix_size,host_ns_per_iter,host_share_pct,gpu_ns_per_iter,gpu_share_pct,gpu_over_host_pct
+planner_debate_L_it1,planner-seed,llm,0,3584,94093461.9,16.83,5015449.0,16.44,5.33
+planner_debate_L_it1,critic-a,llm,0,4096,122445152.4,21.9,6779994.2,22.22,5.54
+planner_debate_L_it1,critic-b,llm,0,4096,123509033.8,22.09,6830705.4,22.39,5.53
+planner_debate_L_it1,planner-tool,tool,1,256,357444.1,0.06,0.0,0.0,0.0
+planner_debate_L_it1,critic-merge,llm,1,4096,123412811.2,22.08,6832833.1,22.4,5.54
+planner_debate_L_it1,planner-final,llm,2,3584,93941365.8,16.81,5047288.1,16.55,5.37
+planner_debate_L_it1,<dag>,dag,,,1236878.2,0.22,0.0,0.0,0.0

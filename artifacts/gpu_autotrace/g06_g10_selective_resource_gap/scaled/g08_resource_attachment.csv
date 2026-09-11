@@ -1,0 +1,124 @@
+lineage,workload,process,selected,share_pct,resource_status,reason,family,sm_pct,tensor_pct,dram_active_pct,dram_bw_pct_peak,l2_pct,occupancy_pct,waves_per_sm,hw_source_workload
+scaled,react_tool_L,dag_schedule_gap,False,0.44,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,react_tool_L,adapter_dispatch,False,0.99,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,react_tool_L,token_preprocess_cpu,False,0.25,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,react_tool_L,host_input_generate,True,56.13,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,react_tool_L,h2d_stage,False,0.8,not_collected_memcpy,"PCIe copy; not a kernel, see w02 h2d/d2h bytes and cuda_ms",memcpy,,,,,,,,react_tool_L_it1
+scaled,react_tool_L,h2d_stage,False,0.8,not_collected_memcpy,"PCIe copy; not a kernel, see w02 h2d/d2h bytes and cuda_ms",memcpy,,,,,,,,planner_debate_L_it1
+scaled,react_tool_L,weight_init,False,0.16,profiled,SM-issue-bound,rng_init,70.33,0.0,46.24,0.0,37.25,67.79,1.0,planner_debate_L_it1
+scaled,react_tool_L,weight_init,False,0.16,profiled,DRAM-bandwidth-bound,elementwise_binary,4.31,0.0,92.61,0.0,32.73,86.21,8.17,planner_debate_L_it1
+scaled,react_tool_L,weight_init,False,0.16,profiled,SM-issue-bound,rng_init,71.21,0.0,57.52,0.0,38.31,67.82,1.0,planner_debate_L_it1
+scaled,react_tool_L,weight_init,False,0.16,profiled,DRAM-bandwidth-bound,elementwise_binary,5.19,0.0,93.5,0.0,30.87,87.03,10.67,planner_debate_L_it1
+scaled,react_tool_L,weight_init,False,0.16,profiled,SM-issue-bound,rng_init,68.72,0.0,33.72,0.0,37.25,67.7,1.0,react_tool_L_it1
+scaled,react_tool_L,weight_init,False,0.16,profiled,DRAM-bandwidth-bound,elementwise_binary,5.02,0.0,88.95,0.0,33.26,84.32,6.0,react_tool_L_it1
+scaled,react_tool_L,mir_operator:RMSNormOp,False,7.31,profiled,DRAM-bandwidth-bound,copy,5.31,0.0,89.5,0.0,35.76,86.92,8.17,planner_debate_L_it1
+scaled,react_tool_L,mir_operator:RMSNormOp,False,7.31,profiled,DRAM-bandwidth-bound,elementwise_unary,0.96,0.0,47.22,0.0,14.99,42.45,4.08,planner_debate_L_it1
+scaled,react_tool_L,mir_operator:RMSNormOp,False,7.31,profiled,DRAM-bandwidth-bound,reduce,2.2,0.0,90.15,0.0,34.1,58.18,0.58,planner_debate_L_it1
+scaled,react_tool_L,mir_operator:RMSNormOp,False,7.31,profiled,"latency/launch-bound: 0.00 waves per SM, no unit above 30 % of peak",elementwise_binary,7.31,0.0,46.99,0.0,14.25,47.73,16.34,planner_debate_L_it1
+scaled,react_tool_L,mir_operator:RMSNormOp,False,7.31,profiled,DRAM-bandwidth-bound,copy,11.18,0.0,91.08,0.0,32.38,87.72,10.67,planner_debate_L_it1
+scaled,react_tool_L,mir_operator:RMSNormOp,False,7.31,profiled,DRAM-bandwidth-bound,elementwise_unary,0.89,0.0,47.39,0.0,14.06,42.57,5.33,planner_debate_L_it1
+scaled,react_tool_L,mir_operator:RMSNormOp,False,7.31,profiled,DRAM-bandwidth-bound,reduce,2.03,0.0,90.49,0.0,30.77,66.11,0.67,planner_debate_L_it1
+scaled,react_tool_L,mir_operator:RMSNormOp,False,7.31,profiled,"latency/launch-bound: 0.00 waves per SM, no unit above 30 % of peak",elementwise_binary,7.13,0.0,47.16,0.0,13.87,48.51,21.34,planner_debate_L_it1
+scaled,react_tool_L,mir_operator:RMSNormOp,False,7.31,profiled,DRAM-bandwidth-bound,copy,12.59,0.0,88.06,0.0,37.8,87.67,6.0,react_tool_L_it1
+scaled,react_tool_L,mir_operator:RMSNormOp,False,7.31,profiled,DRAM-bandwidth-bound,elementwise_unary,1.0,0.0,46.99,0.0,15.64,42.21,3.0,react_tool_L_it1
+scaled,react_tool_L,mir_operator:RMSNormOp,False,7.31,profiled,DRAM-bandwidth-bound,reduce,2.33,0.0,87.86,0.0,34.25,49.89,0.5,react_tool_L_it1
+scaled,react_tool_L,mir_operator:RMSNormOp,False,7.31,profiled,"latency/launch-bound: 0.00 waves per SM, no unit above 30 % of peak",elementwise_binary,7.57,0.0,46.48,0.0,14.52,47.05,12.0,react_tool_L_it1
+scaled,react_tool_L,inter_operator_dispatch,False,0.06,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,react_tool_L,mir_operator:AddOp,False,0.48,profiled,DRAM-bandwidth-bound,elementwise_binary,4.57,0.0,92.74,0.0,33.1,85.47,8.17,planner_debate_L_it1
+scaled,react_tool_L,mir_operator:AddOp,False,0.48,profiled,DRAM-bandwidth-bound,elementwise_binary,5.48,0.0,93.5,0.0,31.08,87.59,10.67,planner_debate_L_it1
+scaled,react_tool_L,mir_operator:AddOp,False,0.48,profiled,DRAM-bandwidth-bound,elementwise_binary,4.85,0.0,63.61,0.0,23.32,85.1,6.0,react_tool_L_it1
+scaled,react_tool_L,mir_operator:LinearOp,True,28.66,profiled,tensor-core compute-bound,gemm,43.79,44.86,12.03,0.0,90.94,16.44,12.25,planner_debate_L_it1
+scaled,react_tool_L,mir_operator:LinearOp,True,28.66,profiled,tensor-core compute-bound,gemm,48.8,49.01,16.72,0.0,54.36,16.35,12.0,planner_debate_L_it1
+scaled,react_tool_L,mir_operator:LinearOp,True,28.66,profiled,tensor-core compute-bound,gemm,47.44,48.07,12.87,0.0,74.35,15.95,4.5,react_tool_L_it1
+scaled,react_tool_L,mir_operator:ViewOp,False,0.13,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,react_tool_L,mir_operator:TransposeOp,False,3.55,profiled,L2-bandwidth-bound (working set in L2),copy,6.19,0.0,22.7,0.0,91.87,88.33,16.33,planner_debate_L_it1
+scaled,react_tool_L,mir_operator:TransposeOp,False,3.55,profiled,L2-bandwidth-bound (working set in L2),copy,6.3,0.0,24.87,0.0,93.18,88.49,21.33,planner_debate_L_it1
+scaled,react_tool_L,mir_operator:TransposeOp,False,3.55,profiled,L2-bandwidth-bound (working set in L2),copy,6.12,0.0,20.34,0.0,90.91,87.69,12.0,react_tool_L_it1
+scaled,react_tool_L,pre_d2h_alloc,False,0.02,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,react_tool_L,d2h_stage,False,0.76,not_collected_memcpy,"PCIe copy; not a kernel, see w02 h2d/d2h bytes and cuda_ms",memcpy,,,,,,,,react_tool_L_it1
+scaled,react_tool_L,d2h_stage,False,0.76,not_collected_memcpy,"PCIe copy; not a kernel, see w02 h2d/d2h bytes and cuda_ms",memcpy,,,,,,,,planner_debate_L_it1
+scaled,react_tool_L,checksum_complete,False,0.07,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,react_tool_L,agent_tool_execute_cpu,False,0.14,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,react_tool_L,iteration_tail_sync,False,0.02,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,planner_debate_L,dag_schedule_gap,False,0.11,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,planner_debate_L,adapter_dispatch,False,0.48,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,planner_debate_L,token_preprocess_cpu,False,0.16,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,planner_debate_L,host_input_generate,True,48.2,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,planner_debate_L,h2d_stage,False,0.67,not_collected_memcpy,"PCIe copy; not a kernel, see w02 h2d/d2h bytes and cuda_ms",memcpy,,,,,,,,react_tool_L_it1
+scaled,planner_debate_L,h2d_stage,False,0.67,not_collected_memcpy,"PCIe copy; not a kernel, see w02 h2d/d2h bytes and cuda_ms",memcpy,,,,,,,,planner_debate_L_it1
+scaled,planner_debate_L,weight_init,False,0.1,profiled,SM-issue-bound,rng_init,70.33,0.0,46.24,0.0,37.25,67.79,1.0,planner_debate_L_it1
+scaled,planner_debate_L,weight_init,False,0.1,profiled,DRAM-bandwidth-bound,elementwise_binary,4.31,0.0,92.61,0.0,32.73,86.21,8.17,planner_debate_L_it1
+scaled,planner_debate_L,weight_init,False,0.1,profiled,SM-issue-bound,rng_init,71.21,0.0,57.52,0.0,38.31,67.82,1.0,planner_debate_L_it1
+scaled,planner_debate_L,weight_init,False,0.1,profiled,DRAM-bandwidth-bound,elementwise_binary,5.19,0.0,93.5,0.0,30.87,87.03,10.67,planner_debate_L_it1
+scaled,planner_debate_L,weight_init,False,0.1,profiled,SM-issue-bound,rng_init,68.72,0.0,33.72,0.0,37.25,67.7,1.0,react_tool_L_it1
+scaled,planner_debate_L,weight_init,False,0.1,profiled,DRAM-bandwidth-bound,elementwise_binary,5.02,0.0,88.95,0.0,33.26,84.32,6.0,react_tool_L_it1
+scaled,planner_debate_L,mir_operator:RMSNormOp,True,12.56,profiled,DRAM-bandwidth-bound,copy,5.31,0.0,89.5,0.0,35.76,86.92,8.17,planner_debate_L_it1
+scaled,planner_debate_L,mir_operator:RMSNormOp,True,12.56,profiled,DRAM-bandwidth-bound,elementwise_unary,0.96,0.0,47.22,0.0,14.99,42.45,4.08,planner_debate_L_it1
+scaled,planner_debate_L,mir_operator:RMSNormOp,True,12.56,profiled,DRAM-bandwidth-bound,reduce,2.2,0.0,90.15,0.0,34.1,58.18,0.58,planner_debate_L_it1
+scaled,planner_debate_L,mir_operator:RMSNormOp,True,12.56,profiled,"latency/launch-bound: 0.00 waves per SM, no unit above 30 % of peak",elementwise_binary,7.31,0.0,46.99,0.0,14.25,47.73,16.34,planner_debate_L_it1
+scaled,planner_debate_L,mir_operator:RMSNormOp,True,12.56,profiled,DRAM-bandwidth-bound,copy,11.18,0.0,91.08,0.0,32.38,87.72,10.67,planner_debate_L_it1
+scaled,planner_debate_L,mir_operator:RMSNormOp,True,12.56,profiled,DRAM-bandwidth-bound,elementwise_unary,0.89,0.0,47.39,0.0,14.06,42.57,5.33,planner_debate_L_it1
+scaled,planner_debate_L,mir_operator:RMSNormOp,True,12.56,profiled,DRAM-bandwidth-bound,reduce,2.03,0.0,90.49,0.0,30.77,66.11,0.67,planner_debate_L_it1
+scaled,planner_debate_L,mir_operator:RMSNormOp,True,12.56,profiled,"latency/launch-bound: 0.00 waves per SM, no unit above 30 % of peak",elementwise_binary,7.13,0.0,47.16,0.0,13.87,48.51,21.34,planner_debate_L_it1
+scaled,planner_debate_L,mir_operator:RMSNormOp,True,12.56,profiled,DRAM-bandwidth-bound,copy,12.59,0.0,88.06,0.0,37.8,87.67,6.0,react_tool_L_it1
+scaled,planner_debate_L,mir_operator:RMSNormOp,True,12.56,profiled,DRAM-bandwidth-bound,elementwise_unary,1.0,0.0,46.99,0.0,15.64,42.21,3.0,react_tool_L_it1
+scaled,planner_debate_L,mir_operator:RMSNormOp,True,12.56,profiled,DRAM-bandwidth-bound,reduce,2.33,0.0,87.86,0.0,34.25,49.89,0.5,react_tool_L_it1
+scaled,planner_debate_L,mir_operator:RMSNormOp,True,12.56,profiled,"latency/launch-bound: 0.00 waves per SM, no unit above 30 % of peak",elementwise_binary,7.57,0.0,46.48,0.0,14.52,47.05,12.0,react_tool_L_it1
+scaled,planner_debate_L,inter_operator_dispatch,False,0.05,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,planner_debate_L,mir_operator:AddOp,False,0.32,profiled,DRAM-bandwidth-bound,elementwise_binary,4.57,0.0,92.74,0.0,33.1,85.47,8.17,planner_debate_L_it1
+scaled,planner_debate_L,mir_operator:AddOp,False,0.32,profiled,DRAM-bandwidth-bound,elementwise_binary,5.48,0.0,93.5,0.0,31.08,87.59,10.67,planner_debate_L_it1
+scaled,planner_debate_L,mir_operator:AddOp,False,0.32,profiled,DRAM-bandwidth-bound,elementwise_binary,4.85,0.0,63.61,0.0,23.32,85.1,6.0,react_tool_L_it1
+scaled,planner_debate_L,mir_operator:LinearOp,True,33.39,profiled,tensor-core compute-bound,gemm,43.79,44.86,12.03,0.0,90.94,16.44,12.25,planner_debate_L_it1
+scaled,planner_debate_L,mir_operator:LinearOp,True,33.39,profiled,tensor-core compute-bound,gemm,48.8,49.01,16.72,0.0,54.36,16.35,12.0,planner_debate_L_it1
+scaled,planner_debate_L,mir_operator:LinearOp,True,33.39,profiled,tensor-core compute-bound,gemm,47.44,48.07,12.87,0.0,74.35,15.95,4.5,react_tool_L_it1
+scaled,planner_debate_L,mir_operator:ViewOp,False,0.08,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,planner_debate_L,mir_operator:TransposeOp,False,3.14,profiled,L2-bandwidth-bound (working set in L2),copy,6.19,0.0,22.7,0.0,91.87,88.33,16.33,planner_debate_L_it1
+scaled,planner_debate_L,mir_operator:TransposeOp,False,3.14,profiled,L2-bandwidth-bound (working set in L2),copy,6.3,0.0,24.87,0.0,93.18,88.49,21.33,planner_debate_L_it1
+scaled,planner_debate_L,mir_operator:TransposeOp,False,3.14,profiled,L2-bandwidth-bound (working set in L2),copy,6.12,0.0,20.34,0.0,90.91,87.69,12.0,react_tool_L_it1
+scaled,planner_debate_L,pre_d2h_alloc,False,0.01,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,planner_debate_L,d2h_stage,False,0.65,not_collected_memcpy,"PCIe copy; not a kernel, see w02 h2d/d2h bytes and cuda_ms",memcpy,,,,,,,,react_tool_L_it1
+scaled,planner_debate_L,d2h_stage,False,0.65,not_collected_memcpy,"PCIe copy; not a kernel, see w02 h2d/d2h bytes and cuda_ms",memcpy,,,,,,,,planner_debate_L_it1
+scaled,planner_debate_L,checksum_complete,False,0.04,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,planner_debate_L,agent_tool_execute_cpu,False,0.03,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,planner_debate_L,iteration_tail_sync,False,0.01,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,react_moa_mcts_x3_L,dag_schedule_gap,False,0.07,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,react_moa_mcts_x3_L,adapter_dispatch,False,0.39,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,react_moa_mcts_x3_L,token_preprocess_cpu,False,0.15,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,react_moa_mcts_x3_L,host_input_generate,True,48.37,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,react_moa_mcts_x3_L,h2d_stage,False,0.67,not_collected_memcpy,"PCIe copy; not a kernel, see w02 h2d/d2h bytes and cuda_ms",memcpy,,,,,,,,react_tool_L_it1
+scaled,react_moa_mcts_x3_L,h2d_stage,False,0.67,not_collected_memcpy,"PCIe copy; not a kernel, see w02 h2d/d2h bytes and cuda_ms",memcpy,,,,,,,,planner_debate_L_it1
+scaled,react_moa_mcts_x3_L,weight_init,False,0.09,profiled,SM-issue-bound,rng_init,70.33,0.0,46.24,0.0,37.25,67.79,1.0,planner_debate_L_it1
+scaled,react_moa_mcts_x3_L,weight_init,False,0.09,profiled,DRAM-bandwidth-bound,elementwise_binary,4.31,0.0,92.61,0.0,32.73,86.21,8.17,planner_debate_L_it1
+scaled,react_moa_mcts_x3_L,weight_init,False,0.09,profiled,SM-issue-bound,rng_init,71.21,0.0,57.52,0.0,38.31,67.82,1.0,planner_debate_L_it1
+scaled,react_moa_mcts_x3_L,weight_init,False,0.09,profiled,DRAM-bandwidth-bound,elementwise_binary,5.19,0.0,93.5,0.0,30.87,87.03,10.67,planner_debate_L_it1
+scaled,react_moa_mcts_x3_L,weight_init,False,0.09,profiled,SM-issue-bound,rng_init,68.72,0.0,33.72,0.0,37.25,67.7,1.0,react_tool_L_it1
+scaled,react_moa_mcts_x3_L,weight_init,False,0.09,profiled,DRAM-bandwidth-bound,elementwise_binary,5.02,0.0,88.95,0.0,33.26,84.32,6.0,react_tool_L_it1
+scaled,react_moa_mcts_x3_L,mir_operator:RMSNormOp,True,13.02,profiled,DRAM-bandwidth-bound,copy,5.31,0.0,89.5,0.0,35.76,86.92,8.17,planner_debate_L_it1
+scaled,react_moa_mcts_x3_L,mir_operator:RMSNormOp,True,13.02,profiled,DRAM-bandwidth-bound,elementwise_unary,0.96,0.0,47.22,0.0,14.99,42.45,4.08,planner_debate_L_it1
+scaled,react_moa_mcts_x3_L,mir_operator:RMSNormOp,True,13.02,profiled,DRAM-bandwidth-bound,reduce,2.2,0.0,90.15,0.0,34.1,58.18,0.58,planner_debate_L_it1
+scaled,react_moa_mcts_x3_L,mir_operator:RMSNormOp,True,13.02,profiled,"latency/launch-bound: 0.00 waves per SM, no unit above 30 % of peak",elementwise_binary,7.31,0.0,46.99,0.0,14.25,47.73,16.34,planner_debate_L_it1
+scaled,react_moa_mcts_x3_L,mir_operator:RMSNormOp,True,13.02,profiled,DRAM-bandwidth-bound,copy,11.18,0.0,91.08,0.0,32.38,87.72,10.67,planner_debate_L_it1
+scaled,react_moa_mcts_x3_L,mir_operator:RMSNormOp,True,13.02,profiled,DRAM-bandwidth-bound,elementwise_unary,0.89,0.0,47.39,0.0,14.06,42.57,5.33,planner_debate_L_it1
+scaled,react_moa_mcts_x3_L,mir_operator:RMSNormOp,True,13.02,profiled,DRAM-bandwidth-bound,reduce,2.03,0.0,90.49,0.0,30.77,66.11,0.67,planner_debate_L_it1
+scaled,react_moa_mcts_x3_L,mir_operator:RMSNormOp,True,13.02,profiled,"latency/launch-bound: 0.00 waves per SM, no unit above 30 % of peak",elementwise_binary,7.13,0.0,47.16,0.0,13.87,48.51,21.34,planner_debate_L_it1
+scaled,react_moa_mcts_x3_L,mir_operator:RMSNormOp,True,13.02,profiled,DRAM-bandwidth-bound,copy,12.59,0.0,88.06,0.0,37.8,87.67,6.0,react_tool_L_it1
+scaled,react_moa_mcts_x3_L,mir_operator:RMSNormOp,True,13.02,profiled,DRAM-bandwidth-bound,elementwise_unary,1.0,0.0,46.99,0.0,15.64,42.21,3.0,react_tool_L_it1
+scaled,react_moa_mcts_x3_L,mir_operator:RMSNormOp,True,13.02,profiled,DRAM-bandwidth-bound,reduce,2.33,0.0,87.86,0.0,34.25,49.89,0.5,react_tool_L_it1
+scaled,react_moa_mcts_x3_L,mir_operator:RMSNormOp,True,13.02,profiled,"latency/launch-bound: 0.00 waves per SM, no unit above 30 % of peak",elementwise_binary,7.57,0.0,46.48,0.0,14.52,47.05,12.0,react_tool_L_it1
+scaled,react_moa_mcts_x3_L,inter_operator_dispatch,False,0.04,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,react_moa_mcts_x3_L,mir_operator:AddOp,False,0.31,profiled,DRAM-bandwidth-bound,elementwise_binary,4.57,0.0,92.74,0.0,33.1,85.47,8.17,planner_debate_L_it1
+scaled,react_moa_mcts_x3_L,mir_operator:AddOp,False,0.31,profiled,DRAM-bandwidth-bound,elementwise_binary,5.48,0.0,93.5,0.0,31.08,87.59,10.67,planner_debate_L_it1
+scaled,react_moa_mcts_x3_L,mir_operator:AddOp,False,0.31,profiled,DRAM-bandwidth-bound,elementwise_binary,4.85,0.0,63.61,0.0,23.32,85.1,6.0,react_tool_L_it1
+scaled,react_moa_mcts_x3_L,mir_operator:LinearOp,True,32.98,profiled,tensor-core compute-bound,gemm,43.79,44.86,12.03,0.0,90.94,16.44,12.25,planner_debate_L_it1
+scaled,react_moa_mcts_x3_L,mir_operator:LinearOp,True,32.98,profiled,tensor-core compute-bound,gemm,48.8,49.01,16.72,0.0,54.36,16.35,12.0,planner_debate_L_it1
+scaled,react_moa_mcts_x3_L,mir_operator:LinearOp,True,32.98,profiled,tensor-core compute-bound,gemm,47.44,48.07,12.87,0.0,74.35,15.95,4.5,react_tool_L_it1
+scaled,react_moa_mcts_x3_L,mir_operator:ViewOp,False,0.07,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,react_moa_mcts_x3_L,mir_operator:TransposeOp,False,3.14,profiled,L2-bandwidth-bound (working set in L2),copy,6.19,0.0,22.7,0.0,91.87,88.33,16.33,planner_debate_L_it1
+scaled,react_moa_mcts_x3_L,mir_operator:TransposeOp,False,3.14,profiled,L2-bandwidth-bound (working set in L2),copy,6.3,0.0,24.87,0.0,93.18,88.49,21.33,planner_debate_L_it1
+scaled,react_moa_mcts_x3_L,mir_operator:TransposeOp,False,3.14,profiled,L2-bandwidth-bound (working set in L2),copy,6.12,0.0,20.34,0.0,90.91,87.69,12.0,react_tool_L_it1
+scaled,react_moa_mcts_x3_L,pre_d2h_alloc,False,0.01,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,react_moa_mcts_x3_L,d2h_stage,False,0.64,not_collected_memcpy,"PCIe copy; not a kernel, see w02 h2d/d2h bytes and cuda_ms",memcpy,,,,,,,,react_tool_L_it1
+scaled,react_moa_mcts_x3_L,d2h_stage,False,0.64,not_collected_memcpy,"PCIe copy; not a kernel, see w02 h2d/d2h bytes and cuda_ms",memcpy,,,,,,,,planner_debate_L_it1
+scaled,react_moa_mcts_x3_L,checksum_complete,False,0.04,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,react_moa_mcts_x3_L,agent_tool_execute_cpu,False,0.01,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,
+scaled,react_moa_mcts_x3_L,iteration_tail_sync,False,0.0,not_collected_cpu_process,host-side Python/CPU segment; no GPU counters exist for it,,,,,,,,,

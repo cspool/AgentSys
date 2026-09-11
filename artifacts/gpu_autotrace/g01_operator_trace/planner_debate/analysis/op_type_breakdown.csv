@@ -1,0 +1,7 @@
+workload,op_type,instances,kernel_launches,gpu_ns_total,gpu_share_pct,nvtx_cpu_ns_total,wall_share_pct,gpu_ns_per_instance
+planner_debate,call_overhead,100,200,27798416.0,71.68,0.0,0.0,277984.2
+planner_debate,LinearOp,300,300,5634621.0,14.53,36880538.0,2.8,18782.1
+planner_debate,RMSNormOp,200,1400,3874864.0,9.99,55676489.0,4.22,19374.3
+planner_debate,TransposeOp,100,100,1229916.0,3.17,13430059.0,1.02,12299.2
+planner_debate,AddOp,100,100,241528.0,0.62,11077291.0,0.84,2415.3
+planner_debate,ViewOp,100,0,0.0,0.0,8373273.0,0.63,0.0

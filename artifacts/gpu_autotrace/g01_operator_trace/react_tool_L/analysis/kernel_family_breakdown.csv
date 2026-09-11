@@ -1,0 +1,8 @@
+workload,family,instances,gpu_ns_total,gpu_share_pct
+react_tool_L,gemm,1536,543095280.0,70.32
+react_tool_L,copy,2560,109822919.0,14.22
+react_tool_L,elementwise_unary,2048,42694926.0,5.53
+react_tool_L,elementwise_binary,2576,39125304.0,5.07
+react_tool_L,memcpy,32,26462208.0,3.43
+react_tool_L,reduce,1024,10811985.0,1.4
+react_tool_L,rng_init,16,293044.0,0.04

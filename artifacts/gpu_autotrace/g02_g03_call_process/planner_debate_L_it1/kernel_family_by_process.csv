@@ -1,0 +1,13 @@
+workload,process,family,instances,gpu_ns_total,gpu_share_pct
+planner_debate_L_it1,mir_operator:LinearOp,gemm,120,92067712,37.72
+planner_debate_L_it1,d2h_stage,memcpy,40,54593006,22.37
+planner_debate_L_it1,h2d_stage,memcpy,40,51962037,21.29
+planner_debate_L_it1,mir_operator:RMSNormOp,copy,160,13273540,5.44
+planner_debate_L_it1,mir_operator:RMSNormOp,elementwise_unary,160,9358736,3.83
+planner_debate_L_it1,mir_operator:RMSNormOp,elementwise_binary,160,9069022,3.72
+planner_debate_L_it1,mir_operator:TransposeOp,copy,40,8278034,3.39
+planner_debate_L_it1,mir_operator:RMSNormOp,reduce,80,2450842,1.0
+planner_debate_L_it1,weight_init,rng_init,40,1311065,0.54
+planner_debate_L_it1,mir_operator:AddOp,elementwise_binary,40,908967,0.37
+planner_debate_L_it1,weight_init,elementwise_binary,40,715183,0.29
+planner_debate_L_it1,mir_operator:LinearOp,memset,72,62015,0.03

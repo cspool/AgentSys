@@ -1,0 +1,7 @@
+workload,op_type,instances,kernel_launches,gpu_ns_total,gpu_share_pct,nvtx_cpu_ns_total,wall_share_pct,gpu_ns_per_instance
+react_tool_L_it1,call_overhead,16,32,27302734.0,52.63,0.0,0.0,1706420.9
+react_tool_L_it1,LinearOp,48,48,17852486.0,34.41,22596974.0,1.56,371926.8
+react_tool_L_it1,RMSNormOp,32,224,4391525.0,8.47,10441915.0,0.72,137235.2
+react_tool_L_it1,TransposeOp,16,16,2148546.0,4.14,3850156.0,0.27,134284.1
+react_tool_L_it1,AddOp,16,16,182971.0,0.35,1813580.0,0.13,11435.7
+react_tool_L_it1,ViewOp,16,0,0.0,0.0,1288784.0,0.09,0.0

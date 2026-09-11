@@ -1,0 +1,13 @@
+workload,process,family,instances,gpu_ns_total,gpu_share_pct
+react_moa_mcts_x3_L,mir_operator:LinearOp,gemm,23040,17352501292,65.27
+react_moa_mcts_x3_L,mir_operator:RMSNormOp,copy,30720,2454078308,9.23
+react_moa_mcts_x3_L,mir_operator:RMSNormOp,elementwise_unary,30720,2029570872,7.63
+react_moa_mcts_x3_L,mir_operator:RMSNormOp,elementwise_binary,30720,1793384928,6.75
+react_moa_mcts_x3_L,mir_operator:TransposeOp,copy,7680,1634155326,6.15
+react_moa_mcts_x3_L,mir_operator:RMSNormOp,reduce,15360,509613997,1.92
+react_moa_mcts_x3_L,d2h_stage,memcpy,240,327187585,1.23
+react_moa_mcts_x3_L,h2d_stage,memcpy,240,316400156,1.19
+react_moa_mcts_x3_L,mir_operator:AddOp,elementwise_binary,7680,135464398,0.51
+react_moa_mcts_x3_L,mir_operator:LinearOp,memset,18432,22883260,0.09
+react_moa_mcts_x3_L,weight_init,rng_init,240,7258114,0.03
+react_moa_mcts_x3_L,weight_init,elementwise_binary,240,4572465,0.02

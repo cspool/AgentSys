@@ -1,0 +1,13 @@
+workload,api,calls,ns_total,share_of_wall_pct
+planner_debate_L,cudaEventSynchronize,400,3950550400,45.82
+planner_debate_L,cudaLaunchKernel,22864,107179296,1.24
+planner_debate_L,cudaMemsetAsync,2304,8371448,0.1
+planner_debate_L,cuLaunchKernel,1536,7056351,0.08
+planner_debate_L,cudaEventRecord,880,4192308,0.05
+planner_debate_L,cudaEventCreateWithFlags,800,2004823,0.02
+planner_debate_L,cudaMemcpyAsync,80,1928057,0.02
+planner_debate_L,cudaEventDestroy,800,1138426,0.01
+planner_debate_L,cuKernelGetFunction,1536,746778,0.01
+planner_debate_L,cudaEventQuery,80,375228,0.0
+planner_debate_L,cudaStreamIsCapturing,120,114376,0.0
+planner_debate_L,cudaDeviceSynchronize,8,74799,0.0

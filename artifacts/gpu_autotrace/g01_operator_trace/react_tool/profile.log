@@ -1,0 +1,18 @@
+{
+  "expected_operator_events": 320,
+  "operator_events": 320,
+  "total_events": 540
+}
+{
+  "finished": 2725079741894,
+  "measured_wall_ms": 373.542237,
+  "started": 2724148664261,
+  "warmup_done": 2724706199657,
+  "warmup_wall_ms": 557.535396
+}
+/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_tool/native/run_metadata.json
+Collecting data...
+Generating '/tmp/nsys-root/nsys-report-acbf.qdstrm'
+[1/1] [0%                          ] react_tool_single_gpu.nsys-rep[1/1] [0%                          ] react_tool_single_gpu.nsys-rep[1/1] [5%                          ] react_tool_single_gpu.nsys-rep[1/1] [==19%                       ] react_tool_single_gpu.nsys-rep[1/1] [==20%                       ] react_tool_single_gpu.nsys-rep[1/1] [=====================88%    ] react_tool_single_gpu.nsys-rep[1/1] [======================90%   ] react_tool_single_gpu.nsys-rep[1/1] [=======================96%  ] react_tool_single_gpu.nsys-rep[1/1] [========================98% ] react_tool_single_gpu.nsys-rep[1/1] [========================100%] react_tool_single_gpu.nsys-rep[1/1] [========================100%] react_tool_single_gpu.nsys-rep[1/1] [========================100%] react_tool_single_gpu.nsys-rep
+Generated:
+	/workspace/AgentSys/artifacts/gpu_autotrace/g01_operator_trace/react_tool/react_tool_single_gpu.nsys-rep
