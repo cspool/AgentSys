@@ -1,0 +1,75 @@
+{
+  "global": {
+    "total_gpu_items_in_trace": 3571823,
+    "unattributed_examples": [
+      "memcpy_Host-to-Device",
+      "memcpy_Host-to-Device",
+      "memcpy_Host-to-Device",
+      "memcpy_Host-to-Device",
+      "memcpy_Host-to-Device"
+    ],
+    "unattributed_gpu_items_anywhere": 5088,
+    "unattributed_gpu_ns_anywhere": 543524660
+  },
+  "goal": "G01",
+  "gpu": {
+    "bus": "0000:b1:00.0",
+    "clock_hz": 2535000000,
+    "l2_bytes": 75497472,
+    "mem_bw_bytes_s": 1008096000000,
+    "name": "NVIDIA GeForce RTX 4090",
+    "sm_count": 128,
+    "uuid": "619e0c86-ae77-e523-7e85-97195a01f08b"
+  },
+  "iterations": {
+    "measured": 3,
+    "warmup": 2
+  },
+  "lineage": "h22-gpu-autotrace",
+  "measured": {
+    "call_overhead_gpu_ns_total": 17752590,
+    "expected_operator_instances": 40920,
+    "gpu_busy_pct_per_iter": {
+      "max": 18.54,
+      "mean": 18.1,
+      "median": 18.4,
+      "min": 17.46
+    },
+    "gpu_busy_union_ns_total": 8816619553,
+    "kernel_launches_total": 2134608,
+    "operator_gpu_ns_total": 8798866963,
+    "operator_instances": 40920,
+    "sum_attributed_gpu_ns_total": 8816619553,
+    "unattributed_gpu_items_in_window": 0,
+    "unattributed_gpu_ns_in_window": 0,
+    "wall_ns_per_iter": {
+      "max": 16878549382,
+      "mean": 16219537262.7,
+      "median": 15959036451,
+      "min": 15821025955
+    },
+    "wall_ns_total": 48658611788
+  },
+  "measured_window_ns": 48661559488,
+  "pass": true,
+  "plan_sha256": "aea4721200a143717c3517604db4e13f1fbdad5f23a00a67d8d0e590d11afc32",
+  "schema_version": 1,
+  "sqlite": "artifacts/gpu_autotrace/llm/g01_operator_trace/planner_debate/planner_debate_single_gpu.sqlite",
+  "sqlite_sha256": "114b27d5509cbe499378472bb8173429988ea946b16d11f8ceb91595453fcaa3",
+  "warmup": {
+    "first_iter_wall_ns": 15826869384,
+    "gpu_busy_pct_per_iter": {
+      "max": 18.58,
+      "mean": 18.6,
+      "median": 18.56,
+      "min": 18.54
+    },
+    "wall_ns_per_iter": {
+      "max": 15826869384,
+      "mean": 15824309892,
+      "median": 15824309892.0,
+      "min": 15821750400
+    }
+  },
+  "workload": "planner_debate"
+}

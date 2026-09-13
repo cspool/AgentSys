@@ -1,0 +1,7 @@
+label,phase,items,gpu_ns,gpu_share_pct
+scopes_v1,gpu_model_runner: postprocess,22362,8403547704,81.85
+scopes_v1,gpu_model_runner: forward,41347,1501293071,14.62
+scopes_v1,gpu_model_runner: sample,22362,204054021,1.99
+scopes_v1,gpu_model_runner: preprocess,152689,154006672,1.5
+scopes_v1,gpu_model_runner: AsyncGPUModelRunnerOutput,7454,14675084,0.14
+scopes_v1,<unattributed>,0,1664,0.0

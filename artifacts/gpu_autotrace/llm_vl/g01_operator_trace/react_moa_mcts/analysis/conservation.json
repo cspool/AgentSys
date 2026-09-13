@@ -1,0 +1,75 @@
+{
+  "global": {
+    "total_gpu_items_in_trace": 6786791,
+    "unattributed_examples": [
+      "memcpy_Host-to-Device",
+      "memcpy_Host-to-Device",
+      "memcpy_Host-to-Device",
+      "memcpy_Host-to-Device",
+      "memcpy_Host-to-Device"
+    ],
+    "unattributed_gpu_items_anywhere": 5551,
+    "unattributed_gpu_ns_anywhere": 973079540
+  },
+  "goal": "G01",
+  "gpu": {
+    "bus": "0000:b1:00.0",
+    "clock_hz": 2535000000,
+    "l2_bytes": 75497472,
+    "mem_bw_bytes_s": 1008096000000,
+    "name": "NVIDIA GeForce RTX 4090",
+    "sm_count": 128,
+    "uuid": "619e0c86-ae77-e523-7e85-97195a01f08b"
+  },
+  "iterations": {
+    "measured": 3,
+    "warmup": 2
+  },
+  "lineage": "h22-gpu-autotrace",
+  "measured": {
+    "call_overhead_gpu_ns_total": 44026343,
+    "expected_operator_instances": 100620,
+    "gpu_busy_pct_per_iter": {
+      "max": 24.75,
+      "mean": 24.2,
+      "median": 24.74,
+      "min": 23.25
+    },
+    "gpu_busy_union_ns_total": 24591643957,
+    "kernel_launches_total": 4055340,
+    "operator_gpu_ns_total": 24547617614,
+    "operator_instances": 100620,
+    "sum_attributed_gpu_ns_total": 24591643957,
+    "unattributed_gpu_items_in_window": 0,
+    "unattributed_gpu_ns_in_window": 0,
+    "wall_ns_per_iter": {
+      "max": 35286302874,
+      "mean": 33835123423.3,
+      "median": 33170584056,
+      "min": 33048483340
+    },
+    "wall_ns_total": 101505370270
+  },
+  "measured_window_ns": 101514364080,
+  "pass": true,
+  "plan_sha256": "80185d341d878e7b6068c44b1bbb75025a56568fef9ebf44f5b4a00a406ec905",
+  "schema_version": 1,
+  "sqlite": "artifacts/gpu_autotrace/llm_vl/g01_operator_trace/react_moa_mcts/react_moa_mcts_single_gpu.sqlite",
+  "sqlite_sha256": "6cd7f24fa730f0516aaf70e1c33f02f3d70a7f07f39ba209ca01cdce2546a613",
+  "warmup": {
+    "first_iter_wall_ns": 32647379325,
+    "gpu_busy_pct_per_iter": {
+      "max": 25.05,
+      "mean": 24.9,
+      "median": 24.915,
+      "min": 24.78
+    },
+    "wall_ns_per_iter": {
+      "max": 32992283112,
+      "mean": 32819831218.5,
+      "median": 32819831218.5,
+      "min": 32647379325
+    }
+  },
+  "workload": "react_moa_mcts"
+}

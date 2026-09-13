@@ -150,7 +150,7 @@ def main(argv: list[str] | None = None) -> int:
                     w02row = rows_in_range[j]
                     matched += 1
                 seen[key] += 1
-            elif i < len(kernels_w02) and kernels_w02[i]["family"] == r["family"]:
+            elif len(recs) == len(kernels_w02) and i < len(kernels_w02) and kernels_w02[i]["family"] == r["family"]:
                 w02row = kernels_w02[i]
                 matched += 1
             call = r["call_id"] or w02row.get("call_id")
@@ -172,8 +172,14 @@ def main(argv: list[str] | None = None) -> int:
                    "registers_per_thread": r["registers_per_thread"], "gemm_tflops_from_replay": round(tflops, 1) if tflops else "",
                    "dominant_stalls": r["dominant_stalls"], "hardware_bottleneck_interpretation": interpret(r)}
             all_rows.append(row)
+        in_range = sum(1 for r in recs if r["op_index"] is not None)
         provenance[w]["ncu_kernels_joined_to_w02"] = matched
-        provenance[w]["order_match"] = matched == len(recs)
+        provenance[w]["ncu_kernels_in_operator_ranges"] = in_range
+        provenance[w]["ncu_kernels_outside_operator_ranges"] = len(recs) - in_range
+        # Kernels outside any operator NVTX range (e.g. rotary-embedding
+        # precompute between stages) are reported but carry no w02 row; the
+        # order contract applies to the in-range kernels.
+        provenance[w]["order_match"] = matched >= in_range
     _write_csv(out / "ncu_kernel_hardware_attributes.csv", all_rows)
 
     # ---- family-level projection over w02 rows: (workload, matrix, process, family)
@@ -185,7 +191,7 @@ def main(argv: list[str] | None = None) -> int:
         vals = [float(r[k]) for r in rows if r[k] not in ("", None)]
         return round(statistics.median(vals), 2) if vals else ""
 
-    for key, rows in sorted(grp.items(), key=lambda kv: (kv[0][0], kv[0][1], min(int(r["launch_order"]) for r in kv[1]))):
+    for key, rows in sorted(grp.items(), key=lambda kv: (kv[0][0], str(kv[0][1]), min(int(r["launch_order"]) for r in kv[1]))):
         family_rows.append({"workload": key[0], "matrix_size": key[1], "process": key[2], "matched_kernel_family": key[3], "kernel_family_instance_count": len(rows),
                             "ncu_status": "profiled", "ncu_profiled_kernel_names": rows[0]["kernel_name"][:60], "first_launch_order": min(int(r["launch_order"]) for r in rows),
                             "sm_throughput_pct": med(rows, "sm_throughput_pct"), "tensor_pipe_active_pct": med(rows, "tensor_pipe_active_pct"), "dram_cycles_active_pct": med(rows, "dram_cycles_active_pct"),

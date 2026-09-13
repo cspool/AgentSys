@@ -1,0 +1,13 @@
+workload,family,instances,gpu_ns_total,gpu_share_pct
+planner_debate,gemv,258405,5401216744.0,61.26
+planner_debate,elementwise_binary,634920,951522526.0,10.79
+planner_debate,copy,302280,483966921.0,5.49
+planner_debate,attention,73920,382194993.0,4.33
+planner_debate,concat,149160,373526843.0,4.24
+planner_debate,elementwise_other,262680,363641287.0,4.12
+planner_debate,elementwise_unary,298320,336875140.0,3.82
+planner_debate,reduce,150648,336331780.0,3.81
+planner_debate,gemm,2955,181327952.0,2.06
+planner_debate,other,1320,2575601.0,0.03
+planner_debate,memcpy,2685,2126060.0,0.02
+planner_debate,memset,2748,1313706.0,0.01

@@ -1,0 +1,11 @@
+label,family,items,gpu_ns,gpu_share_pct
+scopes_v1,gemm,7508,8154509625,79.42
+scopes_v1,attention,40320,1355220524,13.2
+scopes_v1,gemv,330,366205738,3.57
+scopes_v1,reduce,7454,157196327,1.53
+scopes_v1,memcpy,83359,77152677,0.75
+scopes_v1,copy,29818,68744140,0.67
+scopes_v1,elementwise_other,54749,61921775,0.6
+scopes_v1,other,14870,26713527,0.26
+scopes_v1,elementwise_binary,7551,9710010,0.09
+scopes_v1,memset,256,203873,0.0

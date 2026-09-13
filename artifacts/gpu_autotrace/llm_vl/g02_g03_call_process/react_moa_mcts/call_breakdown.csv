@@ -1,0 +1,13 @@
+workload,call_id,call_kind,wave,matrix_size,host_ns_per_iter,host_share_pct,gpu_ns_per_iter,gpu_share_pct,gpu_over_host_pct
+react_moa_mcts,react-plan,llm,0,768,3035624782.3,8.97,730510357.3,8.91,24.06
+react_moa_mcts,moa-map0,llm,0,1024,3424634816.0,10.12,853880171.0,10.42,24.93
+react_moa_mcts,moa-map1,llm,0,1024,3690507192.0,10.91,911020814.7,11.11,24.69
+react_moa_mcts,moa-map2,llm,0,1024,3364362842.0,9.94,827755293.0,10.1,24.6
+react_moa_mcts,mcts-root,llm,0,1024,3295985666.7,9.74,814969752.3,9.94,24.73
+react_moa_mcts,react-tool,tool,1,256,429050.7,0.0,0.0,0.0,0.0
+react_moa_mcts,mcts-actor0,llm,1,1024,3626001009.7,10.72,853757442.7,10.42,23.55
+react_moa_mcts,mcts-actor1,llm,1,1024,3378018535.0,9.98,778619260.3,9.5,23.05
+react_moa_mcts,moa-reduce,llm,1,1024,3835456661.7,11.34,891416454.7,10.87,23.24
+react_moa_mcts,react-answer,llm,2,896,2892209687.0,8.55,717195229.0,8.75,24.8
+react_moa_mcts,mcts-critic,llm,2,1024,3289747548.7,9.72,818089877.3,9.98,24.87
+react_moa_mcts,<dag>,dag,,,2145631.7,0.01,0.0,0.0,0.0

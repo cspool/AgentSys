@@ -104,3 +104,29 @@ Two strands of the same serial chain. `base` runs the certified run_040 plans as
    its trace; the base error is dominated by the plan-independent DAG scheduling gap and by H2D/D2H staging variance.
 5. The real-model strand (Qwen3-1.7B weights present under /data3/docker_model/AgentSys) is not part of this summary: no transformer library is
    installed, downloads are excluded by protocol, and the hand-written fallback was set aside pending the user's own sources.
+
+## llm strand (real Qwen3-1.7B inference as agent, completed 2026-09-12)
+
+Full detail: `artifacts/gpu_autotrace/llm/H22_LLM_STRAND_SUMMARY.md`.
+
+| Goal | Result |
+|---|---|
+| G01 | 3/3 pass; GPU busy median react_tool 18.77 %, planner_debate 18.40 %, react_moa_mcts 19.55 %; 0 unattributed |
+| G02/G03 | 3/3 pass; conservation 0 ns; robust constant-offset alignment (99.999 % pairs within ±200 µs) |
+| G04 | pass; react_tool 6 568/6 568 joined, planner_debate 16 126/16 126 joined — complete after a per-call fill session for `planner-final` (first session crashed at 913/3 214; merge in `merge_provenance.json`) |
+| G05 | pass; react_moa_mcts wall +3.62 %, GPU −2.13 %, zero instance mismatches |
+| G06–G10 | pass; selection `mir_operator:decode_layer*` 91.6–92.2 % of host time in all workloads |
+
+Reading: with real inference the picture inverts relative to the native strands — GPU busy rises from 2–3 % to ~19 %,
+decode cuBLAS gemv is 62 % of GPU time and DRAM-bandwidth-bound (74 % DRAM active, L2 47 %, 0.67 waves/SM), prefill
+GEMM is SM/L2-bound, sdpa attention only 4.2 %. About 80 % of wall is GPU-idle host time from Python eager per-kernel
+dispatch (~1 700 launches per forward, non-gemv kernels all launch-latency-bound), so the levers are CUDA graphs /
+torch.compile / fusion, not the adapter fixes that dominated the native strands.
+
+## llm_vl strand (Qwen2.5-VL-3B-Instruct as agent LLM, completed 2026-09-12)
+
+Full detail: `artifacts/gpu_autotrace/llm_vl/H22_LLM_VL_STRAND_SUMMARY.md`. All five goals pass (conservation 0 ns;
+NCU collected as 7 per-call sessions × 3 190 kernels, zero crashes, 22 330/22 330 in-range joins; w04 −3.03 %;
+selection decode_layer* 91.7–92.3 %). vs Qwen3-1.7B: GPU busy 24.2–24.7 % (vs ~19 %), gemv 73.7 % of GPU time
+(vs 61.0 %) on the same ~74 % DRAM-active wall; gpu_idle_window bound 75.8 % (vs ~81 %). Model size shifts the
+balance between the dispatch wall and the bandwidth wall but not the walls themselves.

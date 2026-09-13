@@ -1,0 +1,15 @@
+{
+  "merge": "per-call NCU sessions concatenated in plan execution order; units normalised to the first call's; canonical .ncu-rep is the first call's (per-call reps and shas below)",
+  "calls": {
+    "plan": {
+      "kernels": 3190,
+      "rep_sha256": "ca59b0d771e6682ccc7e080411a686d5438712c8d2cb5e0eefeacb4499e91968"
+    },
+    "answer": {
+      "kernels": 3190,
+      "rep_sha256": "3bcb049194e6bfd5b6eacc4383c7ed099bba8fc470dd0556b9b199490677cbac"
+    }
+  },
+  "merged_raw_sha256": "329912d33d7143d7200fbae5edff86c45a2334a620a8f5649cb9394203446ff7",
+  "total_rows": 6380
+}

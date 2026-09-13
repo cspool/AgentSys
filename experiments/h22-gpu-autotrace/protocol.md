@@ -79,10 +79,32 @@ Artifact layout under `artifacts/gpu_autotrace/`: `g01_operator_trace/<w>/` (nsy
   5.0 ms, on 1024x1024: 8.8 ms, CPU generator, single thread) explains `host_input_generate` independently.
 - NCU GEMM throughput is reported as TFLOPS from the replay at locked base clock; the utilisation reference is
   `tensor_pipe_active_pct` because the cuBLAS kernel accumulates in FP16.
-- The 20260910 `docker_model` mount now holds `Qwen3-1.7B` and `Qwen2.5-VL-3B-Instruct`. No transformer library is
-  installed and downloads are excluded, so the real-model strand is **pending the user's own library sources**.
-  `qwen3_local.py` / `single_gpu_llm_agent_runtime.py` are a validated fallback (greedy "The capital of France is" ->
-  " Paris") that the user asked not to pursue further; they are not part of any goal above.
+- The 20260910 `docker_model` mount now holds `Qwen3-1.7B` and `Qwen2.5-VL-3B-Instruct`. On 2026-09-11 the user
+  supplied `transformers 4.57.6` (miniconda env), unblocking the real-model strand.
+
+### llm strand (real model inference as agent) — completed 2026-09-12
+
+The third strand runs the same w01–w05 chain with every LLM call executing real Qwen3-1.7B prefill + greedy decode
+via the user-supplied transformers (sdpa, bf16, eager), runtime `single_gpu_hf_llm_agent_runtime.py` +
+`hf_qwen3_backend.py` (NVTX per forward stage, same event schema; `qwen3_local.py` remains a set-aside fallback).
+Artifacts under `artifacts/gpu_autotrace/llm/`, summary `artifacts/gpu_autotrace/llm/H22_LLM_STRAND_SUMMARY.md`.
+All five goals pass: w01 3/3 (GPU busy 18.4–19.6 %), w02 3/3 (0 ns conservation; robust constant-offset clock
+criterion added for the 7-minute react_moa_mcts run), w03 complete for both representatives (react_tool 6 568 +
+planner_debate 16 126 in-range kernels all joined; planner_debate finished via a per-call fill session after a
+profiler crash, merge recorded in `merge_provenance.json`), w04 wall error +3.62 % with zero instance mismatches
+(`analyze_w04_llm_full_workload_estimate.py`), w05 selection `mir_operator:decode_layer*` at 91.6–92.2 %
+(`--rollup-layers`). Headline: the bottleneck moves from host input generation (native strands) to real decode —
+62 % of GPU time in DRAM-bound cuBLAS gemv (74 % DRAM active), while ~80 % of wall is GPU-idle Python eager
+per-kernel dispatch (~1 700 launches per forward), pointing at CUDA graphs / compile / fusion rather than adapter fixes.
+
+### llm_vl strand (Qwen2.5-VL-3B-Instruct) — completed 2026-09-12
+
+Same chain with the VL checkpoint's 36-layer language tower as every agent LLM (text-only; backend resolves
+`model.language_model`, `AutoModelForImageTextToText` load path). Artifacts `artifacts/gpu_autotrace/llm_vl/`,
+summary `H22_LLM_VL_STRAND_SUMMARY.md`. All goals pass; NCU was collected as 7 per-call short sessions
+(`run_w03_vl_ncu_per_call.sh`, warmup NVTX suppressed) with zero crashes and 22 330/22 330 in-range joins.
+vs Qwen3-1.7B: GPU busy 24.2–24.7 %, gemv 73.7 % of GPU time on the same ~74 % DRAM-active wall,
+gpu_idle_window bound 75.8 %, w04 −3.03 % — model size shifts the dispatch/bandwidth balance, not the walls.
 
 ### Resume rule
 

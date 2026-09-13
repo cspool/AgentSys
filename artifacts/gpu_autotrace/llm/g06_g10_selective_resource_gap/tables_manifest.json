@@ -1,0 +1,236 @@
+{
+  "admission_ledger": {
+    "G04": {
+      "summary_sha256": "1fba0509ef5f9d2eaafbf635ff246741a789bddb5664313433e952e449cdb76f",
+      "workloads": [
+        "react_tool",
+        "planner_debate"
+      ]
+    },
+    "G05": {
+      "summary_sha256": "47d8539efb01171e293f2afb1c5dfeb12cd59739586c898322856f4b7e493372",
+      "target": "react_moa_mcts"
+    },
+    "goals": {
+      "planner_debate": {
+        "G01": "114b27d5509cbe499378472bb8173429988ea946b16d11f8ceb91595453fcaa3",
+        "G02_G03": "682c328d656958d30628b07c1a7e4f4393a879a377d1cf0494f6acb9567805fe"
+      },
+      "react_moa_mcts": {
+        "G01": "dba6b81bf6da3e78efe079ea1d0df0029f6dc2b4c658112f07192f9530e881d5",
+        "G02_G03": "7cb1af5c60bf4ad19fa6d314738fc0f1185c031df0ab2013e99a7ce671ddb2db"
+      },
+      "react_tool": {
+        "G01": "17b7554b44bf24a38c167817c9c56e8d140da557bc88d6e9a3c49f2010eaa762",
+        "G02_G03": "13929d934eecd479a19fbe3af4524f0fb61c8bcf680aef57fd73d4760d34268a"
+      }
+    }
+  },
+  "goal": [
+    "G06",
+    "G07",
+    "G08",
+    "G09",
+    "G10"
+  ],
+  "lineage": "h22-gpu-autotrace/llm",
+  "pass": true,
+  "schema_version": 1,
+  "selection": {
+    "planner_debate": [
+      "mir_operator:decode_layer*"
+    ],
+    "react_moa_mcts": [
+      "mir_operator:decode_layer*"
+    ],
+    "react_tool": [
+      "mir_operator:decode_layer*"
+    ]
+  },
+  "tables": {
+    "g06_denominators.csv": {
+      "rows": 3,
+      "schema": [
+        "lineage",
+        "workload",
+        "total_process_host_ns",
+        "iterations",
+        "process_types",
+        "instances"
+      ],
+      "sha256": "4903985d855548ac222002f6d16bb0aa883e6d440f787c8fdeb3f8f72b76a82c"
+    },
+    "g06_global_ranking.csv": {
+      "rows": 60,
+      "schema": [
+        "lineage",
+        "workload",
+        "global_rank",
+        "process",
+        "cumulative_host_ns",
+        "selected"
+      ],
+      "sha256": "b202b410a1393390e752b21e21f32d3c3886994527464cc930cc8ac353f44162"
+    },
+    "g06_selected_stacks.csv": {
+      "rows": 15,
+      "schema": [
+        "lineage",
+        "workload",
+        "process",
+        "stack_rank",
+        "iteration",
+        "call_id",
+        "op_index",
+        "start_ns",
+        "end_ns",
+        "host_ns",
+        "gpu_work_ns",
+        "cuda_api_ns",
+        "cuda_api_top"
+      ],
+      "sha256": "d942e82ecdc86d3fb378ecfdaea7aad13c3248a04e3e7a91793cf5363e814d54"
+    },
+    "g06_selection_plan.csv": {
+      "rows": 60,
+      "schema": [
+        "lineage",
+        "workload",
+        "process",
+        "instances",
+        "cumulative_host_ns",
+        "share_pct",
+        "selected",
+        "median_ns",
+        "p90_ns",
+        "max_ns",
+        "mad_ns",
+        "gpu_owning"
+      ],
+      "sha256": "99ad9558b4d0b951e872cdad81f38b4cf48378ae08ec5ac6f01b133a634897c3"
+    },
+    "g07_high_latency_instances.csv": {
+      "rows": 31508,
+      "schema": [
+        "lineage",
+        "workload",
+        "process",
+        "iteration",
+        "call_id",
+        "op_index",
+        "host_ns",
+        "median_ns",
+        "threshold_ns",
+        "excess_ns",
+        "classification",
+        "cuda_api_top",
+        "gpu_work_ns"
+      ],
+      "sha256": "f6ba7f85c8186031bd72c3d216facd46ba7913e86bb83d0fe1deda609cb38a18"
+    },
+    "g07_host_gpu_overlap.csv": {
+      "rows": 3,
+      "schema": [
+        "lineage",
+        "workload",
+        "iteration",
+        "wall_ns",
+        "gpu_busy_ns",
+        "gpu_busy_pct",
+        "host_segments_owning_gpu_ns",
+        "host_only_ns",
+        "host_only_pct",
+        "max_concurrent_gpu_items",
+        "gpu_streams",
+        "gaps_reported",
+        "gap_ns_total"
+      ],
+      "sha256": "fd1a6a45bd4189923eb3ac068012b900a085b77d37ea7c20bc793ab432cd301c"
+    },
+    "g07_kernel_timeline_representative.csv": {
+      "rows": 2289199,
+      "schema": [
+        "lineage",
+        "workload",
+        "iteration",
+        "launch_order",
+        "call_id",
+        "process",
+        "op_index",
+        "kind",
+        "family",
+        "gpu_ns",
+        "launch_latency_ns",
+        "gpu_start_rel_us"
+      ],
+      "sha256": "ce90eddc3e11347dbe0607cde18c8ecae620ea5ea5d44963f5ce6f41bfd4e936"
+    },
+    "g07_launch_gaps.csv": {
+      "rows": 433785,
+      "schema": [
+        "lineage",
+        "workload",
+        "iteration",
+        "gap_start_rel_us",
+        "gap_ns",
+        "next_gpu_item",
+        "host_processes_covering_gap"
+      ],
+      "sha256": "d117b78cd7118b18c14c3626ac449661880a471985e741b5e49afa4939ca40af"
+    },
+    "g07_process_timeline_representative.csv": {
+      "rows": 87689,
+      "schema": [
+        "lineage",
+        "workload",
+        "iteration",
+        "call_id",
+        "call_kind",
+        "process",
+        "op_index",
+        "start_rel_us",
+        "end_rel_us",
+        "host_ns",
+        "gpu_work_ns",
+        "selected"
+      ],
+      "sha256": "819ca8a370b9b7cea81fd490c5443d9c4083579602a1205f18187b228b88096f"
+    },
+    "g08_opportunities.csv": {
+      "rows": 9,
+      "schema": [
+        "lineage",
+        "workload",
+        "opportunity",
+        "evidence",
+        "current_ns_per_iter",
+        "reference_ns_per_iter",
+        "bound_pct_of_wall",
+        "note"
+      ],
+      "sha256": "5ac02d19df723fe589f59980513107359b82c0ca02f74902bd32b8dcc2e72e68"
+    },
+    "g08_resource_attachment.csv": {
+      "rows": 2811,
+      "schema": [
+        "lineage",
+        "workload",
+        "process",
+        "selected",
+        "share_pct",
+        "resource_status",
+        "reason",
+        "family",
+        "sm_pct",
+        "tensor_pct",
+        "dram_active_pct",
+        "dram_bw_pct_peak",
+        "l2_pct",
+        "occupancy_pct",
+        "waves_per_sm",
+        "hw_source_workload"
+      ],
+      "sha256": "3b29ec37133456a25f2c2831741f1885436baff1c5cf74b09d990c9d13e5922e"
+    }
+  }
+}

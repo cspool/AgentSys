@@ -1,0 +1,75 @@
+{
+  "global": {
+    "total_gpu_items_in_trace": 889371,
+    "unattributed_examples": [
+      "memcpy_Host-to-Device",
+      "memcpy_Host-to-Device",
+      "memcpy_Host-to-Device",
+      "memcpy_Host-to-Device",
+      "memcpy_Host-to-Device"
+    ],
+    "unattributed_gpu_items_anywhere": 5551,
+    "unattributed_gpu_ns_anywhere": 995314979
+  },
+  "goal": "G01",
+  "gpu": {
+    "bus": "0000:b1:00.0",
+    "clock_hz": 2535000000,
+    "l2_bytes": 75497472,
+    "mem_bw_bytes_s": 1008096000000,
+    "name": "NVIDIA GeForce RTX 4090",
+    "sm_count": 128,
+    "uuid": "619e0c86-ae77-e523-7e85-97195a01f08b"
+  },
+  "iterations": {
+    "measured": 3,
+    "warmup": 2
+  },
+  "lineage": "h22-gpu-autotrace",
+  "measured": {
+    "call_overhead_gpu_ns_total": 5655170,
+    "expected_operator_instances": 13104,
+    "gpu_busy_pct_per_iter": {
+      "max": 24.46,
+      "mean": 24.3,
+      "median": 24.23,
+      "min": 24.22
+    },
+    "gpu_busy_union_ns_total": 3159909068,
+    "kernel_launches_total": 528288,
+    "operator_gpu_ns_total": 3154253898,
+    "operator_instances": 13104,
+    "sum_attributed_gpu_ns_total": 3159909068,
+    "unattributed_gpu_items_in_window": 0,
+    "unattributed_gpu_ns_in_window": 0,
+    "wall_ns_per_iter": {
+      "max": 4355147698,
+      "mean": 4333440936,
+      "median": 4343609367,
+      "min": 4301565743
+    },
+    "wall_ns_total": 13000322808
+  },
+  "measured_window_ns": 13001107169,
+  "pass": true,
+  "plan_sha256": "14a8c7f857db15acc16fa7ac5c7f3f637966fcc2ceadf163a01e44c00567927f",
+  "schema_version": 1,
+  "sqlite": "artifacts/gpu_autotrace/llm_vl/g01_operator_trace/react_tool/react_tool_single_gpu.sqlite",
+  "sqlite_sha256": "8ace822c45f364206e5923d651a310afdbfdc87f944f6fb05098e353b957c843",
+  "warmup": {
+    "first_iter_wall_ns": 4810045724,
+    "gpu_busy_pct_per_iter": {
+      "max": 22.25,
+      "mean": 22.2,
+      "median": 22.21,
+      "min": 22.17
+    },
+    "wall_ns_per_iter": {
+      "max": 4810045724,
+      "mean": 4779625256,
+      "median": 4779625256.0,
+      "min": 4749204788
+    }
+  },
+  "workload": "react_tool"
+}

@@ -1,0 +1,4 @@
+lineage,workload,iteration,wall_ns,gpu_busy_ns,gpu_busy_pct,host_segments_owning_gpu_ns,host_only_ns,host_only_pct,max_concurrent_gpu_items,gpu_streams,gaps_reported,gap_ns_total
+llm,react_tool,2,3917912999,735450553,18.77,3831474522,86438477,2.21,1,1,34391,1329686858
+llm,planner_debate,2,15959036451,2936300918,18.4,15572118217,386918234,2.42,1,1,149585,5789475424
+llm,react_moa_mcts,0,29411549142,5749856158,19.55,28753884940,657664202,2.24,1,1,249809,9618344890

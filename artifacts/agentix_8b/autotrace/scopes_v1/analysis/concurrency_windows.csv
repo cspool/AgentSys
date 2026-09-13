@@ -1,0 +1,6 @@
+label,concurrent_requests,gpu_ns,gpu_share_pct,top_families
+scopes_v1,1,338836896,3.3,gemv:95.3%;reduce:1.8%;elementwise_other:0.8%;memcpy:0.8%
+scopes_v1,2-3,1046118904,10.19,gemm:90.7%;gemv:3.4%;reduce:1.8%;attention:1.6%
+scopes_v1,4-7,3230442654,31.46,gemm:88.9%;attention:6.8%;reduce:1.7%;memcpy:0.8%
+scopes_v1,8-15,4552156343,44.34,gemm:79.4%;attention:16.8%;reduce:1.4%;memcpy:0.7%
+scopes_v1,16-31,1110023419,10.81,gemm:64.8%;attention:32.0%;reduce:1.2%;copy:0.7%

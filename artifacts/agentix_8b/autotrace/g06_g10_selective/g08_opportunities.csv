@@ -1,0 +1,3 @@
+lineage,opportunity,evidence,bound_note
+agentix-serving,increase_batch_residency,mean GPU busy 0.0% while requests in flight; engine never queued (w02' queue share 2.39%),"throughput headroom, not latency: programs are bound by their own critical paths (tool delays x waves)"
+agentix-serving,program_level_scheduling,pays only in queueing regimes: cap16 run gave PLAS 0.72x mean / 0.57x p90 program-token latency (results.md §5.2),no effect without a waiting queue (rate sweep §5.1)

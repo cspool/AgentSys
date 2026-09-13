@@ -46,6 +46,12 @@ def _sha256(path: Path) -> str:
 def _kernel_family(name: str) -> str:
     """Coarse family label for a demangled kernel name."""
     lowered = name.lower()
+    if "gemv" in lowered:
+        return "gemv"
+    if "flash" in lowered or "fmha" in lowered or "attention" in lowered:
+        return "attention"
+    if "catarraybatchedcopy" in lowered:
+        return "concat"
     if "cutlass" in lowered or "gemm" in lowered or "sgemm" in lowered:
         return "gemm"
     if "distribution_elementwise" in lowered or "normal_and_transform" in lowered:

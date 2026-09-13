@@ -80,6 +80,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--w03-analysis", type=Path, required=True)
     parser.add_argument("--w04-analysis", type=Path)
     parser.add_argument("--lineage-tag", default="base")
+    parser.add_argument("--rollup-layers", action="store_true",
+                        help="collapse mir_operator:{phase}_layerNN process names into mir_operator:{phase}_layer* "
+                             "for selection/grouping (llm strand: per-layer processes are instances of one stage type)")
     parser.add_argument("--output-dir", type=Path, required=True)
     args = parser.parse_args(argv)
     root, out = args.artifact_root, args.output_dir
@@ -87,10 +90,24 @@ def main(argv: list[str] | None = None) -> int:
     ledger = admission(root, args.workloads, args.w03_analysis, args.w04_analysis)
     family_hw = _read(args.w03_analysis / "ncu_process_family_hardware_report.csv")
 
+    import re as _re
+    _layer_re = _re.compile(r"^(mir_operator:(?:prefill|decode))_layer\d+$")
+
+    def _rollup(name: str) -> str:
+        if not args.rollup_layers:
+            return name
+        m = _layer_re.match(name)
+        return f"{m.group(1)}_layer*" if m else name
+
+    for h in family_hw:
+        h["process"] = _rollup(h["process"])
+
     selection_rows, stack_rows, ranking_rows, timeline_rows, kernel_rows, gap_rows, hl_rows, overlap_rows, resource_rows, opp_rows, denom_rows = ([] for _ in range(11))
 
     for w in args.workloads:
         inst = _read(root / "g02_g03_call_process" / w / "call_process_instances.csv")
+        for r in inst:
+            r["process"] = _rollup(r["process"])
         s2 = json.loads((root / "g02_g03_call_process" / w / "summary.json").read_text())
         rep_iter = s2["representative_iteration"]
         iters = s2["iterations_measured"]

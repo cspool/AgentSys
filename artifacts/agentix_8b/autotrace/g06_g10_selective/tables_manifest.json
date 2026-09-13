@@ -1,0 +1,51 @@
+{
+  "admission_ledger": {
+    "G01'": "2642e3770759efcc864e3ab21a49cc7ab8ca7722c3a6d35cbf8b148a764f79f3",
+    "G02'-G03'": "fac290432ac29f6d53abbbb4cf89b76f23bf795b75881db99d6128e560ae2018",
+    "G04'": "b5829b9ebdad214b543eec0e5538dfb8e81c1a407bb2fb1b9de850b6f013a054",
+    "G05'": "6585fce0fb669245ad5dee2e85ff087bd4237530c2588e23d83e08d6a77526b5"
+  },
+  "goal": [
+    "G06'",
+    "G07'",
+    "G08'",
+    "G09'",
+    "G10'"
+  ],
+  "lineage": "h23-agentix-8b/agentix-serving",
+  "pass": true,
+  "schema_version": 1,
+  "selection": [
+    "decode",
+    "concurrency_1",
+    "concurrency_4-7",
+    "concurrency_8-15",
+    "concurrency_16-31"
+  ],
+  "tables": {
+    "g06_selected_stacks.csv": {
+      "rows": 5,
+      "sha256": "b94b1c6d456b565c7b12e5755fd1c35538008e9e3574af11f4eeddc3f5e7a641"
+    },
+    "g06_selection_plan.csv": {
+      "rows": 7,
+      "sha256": "bc0cbf335c1982e066308b5375166862ba00f41d8e4a28ed2476909445f85e1e"
+    },
+    "g07_gap_summary.csv": {
+      "rows": 1,
+      "sha256": "6d825b133af7b465401d6fdee7e06e9b6d3525f79686623fd3819dbbc41f9a91"
+    },
+    "g07_timeline_1s.csv": {
+      "rows": 31,
+      "sha256": "de6424eb3c29a5b4ab05140b62d990979cbf3fe4e03410a2b090c46140e7ee7d"
+    },
+    "g08_opportunities.csv": {
+      "rows": 2,
+      "sha256": "79f93cf5e8833e039645be948cffe5f056059d355e63b263b84aa801e6aed69c"
+    },
+    "g08_resource_attachment.csv": {
+      "rows": 5,
+      "sha256": "501a67250dc8129f20eb78403333f3bac04dc351409183411867627467d478dc"
+    }
+  }
+}

@@ -1,0 +1,4 @@
+policy,class,calls,queue_wait_mean_ms,queue_wait_p90_ms,decode_mean_ms,decode_p90_ms
+plas,agent,374,70.62,82.69,3376.7,5140.38
+plas,chat,46,68.96,85.01,1804.24,2680.43
+plas,lats,351,73.15,86.16,2698.59,4129.45

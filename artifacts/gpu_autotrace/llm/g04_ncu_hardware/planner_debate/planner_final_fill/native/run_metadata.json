@@ -1,0 +1,178 @@
+{
+  "adapter": {
+    "cpu_matrix_size": 256,
+    "cpu_threads_per_rank": 16,
+    "dtype": "float16",
+    "matrix_base": 512,
+    "matrix_max": 1024,
+    "matrix_step": 128,
+    "operator_iterations": 1,
+    "token_quantum": 128
+  },
+  "determinism": {
+    "checksums_match": true,
+    "reference_checksums": {
+      "critic-a": 151865.0,
+      "critic-b": 151865.0,
+      "critic-merge": 151865.0,
+      "planner-final": 151865.0,
+      "planner-seed": 151865.0,
+      "planner-tool": 36.240516662597656
+    }
+  },
+  "environment": {
+    "cuda": "12.8",
+    "host": "ubuntu",
+    "nvml_after": {
+      "gpu_utilization_percent": 1,
+      "index": 1,
+      "memory_clock_mhz": 10251,
+      "memory_total": 25757220864,
+      "memory_used": 5317263360,
+      "memory_utilization_percent": 0,
+      "name": "NVIDIA GeForce RTX 4090",
+      "pci_bus_id": "00000000:B1:00.0",
+      "power_w": 118.245,
+      "sm_clock_mhz": 2790,
+      "temperature_c": 45,
+      "uuid": "GPU-619e0c86-ae77-e523-7e85-97195a01f08b"
+    },
+    "nvml_before": {
+      "gpu_utilization_percent": 8,
+      "index": 1,
+      "memory_clock_mhz": 10501,
+      "memory_total": 25757220864,
+      "memory_used": 1085210624,
+      "memory_utilization_percent": 1,
+      "name": "NVIDIA GeForce RTX 4090",
+      "pci_bus_id": "00000000:B1:00.0",
+      "power_w": 39.644,
+      "sm_clock_mhz": 2535,
+      "temperature_c": 37,
+      "uuid": "GPU-619e0c86-ae77-e523-7e85-97195a01f08b"
+    },
+    "python": "3.13.12",
+    "torch": "2.11.0+cu128",
+    "transformers": "4.57.6"
+  },
+  "goal": "G01",
+  "iterations": {
+    "measured": 1,
+    "warmup": 2
+  },
+  "lineage": "h22-gpu-autotrace/llm",
+  "model": {
+    "architecture": [
+      "Qwen3ForCausalLM"
+    ],
+    "decode": "greedy, fixed output_tokens, EOS ignored",
+    "dir": "/data3/docker_model/AgentSys/Qwen3-1.7B",
+    "dtype": "bfloat16",
+    "hidden": 2048,
+    "layers": 28,
+    "load_ms": 4099.49396,
+    "ops_per_forward": 31,
+    "param_bytes": 3441149952,
+    "runtime": "transformers 4.57.6 (sdpa attention), user-supplied sources",
+    "validation_probe": {
+      "generated_text": " Paris. The",
+      "pass": true,
+      "prompt": "The capital of France is"
+    }
+  },
+  "observed": {
+    "expected_operator_events": 310,
+    "operator_events": 310,
+    "total_events": 336
+  },
+  "pass": true,
+  "plan_path": "/workspace/AgentSys/artifacts/gpu_autotrace/llm/ncu_plans/planner_debate/hybrid-plan.json",
+  "plan_sha256": "e385433ae4d8354eeb543dd76d80c78e914b838ba90d8aaec6b7c3d990208328",
+  "planned": {
+    "calls": 6,
+    "llm_calls": 5,
+    "mir_operators": 310,
+    "output_tokens_total": 10,
+    "prompt_tokens_total": 2304,
+    "tool_calls": 1,
+    "waves": 3
+  },
+  "prompts": {
+    "critic-a": {
+      "output_tokens": 2,
+      "prompt_head": "<|im_start|>system\nYou are the 'critic-a' node of the 'planner_debate_ncu2' agent",
+      "prompt_tokens": 512
+    },
+    "critic-b": {
+      "output_tokens": 2,
+      "prompt_head": "<|im_start|>system\nYou are the 'critic-b' node of the 'planner_debate_ncu2' agent",
+      "prompt_tokens": 448
+    },
+    "critic-merge": {
+      "output_tokens": 2,
+      "prompt_head": "<|im_start|>system\nYou are the 'critic-merge' node of the 'planner_debate_ncu2'",
+      "prompt_tokens": 640
+    },
+    "planner-final": {
+      "output_tokens": 2,
+      "prompt_head": "<|im_start|>system\nYou are the 'planner-final' node of the 'planner_debate_ncu2' agent",
+      "prompt_tokens": 384
+    },
+    "planner-seed": {
+      "output_tokens": 2,
+      "prompt_head": "<|im_start|>system\nYou are the 'planner-seed' node of the 'planner_debate_ncu2'",
+      "prompt_tokens": 320
+    }
+  },
+  "schema_version": 1,
+  "single_gpu": {
+    "device": 1,
+    "name": "NVIDIA GeForce RTX 4090",
+    "numa_node": 1,
+    "observed_affinity": [
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63
+    ],
+    "pci_bus_id": "00000000:B1:00.0",
+    "uuid": "GPU-619e0c86-ae77-e523-7e85-97195a01f08b"
+  },
+  "timing_ns": {
+    "finished": 9017038342285,
+    "measured_wall_ms": 1819965.452501,
+    "started": 7193686590163,
+    "warmup_done": 7197072889784,
+    "warmup_wall_ms": 3386.299621
+  },
+  "workload": "planner_debate_ncu2",
+  "workload_sha256": "0fbd066467fc52055e53c9cbf7264796f1fbf88aa9788f4838d73a8a8c343631"
+}

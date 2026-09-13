@@ -18,3 +18,22 @@ chipyard-overlay/generated/
 # Raw AutoTrace corpus (200+ GB, hundreds of >100MB files): kept out of git
 AutoTrace/
 docker/*.bak.*
+
+# raw profiler traces & bulk captures: published as GitHub release assets, not in git
+*.nsys-rep
+*.sqlite
+*.ncu-rep
+artifacts/**/native-trace.jsonl
+artifacts/**/*_ncu_details.csv
+artifacts/**/*_ncu_raw.csv
+artifacts/**/nsight-stats_*.csv
+artifacts/agentix_8b/**/calls_*.jsonl
+.venv-vllm/
+# per-kernel / per-instance derived dumps (in the release bundles)
+artifacts/**/gpu_work_attribution.csv
+artifacts/**/operator_instance_attribution.csv
+artifacts/**/kernel_launch_order_representative_iteration.csv
+artifacts/**/g07_kernel_timeline_representative.csv
+artifacts/**/g07_high_latency_instances.csv
+artifacts/**/g07_launch_gaps.csv
+artifacts/**/*_ncu_raw.partial_backup.csv

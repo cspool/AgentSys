@@ -229,9 +229,13 @@ _claude_with_host_permissions() {
   return "${status}"
 }
 
-# Paper Analysis MCP service helpers. `claude`/`codex` stay on their official
-# accounts; only `paper_claude` switches that one process to the DeepSeek
-# model gateway (inside a subshell, so nothing leaks into the login shell).
+# Paper Analysis MCP service helpers. Plain `claude` already carries the
+# `paper-analysis-jobs` (3020) and `obsidian` (3010) HTTP servers, registered at
+# user scope in the container-private ~/.claude.json by the startup command;
+# Jobs run server-side on the DeepSeek gateway while the session itself stays
+# on the official Anthropic account. `paper_claude` is only for running the
+# whole Claude Code session on the DeepSeek gateway (inside a subshell, so
+# nothing leaks into the login shell).
 paper_analysis_check() {
   [ -n "${PAPER_ANALYSIS_CLIENT_DIR:-}" ] && [ -r "${PAPER_ANALYSIS_CLIENT_DIR}/verify-mcp.py" ] || {
     echo "paper-analysis: client directory is not mounted (PAPER_ANALYSIS_MCP=1 required)" >&2
@@ -272,6 +276,8 @@ paper_codex() {
 
 alias codex='_codex_with_host_permissions'
 alias claude='_claude_with_host_permissions'
+alias paper-claude='paper_claude'
+alias paper-codex='paper_codex'
 fix_host_agent_permissions >/dev/null 2>&1 || true
 BASHRC
   } > "${tmp_path}"
@@ -287,6 +293,29 @@ BASHRC
 }
 
 write_container_user_bashrc
+
+# Claude Code rewrites ~/.claude.json with write-to-temp + rename. A single-file
+# bind mount of the host copy therefore detaches silently on the host's first
+# rewrite (the container keeps an orphaned inode), and any container-side
+# `claude mcp add` would otherwise land in the host's file. Seed a
+# container-private copy once from the host instead; ~/.claude (OAuth login,
+# settings, skills) stays shared through its directory mount.
+seed_container_claude_json() {
+  local source_path="${HOST_HOME}/.claude.json"
+  local target_path="${CONTAINER_HOME_CACHE_DIR}/.claude.json"
+
+  if [ "${CLAUDE_JSON_RESEED:-0}" = "1" ] || [ ! -s "${target_path}" ]; then
+    if [ -f "${source_path}" ]; then
+      cp -p -- "${source_path}" "${target_path}.tmp" && mv -- "${target_path}.tmp" "${target_path}"
+      echo "Seeded container ~/.claude.json from ${source_path}"
+    else
+      printf '{}\n' > "${target_path}"
+    fi
+  fi
+}
+
+seed_container_claude_json
+
 
 SETFACL_MISSING_WARNED=0
 
@@ -339,7 +368,6 @@ grant_host_user_acl "${CONTAINER_HOME_CACHE_DIR}" "1"
 grant_host_user_acl "${NPM_GLOBAL_DIR}" "1"
 grant_host_user_acl "${HOST_PROJ_MODEL_DIR}" "1"
 grant_rw_mount_acl "${HOST_HOME}/.claude" "${CLAUDE_CONFIG_MODE}" "1"
-grant_rw_mount_acl "${HOST_HOME}/.claude.json" "${CLAUDE_CONFIG_MODE}" "0"
 grant_rw_mount_acl "${HOST_HOME}/.codex" "${CODEX_CONFIG_MODE}" "1"
 
 warn_unreadable_codex_config() {
@@ -715,7 +743,6 @@ add_mount_if_exists "${HOST_CUDA_DIR}" "${CONTAINER_CUDA_DIR}" "${CUDA_MOUNT_MOD
 add_shared_model_mounts_if_configured
 
 add_mount_if_exists "${HOST_HOME}/.claude" "${CONTAINER_HOME}/.claude" "${CLAUDE_CONFIG_MODE}" "1" "1"
-add_mount_if_exists "${HOST_HOME}/.claude.json" "${CONTAINER_HOME}/.claude.json" "${CLAUDE_CONFIG_MODE}"
 add_mount_if_exists "${HOST_HOME}/.codex" "${CONTAINER_HOME}/.codex" "${CODEX_CONFIG_MODE}" "1" "1"
 add_mount_if_exists "${HOST_HOME}/.agents" "${CONTAINER_HOME}/.agents" "${AGENTS_CONFIG_MODE}"
 add_mount_if_exists "${HOST_HOME}/.orchestra" "${CONTAINER_HOME}/.orchestra" "${ORCHESTRA_CONFIG_MODE}"
@@ -1003,11 +1030,55 @@ STATUSLINE_READ_PY
       echo "  ~/.claude/settings.json that hides them from the container." >&2
     }
 
+    # Register the Paper Analysis MCP servers at user scope so plain `claude`
+    # sees them. The file is edited in place (python3 only, inode preserved).
+    # `obsidian` is switched to the read-only HTTP server only when the host
+    # entry is a stdio command that does not exist in this image.
+    ensure_paper_analysis_mcp() {
+      [ -n "${PAPER_JOB_MCP_URL:-}" ] || return 0
+      command -v python3 >/dev/null 2>&1 || return 0
+      python3 - "${HOME}/.claude.json" "${PAPER_JOB_MCP_URL}" "${PAPER_MCP_URL:-}" <<"PAPER_MCP_PY"
+import json, os, shutil, sys
+
+path, job_url, read_url = sys.argv[1], sys.argv[2], sys.argv[3]
+try:
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+except FileNotFoundError:
+    data = {}
+except Exception as exc:
+    print(f"paper-analysis: cannot parse {path}: {exc}", file=sys.stderr)
+    sys.exit(0)
+if not isinstance(data, dict):
+    sys.exit(0)
+servers = data.setdefault("mcpServers", {})
+changed = []
+want = {"type": "http", "url": job_url}
+if servers.get("paper-analysis-jobs") != want:
+    servers["paper-analysis-jobs"] = want
+    changed.append("paper-analysis-jobs")
+if read_url:
+    cur = servers.get("obsidian")
+    cmd = cur.get("command") if isinstance(cur, dict) else None
+    stdio_missing = isinstance(cmd, str) and not (os.path.exists(cmd) or shutil.which(cmd))
+    if cur is None or stdio_missing:
+        servers["obsidian"] = {"type": "http", "url": read_url}
+        changed.append("obsidian")
+if changed:
+    text = json.dumps(data, indent=2, ensure_ascii=False) + "\n"
+    with open(path, "r+" if os.path.exists(path) else "w", encoding="utf-8") as f:
+        f.write(text)
+        f.truncate()
+    print("Registered Paper Analysis MCP servers: " + ", ".join(changed))
+PAPER_MCP_PY
+    }
+
     fix_host_shared_permissions_once
     select_cuda_runtime "${CUDA_DEFAULT}"
     mkdir -p "${XDG_CACHE_HOME}" "${NPM_CONFIG_PREFIX}"
     ensure_npm_cli @openai/codex@latest codex
     ensure_npm_cli @anthropic-ai/claude-code@latest claude
+    ensure_paper_analysis_mcp
     ensure_claude_statusline
     fix_host_shared_permissions_once
     exec /bin/bash

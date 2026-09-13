@@ -1,0 +1,12 @@
+label,family,items,gpu_ns,gpu_share_pct
+nvtx_nograph,gemm,22342,2927966719,84.9
+nvtx_nograph,gemv,2193,273383445,7.93
+nvtx_nograph,attention,17813,164497092,4.77
+nvtx_nograph,other,20075,46293849,1.34
+nvtx_nograph,copy,10190,18908441,0.55
+nvtx_nograph,elementwise_binary,6086,12983407,0.38
+nvtx_nograph,elementwise_other,1350,1991750,0.06
+nvtx_nograph,reduce,638,1385571,0.04
+nvtx_nograph,memcpy,1424,1199512,0.03
+nvtx_nograph,memset,448,340453,0.01
+nvtx_nograph,fill,14,61121,0.0

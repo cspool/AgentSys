@@ -1,0 +1,8 @@
+lineage,axis,component,total_ns,share_pct,selected
+agentix-serving,request_time,decode,705300882719,97.61,True
+agentix-serving,request_time,queue_wait,17236722994,2.39,False
+agentix-serving,gpu_time,concurrency_1,142743835,10.8,True
+agentix-serving,gpu_time,concurrency_2-3,26967965,2.04,False
+agentix-serving,gpu_time,concurrency_4-7,167399087,12.67,True
+agentix-serving,gpu_time,concurrency_8-15,726716407,55.01,True
+agentix-serving,gpu_time,concurrency_16-31,258550189,19.57,True

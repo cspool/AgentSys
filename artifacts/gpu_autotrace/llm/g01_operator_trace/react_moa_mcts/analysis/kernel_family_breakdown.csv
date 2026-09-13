@@ -1,0 +1,13 @@
+workload,family,instances,gpu_ns_total,gpu_share_pct
+react_moa_mcts,gemv,504930,10538989182.0,61.03
+react_moa_mcts,elementwise_binary,1240980,1863150784.0,10.79
+react_moa_mcts,copy,590820,945236618.0,5.47
+react_moa_mcts,attention,144480,748604273.0,4.34
+react_moa_mcts,concat,291540,743654394.0,4.31
+react_moa_mcts,elementwise_other,513420,710450657.0,4.11
+react_moa_mcts,reduce,294540,659096348.0,3.82
+react_moa_mcts,elementwise_unary,583080,658032391.0,3.81
+react_moa_mcts,gemm,5910,388785079.0,2.25
+react_moa_mcts,other,2580,5065705.0,0.03
+react_moa_mcts,memcpy,5250,4143928.0,0.02
+react_moa_mcts,memset,5100,2351409.0,0.01

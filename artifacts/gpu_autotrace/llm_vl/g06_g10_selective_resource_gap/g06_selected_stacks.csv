@@ -1,0 +1,16 @@
+lineage,workload,process,stack_rank,iteration,call_id,op_index,start_ns,end_ns,host_ns,gpu_work_ns,cuda_api_ns,cuda_api_top
+llm_vl,react_tool,mir_operator:decode_layer*,1,0,answer,2219,23225508553,23228756804,3248251,237698,247936,cudaLaunchKernel
+llm_vl,react_tool,mir_operator:decode_layer*,2,0,answer,1786,22790317203,22793271228,2954025,274945,632462,cudaLaunchKernel
+llm_vl,react_tool,mir_operator:decode_layer*,3,0,answer,1225,22232754563,22235387663,2633100,237537,268162,cudaLaunchKernel
+llm_vl,react_tool,mir_operator:decode_layer*,4,2,answer,1499,31167921386,31170186847,2265461,235745,228708,cudaLaunchKernel
+llm_vl,react_tool,mir_operator:decode_layer*,5,1,answer,586,25936892011,25939113677,2221666,237698,262512,cudaLaunchKernel
+llm_vl,planner_debate,mir_operator:decode_layer*,1,0,planner-seed,1679,45538448627,45541892813,3444186,236834,262588,cudaLaunchKernel
+llm_vl,planner_debate,mir_operator:decode_layer*,2,2,planner-seed,2216,80155839069,80159138625,3299556,236835,2141567,cudaLaunchKernel
+llm_vl,planner_debate,mir_operator:decode_layer*,3,0,critic-a,87,46766874224,46769941253,3067029,236322,251678,cudaLaunchKernel
+llm_vl,planner_debate,mir_operator:decode_layer*,4,1,critic-a,352,64155375201,64158364961,2989760,237633,234296,cudaLaunchKernel
+llm_vl,planner_debate,mir_operator:decode_layer*,5,0,critic-a,2485,49185840732,49188522487,2681755,236738,623112,cudaLaunchKernel
+llm_vl,react_moa_mcts,mir_operator:decode_layer*,1,2,react-plan,2824,144566429329,144758956077,192526748,236131,296453,cudaLaunchKernel
+llm_vl,react_moa_mcts,mir_operator:decode_layer*,2,1,mcts-actor1,785,128341255461,128345171403,3915942,238722,851423,cudaLaunchKernel
+llm_vl,react_moa_mcts,mir_operator:decode_layer*,3,0,mcts-critic,2249,105443994283,105447637407,3643124,237572,229139,cudaLaunchKernel
+llm_vl,react_moa_mcts,mir_operator:decode_layer*,4,1,mcts-critic,148,138632726573,138636039412,3312839,238212,235931,cudaLaunchKernel
+llm_vl,react_moa_mcts,mir_operator:decode_layer*,5,1,moa-reduce,2167,133625741249,133628749836,3008587,236899,624553,cudaLaunchKernel

@@ -1,0 +1,16 @@
+lineage,workload,process,stack_rank,iteration,call_id,op_index,start_ns,end_ns,host_ns,gpu_work_ns,cuda_api_ns,cuda_api_top
+llm,react_tool,mir_operator:decode_layer*,1,2,plan,646,24456543880,24462796738,6252858,204096,336368,cudaLaunchKernel
+llm,react_tool,mir_operator:decode_layer*,2,1,answer,1640,23325816798,23331611378,5794580,204449,335970,cudaLaunchKernel
+llm,react_tool,mir_operator:decode_layer*,3,1,answer,150,21646998465,21649391277,2392812,203073,309717,cudaLaunchKernel
+llm,react_tool,mir_operator:decode_layer*,4,1,answer,1732,23439340841,23441559925,2219084,202465,314830,cudaLaunchKernel
+llm,react_tool,mir_operator:decode_layer*,5,1,answer,756,22322933358,22325137702,2204344,202561,285299,cudaLaunchKernel
+llm,planner_debate,mir_operator:decode_layer*,1,2,critic-merge,1000,82619901669,82626312691,6411022,220546,4048415,cudaLaunchKernel
+llm,planner_debate,mir_operator:decode_layer*,2,1,planner-seed,1045,58166043755,58172433605,6389850,201761,4700051,cudaLaunchKernel
+llm,planner_debate,mir_operator:decode_layer*,3,1,critic-merge,1774,67681141325,67686227313,5085988,207553,287801,cudaLaunchKernel
+llm,planner_debate,mir_operator:decode_layer*,4,0,planner-seed,1790,42837511596,42841327466,3815870,204065,459948,cudaLaunchKernel
+llm,planner_debate,mir_operator:decode_layer*,5,0,critic-merge,1563,51427161682,51430858181,3696499,206945,313386,cudaLaunchKernel
+llm,react_moa_mcts,mir_operator:decode_layer*,1,0,moa-map2,1503,79850255857,79855321960,5066103,309025,3559336,cudaLaunchKernel
+llm,react_moa_mcts,mir_operator:decode_layer*,2,1,moa-map0,1639,102999987534,103005042353,5054819,204546,3529649,cudaLaunchKernel
+llm,react_moa_mcts,mir_operator:decode_layer*,3,0,mcts-actor0,1906,86197175087,86202073747,4898660,209121,3567561,cudaLaunchKernel
+llm,react_moa_mcts,mir_operator:decode_layer*,4,2,moa-map0,1750,132589437515,132594312421,4874906,205505,3881050,cudaLaunchKernel
+llm,react_moa_mcts,mir_operator:decode_layer*,5,1,mcts-critic,1064,126261820787,126265805238,3984451,208674,3061399,cudaLaunchKernel

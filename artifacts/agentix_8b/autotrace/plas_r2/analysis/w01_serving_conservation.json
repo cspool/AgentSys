@@ -1,0 +1,35 @@
+{
+  "analysed_span_is_truncated": true,
+  "analysed_span_ns": 13022211140,
+  "captured_cuda_span_ns": 28064585004,
+  "concurrency_conservation_err_ns": 996904,
+  "conservation_err_ns": 996904,
+  "families": {
+    "attention": 24.83,
+    "copy": 0.06,
+    "elementwise_binary": 0.35,
+    "elementwise_other": 0.56,
+    "gemm": 67.63,
+    "gemv": 3.34,
+    "memcpy": 0.35,
+    "other": 2.75,
+    "reduce": 0.17
+  },
+  "family_conservation_err_ns": 996904,
+  "goal": "G01'",
+  "gpu_busy_ns": 1336111155,
+  "gpu_busy_pct": 10.26,
+  "kernel_items_in_window": 22135,
+  "label": "plas_r2",
+  "lineage": "h23-agentix-8b/autotrace",
+  "measured_window_ns": 129429510509,
+  "operator_attribution": "unavailable: vLLM emitted no per-module NVTX under the CUDA-graph execution path; family and concurrency partitions used instead",
+  "pass": true,
+  "requests": {
+    "count": 771,
+    "peak_concurrent": 42
+  },
+  "schema_version": 1,
+  "sqlite": "artifacts/agentix_8b/autotrace/plas_r2/plas_r2.sqlite",
+  "sqlite_sha256": "479f9e4a142aa3193ed744bf10c04b27357973510d9ca165cd8aeea922eddd48"
+}

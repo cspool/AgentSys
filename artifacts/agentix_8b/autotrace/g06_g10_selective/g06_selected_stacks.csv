@@ -1,0 +1,6 @@
+lineage,component,rank,program_id,class,call_index,ns,prompt_tokens,output_tokens
+agentix-serving,decode,1,p00016,agent,1,4934904761,1987,254
+agentix-serving,decode,2,p00019,agent,1,4861875058,1297,251
+agentix-serving,decode,3,p00009,agent,6,4851745087,1162,252
+agentix-serving,decode,4,p00002,agent,3,4849236430,1105,251
+agentix-serving,decode,5,p00006,agent,10,4831684366,939,256

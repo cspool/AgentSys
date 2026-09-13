@@ -1,0 +1,12 @@
+label,family,items,gpu_ns,gpu_share_pct
+plas_r2,gemm,1019,903597231,67.63
+plas_r2,attention,4864,331732070,24.83
+plas_r2,gemv,40,44570843,3.34
+plas_r2,other,6240,36794508,2.75
+plas_r2,elementwise_other,5263,7547705,0.56
+plas_r2,memcpy,3289,4701314,0.35
+plas_r2,elementwise_binary,96,4612213,0.35
+plas_r2,reduce,675,2291516,0.17
+plas_r2,copy,384,756803,0.06
+plas_r2,fill,73,300833,0.02
+plas_r2,memset,192,203023,0.02

@@ -1,0 +1,309 @@
+<title>AgentSys AutoTrace</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root {
+    --paper: #fafaf8; --card: #ffffff; --line: #e3e5e0; --line-soft: #eef0ec;
+    --ink: #14181a; --ink-2: #5a625f; --ink-3: #8a918d;
+    --accent: #0f6b63; --accent-soft: #e3efed;
+    --pass: #008300; --pass-soft: #e7f2e4; --warn: #a05a00; --warn-soft: #f6ecdd;
+    --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --s4: #eda100;
+    --s5: #e87ba4; --s6: #008300; --s7: #4a3aa7; --s8: #e34948;
+    --meter-track: #edefeb; --meter-fill: #0f6b63;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #15181a; --card: #1c2023; --line: #32383b; --line-soft: #262b2e;
+      --ink: #eef0ee; --ink-2: #a9b1ad; --ink-3: #7d8581;
+      --accent: #43b0a5; --accent-soft: #1d3330; --pass: #58b658; --pass-soft: #1f2f1e;
+      --warn: #d99a4e; --warn-soft: #33291a;
+      --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500;
+      --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+      --meter-track: #262b2e; --meter-fill: #43b0a5;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #15181a; --card: #1c2023; --line: #32383b; --line-soft: #262b2e;
+    --ink: #eef0ee; --ink-2: #a9b1ad; --ink-3: #7d8581;
+    --accent: #43b0a5; --accent-soft: #1d3330; --pass: #58b658; --pass-soft: #1f2f1e;
+    --warn: #d99a4e; --warn-soft: #33291a;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --s4: #c98500;
+    --s5: #d55181; --s6: #008300; --s7: #9085e9; --s8: #e66767;
+    --meter-track: #262b2e; --meter-fill: #43b0a5;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 15px; line-height: 1.65;
+  }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 40px 28px 72px; }
+  header.masthead { border-bottom: 2px solid var(--ink); padding-bottom: 22px; margin-bottom: 10px; }
+  .eyebrow { font-family: "IBM Plex Mono", monospace; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+  h1 { font-family: Archivo, "Helvetica Neue", sans-serif; font-weight: 700; font-size: clamp(30px, 4.6vw, 44px); line-height: 1.08; margin: 0 0 12px; letter-spacing: -.015em; text-wrap: balance; }
+  .standfirst { max-width: 62ch; color: var(--ink-2); margin: 0 0 16px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { font-family: "IBM Plex Mono", monospace; font-size: 12px; padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-2); background: var(--card); }
+  .chip.pass { color: var(--pass); border-color: transparent; background: var(--pass-soft); font-weight: 500; }
+
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin: 26px 0 8px; }
+  .kpi { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px 14px; }
+  .kpi .label { font-size: 12.5px; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-3); font-weight: 600; }
+  .kpi .value { font-family: Archivo, sans-serif; font-weight: 700; font-size: 34px; line-height: 1.1; margin: 4px 0 2px; font-variant-numeric: tabular-nums; }
+  .kpi .sub { font-size: 13px; color: var(--ink-2); }
+  .kpi .value .unit { font-size: 19px; color: var(--ink-2); font-weight: 600; }
+
+  section { margin-top: 44px; }
+  .sec-head { display: flex; align-items: baseline; gap: 14px; border-bottom: 1px solid var(--line); padding-bottom: 8px; margin-bottom: 16px; }
+  .sec-num { font-family: "IBM Plex Mono", monospace; font-size: 13px; color: var(--accent); font-weight: 500; white-space: nowrap; }
+  h2 { font-family: Archivo, sans-serif; font-weight: 600; font-size: 22px; margin: 0; letter-spacing: -.01em; }
+  .sec-goal { margin-left: auto; font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--ink-3); white-space: nowrap; }
+  section p.lede { max-width: 68ch; margin: 0 0 18px; }
+  section p.note { max-width: 68ch; margin: 14px 0 0; font-size: 13.5px; color: var(--ink-2); }
+  strong { font-weight: 600; }
+
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 20px 22px; }
+  .panel h3 { font-family: Archivo, sans-serif; font-size: 14.5px; font-weight: 600; margin: 0 0 2px; }
+  .panel .h3sub { font-size: 12.5px; color: var(--ink-3); margin: 0 0 14px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 820px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* horizontal bar list */
+  .barlist { display: grid; grid-template-columns: max-content 1fr max-content; gap: 7px 12px; align-items: center; }
+  .barlist .name { font-size: 13px; color: var(--ink); display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .swatch { width: 10px; height: 10px; border-radius: 3px; flex: 0 0 auto; }
+  .track { height: 16px; background: none; position: relative; }
+  .bar { height: 16px; border-radius: 0 4px 4px 0; min-width: 2px; position: relative; }
+  .bar:hover { filter: brightness(1.08); }
+  .barlist .val { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+
+  /* stacked utilisation bar */
+  .stack-row { display: grid; grid-template-columns: 150px 1fr; gap: 12px; align-items: center; margin-bottom: 10px; }
+  .stack-row .name { font-size: 13px; }
+  .stack-row .name small { display: block; color: var(--ink-3); font-family: "IBM Plex Mono", monospace; font-size: 11px; }
+  .stack { display: flex; height: 22px; border-radius: 5px; overflow: hidden; gap: 2px; background: var(--paper); }
+  .seg { position: relative; }
+  .seg.busy { background: var(--s1); }
+  .seg.idle { background: var(--meter-track); }
+  .seg .seglab { position: absolute; inset: 0; display: flex; align-items: center; padding-left: 8px; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; color: #fff; }
+  .seg.idle .seglab { color: var(--ink-2); }
+  .legend { display: flex; gap: 18px; margin-top: 10px; font-size: 12.5px; color: var(--ink-2); }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+
+  /* NCU meter table */
+  table.hw { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  table.hw th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); font-weight: 600; padding: 6px 10px 8px; border-bottom: 1px solid var(--line); }
+  table.hw td { padding: 7px 10px; border-bottom: 1px solid var(--line-soft); font-size: 13px; vertical-align: middle; }
+  table.hw tr:last-child td { border-bottom: none; }
+  .fam { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+  .meter { display: inline-flex; align-items: center; gap: 8px; min-width: 130px; }
+  .meter .mtrack { flex: 1; height: 7px; border-radius: 4px; background: var(--meter-track); overflow: hidden; }
+  .meter .mfill { height: 100%; border-radius: 4px; background: var(--meter-fill); }
+  .meter .mval { font-family: "IBM Plex Mono", monospace; font-size: 12px; color: var(--ink-2); width: 44px; text-align: right; }
+  .hw-scroll { overflow-x: auto; }
+
+  /* chain table */
+  table.chain { width: 100%; border-collapse: collapse; }
+  table.chain th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--ink-3); font-weight: 600; padding: 6px 10px 8px; border-bottom: 1px solid var(--line); }
+  table.chain td { padding: 9px 10px; border-bottom: 1px solid var(--line-soft); font-size: 13.5px; vertical-align: top; }
+  table.chain tr:last-child td { border-bottom: none; }
+  table.chain td.g { font-family: "IBM Plex Mono", monospace; font-size: 12.5px; color: var(--ink-2); white-space: nowrap; }
+  .badge { display: inline-block; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; font-weight: 500; padding: 2px 9px; border-radius: 999px; background: var(--pass-soft); color: var(--pass); white-space: nowrap; }
+  .badge.run { background: var(--warn-soft); color: var(--warn); }
+  .chain-scroll { overflow-x: auto; }
+
+  /* dumbbell comparison */
+  .dumb-row { display: grid; grid-template-columns: 190px 1fr; gap: 12px; align-items: center; margin-bottom: 14px; }
+  .dumb-row .name { font-size: 13px; }
+  .dumb-svg { width: 100%; height: 34px; display: block; }
+
+  footer { margin-top: 56px; border-top: 1px solid var(--line); padding-top: 16px; font-size: 12.5px; color: var(--ink-3); font-family: "IBM Plex Mono", monospace; line-height: 2; }
+  code { font-family: "IBM Plex Mono", monospace; font-size: .92em; background: var(--line-soft); border-radius: 4px; padding: 1px 5px; }
+  @media (prefers-reduced-motion: no-preference) { .bar, .mfill { transition: width .3s ease; } }
+</style>
+
+<div class="wrap">
+<header class="masthead">
+  <p class="eyebrow">h22 · lineage llm + llm_vl · 2026-09-12</p>
+  <h1>模型推理即 Agent：单卡 4090 AutoTrace 画像</h1>
+  <p class="standfirst">AgentSys 三个 agent 工作流的每个 LLM 调用都以本地模型真实推理执行（transformers 4.57.6，sdpa，bf16），在 RTX&nbsp;4090（GPU&nbsp;1）上完成 AutoTrace w01–w05 串行方法链——先是 Qwen3-1.7B，再以 Qwen2.5-VL-3B 的语言塔重复整条链。两条链的全部守恒门均为零误差。</p>
+  <div class="meta">
+    <span class="chip pass">llm 链 w01–w05 通过</span>
+    <span class="chip pass">llm_vl 链 w01–w05 通过</span>
+    <span class="chip">Qwen3-1.7B · 28 层</span>
+    <span class="chip">Qwen2.5-VL-3B · 36 层</span>
+    <span class="chip">nsys + ncu</span>
+    <span class="chip">react_tool · planner_debate · react_moa_mcts</span>
+  </div>
+</header>
+
+<div class="kpis">
+  <div class="kpi"><div class="label">GPU busy（中位）</div><div class="value">19<span class="unit">%</span></div><div class="sub">native 算子链只有 2–3%</div></div>
+  <div class="kpi"><div class="label">gemv 占 GPU 时间</div><div class="value">62<span class="unit">%</span></div><div class="sub">decode 矩阵-向量乘（cuBLAS）</div></div>
+  <div class="kpi"><div class="label">gemv DRAM active</div><div class="value">75<span class="unit">%</span></div><div class="sub">权重带宽受限（NCU 中位）</div></div>
+  <div class="kpi"><div class="label">w04 全负载预测误差</div><div class="value">+3.6<span class="unit">%</span></div><div class="sub">react_moa_mcts，实例数零失配</div></div>
+</div>
+
+<section>
+  <div class="sec-head"><span class="sec-num">w01</span><h2>算子级守恒分母</h2><span class="sec-goal">G01 · nsys launch-owned 归因</span></div>
+  <p class="lede">三个工作流的每个前向阶段（embed / layer×28 / head / sample）都有 NVTX 区间，GPU 工作按 launch ownership 归因，<strong>窗口内未归因 GPU 事件为 0</strong>。GPU 时间的家族分布在三个工作流上几乎一致——下面是最大的 react_moa_mcts（10 个 LLM 调用、802 输出 token/迭代）。</p>
+  <div class="two-col">
+    <div class="panel">
+      <h3>GPU 时间按 kernel 家族</h3>
+      <p class="h3sub">react_moa_mcts，measured 3 次迭代合计（react_tool / planner_debate 在 ±1% 内）</p>
+      <div class="barlist">
+        <span class="name"><span class="swatch" style="background:var(--s1)"></span>gemv（decode 矩阵-向量）</span><span class="track"><span class="bar" style="width:100%;background:var(--s1)" title="gemv 61.0%"></span></span><span class="val">61.0%</span>
+        <span class="name"><span class="swatch" style="background:var(--s2)"></span>elementwise（合计）</span><span class="track"><span class="bar" style="width:30.7%;background:var(--s2)" title="elementwise 18.7%"></span></span><span class="val">18.7%</span>
+        <span class="name"><span class="swatch" style="background:var(--s3)"></span>copy / dtype 转换</span><span class="track"><span class="bar" style="width:9.0%;background:var(--s3)" title="copy 5.5%"></span></span><span class="val">5.5%</span>
+        <span class="name"><span class="swatch" style="background:var(--s4)"></span>attention（flash sdpa）</span><span class="track"><span class="bar" style="width:7.1%;background:var(--s4)" title="attention 4.3%"></span></span><span class="val">4.3%</span>
+        <span class="name"><span class="swatch" style="background:var(--s5)"></span>concat（KV cache）</span><span class="track"><span class="bar" style="width:7.1%;background:var(--s5)" title="concat 4.3%"></span></span><span class="val">4.3%</span>
+        <span class="name"><span class="swatch" style="background:var(--s6)"></span>reduce（RMSNorm 均值）</span><span class="track"><span class="bar" style="width:6.3%;background:var(--s6)" title="reduce 3.8%"></span></span><span class="val">3.8%</span>
+        <span class="name"><span class="swatch" style="background:var(--s7)"></span>gemm（prefill）</span><span class="track"><span class="bar" style="width:3.7%;background:var(--s7)" title="gemm 2.3%"></span></span><span class="val">2.3%</span>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>每次迭代 wall 的 GPU 占用</h3>
+      <p class="h3sub">代表迭代，GPU busy 联合区间 / wall</p>
+      <div class="stack-row"><span class="name">react_tool<small>3 calls · 112 tok</small></span>
+        <div class="stack"><span class="seg busy" style="flex:18.77" title="GPU busy 18.8%"><span class="seglab">18.8%</span></span><span class="seg idle" style="flex:81.23" title="GPU idle 81.2%"><span class="seglab">idle 81.2%</span></span></div></div>
+      <div class="stack-row"><span class="name">planner_debate<small>6 calls · 440 tok</small></span>
+        <div class="stack"><span class="seg busy" style="flex:18.4" title="GPU busy 18.4%"><span class="seglab">18.4%</span></span><span class="seg idle" style="flex:81.6" title="GPU idle 81.6%"><span class="seglab">idle 81.6%</span></span></div></div>
+      <div class="stack-row"><span class="name">react_moa_mcts<small>11 calls · 802 tok</small></span>
+        <div class="stack"><span class="seg busy" style="flex:19.55" title="GPU busy 19.6%"><span class="seglab">19.6%</span></span><span class="seg idle" style="flex:80.45" title="GPU idle 80.5%"><span class="seglab">idle 80.5%</span></span></div></div>
+      <div class="legend"><span><span class="swatch" style="background:var(--s1)"></span>GPU busy</span><span><span class="swatch" style="background:var(--meter-track)"></span>GPU idle（host 派发在跑）</span></div>
+      <p class="note" style="margin-top:12px">单流、无 kernel 并发。空闲窗口由 Python eager 逐 kernel 派发造成：每次前向 ~1700 个 1–2&nbsp;µs 量级的微 kernel。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">w02</span><h2>Call / Process 归因</h2><span class="sec-goal">G02–G03 · 分段守恒 0 ns</span></div>
+  <p class="lede">measured 窗口被完整切成命名 process 分段（分段和 − 迭代 wall = <strong>0&nbsp;ns</strong>，GPU 总量与 w01 精确一致）。host 时间高度集中：三个工作流都是 <strong>decode 层阶段占 ~92%</strong>，其次是算子间派发间隙 ~4%。7 分钟的 react_moa_mcts 长跑触发了时钟离群点，对齐判据升级为稳健常数偏移（99.999% 对齐点在 ±200&nbsp;µs 内）。</p>
+  <div class="panel">
+    <h3>host 时间按 process 类型（react_moa_mcts）</h3>
+    <p class="h3sub">decode_layer* 为 28 个层 process 的卷积（`--rollup-layers`）；react_tool / planner_debate 分布相同（91.6 / 92.2%）</p>
+    <div class="barlist">
+      <span class="name"><span class="swatch" style="background:var(--s1)"></span>mir_operator:decode_layer*</span><span class="track"><span class="bar" style="width:100%;background:var(--s1)" title="decode_layer* 92.2%"></span></span><span class="val">92.2%</span>
+      <span class="name"><span class="swatch" style="background:var(--s2)"></span>inter_operator_dispatch</span><span class="track"><span class="bar" style="width:4.2%;background:var(--s2)" title="inter_operator_dispatch 3.9%"></span></span><span class="val">3.9%</span>
+      <span class="name"><span class="swatch" style="background:var(--s3)"></span>其余（prefill / h2d / d2h / 工具调用 / DAG 间隙）</span><span class="track"><span class="bar" style="width:4.3%;background:var(--s3)" title="其余 ~4.0%"></span></span><span class="val">~4.0%</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">w03</span><h2>NCU 硬件属性</h2><span class="sec-goal">G04 · 22 824 kernel · 全部 join</span></div>
+  <p class="lede">对代表负载重放缩减计划（真实 prompt 长度、每 call 2 个输出 token）：react_tool 6 568 + planner_debate 16 126 个 range 内 kernel <strong>100% 按 (call, op_index) join</strong> 到 w02 launch 顺序。planner_debate 在一次 profiler 崩溃后用单 call 补采会话补齐（合并记录于 <code>merge_provenance.json</code>）。判读：<strong>gemv 是带宽墙，其余几乎全是 launch-latency-bound</strong>。</p>
+  <div class="panel hw-scroll">
+    <h3>各 kernel 家族的硬件占用（NCU 中位，两个代表负载合并）</h3>
+    <p class="h3sub">条形长度 = 占该单元峰值百分比；waves/SM &lt; 1 表示单次发射填不满 GPU</p>
+    <table class="hw">
+      <thead><tr><th>家族</th><th>SM</th><th>Tensor</th><th>DRAM active</th><th>L2</th><th>占用率</th><th>waves/SM</th></tr></thead>
+      <tbody>
+        <tr><td><span class="fam"><span class="swatch" style="background:var(--s1)"></span>gemv</span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:15.5%"></span></span><span class="mval">15.5</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:0%"></span></span><span class="mval">0</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:75%"></span></span><span class="mval">75.0</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:46.9%"></span></span><span class="mval">46.9</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:16%"></span></span><span class="mval">16.0</span></span></td>
+          <td class="g">0.7</td></tr>
+        <tr><td><span class="fam"><span class="swatch" style="background:var(--s7)"></span>gemm（prefill）</span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:35%"></span></span><span class="mval">35.0</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:40.2%"></span></span><span class="mval">40.2</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:34.6%"></span></span><span class="mval">34.6</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:67%"></span></span><span class="mval">67.0</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:13.8%"></span></span><span class="mval">13.8</span></span></td>
+          <td class="g">1.0</td></tr>
+        <tr><td><span class="fam"><span class="swatch" style="background:var(--s4)"></span>attention（sdpa）</span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:7.1%"></span></span><span class="mval">7.1</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:8.1%"></span></span><span class="mval">8.1</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:18.8%"></span></span><span class="mval">18.8</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:13.3%"></span></span><span class="mval">13.3</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:8.3%"></span></span><span class="mval">8.3</span></span></td>
+          <td class="g">0.5</td></tr>
+        <tr><td><span class="fam"><span class="swatch" style="background:var(--s5)"></span>concat（KV）</span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:6.9%"></span></span><span class="mval">6.9</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:0%"></span></span><span class="mval">0</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:16%"></span></span><span class="mval">16.0</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:9.6%"></span></span><span class="mval">9.6</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:66.4%"></span></span><span class="mval">66.4</span></span></td>
+          <td class="g">1.3</td></tr>
+        <tr><td><span class="fam"><span class="swatch" style="background:var(--s6)"></span>reduce</span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:0.8%"></span></span><span class="mval">0.8</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:0%"></span></span><span class="mval">0</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:23.9%"></span></span><span class="mval">23.9</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:9.4%"></span></span><span class="mval">9.4</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:33.3%"></span></span><span class="mval">33.3</span></span></td>
+          <td class="g">0.0</td></tr>
+        <tr><td><span class="fam"><span class="swatch" style="background:var(--s2)"></span>elementwise / copy</span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:0.1%"></span></span><span class="mval">0.1</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:0%"></span></span><span class="mval">0</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:2.8%"></span></span><span class="mval">≤2.9</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:4.3%"></span></span><span class="mval">≤4.3</span></span></td>
+          <td><span class="meter"><span class="mtrack"><span class="mfill" style="width:8.3%"></span></span><span class="mval">8.3</span></span></td>
+          <td class="g">0.0</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">w04</span><h2>全负载估计</h2><span class="sec-goal">G05 · 模板 → 目标预测</span></div>
+  <p class="lede">用 react_tool + planner_debate 的 w02 分段中位数做模板（按 call 类型 × 矩阵规格 × process × op 类型），仅凭 react_moa_mcts 的<strong>计划</strong>枚举实例（1 次 prefill + 每 token 1 次 decode 前向），再拿它自己的实测打分：<strong>wall 误差 +3.62%，GPU 工作量 −2.13%，实例计数零失配</strong>。份额 ≥1% 的 process 中除 <code>inter_operator_dispatch</code>（−49.7%，目标负载的 Python 间隙更长）外全部 ≤6.4%。</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">w05</span><h2>选择性分析与资源缺口</h2><span class="sec-goal">G06–G10 · 选择 = decode_layer*</span></div>
+  <p class="lede">10% 阈值选择（层卷积后）在三个工作流上一致命中 <strong><code>decode_layer*</code></strong>。资源窗口把 w03 家族指标挂到选中 process：gemv 的 74% DRAM active 是唯一的硬件墙；上界分析给出 <strong>gpu_idle_window ≈ 80.5–81.9% wall</strong>——若 host 派发被完全隐藏或消除的收益上限。</p>
+  <div class="panel">
+    <h3>优化杠杆（按收益上界）</h3>
+    <p class="h3sub">react_moa_mcts；native 链的杠杆（输入生成搬上 GPU）在本链收益 ≈ 0</p>
+    <div class="barlist">
+      <span class="name"><span class="swatch" style="background:var(--s1)"></span>隐藏/消除 host 派发（CUDA graphs · compile · 融合）</span><span class="track"><span class="bar" style="width:100%;background:var(--s1)" title="80.5% wall 上界"></span></span><span class="val">80.5%</span>
+      <span class="name"><span class="swatch" style="background:var(--s2)"></span>提高 decode 权重带宽利用（量化 · 更大 batch）</span><span class="track"><span class="bar" style="width:14.8%;background:var(--s2)" title="~11.9% wall（gemv 的 GPU 份额）"></span></span><span class="val">~11.9%</span>
+      <span class="name"><span class="swatch" style="background:var(--s3)"></span>输入生成搬上 GPU（native 链主杠杆）</span><span class="track"><span class="bar" style="width:0.4%;background:var(--s3)" title="≈0% wall"></span></span><span class="val">≈0%</span>
+    </div>
+    <p class="note">第二行 = gemv 占 wall 的份额（61% GPU 时间 × 19.6% GPU busy）；量化把每字节权重换成更多 token，是带宽墙内的收益。</p>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">对比</span><h2>三条链：瓶颈完全反转</h2><span class="sec-goal">base / scaled ↔ llm</span></div>
+  <div class="panel chain-scroll">
+    <table class="chain">
+      <thead><tr><th>链</th><th>LLM 执行方式</th><th>GPU busy</th><th>主导瓶颈</th><th>第一优化杠杆</th><th>状态</th></tr></thead>
+      <tbody>
+        <tr><td class="g">base</td><td>native 算子计划（矩阵桩）</td><td class="g">2–3%</td><td>host 输入生成（<code>uniform_</code>）56–75% wall</td><td>输入生成搬上 GPU</td><td><span class="badge">完成 09-11</span></td></tr>
+        <tr><td class="g">scaled</td><td>native ×4 矩阵、32 算子迭代</td><td class="g">40–50%</td><td>GEMM tensor-core-bound（45–49% pipe）+ 输入生成 ~半 wall</td><td>输入生成搬上 GPU</td><td><span class="badge">完成 09-11</span></td></tr>
+        <tr><td class="g">llm</td><td><strong>真实 Qwen3-1.7B 推理</strong></td><td class="g">19%</td><td>decode gemv DRAM-bound（75%）+ Python 逐 kernel 派发 ~80% wall</td><td>CUDA graphs / compile / 融合</td><td><span class="badge">完成 09-12</span></td></tr>
+        <tr><td class="g">llm_vl</td><td><strong>真实 Qwen2.5-VL-3B 推理</strong>（36 层语言塔，7.5 GB）</td><td class="g">25%</td><td>decode gemv DRAM-bound（74%）+ 派发空闲 ~76% wall</td><td>CUDA graphs / compile / 融合</td><td><span class="badge">完成 09-12</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">同一套 agent DAG、同一套分析器，交换的只有"LLM 调用由什么执行"。</p>
+</section>
+
+<section>
+  <div class="sec-head"><span class="sec-num">双模型</span><h2>Qwen3-1.7B vs Qwen2.5-VL-3B</h2><span class="sec-goal">同一 DAG · 同一 4090</span></div>
+  <p class="lede">权重放大 2.2×（3.4&nbsp;GB → 7.5&nbsp;GB）后，decode 更加 gemv 主导、GPU busy 提高 5 个百分点，而<strong>单 kernel 硬件画像不变</strong>——gemv 停在同一堵 ~74% DRAM active 的墙上，其余 kernel 依旧 launch-latency-bound。派发空闲上界从 ~81% 降到 ~76%：不是派发变便宜，是每次发射的 kernel 干的活变多。</p>
+  <div class="panel">
+    <h3>关键量对比</h3>
+    <p class="h3sub">每行一对：上 Qwen3-1.7B（llm），下 Qwen2.5-VL-3B（llm_vl）；react_moa_mcts / NCU 中位</p>
+    <div class="barlist">
+      <span class="name"><span class="swatch" style="background:var(--s1)"></span>GPU busy · 1.7B</span><span class="track"><span class="bar" style="width:23.7%;background:var(--s1)" title="19.6%"></span></span><span class="val">19.6%</span>
+      <span class="name"><span class="swatch" style="background:var(--s2)"></span>GPU busy · VL-3B</span><span class="track"><span class="bar" style="width:30.0%;background:var(--s2)" title="24.7%"></span></span><span class="val">24.7%</span>
+      <span class="name"><span class="swatch" style="background:var(--s1)"></span>gemv 占 GPU 时间 · 1.7B</span><span class="track"><span class="bar" style="width:74.0%;background:var(--s1)" title="61.0%"></span></span><span class="val">61.0%</span>
+      <span class="name"><span class="swatch" style="background:var(--s2)"></span>gemv 占 GPU 时间 · VL-3B</span><span class="track"><span class="bar" style="width:89.4%;background:var(--s2)" title="73.7%"></span></span><span class="val">73.7%</span>
+      <span class="name"><span class="swatch" style="background:var(--s1)"></span>gemv DRAM active · 1.7B</span><span class="track"><span class="bar" style="width:91.0%;background:var(--s1)" title="75.0%"></span></span><span class="val">75.0%</span>
+      <span class="name"><span class="swatch" style="background:var(--s2)"></span>gemv DRAM active · VL-3B</span><span class="track"><span class="bar" style="width:90.2%;background:var(--s2)" title="74.3%"></span></span><span class="val">74.3%</span>
+      <span class="name"><span class="swatch" style="background:var(--s1)"></span>派发空闲上界 · 1.7B</span><span class="track"><span class="bar" style="width:97.7%;background:var(--s1)" title="80.5%"></span></span><span class="val">80.5%</span>
+      <span class="name"><span class="swatch" style="background:var(--s2)"></span>派发空闲上界 · VL-3B</span><span class="track"><span class="bar" style="width:92.0%;background:var(--s2)" title="75.8%"></span></span><span class="val">75.8%</span>
+    </div>
+    <p class="note">w04 全负载预测误差：1.7B +3.62%、VL-3B −3.03%（均零实例失配）；w05 选择两条链一致为 <code>decode_layer*</code>（~92% host 时间）。VL 链的 NCU 从一开始就按 call 拆成 7 个短会话（每个 3 190 kernel），零崩溃。结论：<strong>模型大小改变两堵墙之间的收益分配，但不改变墙本身</strong>——先用 CUDA graphs / compile / 融合打 ~76–81% 的派发空闲，再用权重量化打 ~74% 的 DRAM 墙。</p>
+  </div>
+</section>
+
+<footer>
+  数据：<code>artifacts/gpu_autotrace/llm/</code> · <code>artifacts/gpu_autotrace/llm_vl/</code>（nsys-rep · sqlite · ncu-rep · 分析 CSV，全部本地）<br>
+  报告：<code>H22_LLM_STRAND_SUMMARY.md</code> · <code>H22_LLM_VL_STRAND_SUMMARY.md</code> · 各目标 <code>*_REPORT.md</code> · 复现脚本 <code>experiments/h22-gpu-autotrace/code/</code><br>
+  方法：AutoTrace w01–w05（参考库已裁剪至 16 MB，<code>AutoTrace/CURATION_MANIFEST.md</code>）
+</footer>
+</div>

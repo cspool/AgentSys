@@ -1,0 +1,6 @@
+label,concurrent_requests,gpu_ns,gpu_share_pct,top_families
+plas_short2,1,142743835,10.8,gemm:64.3%;gemv:28.6%;other:2.5%;attention:2.4%
+plas_short2,2-3,26967965,2.04,gemm:76.6%;attention:9.4%;gemv:8.1%;other:4.2%
+plas_short2,4-7,167399087,12.67,gemm:85.2%;attention:9.0%;other:4.1%;elementwise_other:0.6%
+plas_short2,8-15,726716407,55.01,gemm:70.5%;attention:22.7%;other:5.3%;elementwise_other:0.6%
+plas_short2,16-31,258550189,19.57,gemm:62.2%;attention:30.7%;other:5.8%;elementwise_other:0.6%

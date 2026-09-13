@@ -1,0 +1,13 @@
+workload,family,instances,gpu_ns_total,gpu_share_pct
+react_tool,gemv,65346,1366705047.0,62.04
+react_tool,elementwise_binary,161616,239595841.0,10.88
+react_tool,copy,76944,122755346.0,5.57
+react_tool,elementwise_other,66864,92230903.0,4.19
+react_tool,attention,18816,91693052.0,4.16
+react_tool,reduce,38724,86753605.0,3.94
+react_tool,elementwise_unary,75936,85364902.0,3.88
+react_tool,concat,37968,75605901.0,3.43
+react_tool,gemm,1182,40864057.0,1.85
+react_tool,other,336,637924.0,0.03
+react_tool,memcpy,690,492993.0,0.02
+react_tool,memset,504,235201.0,0.01

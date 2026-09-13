@@ -1,0 +1,40 @@
+{
+  "alignment": {
+    "offset_ns": -82888410425302,
+    "pairs": 771,
+    "pass": true,
+    "spread_ns": 445242,
+    "within_1ms_frac": 1.0,
+    "within_200us_frac": 0.9831387808041504
+  },
+  "by_class": {
+    "agent": {
+      "decode_mean_ms": 3376.7,
+      "queue_wait_mean_ms": 70.62
+    },
+    "chat": {
+      "decode_mean_ms": 1804.24,
+      "queue_wait_mean_ms": 68.96
+    },
+    "lats": {
+      "decode_mean_ms": 2698.59,
+      "queue_wait_mean_ms": 73.15
+    }
+  },
+  "goal": "G02'-G03'",
+  "measured_window_ns": 129429510509,
+  "pass": true,
+  "policy": "plas",
+  "requests": {
+    "count": 771,
+    "decode_ns_total": 2293087502548,
+    "peak_concurrent": 42,
+    "queue_share_pct": 2.35,
+    "queue_wait_ns_total": 55262728075
+  },
+  "schema_version": 1,
+  "upstream": {
+    "w01_gpu_busy_pct": 10.26,
+    "w01_sqlite_sha256": "479f9e4a142aa3193ed744bf10c04b27357973510d9ca165cd8aeea922eddd48"
+  }
+}

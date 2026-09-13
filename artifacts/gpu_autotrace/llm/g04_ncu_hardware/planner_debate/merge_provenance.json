@@ -1,0 +1,12 @@
+{
+  "merge": "planner-final rows (913 partial, session crash) replaced by dedicated fill run (3214 complete); dram__bytes_read.sum converted Mbyte->Gbyte to the first session's units",
+  "fill_ncu_rep_sha256": "53f7bc3053f873edbaab5877da1047f86abe3f66af4db87a2c89ace3269989a9",
+  "fill_filter": "AGENTSYS_NVTX_MEASURED_ONLY=1, --nvtx-include regex:agentsys.mllm::planner-final::/",
+  "partial_backup_sha256": "f8a0ba2af7c1384b0ffc8c0d4d796f1a9319feb5f6de4f10ff2228b8fd8054db",
+  "merged_raw_sha256": "8369f4573958362e61149c49d6d874394f9d41a26c3f61ba9ea37cb7ee26a4d0",
+  "rows": {
+    "kept_from_first_session": 13002,
+    "from_fill_run": 3214,
+    "total": 16216
+  }
+}

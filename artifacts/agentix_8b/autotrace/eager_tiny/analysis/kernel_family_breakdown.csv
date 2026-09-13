@@ -1,0 +1,12 @@
+label,family,items,gpu_ns,gpu_share_pct
+eager_tiny,gemm,25017,3289111206,86.2
+eager_tiny,gemv,1936,246782678,6.47
+eager_tiny,attention,19514,174361844,4.57
+eager_tiny,other,22265,54557754,1.43
+eager_tiny,elementwise_binary,6686,23903328,0.63
+eager_tiny,copy,11533,21480446,0.56
+eager_tiny,elementwise_other,1475,2178240,0.06
+eager_tiny,reduce,720,1506455,0.04
+eager_tiny,memcpy,1451,1254931,0.03
+eager_tiny,memset,640,601416,0.02
+eager_tiny,fill,18,59168,0.0

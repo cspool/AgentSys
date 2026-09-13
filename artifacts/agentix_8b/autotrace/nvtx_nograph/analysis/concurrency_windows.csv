@@ -1,0 +1,5 @@
+label,concurrent_requests,gpu_ns,gpu_share_pct,top_families
+nvtx_nograph,1,249547354,7.24,gemv:96.2%;attention:2.1%;other:1.2%;elementwise_binary:0.2%
+nvtx_nograph,2-3,238395057,6.91,gemm:88.3%;gemv:6.9%;attention:2.4%;other:1.3%
+nvtx_nograph,4-7,1549350169,44.92,gemm:92.6%;attention:3.8%;other:1.3%;gemv:1.1%
+nvtx_nograph,8-15,1411718780,40.93,gemm:90.9%;attention:6.6%;other:1.4%;copy:0.6%

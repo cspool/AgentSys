@@ -88,7 +88,36 @@ def fit_offset(nvtx_ops: list[Range], host_ops: list[dict[str, Any]]) -> dict[st
         offsets.append(int(ev["start_ns"]) - nv.start)
     med = int(statistics.median(offsets))
     spread = max(offsets) - min(offsets)
-    return {"offset_ns": med, "pairs": len(offsets), "spread_ns": spread, "min_ns": min(offsets), "max_ns": max(offsets), "pass": spread <= MAX_ALIGN_SPREAD_NS}
+    # Constant-offset model first (the historical model). Long runs accumulate a
+    # linear host-vs-nsys clock drift (a few ppm over minutes), so when the
+    # constant model's spread is out of tolerance, fit host = alpha + beta * nsys
+    # by least squares (centred for float precision) and judge the residuals.
+    nv_starts = [nv.start for nv in measured_nvtx]
+    host_starts = [int(ev["start_ns"]) for ev in host_ops]
+    n = len(nv_starts)
+    mx, my = sum(nv_starts) / n, sum(host_starts) / n
+    sxx = sum((x - mx) ** 2 for x in nv_starts)
+    sxy = sum((x - mx) * (y - my) for x, y in zip(nv_starts, host_starts))
+    beta = sxy / sxx if sxx else 1.0
+    alpha = my - beta * mx
+    residuals = [y - (alpha + beta * x) for x, y in zip(nv_starts, host_starts)]
+    lin_spread = max(residuals) - min(residuals)
+    # Robust constant-offset criterion: isolated outlier pairs (scheduler
+    # preemption between the hook timestamp and the NVTX push on a
+    # minutes-long run) shift single host markers, not the clock relation.
+    # Accept the constant model when >= 99.9 % of pairs sit within half the
+    # tolerance of the median, and report the outliers.
+    within = sum(1 for o in offsets if abs(o - med) <= MAX_ALIGN_SPREAD_NS // 2)
+    robust_frac = within / len(offsets)
+    robust_ok = robust_frac >= 0.999
+    if spread <= MAX_ALIGN_SPREAD_NS or robust_ok:
+        model = "constant_offset"
+    else:
+        model = "linear_drift"
+    return {"offset_ns": med, "pairs": len(offsets), "spread_ns": spread, "min_ns": min(offsets), "max_ns": max(offsets),
+            "model": model, "alpha": alpha, "beta": beta, "drift_ppm": (beta - 1.0) * 1e6, "linear_residual_spread_ns": lin_spread,
+            "outlier_pairs": len(offsets) - within, "robust_within_frac": robust_frac,
+            "pass": spread <= MAX_ALIGN_SPREAD_NS or robust_ok or lin_spread <= MAX_ALIGN_SPREAD_NS}
 
 
 def build_segments(
@@ -96,13 +125,21 @@ def build_segments(
     nvtx_ops: list[Range],
     host_events: list[dict[str, Any]],
     plan: dict[str, Any],
-    offset_ns: int,
+    align: dict[str, Any],
 ) -> list[Segment]:
     kind_of = {c["call_id"]: c["kind"] for c in plan["calls"]}
     engine_of = {(c["call_id"], int(o["index"])): o["engine"] for c in plan["calls"] for o in c.get("mir_operators", [])}
 
-    def h2n(ts: int) -> int:  # host monotonic -> nsys clock
-        return int(ts) - offset_ns
+    if align["model"] == "linear_drift":
+        alpha, beta = align["alpha"], align["beta"]
+
+        def h2n(ts: int) -> int:  # host monotonic -> nsys clock, drift-corrected
+            return round((int(ts) - alpha) / beta)
+    else:
+        offset_ns = align["offset_ns"]
+
+        def h2n(ts: int) -> int:  # host monotonic -> nsys clock
+            return int(ts) - offset_ns
 
     by_iter_events: dict[int, list[dict[str, Any]]] = defaultdict(list)
     for ev in host_events:
@@ -245,7 +282,7 @@ def main(argv: list[str] | None = None) -> int:
     if not align["pass"]:
         raise SystemExit(f"clock alignment rejected: {align}")
 
-    segments = build_segments(phases, nvtx_ops, host_events, plan, align["offset_ns"])
+    segments = build_segments(phases, nvtx_ops, host_events, plan, align)
     api_rows = load_api(args.sqlite)
     seg_work, seg_api = attach_gpu(segments, work, api_rows)
 
