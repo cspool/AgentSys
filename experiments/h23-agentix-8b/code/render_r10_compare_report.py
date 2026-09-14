@@ -225,9 +225,73 @@ function mountLanes(root, D){
   st.draw();
   return st;
 }
+function mountReq(root, D){
+  // lossless request-lane view after r10_lossless_timeline: one true time axis,
+  // every call drawn, no folding, no sampling; wait vs service split per call.
+  const svg = root.querySelector('svg');
+  const CLS = {bfcl:'#eb6834', sharegpt:'#2a78d6', lats:'#1baf7a'};
+  const st = {zoom: 1, pan: 0};
+  const LEFT = 150, RIGHT = 24, ROWH = 22, TOP = 46;
+  function draw(){
+    const W = svg.clientWidth || 1280, plotW = W - LEFT - RIGHT;
+    const H = TOP + D.lanes.length*ROWH + 46;
+    svg.setAttribute('viewBox', '0 0 '+W+' '+H);
+    const X = t => LEFT + ((t/D.wall_ms)*st.zoom + st.pan)*plotW;
+    const out = ['<rect width="'+W+'" height="'+H+'" fill="#fff"/>'];
+    for (let i = 0; i <= 10; i++){
+      const t = D.wall_ms*i/10, x = X(t);
+      if (x < LEFT-1 || x > W-RIGHT+1) continue;
+      out.push('<path d="M'+x.toFixed(1)+' '+(TOP-12)+' V'+(H-34)+'" stroke="#e6edf4"/>');
+      out.push('<text x="'+x.toFixed(1)+'" y="'+(TOP-18)+'" font-size="11" text-anchor="middle" fill="#48607d">'+(t/1e3).toFixed(0)+' s</text>');
+    }
+    D.lanes.forEach((ln, i) => {
+      const y = TOP + i*ROWH;
+      out.push('<text x="6" y="'+(y+14)+'" font-size="10.5" fill="#48607d">'+ln.p+' · '+ln.cls+' · '+ln.calls.length+'调用</text>');
+      ln.calls.forEach((c, j) => {
+        const x0 = X(c[0]), x1 = X(c[1]), x2 = X(c[2]);
+        if (x2 < LEFT || x0 > W-RIGHT) return;
+        out.push('<rect class="rq" data-l="'+i+'" data-c="'+j+'" x="'+x0.toFixed(1)+'" y="'+(y+4)+'" width="'+Math.max(0.5,(x1-x0)).toFixed(1)+'" height="12" fill="#c94040" opacity="0.85"/>');
+        out.push('<rect class="rq" data-l="'+i+'" data-c="'+j+'" x="'+x1.toFixed(1)+'" y="'+(y+4)+'" width="'+Math.max(0.5,(x2-x1)).toFixed(1)+'" height="12" fill="'+(CLS[ln.cls]||'#888')+'" opacity="0.9"/>');
+      });
+    });
+    out.push('<text x="6" y="'+(H-12)+'" font-size="11.5" fill="#48607d">无损单轴（真实时间比例，未折叠未抽样）· 全部 '+D.n_calls+' 个调用 · 红段 = 等待（提交→首token）· 彩段 = 服务（首token→完成）· 缩放 '+st.zoom.toFixed(1)+'×</text>');
+    svg.innerHTML = out.join('');
+    svg.querySelectorAll('.rq').forEach(el => {
+      el.addEventListener('mousemove', ev => {
+        const ln = D.lanes[+el.dataset.l], c = ln.calls[+el.dataset.c];
+        showTip(ev, ln.p+' 调用#'+c[3]+' ('+ln.cls+')'+NL+'等待 '+(c[1]-c[0]).toFixed(0)+' ms · 服务 '+(c[2]-c[1]).toFixed(0)+' ms'+NL+(c[4]?('MLFQ 队列路径 '+c[4]):'FCFS 单队'));
+      });
+      el.addEventListener('mouseleave', hideTip);
+    });
+  }
+  svg.addEventListener('wheel', ev => {
+    ev.preventDefault();
+    const rect = svg.getBoundingClientRect();
+    const W = svg.clientWidth || 1280, plotW = W - LEFT - RIGHT;
+    const at = ((ev.clientX - rect.left)*(W/rect.width) - LEFT)/plotW;
+    const f = ev.deltaY < 0 ? 1.25 : 0.8;
+    const nz = Math.min(2000, Math.max(1, st.zoom*f));
+    st.pan = at - (at - st.pan)*(nz/st.zoom); st.zoom = nz;
+    if (st.zoom === 1) st.pan = 0;
+    draw();
+  }, {passive:false});
+  let drag = null;
+  svg.addEventListener('mousedown', ev => drag = {x: ev.clientX, pan: st.pan});
+  addEventListener('mouseup', () => drag = null);
+  addEventListener('mousemove', ev => {
+    if (!drag) return;
+    const W = svg.clientWidth || 1280;
+    st.pan = drag.pan + (ev.clientX - drag.x)/(W - LEFT - RIGHT);
+    draw();
+  });
+  addEventListener('resize', draw);
+  draw();
+}
 document.querySelectorAll('.panel').forEach(p => {
   const D = JSON.parse(document.getElementById(p.dataset.payload).textContent);
-  if (p.dataset.kind === 'lanes') mountLanes(p, D); else mountPile(p, D);
+  if (p.dataset.kind === 'lanes') mountLanes(p, D);
+  else if (p.dataset.kind === 'req') mountReq(p, D);
+  else mountPile(p, D);
 });
 """
 
@@ -256,11 +320,35 @@ th{background:var(--panel)}
 
 
 def panel(pid, kind, tag, cls=""):
-    btns = "".join(
-        f'<button class="secbtn{" on" if i == 0 else ""}">段{i + 1}</button>' for i in range(10))
+    if kind == "req":
+        bar = (f'<span class="ptag {cls}">{tag}</span>'
+               '<span style="font-size:12px;color:#48607d">无损单轴 · 滚轮缩放 · 拖拽平移</span>')
+    else:
+        bar = (f'<span class="ptag {cls}">{tag}</span>' + "".join(
+            f'<button class="secbtn{" on" if i == 0 else ""}">段{i + 1}</button>'
+            for i in range(10)) + '<button class="fold on">折叠：开</button>')
     return (f'<div class="panel" data-payload="{pid}" data-kind="{kind}">'
-            f'<div class="pbar"><span class="ptag {cls}">{tag}</span>{btns}'
-            f'<button class="fold on">折叠：开</button></div><svg height="400"></svg></div>')
+            f'<div class="pbar">{bar}</div><svg height="400"></svg></div>')
+
+
+def req_payload(capture_dir: Path):
+    f = next((capture_dir / "run").glob("calls_*.jsonl"))
+    rows = [json.loads(l) for l in f.open()]
+    lanes = {}
+    for r in rows:
+        lanes.setdefault(r["program_id"], {"p": r["program_id"], "cls": r["class"], "calls": []})
+        qp = r.get("queue_path")
+        lanes[r["program_id"]]["calls"].append(
+            [round(r["submitted_rel_ms"], 1), round(r["first_token_rel_ms"], 1),
+             round(r["finished_rel_ms"], 1), r["call_index"],
+             ">".join(f"Q{q}" for q in qp) if qp and r["policy"] != "fcfs" else ""])
+    order = sorted(lanes.values(), key=lambda x: ({"bfcl": 0, "sharegpt": 1, "lats": 2}[x["cls"]],
+                                                  x["calls"][0][0]))
+    wall = max(c[2] for x in order for c in x["calls"])
+    waits = [c[1] - c[0] for x in order for c in x["calls"]]
+    lats = [c[2] - c[0] for x in order for c in x["calls"]]
+    return ({"wall_ms": wall, "n_calls": len(rows), "lanes": order},
+            sum(waits) / len(waits), sum(lats) / len(lats))
 
 
 def main():
@@ -270,12 +358,36 @@ def main():
     ap.add_argument("--fcfs-payload", type=Path, required=True)
     ap.add_argument("--core-payload", type=Path, required=True)
     ap.add_argument("--facts", type=Path, required=True)
+    ap.add_argument("--fcfs-capture", type=Path, required=True)
+    ap.add_argument("--core-capture", type=Path, required=True)
     ap.add_argument("--out", type=Path, required=True)
     a = ap.parse_args()
     pf = json.loads(a.fcfs_payload.read_text())
     pc = json.loads(a.core_payload.read_text())
     d = json.loads(a.facts.read_text())
     e, s, q, w, ml = d["endpoint"], d["endpoint"]["speedup"], d["queue"], d["class_wait_ms"], d["mlfq"]
+    rq_f, wait_f, lat_f = req_payload(a.fcfs_capture)
+    rq_c, wait_c, lat_c = req_payload(a.core_capture)
+    # timeline-native estimate at the program level (the ptl unit): replay the
+    # FCFS timeline with each call's wait segment replaced by the core side's
+    # class-median wait, recompute program token latency, compare means.
+    import statistics as _st
+    f_calls = [json.loads(l) for l in next((a.fcfs_capture / "run").glob("calls_*.jsonl")).open()]
+    c_calls = [json.loads(l) for l in next((a.core_capture / "run").glob("calls_*.jsonl")).open()]
+    med_core_wait = {cls: _st.median([r["first_token_rel_ms"] - r["submitted_rel_ms"]
+                                      for r in c_calls if r["class"] == cls])
+                     for cls in {r["class"] for r in c_calls}}
+    progs = {}
+    for r in f_calls:
+        p = progs.setdefault(r["program_id"], {"sub": 1e18, "fin": 0, "tok": 0, "cut": 0.0})
+        p["sub"] = min(p["sub"], r["submitted_rel_ms"])
+        p["fin"] = max(p["fin"], r["finished_rel_ms"])
+        p["tok"] += max(r["output_tokens"], 1)
+        wait = r["first_token_rel_ms"] - r["submitted_rel_ms"]
+        p["cut"] += max(0.0, wait - med_core_wait[r["class"]])
+    ptl_f = [(p["fin"] - p["sub"]) / p["tok"] for p in progs.values()]
+    ptl_pred = [max(p["fin"] - p["sub"] - p["cut"], 1e-6) / p["tok"] for p in progs.values()]
+    est_call = (sum(ptl_f) / len(ptl_f)) / (sum(ptl_pred) / len(ptl_pred))
 
     def emb(pid, obj):
         return f'<script id="{pid}" type="application/json">{json.dumps(obj)}</script>'
@@ -297,30 +409,38 @@ def main():
 十段制 · 折叠模式压缩大空档（浅黄带，提示保留真实时长）· 滚轮缩放 · 拖拽平移。契约与实现参照
 archives_final/batch16 R10 页（process-resource-contract.md）。</div></header>
 
-<h2>① 端到端 Process 时间线（请求级宇宙：每个 LLM 调用一个实例，按类别分堆）</h2>
-$e2e_f
-$e2e_c
-<p class="note"><b>对照读法：</b>两图同为 2,440 个调用实例、同一负载。baseline 中 bfcl/sharegpt 堆的成员线明显更长
-（等待被计入调用窗口）；agentix_core 中这两类的重堆整体变短、lats 堆不变——这就是收益的请求级形态。
-分类别等待（提交→首token，ms，mean/p90）：</p>
+<h2>① 端到端 Process 时间线 — 优化生效的直观效果（无损请求车道，参照 r10_lossless_timeline）</h2>
+$req_f
+$req_c
+<p class="note"><b>直观效果：</b>每行一个程序（按类别分组），每个调用 = 红段（等待：提交→首token）+
+彩段（服务：首token→完成），真实时间比例、全部 $ncalls 个调用无抽样无折叠。上图（FCFS）里
+bfcl（橙）与 sharegpt（蓝）车道被大片红段占据——短程序在长程序（绿，lats）后排队；下图
+（agentix_core）中这些红段几乎消失，绿色车道不变。<b>优化生效 = 红色等待质量从短程序车道被移走</b>。
+全体调用平均等待 $wf → $wc ms；分类别（mean/p90 ms）：</p>
 <table><tr><th>类别</th><th>FCFS</th><th>agentix_core</th><th>Δmean</th></tr>$wait_rows</table>
 
-<h2>② 高延迟 Process 时间线（scope 宇宙：>10% 类型 × 5 堆对数时长聚类，全局排名）</h2>
+<h2>② 高延迟 Process 时间线 — 性能提升比例的估算（scope 宇宙：>10% 类型 × 5 堆聚类，全局排名）</h2>
 $hl_f
 $hl_c
-<p class="note"><b>对照读法：</b>两图堆拓扑同构——同样的入选类型（forward/preprocess）、全局第 1 名都是重
-forward 堆；agentix_core 侧重堆多出的质量（成员/时长增量）是量子切块 continuation 的机制签名。
-尾延迟的机器侧形态（少数大 batch/prefill forward 步）不因策略改变；GPU 在做同样的事。
-MLFQ 账本（core 调用记录）：入队 Q0–Q3 = $adm，降级 $demo 次，多量子调用 $multiq 个，β 提升 $promo 次。</p>
+<p class="note"><b>比例估算：</b>两图堆拓扑同构（同入选类型、第 1 名同为重 forward 堆），重堆总质量差
+仅为量子切块 continuation 签名——即<b>服务时间不因策略改变</b>，提升只能来自 ① 中的等待段。
+据此从时间线估算（程序级重放：把 FCFS 时间线上每个调用的红色等待段替换为 core 侧同类别
+中位等待，重算各程序 token latency）：预计加速 <b>$est×（上界）</b>；实测端侧 ptl mean $sm× /
+p90 $sp×。估算只用两条时间线的几何量（等待段与服务段）；它是上界，因为程序内并行调用
+（lats 波宽 5）的等待在墙钟上重叠、逐调用求和会重复计入。实测落在 1×–上界之间，
+且长尾口径（p90 $sp×、p99 $s99×）更接近上界——与"收益来自等待重排"的机理自洽。
+MLFQ 账本：入队 Q0–Q3 = $adm，降级 $demo 次，多量子 $multiq，β 提升 $promo。</p>
 
-<h2>③ 并发 / 资源分析时间线（lanes 仅在已关联窗口内绘制；灰底 = 未关联）</h2>
+<h2>③ 并发 / 资源分析时间线 — 性能提升的原因（资源使用率与并发；lanes 仅在已关联窗口内绘制）</h2>
 $cu_f
 $cu_c
-<p class="note"><b>对照读法：</b>GPU busy 与 gemm 占比两侧几乎同形（资源墙不动，family 级 NCU 中位数
-L2≈76% / SM≈49% / DRAM 14–20%）；差异在"在飞调用数"lane：baseline 长期贴顶（cap 上方累计 $qf s），
-agentix_core 相同（$qc s）但队内成员不同——结合 ① 可见短程序先出队。隐藏堆保留排名：
-baseline $hidden_f；core $hidden_c（preprocess 堆无 gemm 关联，按契约隐藏）。折叠上限 =
-max(2×中位时长, 段宽/2000)——只压大空洞，微间隙保持线性，几何不失真（适配声明）。</p>
+<p class="note"><b>原因：</b>(1) <b>资源使用率不变</b>——GPU busy 与 gemm 占比两侧几乎同形，family 级
+NCU 中位数一致（L2≈76% / SM≈49% / DRAM 14–20%），资源墙在 L2/tensor 且不因策略移动；
+(2) <b>并发同样打满</b>——"在飞调用数"lane 两侧都长期贴 cap（上方累计 $qf vs $qc s，排队压力相同）；
+(3) 因此提升的唯一自由度是<b>出队顺序</b>：MLFQ 在相同资源、相同并发下把短程序先送进批。
+排队压力越大该杠杆越大（跨模型：LLaMA 169 s→p90 1.86×，VL 77 s→1.15×，Qwen3 40 s→1.11×）。
+隐藏堆保留排名：baseline $hidden_f；core $hidden_c（preprocess 堆无 gemm 关联，按契约隐藏）。
+折叠上限 = max(2×中位时长, 段宽/2000)，只压大空洞（适配声明）。</p>
 
 <p class="note">记账：全部成员绘制、未抽样；硬件关联 family 级非逐实例；trace 开销两侧同担；
 payload 内含绝对 ns（BigInt 处理，无精度损失）。数字出处 gain_facts_$key.json 与两侧 payload。</p>
@@ -331,8 +451,10 @@ $payloads
         fm=f"{e['fcfs']['ptl']['mean']:.1f}", cm=f"{e['core']['ptl']['mean']:.1f}",
         sm=f"{s['mean']:.2f}", fp=f"{e['fcfs']['ptl']['p90']:.1f}",
         cp=f"{e['core']['ptl']['p90']:.1f}", sp=f"{s['p90']:.2f}", s99=f"{s['p99']:.2f}",
-        e2e_f=panel("pl-e2e-f", "pile", "FCFS baseline"),
-        e2e_c=panel("pl-e2e-c", "pile", "agentix_core", "core"),
+        req_f=panel("pl-req-f", "req", "FCFS baseline"),
+        req_c=panel("pl-req-c", "req", "agentix_core", "core"),
+        ncalls=rq_f["n_calls"], wf=f"{wait_f:.0f}", wc=f"{wait_c:.0f}",
+        lf=f"{lat_f:.0f}", est=f"{est_call:.2f}",
         hl_f=panel("pl-hl-f", "pile", "FCFS baseline"),
         hl_c=panel("pl-hl-c", "pile", "agentix_core", "core"),
         cu_f=panel("pl-cu-f", "lanes", "FCFS baseline"),
@@ -342,7 +464,7 @@ $payloads
         demo=ml["demotions"], promo=ml["promotions"], multiq=ml["multi_quantum_calls"],
         qf=f"{q['fcfs']['ms_above_cap']/1e3:.1f}", qc=f"{q['core']['ms_above_cap']/1e3:.1f}",
         hidden_f=hidden_f, hidden_c=hidden_c,
-        payloads="\n".join([emb("pl-e2e-f", pf["e2e"]), emb("pl-e2e-c", pc["e2e"]),
+        payloads="\n".join([emb("pl-req-f", rq_f), emb("pl-req-c", rq_c),
                             emb("pl-hl-f", pf["hl"]), emb("pl-hl-c", pc["hl"]),
                             emb("pl-cu-f", pf["cu"]), emb("pl-cu-c", pc["cu"])]))
     a.out.write_text(html)
