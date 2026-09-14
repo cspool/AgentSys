@@ -1,0 +1,120 @@
+{
+  "label": "llama_agentix_core_r0.3",
+  "source_sqlite": "artifacts/agentix_8b/autotrace/agentix_core_r03/cap.sqlite",
+  "source_sha256": "f493f55727732d4580ef0c77c9a22054bad5ad9a69efcbd35993a5ea91a80fa0",
+  "process_universe": "worker-side scope instances (schedule:*, gpu_model_runner:*)",
+  "total_process_ns": 80711503702,
+  "instances": 235220,
+  "selected_types": [
+    "gpu_model_runner: preprocess",
+    "gpu_model_runner: forward"
+  ],
+  "unsupported_grouping": [],
+  "hl_threshold_ns": {
+    "gpu_model_runner: preprocess": 4826998,
+    "gpu_model_runner: forward": 657217.0
+  },
+  "fold": {
+    "cap_ns": 4493820,
+    "policy": "gaps capped at 2.0x median duration",
+    "marks": 10358
+  },
+  "policy": {
+    "selection": "type duration sum *10 > total (overlaps counted)",
+    "clustering": "deterministic 1-D log-duration Lloyd, 5 nonempty contiguous piles",
+    "ranking": "global pile duration sum desc; tie type name, pile index",
+    "resource_association": "family-level: NCU batched-GEMM replay medians attach to windows containing gemm kernels; never per-instance"
+  },
+  "groups": [
+    {
+      "rank": 1,
+      "type": "gpu_model_runner: forward",
+      "pile": 4,
+      "sum_ns": 24851951755,
+      "members": 1186,
+      "hl_members": 1186,
+      "assoc_members": 821
+    },
+    {
+      "rank": 2,
+      "type": "gpu_model_runner: preprocess",
+      "pile": 3,
+      "sum_ns": 18547523128,
+      "members": 5145,
+      "hl_members": 0,
+      "assoc_members": 15
+    },
+    {
+      "rank": 3,
+      "type": "gpu_model_runner: preprocess",
+      "pile": 4,
+      "sum_ns": 8416399915,
+      "members": 1905,
+      "hl_members": 206,
+      "assoc_members": 2
+    },
+    {
+      "rank": 4,
+      "type": "gpu_model_runner: preprocess",
+      "pile": 2,
+      "sum_ns": 4765980763,
+      "members": 1817,
+      "hl_members": 0,
+      "assoc_members": 107
+    },
+    {
+      "rank": 5,
+      "type": "gpu_model_runner: forward",
+      "pile": 2,
+      "sum_ns": 2750240655,
+      "members": 5441,
+      "hl_members": 0,
+      "assoc_members": 9
+    },
+    {
+      "rank": 6,
+      "type": "gpu_model_runner: preprocess",
+      "pile": 1,
+      "sum_ns": 2235572126,
+      "members": 1162,
+      "hl_members": 0,
+      "assoc_members": 39
+    },
+    {
+      "rank": 7,
+      "type": "gpu_model_runner: forward",
+      "pile": 3,
+      "sum_ns": 1152379374,
+      "members": 1407,
+      "hl_members": 1346,
+      "assoc_members": 2
+    },
+    {
+      "rank": 8,
+      "type": "gpu_model_runner: forward",
+      "pile": 1,
+      "sum_ns": 488939934,
+      "members": 1210,
+      "hl_members": 0,
+      "assoc_members": 5
+    },
+    {
+      "rank": 9,
+      "type": "gpu_model_runner: forward",
+      "pile": 0,
+      "sum_ns": 224479235,
+      "members": 782,
+      "hl_members": 0,
+      "assoc_members": 7
+    },
+    {
+      "rank": 10,
+      "type": "gpu_model_runner: preprocess",
+      "pile": 0,
+      "sum_ns": 27917367,
+      "members": 62,
+      "hl_members": 0,
+      "assoc_members": 0
+    }
+  ]
+}
