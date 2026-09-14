@@ -184,10 +184,49 @@ def main():
                         f"（全程 above-cap：{q['fcfs']['ms_above_cap']/1e3:.0f} vs {q['core']['ms_above_cap']/1e3:.0f} s）。"
                         f"资源与并发都相同，改变的只是队内成员。"))
 
-    def section(no, title, theme, items):
+    def section(no, title, paper, impl, theme, items):
         body = "".join(
             f'<h3>{name}</h3>{svg}<p class="cap"><b>图注：</b>{cap}</p>' for name, svg, cap in items)
-        return f'<h2>{no} {title}</h2><p class="theme">{theme}</p>{body}'
+        return (f'<h2>{no} {title}</h2>'
+                f'<div class="block"><b>论文方法与创新点</b>{paper}</div>'
+                f'<div class="block impl"><b>本实现（被可视化的对象）</b>{impl}</div>'
+                f'<p class="theme"><b>运行时效果（图证）：</b>{theme}</p>{body}')
+
+    PAPER1 = """<p>Agentix（Autellix, NSDI'26）的出发点（§1–§2）：agent 应用是<b>含控制流的通用程序</b>，
+程序在一次会话中反复发起 LLM 调用（调用间还有工具/思考间隔），而现有 serving 引擎只看见孤立的单次
+调用请求，按 FCFS 处理。论文用其 Fig.2/3 论证由此产生的核心病灶——<b>程序级队头阻塞</b>：长程序的
+后续调用与短程序的调用在同一队列平权排队，短程序端到端延迟被长程序放大数倍。创新点是把
+<b>程序（而非请求）作为一等调度实体</b>：引擎为每个程序维护累计服务/等待统计（进程表 {T_p, W_p}），
+调用到达时携带其程序的历史，调度据此排序——无需预知长度（non-clairvoyant）。</p>"""
+    IMPL1 = """<p>本实现把进程表放在客户端 serving 适配层（<code>serve_agentix.py</code>）：
+每程序维护 {attained_us, wait_us}，每个调用提交时以程序累计服务时间为优先级进入
+MLFQ（下详），vLLM 0.29 原生 priority 调度 / 前缀缓存 / chunked prefill 作为接入项。
+端到端时间线的"车道 = 程序、调用 = 红(等待)+彩(服务)段"正是论文 Fig.2 的程序视角在
+真实 trace 上的重建：优化是否生效，看红段是否从短程序车道消失。</p>"""
+
+    PAPER2 = """<p>论文的调度算法（§3, Algorithm 1）：<b>PLAS</b>——优先级 = 程序已获得的累计服务时间
+（Least-Attained-Service 的程序级推广，非透视地逼近最短程序优先）；为避免连续值排序开销与饥饿，
+把优先级<b>离散化为 K 级多级反馈队列</b>：调用按其程序累计服务 p(c) 落入 Q_1…Q_K，每队列配
+时间量子，量子用尽降入下一级；多线程程序用 <b>ATLAS</b>（按关键路径累计）。关键前提是：
+<b>调度不改变任何一次 forward 的服务时间</b>——收益全部来自等待的重新分配。这正是高延迟
+Process 时间线可检验的论断：若两侧重 forward 堆同形，则论文前提成立，且提升上界可以从
+等待几何量直接估算。</p>"""
+    IMPL2 = """<p>本实现的 MLFQ 常数（论文未给数值，自行标定并在报告声明）：K=4，入队界
+[0, 2, 8, 32] s（按程序累计服务），量子 32/64/128/256 token；量子用尽的调用以
+prompt+已生成 token 重提交（前缀缓存重命中，实现 chunk 边界的"抢占"），ATLAS 已实现。
+高延迟时间线上的 core 侧重堆多出的质量（如 LLaMA +2.3 s）即 continuation 的机制签名。</p>"""
+
+    PAPER3 = """<p>论文的第三个组件（§3.3）是<b>β-比率反饥饿</b>：程序等待/服务比
+(W_p+W_c)/(T_p+T_c) ≥ β 时把该程序的调用提回最高队列并重置窗口统计，保证长程序不被饿死。
+论文对收益来源的论证（§6 讨论）与我们的可视化职责一致：Agentix <b>不提高 GPU 利用率、
+不加速任何 kernel</b>——在引擎饱和（持续排队）时，吞吐近似守恒，改变的只是"谁先完成"；
+因此其 2×（8B 档，vs vLLM-opt）的收益必须在资源利用率与并发不变的证据下解释为
+<b>纯排序收益</b>，且随排队压力增大而增大（论文在高到达率区间收益最大）。</p>"""
+    IMPL3 = """<p>本实现在 trace 内留下机制自证：入队分布 Q1–Q4、降级次数、多量子调用数、
+β 提升次数（本负载 β=2.0 未触发）都从调用记录可读出。并发/资源时间线的三条 lane
+（GPU busy、gemm 占比、在飞调用数）是对"资源与并发不变"这一论文论证的直接检验；
+跨模型 above-cap 时长与 p90 提升的单调对应（169 s→1.86×，77 s→1.15×，40 s→1.11×）
+把论文"收益随负载压力增大"的曲线（其 Fig.13 形态）在单卡上复现为三点。</p>"""
 
     doc = f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
 <title>Agentix 优化的时间线解释 · 三模型总结</title><style>
@@ -196,7 +235,11 @@ body{{margin:0;font:14.5px/1.7 "Noto Sans CJK SC",system-ui,sans-serif;color:#1f
 h1{{font-size:22px;margin:0 0 6px}} h2{{font-size:18px;color:#2f6f9f;margin:36px 0 6px}}
 h3{{font-size:15px;margin:20px 0 6px}}
 .sub,.cap,.theme{{font-size:13px;color:#48607d;max-width:120ch}}
-.cap{{margin:6px 0 0}} .theme{{margin:2px 0 8px}}
+.cap{{margin:6px 0 0}} .theme{{margin:10px 0 8px}}
+.block{{background:#f2f7fb;border:1px solid #c9d6e4;border-radius:6px;padding:10px 14px;margin:8px 0;font-size:13.5px;max-width:120ch}}
+.block.impl{{background:#f4faf6;border-color:#bcd8c6}}
+.block b{{display:block;margin-bottom:2px;color:#2f6f9f}}
+.block p{{margin:4px 0}}
 table{{border-collapse:collapse;font-size:13px;margin:10px 0}}
 td,th{{border:1px solid #c9d6e4;padding:4px 10px;text-align:right}}
 td:first-child,th:first-child{{text-align:left}}
@@ -206,19 +249,19 @@ td:first-child,th:first-child{{text-align:left}}
 每部分配图为从对应时间线中按明示准则截取的最说明性时间段，FCFS 在上、agentix_core 在下、共轴。
 完整可交互时间线见 R10_COMPARE_{{llama,qwen3,qwenvl}}.html。</p>
 
-{section("一、", "端到端 Process 时间线 —— 优化生效的直观效果",
+{section("一、", "端到端 Process 时间线 —— 优化生效的直观效果", PAPER1, IMPL1,
  "每行一个程序，调用 = 红段（等待）+ 彩段（服务）。三个模型呈现同一直观效果、不同幅度："
  "FCFS 图中短程序车道（bfcl 橙 / sharegpt 蓝）被红段占据，agentix_core 图中红段消失、"
  "lats（绿）车道不变——优化生效即红色等待质量从短程序车道被移走；模型越大（等待越贵），"
  "红段消失越显著（LLaMA 最明显，Qwen3 最弱）。", figs[1])}
 
-{section("二、", "高延迟 Process 时间线 —— 性能提升比例的估算",
+{section("二、", "高延迟 Process 时间线 —— 性能提升比例的估算", PAPER2, IMPL2,
  "两侧全局第 1 名重 forward 堆的梯形近乎同形（服务时间与策略无关），因此提升比例可从时间线几何量估算："
  "把 FCFS 每调用等待段替换为 core 同类别中位等待做程序级重放，得上界估算 "
  "LLaMA 2.05× / VL 1.46× / Qwen3 1.14×；实测 mean 1.33× / 1.09× / 0.99×，p90 1.86× / 1.15× / 1.11×，"
  "均落在 1×–上界之间且长尾更接近上界——与『收益全部来自等待重排』自洽。", figs[2])}
 
-{section("三、", "并发分析时间线 —— 性能提升的原因（资源使用率、并发情况）",
+{section("三、", "并发分析时间线 —— 性能提升的原因（资源使用率、并发情况）", PAPER3, IMPL3,
  "选窗聚焦排队最重时段：两侧 GPU busy 与 gemm 占比 lane 同形（资源使用率不变，family 级 NCU 中位数 "
  "L2≈76%/SM≈49%/DRAM 14–20%，墙在 L2/tensor 不动），在飞调用数 lane 都贴 cap=16（并发同样打满）。"
  "资源与并发两个自由度都被排除后，唯一剩下的解释是出队顺序：MLFQ 用相同资源、相同并发把短程序先送进批。"
