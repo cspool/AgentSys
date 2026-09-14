@@ -5,9 +5,18 @@ excerpt figure cropped from the timeline data at the most illustrative window
 (picked programmatically, criterion stated in the caption), FCFS above and
 agentix_core below on a shared axis."""
 import argparse
+import base64
 import json
 import statistics
 from pathlib import Path
+
+PAPER_FIG_DIR = Path("/workspace/AgentSys/Agentix An Efficient Serving Engine for LLM Agents as General Programs")
+
+
+def paper_fig(fname, cap):
+    b64 = base64.b64encode((PAPER_FIG_DIR / fname).read_bytes()).decode()
+    return (f'<figure class="pfig"><img src="data:image/jpeg;base64,{b64}" alt="{fname}">'
+            f'<figcaption>{cap}</figcaption></figure>')
 
 CLS_COLOR = {"bfcl": "#eb6834", "sharegpt": "#2a78d6", "lats": "#1baf7a"}
 WAIT = "#c94040"
@@ -184,13 +193,47 @@ def main():
                         f"（全程 above-cap：{q['fcfs']['ms_above_cap']/1e3:.0f} vs {q['core']['ms_above_cap']/1e3:.0f} s）。"
                         f"资源与并发都相同，改变的只是队内成员。"))
 
-    def section(no, title, paper, impl, theme, items):
+    def section(no, title, paper, pfigs, impl, howto, theme, items):
         body = "".join(
             f'<h3>{name}</h3>{svg}<p class="cap"><b>图注：</b>{cap}</p>' for name, svg, cap in items)
         return (f'<h2>{no} {title}</h2>'
                 f'<div class="block"><b>论文方法与创新点</b>{paper}</div>'
+                f'{pfigs}'
                 f'<div class="block impl"><b>本实现（被可视化的对象）</b>{impl}</div>'
+                f'<div class="block howto"><b>怎么读下面的截图</b>{howto}</div>'
                 f'<p class="theme"><b>运行时效果（图证）：</b>{theme}</p>{body}')
+
+    PFIGS1 = paper_fig("_page_1_Figure_0.jpeg",
+        "论文 Fig.2（原图）。横轴 = 时间（decode 步）；纵轴 = 引擎的 2 个批槽（BS=2）；每个色块 = "
+        "一个程序的一次 LLM 调用（A1 即程序 A 的第 1 次调用），(a) 表给出 4 个程序的调用数与各调用 "
+        "decode 步数。看 (b)：FCFS 下单调用短程序 D 要等到 t≈4 才进槽，A 的 4 次调用穿插占槽到 t≈12；"
+        "看 (d)：PLAS 按程序累计服务排序，C、D 提前完成，B 的长调用被推到尾部。同两个槽、同一批程序，"
+        "只是换了顺序——这就是我们端到端车道图要在真实 trace 上验证的行为。") + paper_fig(
+        "_page_4_Figure_0.jpeg",
+        "论文 Fig.6（原图）。2×2 面板：上行 Chatbot、下行 MCTS；左列按调用（横轴 = decode 步数）、"
+        "右列按程序（横轴 = 程序的 LLM 调用数）；纵轴 = 等待/执行时间比；三条线 = FCFS（蓝圆）、"
+        "MLFQ（橙三角）、Agentix（绿倒三角）。看左列：FCFS 在短 decode 端比值冲到 10–50（调用级队头阻塞）；"
+        "看右列：FCFS 与 MLFQ 都在调用数少的程序端比值最高（程序级队头阻塞），Agentix 绿线两端都被压低。"
+        "我们的红段/彩段就是这个『等待/执行』度量的逐调用展开。")
+
+    PFIGS2 = paper_fig("_page_7_Figure_0.jpeg",
+        "论文 Fig.10（原图）。左 = 进程表（PID → 程序数据）；右 = K 级队列，Q1 在下（高优先级）、"
+        "QK 在上（低优先级），灰块 = 队内按 FCFS 排队的调用。红色数字即 Algorithm 1 的四步：① 新调用查"
+        "进程表取 p(c)；② 按 p(c) 直接进入对应队列（不像传统 MLFQ 全部从 Q1 开始）；③ 量子用尽降级；"
+        "④ β 反饥饿提回 Q1。我们 trace 里的 MLFQ 账本（入队分布/降级/提升计数）逐项对应这四步。") + paper_fig(
+        "_page_9_Figure_0.jpeg",
+        "论文 Fig.12（原图，单引擎主结果）。4 行负载（ShareGPT/BFCL/LATS/Mixed）× 3 列硬件档"
+        "（8B-1GPU / 70B-4GPU / 180B-8GPU）；横轴 = 程序到达率（program/s），纵轴 = 平均 token 延迟"
+        "（s/token）；四条曲线 = vLLM（绿）、vLLM-opt（红）、MLFQ（橙）、Agentix（蓝）。读法：每条曲线的"
+        "『膝点』是延迟起飞的到达率，蓝线膝点最靠右；同一延迟水平线下可承受到达率之比，就是文中 2×/5× 的"
+        "吞吐口径。我们的复现对应左上角那一列（8B, 1 GPU），fcfs 臂近似红线（vLLM-opt：有前缀缓存与 "
+        "chunked prefill 的 FCFS）。")
+
+    PFIGS3 = paper_fig("_page_10_Figure_0.jpeg",
+        "论文 Fig.13（原图，单引擎尾延迟，LLaMA-3.1-8B）。行 = 4 种负载，列 = P95 / P99；轴与曲线含义同 "
+        "Fig.12。看 ShareGPT 行：MLFQ（橙）平均延迟不差，但 P95/99 先于 Agentix 起飞——追短调用把长程序"
+        "饿出了长尾；Agentix 蓝线膝点仍最右。这解释了为什么我们实测的收益里 p99（2.67×）比 mean（1.35×）"
+        "大：MLFQ 家族的收益天然集中在尾部，而 β 反饥饿控制住了另一侧的尾巴。")
 
     PAPER1 = """<p>Agentix（Autellix, NSDI'26）§3.1 用等待/执行时间比（其 Fig.5/6）论证两级病灶：
 <b>调用级队头阻塞</b>——长 decode 的调用挡住短调用（vLLM 等引擎等在批的 decode 完成后才调度新调用）；
@@ -245,6 +288,10 @@ h3{{font-size:15px;margin:20px 0 6px}}
 .cap{{margin:6px 0 0}} .theme{{margin:10px 0 8px}}
 .block{{background:#f2f7fb;border:1px solid #c9d6e4;border-radius:6px;padding:10px 14px;margin:8px 0;font-size:13.5px;max-width:120ch}}
 .block.impl{{background:#f4faf6;border-color:#bcd8c6}}
+.block.howto{{background:#fbf7ef;border-color:#e2d3ae}}
+.pfig{{margin:10px 0;max-width:980px}}
+.pfig img{{width:100%;height:auto;border:1px solid #c9d6e4;border-radius:6px;background:#fff}}
+.pfig figcaption{{font-size:12.5px;color:#48607d;margin-top:4px;line-height:1.6}}
 .block b{{display:block;margin-bottom:2px;color:#2f6f9f}}
 .block p{{margin:4px 0}}
 table{{border-collapse:collapse;font-size:13px;margin:10px 0}}
@@ -256,19 +303,37 @@ td:first-child,th:first-child{{text-align:left}}
 每部分配图为从对应时间线中按明示准则截取的最说明性时间段，FCFS 在上、agentix_core 在下、共轴。
 完整可交互时间线见 R10_COMPARE_{{llama,qwen3,qwenvl}}.html。</p>
 
-{section("一、", "端到端 Process 时间线 —— 优化生效的直观效果", PAPER1, IMPL1,
+{section("一、", "端到端 Process 时间线 —— 优化生效的直观效果", PAPER1, PFIGS1, IMPL1,
+ """<p>横轴 = 运行墙钟（秒，窗口内线性、无折叠）；纵轴 = 25 条程序车道，自上而下先按类别
+（bfcl → sharegpt → lats）、再按首次提交时刻排序，车道标签给出程序号、类别与调用数。
+每条水平条是一次 LLM 调用：<span style="color:#c94040">红段</span>从提交时刻画到首 token
+（等待 = 排队 + prefill），彩段从首 token 画到完成（服务），颜色按类别
+（<span style="color:#eb6834">橙 bfcl</span> / <span style="color:#2a78d6">蓝 sharegpt</span> /
+<span style="color:#1baf7a">绿 lats</span>）。上图 FCFS、下图 agentix_core，两图同负载同窗口共轴。
+对比方法：在同一横轴位置上下对看同一车道——红段长度之差就是该调用被移走的等待。</p>""",
  "每行一个程序，调用 = 红段（等待）+ 彩段（服务）。三个模型呈现同一直观效果、不同幅度："
  "FCFS 图中短程序车道（bfcl 橙 / sharegpt 蓝）被红段占据，agentix_core 图中红段消失、"
  "lats（绿）车道不变——优化生效即红色等待质量从短程序车道被移走；模型越大（等待越贵），"
  "红段消失越显著（LLaMA 最明显，Qwen3 最弱）。", figs[1])}
 
-{section("二、", "高延迟 Process 时间线 —— 性能提升比例的估算", PAPER2, IMPL2,
+{section("二、", "高延迟 Process 时间线 —— 性能提升比例的估算", PAPER2, PFIGS2, IMPL2,
+ """<p>横轴 = 所选段内的墙钟（毫秒，0 为段首）；每张图画全局第 1 名堆（最重的 forward 时长簇）在该段
+的成员：一条水平细线 = 一个 forward Process 实例的真实起止（左端开始、右端结束、长度 = 该步耗时），
+纵向按开始时刻从上往下排；蓝色梯形是这些成员的拟合包络，只表示"谁属于这个堆"，不表示连续执行。
+标题行给出全堆成员数、时长和与窗内成员数。对比方法：上下两图看三点——线的横向密度（步频）、
+单线长度（步长）、梯形宽度（堆的时间跨度）；三者几乎一致，说明重 forward 的服务侧没有被策略改变。</p>""",
  "两侧全局第 1 名重 forward 堆的梯形近乎同形（服务时间与策略无关），因此提升比例可从时间线几何量估算："
  "把 FCFS 每调用等待段替换为 core 同类别中位等待做程序级重放，得上界估算 "
  "LLaMA 2.05× / VL 1.46× / Qwen3 1.14×；实测 mean 1.33× / 1.09× / 0.99×，p90 1.86× / 1.15× / 1.11×，"
  "均落在 1×–上界之间且长尾更接近上界——与『收益全部来自等待重排』自洽。", figs[2])}
 
-{section("三、", "并发分析时间线 —— 性能提升的原因（资源使用率、并发情况）", PAPER3, IMPL3,
+{section("三、", "并发分析时间线 —— 性能提升的原因（资源使用率、并发情况）", PAPER3, PFIGS3, IMPL3,
+ """<p>横轴 = 所选 30 秒窗的墙钟；每张图三条 lane，自上而下：GPU busy（%，CUPTI kernel 区间在窗口内的
+占比）、gemm 家族时间占比（%）、在飞调用数（个，客户端 call_begin/end 计数）。lane 内每根竖条是一个
+采样窗口的值，画成阶梯轮廓，高度满格 = 该 lane 的最大值（前两条 100%，第三条为观测峰值）；
+第三条 lane 的红色虚线是 cap=16。灰底表示该时段不在已关联窗口内（合同规定资源页只在关联窗口作图）。
+对比方法：前两条 lane 上下同形 → 资源使用率不变；第三条两侧都贴红线 → 并发同样打满；
+两个自由度都被排除，剩下的差异只能在出队顺序里。</p>""",
  "选窗聚焦排队最重时段：两侧 GPU busy 与 gemm 占比 lane 同形（资源使用率不变，family 级 NCU 中位数 "
  "L2≈76%/SM≈49%/DRAM 14–20%，墙在 L2/tensor 不动），在飞调用数 lane 都贴 cap=16（并发同样打满）。"
  "资源与并发两个自由度都被排除后，唯一剩下的解释是出队顺序：MLFQ 用相同资源、相同并发把短程序先送进批。"
