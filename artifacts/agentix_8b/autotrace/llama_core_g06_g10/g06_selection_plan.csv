@@ -1,0 +1,9 @@
+lineage,axis,component,total_ns,share_pct,selected
+llama-agentix-core,request_time,decode,2216869518222,95.46,True
+llama-agentix-core,request_time,queue_wait,105457886587,4.54,False
+llama-agentix-core,gpu_time,concurrency_1,407048604,2.81,False
+llama-agentix-core,gpu_time,concurrency_2-3,918127018,6.33,False
+llama-agentix-core,gpu_time,concurrency_4-7,1915549614,13.21,True
+llama-agentix-core,gpu_time,concurrency_8-15,3814441603,26.3,True
+llama-agentix-core,gpu_time,concurrency_16-31,7393359263,50.98,True
+llama-agentix-core,gpu_time,concurrency_32+,78308371,0.54,False

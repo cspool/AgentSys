@@ -1,0 +1,8 @@
+lineage,axis,component,total_ns,share_pct,selected
+qwen3-agentix-core,request_time,decode,722035496549,93.17,True
+qwen3-agentix-core,request_time,queue_wait,52901706454,6.83,False
+qwen3-agentix-core,gpu_time,concurrency_1,295072294,2.7,False
+qwen3-agentix-core,gpu_time,concurrency_2-3,1096715513,10.02,True
+qwen3-agentix-core,gpu_time,concurrency_4-7,2759102992,25.2,True
+qwen3-agentix-core,gpu_time,concurrency_8-15,4821852028,44.05,True
+qwen3-agentix-core,gpu_time,concurrency_16-31,1994805130,18.22,True

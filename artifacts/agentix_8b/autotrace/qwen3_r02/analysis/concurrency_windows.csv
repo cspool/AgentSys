@@ -1,0 +1,6 @@
+label,concurrent_requests,gpu_ns,gpu_share_pct,top_families
+qwen3_r02,1,829158927,6.82,gemv:93.9%;attention:1.7%;elementwise_other:1.3%;memcpy:1.0%
+qwen3_r02,2-3,1966260157,16.17,gemm:86.9%;attention:4.2%;gemv:4.2%;memcpy:1.1%
+qwen3_r02,4-7,4865556142,40.0,gemm:88.1%;attention:7.1%;memcpy:1.1%;copy:1.1%
+qwen3_r02,8-15,3968922419,32.63,gemm:77.9%;attention:17.4%;copy:1.2%;memcpy:1.0%
+qwen3_r02,16-31,550705719,4.53,gemm:67.3%;attention:28.3%;copy:1.2%;memcpy:0.9%

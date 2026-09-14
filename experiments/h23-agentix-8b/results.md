@@ -265,3 +265,32 @@ VLLM_USE_V2_MODEL_RUNNER=0                     # 0.29 默认选 V2 runner（不�
 逐 step 即时发射（落在 forward scope），而编译区域的 GEMM 及 `compute_logits`（lm_head）的发射浮出在
 postprocess scope——阶段合计在 launch-ownership 意义下守恒且正确，但**阶段名不能读作计算的
 forward/post 边界**；按家族轴（gemm 79 %）与阶段轴（postprocess 82 %）交叉即可还原真实结构。
+
+## 9. 正式链：论文核心机制复现（agentix_core）后的三模型 AutoTrace（2026-09-14）
+
+§1–8 的链条按用户判定标记为**未完成/预备件**（trace 对象是 vLLM 原生 priority 直通，非论文机制实现）。
+本节为正式链：`agentix_core` 实现论文 Algorithm 1 的单卡核心机制（按 p(c) 离散入队 K=4、每队列 token
+量子 32/64/128/256 + 分块续跑承载抢占、量子用尽降一级、β=2.0 比率反饥饿提升至 Q1 并重置 W_c/T_c、
+进程表 {T_p,W_p} 实时更新；vLLM 原生优先级/前缀缓存/chunked prefill/CPU KV offload(8GB native) 为接入项。
+论文未公布 K/量子/β 数值且无开源仓库——KB 核实——参数为声明配置）。负载 = 论文校准 Mixed r0.3（拟合）/
+r0.2（打分），双 4090 并行采集，nsys 2026.3.1 + V1 runner scopes。
+
+### 机制行为证据（LLaMA r0.3）
+
+入队分布 Q0/Q1/Q2/Q3 = 16/98/176/1339（新程序高优先、累积服务多的 LATS 沉底——正是"非全进 Q1"的论文语义）；
+88 个 call 行使 2–4 个量子（降级路径）；吞吐 618 tok/s 与直通 PLAS 持平（机制开销不伤吞吐）。
+
+### 三模型正式链结果
+
+| 模型 | w01' busy% / gemm% | w02' 对齐 / 峰值并发 | w04'' 误差 | w05'' | G10 时间线（请求数 / 高延迟 / 峰值并发） |
+|---|---|---|---:|---|---|
+| LLaMA-3.1-8B | 8.7 / 68.4 | 108 µs / 33 | **−4.48 %** | ✅ 4 选中 | 1629 / 151 / 32 |
+| Qwen3-1.7B | 13.8 / 75.0 | 90 µs / 27 | **−2.38 %** | ✅ 5 选中 | 1629 / 150 / 27 |
+| Qwen2.5-VL-3B | （r0.3 分析在 analysis/） | ✅ | **−8.32 %** | ✅ 4 选中 | 1629 / 155 / 29 |
+
+G10 交付物（每模型）：`artifacts/agentix_8b/autotrace/<m>_core_g06_g10/G10_TIMELINES.html` ——
+**V1 端到端时间线**（GPU busy 0.5s 分箱 + 在飞请求数同钟）、**V2 高延迟时间线**（每请求一行、
+类分组、decode > 类中位+3×MAD 标红）、**V3 并发分析时间线**（并发桶着色 + GPU 时间份额互证）+
+综合分析段；全部从复现捕获数据直接渲染（`render_g10_timelines.py`）。
+
+NCU 说明：w05'' 资源挂接复用各模型既有 NCU 采样（kernel 层不随客户端调度策略变化）。

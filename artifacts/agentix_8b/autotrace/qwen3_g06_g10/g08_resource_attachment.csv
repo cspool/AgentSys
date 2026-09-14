@@ -1,0 +1,5 @@
+lineage,component,share_pct,resource_status,interpretation,caveat,sm_pct,dram_pct,l2_pct,tensor_pct,occ_pct
+qwen3-serving,decode,93.85,not_collected_host_or_wait,"decode segment time is engine residency (batch sharing), not a single kernel; queue_wait is host-side",,,,,,
+qwen3-serving,concurrency_4-7,25.0,profiled_family:gemm,see counters,NCU rows cover the batched-GEMM family only; attention/elementwise not profiled,47.8,15.9,52.6,48.3,15.3
+qwen3-serving,concurrency_8-15,43.72,profiled_family:gemm,see counters,NCU rows cover the batched-GEMM family only; attention/elementwise not profiled,47.8,15.9,52.6,48.3,15.3
+qwen3-serving,concurrency_16-31,17.1,profiled_family:gemm,see counters,NCU rows cover the batched-GEMM family only; attention/elementwise not profiled,47.8,15.9,52.6,48.3,15.3

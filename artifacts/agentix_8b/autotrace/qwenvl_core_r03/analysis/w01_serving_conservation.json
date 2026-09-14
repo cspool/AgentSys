@@ -1,0 +1,47 @@
+{
+  "analysed_span_is_truncated": true,
+  "analysed_span_ns": 98237362643,
+  "captured_cuda_span_ns": 133165288133,
+  "concurrency_conservation_err_ns": 17118025,
+  "conservation_err_ns": 17118025,
+  "families": {
+    "attention": 24.42,
+    "copy": 1.25,
+    "elementwise_binary": 0.11,
+    "elementwise_other": 0.84,
+    "gemm": 68.12,
+    "gemv": 2.37,
+    "memcpy": 1.45,
+    "other": 0.75,
+    "reduce": 0.76
+  },
+  "family_conservation_err_ns": 17118025,
+  "goal": "G01'",
+  "gpu_busy_ns": 10075224535,
+  "gpu_busy_pct": 10.26,
+  "kernel_items_in_window": 451287,
+  "label": "qwenvl_core_r03",
+  "lineage": "h23-agentix-8b/autotrace",
+  "measured_window_ns": 110706456135,
+  "operator_attribution": "phase-level launch ownership available when worker scopes present (see phase_attribution); per-layer module NVTX remains unavailable in this vLLM build",
+  "pass": true,
+  "phase_attribution": {
+    "available": true,
+    "conservation_err_ns": 17118025,
+    "phases": {
+      "<unattributed>": 0.21,
+      "gpu_model_runner: AsyncGPUModelRunnerOutput": 0.17,
+      "gpu_model_runner: forward": 25.0,
+      "gpu_model_runner: postprocess": 70.34,
+      "gpu_model_runner: preprocess": 2.81,
+      "gpu_model_runner: sample": 1.64
+    }
+  },
+  "requests": {
+    "count": 1629,
+    "peak_concurrent": 30
+  },
+  "schema_version": 1,
+  "sqlite": "artifacts/agentix_8b/autotrace/qwenvl_core_r03/cap.sqlite",
+  "sqlite_sha256": "52958e0c16afa1fd737433b272f4de0cbd49831ce98ff0265f5b6a2b1b1d0b85"
+}

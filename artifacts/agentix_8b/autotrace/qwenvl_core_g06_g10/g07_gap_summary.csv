@@ -1,0 +1,2 @@
+lineage,gaps_ge_20us,gap_ns_total,gap_share_of_span_pct,note
+qwenvl-agentix-core,108945,118858948408,89.26,"single stream serving; gaps are engine idle (host scheduling + tool waits), the dominant resource gap in this unsaturated regime"

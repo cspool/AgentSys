@@ -1,0 +1,11 @@
+label,family,items,gpu_ns,gpu_share_pct
+llama_core_r03,gemm,8804,9917844436,68.39
+llama_core_r03,attention,73344,3632838216,25.05
+llama_core_r03,gemv,386,428362164,2.95
+llama_core_r03,reduce,8806,187923864,1.3
+llama_core_r03,memcpy,99743,144096724,0.99
+llama_core_r03,copy,35224,95273674,0.66
+llama_core_r03,elementwise_other,66421,76637287,0.53
+llama_core_r03,other,17517,32450646,0.22
+llama_core_r03,elementwise_binary,8902,11206245,0.08
+llama_core_r03,memset,224,201217,0.0

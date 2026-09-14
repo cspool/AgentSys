@@ -1,0 +1,6 @@
+label,concurrent_requests,gpu_ns,gpu_share_pct,top_families
+llama_core_r02,1,575619110,4.05,gemv:95.1%;reduce:1.8%;memcpy:0.8%;attention:0.8%
+llama_core_r02,2-3,1191063652,8.38,gemm:89.2%;gemv:3.8%;attention:2.7%;reduce:1.8%
+llama_core_r02,4-7,2778056353,19.56,gemm:89.1%;attention:6.1%;reduce:1.6%;memcpy:1.1%
+llama_core_r02,8-15,5708035536,40.18,gemm:77.9%;attention:18.0%;reduce:1.5%;memcpy:1.0%
+llama_core_r02,16-31,3974620086,27.98,gemm:64.2%;attention:32.2%;reduce:1.2%;memcpy:0.9%

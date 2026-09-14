@@ -1,0 +1,50 @@
+{
+  "admission_ledger": {
+    "G01'": "f493f55727732d4580ef0c77c9a22054bad5ad9a69efcbd35993a5ea91a80fa0",
+    "G02'-G03'": "783a1b8147b59ef6b1eb00282207f83deab0daf7be55ea72e0b96ccde6035c8b",
+    "G04'": "b5829b9ebdad214b543eec0e5538dfb8e81c1a407bb2fb1b9de850b6f013a054",
+    "G05'": "cbd0dfa2a28ff351f460fd4ab601a87af5ae2560c8a67a71237653d1630db684"
+  },
+  "goal": [
+    "G06'",
+    "G07'",
+    "G08'",
+    "G09'",
+    "G10'"
+  ],
+  "lineage": "h23-agentix-8b/llama-agentix-core",
+  "pass": true,
+  "schema_version": 1,
+  "selection": [
+    "decode",
+    "concurrency_4-7",
+    "concurrency_8-15",
+    "concurrency_16-31"
+  ],
+  "tables": {
+    "g06_selected_stacks.csv": {
+      "rows": 5,
+      "sha256": "191fe3395106cccecb8cc1e86ffa4954171414cb9d0bb44d84711810aaad99e8"
+    },
+    "g06_selection_plan.csv": {
+      "rows": 8,
+      "sha256": "7f2597ab79d33735d4ca7e7cace36b64798a785108f226a681facf3cf9ab6adf"
+    },
+    "g07_gap_summary.csv": {
+      "rows": 1,
+      "sha256": "6ec9776bcaff877cfb90266aa4b55215c3ba36eef54c16cc6d07f2930b22a4a1"
+    },
+    "g07_timeline_1s.csv": {
+      "rows": 197,
+      "sha256": "6381659f94ebf9b25d94081e58ba553b235d7ae127efec48c15406d397283a72"
+    },
+    "g08_opportunities.csv": {
+      "rows": 2,
+      "sha256": "d23dbfc23614bd89416ff4b8433e79ad48aded669cf8f504fce42156c224b2d5"
+    },
+    "g08_resource_attachment.csv": {
+      "rows": 4,
+      "sha256": "fbdd8fe0cb3cd56707508f55f2c25760350db522e77878f1cee17ffa23e378bf"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+label,phase,items,gpu_ns,gpu_share_pct
+qwen3_core_r03,gpu_model_runner: postprocess,39405,8553808378,78.14
+qwen3_core_r03,gpu_model_runner: forward,76902,1874616990,17.12
+qwen3_core_r03,gpu_model_runner: preprocess,261719,257726975,2.35
+qwen3_core_r03,gpu_model_runner: sample,51000,187668652,1.71
+qwen3_core_r03,gpu_model_runner: AsyncGPUModelRunnerOutput,12750,19092719,0.17
+qwen3_core_r03,<unattributed>,0,74634243,0.68

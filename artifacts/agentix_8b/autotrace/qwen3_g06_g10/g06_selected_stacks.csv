@@ -1,0 +1,6 @@
+lineage,component,rank,program_id,class,call_index,ns,prompt_tokens,output_tokens
+qwen3-serving,decode,1,p00006,sharegpt,5,4734743556,264,758
+qwen3-serving,decode,2,p00006,sharegpt,3,2320718679,197,387
+qwen3-serving,decode,3,p00013,sharegpt,0,2238935696,316,348
+qwen3-serving,decode,4,p00006,sharegpt,1,1861927344,301,317
+qwen3-serving,decode,5,p00004,lats,51,1608610186,219,275

@@ -1,0 +1,4 @@
+policy,class,calls,queue_wait_mean_ms,queue_wait_p90_ms,decode_mean_ms,decode_p90_ms
+agentix_core,bfcl,97,37.19,54.76,289.9,471.58
+agentix_core,lats,1523,38.66,53.09,660.09,1105.73
+agentix_core,sharegpt,9,37.09,46.1,2814.98,3725.15

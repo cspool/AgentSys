@@ -37,7 +37,23 @@ experiments/h23-agentix-8b/workloads/ # 冻结的负载 JSON（含 sha256）
 artifacts/agentix_8b/                 # r<rate>/<policy>/ 对照结果；autotrace/ 采集与分析
 ```
 
-## 状态（2026-09-13）
+## 状态（2026-09-14 重置）
+
+**判定：此前三个模型（LLaMA-3.1-8B / Qwen3-1.7B / Qwen2.5-VL-3B）的全部 AutoTrace 链标记为「未完成」。**
+原因：trace 对象是 vLLM 原生 priority 直通（静态 PLAS 传参），未实现论文核心机制。正式 AutoTrace 以
+`agentix_core` 复现运行（程序级 MLFQ：按 p(c) 离散入队 + 每队列量子 + 用尽降级 + β 比率反饥饿 + 进程表，
+Algorithm 1 第 7–28 行；vLLM 原生优先级/前缀缓存/chunked prefill/KV offload 为接入项）为唯一对象重做，
+含 G10 三视图时间线与综合报告。下表旧状态仅作预备件记录。
+
+## 正式链状态（2026-09-14 完成）
+
+| 模型 | 复现捕获 (r0.3/r0.2) | w01'/w02' | w04'' | w05'' | G10 三视图+综合 |
+|---|---|---|---|---|---|
+| LLaMA-3.1-8B | ✅/✅ | ✅ | ✅ −4.48 % | ✅ | ✅ `llama_core_g06_g10/G10_TIMELINES.html` |
+| Qwen3-1.7B | ✅/✅ | ✅ | ✅ −2.38 % | ✅ | ✅ `qwen3_core_g06_g10/G10_TIMELINES.html` |
+| Qwen2.5-VL-3B | ✅/✅ | ✅ | ✅ −8.32 % | ✅ | ✅ `qwenvl_core_g06_g10/G10_TIMELINES.html` |
+
+## 旧状态（预备件，2026-09-13）
 
 | 步骤 | 状态 |
 |---|---|

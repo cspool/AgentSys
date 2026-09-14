@@ -1,0 +1,7 @@
+label,phase,items,gpu_ns,gpu_share_pct
+llama_core_r02,gpu_model_runner: postprocess,29163,11047420019,77.77
+llama_core_r02,gpu_model_runner: forward,64317,2651919554,18.67
+llama_core_r02,gpu_model_runner: sample,29163,273331649,1.92
+llama_core_r02,gpu_model_runner: preprocess,200838,194823738,1.37
+llama_core_r02,gpu_model_runner: AsyncGPUModelRunnerOutput,9720,16827521,0.12
+llama_core_r02,<unattributed>,0,43072256,0.3

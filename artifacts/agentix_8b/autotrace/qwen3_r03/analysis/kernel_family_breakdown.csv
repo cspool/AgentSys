@@ -1,0 +1,11 @@
+label,family,items,gpu_ns,gpu_share_pct
+qwen3_r03,gemm,12716,8331118668,75.3
+qwen3_r03,attention,72408,1729034641,15.63
+qwen3_r03,gemv,773,512287119,4.63
+qwen3_r03,copy,52613,127887013,1.16
+qwen3_r03,memcpy,147407,112303975,1.02
+qwen3_r03,elementwise_other,95643,109227632,0.99
+qwen3_r03,reduce,13153,89238600,0.81
+qwen3_r03,other,25789,44879940,0.41
+qwen3_r03,elementwise_binary,13237,12558620,0.11
+qwen3_r03,memset,14618,10123174,0.09

@@ -1,0 +1,6 @@
+lineage,component,rank,program_id,class,call_index,ns,prompt_tokens,output_tokens
+llama-agentix-core,decode,1,p00006,sharegpt,5,15485148202,264,758
+llama-agentix-core,decode,2,p00006,sharegpt,3,7829636591,197,387
+llama-agentix-core,decode,3,p00013,sharegpt,0,7107811362,316,348
+llama-agentix-core,decode,4,p00006,sharegpt,1,6179392327,301,317
+llama-agentix-core,decode,5,p00004,lats,51,5589569149,219,275

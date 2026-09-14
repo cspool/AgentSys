@@ -1,0 +1,6 @@
+lineage,component,rank,program_id,class,call_index,ns,prompt_tokens,output_tokens
+qwenvl-agentix-core,decode,1,p00006,sharegpt,5,7239479814,264,758
+qwenvl-agentix-core,decode,2,p00006,sharegpt,3,3725154436,197,387
+qwenvl-agentix-core,decode,3,p00013,sharegpt,0,3291024903,316,348
+qwenvl-agentix-core,decode,4,p00006,sharegpt,1,2995605159,301,317
+qwenvl-agentix-core,decode,5,p00004,lats,51,2578687904,219,275

@@ -1,0 +1,8 @@
+lineage,axis,component,total_ns,share_pct,selected
+qwen3-serving,request_time,decode,695088253129,93.85,True
+qwen3-serving,request_time,queue_wait,45584475944,6.15,False
+qwen3-serving,gpu_time,concurrency_1,492303341,4.45,False
+qwen3-serving,gpu_time,concurrency_2-3,1090503724,9.86,False
+qwen3-serving,gpu_time,concurrency_4-7,2765961344,25.0,True
+qwen3-serving,gpu_time,concurrency_8-15,4837519441,43.72,True
+qwen3-serving,gpu_time,concurrency_16-31,1892371532,17.1,True

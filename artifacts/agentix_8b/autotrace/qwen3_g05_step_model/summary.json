@@ -1,0 +1,38 @@
+{
+  "coverage": {
+    "missing_template_buckets": [],
+    "nearest_fallbacks": {},
+    "target_buckets": 6
+  },
+  "goal": "G05'",
+  "lineage": "h23-agentix-8b/autotrace",
+  "method": "concurrency-conditioned step model (serving adaptation of the h22 w04 template)",
+  "note": "prediction consumes only the target's client-side concurrency timeline; its GPU data is used only for scoring, mirroring h22 w04's plan-side enumeration + trace-side scoring",
+  "pass": true,
+  "representative": {
+    "slices": 910,
+    "span_s": 91.1,
+    "sqlite": "artifacts/agentix_8b/autotrace/qwen3_r03/cap.sqlite",
+    "sqlite_sha256": "d01df10d5c60385525edcef7e5d6f09b5320f143c4c896317c7712877181dbd4"
+  },
+  "schema_version": 1,
+  "scoring": {
+    "actual_gpu_busy_s": 13.964,
+    "predicted_gpu_busy_s": 13.879,
+    "total_err_pct": -0.61
+  },
+  "target": {
+    "slices": 1013,
+    "span_s": 101.4,
+    "sqlite": "artifacts/agentix_8b/autotrace/qwen3_r02/cap.sqlite",
+    "sqlite_sha256": "02a8cba98f2b91fc5714609200851bd076c1a5b413499b390f8d71c1659c5aba"
+  },
+  "template_buckets": {
+    "0": 0.137,
+    "1": 0.1338,
+    "16-31": 0.1565,
+    "2-3": 0.1307,
+    "4-7": 0.1345,
+    "8-15": 0.1414
+  }
+}

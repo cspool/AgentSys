@@ -1,0 +1,6 @@
+label,concurrent_requests,gpu_ns,gpu_share_pct,top_families
+qwenvl_core_r02,1,349024761,3.33,gemv:92.4%;attention:2.5%;memcpy:1.5%;elementwise_other:1.2%
+qwenvl_core_r02,2-3,1153823727,11.01,gemm:85.9%;attention:5.1%;gemv:3.6%;memcpy:1.5%
+qwenvl_core_r02,4-7,3117313740,29.75,gemm:85.5%;attention:8.7%;memcpy:1.5%;copy:1.2%
+qwenvl_core_r02,8-15,4731875770,45.15,gemm:71.8%;attention:22.9%;memcpy:1.4%;copy:1.3%
+qwenvl_core_r02,16-31,1145233916,10.93,gemm:64.3%;attention:30.8%;copy:1.3%;memcpy:1.3%
