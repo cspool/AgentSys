@@ -1,0 +1,61 @@
+{
+  "step": "A00 workload process-view decomposition + conservation gates",
+  "workload": {
+    "path": "experiments/h23-agentix-8b/workloads/thr_mixed_r0.5.json",
+    "sha256": null,
+    "programs": 25,
+    "llm_calls": 2440
+  },
+  "capture": "artifacts/agentix_8b/autotrace/llama_fcfs_cap16",
+  "hierarchy": [
+    "program(program_id)",
+    "call(program_id,call_index)",
+    "step(forward scope instance)",
+    "scope(step,phase)"
+  ],
+  "scope_phase_counts": {
+    "gpu_model_runner: AsyncGPUModelRunnerOutput": 14753,
+    "gpu_model_runner: ModelRunnerOutput": 14753,
+    "gpu_model_runner: bookkeep": 14753,
+    "gpu_model_runner: eplb": 14753,
+    "gpu_model_runner: forward": 14753,
+    "gpu_model_runner: postprocess": 14753,
+    "gpu_model_runner: preprocess": 14779,
+    "gpu_model_runner: sample": 14753,
+    "gpu_model_runner: set_async_sampled_token_ids": 14753,
+    "schedule: allocate_slots": 176327,
+    "schedule: get_num_common_prefix_blocks": 14780,
+    "schedule: make_cached_request_data": 14779,
+    "schedule: update_after_schedule": 14779
+  },
+  "gates": {
+    "G-P_programs": {
+      "spec": 25,
+      "run": 25,
+      "nvtx": 25,
+      "pass": true
+    },
+    "G-C_calls": {
+      "spec": 2440,
+      "run": 2440,
+      "nvtx_paired": 2440,
+      "keyset_equal": true,
+      "pass": true
+    },
+    "G-S_engine_loop": {
+      "forward_steps": 14753,
+      "per_phase_deviation_from_forward": {
+        "gpu_model_runner: preprocess": 26
+      },
+      "explanation": "positive = engine iterations without forward (empty batch); -1 = trailing iteration truncated by profiler stop",
+      "pass": true
+    },
+    "G-J_call_step_join": {
+      "calls": 2440,
+      "unjoined": 0,
+      "unjoined_keys": [],
+      "pass": true
+    }
+  },
+  "all_pass": true
+}
