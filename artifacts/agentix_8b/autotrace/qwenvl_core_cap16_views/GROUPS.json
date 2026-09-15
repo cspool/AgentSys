@@ -1,23 +1,23 @@
 {
   "label": "qwenvl_core_cap16",
   "source_sqlite": "artifacts/agentix_8b/autotrace/qwenvl_core_cap16/cap.sqlite",
-  "source_sha256": "7bfe312ea52fc63ad3cd9c6d667862942df5fdd3f3aec3400240d3252889302e",
+  "source_sha256": "f1ce29697d8fba2b4c58cb0a829901a67bf51f524a1714fef844c2383948fa3d",
   "process_universe": "worker-side scope instances (schedule:*, gpu_model_runner:*)",
-  "total_process_ns": 88165814181,
-  "instances": 369700,
+  "total_process_ns": 94210215965,
+  "instances": 369287,
   "selected_types": [
     "gpu_model_runner: preprocess",
     "gpu_model_runner: forward"
   ],
   "unsupported_grouping": [],
   "hl_threshold_ns": {
-    "gpu_model_runner: preprocess": 3800166,
-    "gpu_model_runner: forward": 464672.0
+    "gpu_model_runner: preprocess": 3645050,
+    "gpu_model_runner: forward": 515407.5
   },
   "fold": {
-    "cap_ns": 3563860,
+    "cap_ns": 4298696,
     "policy": "gaps capped at 2.0x median duration",
-    "marks": 14898
+    "marks": 13870
   },
   "policy": {
     "selection": "type duration sum *10 > total (overlaps counted)",
@@ -30,91 +30,91 @@
       "rank": 1,
       "type": "gpu_model_runner: forward",
       "pile": 4,
-      "sum_ns": 28165698836,
-      "members": 2215,
-      "hl_members": 2215,
-      "assoc_members": 1791
+      "sum_ns": 28675276052,
+      "members": 2191,
+      "hl_members": 2191,
+      "assoc_members": 1686
     },
     {
       "rank": 2,
       "type": "gpu_model_runner: preprocess",
       "pile": 3,
-      "sum_ns": 12697495310,
-      "members": 4414,
+      "sum_ns": 16165886277,
+      "members": 5354,
       "hl_members": 0,
-      "assoc_members": 21
+      "assoc_members": 44
     },
     {
       "rank": 3,
       "type": "gpu_model_runner: preprocess",
       "pile": 2,
-      "sum_ns": 9031285646,
-      "members": 3882,
+      "sum_ns": 12653047999,
+      "members": 4946,
       "hl_members": 0,
-      "assoc_members": 109
+      "assoc_members": 220
     },
     {
       "rank": 4,
       "type": "gpu_model_runner: preprocess",
       "pile": 1,
-      "sum_ns": 8035393153,
-      "members": 4200,
+      "sum_ns": 10603843656,
+      "members": 4872,
       "hl_members": 0,
-      "assoc_members": 270
+      "assoc_members": 461
     },
     {
       "rank": 5,
       "type": "gpu_model_runner: preprocess",
       "pile": 4,
-      "sum_ns": 7177347287,
-      "members": 2102,
-      "hl_members": 159,
-      "assoc_members": 11
+      "sum_ns": 3439304586,
+      "members": 908,
+      "hl_members": 311,
+      "assoc_members": 24
     },
     {
       "rank": 6,
-      "type": "gpu_model_runner: preprocess",
+      "type": "gpu_model_runner: forward",
       "pile": 0,
-      "sum_ns": 2471109835,
-      "members": 1573,
+      "sum_ns": 1979989557,
+      "members": 5651,
       "hl_members": 0,
-      "assoc_members": 32
+      "assoc_members": 53
     },
     {
       "rank": 7,
       "type": "gpu_model_runner: forward",
-      "pile": 3,
-      "sum_ns": 1223215836,
-      "members": 3231,
-      "hl_members": 111,
+      "pile": 2,
+      "sum_ns": 1621130509,
+      "members": 3721,
+      "hl_members": 0,
       "assoc_members": 1
     },
     {
       "rank": 8,
       "type": "gpu_model_runner: forward",
       "pile": 1,
-      "sum_ns": 946984758,
-      "members": 3701,
-      "hl_members": 0,
-      "assoc_members": 6
-    },
-    {
-      "rank": 9,
-      "type": "gpu_model_runner: forward",
-      "pile": 2,
-      "sum_ns": 915847581,
-      "members": 2940,
+      "sum_ns": 1469738684,
+      "members": 3781,
       "hl_members": 0,
       "assoc_members": 2
     },
     {
-      "rank": 10,
+      "rank": 9,
       "type": "gpu_model_runner: forward",
+      "pile": 3,
+      "sum_ns": 446930898,
+      "members": 736,
+      "hl_members": 732,
+      "assoc_members": 2
+    },
+    {
+      "rank": 10,
+      "type": "gpu_model_runner: preprocess",
       "pile": 0,
-      "sum_ns": 880812547,
-      "members": 4027,
+      "sum_ns": 16132691,
+      "members": 55,
       "hl_members": 0,
-      "assoc_members": 35
+      "assoc_members": 0
     }
   ]
 }

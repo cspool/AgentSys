@@ -1,23 +1,23 @@
 {
   "label": "qwen3_core_cap16",
   "source_sqlite": "artifacts/agentix_8b/autotrace/qwen3_core_cap16/cap.sqlite",
-  "source_sha256": "3db08a9d3c152ed2b41fed39cf641918787de5ffd0fd72396237653de1802c0f",
+  "source_sha256": "b65ecd5a2ecddfeddcf62fb6a99d172492ec9b87b5cb2036bccf3f9341a4f9f0",
   "process_universe": "worker-side scope instances (schedule:*, gpu_model_runner:*)",
-  "total_process_ns": 69540613386,
-  "instances": 396475,
+  "total_process_ns": 74057222463,
+  "instances": 398004,
   "selected_types": [
     "gpu_model_runner: preprocess",
     "gpu_model_runner: forward"
   ],
   "unsupported_grouping": [],
   "hl_threshold_ns": {
-    "gpu_model_runner: preprocess": 1950690,
-    "gpu_model_runner: forward": 243667.5
+    "gpu_model_runner: preprocess": 2065796.0,
+    "gpu_model_runner: forward": 318750.0
   },
   "fold": {
-    "cap_ns": 2514236,
+    "cap_ns": 2549574,
     "policy": "gaps capped at 2.0x median duration",
-    "marks": 16427
+    "marks": 15927
   },
   "policy": {
     "selection": "type duration sum *10 > total (overlaps counted)",
@@ -30,89 +30,89 @@
       "rank": 1,
       "type": "gpu_model_runner: forward",
       "pile": 4,
-      "sum_ns": 23838822913,
-      "members": 2272,
-      "hl_members": 2272,
-      "assoc_members": 1684
+      "sum_ns": 23417230089,
+      "members": 2257,
+      "hl_members": 2257,
+      "assoc_members": 1700
     },
     {
       "rank": 2,
       "type": "gpu_model_runner: preprocess",
-      "pile": 3,
-      "sum_ns": 9469432915,
-      "members": 5685,
+      "pile": 2,
+      "sum_ns": 15890662018,
+      "members": 9702,
       "hl_members": 0,
-      "assoc_members": 4
+      "assoc_members": 16
     },
     {
       "rank": 3,
       "type": "gpu_model_runner: preprocess",
-      "pile": 2,
-      "sum_ns": 8426983258,
-      "members": 5690,
-      "hl_members": 0,
-      "assoc_members": 3
+      "pile": 3,
+      "sum_ns": 9737410308,
+      "members": 5064,
+      "hl_members": 768,
+      "assoc_members": 15
     },
     {
       "rank": 4,
       "type": "gpu_model_runner: preprocess",
       "pile": 1,
-      "sum_ns": 7608117716,
-      "members": 5967,
+      "sum_ns": 3681186060,
+      "members": 3091,
       "hl_members": 0,
-      "assoc_members": 1
+      "assoc_members": 151
     },
     {
       "rank": 5,
-      "type": "gpu_model_runner: preprocess",
-      "pile": 4,
-      "sum_ns": 2165894410,
-      "members": 1003,
-      "hl_members": 724,
-      "assoc_members": 11
+      "type": "gpu_model_runner: forward",
+      "pile": 1,
+      "sum_ns": 1722359452,
+      "members": 6610,
+      "hl_members": 0,
+      "assoc_members": 3
     },
     {
       "rank": 6,
-      "type": "gpu_model_runner: forward",
-      "pile": 0,
-      "sum_ns": 1274655698,
-      "members": 7765,
-      "hl_members": 0,
-      "assoc_members": 2
+      "type": "gpu_model_runner: preprocess",
+      "pile": 4,
+      "sum_ns": 1680975295,
+      "members": 611,
+      "hl_members": 611,
+      "assoc_members": 26
     },
     {
       "rank": 7,
       "type": "gpu_model_runner: forward",
-      "pile": 1,
-      "sum_ns": 1243949561,
-      "members": 6486,
-      "hl_members": 0,
-      "assoc_members": 0
+      "pile": 2,
+      "sum_ns": 1626626601,
+      "members": 5699,
+      "hl_members": 173,
+      "assoc_members": 11
     },
     {
       "rank": 8,
       "type": "gpu_model_runner: forward",
-      "pile": 2,
-      "sum_ns": 406583814,
-      "members": 1750,
-      "hl_members": 422,
-      "assoc_members": 3
+      "pile": 0,
+      "sum_ns": 594602563,
+      "members": 3743,
+      "hl_members": 0,
+      "assoc_members": 15
     },
     {
       "rank": 9,
       "type": "gpu_model_runner: forward",
       "pile": 3,
-      "sum_ns": 43915867,
-      "members": 71,
-      "hl_members": 71,
-      "assoc_members": 0
+      "sum_ns": 107345123,
+      "members": 159,
+      "hl_members": 159,
+      "assoc_members": 5
     },
     {
       "rank": 10,
       "type": "gpu_model_runner: preprocess",
       "pile": 0,
-      "sum_ns": 13257998,
-      "members": 82,
+      "sum_ns": 17750560,
+      "members": 90,
       "hl_members": 0,
       "assoc_members": 0
     }

@@ -39,6 +39,7 @@ import json
 import os
 import platform
 import socket
+import sys
 import time
 from pathlib import Path
 from typing import Any
@@ -98,6 +99,13 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
         engine_kwargs["kv_offloading_size"] = args.kv_offloading_size_gb
         engine_kwargs["kv_offloading_backend"] = "native"
     engine_args = AsyncEngineArgs(**engine_kwargs)
+    # workload_analysis W3: host-path probes must be installed before the engine
+    # is built, so the wrappers are in place on the classes it instantiates.
+    w_probes = None
+    if os.environ.get("AGENTIX_W_INSTRUMENT", "0") == "1":
+        sys.path.insert(0, str(Path(__file__).parent))
+        import w_instrument
+        w_probes = w_instrument.install()
     engine = AsyncLLM.from_engine_args(engine_args)
     try:
         # warm-up: one short call so weight load / graph capture is not billed to a program
@@ -157,10 +165,14 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
                     w_total = state["wait_us"] + w_c_us
                     t_total = max(state["attained_us"] + t_c_us, 1)
                     if w_total / t_total >= MLFQ_BETA and q > 0:
+                        _nvtx_mark(f"agentix.promote::{args.mark_tag}{program['program_id']}::{call['index']}::{q}->0")
                         q = 0
                         w_c_us = 0
                         t_c_us = 0
                     queue_path.append(q)
+                    # W5: chunk (quantum) execution is a first-class process, so
+                    # continuations and queue migrations show up on the timeline.
+                    _nvtx_mark(f"agentix.chunk_begin::{args.mark_tag}{program['program_id']}::{call['index']}::{chunks}::Q{q}")
                     quantum = min(MLFQ_QUANTUM_TOKENS[q], remaining)
                     prompt = filler[: int(call["prompt_tokens"])] + gen_ids
                     params = SamplingParams(max_tokens=quantum, ignore_eos=True, temperature=0.0)
@@ -181,6 +193,7 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
                     produced += n_out
                     remaining -= quantum
                     chunks += 1
+                    _nvtx_mark(f"agentix.chunk_end::{args.mark_tag}{program['program_id']}::{call['index']}::{chunks-1}::Q{q}")
                     chunk_wait = ((c_first or c_fin) - c_sub) // 1000
                     chunk_run = (c_fin - (c_first or c_sub)) // 1000
                     w_c_us += chunk_wait
@@ -191,6 +204,7 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
                     # demotion: quantum exhausted -> one queue down (line 21-23)
                     if remaining > 0 and q < len(MLFQ_QUANTUM_TOKENS) - 1:
                         q += 1
+                        _nvtx_mark(f"agentix.demote::{args.mark_tag}{program['program_id']}::{call['index']}::{q-1}->{q}")
                 finished = time.monotonic_ns()
             else:
                 params = SamplingParams(max_tokens=int(call["output_tokens"]), ignore_eos=True, temperature=0.0)
@@ -312,7 +326,8 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
                                     "p90": _pct([r["call_latency_ms"] for r in call_rows], 0.9), "p99": _pct([r["call_latency_ms"] for r in call_rows], 0.99)},
             },
             "environment": {"host": socket.gethostname(), "python": platform.python_version(),
-                            "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES", "")},
+                            "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES", ""),
+                            "w_instrument": w_probes},
             "timing_ns": {"t0": t0, "started": started, "ended": ended},
             "pass": len(program_rows) > 0 and len(call_rows) > 0,
         }

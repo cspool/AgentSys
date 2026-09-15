@@ -10,40 +10,61 @@
   "environment": {
     "cuda_visible_devices": "0",
     "host": "ubuntu",
-    "python": "3.12.13"
+    "python": "3.12.13",
+    "w_instrument": {
+      "w.engine: async_add_request": true,
+      "w.engine: process_engine_step": true,
+      "w.engine: process_outputs": true,
+      "w.engine: step": true,
+      "w.kv: get_computed_blocks": true,
+      "w.prep: attn_metadata": true,
+      "w.prep: cumsum_arange": true,
+      "w.prep: input_ids": true,
+      "w.prep: kv_sharing_prefill": true,
+      "w.prep: mrope_positions": true,
+      "w.prep: prev_positions": true,
+      "w.run: dummy_run": true,
+      "w.run: prepare_inputs": true,
+      "w.run: update_states": true,
+      "w.run: update_states_after_exec": true,
+      "w.sched: add_request": true,
+      "w.sched: finish_requests": true,
+      "w.sched: schedule_total": true,
+      "w.sched: update_from_output": true
+    }
   },
   "goal": "Agentix-8B single-GPU reproduction",
   "observed": {
     "call_latency_ms": {
-      "mean": 559.0232937188524,
-      "p90": 918.782851,
-      "p99": 1461.333988
+      "mean": 567.6586498004098,
+      "p90": 910.958588,
+      "p99": 1480.851391
     },
     "generated_tokens": 178764,
     "llm_calls": 2440,
     "program_response_time_ms": {
-      "mean": 22172.698292,
-      "p50": 14540.642145,
-      "p90": 45547.328156,
-      "p99": 62304.349076
+      "mean": 22485.1466296,
+      "p50": 14829.488688,
+      "p90": 47428.24421199999,
+      "p99": 63086.409522
     },
     "program_token_latency_ms": {
-      "mean": 7.2967668959320315,
-      "p90": 15.770761545553144,
-      "p99": 17.36095037195122
+      "mean": 7.469993586301826,
+      "p90": 16.08404413015184,
+      "p99": 17.382754217073174
     },
     "programs": 25,
-    "throughput_programs_per_s": 0.22059787541283854,
-    "throughput_tokens_per_s": 1577.3983440120269,
-    "wall_s": 113.328380671
+    "throughput_programs_per_s": 0.21908639662505752,
+    "throughput_tokens_per_s": 1566.5904242512713,
+    "wall_s": 114.110234068
   },
   "pass": true,
   "policy": "fcfs",
   "schema_version": 1,
   "timing_ns": {
-    "ended": 24915004477695,
-    "started": 24801676097024,
-    "t0": 24801675867034
+    "ended": 101142208476962,
+    "started": 101028098242894,
+    "t0": 101028097815174
   },
   "workload": {
     "arrival_rate": 0.5,

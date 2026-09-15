@@ -1,0 +1,76 @@
+{
+  "engine": {
+    "dtype": "bfloat16",
+    "enforce_eager": false,
+    "gpu_memory_utilization": 0.9,
+    "max_model_len": 4096,
+    "model": "/data3/docker_model/AgentSys/Qwen3-1.7B",
+    "scheduling_policy": "agentix_core"
+  },
+  "environment": {
+    "cuda_visible_devices": "0",
+    "host": "ubuntu",
+    "python": "3.12.13",
+    "w_instrument": {
+      "w.engine: async_add_request": true,
+      "w.engine: process_engine_step": true,
+      "w.engine: process_outputs": true,
+      "w.engine: step": true,
+      "w.kv: get_computed_blocks": true,
+      "w.prep: attn_metadata": true,
+      "w.prep: cumsum_arange": true,
+      "w.prep: input_ids": true,
+      "w.prep: kv_sharing_prefill": true,
+      "w.prep: mrope_positions": true,
+      "w.prep: prev_positions": true,
+      "w.run: dummy_run": true,
+      "w.run: prepare_inputs": true,
+      "w.run: update_states": true,
+      "w.run: update_states_after_exec": true,
+      "w.sched: add_request": true,
+      "w.sched: finish_requests": true,
+      "w.sched: schedule_total": true,
+      "w.sched: update_from_output": true
+    }
+  },
+  "goal": "Agentix-8B single-GPU reproduction",
+  "observed": {
+    "call_latency_ms": {
+      "mean": 579.2995023922131,
+      "p90": 960.393082,
+      "p99": 1654.247205
+    },
+    "generated_tokens": 178764,
+    "llm_calls": 2440,
+    "program_response_time_ms": {
+      "mean": 23082.35593264,
+      "p50": 15107.557341000002,
+      "p90": 46880.988482999994,
+      "p99": 62942.67269200001
+    },
+    "program_token_latency_ms": {
+      "mean": 7.45812507434008,
+      "p90": 14.21831250609759,
+      "p99": 16.385637029284165
+    },
+    "programs": 25,
+    "throughput_programs_per_s": 0.2193616003691624,
+    "throughput_tokens_per_s": 1568.5582851357178,
+    "wall_s": 113.967075176
+  },
+  "pass": true,
+  "policy": "agentix_core",
+  "schema_version": 1,
+  "timing_ns": {
+    "ended": 99853251365011,
+    "started": 99739284289835,
+    "t0": 99739284117895
+  },
+  "workload": {
+    "arrival_rate": 0.5,
+    "class": "mixed",
+    "path": "experiments/h23-agentix-8b/workloads/thr_mixed_r0.5.json",
+    "seed": 20260913,
+    "sha256": "377f0b4c222959fd5524aca61bc54ab8c5ca8867ed19bab5f582a9b53ec09c14"
+  }
+}

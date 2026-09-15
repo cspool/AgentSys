@@ -10,40 +10,61 @@
   "environment": {
     "cuda_visible_devices": "0",
     "host": "ubuntu",
-    "python": "3.12.13"
+    "python": "3.12.13",
+    "w_instrument": {
+      "w.engine: async_add_request": true,
+      "w.engine: process_engine_step": true,
+      "w.engine: process_outputs": true,
+      "w.engine: step": true,
+      "w.kv: get_computed_blocks": true,
+      "w.prep: attn_metadata": true,
+      "w.prep: cumsum_arange": true,
+      "w.prep: input_ids": true,
+      "w.prep: kv_sharing_prefill": true,
+      "w.prep: mrope_positions": true,
+      "w.prep: prev_positions": true,
+      "w.run: dummy_run": true,
+      "w.run: prepare_inputs": true,
+      "w.run: update_states": true,
+      "w.run: update_states_after_exec": true,
+      "w.sched: add_request": true,
+      "w.sched: finish_requests": true,
+      "w.sched: schedule_total": true,
+      "w.sched: update_from_output": true
+    }
   },
   "goal": "Agentix-8B single-GPU reproduction",
   "observed": {
     "call_latency_ms": {
-      "mean": 575.8864290508196,
-      "p90": 982.268367,
-      "p99": 1678.353152
+      "mean": 586.2777391557378,
+      "p90": 974.724065,
+      "p99": 1561.533934
     },
     "generated_tokens": 178764,
     "llm_calls": 2440,
     "program_response_time_ms": {
-      "mean": 22878.38683172,
-      "p50": 14600.015475000002,
-      "p90": 47316.18835699999,
-      "p99": 61474.059459
+      "mean": 23314.890509720004,
+      "p50": 15089.714384,
+      "p90": 47533.226773,
+      "p99": 62958.628809
     },
     "program_token_latency_ms": {
-      "mean": 7.366782917997527,
-      "p90": 14.259465195121953,
-      "p99": 15.835157781995663
+      "mean": 7.70255519627347,
+      "p90": 15.807567031707324,
+      "p99": 16.366284581344903
     },
     "programs": 25,
-    "throughput_programs_per_s": 0.2222261431427603,
-    "throughput_tokens_per_s": 1589.041370110896,
-    "wall_s": 112.498015069
+    "throughput_programs_per_s": 0.21933198248807154,
+    "throughput_tokens_per_s": 1568.3465006999047,
+    "wall_s": 113.982464921
   },
   "pass": true,
   "policy": "agentix_core",
   "schema_version": 1,
   "timing_ns": {
-    "ended": 25081280188589,
-    "started": 24968782173520,
-    "t0": 24968781785314
+    "ended": 101312335789778,
+    "started": 101198353324857,
+    "t0": 101198352904609
   },
   "workload": {
     "arrival_rate": 0.5,

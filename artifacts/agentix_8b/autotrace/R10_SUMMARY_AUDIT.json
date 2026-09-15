@@ -9,46 +9,46 @@
           60.0
         ],
         "short_wait_s": {
-          "fcfs": 63.844439430000016,
-          "core": 6.355022867000014
+          "fcfs": 60.90523750600005,
+          "core": 7.460161707000025
         }
       },
       "part2": {
         "call_pile": {
           "universe": "call durations, lloyd 5 piles, top pile shown",
           "fcfs": {
-            "n": 590,
-            "sum_s": 2765.479593612,
-            "short_members": 25
+            "n": 553,
+            "sum_s": 2600.050689273,
+            "short_members": 23
           },
           "core": {
-            "n": 339,
-            "sum_s": 1904.972365202,
-            "short_members": 20
+            "n": 394,
+            "sum_s": 2145.873447726,
+            "short_members": 21
           }
         },
         "fwd_pile_window": {
           "criterion": "densest section of FCFS rank-1 forward pile",
-          "section": 3
+          "section": 2
         }
       },
       "part3": {
         "lanes_window": {
           "criterion": "30 s window with max FCFS time-at-cap",
           "window_s": [
-            20.0,
-            50.0
+            55.0,
+            85.0
           ]
         },
         "microscope": {
           "criterion": "busiest 300 ms (max kernel busy) inside the lanes window, per side",
           "busy_pct": {
-            "fcfs": 22.560708333333334,
-            "core": 24.648702333333333
+            "fcfs": 17.63209833333333,
+            "core": 17.765456333333333
           },
           "gemm_pct": {
-            "fcfs": 17.26315,
-            "core": 16.654065666666668
+            "fcfs": 11.094677666666666,
+            "core": 11.125321333333334
           }
         }
       }
@@ -61,46 +61,46 @@
           60.0
         ],
         "short_wait_s": {
-          "fcfs": 4.513454210999979,
-          "core": 1.4251177099999985
+          "fcfs": 4.89914072299999,
+          "core": 1.9899323150000272
         }
       },
       "part2": {
         "call_pile": {
           "universe": "call durations, lloyd 5 piles, top pile shown",
           "fcfs": {
-            "n": 284,
-            "sum_s": 324.017826027,
-            "short_members": 24
+            "n": 251,
+            "sum_s": 299.766800284,
+            "short_members": 23
           },
           "core": {
-            "n": 296,
-            "sum_s": 369.044310257,
-            "short_members": 22
+            "n": 220,
+            "sum_s": 296.441990417,
+            "short_members": 21
           }
         },
         "fwd_pile_window": {
           "criterion": "densest section of FCFS rank-1 forward pile",
-          "section": 3
+          "section": 4
         }
       },
       "part3": {
         "lanes_window": {
           "criterion": "30 s window with max FCFS time-at-cap",
           "window_s": [
-            35.0,
-            65.0
+            45.0,
+            75.0
           ]
         },
         "microscope": {
           "criterion": "busiest 300 ms (max kernel busy) inside the lanes window, per side",
           "busy_pct": {
-            "fcfs": 18.747646333333336,
-            "core": 18.742890000000003
+            "fcfs": 19.43173133333333,
+            "core": 21.315612333333334
           },
           "gemm_pct": {
-            "fcfs": 11.545513999999999,
-            "core": 11.859622666666667
+            "fcfs": 10.836565666666667,
+            "core": 12.144614666666667
           }
         }
       }
@@ -113,21 +113,21 @@
           65.0
         ],
         "short_wait_s": {
-          "fcfs": 19.680333871000016,
-          "core": 2.108371831999961
+          "fcfs": 21.723202165000004,
+          "core": 2.325160459000006
         }
       },
       "part2": {
         "call_pile": {
           "universe": "call durations, lloyd 5 piles, top pile shown",
           "fcfs": {
-            "n": 387,
-            "sum_s": 761.200504159,
+            "n": 395,
+            "sum_s": 795.283267471,
             "short_members": 22
           },
           "core": {
-            "n": 341,
-            "sum_s": 742.242039229,
+            "n": 432,
+            "sum_s": 931.909293734,
             "short_members": 20
           }
         },
@@ -147,12 +147,12 @@
         "microscope": {
           "criterion": "busiest 300 ms (max kernel busy) inside the lanes window, per side",
           "busy_pct": {
-            "fcfs": 17.73464,
-            "core": 17.595971
+            "fcfs": 16.485220333333334,
+            "core": 17.26169433333333
           },
           "gemm_pct": {
-            "fcfs": 11.025382,
-            "core": 8.524556666666665
+            "fcfs": 10.826478666666667,
+            "core": 11.025421
           }
         }
       }

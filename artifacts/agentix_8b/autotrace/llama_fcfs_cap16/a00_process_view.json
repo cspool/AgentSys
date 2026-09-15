@@ -14,19 +14,19 @@
     "scope(step,phase)"
   ],
   "scope_phase_counts": {
-    "gpu_model_runner: AsyncGPUModelRunnerOutput": 14753,
-    "gpu_model_runner: ModelRunnerOutput": 14753,
-    "gpu_model_runner: bookkeep": 14753,
-    "gpu_model_runner: eplb": 14753,
-    "gpu_model_runner: forward": 14753,
-    "gpu_model_runner: postprocess": 14753,
-    "gpu_model_runner: preprocess": 14779,
-    "gpu_model_runner: sample": 14753,
-    "gpu_model_runner: set_async_sampled_token_ids": 14753,
+    "gpu_model_runner: AsyncGPUModelRunnerOutput": 14774,
+    "gpu_model_runner: ModelRunnerOutput": 14774,
+    "gpu_model_runner: bookkeep": 14774,
+    "gpu_model_runner: eplb": 14774,
+    "gpu_model_runner: forward": 14774,
+    "gpu_model_runner: postprocess": 14774,
+    "gpu_model_runner: preprocess": 14804,
+    "gpu_model_runner: sample": 14774,
+    "gpu_model_runner: set_async_sampled_token_ids": 14774,
     "schedule: allocate_slots": 176327,
-    "schedule: get_num_common_prefix_blocks": 14780,
-    "schedule: make_cached_request_data": 14779,
-    "schedule: update_after_schedule": 14779
+    "schedule: get_num_common_prefix_blocks": 14804,
+    "schedule: make_cached_request_data": 14804,
+    "schedule: update_after_schedule": 14804
   },
   "gates": {
     "G-P_programs": {
@@ -43,9 +43,9 @@
       "pass": true
     },
     "G-S_engine_loop": {
-      "forward_steps": 14753,
+      "forward_steps": 14774,
       "per_phase_deviation_from_forward": {
-        "gpu_model_runner: preprocess": 26
+        "gpu_model_runner: preprocess": 30
       },
       "explanation": "positive = engine iterations without forward (empty batch); -1 = trailing iteration truncated by profiler stop",
       "pass": true
