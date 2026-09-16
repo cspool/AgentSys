@@ -32,7 +32,8 @@ from build_r10_summary_doc import (  # noqa: E402
     paper_fig)
 
 REQUEUE = "#e4b6b6"          # residence-requeue (pale red, distinct from wait)
-ARM_COLOR = {"plain": "#6b7280", "opt": "#1f2f45", "mlfq": "#a8541f", "core": "#2f6f9f"}
+ARM_COLOR = {"plain": "#6b7280", "opt": "#1f2f45", "mlfq": "#a8541f", "core": "#2f6f9f",
+             "S": "#1f7a4f", "R": "#8a4f9f"}
 
 ARMS = [
     ("plain", "vLLM 素（无前缀缓存/无分块预填充）", "vllm_plain_cap16", "payload_vllm_plain_cap16.json"),
@@ -151,7 +152,7 @@ def e2e_program_blocks(C, CH, arm_meta, floor, rh=12, bh=8):
                   key=lambda p: ({"bfcl": 0, "sharegpt": 1, "lats": 2}
                                  [by_arm[arm_meta[0][0]][p][0]["class"]],
                                  min(c["submitted_rel_ms"] for c in by_arm[arm_meta[0][0]][p])))
-    SHORT = {"plain": "素", "opt": "opt", "mlfq": "M", "core": "C"}
+    SHORT = {"plain": "素", "opt": "opt", "mlfq": "M", "core": "C", "S": "S", "R": "R"}
     out, y = [], 8
     windows = {}
     for pid in pids:
@@ -249,7 +250,7 @@ def dfg_fig(w2, arm_label):
     async_gap = next((b for k, b in bounds.items() if "set_async" in k), None)
     bw, bh, gap = 158, 74, 14
     parts = [f'<text x="4" y="20" font-size="19" font-weight="600" fill="#1f2f45">'
-             f'W6 · 引擎步代表 process 的 DFG（节点数字 = {arm_label} 实测：调用次数 / 时间和）</text>']
+             f'W6 · 引擎步 stage 的 DFG（节点 = 运行时 stage，非算子 process；节点数字 = {arm_label} 实测：调用次数 / 时间和）</text>']
     def box(x, y, name, key):
         r = ranked.get(key)
         num = f'{r["count"]:,} 次 / {r["union_ns"]/1e9:.1f} s' if r else "—"
@@ -593,7 +594,7 @@ def main():
         rh_i = 8
         n_red = sum(1 for *_x, r in inst if r)
         parts.append(f'<text x="{LEFT-6}" y="{y+8}" font-size="14" text-anchor="end" '
-                     f'fill="#48607d">step 实例</text>')
+                     f'fill="#48607d">step 容器</text>')
         for ms0, ms1, red in inst:
             li = next((i for i, e in enumerate(lane_end) if ms0 >= e), None)
             if li is None:
@@ -677,7 +678,7 @@ def main():
                 f"<td>{gap.get('sum_ns',0)/1e9:.0f} s / {gap.get('mean_ms',0):.1f} ms</td>"
                 f"<td>{100*w5['layers']['host']['selected_share'] if 'selected_share' in w5['layers']['host'] else sum(s['share_of_host'] for s in w5['layers']['host']['selected'])*100:.1f} %</td></tr>")
     tbl_w = ('<table><tr><th>臂</th><th>prepare_inputs 和（s）</th><th>其中 CUDA API</th>'
-             '<th>async 输出等待（和 / 均）</th><th>W5 代表集覆盖 host</th></tr>'
+             '<th>async 输出等待（和 / 均）</th><th>W5 代表 stage 集覆盖 host</th></tr>'
              + "".join(w2row(k, lab) for k, lab, *_ in ARMS) + "</table>")
     dfg_html = dfg_fig(W2["opt"], "vLLM-opt")
     async_tbl = "".join(
@@ -1023,7 +1024,7 @@ mean {e_pi['mean']:.2f}× / p99 {e_pi['p99']:.2f}×。下方状态机原图即�
         tbl_phase, figB_P1, figB_P3 = "", "", ""
     else:
         hdr_w = ('<table><tr><th>臂</th><th>prepare_inputs 和（s）</th><th>其中 CUDA API</th>'
-                 '<th>async 输出等待（和 / 均）</th><th>W5 代表集覆盖 host</th></tr>')
+                 '<th>async 输出等待（和 / 均）</th><th>W5 代表 stage 集覆盖 host</th></tr>')
         tbl_w_B = hdr_w + w2row(BK, "core·ctrl") + "</table>"
         tbl_scope_B = ('<table><tr><th>臂（各 scope 时间和 s）</th><th>schedule</th><th>prepare</th>'
                        '<th>forward</th><th>sample</th><th>postproc</th><th>update</th><th>outputs</th>'
@@ -1267,6 +1268,108 @@ mean {e_pi['mean']:.2f}× / p99 {e_pi['p99']:.2f}×。下方状态机原图即�
     prep_core_s = W2[BK]["prepare_inputs_api_split"]["window_union_ns"] / 1e9
 
 
+    # =================== A6: sticky routing reproduction ===================
+    A6 = ""
+    _rdir = a.art / "routing"
+    _fs = _rdir / "sticky" / "calls_routing_sticky.jsonl"
+    _fr = _rdir / "rr" / "calls_routing_rr.jsonl"
+    if _fs.exists() and _fr.exists():
+        CR = {"S": [json.loads(l) for l in _fs.open()],
+              "R": [json.loads(l) for l in _fr.open()]}
+        SUMR = {k: json.loads((_rdir / d / f"summary_routing_{d}.json").read_text())["observed"]
+                for k, d in (("S", "sticky"), ("R", "rr"))}
+        idxR = {k: {(c["program_id"], c["call_index"]): c for c in CR[k]} for k in CR}
+        floorR = {ck: min(idxR[k][ck]["finished_rel_ms"] - idxR[k][ck]["first_token_rel_ms"]
+                          for k in CR if ck in idxR[k]) for ck in idxR["S"]}
+        # TTFT x context buckets
+        _bk = [(0, 256), (257, 512), (513, 1024), (1025, 2048), (2049, 2800)]
+        def _ttft_med(k, lo, hi):
+            v = sorted(c["first_token_rel_ms"] - c["submitted_rel_ms"] for c in CR[k]
+                       if lo <= c["context_len"] <= hi)
+            return v[len(v) // 2] if v else 0.0, len(v)
+        rows_t = ""
+        for lo, hi in _bk:
+            s_, ns_ = _ttft_med("S", lo, hi)
+            r_, nr_ = _ttft_med("R", lo, hi)
+            rows_t += (f"<tr><td>{lo}–{hi}</td><td>{ns_}</td><td>{s_:.0f}</td>"
+                       f"<td>{r_:.0f}</td><td>{(r_/max(s_,1e-9)):.2f}×</td></tr>")
+        tblA6_t = ('<table><tr><th>context 长度档（token）</th><th>n</th>'
+                   '<th>sticky TTFT p50 ms</th><th>rr TTFT p50 ms</th><th>rr/sticky</th></tr>'
+                   + rows_t + '</table>')
+        eS, eR = SUMR["S"], SUMR["R"]
+        tblA6_e = ('<table><tr><th></th><th>TTFT mean/p50/p90 ms</th>'
+                   '<th>PTL mean/p90 ms/tok</th><th>wall s</th><th>thr tok/s</th></tr>'
+                   + "".join(
+            f"<tr><td>{lab}</td><td>{e['ttft_ms']['mean']:.0f}/{e['ttft_ms']['p50']:.0f}/"
+            f"{e['ttft_ms']['p90']:.0f}</td>"
+            f"<td>{e['program_token_latency_ms']['mean']:.1f}/"
+            f"{e['program_token_latency_ms']['p90']:.1f}</td>"
+            f"<td>{e['wall_s']:.0f}</td><td>{e['throughput_tokens_per_s']:.0f}</td></tr>"
+            for lab, e in (("sticky（程序→固定引擎）", eS), ("round-robin（逐调用轮转）", eR)))
+                   + '</table>')
+        RMETA = [("S", "sticky", 0, 0), ("R", "rr", 0, 0)]
+        blocksR, ybR, pwinR = e2e_program_blocks(CR, {"S": {}, "R": {}}, RMETA, floorR)
+        figA6_e2e = fig(blocksR, ybR + 4)
+        audit["windows"]["A6_blocks"] = {"criterion": "same per-program window rule as A3",
+                                         "program_windows_s": pwinR}
+        # A4-style band: call set = rr top pile identities (where affinity loss hurts)
+        segR = {k: call_top_pile(CR[k]) for k in CR}
+        keysR = [(m["pid"], m["idx"]) for m in segR["R"]]
+        win_r = int(60e9)
+        bn, r0w = -1, 0
+        for tt in range(0, max(int(max(m["end"] for m in segR["R"])) - win_r, 1), int(5e9)):
+            n = sum(1 for m in segR["R"] if m["start"] < tt + win_r and m["end"] > tt)
+            if n > bn:
+                bn, r0w = n, tt
+        r1w = r0w + win_r
+        partsA6 = axis(r0w / 1e6, r1w / 1e6, 60, 900)
+        yA6 = 70
+        for k in ("S", "R"):
+            mem = []
+            for pid, ci in keysR:
+                r = idxR[k].get((pid, ci))
+                if r is None:
+                    continue
+                mem.append({"pid": pid, "idx": ci, "cls": r["class"],
+                            "start": int(r["submitted_rel_ms"] * 1e6),
+                            "end": int(r["finished_rel_ms"] * 1e6),
+                            "d": int((r["finished_rel_ms"] - r["submitted_rel_ms"]) * 1e6)})
+            inw = [m for m in mem if m["start"] < r1w and m["end"] > r0w]
+            s_, yA6 = hl_prog_strip(inw, yA6, f'{{"S":"sticky","R":"rr"}}'[0] and ("sticky" if k=="S" else "rr")
+                                    + f'（rr 顶堆 call 集，窗内 {len(inw)}/{len(mem)}）', r0w, r1w)
+            yA6 += 8
+            partsA6 += s_
+        figA6_hl = fig(partsA6, yA6 + 6)
+        audit["windows"]["A6_band"] = {"criterion": "call set = rr top-pile identities; densest 60 s of rr pile",
+                                       "window_s": [r0w / 1e9, r1w / 1e9], "set_size": len(keysR)}
+        A6 = f"""
+<h2>A6 第三组创新复现 —— sticky 路由（多引擎 KV 亲和）</h2>
+<div class="block"><b>设置与复用面</b>
+<p>1.5B 级模型（本地 Qwen3-1.7B）双引擎共驻一张 4090（两 CUDA 上下文，各 0.46 显存），
+同负载（thr_mixed r0.5 的 25 程序/2,440 调用）同参；唯一变量 = 路由器：<b>sticky</b> =
+程序→固定引擎（进程表亲和，论文③）对 <b>round-robin</b> = 逐调用轮转（破坏程序内亲和）。
+真实复用面按论文图 7 构造：每程序私有 token 流、call j 的 prompt = 流前 L<sub>j</sub> 个
+token 严格递增（cap 2800）——程序内前缀精确嵌套（同引擎命中/异引擎整段重算）、跨程序零共享。
+边界：双引擎共享一张卡的算力与带宽（论文为多卡多引擎），故吞吐口径仅作参考、命中效应看
+TTFT。</p></div>
+{tblA6_e}
+<p class="cap"><b>表注：</b>端点总览。命中兑现的直接读数在 TTFT：sticky p50
+{eS['ttft_ms']['p50']:.0f} ms 对 rr {eR['ttft_ms']['p50']:.0f} ms。</p>
+{tblA6_t}
+<p class="cap"><b>一句话看表：</b>rr/sticky 的 TTFT 比随 context 增长——上下文越长、
+被破坏的亲和越贵，这就是"前缀整段重算"的定价曲线。<b>表注：</b>逐 call 按 prompt 长度分档，
+取 TTFT 中位；sticky 的 TTFT 近乎平坦 = 命中兑现（prefill 只算增量），rr 随长度线性抬升 =
+冷 prefill。</p>
+<h3>A6a 端到端 call 时间线（与 A3 同款：每程序 S/R 两行）</h3>
+{figA6_e2e}
+<p class="cap"><b>一句话看图：</b>每块 S/R 两行对看——rr 行的红段（等待，此处主要是 prefill）
+随程序推进逐 call 变宽，S 行保持窄。<b>图注：</b>画法与选窗规则同 A3（行尾"等"=论文口径
+Wait，执行底取 S/R 两臂同 call 最小驻留；加粗 = 等待最短）。</p>
+<h3>A6b 高延迟 call 带（与 A4 同款：rr 顶堆身份、同窗对照）</h3>
+{figA6_hl}
+<p class="cap"><b>一句话看图：</b>同一批 call（rr 最高时长簇成员）在两臂的摆放——rr 带里它们
+被冷 prefill 拉长，sticky 带里同批 call 明显缩短。<b>图注：</b>call 集 = rr 臂对数时长聚类
+最高簇身份；窗口 = 该簇最密 60 s，两臂同窗；行标 = 程序号·类别·集内 call 数。</p>"""
     # =================== DOC A: 复现论文机制与学习 ==========================
     docA = f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
 <title>Agentix 机制复现与学习 · 四臂消融</title><style>
@@ -1309,7 +1412,7 @@ font:18px/1.55 "IBM Plex Mono","Noto Sans Mono CJK SC",monospace;overflow-x:auto
 LLM 请求是 <b>call</b>（共 2,440 个）；引擎的一次连续批迭代是 <b>step</b>（一个 step 同时
 服务至多 16 个 call 各一次 decode 迭代，约 1.5 万步/捕获）——一个 call 的服务由几十到上千个
 step 拼成，这就是"调度只能改 call 进 step 的顺序、改不了 step 本身"的结构原因；step 内的
-引擎阶段是 <b>scope</b>（schedule / prepare / forward / sample 等，姊妹文档 B2 的 DFG 画的就是
+引擎阶段是 <b>stage</b>（schedule / prepare / sample 等运行时阶段——batch8 术语下不称 process；模型算子才是 process，由 kernel 经 fragment 组成，姊妹文档 B2 的 DFG 画的就是
 它们）。三类场景的区分完全落在前两层：bfcl = call 短而多，sharegpt = call 长而少，
 lats = call 洪流 + 波并行：</p>
 {compo_tbl}
@@ -1375,6 +1478,8 @@ call 被排队抬进来）；MLFQ 清空粗行但 lats 行反而变密（quantum
 <p class="cap"><b>一句话看图：</b>同一批 call（core 顶堆身份）在四条带里的位置与长短——core 带右聚（压后）、opt/素带铺满（占槽）、M 带条纹变长（quantum 切碎）。<b>图注：</b>call 集 = core 臂对数时长聚类最高簇的成员身份（w05 契约）；窗口 = 该簇最密的 60 s，四臂同一相对窗；行标 = 程序号·类别·集内 call 数。</p>
 
 {a.fourarm.read_text().replace("<h2>四、论文四臂复现 —— vLLM / vLLM-opt / MLFQ / Agentix 全基线对照</h2>", "<h2>A5 端点全景 —— 论文口径的四臂复现</h2>")}
+
+{A6}
 
 <h3>附·论文评测原图对照（多引擎/扩展性/开销项，本复现范围之外的部分以偏差表衔接）</h3>
 {pf(12)}{pf(13)}{pf(14)}{pf(15)}{pf(16)}{pf(18)}{pf(20)}
@@ -1448,7 +1553,7 @@ auto_trace batch8/16 契约（request→forward/iter→scope→kernel，10 % 阈
 LLM 请求是 <b>call</b>（共 2,440 个）；引擎的一次连续批迭代是 <b>step</b>（一个 step 同时
 服务至多 16 个 call 各一次 decode 迭代，约 1.5 万步/捕获）——一个 call 的服务由几十到上千个
 step 拼成，这就是"调度只能改 call 进 step 的顺序、改不了 step 本身"的结构原因；step 内的
-引擎阶段是 <b>scope</b>（schedule / prepare / forward / sample 等，B2 的 DFG 画的就是
+引擎阶段是 <b>stage</b>（schedule / prepare / sample 等运行时阶段——batch8 术语下不称 process；模型算子才是 process，由 kernel 经 fragment 组成，B2 的 DFG 画的就是
 它们）。三类场景的区分完全落在前两层：bfcl = call 短而多，sharegpt = call 长而少，
 lats = call 洪流 + 波并行：</p>
 {compo_tbl}
@@ -1475,24 +1580,24 @@ W5 代表集选择 → <b>W6 代表 process 的 DFG</b>。本报告全部时间�
 {pf(3)}
 {dfg_html_B}
 <p class="cap"><b>一句话看图：</b>顺箭头走完一步引擎循环，红虚线是最大的空闲来源（async
-输出等待）。<b>图注：</b>节点数字为 core 臂实测（W5 代表集）；这张 DFG 是 B4/B5 一切
-call 内部分析的骨架。</p>
+输出等待）。<b>图注：</b>节点 = 引擎 stage（运行时阶段，batch8 术语下不称 process）；数字为该臂实测。这张 stage-DFG 是 host 侧分析的骨架，算子 process 层的骨架是 B3b 的 taxonomy。</p>
 {tbl_w_B}
 {tbl_scope_B}
 <p class="cap"><b>表注：</b>core 臂的 host 侧结构：最大单项是 async 输出等待（GPU 已出结果、
 host 未消费），其次是 prepare_inputs 内约 80 % 的纯 Python 张量构建。</p>
 
-<h2>B3 call 内部的高延迟 process —— step/scope 宇宙</h2>
-<p class="theme">一个 call 的服务由几十到上千个 step 拼成；高延迟分析从 call 下潜到 step：
-把全部 scope 实例按类型聚 10 % 阈值、对数时长五堆并全局排名（w05 契约），最高堆就是
-call 内部的高延迟 process。core 臂全局排名前八：</p>
+<h2>B3 call 内部的高延迟：容器层（step/stage）与 process 层分开报告</h2>
+<p class="theme">术语纪律（batch8 契约）：<b>process = 由 kernel（经 fragment）组成的算子
+单元</b>；step/iter 与 layer 是其上的容器，schedule/update 等是引擎 stage——容器与 stage
+不称 process。因此高延迟分两层报告：<b>容器/stage 层</b>（下表与下图：step 实例与引擎
+stage 实例的五堆聚类，w05 契约）先定位"时间落在哪个容器"，<b>process 层</b>（B3b：p.*
+算子堆）再回答"容器内是哪些算子"。core 臂容器/stage 层全局排名前八：</p>
 {tbl_piles_B}
 <p class="cap"><b>表注：</b>#1 是重 forward 堆（大批/含 chunked prefill 的 step，
-{step_sums['core']:.0f} s，全部高延迟标记）——它不属于任何单个 call，是"批"这一层的
-process。</p>
+{step_sums['core']:.0f} s，全部高延迟标记）——它不属于任何单个 call，是"批"这一层的容器实例（非 process——其算子构成见 B3b）。</p>
 {figB3}
 <p class="cap"><b>一句话看图：</b>一条线 = 一个重 forward step 的真实起止，梯形 = 堆包络——
-这些就是 call 内部的高延迟 process 本体。<b>图注：</b>窗口为 core 第 1 名 forward 堆最密的
+这些就是 call 内部时间最重的<b>容器</b>（step 实例）——它们内部的算子构成见 B3b。<b>图注：</b>窗口为 core 第 1 名 forward（step 容器）堆最密的
 分段（审计文件记录）。</p>
 <h3>B3b iter 之下：layer 与 fragment（kernel 序列周期折叠）</h3>
 <p class="theme">B 的 process 层级到此对齐 batch8 契约的全部深度：request → call → iter(step)
@@ -1529,8 +1634,7 @@ process 的时间分布一眼可见（对应参考件 build_ranked_single_batch_
 深潜图共同钉定。</p>
 {deep_figs['core']}
 <p class="cap"><b>一句话看图：</b>红密度高的时段（重 forward 堆成员连片）与在飞贴 cap、
-step 率高原同段——高延迟 process 的时间段即并发最重的时间段。<b>图注：</b>上半为窗内全部
-step 实例的条码时间线（红 = 第 1 名重 forward 堆成员），下半四条指标 lane 与其共轴。</p>
+step 率高原同段——高延迟 process 的时间段即并发最重的时间段。<b>图注：</b>上半为窗内全部 step <b>容器</b>的占用条码（红 = 第 1 名重 step 堆成员；容器时间线，非 process 时间线——process 级时间线见 B4b 排名图），下半指标 lane 与其共轴。</p>
 {figB4m}
 <p class="cap"><b>一句话看图：</b>黄色 gemm 簇背靠背、簇间空白是 step 间 host 空档——kernel
 粒度的 process 视图。<b>图注：</b>深潜窗内最忙 300 ms 逐 kernel 展开（黄 = gemm 家族，

@@ -66,7 +66,7 @@ def main():
     if strict:
         selected = strict
     piles_out, ranked = {}, []
-    for p, v in selected.items():
+    for p, v in inst.items():   # timelines/rank over ALL types; selection flag kept
         ms = [{"d": d, "start": s, "end": s + d, "id": i, "cls": p, "pid": p, "idx": i}
               for i, (s, d) in enumerate(v)]
         piles = lloyd_piles(ms)
@@ -144,6 +144,7 @@ def main():
     out = {"capture": str(a.capture_dir), "process_types": len(inst),
            "instances_total": sum(len(v) for v in inst.values()),
            "selected_types": sorted(selected),
+           "rank_note": "piles/timelines computed over all 8 types; strict-10% selection flag kept separately",
            "piles": piles_out,
            "rank_basis": "host_observed_ranges (async launch: python+launch, "
                          "device execution excluded — batch8 R07 observation)",
