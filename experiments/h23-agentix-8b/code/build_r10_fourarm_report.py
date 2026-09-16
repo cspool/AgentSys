@@ -1314,7 +1314,11 @@ mean {e_pi['mean']:.2f}× / p99 {e_pi['p99']:.2f}×。下方状态机原图即�
 
     # =================== A6: sticky routing reproduction ===================
     A6 = ""
-    _rdir = a.art / "routing"
+    # routing_v2 is the corrected arm pair; the first attempt (routing/) measured
+    # load skew instead of KV affinity and is kept only as a declared deviation.
+    _rdir = a.art / "routing_v2"
+    if not (_rdir / "sticky" / "calls_routing_sticky.jsonl").exists():
+        _rdir = a.art / "routing"
     _fs = _rdir / "sticky" / "calls_routing_sticky.jsonl"
     _fr = _rdir / "rr" / "calls_routing_rr.jsonl"
     if _fs.exists() and _fr.exists():
@@ -1341,13 +1345,27 @@ mean {e_pi['mean']:.2f}× / p99 {e_pi['p99']:.2f}×。下方状态机原图即�
                    '<th>sticky TTFT p50 ms</th><th>rr TTFT p50 ms</th><th>rr/sticky</th></tr>'
                    + rows_t + '</table>')
         eS, eR = SUMR["S"], SUMR["R"]
+        SUMR_meta = json.loads((_rdir / "sticky" / "summary_routing_sticky.json").read_text())
+        def _bal(e):
+            pe = e.get("per_engine") or {}
+            if not pe:
+                return "—"
+            c = sorted(v["calls"] for v in pe.values())
+            return f"{c[0]}–{c[-1]}（{len(pe)} 引擎）"
+
+        def _hit(e):
+            h = e.get("prefix_hit_frac_mean")
+            return f"{h*100:.1f}%" if h is not None else "—"
+
         tblA6_e = ('<table><tr><th></th><th>TTFT mean/p50/p90 ms</th>'
-                   '<th>PTL mean/p90 ms/tok</th><th>wall s</th><th>thr tok/s</th></tr>'
+                   '<th>PTL mean/p90 ms/tok</th><th>前缀命中</th>'
+                   '<th>每引擎 call 数</th><th>wall s</th><th>thr tok/s</th></tr>'
                    + "".join(
             f"<tr><td>{lab}</td><td>{e['ttft_ms']['mean']:.0f}/{e['ttft_ms']['p50']:.0f}/"
             f"{e['ttft_ms']['p90']:.0f}</td>"
             f"<td>{e['program_token_latency_ms']['mean']:.1f}/"
             f"{e['program_token_latency_ms']['p90']:.1f}</td>"
+            f"<td>{_hit(e)}</td><td>{_bal(e)}</td>"
             f"<td>{e['wall_s']:.0f}</td><td>{e['throughput_tokens_per_s']:.0f}</td></tr>"
             for lab, e in (("sticky（程序→固定引擎）", eS), ("round-robin（逐调用轮转）", eR)))
                    + '</table>')
@@ -1386,29 +1404,44 @@ mean {e_pi['mean']:.2f}× / p99 {e_pi['p99']:.2f}×。下方状态机原图即�
         figA6_hl = fig(partsA6, yA6 + 6)
         audit["windows"]["A6_band"] = {"criterion": "call set = rr top-pile identities; densest 60 s of rr pile",
                                        "window_s": [r0w / 1e9, r1w / 1e9], "set_size": len(keysR)}
+        _eng = len(eS.get("per_engine") or {}) or 4
+        _devs = "、".join(sorted(set((SUMR_meta or {}).get("devices") or ["0", "1"])))
         A6 = f"""
 <h2>A6 第三组创新复现 —— sticky 路由（多引擎 KV 亲和）</h2>
 <div class="block"><b>设置与复用面</b>
-<p>1.5B 级模型（本地 Qwen3-1.7B）双引擎共驻一张 4090（两 CUDA 上下文，各 0.46 显存），
+<p>{_eng} 个 Qwen3-1.7B 引擎分驻两张 4090（每卡两个 CUDA 上下文，各 0.46 显存），
 同负载（thr_mixed r0.5 的 25 程序/2,440 调用）同参；唯一变量 = 路由器：<b>sticky</b> =
 程序→固定引擎（进程表亲和，论文③）对 <b>round-robin</b> = 逐调用轮转（破坏程序内亲和）。
-真实复用面按论文图 7 构造：每程序私有 token 流、call j 的 prompt = 流前 L<sub>j</sub> 个
-token 严格递增（cap 2800）——程序内前缀精确嵌套（同引擎命中/异引擎整段重算）、跨程序零共享。
-边界：双引擎共享一张卡的算力与带宽（论文为多卡多引擎），故吞吐口径仅作参考、命中效应看
-TTFT。</p></div>
+复用面按论文图 7 构造：每程序私有 token 流、call j 的 prompt = 流前 L<sub>j</sub> 个 token
+严格递增（cap 2800）——程序内前缀精确嵌套，跨程序零共享。sticky 的归属按程序到达序均衡分配
+而非哈希：哈希分法会把程序劈成不均等的两堆，测到的就变成负载倾斜而不是亲和。</p></div>
+<div class="block howto"><b>作废的第一版，以及它为什么什么都没测到</b>
+<p>第一次做这组臂用的是 2 引擎共卡 + 哈希 sticky，结论是 sticky 反而更差（TTFT p90 225 ms 对
+63 ms），那个结果已作废。原因有两条，都不是机制本身：2,440 个 call 里有 2,332 个上下文顶在
+2800 的 cap 上，而一个程序同一时刻只有一个 call 在飞，于是 rr 把下一个 call 发到"另一个引擎"
+时，那台引擎上正好留着这个程序上一轮的前缀——轮转根本没破坏亲和；同时哈希把程序分成
+1,558 : 759 的两堆，测到的是倾斜。改成 4 引擎（换引擎后仍持有该程序前缀的概率从 1 降到 1/4）
+加均衡 sticky 之后，方向才干净。</p></div>
 {tblA6_e}
-<p class="cap">端点总览；命中兑现看 TTFT 列。</p>
+<p class="cap">sticky 在每一个口径上都优于 rr，前缀命中高出 1.6 个百分点，而它每引擎承担的
+call 数是 245–884、rr 是 610–610。sticky 是带着 3.6 倍的 call 不均赢的——均衡的是程序数，call
+数随程序长短天然不齐，这个方向的倾斜只会压低它的成绩，不会抬高。</p>
 {tblA6_t}
-<p class="cap">rr/sticky 的 TTFT 比随 context 单调增长。sticky 平坦是命中兑现，rr 线性抬升
-是整段冷 prefill——亲和的价值随上下文变贵。</p>
+<p class="cap">分档 TTFT 在两臂之间差距很小，且不随 context 拉开。这说明在本机这个规模上，亲和
+丢失的代价不是"整段冷 prefill"，而是少量前缀 token 的重算——4 个引擎仍各自持有该程序的较早
+前缀，只是版本更旧。</p>
 <h3>A6a 端到端 call 时间线（与 A3 同款：每程序 S/R 两行）</h3>
 {figA6_e2e}
-<p class="cap">rr 行的红段随程序推进逐 call 变宽，S 行始终窄。变宽的部分是被换引擎后重算的
-前缀——亲和丢失的代价随上下文增长。</p>
+<p class="cap">S 行与 R 行的形状接近，R 行整体略宽且尾部更长。亲和在这个负载上是均匀的小额
+折扣，不是某几个 call 上的大额节省。</p>
 <h3>A6b 高延迟 call 带（与 A4 同款：rr 顶堆身份、同窗对照）</h3>
 {figA6_hl}
-<p class="cap">rr 臂认定的高延迟 call，在 sticky 带里明显缩短。差值就是冷 prefill 的时间，
-亲和路由把它省掉了。</p>"""
+<p class="cap">rr 臂认定的高延迟 call，在 sticky 带里普遍缩短但没有消失。亲和削掉的是重算部分，
+排队与执行那部分它管不着——这也划清了第三组创新与前两组的分工。</p>
+<div class="block"><b>边界</b>
+<p>论文的③跑在多卡多引擎上，本复现是两卡四引擎共享同一主机带宽，因此吞吐口径只作参考；
+命中效应看 TTFT 与前缀命中率。上下文封顶 2800 token 也压缩了亲和的可得收益——真实 agent
+程序的上下文会一直增长，重算代价随之变贵，这里量到的是下界。</p></div>"""
     # =================== DOC A: 复现论文机制与学习 ==========================
     docA = f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
 <title>Agentix 机制复现与学习 · 四臂消融</title><style>
