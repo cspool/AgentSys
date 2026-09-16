@@ -177,6 +177,9 @@ def main() -> int:
         rq.put(None)
     for pr in procs:
         pr.join(timeout=120)
+        if pr.is_alive():
+            pr.terminate()
+            pr.join(timeout=10)
 
     (a.output_dir / f"calls_routing_{a.routing}.jsonl").write_text(
         "\n".join(json.dumps(r) for r in rows) + "\n")
