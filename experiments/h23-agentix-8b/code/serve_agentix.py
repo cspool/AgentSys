@@ -120,6 +120,11 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
         sys.path.insert(0, str(Path(__file__).parent))
         import wp_fx_sample
         wp_fx_sample.install()
+    if os.environ.get("AGENTIX_FXCTX", "0") == "1":
+        # workload_profile R032 stage C: in-context FX trace (attention included)
+        sys.path.insert(0, str(Path(__file__).parent))
+        import wp_fx_incontext
+        wp_fx_incontext.install()
     if os.environ.get("AGENTIX_DISPATCH", "0") == "1":
         # workload_profile R031: filtered eager DispatchMode on the selected layers
         sys.path.insert(0, str(Path(__file__).parent))

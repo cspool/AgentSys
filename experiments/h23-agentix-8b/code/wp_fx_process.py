@@ -23,6 +23,11 @@ ANCHORS = {
     "_C.fused_add_rms_norm.default": "norm_post",
     "_C.silu_and_mul.default": "act_mul",
     "_C.rotary_embedding.default": "attn_core",
+    # present only in the in-context graphs, and they must anchor: a get_attr for
+    # the o_proj weight is hoisted right before them, so without an anchor of
+    # their own they attach backward to o_proj and attention loses its own ops.
+    "vllm.unified_kv_cache_update.default": "attn_core",
+    "vllm.unified_attention_with_output.default": "attn_core",
 }
 FORWARD_ATTACH = ("aten.detach", "aten.empty", "get_attr", "placeholder")
 
@@ -90,7 +95,12 @@ def main() -> int:
     hidden, inter = disp["hidden_size"], disp["intermediate_size"]
 
     per_frag, unclaimed_total, axes = {}, 0, collections.defaultdict(list)
-    for path in sorted((a.fx_dir / "fx_trace").glob("*.json")):
+    sources = sorted((a.fx_dir / "fx_trace").glob("*.json"))
+    # The in-context graphs carry the attention op and the KV cache update, which
+    # no offline graph can hold; they complete attn_core's coverage.
+    sources += sorted(q for q in (a.fx_dir / "fx_incontext").glob("*.json")
+                      if q.name != "incontext_index.json")
+    for path in sources:
         g = json.loads(path.read_text())
         nodes = g["nodes"]
         procs = assign(nodes, hidden, inter)
@@ -169,7 +179,8 @@ def main() -> int:
     xcls = collections.Counter()
     for f in per_frag.values():
         xcls[(f["phase"], f["layer_idx"])] += 1
-    xcls = collections.Counter({k: v // 2 for k, v in xcls.items()})  # two fragments per event
+    # offline contributes two fragments per event, in-context one more
+    xcls = collections.Counter({k: max(1, v // 3) for k, v in xcls.items()})
     audit = {
         "events_in_manifest": len(manifest),
         "fragments": len(per_frag),
