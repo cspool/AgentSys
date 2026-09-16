@@ -1082,7 +1082,7 @@ mean {e_pi['mean']:.2f}× / p99 {e_pi['p99']:.2f}×。下方状态机原图即�
         tbl_phase = ('<table><tr><th>相位</th><th>step 数</th><th>批内请求均值</th>'
                      '<th>批内 token 均值</th><th>quantum 段准入（队列:次）</th><th>降级次数</th></tr>'
                      + "".join(phstat(n) for n in ("P1", "P2", "P3", "P4")) + "</table>")
-    tbl_layer, layer_note = "", ""
+    tbl_layer, layer_note, figB_rt, tbl_concwin = "", "", "", ""
     _pt_file = D.get("bcap", Path("/nonexistent")) / "PT_PROCESS_ANALYSIS.json" if BK == "bcap" else Path("/nonexistent")
     if _pt_file.exists():
         PT = json.loads(_pt_file.read_text())
@@ -1120,6 +1120,34 @@ mean {e_pi['mean']:.2f}× / p99 {e_pi['p99']:.2f}×。下方状态机原图即�
                 (lambda d_: f"<td>{d_['n']:,} / {d_['med_us']}</td>" if d_ else "<td>—</td>")(
                     php.get(ph, {}).get(k)) for k in _pp) + "</tr>"
             for ph in ("P1", "P2", "P3")) + '</table>')
+        rt = PT.get("ranked_top_pile_instances", {})
+        _e2o2 = int(P[BK]["e2e"]["origin"])
+        wall_bb = max(c["finished_rel_ms"] for c in C[BK])
+        parts_rt = axis(0.0, wall_bb, 60, 40 + 90 * max(len(rt), 1))
+        _yr = 70
+        for _pn, _iv in rt.items():
+            parts_rt.append(f'<text x="{LEFT-6}" y="{_yr+14}" font-size="15" text-anchor="end" '
+                            f'fill="#48607d">{_pn}</text>')
+            parts_rt.append(f'<rect x="{LEFT}" y="{_yr}" width="{W-LEFT-RIGHT}" height="70" '
+                            f'fill="#fbfbf9" stroke="#eee"/>')
+            for _s0, _d0 in _iv:
+                _ms = (_s0 - _e2o2) / 1e6
+                _x = LEFT + (W - LEFT - RIGHT) * min(max(_ms, 0), wall_bb) / wall_bb
+                _w = max((W - LEFT - RIGHT) * (_d0 / 1e6) / wall_bb, 0.6)
+                parts_rt.append(f'<rect x="{_x:.1f}" y="{_yr+8}" width="{_w:.1f}" height="54" '
+                                f'fill="#a8541f" opacity=".55"/>')
+            _yr += 90
+        figB_rt = fig(parts_rt, _yr + 6)
+        _bkt = [(1, 4), (5, 8), (9, 12), (13, 16)]
+        _tot = len(wstep_b) or 1
+        _rows_cw = ""
+        for lo2, hi2 in _bkt:
+            st2 = [x for x in wstep_b if lo2 <= x[1] <= hi2]
+            _rows_cw += (f"<tr><td>{lo2}–{hi2} 请求</td><td>{len(st2):,}</td>"
+                         f"<td>{100*len(st2)/_tot:.0f} %</td>"
+                         f"<td>{(sum(x[2] for x in st2)/max(len(st2),1)):.0f}</td></tr>")
+        tbl_concwin = ('<table><tr><th>并发档位（批内请求数）</th><th>step 数</th>'
+                       '<th>step 占比</th><th>批内 token 均值</th></tr>' + _rows_cw + '</table>')
         layer_note = ("<b>正式实现（Stage W→T 工作流产物）：</b>process 由模块结构确定"
                       "（PROCESS_TAXONOMY，四门验证通过），trace 为模块打点 eager 仪器臂"
                       "（perf_trace 双臂契约：时序结论以 graph 性能臂为准，本臂供结构与归因；"
@@ -1367,7 +1395,7 @@ trace 伪影。</p>
     if BK == "bcap":
         ver_note = ("<b>数据：受控并发 batch 采集 ctrl_conc16</b>（batch8/16 方法迁移：构造 "
                     "W/P1/P2/P3/P4 并发相位，见 workflow06/B_BATCH_TRACE_PLAN.md；分析窗口是"
-                    "构造的、不是搜索的）。")
+                    "构造的、不是搜索的；perf_trace 收尾件——排名 process 时间线与并发窗表——已含于 B4b）。")
     else:
         ver_note = ("<b>版本注：本页为 v0 草稿</b>——基于 r0.5 开环采集；正式版换用受控并发 "
                     "batch 采集（计划见 workflow06/B_BATCH_TRACE_PLAN.md）。")
@@ -1489,6 +1517,16 @@ host 未消费的跨步空档，core 臂 {async_core_s:.0f} s / 均 8 ms 级—�
 {"" if not figB_P1 else '<p class="cap"><b>一句话看图：</b>P1 里批内请求数贴 16、token 数≈请求数（纯 decode）、无降级——干净的满批基线。<b>图注：</b>构造相位 P1（16 个单 quantum 调用同批），上半 step 实例条码，下半六条指标 lane（含新增的批内请求/token 两条）。</p>'}
 {figB_P3}
 {"" if not figB_P3 else '<p class="cap"><b>一句话看图：</b>P3 里准入分层（Q0 与 Q2/Q3 同窗出现）、降级密集、批内 token 数被 prefill 抬高——机制的全部动作集中在这一窗。<b>图注：</b>构造相位 P3（aged 长调用与 8 个新短程序同时到达）；lane 口径同 P1。</p>'}
+
+<h3>B4b perf_trace 收尾件：排名 process 时间线与并发窗</h3>
+{figB_rt}
+<p class="cap"><b>一句话看图：</b>全局排名前列 process 的顶堆成员在全程的真实落点——高延迟
+process 的时间分布一眼可见（对应参考件 build_ranked_single_batch_timelines）。<b>图注：</b>
+每行一个入选 process，矩形 = 顶堆成员实例的起止。</p>
+{tbl_concwin}
+<p class="cap"><b>表注：</b>并发窗分析（对应参考件 analyze_concurrency_windows，信号 = 每步
+批组成标记 w.step）：step 按批内请求数分档的时间结构——构造负载的并发形态由此表与 4.1/
+深潜图共同钉定。</p>
 {deep_figs['core']}
 <p class="cap"><b>一句话看图：</b>红密度高的时段（重 forward 堆成员连片）与在飞贴 cap、
 step 率高原同段——高延迟 process 的时间段即并发最重的时间段。<b>图注：</b>上半为窗内全部
