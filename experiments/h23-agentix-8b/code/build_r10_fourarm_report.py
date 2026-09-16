@@ -880,7 +880,7 @@ prefill 与再排队吃掉，尾部才有 p90 {e_cp['p90']:.2f}×。<b>程序身
 程序级队头阻塞；机制是进程表累计 PLAS 的离散化准入 p(c<sub>j</sub>) =
 Σ<sub>k&lt;j</sub> t<sub>k</sub>（本负载把 {ml_a['admission'].get('3', 2004)} 个长程序调用
 直接放进 Q3）+ β 抗饿（(W<sub>p</sub>+W<sub>c</sub>)/(T<sub>p</sub>+T<sub>c</sub>) ≥ β，
-β=2.0 未触发）；证据角色是 lats 等待被刻意抬到 p50 {cw['core']['lats']['p50']:.0f} ms，换
+β=2.0 未触发）；两个常见误读先拆掉：其一，方向不是"优先/聚集同程序的 call"（KV 亲和归路由与 swap），而是<b>压制</b>已获服务多的程序的新 call——重程序的 call 直接进低队，轻/新程序先走；其二，T<sub>p</sub> 不是估计器——它是已发生服务的实测，按 Least-Attained-Service 思想在程序粒度近似 SJF，全程无需预测 call 数或长度（论文的 non-clairvoyant 卖点）。证据角色是 lats 等待被刻意抬到 p50 {cw['core']['lats']['p50']:.0f} ms，换
 mean {e_pi['mean']:.2f}× / p99 {e_pi['p99']:.2f}×。下方状态机原图即该机制本体，玩具例原图
 给出它在多线程（lats）上的第二重价值——注意边界：这重价值只作用于多线程程序，对单线程的 sharegpt/bfcl，ATLAS 退化为 PLAS，调度只在程序之间重排等待（论文图 17a 的蓝段等高、红段悬殊即此意）。</p></div>
 {pf(10)}{pf(19)}
