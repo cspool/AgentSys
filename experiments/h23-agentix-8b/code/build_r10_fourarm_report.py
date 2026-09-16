@@ -439,13 +439,43 @@ def main():
         f"<tr><td>{lab}</td><td>{next((b['sum_ns']/1e9 for b in W2[k]['dominant_idle_boundaries'] if 'set_async' in b['boundary']),0):.0f} s</td>"
         f"<td>{step_sums[k]:.0f} s</td></tr>" for k, lab, *_ in ARMS)
 
+    # ---- part-4 extra: whole-run lanes (端到端过程中的并发) ----------------
+    wall_ms = max(max(c["finished_rel_ms"] for c in C[k]) for k, *_ in ARMS)
+    parts3f = axis(0.0, wall_ms, 60, 4 * (3 * 162 + 40) + 40)
+    y = 70
+    for key, label, *_ in ARMS:
+        run0 = int(P[key]["e2e"]["origin"]) - int(P[key]["hl"]["origin"])
+        s, y = cu_strip(P[key]["cu"], y, label, run0, run0 + int(wall_ms * 1e6))
+        parts3f += s
+        y += 10
+    fig3full = fig(parts3f, y + 6)
+
+    # ---- one real call walked through all four arms (for the method block) --
+    kb = max((k for k, r in idx["opt"].items() if r["class"] == "bfcl"
+              and all(k in idx[a] for a, *_ in ARMS)),
+             key=lambda k: idx["opt"][k]["first_token_rel_ms"] - idx["opt"][k]["submitted_rel_ms"])
+    def walk_row(key, label):
+        r = idx[key][kb]
+        w = r["first_token_rel_ms"] - r["submitted_rel_ms"]
+        res = r["finished_rel_ms"] - r["first_token_rel_ms"]
+        nch = len(CH[key].get(kb, [])) or 1
+        return (f"<tr><td>{label}</td><td>{w:,.0f}</td><td>{res:,.0f}</td>"
+                f"<td>{nch}</td><td>{w+res:,.0f}</td></tr>")
+    walk_tbl = ('<table><tr><th>臂（同一真实调用 '
+                f'{kb[0]}#{kb[1]}，bfcl）</th><th>等待 ms</th><th>驻留 ms</th>'
+                '<th>量子段数</th><th>端到端 ms</th></tr>'
+                + "".join(walk_row(k, lab) for k, lab, *_ in ARMS) + "</table>")
+
     # ================= assembly ============================================
     e_sr, e_cp, e_pi = (pairs[k]["endpoint"]["speedup"] for k in
                         ("state_reuse", "call_preempt", "program_identity"))
     compo = compo_section(Path("experiments/h23-agentix-8b/workloads/thr_mixed_r0.5.json"))
     compo = compo.replace("{CHAR_ART}", char_art(C["opt"], C["core"], P["opt"]["hl"])
-                          + '<h2 style="font-size:22px">三类负载的真实生命周期（各取一个中位规模的程序实例）</h2>'
+                          + '<h2 style="font-size:22px">1.1b 三类负载的真实生命周期（各取一个中位规模的程序实例）</h2>'
                           + class_lifecycle_figs(C["opt"]))
+    compo = compo.replace("<h2>预备：Process 视图下的 program 与 call 到底是什么</h2>",
+                          "<h2>第一部分 负载理解 —— 负载特点、分析链与消融机会</h2>"
+                          "<h3>1.1 Process 视图下的 program 与 call 到底是什么</h3>")
     sig_m = chunk_sig.get("mlfq", (0, 0, 0))
     tri_def = f"""
 <div class="block howto"><b>三个时间量的定义（本报告所有时间线图共用，必须区分）</b>
@@ -481,6 +511,54 @@ core 只切 132 个调用，再排队集中在被压后的长程序。等待列�
         "论文 Fig.12（原图）。到达率–延迟曲线四条线的间距即本报告第四章端点表；本章的并发/资源"
         "时间线检验它的前提——四臂在同一资源墙下运行，间距只能来自排序。")
 
+    cw = pairs["call_preempt"]["class_wait_ms"]
+    ml_a = pairs["program_identity"]["mlfq"]
+    METH = f"""
+<h3>1.3 方法与消融设计 —— 负载带来的消融机会，四种方法的描述与对比</h3>
+<div class="block"><b>论文方法与创新点（四段式）</b>
+<p><b>① 论点：三类程序的结构不对称，使三种优化各有独立杠杆，消融因此可以逐对隔离。</b>
+bfcl 短而密（12.5 调用/程序、串行、寿命被等待主导）给"排序"最大杠杆；sharegpt 少而长
+（长 decode 调用）是"量子抢占"的主要作用面与受害面；lats 的巨量小调用洪流（~193 调用/程序、
+5 路波）制造两级队头阻塞——只有认得"程序身份"的调度才能区分"洪流的第 180 个调用"与
+"新来短程序的第 1 个调用"。这三个机会互不重叠，所以四臂可以首尾相接地消融。</p>
+<p><b>② Baseline 是什么、缺陷是什么（沿一个真实请求的全栈执行例）。</b>论文实际评估的
+基线是 vLLM（素）、vLLM-opt（+前缀缓存+分块预填充+多步调度）与调用级 MLFQ；本复现在
+vLLM 0.29 V1 引擎上重建为素/opt/MLFQ 三臂。取我们 trace 里等待最重的 bfcl 调用
+{kb[0]}#{kb[1]} 走一遍全栈：客户端提交 → 进引擎 waiting 队列 → 被调度进某个 step 的
+16 槽连续批 → 每 step 产出 1 token（forward 的 gemm/attention kernel 簇）→ 完成。
+四臂在这条路径上的分歧只有两处：<b>队列出队顺序</b>（谁先进批）与<b>prefill 是否重算</b>。
+素臂：FCFS 出队，且每次调用全量 prefill（无前缀缓存）——该调用排在 lats 洪流之后，
+等待见下表；opt 臂：同 FCFS，但缓存命中的前缀不再重算——等待缩短的部分全部来自
+prefill 复用；MLFQ 臂：每调用领一个 token 量子（32/64/128/256），用尽即被抢占、降级、
+重新排队——该调用的等待坍缩，但被切调用要为续段重新 prefill 已生成上下文（论文未明确
+说明其续段实现，本复现为客户端续发）；core 臂：出队看程序累计服务。素的缺陷 = 重复计算；
+opt 的缺陷 = 调用级队头阻塞（短调用排长洪流后）；MLFQ 的缺陷 = 程序级队头阻塞仍在
+（长程序下一调用又从 Q0 开始）+ 再 prefill 计算价。</p>
+{walk_tbl}
+<p class="cap"><b>表注：</b>同一到达序列下同一调用在四臂的实测。等待列即②所述缺陷的直接
+读数；MLFQ/core 的量子段数标出该调用是否被切。</p>
+<p><b>③ 创新点按三元素（动机 → 机制 → 证据角色）对应到它解决的缺陷。</b>
+<b>状态复用</b>（素→opt 消融）：动机是消除重复 prefill；机制是前缀缓存 + 分块预填充；
+证据角色是第一对配对事实 mean {e_sr['mean']:.2f}×——它必须先被剥离，后两个消融才不会
+把工程优化误记为调度收益。<b>调用级抢占</b>（opt→MLFQ 消融）：动机是打破调用级队头阻塞；
+机制是每队列 token 量子 + 用尽降级（Q0–Q3）；证据角色是类等待坍缩
+（bfcl p50 {cw['fcfs']['bfcl']['p50']:.0f}→{cw['core']['bfcl']['p50']:.0f} ms）与
+mean 仅 {e_cp['mean']:.2f}× 的并存——等待省下的时间被再 prefill 与再排队吃掉，尾部才有
+p90 {e_cp['p90']:.2f}×。<b>程序身份</b>（MLFQ→core 消融）：动机是程序级队头阻塞；机制是
+进程表累计 PLAS 的离散化准入 p(c<sub>j</sub>) = Σ<sub>k&lt;j</sub> t<sub>k</sub>（本负载
+把 {ml_a['admission'].get('3', 2004)} 个长程序调用直接放进 Q3）+ β 抗饿
+（(W<sub>p</sub>+W<sub>c</sub>)/(T<sub>p</sub>+T<sub>c</sub>) ≥ β，β=2.0，本负载未触发）；
+证据角色是 lats 等待被刻意抬高（p50 {cw['core']['lats']['p50']:.0f} ms→第二部分 lats 块的
+浅红底）换 mean {e_pi['mean']:.2f}× / p99 {e_pi['p99']:.2f}×——交换单位从 call 改为
+program 的直接实盘。</p>
+<p><b>④ 双向看图说话。</b>先顺论文 Fig.2 走读（下方原图）：(a) 表给 4 程序的调用数与步数；
+(b) FCFS 里程序 A 的四次调用穿插占满 2 槽，单调用程序 D 等到 t≈4；(d) PLAS 按程序累计
+服务重排后 C、D 提前、B 的长调用垫后。<b>再看我们的 trace 图</b>：第二部分的 per-program
+块把这个 2 槽玩具扩到 16 槽真实引擎——素/opt 行是 (b) 的两种工程实现，M/C 行是 (d) 的两种
+交换单位；D 提前对应短程序块红段的逐臂消失，B 垫后对应 lats 块 C 行的浅红底。边界：论文
+图中的收益出现在"槽被占满"的前提下，我们的低负载端点（r=0.2，附录）三缓存臂并拢，
+说明该前提失效时图示差异也消失。</p></div>
+"""
     doc = f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
 <title>Agentix 四臂复现 · 负载分析与性能 trace</title><style>
 body{{margin:0;font:22px/1.7 "Noto Sans CJK SC",system-ui,sans-serif;color:#1f2f45;background:#fff}}
@@ -503,17 +581,20 @@ td:first-child,th:first-child{{text-align:left}}
 pre.art{{background:#f7f9f7;border:1px solid #cfd9cf;border-radius:6px;padding:12px 14px;
 font:18px/1.55 "IBM Plex Mono","Noto Sans Mono CJK SC",monospace;overflow-x:auto;max-width:1150px}}
 </style></head><body><div class="wrap">
-<h1>Agentix 论文四臂复现 —— 负载分析、代表 process/DFG 与性能 trace 的时间线解释</h1>
-<p class="sub">数据：LLaMA-3.1-8B · thr_mixed r0.5 · cap16 · 四臂各一次完整 serving 采集
-（vLLM素 / vLLM-opt / MLFQ调用级 / agentix_core，同负载同栈，逐对只差一个变量），
-A00 守恒门全过。窗口与选材标准在 R10_SUMMARY_AUDIT.json；本版取代旧三模型两臂版
-（旧版存 git 历史）。方法链：负载分析（W1–W5 代表 process 选择 + W6 DFG）→ 以代表
-process 为探针的性能 trace（19 个 host 探针 + 机制事件）→ 本报告的时间线可视化。</p>
+<h1>Agentix 论文四臂复现 —— 理解负载与优化性能的四部分时间线报告</h1>
+<p class="sub">目的：帮助人类和 AI 理解这份 agent serving 负载与其上的性能优化。四部分递进：
+<b>第一部分</b> 理解负载（负载特点 + 分析链 W1–W6 + 负载带来的方法消融机会与四方法对比）；
+<b>第二部分</b> 代表性 process 的端到端时间线（执行分布 + 消融的运行时差异）；
+<b>第三部分</b> 高延迟 process 放大（潜在优化点）；<b>第四部分</b> 并发与资源使用率时间线。
+数据：LLaMA-3.1-8B · thr_mixed r0.5 · cap16 · 四臂各一次完整 serving 采集（vLLM素 /
+vLLM-opt / MLFQ调用级 / agentix_core，同负载同栈，逐对只差一个变量），A00 守恒门全过；
+端点全景（4 臂 × 5 到达率）在附录。窗口与选材标准在 R10_SUMMARY_AUDIT.json；
+本版取代旧版（存 git 历史）。</p>
 
 {compo}
 
-<h3>预备·负载分析链（W1–W6）：代表 process、DFG 与 trace 探针的来源</h3>
-<p class="theme">上面回答了"负载是什么"；这里回答"对负载做了什么分析、后面的 trace 从哪来"。
+<h3>1.2 负载分析链（W1–W6）：代表 process、DFG 与 trace 探针的来源</h3>
+<p class="theme">1.1 回答了"负载是什么"；这里回答"对负载做了什么分析、后面的 trace 从哪来"。
 方法链：W1 试运行 → W2 热点定位（决定 19 个 host 探针的位置）→ W3 插桩 → W4 代表采集 →
 W5 代表集选择 → <b>W6 代表 process 的 DFG</b>。本报告全部时间线的 process 宇宙就是这条链
 选出的代表集 + 机制事件；探针开销实测 −0.9 %。</p>
@@ -527,20 +608,17 @@ W5 代表集选择 → <b>W6 代表 process 的 DFG</b>。本报告全部时间�
 但 host 消费滞后）。数字为 opt 臂实测；四臂对照：async 等待
 <table><tr><th>臂</th><th>async 输出等待</th><th>#1 forward 堆</th></tr>{async_tbl}</table></p>
 
-<h3>预备·三个时间量：等待 / 引擎内 / 量子间再排队</h3>
+{METH}
+{PF1}
+
+<h3>1.4 度量定义：三个时间量 —— 等待 / 引擎内 / 量子间再排队</h3>
 {tri_def}
 
-<h2>一、端到端 Process 时间线 —— 同一程序四臂紧凑对排，三个时间量分开画</h2>
-<div class="block"><b>论文方法与四臂对应</b>
-<p><b>一句话论点：</b>四臂是同一负载下的四种出队规则，收益应全部表现为红段（等待）与浅红底
-（再排队）的重分配，色段（busy）四臂同形。</p>
-<p><b>Baseline 与缺陷：</b>素臂重复每个前缀的 prefill（等待里含重复计算）；opt 臂消除重复但 FCFS
-让 lats 洪流的后续调用排在短程序前面（调用级队头阻塞）；MLFQ 臂按量子抢占消除长占，但准入
-不看程序历史，长程序的下一个调用又从 Q0 开始（程序级队头阻塞仍在）。</p>
-<p><b>创新点对应：</b>core 用进程表把准入定位到 p(c<sub>j</sub>) = Σ<sub>k&lt;j</sub> t<sub>k</sub>
-对应的队列——动机是程序级阻塞，机制是离散化准入 + 量子降级，证据是下图 lats 车道的浅红底
-（被压后的再排队）与短程序车道红段消失同时发生。</p></div>
-{PF1}
+<h2>第二部分 代表性 process 的端到端时间线 —— 执行分布与消融的运行时差异</h2>
+<p class="theme"><b>代表性 process 的构成：</b>本部分逐块画出全部 25 个 program——它是三种
+代表集的并集：含负载特点的（1.1b 的三类中位实例）、高延迟的（等待最重的短程序，
+如 1.3 走查的 {kb[0]}）、以及 W5 从 host 侧选出的代表 process 所服务的调用。方法描述与
+消融设计见 1.3，本部分只看运行时差异。</p>
 <div class="block howto"><b>怎么读下面的截图</b>
 <p>缩写：素 = vLLM 关缓存/关分块；opt = vLLM 全优化 FCFS；MLFQ = 调用级多级反馈队列；
 core = 程序级（Agentix）。红段 = 等待；<span style="background:{REQUEUE}">浅红底</span> =
@@ -564,7 +642,7 @@ bfcl/sharegpt 块移到 lats 块（长程序买单，{e_pi['mean']:.2f}×/p99 {e
 &gt;40 s 取四臂调用活动最密的 30 s；窗口起止标在块头。<br><b>轴注：</b>块头方括号内为
 从各自运行起点起算的墙钟秒；块内四行共用该窗口与比例尺；行内每条横条 = 一个 call。</p>
 
-<h2>二、高延迟 Process 时间线 —— 最高时长调用堆的四臂迁移</h2>
+<h2>第三部分 高延迟 process 的时间线放大 —— 潜在优化点</h2>
 {PF2}
 <div class="block howto"><b>怎么读下面的截图</b>
 <p>缩写：堆/pile = 时长相近的调用簇（对数时长 Lloyd 聚类取最高簇）；粗深线 = bfcl/sharegpt
@@ -581,7 +659,7 @@ bfcl/sharegpt 块移到 lats 块（长程序买单，{e_pi['mean']:.2f}×/p99 {e
 {" / ".join(f"{lab.split('（')[0]} {step_sums[k]:.0f} s" for k, lab, *_ in ARMS)}——
 step 宇宙不随策略变形，与预备节执行不变性的三条验证互为印证。</p>
 
-<h2>三、并发分析时间线 —— 四臂顶着同一面资源墙</h2>
+<h2>第四部分 并发分析 —— 高延迟时段与端到端的并发及资源使用率</h2>
 {PF3}
 <div class="block howto"><b>怎么读下面的截图</b>
 <p>缩写：gemm = 批内线性层 kernel 家族；在飞 = 已提交未完成 call 数；cap=16 = 引擎批容量；
@@ -591,14 +669,24 @@ L2/SM(tensor)/DRAM = NCU 对 gemm 家族重放的中位利用率（在 opt/core 
 <p class="theme"><b>运行时效果（图证）：</b>四臂 busy/gemm 两条 lane 同形、在飞 lane 都贴着
 cap=16 红线——资源使用率与并发两个自由度都被排除；显微图四臂 gemm 突发同样致密
 （busy {" / ".join(f"{v['busy_pct']:.0f}%" for v in micro_stats.values())}），
-突发间都是 step 间 host 空隙。剩下的唯一解释是出队顺序——这就是第四章端点差距的机理。</p>
+突发间都是 step 间 host 空隙。剩下的唯一解释是出队顺序——这就是附录端点差距的机理。</p>
+<h3>4.1 端到端过程中的并发（全程趋势）</h3>
+{fig3full}
+<p class="cap"><b>图注：</b>四臂全程（0 – {wall_ms/1e3:.0f} s）的三条 lane。到达窗（前 60 s）
+内四臂都把在飞数推到 cap 之上；差异在排空段的长短——素臂尾巴最长（等待把完成推后），
+core 的 lats 排空尾略长于 opt（长程序被压后的代价，与附录 makespan 守恒表相符）。</p>
+<h3>4.2 高延迟时段内的并发（细节窗）</h3>
 {fig3}
-<p class="cap"><b>图注：</b>取 opt 臂在飞超 cap 时间最长的 30 s 窗，展示其中部 5 s 的细节（每根竖条 ≈ 100 ms 的一个采样窗口，可逐根对比，不是趋势线）；四臂同相对窗同比例尺。</p>
+<p class="cap"><b>图注：</b>取 opt 臂在飞超 cap 时间最长的 30 s 窗（高延迟 process 最密的
+时段），展示其中部 5 s 的细节（每根竖条 ≈ 100 ms 的一个采样窗口，可逐根对比，不是趋势线）；
+四臂同相对窗同比例尺。</p>
+<h3>4.3 最忙 300 ms 显微与资源墙</h3>
 {fig3b}
 <p class="cap"><b>图注：</b>每臂取窗内最忙 300 ms；黄行 = gemm 家族、蓝行 = 其它 kernel，
 右侧竖条 = NCU 资源墙（opt/core 实测值）。</p>
 
-{a.fourarm.read_text()}
+{a.fourarm.read_text().replace("<h2>四、论文四臂复现 —— vLLM / vLLM-opt / MLFQ / Agentix 全基线对照</h2>",
+                               "<h2>附：端点全景 —— 论文口径的四臂复现（vLLM / vLLM-opt / MLFQ / Agentix）</h2>")}
 
 <h2>记账</h2>
 <p class="theme">窗口与选材标准全部在 R10_SUMMARY_AUDIT.json；A00 守恒门（程序/调用/引擎步/
