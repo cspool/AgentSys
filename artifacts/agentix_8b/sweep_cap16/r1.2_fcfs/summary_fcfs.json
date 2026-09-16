@@ -1,0 +1,56 @@
+{
+  "engine": {
+    "dtype": "bfloat16",
+    "enforce_eager": false,
+    "gpu_memory_utilization": 0.9,
+    "max_model_len": 4096,
+    "model": "/data3/docker_model/AgentSys/Llama-3.1-8B",
+    "scheduling_policy": "fcfs"
+  },
+  "environment": {
+    "cuda_visible_devices": "1",
+    "host": "ubuntu",
+    "python": "3.12.13",
+    "w_instrument": null
+  },
+  "goal": "Agentix-8B single-GPU reproduction",
+  "observed": {
+    "call_latency_ms": {
+      "mean": 6679.964083759971,
+      "p90": 10990.334148,
+      "p99": 12986.175852
+    },
+    "generated_tokens": 312310,
+    "llm_calls": 4112,
+    "program_response_time_ms": {
+      "mean": 165288.92182355103,
+      "p50": 171314.041263,
+      "p90": 320796.038366,
+      "p99": 382022.98732
+    },
+    "program_token_latency_ms": {
+      "mean": 78.65485400299012,
+      "p90": 243.47893815254238,
+      "p99": 359.4846584806202
+    },
+    "programs": 49,
+    "throughput_programs_per_s": 0.10574637029952134,
+    "throughput_tokens_per_s": 673.9928348621125,
+    "wall_s": 463.372878532
+  },
+  "pass": true,
+  "policy": "fcfs",
+  "schema_version": 1,
+  "timing_ns": {
+    "ended": 111773565793159,
+    "started": 111310192914627,
+    "t0": 111310192141731
+  },
+  "workload": {
+    "arrival_rate": 1.2,
+    "class": "mixed",
+    "path": "experiments/h23-agentix-8b/workloads/sweep_mixed_r1.2.json",
+    "seed": 20260913,
+    "sha256": "736d8cc15c3a3d9e15ce4056f6464c1a2dbcafb4c87feb71ad748e9f399df747"
+  }
+}

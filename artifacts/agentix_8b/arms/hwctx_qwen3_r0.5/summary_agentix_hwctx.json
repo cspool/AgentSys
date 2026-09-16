@@ -1,0 +1,20 @@
+{
+  "policy": "agentix_hwctx",
+  "mechanism": "hardware context-switch preemption (two CUDA contexts, GPU timeslices between them); MLFQ queue -> context",
+  "observed": {
+    "programs": 21,
+    "llm_calls": 1863,
+    "wall_s": 224.210783682,
+    "program_token_latency_ms": {
+      "mean": 12.357634543877964,
+      "p90": 18.270728028048786,
+      "p99": 19.09831876572668
+    },
+    "throughput_tokens_per_s": 601.6213751400807,
+    "calls_hi": 227,
+    "calls_lo": 1636
+  },
+  "workload": {
+    "path": "experiments/h23-agentix-8b/workloads/sweep_mixed_r0.5.json"
+  }
+}

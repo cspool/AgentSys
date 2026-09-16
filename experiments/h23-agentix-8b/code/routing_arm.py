@@ -29,7 +29,7 @@ import time
 from pathlib import Path
 
 
-def engine_proc(role: str, model_dir: str, gpu_util: float, max_num_seqs: int,
+def engine_proc(role: str, model_dir: str, gpu_util: float, max_num_seqs: int, max_model_len: int,
                 req_q: mp.Queue, res_q: mp.Queue, ready, device: str):
     os.environ["CUDA_VISIBLE_DEVICES"] = device
     os.environ.setdefault("VLLM_USE_V2_MODEL_RUNNER", "0")
@@ -39,7 +39,7 @@ def engine_proc(role: str, model_dir: str, gpu_util: float, max_num_seqs: int,
 
     args = AsyncEngineArgs(
         model=model_dir, dtype="bfloat16", gpu_memory_utilization=gpu_util,
-        max_model_len=4096, enforce_eager=False, disable_log_stats=False,
+        max_model_len=max_model_len, enforce_eager=False, disable_log_stats=False,
         max_num_seqs=max_num_seqs, seed=0)
     engine = AsyncLLM.from_engine_args(args)
 
@@ -89,9 +89,10 @@ def main() -> int:
     ap.add_argument("--routing", choices=["sticky", "rr"], required=True)
     ap.add_argument("--engines", type=int, default=2)
     ap.add_argument("--device", default="0")
-    ap.add_argument("--gpu-util", type=float, default=0.40)
+    ap.add_argument("--gpu-util", type=float, default=0.46)
+    ap.add_argument("--max-model-len", type=int, default=3072)
     ap.add_argument("--max-num-seqs", type=int, default=16)
-    ap.add_argument("--ctx-cap", type=int, default=3400)
+    ap.add_argument("--ctx-cap", type=int, default=2800)
     ap.add_argument("--output-dir", type=Path, required=True)
     a = ap.parse_args()
     a.output_dir.mkdir(parents=True, exist_ok=True)
@@ -117,7 +118,7 @@ def main() -> int:
     procs = []
     for i, (rq, ev) in enumerate(qs):
         pr = ctx.Process(target=engine_proc,
-                         args=(f"e{i}", a.model_dir, a.gpu_util, a.max_num_seqs,
+                         args=(f"e{i}", a.model_dir, a.gpu_util, a.max_num_seqs, a.max_model_len,
                                rq, res_q, ev, a.device), daemon=False)
         pr.start()
         procs.append(pr)

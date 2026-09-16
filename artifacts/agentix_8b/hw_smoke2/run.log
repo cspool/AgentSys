@@ -1,0 +1,111 @@
+[engine_hw] hardware-arbitrated preemption installed (streams created lazily in the engine process); decode->hi, prefill->lo
+[engine_mlfq] native preemption installed: quanta=[32, 64, 128, 256] beta=2.0
+INFO 09-15 15:42:43 [model.py:684] Resolved architecture: LlamaForCausalLM
+INFO 09-15 15:42:43 [model.py:2021] Using max model len 4096
+INFO 09-15 15:42:43 [scheduler.py:277] Chunked prefill is enabled with max_num_batched_tokens=2048.
+INFO 09-15 15:42:43 [kernel.py:369] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'])
+(EngineCore pid=1324258) INFO 09-15 15:42:46 [core.py:123] Initializing a V1 LLM engine (v0.29.0) with config: model='/data3/docker_model/AgentSys/Llama-3.1-8B', speculative_config=None, tokenizer='/data3/docker_model/AgentSys/Llama-3.1-8B', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=4096, download_dir=None, load_format=auto, tensor_parallel_size=1, pipeline_parallel_size=1, data_parallel_size=1, decode_context_parallel_size=1, dcp_comm_backend=ag_rs, disable_custom_all_reduce=False, quantization=None, quantization_config=None, enforce_eager=False, enable_return_routed_experts=False, kv_cache_dtype=auto, device_config=cuda, structured_outputs_config=StructuredOutputsConfig(backend='auto', disable_any_whitespace=False, disable_additional_properties=False, reasoning_parser='', reasoning_parser_plugin='', enable_in_reasoning=False), observability_config=ObservabilityConfig(show_hidden_metrics_for_version=None, otlp_traces_endpoint=None, collect_detailed_traces=None, per_request_spec_decode_metrics='none', kv_cache_metrics=False, kv_cache_metrics_sample=0.01, cudagraph_metrics=False, enable_layerwise_nvtx_tracing=False, enable_mfu_metrics=False, enable_mm_processor_stats=False, enable_logging_iteration_details=False, jit_monitor_mode='warn', jit_monitor_verbose=False), seed=0, served_model_name=/data3/docker_model/AgentSys/Llama-3.1-8B, enable_prefix_caching=True, enable_chunked_prefill=True, pooler_config=None, compilation_config={'mode': <CompilationMode.VLLM_COMPILE: 3>, 'debug_dump_path': None, 'cache_dir': '', 'compile_cache_save_format': 'binary', 'backend': 'inductor', 'custom_ops': ['none'], 'ir_enable_torch_wrap': True, 'splitting_ops': ['vllm::unified_attention_with_output', 'vllm::unified_mla_attention_with_output', 'vllm::mamba_mixer2', 'vllm::mamba_mixer', 'vllm::short_conv', 'vllm::qwen4_exp_compute_ple_ngram_ids', 'vllm::qwen4_exp_ple_short_conv', 'vllm::qwen4_exp_qsa_with_output', 'vllm::linear_attention', 'vllm::qwen_gdn_attention_core', 'vllm::qwen_gdn_attention_core_fused_norm_packed', 'vllm::gdn_attention_core_xpu', 'vllm::olmo_hybrid_gdn_full_forward', 'vllm::sparse_attn_indexer', 'vllm::rocm_aiter_sparse_attn_indexer', 'vllm::deepseek_v4_attention', 'vllm::hpc_rope_norm_forward', 'vllm::unified_kv_cache_update', 'vllm::unified_mla_kv_cache_update'], 'compile_mm_encoder': False, 'cudagraph_mm_encoder': False, 'encoder_cudagraph_token_budgets': [], 'encoder_cudagraph_max_vision_items_per_batch': 0, 'encoder_cudagraph_max_frames_per_batch': None, 'compile_sizes': [], 'compile_ranges_endpoints': [2048], 'inductor_compile_config': {'enable_auto_functionalized_v2': False, 'combo_kernels': True, 'benchmark_combo_kernel': True}, 'inductor_passes': {}, 'cudagraph_mode': <CUDAGraphMode.NONE: 0>, 'cudagraph_num_of_warmups': 1, 'cudagraph_capture_sizes': [], 'cudagraph_copy_inputs': False, 'cudagraph_specialize_lora': True, 'use_inductor_graph_partition': False, 'pass_config': {'fuse_norm_quant': False, 'fuse_act_quant': False, 'fuse_attn_quant': False, 'enable_sp': False, 'fuse_gemm_comms': False, 'fuse_allreduce_rms': False, 'enable_qk_norm_rope_fusion': False, 'fuse_rope_kvcache_cat_mla': False, 'fuse_act_padding': False, 'fuse_qk_norm_rope_kvcache': False}, 'max_cudagraph_capture_size': 0, 'dynamic_shapes_config': {'type': <DynamicShapesType.BACKED: 'backed'>, 'evaluate_guards': False, 'assume_32_bit_indexing': False}, 'local_cache_dir': None, 'fast_moe_cold_start': False, 'static_all_moe_layers': []}, kernel_config=KernelConfig(ir_op_priority=IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native']), enable_flashinfer_autotune=True, enable_cutedsl_warmup=True, enable_jit_warmup=True, enable_bf16x3_router_gemm=False, moe_backend='auto', linear_backend='auto')
+(EngineCore pid=1324258) INFO 09-15 15:42:46 [parallel_state.py:1775] world_size=1 rank=0 local_rank=0 distributed_init_method=file:///tmp/vllm_dist_ab55a206cd0640fe9f7bcd99efa82569 backend=nccl
+(EngineCore pid=1324258) INFO 09-15 15:42:46 [parallel_state.py:2119] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, PCP rank 0, TP rank 0, EP rank N/A, EPLB rank N/A
+(EngineCore pid=1324258) INFO 09-15 15:42:46 [gpu_worker.py:429] Using V2 Model Runner
+(EngineCore pid=1324258) INFO 09-15 15:42:47 [model_runner.py:382] Loading model from scratch...
+(EngineCore pid=1324258) INFO 09-15 15:42:48 [cuda.py:492] Using FLASH_ATTN attention backend out of potential backends: ['FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION'].
+(EngineCore pid=1324258) INFO 09-15 15:42:48 [flash_attn.py:897] Using FlashAttention version 2
+(EngineCore pid=1324258) INFO 09-15 15:42:48 [weight_utils.py:863] Filesystem type for checkpoints: EXT4. Checkpoint size: 14.96 GiB. Available RAM: 204.42 GiB.
+(EngineCore pid=1324258) INFO 09-15 15:42:48 [weight_utils.py:886] Auto-prefetch is disabled because the filesystem (EXT4) is not a recognized network FS (NFS/Lustre). If you want to force prefetching, start vLLM with --safetensors-load-strategy=prefetch.
+(EngineCore pid=1324258) Loading safetensors checkpoint shards:   0% Completed | 0/4 [00:00<?, ?it/s]
+(EngineCore pid=1324258) Loading safetensors checkpoint shards:  25% Completed | 1/4 [00:00<00:01,  1.51it/s]
+(EngineCore pid=1324258) Loading safetensors checkpoint shards:  50% Completed | 2/4 [00:01<00:01,  1.43it/s]
+(EngineCore pid=1324258) Loading safetensors checkpoint shards:  75% Completed | 3/4 [00:02<00:00,  1.44it/s]
+(EngineCore pid=1324258) Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:02<00:00,  1.99it/s]
+(EngineCore pid=1324258) Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:02<00:00,  1.75it/s]
+(EngineCore pid=1324258) 
+(EngineCore pid=1324258) INFO 09-15 15:42:51 [default_loader.py:430] Loading weights took 2.30 seconds
+(EngineCore pid=1324258) INFO 09-15 15:42:51 [model_runner.py:404] Model loading took 15.0 GiB memory and 4.129194 seconds
+(EngineCore pid=1324258) INFO 09-15 15:42:51 [topk_topp_sampler.py:62] Using FlashInfer for top-p & top-k sampling.
+(EngineCore pid=1324258) INFO 09-15 15:42:51 [utils.py:306] Using LBNHC KV cache layout.
+(EngineCore pid=1324258) INFO 09-15 15:42:57 [backends.py:1094] Using cache directory: /data3/docker_cache/AgentSys/xdg-cache/vllm/torch_compile_cache/9928925d59/rank_0_0/backbone for vLLM's torch.compile
+(EngineCore pid=1324258) INFO 09-15 15:42:57 [backends.py:1155] Dynamo bytecode transform time: 5.25 s
+(EngineCore pid=1324258) INFO 09-15 15:43:00 [backends.py:393] Compiling a graph for compile range (1, 2048) takes 2.99 s
+(EngineCore pid=1324258) INFO 09-15 15:43:03 [backends.py:920] collected artifacts: 33 entries, 3 artifacts, 4901101 bytes total
+(EngineCore pid=1324258) INFO 09-15 15:43:04 [decorators.py:719] saved AOT compiled function to /data3/docker_cache/AgentSys/xdg-cache/vllm/torch_compile_cache/torch_aot_compile/1722c546b63c5e6e3e8312896e6f0ec8a54f87cc7d6c37c181a299bb4cb097e8/rank_0_0/model
+(EngineCore pid=1324258) INFO 09-15 15:43:04 [monitor.py:53] torch.compile took 11.65 s in total
+(EngineCore pid=1324258) INFO 09-15 15:43:04 [monitor.py:81] Initial profiling/warmup run took 0.13 s
+(EngineCore pid=1324258) INFO 09-15 15:43:05 [gpu_worker.py:625] Available KV cache memory: 5.04 GiB
+(EngineCore pid=1324258) INFO 09-15 15:43:05 [kv_cache_utils.py:2032] GPU KV cache size: 41,280 tokens, Maximum concurrency for 4,096 tokens per request: 10.08x
+(EngineCore pid=1324258) INFO 09-15 15:43:05 [gpu_worker.py:778] Compile and warming up model for size 2048
+(EngineCore pid=1324258) INFO 09-15 15:43:05 [kernel_warmup.py:124] JIT kernel warmup starting.
+(EngineCore pid=1324258) INFO 09-15 15:43:05 [kernel_warmup.py:134] JIT kernel warmup finished in 0.00s.
+(EngineCore pid=1324258) WARNING 09-15 15:43:05 [model_runner.py:909] Skipping encoder and decoder CUDA graph capture. To enable encoder capture, ensure `cudagraph_mm_encoder` is enabled; to enable decoder capture, ensure `cudagraph_mode` is not `NONE`.
+(EngineCore pid=1324258) INFO 09-15 15:43:05 [gpu_worker.py:860] Free memory on device (23.11/23.52 GiB) on startup. Desired GPU memory utilization is (0.9, 21.16 GiB). Actual usage is 15.12 GiB for consumed memory (weights + non-torch), 1.0 GiB for peak activation, and 0.0 GiB for CUDAGraph memory. Replace gpu_memory_utilization config with `--kv-cache-memory=5255457588` (4.89 GiB) to fit into requested memory, or `--kv-cache-memory=7349254144` (6.84 GiB) to fully utilize gpu memory. Current kv cache memory in use is 5.04 GiB.
+(EngineCore pid=1324258) INFO 09-15 15:43:06 [jit_monitor.py:85] Kernel JIT monitor activated; monitored JIT compilations during inference will use mode=warn.
+(EngineCore pid=1324258) INFO 09-15 15:43:06 [torch_utils.py:277] Reducing Torch threads from 32 to 1 for serving. Set OMP_NUM_THREADS in the external environment to override.
+(EngineCore pid=1324258) INFO 09-15 15:43:06 [core.py:361] init engine (profile, create kv cache, warmup model) took 14.93 s (compilation: 11.65 s)
+(EngineCore pid=1324258) INFO 09-15 15:43:06 [kernel.py:369] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'])
+WARNING 09-15 15:43:06 [input_processor.py:315] Passing raw prompts to InputProcessor is deprecated and will be removed in the future. You should instead pass the outputs of Renderer.render_cmpl() or Renderer.render_chat().
+(EngineCore pid=1324258) [engine_mlfq] preemptions=1 last=p00000-0-8a641cb9 Q0->Q1 spent=0
+(EngineCore pid=1324258) [engine_mlfq] preemptions=2 last=p00000-1-931b4475 Q0->Q1 spent=0
+(EngineCore pid=1324258) [engine_mlfq] preemptions=3 last=p00000-2-ab14370d Q0->Q1 spent=0
+(EngineCore pid=1324258) [engine_mlfq] preemptions=100 last=p00003-10-910528cd Q0->Q1 spent=0
+(EngineCore pid=1324258) [engine_mlfq] preemptions=200 last=p00011-9-b1730a00 Q0->Q1 spent=0
+(EngineCore pid=1324258) [engine_mlfq] preemptions=300 last=p00009-36-aa055357 Q1->Q2 spent=0
+(EngineCore pid=1324258) [engine_mlfq] steps=2000 preemptions=379 running=16
+(EngineCore pid=1324258) [engine_mlfq] preemptions=400 last=p00011-30-8636990d Q0->Q1 spent=0
+(EngineCore pid=1324258) [engine_mlfq] preemptions=500 last=p00009-59-923c564f Q0->Q1 spent=0
+(EngineCore pid=1324258) [engine_mlfq] preemptions=600 last=p00015-27-a5419aee Q1->Q2 spent=0
+(EngineCore pid=1324258) [engine_mlfq] preemptions=700 last=p00012-50-bd979732 Q0->Q1 spent=0
+(EngineCore pid=1324258) [engine_mlfq] preemptions=800 last=p00019-48-8646781b Q0->Q1 spent=0
+(EngineCore pid=1324258) [engine_mlfq] steps=4000 preemptions=850 running=15
+(EngineCore pid=1324258) [engine_mlfq] preemptions=900 last=p00010-83-a7d94d4a Q1->Q2 spent=0
+(EngineCore pid=1324258) [engine_mlfq] preemptions=1000 last=p00004-99-9d41069e Q0->Q1 spent=0
+(EngineCore pid=1324258) [engine_mlfq] preemptions=1100 last=p00019-76-8aa02bdb Q1->Q2 spent=0
+(EngineCore pid=1324258) [engine_mlfq] preemptions=1200 last=p00001-138-9077dd95 Q0->Q1 spent=0
+(EngineCore pid=1324258) [engine_mlfq] preemptions=1300 last=p00009-137-a5d7ea50 Q0->Q1 spent=0
+(EngineCore pid=1324258) [engine_mlfq] steps=6000 preemptions=1340 running=15
+(EngineCore pid=1324258) [engine_mlfq] preemptions=1400 last=p00015-111-b73243b9 Q0->Q1 spent=0
+(EngineCore pid=1324258) [engine_mlfq] preemptions=1500 last=p00009-162-967e01d1 Q0->Q1 spent=0
+(EngineCore pid=1324258) [engine_mlfq] preemptions=1600 last=p00011-157-928694ee Q0->Q1 spent=0
+(EngineCore pid=1324258) [engine_mlfq] preemptions=1700 last=p00004-185-b471b4e9 Q0->Q1 spent=0
+(EngineCore pid=1324258) [engine_mlfq] steps=8000 preemptions=1790 running=13
+(EngineCore pid=1324258) [engine_mlfq] preemptions=1800 last=p00004-202-b3cc0806 Q1->Q2 spent=0
+(EngineCore pid=1324258) [engine_mlfq] preemptions=1900 last=p00019-187-9ac075de Q1->Q2 spent=0
+(EngineCore pid=1324258) [engine_mlfq] preemptions=2000 last=p00009-266-bd6f2e9b Q0->Q1 spent=0
+(EngineCore pid=1324258) [engine_mlfq] steps=10000 preemptions=2014 running=2
+{
+  "policy": "agentix_hw",
+  "observed": {
+    "programs": 21,
+    "llm_calls": 1863,
+    "generated_tokens": 134890,
+    "wall_s": 222.331342124,
+    "throughput_programs_per_s": 0.09445361953641133,
+    "throughput_tokens_per_s": 606.7070828222155,
+    "program_response_time_ms": {
+      "mean": 69285.75695980953,
+      "p50": 48900.305854000006,
+      "p90": 144313.500335,
+      "p99": 160771.38579700002
+    },
+    "program_token_latency_ms": {
+      "mean": 24.04206353927829,
+      "p90": 40.95335341707317,
+      "p99": 41.30942817968753
+    },
+    "call_latency_ms": {
+      "mean": 2079.0725485861512,
+      "p90": 3487.270804,
+      "p99": 6803.221034
+    }
+  },
+  "pass": true
+}
+INFO 09-15 15:46:49 [core_client.py:689] [shutdown] MPClient: start timeout=default
+INFO 09-15 15:46:49 [core_client.py:691] [shutdown] MPClient: stopping engine manager
+INFO 09-15 15:46:49 [utils.py:620] [shutdown] Process manager: send sigterm to process EngineCore
+(EngineCore pid=1324258) INFO 09-15 15:46:49 [core.py:1350] [shutdown] EngineCore: trigger received signal=SIGTERM
+(EngineCore pid=1324258) INFO 09-15 15:46:49 [core.py:1501] [shutdown] EngineCore: start mode=abort timeout=0s
+(EngineCore pid=1324258) INFO 09-15 15:46:49 [core.py:1532] [shutdown] EngineCore: request processing complete; starting resource teardown
+(EngineCore pid=1324258) INFO 09-15 15:46:49 [core.py:1363] [shutdown] EngineCore: exiting busy loop
+INFO 09-15 15:46:50 [core_client.py:693] [shutdown] MPClient: engine manager stopped
+INFO 09-15 15:46:50 [core_client.py:694] [shutdown] MPClient: cleaning up background resources
+INFO 09-15 15:46:50 [core_client.py:696] [shutdown] MPClient: complete

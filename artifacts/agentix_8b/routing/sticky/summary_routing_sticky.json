@@ -1,0 +1,23 @@
+{
+  "policy": "routing_sticky",
+  "engines": 2,
+  "observed": {
+    "programs": 25,
+    "llm_calls": 2440,
+    "wall_s": 381.479969557,
+    "program_token_latency_ms": {
+      "mean": 18.202628517179402,
+      "p90": 22.678994801065162,
+      "p99": 25.76350262890626
+    },
+    "ttft_ms": {
+      "mean": 98.0709685127049,
+      "p50": 52.708760999987135,
+      "p90": 224.72423600000184
+    },
+    "throughput_tokens_per_s": 466.9996178485618
+  },
+  "workload": {
+    "path": "experiments/h23-agentix-8b/workloads/thr_mixed_r0.5.json"
+  }
+}

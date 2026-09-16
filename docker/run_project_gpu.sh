@@ -1076,8 +1076,24 @@ PAPER_MCP_PY
     fix_host_shared_permissions_once
     select_cuda_runtime "${CUDA_DEFAULT}"
     mkdir -p "${XDG_CACHE_HOME}" "${NPM_CONFIG_PREFIX}"
+    # tmux: 让容器内的长会话脱离 VS Code / docker exec 客户端存活,
+    # 宿主机切到 CLI 模式(systemctl isolate multi-user.target)后仍可
+    #   docker exec -it <container> tmux new-session -A -s work  接回。
+    ensure_tmux() {
+      command -v tmux >/dev/null 2>&1 && return 0
+      [ "$(id -u)" = "0" ] || return 1
+      command -v apt-get >/dev/null 2>&1 || return 1
+      echo "Installing tmux (detached container sessions)..."
+      export DEBIAN_FRONTEND=noninteractive
+      apt-get update -qq >/dev/null 2>&1 || true
+      apt-get install -y --no-install-recommends tmux >/dev/null 2>&1 || return 1
+      hash -r
+      return 0
+    }
+
     ensure_npm_cli @openai/codex@latest codex
     ensure_npm_cli @anthropic-ai/claude-code@latest claude
+    ensure_tmux
     ensure_paper_analysis_mcp
     ensure_claude_statusline
     fix_host_shared_permissions_once
