@@ -713,6 +713,26 @@ def main():
     ):
         life_html = life_html.replace(_old, _new)
     sig_m = chunk_sig.get("mlfq", (0, 0, 0))
+    # probe-v2 direct state-interval validation (dedicated REQTRACE reruns)
+    tbl_direct = ""
+    _si = {}
+    for _arm, _lbl in (("llama_core_req16", "core"), ("mlfq_call_req16", "MLFQ")):
+        _f = AT / _arm / "STATE_INTERVALS.json"
+        if _f.exists():
+            _si[_lbl] = json.loads(_f.read_text())["class_means_ms"]
+    if _si:
+        tbl_direct = ('<table><tr><th>直测（探针 v2 专采）：exec / wait / 抢占-恢复次数</th>'
+                      '<th>bfcl</th><th>sharegpt</th><th>lats</th></tr>' + "".join(
+            f"<tr><td>{lbl}</td>" + "".join(
+                f"<td>{d[c]['exec']:.0f} / {d[c]['wait']:.0f} / {d[c]['ep']:.1f}</td>"
+                for c in ("bfcl", "sharegpt", "lats")) + "</tr>"
+            for lbl, d in _si.items()) + "</table>"
+            '<p class="cap"><b>直测闭环：</b>上表来自带 AGENTIX_REQTRACE 的专采（每步 RUNNING 集'
+            '身份 → 每 call 的 RUNNING/QUEUED 区间直接重建；RUNNING 含步内 host 份额，即'
+            '"正被引擎服务"）。同类均值与 floor 代理一致到 5–15 %（另含跑间方差）——A2 的测量'
+            '边界就此闭合；直测独有的第三个数是<b>抢占-恢复次数</b>：core 对 lats 为 0（压后即'
+            '不再打断）、对 sharegpt 1.7；MLFQ 对 sharegpt 2.7 次且 wait 直测 13.3 s——'
+            'quantum 反复切长 decode 的机制代价由状态机直读。</p>')
     tri_def = f"""
 <div class="block howto"><b>时间量的统一定义（A 全文共用）与这张表的读法</b>
 <p>每个 call 的端到端拆成两部分：<b>Execution（执行底）</b>= 该 call 在四臂中的最小驻留
@@ -1190,26 +1210,6 @@ mean {e_pi['mean']:.2f}× / p99 {e_pi['p99']:.2f}×。下方状态机原图即�
     prep_core_s = W2[BK]["prepare_inputs_api_split"]["window_union_ns"] / 1e9
 
 
-    # probe-v2 direct state-interval validation (dedicated REQTRACE reruns)
-    tbl_direct = ""
-    _si = {}
-    for _arm, _lbl in (("llama_core_req16", "core"), ("mlfq_call_req16", "MLFQ")):
-        _f = AT / _arm / "STATE_INTERVALS.json"
-        if _f.exists():
-            _si[_lbl] = json.loads(_f.read_text())["class_means_ms"]
-    if _si:
-        tbl_direct = ('<table><tr><th>直测（探针 v2 专采）：exec / wait / 抢占-恢复次数</th>'
-                      '<th>bfcl</th><th>sharegpt</th><th>lats</th></tr>' + "".join(
-            f"<tr><td>{lbl}</td>" + "".join(
-                f"<td>{d[c]['exec']:.0f} / {d[c]['wait']:.0f} / {d[c]['ep']:.1f}</td>"
-                for c in ("bfcl", "sharegpt", "lats")) + "</tr>"
-            for lbl, d in _si.items()) + "</table>"
-            '<p class="cap"><b>直测闭环：</b>上表来自带 AGENTIX_REQTRACE 的专采（每步 RUNNING 集'
-            '身份 → 每 call 的 RUNNING/QUEUED 区间直接重建；RUNNING 含步内 host 份额，即'
-            '"正被引擎服务"）。同类均值与 floor 代理一致到 5–15 %（另含跑间方差）——A2 的测量'
-            '边界就此闭合；直测独有的第三个数是<b>抢占-恢复次数</b>：core 对 lats 为 0（压后即'
-            '不再打断）、对 sharegpt 1.7；MLFQ 对 sharegpt 2.7 次且 wait 直测 13.3 s——'
-            'quantum 反复切长 decode 的机制代价由状态机直读。</p>')
     # =================== DOC A: 复现论文机制与学习 ==========================
     docA = f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
 <title>Agentix 机制复现与学习 · 四臂消融</title><style>
