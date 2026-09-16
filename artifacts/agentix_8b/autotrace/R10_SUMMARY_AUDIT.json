@@ -1,159 +1,55 @@
 {
-  "purpose": "excerpt-selection criteria and windows for R10_SUMMARY figures",
-  "models": {
-    "llama": {
-      "part1": {
-        "criterion": "sliding 30 s window maximizing FCFS short-class (bfcl+sharegpt) wait mass",
-        "window_s": [
-          30.0,
-          60.0
-        ],
-        "short_wait_s": {
-          "fcfs": 60.90523750600005,
-          "core": 7.460161707000025
-        }
-      },
-      "part2": {
-        "call_pile": {
-          "universe": "call durations, lloyd 5 piles, top pile shown",
-          "fcfs": {
-            "n": 553,
-            "sum_s": 2600.050689273,
-            "short_members": 23
-          },
-          "core": {
-            "n": 394,
-            "sum_s": 2145.873447726,
-            "short_members": 21
-          }
-        },
-        "fwd_pile_window": {
-          "criterion": "densest section of FCFS rank-1 forward pile",
-          "section": 2
-        }
-      },
-      "part3": {
-        "lanes_window": {
-          "criterion": "30 s window with max FCFS time-at-cap",
-          "window_s": [
-            55.0,
-            85.0
-          ]
-        },
-        "microscope": {
-          "criterion": "busiest 300 ms (max kernel busy) inside the lanes window, per side",
-          "busy_pct": {
-            "fcfs": 17.63209833333333,
-            "core": 17.765456333333333
-          },
-          "gemm_pct": {
-            "fcfs": 11.094677666666666,
-            "core": 11.125321333333334
-          }
-        }
+  "purpose": "R10 four-arm edition window/selection criteria",
+  "windows": {
+    "part1": {
+      "criterion": "sliding 30 s window maximizing vLLM\u7d20 short-class wait mass",
+      "window_s": [
+        25.0,
+        55.0
+      ],
+      "short_wait_s": {
+        "plain": 97.52193691099998,
+        "opt": 58.79210948100004,
+        "mlfq": 6.106890882000011,
+        "core": 8.880537844000031
       }
     },
-    "qwen3": {
-      "part1": {
-        "criterion": "sliding 30 s window maximizing FCFS short-class (bfcl+sharegpt) wait mass",
-        "window_s": [
-          30.0,
-          60.0
-        ],
-        "short_wait_s": {
-          "fcfs": 4.89914072299999,
-          "core": 1.9899323150000272
-        }
-      },
-      "part2": {
-        "call_pile": {
-          "universe": "call durations, lloyd 5 piles, top pile shown",
-          "fcfs": {
-            "n": 251,
-            "sum_s": 299.766800284,
-            "short_members": 23
-          },
-          "core": {
-            "n": 220,
-            "sum_s": 296.441990417,
-            "short_members": 21
-          }
-        },
-        "fwd_pile_window": {
-          "criterion": "densest section of FCFS rank-1 forward pile",
-          "section": 4
-        }
-      },
-      "part3": {
-        "lanes_window": {
-          "criterion": "30 s window with max FCFS time-at-cap",
-          "window_s": [
-            45.0,
-            75.0
-          ]
-        },
-        "microscope": {
-          "criterion": "busiest 300 ms (max kernel busy) inside the lanes window, per side",
-          "busy_pct": {
-            "fcfs": 19.43173133333333,
-            "core": 21.315612333333334
-          },
-          "gemm_pct": {
-            "fcfs": 10.836565666666667,
-            "core": 12.144614666666667
-          }
-        }
-      }
+    "part2": {
+      "criterion": "densest 60 s of vLLM\u7d20 top call pile",
+      "window_s": [
+        65.0,
+        125.0
+      ]
     },
-    "qwenvl": {
-      "part1": {
-        "criterion": "sliding 30 s window maximizing FCFS short-class (bfcl+sharegpt) wait mass",
-        "window_s": [
-          35.0,
-          65.0
-        ],
-        "short_wait_s": {
-          "fcfs": 21.723202165000004,
-          "core": 2.325160459000006
-        }
-      },
-      "part2": {
-        "call_pile": {
-          "universe": "call durations, lloyd 5 piles, top pile shown",
-          "fcfs": {
-            "n": 395,
-            "sum_s": 795.283267471,
-            "short_members": 22
-          },
-          "core": {
-            "n": 432,
-            "sum_s": 931.909293734,
-            "short_members": 20
-          }
+    "part2b": {
+      "criterion": "densest section of opt rank-1 forward pile",
+      "section": 2
+    },
+    "part3": {
+      "criterion": "30 s window with max opt time-above-cap16",
+      "window_s": [
+        140.0,
+        170.0
+      ]
+    },
+    "part3_micro": {
+      "criterion": "busiest 300 ms (max kernel busy) inside part3 window, per arm",
+      "stats": {
+        "plain": {
+          "busy_pct": 95.110874,
+          "gemm_pct": 85.28160966666667
         },
-        "fwd_pile_window": {
-          "criterion": "densest section of FCFS rank-1 forward pile",
-          "section": 3
-        }
-      },
-      "part3": {
-        "lanes_window": {
-          "criterion": "30 s window with max FCFS time-at-cap",
-          "window_s": [
-            45.0,
-            75.0
-          ]
+        "opt": {
+          "busy_pct": 20.15201,
+          "gemm_pct": 15.203965666666667
         },
-        "microscope": {
-          "criterion": "busiest 300 ms (max kernel busy) inside the lanes window, per side",
-          "busy_pct": {
-            "fcfs": 16.485220333333334,
-            "core": 17.26169433333333
-          },
-          "gemm_pct": {
-            "fcfs": 10.826478666666667,
-            "core": 11.025421
-          }
+        "mlfq": {
+          "busy_pct": 26.05560766666667,
+          "gemm_pct": 16.249527333333333
+        },
+        "core": {
+          "busy_pct": 21.465957333333332,
+          "gemm_pct": 16.963890666666668
         }
       }
     }

@@ -1,0 +1,280 @@
+{
+  "model": "llama",
+  "source_sqlite": "artifacts/agentix_8b/autotrace/llama_fcfs_cap16/cap.sqlite",
+  "layers": {
+    "host": {
+      "denominator_ns": 214551395855,
+      "denominator_note": "UNION(engine step intervals) - UNION(model-forward intervals); union, not sum, because NVTX ranges nest",
+      "step_union_ns": 267750988358,
+      "forward_union_ns": 53199592503,
+      "selected": [
+        {
+          "process": "w.engine: process_outputs",
+          "count": 14774,
+          "sum_ns": 7513266808,
+          "share_of_host": 0.03501849418438499
+        },
+        {
+          "process": "gpu_model_runner: postprocess",
+          "count": 14774,
+          "sum_ns": 6809459713,
+          "share_of_host": 0.03173812822733639
+        },
+        {
+          "process": "gpu_model_runner: AsyncGPUModelRunnerOutput",
+          "count": 14774,
+          "sum_ns": 5656111996,
+          "share_of_host": 0.026362503834850663
+        },
+        {
+          "process": "w.prep: attn_metadata",
+          "count": 14788,
+          "sum_ns": 5334652270,
+          "share_of_host": 0.02486421609489463
+        },
+        {
+          "process": "w.sched: update_from_output",
+          "count": 14804,
+          "sum_ns": 4896261403,
+          "share_of_host": 0.02282092541737195
+        },
+        {
+          "process": "gpu_model_runner: sample",
+          "count": 14774,
+          "sum_ns": 4778657741,
+          "share_of_host": 0.022272787934829164
+        },
+        {
+          "process": "w.prep: input_ids",
+          "count": 14774,
+          "sum_ns": 4531103403,
+          "share_of_host": 0.02111896492187005
+        },
+        {
+          "process": "schedule: allocate_slots",
+          "count": 176327,
+          "sum_ns": 3978708996,
+          "share_of_host": 0.018544316526791213
+        },
+        {
+          "process": "gpu_model_runner: bookkeep",
+          "count": 14774,
+          "sum_ns": 2702203373,
+          "share_of_host": 0.012594666943235487
+        },
+        {
+          "process": "w.run: update_states",
+          "count": 14804,
+          "sum_ns": 2596721917,
+          "share_of_host": 0.012103029703684329
+        },
+        {
+          "process": "w.run: dummy_run",
+          "count": 34,
+          "sum_ns": 2552448837,
+          "share_of_host": 0.011896677841821258
+        },
+        {
+          "process": "w.prep: cumsum_arange",
+          "count": 14788,
+          "sum_ns": 1015011981,
+          "share_of_host": 0.004730857037564902
+        },
+        {
+          "process": "schedule: make_cached_request_data",
+          "count": 14804,
+          "sum_ns": 703938022,
+          "share_of_host": 0.003280976193115712
+        },
+        {
+          "process": "schedule: update_after_schedule",
+          "count": 14804,
+          "sum_ns": 553714659,
+          "share_of_host": 0.002580801941620628
+        },
+        {
+          "process": "w.prep: prev_positions",
+          "count": 14774,
+          "sum_ns": 322100146,
+          "share_of_host": 0.0015012726657704176
+        },
+        {
+          "process": "w.kv: get_computed_blocks",
+          "count": 2441,
+          "sum_ns": 301789752,
+          "share_of_host": 0.0014066081965924762
+        },
+        {
+          "process": "gpu_model_runner: ModelRunnerOutput",
+          "count": 14774,
+          "sum_ns": 171979269,
+          "share_of_host": 0.0008015760900303279
+        },
+        {
+          "process": "schedule: get_num_common_prefix_blocks",
+          "count": 14804,
+          "sum_ns": 131077810,
+          "share_of_host": 0.0006109389756130328
+        },
+        {
+          "process": "w.run: update_states_after_exec",
+          "count": 14774,
+          "sum_ns": 78599070,
+          "share_of_host": 0.0003663414525306538
+        },
+        {
+          "process": "gpu_model_runner: set_async_sampled_token_ids",
+          "count": 14774,
+          "sum_ns": 57913512,
+          "share_of_host": 0.00026992838601310994
+        },
+        {
+          "process": "gpu_model_runner: eplb",
+          "count": 14774,
+          "sum_ns": 51231168,
+          "share_of_host": 0.00023878272987151058
+        },
+        {
+          "process": "w.engine: async_add_request",
+          "count": 2441,
+          "sum_ns": 25883149,
+          "share_of_host": 0.0001206384554006471
+        },
+        {
+          "process": "w.sched: add_request",
+          "count": 2441,
+          "sum_ns": 23097906,
+          "share_of_host": 0.00010765675006659117
+        }
+      ],
+      "covered_share": 0.2553510905052601,
+      "cover_target": 0.9,
+      "containers_excluded": [
+        "gpu_model_runner: preprocess",
+        "w.engine: process_engine_step",
+        "w.run: prepare_inputs",
+        "w.sched: schedule_total"
+      ],
+      "container_totals": {
+        "gpu_model_runner: preprocess": {
+          "count": 14804,
+          "sum_ns": 50837485029
+        },
+        "w.engine: process_engine_step": {
+          "count": 14820,
+          "sum_ns": 267750988358
+        },
+        "w.sched: schedule_total": {
+          "count": 14804,
+          "sum_ns": 9704622558
+        },
+        "w.run: prepare_inputs": {
+          "count": 14774,
+          "sum_ns": 35412223093
+        }
+      }
+    },
+    "device": {
+      "process": "gpu_model_runner: forward",
+      "sum_ns": 53199592503,
+      "note": "already covered by the perf_trace chain"
+    },
+    "request": {
+      "call_begin_marks": 2440,
+      "call_end_marks": 2440
+    },
+    "mechanism": {
+      "chunk_begin": 0,
+      "chunk_end": 0,
+      "demote": 0,
+      "promote": 0
+    }
+  },
+  "container_account": {
+    "w.engine: process_engine_step": {
+      "total_ns": 267750988358,
+      "attributed_share": 0.5194324181057483,
+      "interior_unnamed_ns": 128672445025,
+      "interior_gpu_running_ns": 13846650931,
+      "interior_host_idle_ns": 114825794094
+    },
+    "gpu_model_runner: preprocess": {
+      "total_ns": 50837485029,
+      "attributed_share": 0.8525414525969626,
+      "interior_unnamed_ns": 7496421696,
+      "interior_gpu_running_ns": 115911295,
+      "interior_host_idle_ns": 7380510401
+    },
+    "w.run: prepare_inputs": {
+      "total_ns": 35412223093,
+      "attributed_share": 0.1656927854427713,
+      "interior_unnamed_ns": 29544673210,
+      "interior_gpu_running_ns": 602746229,
+      "interior_host_idle_ns": 28941926981
+    },
+    "w.sched: schedule_total": {
+      "total_ns": 9704622558,
+      "attributed_share": 0.5841782310561449,
+      "interior_unnamed_ns": 4035393319,
+      "interior_gpu_running_ns": 89950279,
+      "interior_host_idle_ns": 3945443040
+    }
+  },
+  "dominant_idle_boundaries": [
+    {
+      "boundary": "gpu_model_runner: set_async_sampled_token_ids -> w.sched: update_from_output",
+      "sum_ns": 111839830031,
+      "count": 13925,
+      "mean_ms": 8.031585639569121
+    },
+    {
+      "boundary": "w.engine: async_add_request -> w.sched: update_from_output",
+      "sum_ns": 4169891656,
+      "count": 767,
+      "mean_ms": 5.436625366362451
+    },
+    {
+      "boundary": "gpu_model_runner: set_async_sampled_token_ids -> w.engine: async_add_request",
+      "sum_ns": 4028977994,
+      "count": 764,
+      "mean_ms": 5.2735314057591625
+    },
+    {
+      "boundary": "gpu_model_runner: postprocess -> gpu_model_runner: sample",
+      "sum_ns": 2591317676,
+      "count": 14525,
+      "mean_ms": 0.17840397080895007
+    },
+    {
+      "boundary": "w.sched: update_from_output -> w.sched: schedule_total",
+      "sum_ns": 1291244291,
+      "count": 12653,
+      "mean_ms": 0.10205044582312495
+    },
+    {
+      "boundary": "gpu_model_runner: preprocess -> gpu_model_runner: forward",
+      "sum_ns": 1046331786,
+      "count": 12745,
+      "mean_ms": 0.08209743318948606
+    }
+  ],
+  "perf_trace_gap": {
+    "host_processes_not_in_perf_trace": [
+      "w.engine: process_outputs",
+      "w.prep: attn_metadata",
+      "w.sched: update_from_output",
+      "w.prep: input_ids",
+      "w.run: update_states",
+      "w.run: dummy_run",
+      "w.prep: cumsum_arange",
+      "w.prep: prev_positions",
+      "w.kv: get_computed_blocks",
+      "w.run: update_states_after_exec",
+      "w.engine: async_add_request",
+      "w.sched: add_request"
+    ],
+    "host_share_not_covered_by_perf_trace": 0.1360556827219529,
+    "mechanism_events_not_in_perf_trace": [],
+    "verdict": "RECAPTURE_REQUIRED"
+  }
+}
