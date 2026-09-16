@@ -86,11 +86,15 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
         max_model_len=args.max_model_len,
         enforce_eager=args.enforce_eager,
         disable_log_stats=True,
-        scheduling_policy="priority" if args.policy in ("plas", "atlas", "agentix_core") else "fcfs",
+        scheduling_policy="priority" if args.policy in ("plas", "atlas", "agentix_core", "agentix_engine", "agentix_hw", "agentix_hw_gctx", "agentix_layer", "agentix_window", "agentix_hint", "agentix_victim", "mlfq_call") else "fcfs",
         max_num_seqs=args.max_num_seqs,
         enable_layerwise_nvtx_tracing=args.enable_layerwise_nvtx_tracing,
         seed=0,
     )
+    if args.disable_prefix_cache:
+        engine_kwargs["enable_prefix_caching"] = False
+    if args.disable_chunked_prefill:
+        engine_kwargs["enable_chunked_prefill"] = False
     if args.no_cudagraph:
         engine_kwargs["compilation_config"] = {"cudagraph_mode": "NONE"}
     if args.kv_cache_memory_gb is not None:
@@ -106,6 +110,33 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
         sys.path.insert(0, str(Path(__file__).parent))
         import w_instrument
         w_probes = w_instrument.install()
+    # The two preemption mechanisms are MUTUALLY EXCLUSIVE arms, so each one's
+    # own overhead is what the trace measures:
+    #   agentix_engine — software only: quantum exhaustion drives the scheduler's
+    #                    own _preempt_request (free KV blocks + priority demote).
+    #   agentix_hw     — hardware only: no software preemption at all; CTA
+    #                    dispatch arbitration via priority CUDA streams.
+    engine_hw = None
+    if args.policy in ("agentix_hw", "agentix_hw_gctx"):
+        sys.path.insert(0, str(Path(__file__).parent))
+        import engine_hw_preempt as _ehw
+        engine_hw = _ehw.install(mode="gctx" if args.policy == "agentix_hw_gctx" else "prio")
+    # Each mechanism from the KB/paper matrix is a separate arm, installed alone.
+    mech = None
+    if args.policy.startswith("agentix_") and args.policy.split("_", 1)[1] in (
+            "layer", "window", "hint", "victim"):
+        sys.path.insert(0, str(Path(__file__).parent))
+        import preempt_mechanisms as _pm
+        _pm.configure(window=args.preempt_window, hint_lead_us=args.hint_lead_us)
+        mech = _pm.install(args.policy.split("_", 1)[1])
+    engine_mlfq = None
+    if args.policy == "agentix_engine":
+        # Engine-native MLFQ: quantum exhaustion drives vLLM's own preemption
+        # path instead of the client resubmitting a continuation request.
+        sys.path.insert(0, str(Path(__file__).parent))
+        import engine_mlfq as _emlfq
+        _emlfq.configure(quanta=MLFQ_QUANTUM_TOKENS, beta=MLFQ_BETA)
+        engine_mlfq = _emlfq.install()
     engine = AsyncLLM.from_engine_args(engine_args)
     try:
         # warm-up: one short call so weight load / graph capture is not billed to a program
@@ -149,22 +180,24 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
             chunks = 0
             queue_path: list[int] = []
 
-            if args.policy == "agentix_core":
-                # Algorithm 1 (paper Fig. 10): admission queue from the program's
+            if args.policy in ("agentix_core", "mlfq_call"):
+                # Algorithm 1 (agentix_core), or the paper's program-AGNOSTIC
+                # MLFQ baseline (mlfq_call): admission always at Q0, per-call
+                # quantum demotion, no process table, no beta promotion. (paper Fig. 10): admission queue from the program's
                 # discretized priority (line 12); per-quantum demotion by one queue
                 # (lines 20-23); beta-ratio anti-starvation promoting to Q1 with
                 # W_c/T_c reset (lines 24-30); process-table update (lines 16-18).
                 state = program["_table"]
                 remaining = int(call["output_tokens"])
                 gen_ids: list[int] = []
-                q = mlfq_queue(state["attained_us"])   # admission by p(c)
+                q = 0 if args.policy == "mlfq_call" else mlfq_queue(state["attained_us"])   # admission by p(c); classic MLFQ starts at Q0
                 w_c_us = 0                             # this call's wait  (W_c)
                 t_c_us = 0                             # this call's service (T_c)
                 while remaining > 0:
                     # anti-starvation: (W_p + W_c)/(T_p + T_c) >= beta -> promote to Q1
                     w_total = state["wait_us"] + w_c_us
                     t_total = max(state["attained_us"] + t_c_us, 1)
-                    if w_total / t_total >= MLFQ_BETA and q > 0:
+                    if args.policy == "agentix_core" and w_total / t_total >= MLFQ_BETA and q > 0:
                         _nvtx_mark(f"agentix.promote::{args.mark_tag}{program['program_id']}::{call['index']}::{q}->0")
                         q = 0
                         w_c_us = 0
@@ -213,7 +246,11 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
                 async for out in engine.generate(
                     {"prompt_token_ids": filler[: int(call["prompt_tokens"])]},
                     params, request_id=rid_base,
-                    priority=priority if args.policy in ("plas", "atlas") else 0,
+                    priority=(mlfq_queue(program["_table"]["attained_us"])
+                              if args.policy in ("agentix_engine", "agentix_hw", "agentix_hw_gctx",
+                                                 "agentix_layer", "agentix_window",
+                                                 "agentix_hint", "agentix_victim", "mlfq_call")
+                              else (priority if args.policy in ("plas", "atlas") else 0)),
                 ):
                     if first_token is None:
                         first_token = time.monotonic_ns()
@@ -327,8 +364,16 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
             },
             "environment": {"host": socket.gethostname(), "python": platform.python_version(),
                             "cuda_visible_devices": os.environ.get("CUDA_VISIBLE_DEVICES", ""),
-                            "w_instrument": w_probes},
+                            "w_instrument": w_probes,
+                            "engine_mlfq": engine_mlfq,
+                            "engine_hw": engine_hw,
+                            "mechanism": mech},
             "timing_ns": {"t0": t0, "started": started, "ended": ended},
+            "engine_mlfq_ledger": (__import__("engine_mlfq").stats()
+                                   if args.policy == "agentix_engine" else None),
+            "mechanism_ledger": (__import__("preempt_mechanisms").stats() if mech else None),
+            "engine_hw_ledger": (__import__("engine_hw_preempt").stats()
+                                 if args.policy in ("agentix_hw", "agentix_hw_gctx") else None),
             "pass": len(program_rows) > 0 and len(call_rows) > 0,
         }
         (out_dir / f"summary_{args.policy}.json").write_text(json.dumps(summary, indent=2, sort_keys=True) + "\n")
@@ -343,9 +388,17 @@ def main() -> int:
     ap.add_argument("--workload", type=Path, required=True)
     ap.add_argument("--model-dir", type=Path, default=Path("/data3/docker_model/AgentSys/Llama-3.1-8B"))
     ap.add_argument("--output-dir", type=Path, required=True)
-    ap.add_argument("--policy", choices=["fcfs", "plas", "atlas", "agentix_core"], required=True)
+    ap.add_argument("--policy", choices=["fcfs", "plas", "atlas", "agentix_core", "agentix_engine", "agentix_hw", "agentix_hw_gctx", "agentix_layer", "agentix_window", "agentix_hint", "agentix_victim", "mlfq_call"], required=True)
     ap.add_argument("--gpu-memory-utilization", type=float, default=0.90)
     ap.add_argument("--max-model-len", type=int, default=4096)
+    ap.add_argument("--disable-prefix-cache", action="store_true",
+                    help="paper's vLLM arm: no prefix caching")
+    ap.add_argument("--disable-chunked-prefill", action="store_true",
+                    help="paper's vLLM arm: no chunked prefill")
+    ap.add_argument("--preempt-window", type=int, default=4,
+                    help="agentix_window: in-flight step cap N")
+    ap.add_argument("--hint-lead-us", type=int, default=300,
+                    help="agentix_hint: pre-preemption lead time")
     ap.add_argument("--max-num-seqs", type=int, default=None,
                     help="cap the resident batch to force request queueing (the regime program-level scheduling targets)")
     ap.add_argument("--enforce-eager", action="store_true")
