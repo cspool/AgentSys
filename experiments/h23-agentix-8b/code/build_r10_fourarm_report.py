@@ -995,12 +995,14 @@ mean {e_pi['mean']:.2f}× / p99 {e_pi['p99']:.2f}×。下方状态机原图即�
                            f'fill="{CLS_COLOR[cls]}" opacity="{0.95 if cls != "lats" else 0.55}"/>')
             y += rh
         return out, y + 8
-    # call set fixed by the AGENTIX arm's top-latency pile identities; the SAME
-    # calls are drawn in every arm over the SAME window — the scheduling
-    # behaviour (core packing them late) becomes directly visible.
-    core_keys = [(m["pid"], m["idx"]) for m in seg["core"]]
-    kset = set(core_keys)
-    # window: densest 60 s of the CORE pile (same rel window for all arms)
+    # A4 v3: subjects = the PROGRAMS owning core's top-latency pile; window =
+    # densest 60 s of the core pile. Each arm shows those programs' FULL call
+    # timelines (A3 drawing incl. requeue backdrop) in the SAME window.
+    _clsord = {"bfcl": 0, "sharegpt": 1, "lats": 2}
+    hl_pids_core = sorted({m["pid"] for m in seg["core"]},
+                          key=lambda pid: (_clsord.get(
+                              next(iter(idx["core"][k]["class"] for k in idx["core"]
+                                        if k[0] == pid)), 3), pid))
     win_c = int(60e9)
     best_n, aw0 = -1, 0
     for tt in range(0, int(max(m["end"] for m in seg["core"])) - win_c, int(5e9)):
@@ -1008,26 +1010,22 @@ mean {e_pi['mean']:.2f}× / p99 {e_pi['p99']:.2f}×。下方状态机原图即�
         if n > best_n:
             best_n, aw0 = n, tt
     aw1 = aw0 + win_c
-    partsA4 = axis(aw0 / 1e6, aw1 / 1e6, 60, 1800)
+    w0m, w1m = aw0 / 1e6, aw1 / 1e6
+    partsA4 = axis(w0m, w1m, 60, 2000)
     yA4 = 70
+    _hl_set = set(hl_pids_core)
     for key, label, *_ in ARMS:
-        mem = []
-        for pid, ci in kset:
-            r = idx[key].get((pid, ci))
-            if r is None:
-                continue
-            mem.append({"pid": pid, "idx": ci, "cls": r["class"],
-                        "start": int(r["submitted_rel_ms"] * 1e6),
-                        "end": int(r["finished_rel_ms"] * 1e6),
-                        "d": int((r["finished_rel_ms"] - r["submitted_rel_ms"]) * 1e6)})
-        inw = [m for m in mem if m["start"] < aw1 and m["end"] > aw0]
-        s, yA4 = hl_prog_strip(inw, yA4, f'{SHORTN[key]}（core 顶堆 call 集，窗内 {len(inw)}/{len(mem)}）',
-                               aw0, aw1)
-        yA4 += 8
-        partsA4 += s
-    audit["windows"]["A4"] = {"criterion": "call set = core top-pile identities; "
-                              "window = densest 60 s of the core pile, same for all arms",
-                              "window_s": [aw0 / 1e9, aw1 / 1e9], "set_size": len(kset)}
+        sub = [c for c in C[key] if c["program_id"] in _hl_set]
+        s_, yA4 = e2e_strip_tri(sub, CH[key], w0m, w1m, yA4,
+                                f'{SHORTN[key]}（core 高延迟程序 {len(hl_pids_core)} 个的完整时间线）',
+                                ARM_COLOR[key])
+        yA4 += 10
+        partsA4 += s_
+    audit["windows"]["A4"] = {"criterion": "subjects = programs owning core top-pile "
+                              "calls; window = densest 60 s of core pile; full call "
+                              "timelines of those programs per arm, same window",
+                              "window_s": [aw0 / 1e9, aw1 / 1e9],
+                              "programs": hl_pids_core}
     figA4 = fig(partsA4, yA4 + 6)
 
     # ============ B: tables / figs on the Doc-B capture (BK) ================
@@ -1487,21 +1485,22 @@ bfcl/sharegpt 块移到 lats 块（长程序买单，{e_pi['mean']:.2f}×/p99 {e
 四行色段密度同形；被 quantum 切分的调用色段略胀（续段再 prefill，机制的计算价），
 未被碰过的调用色段逐毫秒相同。</p>
 {fig1}
-<p class="cap"><b>一句话看图：</b>每块四行上下对看——红段（等待）逐臂缩短，浅红底（再排队）在 M/C 行出现并从短程序块转移到 lats 块；行尾标两个数：该程序的<b>论文口径等待</b>与程序 token 延迟；四行中<b>等待最短者加粗</b>——等待正是 Agentix 的优化对象。等待 = Σ<sub>call</sub>（call 端到端 − 该 call 的执行底）——执行底取同一 call 四臂驻留的最小值，因此排队、再排队、再 prefill、机制附加全部计入等待，与论文图 17 把非执行时间都算 Wait 的口径一致，且逐 call 可加、并行程序无歧义。<b>图注：</b>红段/浅红底是等待的<b>时间定位</b>（首token段与 chunk 未覆盖的可见段内等待），行尾"等 x s"是等待的<b>完整量化</b> = Σ（call 端到端 − 执行底），含段内不可见的部分——两者口径已统一到 A2 的 Wait 定义。类均值（s）：bfcl 素 30.1 / opt 13.6 / M 4.4 / <b>C 3.0</b>——方法目标类（短程序）上 Agentix 等待最短、为 opt 的 1/4.5，与论文图 17 一致；sharegpt opt 9.1 最短（M 51.7 被续段 recompute 惩罚、C 16.1）；lats M 199.7 最短、C 294.5≈opt 293.3（压后长程序是设计）。与图 17 逐点全最短的差异来自两处已披露偏差：图 17 为纯单类负载（ShareGPT-only / LATS-only），我们是混载；论文被抢占者走 swap（无 recompute），我们走 recompute。"y ms/tok" = 程序响应时间 ÷ 产出 token 数，均不随窗口裁剪。论文口径下加粗分布：bfcl 块多为 C 行（6/8）、sharegpt 块为 opt 行、lats 块为 M 行——读法见图注的类均值与偏差对账。第二个数保留以并置完成判据：bfcl 块的 ms/tok 赢家多为 C（6/8），sharegpt 块全部为 opt（5/5，MLFQ 的续段再 prefill 惩罚长 decode），lats 块 opt/C 平分（7/5）。等待可与程序内并行重叠、也可被再 prefill 抵消，所以"面向 agent 负载优化全局服务"的判据是程序完成而非等待之和。<b>加粗不总在 C 行不是标记错误</b>——Agentix 优化的是全体程序的统计（mean/p90/p99），不是每个程序：调度是重分配，必有程序付账（sharegpt 为 quantum 切割买单、lats 为压后买单，与 A2 表第三列自洽）；逐块加粗的分布因此是"谁受益、谁买单"的地图——这正是交换单位从 call 到 program 的意义在逐程序粒度的显形。每块窗口 = 该程序生命周期 ≤40 s 取全程（±2 % 边距），
+<p class="cap"><b>一句话看图：</b>每块四行上下对看——红段（等待）逐臂缩短，浅红底（再排队）在 M/C 行出现并从短程序块转移到 lats 块；行尾标两个数：该程序的<b>论文口径等待</b>与程序 token 延迟；四行中<b>等待最短者加粗</b>——等待正是 Agentix 的优化对象。等待 = Σ<sub>call</sub>（call 端到端 − 该 call 的执行底）——执行底取同一 call 四臂驻留的最小值，因此排队、再排队、再 prefill、机制附加全部计入等待，与论文图 17 把非执行时间都算 Wait 的口径一致，且逐 call 可加、并行程序无歧义。<b>图注：</b>红段/浅红底是等待的<b>时间定位</b>（首token段与 chunk 未覆盖的可见段内等待），行尾"等 x s"是等待的<b>完整量化</b> = Σ（call 端到端 − 执行底），含段内不可见的部分——两者口径已统一到 A2 的 Wait 定义。类均值（s）：bfcl 素 30.1 / opt 13.6 / M 4.4 / <b>C 3.0</b>——方法目标类（短程序）上 Agentix 等待最短、为 opt 的 1/4.5，与论文图 17 一致；sharegpt opt 9.1 最短（M 51.7 被续段 recompute 惩罚、C 16.1）；lats M 199.7 最短、C 294.5≈opt 293.3（压后长程序是设计）。与图 17 逐点全最短的差异来自两处已披露偏差：图 17 为纯单类负载（ShareGPT-only / LATS-only），我们是混载；论文被抢占者走 swap（无 recompute），我们走 recompute。"y ms/tok" = 程序响应时间 ÷ 产出 token 数，均不随窗口裁剪。论文口径下加粗分布：bfcl 块多为 C 行（6/8）、sharegpt 块为 opt 行、lats 块为 M 行——读法见图注的类均值与偏差对账。第二个数保留以并置完成判据：bfcl 块的 ms/tok 赢家多为 C（6/8），sharegpt 块全部为 opt（5/5，MLFQ 的续段再 prefill 惩罚长 decode），lats 块 opt/C 平分（7/5）。等待可与程序内并行重叠、也可被再 prefill 抵消，所以"面向 agent 负载优化全局服务"的判据是程序完成而非等待之和。<b>加粗不总在 C 行不是标记错误</b>——Agentix 优化的是全体程序的统计（mean/p90/p99），不是每个程序：调度是重分配，必有程序付账（sharegpt 为 quantum 切割买单、lats 为压后买单，与 A2 表第三列自洽）；逐块加粗的分布因此是"谁受益、谁买单"的地图。<b>目标函数辨析（为什么 core 不是 Σ等待最小者也不矛盾）：</b>全体 25 程序的总等待为 素 7,091 / opt 3,674 / <b>M 2,690</b> / core 3,639 s——Σ等待按 call 数加权，lats 洪流占大头，调用级抢占的 M 天然是它的赢家；而程序延迟统计（本表下方与附录端点）按程序等权，core 全面最优（mean 20.8、p99 34.7）。agentix 的目标函数是<b>程序延迟的均值与尾部</b>，等待只是杠杆——最小化 Σcall 等待 ≈ 调用级 SJF（M），最小化程序延迟 ≈ 程序级 SRPT 的免预测近似（core）。论文各面板（单类负载+swap）下两口径同向，混载+recompute 把它们拆开——这不是复现失败，是把论文没机会区分的两个目标显影了——这正是交换单位从 call 到 program 的意义在逐程序粒度的显形。每块窗口 = 该程序生命周期 ≤40 s 取全程（±2 % 边距），
 &gt;40 s 取四臂调用活动最密的 30 s；窗口起止标在块头。<br><b>轴注：</b>块头方括号内为
 从各自运行起点起算的墙钟秒；块内四行共用该窗口与比例尺；行内每条横条 = 一个 call。</p>
 
 
-<h2>A4 高延迟 call 的调度行为对照 —— 同一批 call、同一时间窗、四种摆放</h2>
+<h2>A4 调度行为对照 —— core 的高延迟程序，同一时间窗里四种方法的时间线分布</h2>
 {pf(6)}
-<p class="theme"><b>主要观察什么：</b>最高延迟区间（该臂时长最高的 call 簇）按 program 分行
-后，看每行的归属与增减：粗行（bfcl/sharegpt——程序短，应尽早离开此区间）与细淡行（lats 的
-call——单个短而密，但程序身份长，应当让步）。素/opt 侧大量粗行出现在高延迟区间（短程序的
-call 被排队抬进来）；MLFQ 清空粗行但 lats 行反而变密（quantum 间再排队）；core 侧只剩 lats
-行——"该等的才在等"。</p>
-<p class="theme"><b>对照集构成（core 顶堆身份，四臂共用）：</b>由 core 臂最高时长簇的成员身份给定（图内各带标题的 x/y：y 为集合全量、x 为该臂时序落入窗内的数量；窗口同样由 core 簇最密 60 s 决定，四臂同窗）。各臂自家顶堆不再单列——本图回答"core 认定的高延迟 call 在别的调度下摆在哪"。</p>
+<p class="theme"><b>对照对象与看点：</b>主体 = <b>core 认定的高延迟程序</b>（core 最高时长簇
+的归属程序，清单见审计文件）；窗口 = core 该簇最密的 60 s；四条带在同一窗内画这些程序的
+<b>完整时间线</b>（全部 call，画法同 A3：红=等待、色段=quantum 段、浅红底=chunk 未覆盖
+间隙）。分布差异即调度行为：<b>core 带</b>里这些程序的 call 被整体压后、聚拢成密簇（低队准入
++ 大 quantum 少切）；<b>opt/素带</b>里同样这些程序提早铺满全窗（FCFS 让洪流先占批槽——被挤走
+的短程序不在本图主体里，它们的代价见 A3）；<b>M 带</b>里被 quantum 切碎成条纹、浅红底密布。
+"认得程序身份、让重程序集体让步"这一 agentix 特征，只有在同主体、同窗口的对照里才可见。</p>
 {figA4}
-<p class="cap"><b>一句话看图：</b>同一批 call（core 顶堆身份）在四条带里的位置与长短——core 带右聚（压后）、opt/素带铺满（占槽）、M 带条纹变长（quantum 切碎）。<b>图注：</b>call 集 = core 臂对数时长聚类最高簇的成员身份（w05 契约）；窗口 = 该簇最密的 60 s，四臂同一相对窗；行标 = 程序号·类别·集内 call 数。</p>
+<p class="cap"><b>一句话看图：</b>同一批程序、同一窗口、四种分布——core 带聚拢压后，opt/素带提早铺满，M 带条纹碎化。<b>图注：</b>主体与窗口均由 core 决定（审计文件记程序清单与窗口秒）；行 = 程序车道（该程序全部 call），画法与 A3 相同，四臂同一相对窗。</p>
 
 {a.fourarm.read_text().replace("<h2>四、论文四臂复现 —— vLLM / vLLM-opt / MLFQ / Agentix 全基线对照</h2>", "<h2>A5 端点全景 —— 论文口径的四臂复现</h2>")}
 
