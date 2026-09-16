@@ -793,7 +793,7 @@ sharegpt 列 MLFQ 的 {TRI['mlfq']['sharegpt']['ftwait']:.0f}+{TRI['mlfq']['shar
             "同一程序的调用共享累积上下文（KV 可复用），跨程序几乎不共享。这就是消融第一对"
             "（素→opt，1.60×）收益的机会来源。为什么程序感知调度没有把命中变成执行差（图 17 蓝段"
             "等高）：程序内下一 call 的间隔由工具/思考延迟主导（调度不可压缩），命中能否兑现由"
-            "KV 容量压力决定；论文把跨 call 的 KV 亲和交给进程表驱动的 sticky 路由（多引擎）与"
+            "KV 容量压力决定；机制细节：各引擎的 KV 存于各自进程显存、互不可访问（无跨引擎共享/迁移通道），跨引擎调度= 前缀整段重算——论文的选择是「不搬 KV、搬请求」；论文把跨 call 的 KV 亲和交给进程表驱动的 sticky 路由（多引擎）与"
             "swap 内核（图 18），不交给 PLAS。单引擎同缓存下三臂兑现命中相近——我们的配对驻留比"
             "中位 1.00 是其实测；而素臂关缓存后执行确实变长，说明缓存差异存在时是可见的。"),
         70: ("_page_4_Figure_7.jpeg",
@@ -1064,11 +1064,15 @@ mean {e_pi['mean']:.2f}× / p99 {e_pi['p99']:.2f}×。下方状态机原图即�
         _ord = ["norm_in", "qkv_proj", "attn_core", "o_proj", "norm_post",
                 "mlp_gate_up", "act_mul", "mlp_down"]
         fr = PT["fragments"]
+        _HOOK_US = 5.8   # measured effective per-instance hook cost (macro/steps)
         tbl_layer = ('<table><tr><th>算子 process（模块打点实测）</th><th>fragment 中位数/实例</th>'
-                     '<th>host 中位 µs</th><th>device 中位 µs</th><th>界</th></tr>' + "".join(
+                     '<th>host 中位 µs</th><th>host−仪器 µs</th><th>device 中位 µs</th><th>界</th></tr>'
+                     + "".join(
             f"<tr><td>{k}</td><td>{fr[k]['med_fragments']:.0f}</td>"
-            f"<td>{fr[k]['med_host_us']}</td><td>{fr[k]['med_device_us']}</td>"
-            f"<td>{'device' if fr[k]['med_device_us'] > fr[k]['med_host_us'] else 'launch/host'}</td></tr>"
+            f"<td>{fr[k]['med_host_us']}</td>"
+            f"<td>{max(fr[k]['med_host_us'] - _HOOK_US, 0):.1f}</td>"
+            f"<td>{fr[k]['med_device_us']}</td>"
+            f"<td>{'device' if fr[k]['med_device_us'] > max(fr[k]['med_host_us'] - _HOOK_US, 0) else 'launch/host'}</td></tr>"
             for k in _ord if k in fr) + '</table>')
         gr = PT["global_rank_top"]
         dr = PT.get("device_rank", [])
@@ -1324,6 +1328,12 @@ call 被排队抬进来）；MLFQ 清空粗行但 lats 行反而变密（quantum
 
 
 <h2>记账</h2>
+<p class="theme"><b>trace 开销阶梯（量化与消除策略）：</b>nsys 采集 +0.4/0.9/2.3/1.2 %
+（素/opt/M/C，同配置无 nsys 端点对照实测）；19 个 host 探针 −0.9 %（噪声内）；模块级 hook
+仅存在于 B 的仪器臂。消除策略 = 双臂契约：<b>端点数字全部取自无 nsys 裸跑</b>（A5 的 4×5
+campaign），时间线取自 +1 % 级的 nsys 臂，结构归因取自仪器臂并做扣除——host 大占比的两个
+主发现（async 输出等待、prepare_inputs 纯 Python）在近零开销的 graph 臂上同样成立，非
+trace 伪影。</p>
 <p class="theme">窗口与选材标准在 R10_AUDIT.json；A00 守恒门四臂 <code>all_pass</code>；
 配对事实 pair_facts_*.json 与本文数字同源。原始 trace：release h22-h23-traces；
 本页与端点数据：release h23-r10-reports。</p>
