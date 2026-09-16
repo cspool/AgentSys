@@ -123,6 +123,11 @@ def install(verbose: bool = True) -> dict:
                 nst = getattr(out, "num_scheduled_tokens", None) or {}
                 tot = getattr(out, "total_num_scheduled_tokens", 0)
                 nvtx.mark(f"w.step::reqs={len(nst)}::tok={tot}")
+                if os.environ.get("AGENTIX_REQTRACE", "0") == "1":
+                    # probe v2: per-step RUNNING-set identity, so每个 call 的
+                    # 运行/抢占/等待/恢复 状态区间可离线精确重建 (paper-metric
+                    # Wait/Execution measured directly, not via the floor proxy)
+                    nvtx.mark("w.run::" + ",".join(sorted(nst)))
             except Exception:
                 pass
             return out

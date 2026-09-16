@@ -336,24 +336,33 @@ def main():
     idx = {k: {(r["program_id"], r["call_index"]): r for r in C[k]} for k, *_ in ARMS}
     def _res(r):
         return r["finished_rel_ms"] - r["first_token_rel_ms"]
-    TRI = {}
+    _floor = {ck: min(_res(idx[k][ck]) for k, *_ in ARMS if ck in idx[k])
+              for ck in idx["opt"]}
+    TRI, FLOORC = {}, defaultdict(list)
+    for ck, v in _floor.items():
+        FLOORC[idx["opt"][ck]["class"]].append(v)
+    FLOORC = {c: sum(v) / len(v) for c, v in FLOORC.items()}
     for k, *_ in ARMS:
-        per = defaultdict(lambda: {"wait": [], "res": [], "dres": []})
+        per = defaultdict(lambda: {"ftwait": [], "inres": [], "wait": []})
         for ck, r in idx[k].items():
-            per[r["class"]]["wait"].append(r["first_token_rel_ms"] - r["submitted_rel_ms"])
-            per[r["class"]]["res"].append(_res(r))
-            if ck in idx["opt"]:
-                per[r["class"]]["dres"].append(_res(r) - _res(idx["opt"][ck]))
+            fw = r["first_token_rel_ms"] - r["submitted_rel_ms"]
+            ir = _res(r) - _floor[ck]
+            per[r["class"]]["ftwait"].append(fw)
+            per[r["class"]]["inres"].append(ir)
+            per[r["class"]]["wait"].append(fw + ir)
         TRI[k] = {c: {m: sum(v[m]) / max(len(v[m]), 1) for m in v} for c, v in per.items()}
     def tri_row(key, label):
         t = TRI[key]
         cells = "".join(
-            f"<td>{t[c]['wait']:.0f} / {t[c]['res']:.0f} / {t[c]['dres']:+.0f}</td>"
+            f"<td>{t[c]['ftwait']:.0f} + {t[c]['inres']:.0f} = <b>{t[c]['wait']:.0f}</b></td>"
             for c in ("bfcl", "sharegpt", "lats"))
         return f"<tr><td>{label}</td>{cells}</tr>"
-    tbl_tri = ('<table><tr><th>臂（每调用均值 ms：等待 / 驻留 / 配对驻留差 vs opt）</th>'
+    tbl_tri = ('<table><tr><th>臂（每调用均值 ms：首token等待 + 驻留内等待 = Wait）</th>'
                '<th>bfcl</th><th>sharegpt</th><th>lats</th></tr>'
-               + "".join(tri_row(k, lab) for k, lab, *_ in ARMS) + "</table>")
+               + "".join(tri_row(k, lab) for k, lab, *_ in ARMS)
+               + f"<tr><td><b>Execution（执行底，四臂共用）</b></td>"
+               + "".join(f"<td>{FLOORC[c]:.0f}</td>" for c in ("bfcl", "sharegpt", "lats"))
+               + "</tr></table>")
     # execution invariance: matched calls UNPREEMPTED on both sides —
     # residence ratio should be 1 (per-token step time is policy-blind)
     def res_of(key, ck):
@@ -687,7 +696,7 @@ def main():
         return (f"<tr><td>{label}</td><td>{w:,.0f}</td><td>{res:,.0f}</td>"
                 f"<td>{nch}</td><td>{w+res:,.0f}</td></tr>")
     walk_tbl = ('<table><tr><th>臂（同一真实调用 '
-                f'{kb[0]}#{kb[1]}，bfcl）</th><th>等待 ms</th><th>驻留 ms</th>'
+                f'{kb[0]}#{kb[1]}，bfcl）</th><th>首token等待 ms</th><th>驻留 ms</th>'
                 '<th>quantum 段数</th><th>端到端 ms</th></tr>'
                 + "".join(walk_row(k, lab) for k, lab, *_ in ARMS) + "</table>")
 
@@ -705,28 +714,28 @@ def main():
         life_html = life_html.replace(_old, _new)
     sig_m = chunk_sig.get("mlfq", (0, 0, 0))
     tri_def = f"""
-<div class="block howto"><b>三个时间量的定义与这张表的读法</b>
-<p><b>等待</b>：提交→首 token（排队+首段 prefill）——调度直接重分配的量。<b>驻留</b>：首 token→
-完成——服务 + 机制附加（quantum 间再排队、续段再 prefill）混在其中，二者在单臂内不可再分
-（chunk 标记打在客户端续发时刻，续段的引擎内排队被包在段内）。<b>配对驻留差</b>：同一调用
-（同 program、同 index，两侧逐个对齐）的驻留减去 opt 臂驻留——把"机制附加"从驻留里干净
-剥出来的办法：素行的 +差 = 关缓存后的重复 prefill；M/C 行的 +差 = 抢占的再排队+再 prefill。</p>
-<p><b>读法：竖读一列</b> = 同类负载在四臂间的时间重分配（bfcl 列等待
-{TRI['plain']['bfcl']['wait']:.0f}→{TRI['opt']['bfcl']['wait']:.0f}→
-{TRI['mlfq']['bfcl']['wait']:.0f}→{TRI['core']['bfcl']['wait']:.0f} ms——两级抢占把短程序
-等待压掉 ~90 %）；<b>横读一行</b> = 该臂把时间花在哪；<b>第三列单独读</b> = 机制的驻留代价
-（MLFQ 的 sharegpt 行最大：长 decode 被 quantum 反复切，附加 {TRI['mlfq']['sharegpt']['dres']:+.0f} ms/调用；
-core 只切 132 个调用，附加集中在 lats）。<b>合计校验</b>：等待+驻留 ≈ 该类平均调用端到端。</p>
-<p><b>执行不变性的三条独立证据：</b>① 同调用两侧 <code>produced_tokens</code> 逐个相等
-（2,440/2,440）；② 两侧都未被抢占的同调用，驻留比中位 = MLFQ {inv['mlfq']:.2f}（n={inv_n['mlfq']}）/
-core {inv['core']:.2f}（n={inv_n['core']}）；③ step 宇宙（step 堆、kernel 显微）四臂同形。
-配对驻留差为 0 的行（opt 自身）与 ≈0 的格（core·bfcl/sharegpt 的未抢占主体）是①②在表内的体现。</p>
-<p><b>机制的执行代价（第三列的机理）：</b>被切调用的续段要重 prefill 已生成上下文——MLFQ 续段
-quantum 墙钟中位 {sig_m[1]:,.0f} ms 对首段 {sig_m[0]:,.0f} ms（{sig_m[2]:,} 个续段）。这份代价
-把 MLFQ 等待坍缩省下的时间吃掉大半，mean 停在 1.03×。</p></div>
+<div class="block howto"><b>时间量的统一定义（A 全文共用）与这张表的读法</b>
+<p>每个 call 的端到端拆成两部分：<b>Execution（执行底）</b>= 该 call 在四臂中的最小驻留
+（缓存暖、不被打扰时的真实解码工作，四臂共用一个值）；<b>Wait（论文口径等待）</b>=
+端到端 − 执行底。Wait 再按位置拆两段：<b>首token等待</b>（提交→首token：排队+首段 prefill）
+与<b>驻留内等待</b>（驻留−执行底：quantum 间再排队、续段再 prefill、慢批干扰）。表内每格
+"a + b = <b>W</b>"即这三个数。与论文图 17 的对应：W ↔ Wait（红），Execution ↔ 蓝，
+我们的 recompute 把论文的 Swap（绿）合并进了驻留内等待。</p>
+<p><b>读法：竖读一列</b>看同类负载的 Wait 在四臂间的重分配；<b>加号两侧</b>看等待藏在哪
+——素/opt 的 Wait 几乎全在首token段（无抢占，驻留内只有慢批干扰与素臂的重复 prefill）；
+MLFQ 把首token段压到极小、却把 Wait 大头搬进驻留内（sharegpt 行最典型）；core 在短程序上
+两段都小、在 lats 上首token段被刻意抬高。<b>Execution 行四臂共用</b>是构造使然，执行不变性
+的独立证据仍是三条：① produced_tokens 逐个相等（2,440/2,440）；② 双侧未抢占同调用驻留比
+中位 MLFQ {inv['mlfq']:.2f}（n={inv_n['mlfq']}）/ core {inv['core']:.2f}（n={inv_n['core']}）；
+③ step/kernel 宇宙四臂同形。</p>
+<p><b>机制代价在表内的位置：</b>驻留内等待列就是它——MLFQ 续段 quantum 墙钟中位
+{sig_m[1]:,.0f} ms 对首段 {sig_m[0]:,.0f} ms（{sig_m[2]:,} 个续段）是其微观形态。</p>
+<p><b>测量边界（诚实声明）：</b>现有 trace 无引擎侧"运行/抢占/恢复"状态事件，驻留内等待是
+差值代理、不能在时间轴上逐段定位（A3 图内浅红底只显示 chunk 未覆盖的可见部分）；探针 v2
+（每步 running 集身份）已实现、待 GPU 恢复后重采即可把 Wait/Execution 换成状态区间直测。</p></div>
 {tbl_tri}
-<p class="cap"><b>表注：</b>素/opt 无 quantum 机制，第三列 = 缓存差（素）与 0（opt 基准）；
-lats 列 core 行等待 {TRI['core']['lats']['wait']:.0f} ms 是刻意抬高（程序身份压后长程序）。</p>"""
+<p class="cap"><b>表注：</b>bfcl 列 Wait：素 2404 → opt 1085+8 → MLFQ 122+230 → core 189+53
+量级（详见表），目标类上 core 合计最短；lats 列 core 首token段 1500 ms 是设计（压后长程序）。</p>"""
 
     _PAPER = {
         1: ("_page_0_Figure_9.jpeg",
@@ -1259,7 +1268,7 @@ bfcl/sharegpt 块移到 lats 块（长程序买单，{e_pi['mean']:.2f}×/p99 {e
 四行色段密度同形；被 quantum 切分的调用色段略胀（续段再 prefill，机制的计算价），
 未被碰过的调用色段逐毫秒相同。</p>
 {fig1}
-<p class="cap"><b>一句话看图：</b>每块四行上下对看——红段（等待）逐臂缩短，浅红底（再排队）在 M/C 行出现并从短程序块转移到 lats 块；行尾标两个数：该程序的<b>论文口径等待</b>与程序 token 延迟；四行中<b>等待最短者加粗</b>——等待正是 Agentix 的优化对象。等待 = Σ<sub>call</sub>（call 端到端 − 该 call 的执行底）——执行底取同一 call 四臂驻留的最小值，因此排队、再排队、再 prefill、机制附加全部计入等待，与论文图 17 把非执行时间都算 Wait 的口径一致，且逐 call 可加、并行程序无歧义。<b>图注：</b>行尾"等 x s" = Σ（call 端到端 − 执行底）。类均值（s）：bfcl 素 30.1 / opt 13.6 / M 4.4 / <b>C 3.0</b>——方法目标类（短程序）上 Agentix 等待最短、为 opt 的 1/4.5，与论文图 17 一致；sharegpt opt 9.1 最短（M 51.7 被续段 recompute 惩罚、C 16.1）；lats M 199.7 最短、C 294.5≈opt 293.3（压后长程序是设计）。与图 17 逐点全最短的差异来自两处已披露偏差：图 17 为纯单类负载（ShareGPT-only / LATS-only），我们是混载；论文被抢占者走 swap（无 recompute），我们走 recompute。"y ms/tok" = 程序响应时间 ÷ 产出 token 数，均不随窗口裁剪。论文口径下加粗分布：bfcl 块多为 C 行（6/8）、sharegpt 块为 opt 行、lats 块为 M 行——读法见图注的类均值与偏差对账。第二个数保留以并置完成判据：bfcl 块的 ms/tok 赢家多为 C（6/8），sharegpt 块全部为 opt（5/5，MLFQ 的续段再 prefill 惩罚长 decode），lats 块 opt/C 平分（7/5）。等待可与程序内并行重叠、也可被再 prefill 抵消，所以"面向 agent 负载优化全局服务"的判据是程序完成而非等待之和。<b>加粗不总在 C 行不是标记错误</b>——Agentix 优化的是全体程序的统计（mean/p90/p99），不是每个程序：调度是重分配，必有程序付账（sharegpt 为 quantum 切割买单、lats 为压后买单，与 A2 表第三列自洽）；逐块加粗的分布因此是"谁受益、谁买单"的地图——这正是交换单位从 call 到 program 的意义在逐程序粒度的显形。每块窗口 = 该程序生命周期 ≤40 s 取全程（±2 % 边距），
+<p class="cap"><b>一句话看图：</b>每块四行上下对看——红段（等待）逐臂缩短，浅红底（再排队）在 M/C 行出现并从短程序块转移到 lats 块；行尾标两个数：该程序的<b>论文口径等待</b>与程序 token 延迟；四行中<b>等待最短者加粗</b>——等待正是 Agentix 的优化对象。等待 = Σ<sub>call</sub>（call 端到端 − 该 call 的执行底）——执行底取同一 call 四臂驻留的最小值，因此排队、再排队、再 prefill、机制附加全部计入等待，与论文图 17 把非执行时间都算 Wait 的口径一致，且逐 call 可加、并行程序无歧义。<b>图注：</b>红段/浅红底是等待的<b>时间定位</b>（首token段与 chunk 未覆盖的可见段内等待），行尾"等 x s"是等待的<b>完整量化</b> = Σ（call 端到端 − 执行底），含段内不可见的部分——两者口径已统一到 A2 的 Wait 定义。类均值（s）：bfcl 素 30.1 / opt 13.6 / M 4.4 / <b>C 3.0</b>——方法目标类（短程序）上 Agentix 等待最短、为 opt 的 1/4.5，与论文图 17 一致；sharegpt opt 9.1 最短（M 51.7 被续段 recompute 惩罚、C 16.1）；lats M 199.7 最短、C 294.5≈opt 293.3（压后长程序是设计）。与图 17 逐点全最短的差异来自两处已披露偏差：图 17 为纯单类负载（ShareGPT-only / LATS-only），我们是混载；论文被抢占者走 swap（无 recompute），我们走 recompute。"y ms/tok" = 程序响应时间 ÷ 产出 token 数，均不随窗口裁剪。论文口径下加粗分布：bfcl 块多为 C 行（6/8）、sharegpt 块为 opt 行、lats 块为 M 行——读法见图注的类均值与偏差对账。第二个数保留以并置完成判据：bfcl 块的 ms/tok 赢家多为 C（6/8），sharegpt 块全部为 opt（5/5，MLFQ 的续段再 prefill 惩罚长 decode），lats 块 opt/C 平分（7/5）。等待可与程序内并行重叠、也可被再 prefill 抵消，所以"面向 agent 负载优化全局服务"的判据是程序完成而非等待之和。<b>加粗不总在 C 行不是标记错误</b>——Agentix 优化的是全体程序的统计（mean/p90/p99），不是每个程序：调度是重分配，必有程序付账（sharegpt 为 quantum 切割买单、lats 为压后买单，与 A2 表第三列自洽）；逐块加粗的分布因此是"谁受益、谁买单"的地图——这正是交换单位从 call 到 program 的意义在逐程序粒度的显形。每块窗口 = 该程序生命周期 ≤40 s 取全程（±2 % 边距），
 &gt;40 s 取四臂调用活动最密的 30 s；窗口起止标在块头。<br><b>轴注：</b>块头方括号内为
 从各自运行起点起算的墙钟秒；块内四行共用该窗口与比例尺；行内每条横条 = 一个 call。</p>
 
