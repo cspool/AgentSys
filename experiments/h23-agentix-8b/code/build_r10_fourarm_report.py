@@ -137,6 +137,72 @@ def e2e_strip_tri(calls, chunks, w0, w1, y0, tag, color):
     return out, y0 + 16 + len(order) * rh + 6
 
 
+def e2e_program_blocks(C, CH, arm_meta, rh=12, bh=8):
+    """一 (v2): per-program compact blocks — the SAME program's four arm rows
+    packed adjacently, each program on its OWN busiest window (no shared axis).
+    Window rule: whole lifetime (union over arms) if ≤40 s, else the densest
+    30 s by call activity across the four arms."""
+    by_arm = {k: defaultdict(list) for k, *_ in arm_meta}
+    for k, *_ in arm_meta:
+        for c in C[k]:
+            by_arm[k][c["program_id"]].append(c)
+    pids = sorted(by_arm[arm_meta[0][0]],
+                  key=lambda p: ({"bfcl": 0, "sharegpt": 1, "lats": 2}
+                                 [by_arm[arm_meta[0][0]][p][0]["class"]],
+                                 min(c["submitted_rel_ms"] for c in by_arm[arm_meta[0][0]][p])))
+    SHORT = {"plain": "素", "opt": "opt", "mlfq": "M", "core": "C"}
+    out, y = [], 8
+    windows = {}
+    for pid in pids:
+        allc = [c for k, *_ in arm_meta for c in by_arm[k][pid]]
+        cls = allc[0]["class"]
+        t0 = min(c["submitted_rel_ms"] for c in allc)
+        t1 = max(c["finished_rel_ms"] for c in allc)
+        if t1 - t0 > 40e3:
+            width, step, best, b0 = 30e3, 5e3, -1.0, t0
+            t = t0
+            while t + width <= t1 + step:
+                act = sum(max(0.0, min(c["finished_rel_ms"], t + width) - max(c["submitted_rel_ms"], t))
+                          for c in allc)
+                if act > best:
+                    best, b0 = act, t
+                t += step
+            w0, w1 = b0, b0 + width
+        else:
+            pad = max((t1 - t0) * 0.02, 50.0)
+            w0, w1 = t0 - pad, t1 + pad
+        windows[pid] = [w0 / 1e3, w1 / 1e3]
+        ncalls = len(by_arm[arm_meta[0][0]][pid])
+        out.append(f'<text x="4" y="{y+15}" font-size="17" font-weight="600" fill="#1f2f45">'
+                   f'{pid}·{cls}·{ncalls} 调用 · 窗 [{w0/1e3:.1f}, {w1/1e3:.1f}] s（宽 {(w1-w0)/1e3:.1f} s）</text>')
+        y += 22
+        X = lambda t: LEFT + (W - LEFT - RIGHT) * (max(min(t, w1), w0) - w0) / (w1 - w0)
+        for key, _lab, *_ in arm_meta:
+            out.append(f'<text x="{LEFT-6}" y="{y+bh+1}" font-size="15" text-anchor="end" '
+                       f'fill="{ARM_COLOR[key]}">{SHORT[key]}</text>')
+            for c in by_arm[key][pid]:
+                if c["finished_rel_ms"] < w0 or c["submitted_rel_ms"] > w1:
+                    continue
+                ft, fin = c["first_token_rel_ms"], c["finished_rel_ms"]
+                x0, x1, x2 = X(c["submitted_rel_ms"]), X(ft), X(fin)
+                if x1 > x0:
+                    out.append(f'<rect x="{x0:.1f}" y="{y+1}" width="{max(x1-x0,0.5):.1f}" height="{bh}" fill="{WAIT}" opacity=".85"/>')
+                segs = CH[key].get((pid, c["call_index"]))
+                if segs:
+                    out.append(f'<rect x="{x1:.1f}" y="{y+1}" width="{max(x2-x1,0.5):.1f}" height="{bh}" fill="{REQUEUE}" opacity=".9"/>')
+                    for b, e, _q in segs:
+                        b, e = max(b, ft), min(e, fin)
+                        if e <= b:
+                            continue
+                        out.append(f'<rect x="{X(b):.1f}" y="{y+1}" width="{max(X(e)-X(b),0.5):.1f}" height="{bh}" fill="{CLS_COLOR[cls]}"/>')
+                else:
+                    out.append(f'<rect x="{x1:.1f}" y="{y+1}" width="{max(x2-x1,0.5):.1f}" height="{bh}" fill="{CLS_COLOR[cls]}" opacity=".9"/>')
+            y += rh
+        out.append(f'<line x1="{LEFT}" y1="{y+4}" x2="{W-RIGHT}" y2="{y+4}" stroke="#eef2ee"/>')
+        y += 12
+    return out, y, windows
+
+
 # ------------------------------------------------------------------ DFG (W6)
 DFG_TOP = [
     ("schedule", "w.sched: schedule_total"),
@@ -245,21 +311,15 @@ def main():
         if later:
             chunk_sig[key] = (statistics.median(first), statistics.median(later), len(later))
 
-    # ================= 一、端到端（四臂，三分量） ==========================
-    w0, w1, _ = pick_wait_window([c for c in C["plain"] if c["class"] != "lats"])
-    parts = axis(w0, w1, 60, 1120)
-    y = 70
-    strips = []
-    for key, label, *_ in ARMS:
-        s, y = e2e_strip_tri(C[key], CH[key], w0, w1, y, label, ARM_COLOR[key])
-        strips += s
-        y += 10
-    fig1 = fig(parts + strips, y + 6)
-    wait_sums = {k: sum(max(0.0, min(c["first_token_rel_ms"], w1) - max(c["submitted_rel_ms"], w0))
+    # ============ 一、端到端（每程序一块，四臂行紧凑相邻，无公共轴） ========
+    blocks, yb, pwin = e2e_program_blocks(C, CH, ARMS)
+    fig1 = fig(blocks, yb + 4)
+    wait_sums = {k: sum(c["first_token_rel_ms"] - c["submitted_rel_ms"]
                         for c in C[k] if c["class"] != "lats") / 1e3 for k, *_ in ARMS}
-    audit["windows"]["part1"] = {"criterion": "sliding 30 s window maximizing vLLM素 short-class wait mass",
-                                 "window_s": [w0 / 1e3, w1 / 1e3],
-                                 "short_wait_s": wait_sums}
+    audit["windows"]["part1"] = {
+        "criterion": "per-program window: whole lifetime (union over arms) if <=40 s, "
+                     "else densest 30 s by four-arm call activity; no shared axis",
+        "program_windows_s": pwin, "short_wait_total_s": wait_sums}
 
     # ================= 二、高延迟（调用堆四臂主图 + step 堆支撑） ==========
     seg = {k: call_top_pile(C[k]) for k, *_ in ARMS}
@@ -334,11 +394,17 @@ def main():
             t += step
         return b0, b0 + width_ms
     c0, c1 = at_cap_window(C["opt"])
-    parts3 = axis(c0, c1, 60, 4 * (3 * 162 + 40) + 40)
+    # display the central 5 s so each ~100 ms lane bar is individually readable
+    d0 = c0 + (c1 - c0) / 2 - 2500.0
+    d1 = d0 + 5000.0
+    parts3 = axis(d0, d1, 60, 4 * (3 * 162 + 40) + 40)
     y = 70
     for key, label, *_ in ARMS:
-        oe = int(P[key]["e2e"]["origin"])
-        s, y = cu_strip(P[key]["cu"], y, label, oe + int(c0 * 1e6), oe + int(c1 * 1e6))
+        # cu lane rows are RELATIVE to the capture start (= hl origin);
+        # convert the run-relative window via each arm's own offsets
+        run0 = int(P[key]["e2e"]["origin"]) - int(P[key]["hl"]["origin"])
+        s, y = cu_strip(P[key]["cu"], y, label, run0 + int(d0 * 1e6), run0 + int(d1 * 1e6))
+        parts3 += s
         y += 10
     fig3 = fig(parts3, y + 6)
     audit["windows"]["part3"] = {"criterion": "30 s window with max opt time-above-cap16",
@@ -445,9 +511,26 @@ A00 守恒门全过。窗口与选材标准在 R10_SUMMARY_AUDIT.json；本版�
 process 为探针的性能 trace（19 个 host 探针 + 机制事件）→ 本报告的时间线可视化。</p>
 
 {compo}
+
+<h3>预备·负载分析链（W1–W6）：代表 process、DFG 与 trace 探针的来源</h3>
+<p class="theme">上面回答了"负载是什么"；这里回答"对负载做了什么分析、后面的 trace 从哪来"。
+方法链：W1 试运行 → W2 热点定位（决定 19 个 host 探针的位置）→ W3 插桩 → W4 代表采集 →
+W5 代表集选择 → <b>W6 代表 process 的 DFG</b>。本报告全部时间线的 process 宇宙就是这条链
+选出的代表集 + 机制事件；探针开销实测 −0.9 %。</p>
+{tbl_w}
+<p class="cap"><b>表注：</b>四臂的 host 侧结构相同：最大单项都是 async 输出等待（GPU 已出
+结果、host 未消费的空档），其次是 prepare_inputs 内 ~80 % 的纯 Python 张量构建。两者与调度
+策略无关（四臂同量级），是执行侧优化的主目标，但不影响本报告的排序收益结论。</p>
+{dfg_html}
+<p class="cap"><b>图注：</b>节点 = 引擎步内的代表 process（W5 选出），边 = 步内顺序依赖；
+红虚线边 = 跨步的 async 输出等待（数据依赖：sample 的 token 要回到下一步的 schedule，
+但 host 消费滞后）。数字为 opt 臂实测；四臂对照：async 等待
+<table><tr><th>臂</th><th>async 输出等待</th><th>#1 forward 堆</th></tr>{async_tbl}</table></p>
+
+<h3>预备·三个时间量：等待 / 引擎内 / 量子间再排队</h3>
 {tri_def}
 
-<h2>一、端到端 Process 时间线 —— 四臂同窗，三个时间量分开画</h2>
+<h2>一、端到端 Process 时间线 —— 同一程序四臂紧凑对排，三个时间量分开画</h2>
 <div class="block"><b>论文方法与四臂对应</b>
 <p><b>一句话论点：</b>四臂是同一负载下的四种出队规则，收益应全部表现为红段（等待）与浅红底
 （再排队）的重分配，色段（busy）四臂同形。</p>
@@ -463,18 +546,23 @@ process 为探针的性能 trace（19 个 host 探针 + 机制事件）→ 本�
 core = 程序级（Agentix）。红段 = 等待；<span style="background:{REQUEUE}">浅红底</span> =
 量子间再排队（仅 MLFQ/core 两臂存在）；类别色段 = 引擎内量子段
 （<span style="color:#eb6834">橙 bfcl</span> / <span style="color:#2a78d6">蓝 sharegpt</span> /
-<span style="color:#1baf7a">绿 lats</span>）。横轴 = 运行墙钟秒，四臂共轴同窗；纵轴每行一个
-program 车道。对比方法：竖着看同一车道在四臂间的形态迁移。</p></div>
-<p class="theme"><b>运行时效果（图证）：</b>窗内短程序等待合计
+<span style="color:#1baf7a">绿 lats</span>）。<b>排版：每个 program 一块</b>——块头标出
+程序号·类别·调用数与该块自己的时间窗；块内四行紧凑相邻，自上而下 素 / opt / M（MLFQ）/
+C（core），同一到达序列下同一程序在四种策略里的直接对比。<b>每块的窗口独立选择</b>
+（该程序自己最繁忙的时段），块与块之间比例尺不同、无公共时间轴——比较只在块内上下四行之间
+进行，不跨块比长短。</p></div>
+<p class="theme"><b>运行时效果（图证）：</b>全程短程序等待合计
 素 {wait_sums['plain']:.0f} s → opt {wait_sums['opt']:.0f} s → MLFQ {wait_sums['mlfq']:.0f} s →
-core {wait_sums['core']:.0f} s。素→opt 红段整体缩短（状态复用，{e_sr['mean']:.2f}×）；
-opt→MLFQ 红段几乎清零、但 sharegpt/lats 车道浮出浅红底（等待变成了再排队，mean 只有
-{e_cp['mean']:.2f}×、p90 {e_cp['p90']:.2f}× 的原因在图内可见）；MLFQ→core 浅红底从短程序
-车道移到 lats 车道（长程序买单，{e_pi['mean']:.2f}×/p99 {e_pi['p99']:.2f}×）。
-四臂色段密度同形；被切量子的调用色段略胀（续段再 prefill，机制的计算价），未被碰过的调用色段逐毫秒相同。</p>
+core {wait_sums['core']:.0f} s。逐块看三次相邻行对比：素→opt 红段整体缩短（状态复用，
+{e_sr['mean']:.2f}×）；opt→M 红段几乎清零、但 sharegpt/lats 块浮出浅红底（等待变成了再排队，
+mean 只有 {e_cp['mean']:.2f}×、p90 {e_cp['p90']:.2f}× 的原因在图内可见）；M→C 浅红底从
+bfcl/sharegpt 块移到 lats 块（长程序买单，{e_pi['mean']:.2f}×/p99 {e_pi['p99']:.2f}×）。
+四行色段密度同形；被切量子的调用色段略胀（续段再 prefill，机制的计算价），
+未被碰过的调用色段逐毫秒相同。</p>
 {fig1}
-<p class="cap"><b>图注：</b>窗口为素臂短程序等待质量最大的 30 s；四臂绝对时间轴相同（同一到达
-序列）。<br><b>轴注：</b>横轴 "s" = 从各自运行起点起算的墙钟秒；行内每条横条 = 一个 call。</p>
+<p class="cap"><b>图注：</b>每块窗口 = 该程序生命周期 ≤40 s 取全程（±2 % 边距），
+&gt;40 s 取四臂调用活动最密的 30 s；窗口起止标在块头。<br><b>轴注：</b>块头方括号内为
+从各自运行起点起算的墙钟秒；块内四行共用该窗口与比例尺；行内每条横条 = 一个 call。</p>
 
 <h2>二、高延迟 Process 时间线 —— 最高时长调用堆的四臂迁移</h2>
 {PF2}
@@ -505,26 +593,12 @@ cap=16 红线——资源使用率与并发两个自由度都被排除；显微�
 （busy {" / ".join(f"{v['busy_pct']:.0f}%" for v in micro_stats.values())}），
 突发间都是 step 间 host 空隙。剩下的唯一解释是出队顺序——这就是第四章端点差距的机理。</p>
 {fig3}
-<p class="cap"><b>图注：</b>窗口为 opt 臂在飞超 cap 时间最长的 30 s，四臂同相对窗。</p>
+<p class="cap"><b>图注：</b>取 opt 臂在飞超 cap 时间最长的 30 s 窗，展示其中部 5 s 的细节（每根竖条 ≈ 100 ms 的一个采样窗口，可逐根对比，不是趋势线）；四臂同相对窗同比例尺。</p>
 {fig3b}
 <p class="cap"><b>图注：</b>每臂取窗内最忙 300 ms；黄行 = gemm 家族、蓝行 = 其它 kernel，
 右侧竖条 = NCU 资源墙（opt/core 实测值）。</p>
 
 {a.fourarm.read_text()}
-
-<h2>五、负载分析（W1–W6）：代表 process、DFG 与 trace 探针的来源</h2>
-<p class="theme">方法链回放：W1 试运行 → W2 热点定位（决定 19 个 host 探针的位置）→ W3 插桩
-→ W4 代表采集 → W5 代表集选择 → <b>W6 代表 process 的 DFG</b>（本版新增）。本报告全部时间线
-的 process 宇宙就是这条链选出的代表集 + 机制事件；探针开销实测 −0.9 %。</p>
-{tbl_w}
-<p class="cap"><b>表注：</b>四臂的 host 侧结构相同：最大单项都是 async 输出等待（GPU 已出
-结果、host 未消费的空档），其次是 prepare_inputs 内 ~80 % 的纯 Python 张量构建。两者与调度
-策略无关（四臂同量级），是执行侧优化的主目标，但不影响本报告的排序收益结论。</p>
-{dfg_html}
-<p class="cap"><b>图注：</b>节点 = 引擎步内的代表 process（W5 选出），边 = 步内顺序依赖；
-红虚线边 = 跨步的 async 输出等待（数据依赖：sample 的 token 要回到下一步的 schedule，
-但 host 消费滞后）。数字为 opt 臂实测；四臂对照：async 等待
-<table><tr><th>臂</th><th>async 输出等待</th><th>#1 forward 堆</th></tr>{async_tbl}</table></p>
 
 <h2>记账</h2>
 <p class="theme">窗口与选材标准全部在 R10_SUMMARY_AUDIT.json；A00 守恒门（程序/调用/引擎步/
