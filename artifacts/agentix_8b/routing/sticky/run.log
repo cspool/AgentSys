@@ -113,3 +113,11 @@ WARNING 09-16 12:45:30 [input_processor.py:315] Passing raw prompts to InputProc
  },
  "throughput_tokens_per_s": 466.9996178485618
 }
+(EngineCore pid=49056) INFO 09-16 14:00:11 [core.py:1350] [shutdown] EngineCore: trigger received signal=SIGTERM
+(EngineCore pid=49064) INFO 09-16 14:00:11 [core.py:1350] [shutdown] EngineCore: trigger received signal=SIGTERM
+(EngineCore pid=49056) INFO 09-16 14:00:11 [core.py:1501] [shutdown] EngineCore: start mode=abort timeout=0s
+(EngineCore pid=49056) INFO 09-16 14:00:11 [core.py:1532] [shutdown] EngineCore: request processing complete; starting resource teardown
+(EngineCore pid=49064) INFO 09-16 14:00:11 [core.py:1501] [shutdown] EngineCore: start mode=abort timeout=0s
+(EngineCore pid=49056) INFO 09-16 14:00:11 [core.py:1363] [shutdown] EngineCore: exiting busy loop
+(EngineCore pid=49064) INFO 09-16 14:00:11 [core.py:1532] [shutdown] EngineCore: request processing complete; starting resource teardown
+(EngineCore pid=49064) INFO 09-16 14:00:11 [core.py:1363] [shutdown] EngineCore: exiting busy loop

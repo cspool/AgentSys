@@ -1,4 +1,0 @@
-/tmp/hptpe-opt1_ws_mac-nbxnz2mf/testbench.sv:42: warning: task definition for "initialize" has an empty port declaration list!
-/tmp/hptpe-opt1_ws_mac-nbxnz2mf/testbench.sv:120: warning: task definition for "random_test_gemm" has an empty port declaration list!
-/tmp/hptpe-opt1_ws_mac-nbxnz2mf/testbench.sv:262: warning: Port 5 (A) of top expects 32 bits, got 33.
-/tmp/hptpe-opt1_ws_mac-nbxnz2mf/testbench.sv:262:        : Pruning 1 high bits of the expression.

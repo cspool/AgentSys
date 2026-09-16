@@ -1,2 +1,0 @@
-/tmp/hptpe-opt1_cube_mac-h24tijtp/testbench.sv:39: warning: task definition for "initialize" has an empty port declaration list!
-/tmp/hptpe-opt1_cube_mac-h24tijtp/testbench.sv:107: warning: task definition for "random_test_gemm" has an empty port declaration list!

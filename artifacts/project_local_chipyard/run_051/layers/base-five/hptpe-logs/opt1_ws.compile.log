@@ -1,4 +1,0 @@
-/tmp/hptpe-opt1_ws-6ey42z71/testbench.sv:41: warning: task definition for "initialize" has an empty port declaration list!
-/tmp/hptpe-opt1_ws-6ey42z71/testbench.sv:119: warning: task definition for "random_test_gemm" has an empty port declaration list!
-/tmp/hptpe-opt1_ws-6ey42z71/testbench.sv:261: warning: Port 5 (A) of top expects 32 bits, got 33.
-/tmp/hptpe-opt1_ws-6ey42z71/testbench.sv:261:        : Pruning 1 high bits of the expression.
