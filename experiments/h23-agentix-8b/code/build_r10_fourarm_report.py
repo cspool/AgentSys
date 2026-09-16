@@ -1317,7 +1317,7 @@ process。</p>
 <h3>B3b iter 之下：layer 与 fragment（kernel 序列周期折叠）</h3>
 <p class="theme">B 的 process 层级到此对齐 batch8 契约的全部深度：request → call → iter(step)
 → scope → <b>layer → 算子 process → fragment（kernel 实例）</b> → kernel 内 NCU 计数器。layer/process/fragment
-不靠模块打点（cudagraph 下模块 NVTX 为已验证阴性），而是从 kernel 序列的层周期性重建——一个算子 process（如注意力核）可拥多个 fragment（flash_fwd + combine 两个 kernel），fragment 是 process 内的 kernel 级切片而非 process 本身。{layer_note}</p>
+不靠模块打点（cudagraph 下模块 NVTX 为已验证阴性），而是从 kernel 序列的层周期性重建——一个算子 process（如注意力核）可拥多个 fragment（flash_fwd + combine 两个 kernel），fragment 是 process 内的 kernel 级切片而非 process 本身。术语消歧：此 fragment 是 batch8 契约的 trace 归因单元（process 的碎片区间，严格拥有其发射的 kernel），与 CUDA <code>wmma::fragment</code>（tensor core 下 warp 内每线程的寄存器矩阵片，位于 kernel 内部、只能被 NCU 计数器聚合覆盖）无关，两词撞名纯属巧合。{layer_note}</p>
 {tbl_layer}
 <p class="cap"><b>表注：</b>gemm 四兄弟（qkv/o/gate_up/down）合计约占层墙钟的大头，注意力核
 （2 个 fragment）次之；层间 p10/p90 接近说明 32 层高度均匀——layer 层没有离群热点，
