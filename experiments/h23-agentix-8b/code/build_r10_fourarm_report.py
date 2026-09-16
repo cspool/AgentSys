@@ -1097,7 +1097,7 @@ mean {e_pi['mean']:.2f}× / p99 {e_pi['p99']:.2f}×。下方状态机原图即�
                       "仪器臂 wall 47.1 s 对性能臂 37.5 s，开销 +26 % 已披露）。"
                       "fragment 表是 process→fragment→kernel 的实测：qkv/o/mlp 为 device 界"
                       "（GEMM 真算力），attn_core 与两个 norm 为 launch/host 界——"
-                      "仪器开销已微基准量化：hook 派发+NVTX 对 = 2.7 µs/实例（nvtx 对本身仅 0.26 µs）——占 norm 类 host 30.8 µs 的 ~9 %、占 attn_core 280 µs 的 ~1 %，扣除后界判定不变（norm 28 µs 仍 ≫ device 2.3 µs）；宏观差分臂（同条件去 hook）待 GPU 恢复后补跑。launch-bound 结论第一次落到算子粒度。两张排名表口径互补：host 观测宇宙由 attn_core 领跑（Python 包装 + 5 fragment 发射），device 归因宇宙由 mlp_gate_up/down 与 qkv 领跑（真算力）——同一批 process、两种「谁最重」，正是 host 节奏主导、GEMM 算力其内的双层结构。")
+                      "仪器开销已双尺度量化。宏观三臂差分（同负载同 nsys）：graph 性能臂 37.6 s → eager 无 hook 44.6 s（<b>eager 代价 +7.0 s / +18.6 %</b>，cudagraph 消失的发射开销）→ eager+hook 47.1 s（<b>hook 代价 +2.5 s / +5.6 %</b>，≈1.66 ms/步 ≈ 5.8 µs/实例）。微观裸基准：hook 派发+NVTX 对 = 2.7 µs/实例（nvtx 对本身 0.26 µs）——nsys 与竞争下约 ×2，两尺度自洽。占 norm 类 host 30.8 µs 的 ~9–19 %、attn_core 280 µs 的 ~1–2 %，扣除后界判定不变（norm 仍 ≫ device 2.3 µs）。launch-bound 结论第一次落到算子粒度。两张排名表口径互补：host 观测宇宙由 attn_core 领跑（Python 包装 + 5 fragment 发射），device 归因宇宙由 mlp_gate_up/down 与 qkv 领跑（真算力）——同一批 process、两种「谁最重」，正是 host 节奏主导、GEMM 算力其内的双层结构。")
     if BK == "bcap" and not _pt_file.exists():
         _db = sqlite3.connect(str(D[BK] / "cap.sqlite"))
         _q = ("select n.start,n.end from NVTX_EVENTS n left join StringIds s on n.textId=s.id "
