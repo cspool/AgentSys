@@ -1,0 +1,38 @@
+{
+ "schema_version": 1,
+ "protocol": "wp probe: single call, eager, module-process NVTX validation",
+ "provenance": {
+  "generator": "inline"
+ },
+ "config": {
+  "workload_class": "wp_probe",
+  "arrival_rate_programs_per_s": 0.0,
+  "seed": 1
+ },
+ "summary": {
+  "programs": 1,
+  "llm_calls": 1,
+  "total_output_tokens": 64
+ },
+ "programs": [
+  {
+   "program_id": "pb000",
+   "class": "bfcl",
+   "arrival_ns": 0,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 128,
+     "output_tokens": 64,
+     "tool_delay_ns": 0
+    }
+   ],
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 128,
+   "total_output_tokens": 64
+  }
+ ]
+}

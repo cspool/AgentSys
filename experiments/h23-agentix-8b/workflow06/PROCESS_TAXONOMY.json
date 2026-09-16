@@ -1,0 +1,72 @@
+{
+ "schema": "PROCESS_TAXONOMY v1 (workload_profile port, vLLM Llama)",
+ "hierarchy": [
+  "call",
+  "iter(step)",
+  "layer",
+  "process",
+  "fragment(kernel)",
+  "ncu_counters"
+ ],
+ "processes": [
+  {
+   "process": "norm_in",
+   "module": "layers.{i}.input_layernorm",
+   "expected_fragments": [
+    "triton_red_fused_fused_add_rms_norm*"
+   ]
+  },
+  {
+   "process": "qkv_proj",
+   "module": "layers.{i}.self_attn.qkv_proj",
+   "expected_fragments": [
+    "cutlass::Kernel2<gemm>"
+   ]
+  },
+  {
+   "process": "attn_core",
+   "module": "layers.{i}.self_attn.attn",
+   "expected_fragments": [
+    "vllm::reshape_and_cache_flash*",
+    "flash::flash_fwd_splitkv_kernel*",
+    "flash::flash_fwd_splitkv_combine*"
+   ]
+  },
+  {
+   "process": "o_proj",
+   "module": "layers.{i}.self_attn.o_proj",
+   "expected_fragments": [
+    "cutlass::Kernel2<gemm>"
+   ]
+  },
+  {
+   "process": "norm_post",
+   "module": "layers.{i}.post_attention_layernorm",
+   "expected_fragments": [
+    "triton_red_fused_fused_add_rms_norm*"
+   ]
+  },
+  {
+   "process": "mlp_gate_up",
+   "module": "layers.{i}.mlp.gate_up_proj",
+   "expected_fragments": [
+    "cutlass::Kernel2<gemm>"
+   ]
+  },
+  {
+   "process": "act_mul",
+   "module": "layers.{i}.mlp.act_fn",
+   "expected_fragments": [
+    "triton_poi_fused_mul_silu*"
+   ]
+  },
+  {
+   "process": "mlp_down",
+   "module": "layers.{i}.mlp.down_proj",
+   "expected_fragments": [
+    "cutlass::Kernel2<gemm>"
+   ]
+  }
+ ],
+ "notes": "rotary embedding is applied inside self_attn.forward between qkv_proj and attn ranges (not a hooked leaf module); its kernel lands in the p.L*. gap between qkv_proj and attn_core and is attributed by launch order. lm_head/logits are model-level, outside the layer taxonomy."
+}

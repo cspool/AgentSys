@@ -110,6 +110,11 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
         sys.path.insert(0, str(Path(__file__).parent))
         import w_instrument
         w_probes = w_instrument.install()
+    if os.environ.get("AGENTIX_MODPROC", "0") == "1":
+        # Stage W instrumentation arm: module-level process NVTX (eager only)
+        sys.path.insert(0, str(Path(__file__).parent))
+        import wp_modproc
+        wp_modproc.install()
     # The two preemption mechanisms are MUTUALLY EXCLUSIVE arms, so each one's
     # own overhead is what the trace measures:
     #   agentix_engine — software only: quantum exhaustion drives the scheduler's
