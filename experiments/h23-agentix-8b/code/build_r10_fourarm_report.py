@@ -8,7 +8,7 @@ template constants; every figure and number here is rebuilt from the NEW
 captures. The pair edition remains in git history.
 
 Core fix this edition carries: the end-to-end lanes now draw THREE quantities
-separately — 等待 (submit→首token, red), busy (量子段真实执行, class color),
+separately — 等待 (submit→首token, red), busy (quantum 段真实执行, class color),
 驻留中的再排队 (quantum-requeue gaps inside the residence, pale red) — so the
 "scheduling must not change execution" invariant is checkable in the figure
 itself instead of being contradicted by a conflated 彩段.
@@ -88,7 +88,7 @@ def seg_union_ms(segs, lo, hi):
 
 
 def tri_stats(calls, chunks):
-    """Mean 等待 / 引擎内量子段 / 量子间再排队 per class (ms per call)."""
+    """Mean 等待 / 引擎内 quantum 段 / quantum 间再排队 per class (ms per call)."""
     per = defaultdict(lambda: {"wait": [], "engine": [], "requeue": []})
     for c in calls:
         k = (c["program_id"], c["call_index"])
@@ -303,7 +303,7 @@ def main():
             f"<td>{t[c]['wait']:.0f} / {t[c]['engine']:.0f} / {t[c]['requeue']:.0f}</td>"
             for c in ("bfcl", "sharegpt", "lats"))
         return f"<tr><td>{label}</td>{cells}</tr>"
-    tbl_tri = ('<table><tr><th>臂（每调用均值 ms：等待 / 引擎内 / 量子间再排队）</th>'
+    tbl_tri = ('<table><tr><th>臂（每调用均值 ms：等待 / 引擎内 / quantum 间再排队）</th>'
                '<th>bfcl</th><th>sharegpt</th><th>lats</th></tr>'
                + "".join(tri_row(k, lab) for k, lab, *_ in ARMS) + "</table>")
     # execution invariance: matched calls UNPREEMPTED on both sides —
@@ -351,14 +351,22 @@ def main():
     y = 70
     pile_notes = []
     from collections import Counter
+    SHORTN = {"plain": "素", "opt": "opt", "mlfq": "MLFQ", "core": "core"}
+    pile_comp = []
     for key, label, *_ in ARMS:
         sg = seg[key]
         inw = [m for m in sg if m["start"] < cw1 and m["end"] > cw0]
-        s, y = call_pile_strip(inw, y, f"{label}（窗内 {len(inw)}/{len(sg)} 成员）", cw0, cw1)
+        s, y = call_pile_strip(inw, y, f"{SHORTN[key]}（窗内 {len(inw)}/{len(sg)} 成员）", cw0, cw1)
         y += 8
         parts2 += s
-        short_n = sum(v for k2, v in Counter(m["cls"] for m in sg).items() if k2 != "lats")
-        pile_notes.append(f"{label}：{len(sg)} 个调用 / {sum(m['d'] for m in sg)/1e9:.0f} s，短程序成员 {short_n}")
+        comp = Counter(m["cls"] for m in sg)
+        short_n = sum(v for k2, v in comp.items() if k2 != "lats")
+        pile_notes.append(f"{SHORTN[key]}：{len(sg)} 个调用 / {sum(m['d'] for m in sg)/1e9:.0f} s，短程序成员 {short_n}")
+        by_pid = Counter(m["pid"] for m in sg)
+        tops = "、".join(f"{pid}({n}调用)" for pid, n in by_pid.most_common(3))
+        pile_comp.append(
+            f"<b>{SHORTN[key]}</b>：{comp.get('bfcl',0)} 个 bfcl + {comp.get('sharegpt',0)} 个 sharegpt + "
+            f"{comp.get('lats',0)} 个 lats 调用；成员最多的程序 {tops}")
     fig2 = fig(parts2, y + 6)
     audit["windows"]["part2"] = {"criterion": "densest 60 s of vLLM素 top call pile",
                                  "window_s": [cw0 / 1e9, cw1 / 1e9]}
@@ -411,33 +419,171 @@ def main():
             t += step
         return b0, b0 + width_ms
     c0, c1 = at_cap_window(C["opt"])
-    # display the central 5 s so each ~100 ms lane bar is individually readable
-    d0 = c0 + (c1 - c0) / 2 - 2500.0
-    d1 = d0 + 5000.0
-    parts3 = axis(d0, d1, 60, 4 * (3 * 162 + 40) + 40)
-    y = 70
-    for key, label, *_ in ARMS:
-        # cu lane rows are RELATIVE to the capture start (= hl origin);
-        # convert the run-relative window via each arm's own offsets
-        run0 = int(P[key]["e2e"]["origin"]) - int(P[key]["hl"]["origin"])
-        s, y = cu_strip(P[key]["cu"], y, label, run0 + int(d0 * 1e6), run0 + int(d1 * 1e6))
-        parts3 += s
+    audit["windows"]["part4_atcap"] = {"criterion": "30 s window with max opt time-above-cap16",
+                                       "window_s": [c0 / 1e3, c1 / 1e3]}
+
+    # ---- 4.1 per-METRIC whole-run overlays: one figure per metric, 4 arms --
+    wall_ms = max(max(c["finished_rel_ms"] for c in C[k]) for k, *_ in ARMS)
+    def run0_of(key):
+        return int(P[key]["e2e"]["origin"]) - int(P[key]["hl"]["origin"])
+    def metric_overlay(lane_idx, title, cap=None):
+        H = 330
+        parts = axis(0.0, wall_ms, 60, H - 40)
+        lanes = {k: P[k]["cu"]["lanes"][lane_idx] for k, *_ in ARMS}
+        ymax = max(l["max"] for l in lanes.values()) or 1
+        base, top = H - 30, 74
+        Xm = lambda ms: LEFT + (W - LEFT - RIGHT) * min(max(ms, 0), wall_ms) / wall_ms
+        Ym = lambda v: base - (base - top) * min(v / ymax, 1.0)
+        parts.append(f'<text x="4" y="26" font-size="20" font-weight="600" fill="#1f2f45">{title}'
+                     f'（四臂叠加，满量程 {ymax:g}{lanes[ARMS[0][0]]["unit"]}）</text>')
+        lx = LEFT
+        for key, label, *_ in ARMS:
+            parts.append(f'<rect x="{lx}" y="34" width="22" height="4" fill="{ARM_COLOR[key]}"/>'
+                         f'<text x="{lx+27}" y="41" font-size="15" fill="#48607d">{label.split("（")[0]}</text>')
+            lx += 250
+        for key, *_ in ARMS:
+            r0 = run0_of(key)
+            seg_path = ""
+            for rows in lanes[key]["rows"]:
+                for r in rows:
+                    ms0, ms1 = (r[0] - r0) / 1e6, (r[0] + r[1] - r0) / 1e6
+                    if ms1 < 0 or ms0 > wall_ms:
+                        continue
+                    seg_path += f"M{Xm(ms0):.1f} {Ym(r[2]):.1f}H{Xm(ms1):.1f}"
+            parts.append(f'<path d="{seg_path}" stroke="{ARM_COLOR[key]}" stroke-width="1.5" '
+                         f'fill="none" opacity=".85"/>')
+        if cap is not None:
+            parts.append(f'<line x1="{LEFT}" y1="{Ym(cap):.1f}" x2="{W-RIGHT}" y2="{Ym(cap):.1f}" '
+                         f'stroke="{WAIT}" stroke-dasharray="4 3"/>'
+                         f'<text x="{W-RIGHT-2}" y="{Ym(cap)-4:.1f}" font-size="15" '
+                         f'text-anchor="end" fill="{WAIT}">cap=16</text>')
+        return fig(parts, H)
+    fig4_busy = metric_overlay(0, "GPU busy（%）")
+    fig4_gemm = metric_overlay(1, "gemm 家族时间占比（%）")
+    fig4_inf = metric_overlay(2, "在飞调用数（个）", cap=16)
+
+    # ---- 4.2 per-ARM deep dive: high-latency + concurrency window,
+    #      process timelines co-axial with metric-time lanes -----------------
+    def deep_dive(key, label):
+        r0 = run0_of(key)
+        sg = seg[key]                       # top call-pile members, run-rel ns
+        # (a) high-latency period: densest 10 s of top-pile member activity
+        win = 10e3
+        best, h0 = -1.0, 0.0
+        tt = 0.0
+        while tt + win <= wall_ms:
+            act = sum(max(0.0, min(m["end"] / 1e6, tt + win) - max(m["start"] / 1e6, tt)) for m in sg)
+            if act > best:
+                best, h0 = act, tt
+            tt += 2500.0
+        # (b) concurrency period: densest 10 s of above-cap in-flight
+        inf_rows = [r for rows in P[key]["cu"]["lanes"][2]["rows"] for r in rows]
+        best, q0 = -1.0, 0.0
+        tt = 0.0
+        while tt + win <= wall_ms:
+            over = sum(r[1] / 1e6 for r in inf_rows
+                       if r[2] >= 16 and (r[0] - r0) / 1e6 >= tt and (r[0] - r0) / 1e6 < tt + win)
+            if over > best:
+                best, q0 = over, tt
+            tt += 2500.0
+        w0 = min(h0, q0)
+        w1 = max(h0 + win, q0 + win)
+        if w1 - w0 > 25e3:                   # disjoint far apart: keep the HL window
+            w0, w1 = h0, h0 + win
+        hl_pids = {m["pid"] for m in sg if m["start"] / 1e6 < w1 and m["end"] / 1e6 > w0}
+        parts = axis(w0, w1, 60, 0)          # height patched at the end
+        parts.append(f'<text x="4" y="26" font-size="20" font-weight="600" fill="{ARM_COLOR[key]}">'
+                     f'{label} · 高延迟段 [{h0/1e3:.0f},{(h0+win)/1e3:.0f}] s · '
+                     f'超cap并发段 [{q0/1e3:.0f},{(q0+win)/1e3:.0f}] s · 图窗 [{w0/1e3:.0f},{w1/1e3:.0f}] s</text>')
+        y = 74
+        Xd = lambda ms: LEFT + (W - LEFT - RIGHT) * (max(min(ms, w1), w0) - w0) / (w1 - w0)
+        # process timelines (zoomed e2e style), high-latency programs flagged
+        lanes_p = {}
+        for c in C[key]:
+            if c["finished_rel_ms"] < w0 or c["submitted_rel_ms"] > w1:
+                continue
+            lanes_p.setdefault(c["program_id"], {"cls": c["class"], "cs": []})["cs"].append(c)
+        order = sorted(lanes_p.items(), key=lambda kv: (
+            {"bfcl": 0, "sharegpt": 1, "lats": 2}[kv[1]["cls"]],
+            min(x["submitted_rel_ms"] for x in kv[1]["cs"])))
+        rh, bh = 11, 7
+        for pid, ln in order:
+            hlf = pid in hl_pids
+            parts.append(f'<text x="{LEFT-6}" y="{y+bh+1}" font-size="14" text-anchor="end" '
+                         f'fill="{WAIT if hlf else "#8fa2b6"}"'
+                         f'{" font-weight=\"700\"" if hlf else ""}>{pid}·{ln["cls"]}</text>')
+            for c in ln["cs"]:
+                ft, fin = c["first_token_rel_ms"], c["finished_rel_ms"]
+                x0, x1, x2 = Xd(c["submitted_rel_ms"]), Xd(ft), Xd(fin)
+                if x1 > x0:
+                    parts.append(f'<rect x="{x0:.1f}" y="{y+1}" width="{max(x1-x0,0.5):.1f}" '
+                                 f'height="{bh}" fill="{WAIT}" opacity=".85"/>')
+                segs = CH[key].get((pid, c["call_index"]))
+                if segs:
+                    parts.append(f'<rect x="{x1:.1f}" y="{y+1}" width="{max(x2-x1,0.5):.1f}" '
+                                 f'height="{bh}" fill="{REQUEUE}" opacity=".9"/>')
+                    for b, e, _q in segs:
+                        b, e = max(b, ft), min(e, fin)
+                        if e <= b:
+                            continue
+                        parts.append(f'<rect x="{Xd(b):.1f}" y="{y+1}" width="{max(Xd(e)-Xd(b),0.5):.1f}" '
+                                     f'height="{bh}" fill="{CLS_COLOR[ln["cls"]]}"/>')
+                else:
+                    parts.append(f'<rect x="{x1:.1f}" y="{y+1}" width="{max(x2-x1,0.5):.1f}" '
+                                 f'height="{bh}" fill="{CLS_COLOR[ln["cls"]]}" opacity=".9"/>')
+            y += rh
         y += 10
-    fig3 = fig(parts3, y + 6)
-    audit["windows"]["part3"] = {"criterion": "30 s window with max opt time-above-cap16",
-                                 "window_s": [c0 / 1e3, c1 / 1e3]}
-    micro_parts, ym = [], 60
-    micro_stats = {}
+        # metric lanes sharing the same axis: busy / gemm / in-flight / step rate
+        def lane(rows_iter, label_l, vmax, color, cap_line=None):
+            nonlocal y
+            lane_h = 96
+            base = y + lane_h - 8
+            parts.append(f'<text x="{LEFT-6}" y="{y+14}" font-size="15" text-anchor="end" '
+                         f'fill="#48607d">{label_l}</text>')
+            parts.append(f'<rect x="{LEFT}" y="{y}" width="{W-LEFT-RIGHT}" height="{lane_h}" '
+                         f'fill="#fbfbf9" stroke="#eee"/>')
+            path = ""
+            for ms0, ms1, v in rows_iter:
+                if ms1 < w0 or ms0 > w1:
+                    continue
+                h = (lane_h - 18) * min(v / vmax, 1.0)
+                path += f"M{Xd(ms0):.1f} {base:.1f}V{base-h:.1f}H{Xd(ms1):.1f}V{base:.1f}"
+            parts.append(f'<path d="{path}" stroke="{color}" stroke-width="1" fill="none"/>')
+            if cap_line is not None:
+                yc = base - (lane_h - 18) * min(cap_line / vmax, 1.0)
+                parts.append(f'<line x1="{LEFT}" y1="{yc:.1f}" x2="{W-RIGHT}" y2="{yc:.1f}" '
+                             f'stroke="{WAIT}" stroke-dasharray="4 3"/>')
+            y += lane_h + 18
+        cuL = P[key]["cu"]["lanes"]
+        def cu_rows(li):
+            return [((r[0] - r0) / 1e6, (r[0] + r[1] - r0) / 1e6, r[2])
+                    for rows in cuL[li]["rows"] for r in rows]
+        lane(cu_rows(0), "GPU busy %", 100, "#2f6f9f")
+        lane(cu_rows(1), "gemm 占比 %", 100, "#a8802f")
+        lane(cu_rows(2), "在飞（个）", cuL[2]["max"], "#1baf7a", cap_line=16)
+        fw = sorted((m[0] for pile in P[key]["hl"]["piles"] for rows in pile["rows"]
+                     for m in rows), key=lambda x: x)
+        e2o = int(P[key]["e2e"]["origin"])
+        binw = 250.0
+        bins = {}
+        for st in fw:
+            ms = (st - e2o) / 1e6
+            if w0 - binw <= ms <= w1 + binw:
+                bins[int(ms // binw)] = bins.get(int(ms // binw), 0) + 1
+        srate = [(b * binw, (b + 1) * binw, n / (binw / 1e3)) for b, n in sorted(bins.items())]
+        smax = max((v for *_, v in srate), default=1)
+        lane(srate, "step 率（步/s）", smax, "#7a5fb0")
+        audit["windows"].setdefault("part4_deepdive", {})[key] = {
+            "hl_window_s": [h0 / 1e3, (h0 + win) / 1e3],
+            "atcap_window_s": [q0 / 1e3, (q0 + win) / 1e3],
+            "figure_window_s": [w0 / 1e3, w1 / 1e3],
+            "hl_programs": sorted(hl_pids)}
+        # patch the axis height now that y is known
+        parts[0:len(axis(w0, w1, 60, 0))] = axis(w0, w1, 60, y - 50)
+        return fig(parts, y + 6), sorted(hl_pids)
+    deep_figs, deep_hl = {}, {}
     for key, label, *_ in ARMS:
-        oe = int(P[key]["e2e"]["origin"])
-        at = kernel_micro_best(D[key] / "cap.sqlite", oe + int(c0 * 1e6), oe + int(c1 * 1e6), int(300e6))
-        s, ym, busy, gsum = kernel_micro_strip(D[key] / "cap.sqlite", ym, label, at, int(300e6))
-        ym += 14
-        micro_parts += s
-        micro_stats[key] = {"busy_pct": busy, "gemm_pct": gsum}
-    fig3b = fig(micro_parts, ym + 6)
-    audit["windows"]["part3_micro"] = {"criterion": "busiest 300 ms (max kernel busy) inside part3 window, per arm",
-                                       "stats": micro_stats}
+        deep_figs[key], deep_hl[key] = deep_dive(key, label)
 
     # ================= 五、负载分析 W1–W6 ==================================
     def w2row(key, label):
@@ -456,17 +602,6 @@ def main():
         f"<tr><td>{lab}</td><td>{next((b['sum_ns']/1e9 for b in W2[k]['dominant_idle_boundaries'] if 'set_async' in b['boundary']),0):.0f} s</td>"
         f"<td>{step_sums[k]:.0f} s</td></tr>" for k, lab, *_ in ARMS)
 
-    # ---- part-4 extra: whole-run lanes (端到端过程中的并发) ----------------
-    wall_ms = max(max(c["finished_rel_ms"] for c in C[k]) for k, *_ in ARMS)
-    parts3f = axis(0.0, wall_ms, 60, 4 * (3 * 162 + 40) + 40)
-    y = 70
-    for key, label, *_ in ARMS:
-        run0 = int(P[key]["e2e"]["origin"]) - int(P[key]["hl"]["origin"])
-        s, y = cu_strip(P[key]["cu"], y, label, run0, run0 + int(wall_ms * 1e6))
-        parts3f += s
-        y += 10
-    fig3full = fig(parts3f, y + 6)
-
     # ---- one real call walked through all four arms (for the method block) --
     kb = max((k for k, r in idx["opt"].items() if r["class"] == "bfcl"
               and all(k in idx[a] for a, *_ in ARMS)),
@@ -480,7 +615,7 @@ def main():
                 f"<td>{nch}</td><td>{w+res:,.0f}</td></tr>")
     walk_tbl = ('<table><tr><th>臂（同一真实调用 '
                 f'{kb[0]}#{kb[1]}，bfcl）</th><th>等待 ms</th><th>驻留 ms</th>'
-                '<th>量子段数</th><th>端到端 ms</th></tr>'
+                '<th>quantum 段数</th><th>端到端 ms</th></tr>'
                 + "".join(walk_row(k, lab) for k, lab, *_ in ARMS) + "</table>")
 
     # ================= assembly ============================================
@@ -496,28 +631,27 @@ def main():
         ("<b>lats 的生命周期：</b>", "<b>一句话看图：</b>五行并行波逐波推进——每波等最慢一路，寿命=关键路径。<b>lats 的生命周期：</b>"),
     ):
         life_html = life_html.replace(_old, _new)
-    art_html = char_art(C["opt"], C["core"], P["opt"]["hl"])
     sig_m = chunk_sig.get("mlfq", (0, 0, 0))
     tri_def = f"""
 <div class="block howto"><b>三个时间量的定义（本报告所有时间线图共用，必须区分）</b>
 <p><b>等待</b>（红段）：提交→首 token，排队 + 首段 prefill——调度直接作用的量。
-<b>引擎内量子段</b>(类别色段)：调用被引擎接纳、正在被 step 服务的时段（trace 的
-chunk_begin/end 逐段实测，与首token→完成的驻留取交）。<b>量子间再排队</b>（浅红底）：量子用尽
-被抢占后、等待下一个量子的时段——它发生在首 token 之后，旧版把它并进彩段，才造成
+<b>引擎内 quantum 段</b>（类别色段）：调用被引擎接纳、正在被 step 服务的时段。quantum（原文 time quantum）= 队列发给调用的一次性服务配额，用尽即被抢占并降级——它是服务量的上限，不是队列容量（trace 的
+chunk_begin/end 逐段实测，与首token→完成的驻留取交）。<b>quantum 间再排队</b>（浅红底）：quantum 用尽
+被抢占后、等待下一个 quantum的时段——它发生在首 token 之后，旧版把它并进彩段，才造成
 "调度优化却改变了 busy"的错觉。</p>
 <p><b>执行不变性的验证（三条互相独立）：</b>① 同调用两侧 <code>produced_tokens</code> 逐个相等
 （2,440/2,440）；② 两侧都未被抢占的同调用，驻留比中位 = MLFQ {inv['mlfq']:.2f}（n={inv_n['mlfq']}）/
 core {inv['core']:.2f}（n={inv_n['core']}）——没被机制碰过的调用，服务逐毫秒相同；③ step 宇宙
 （第二章 step 堆、第三章 kernel 显微）四臂同形。</p>
-<p><b>机制的真实执行代价也在这里现形（不是测量误差）：</b>被切量子的调用，其后续量子段要
-重新 prefill 已生成的上下文——MLFQ 的续段量子墙钟中位 {sig_m[1]:,.0f} ms 对首段
+<p><b>机制的真实执行代价也在这里现形（不是测量误差）：</b>被 quantum 切分的调用，其后续quantum 段要
+重新 prefill 已生成的上下文——MLFQ 的续段 quantum 墙钟中位 {sig_m[1]:,.0f} ms 对首段
 {sig_m[0]:,.0f} ms（{sig_m[2]:,} 个续段）。这份再 prefill 是调用级抢占为"随时可抢"支付的
 计算价，正是它把等待坍缩省下的时间吃掉、让 MLFQ 的 mean 停在 1.03×。</p></div>
 {tbl_tri}
-<p class="cap"><b>表注：</b>素/opt 无量子机制，引擎内 ≈ 驻留（再排队恒 0）；MLFQ 把等待压到
+<p class="cap"><b>表注：</b>素/opt 无 quantum 机制，引擎内 ≈ 驻留（再排队恒 0）；MLFQ 把等待压到
 bfcl {TRI['mlfq']['bfcl']['wait']:.0f} ms，代价是再排队（sharegpt
 {TRI['mlfq']['sharegpt']['requeue']:.0f} ms/调用）+ 续段再 prefill（并入引擎内列，使其略胀）；
-core 只切 132 个调用，再排队集中在被压后的长程序。等待列被机制大规模重分配、
+core 只对 132 个调用触发 quantum 切分，再排队集中在被压后的长程序。等待列被机制大规模重分配、
 引擎内列只随再 prefill 小幅变化——数据合理性由上面三条不变性钉住。</p>"""
 
     _PAPER = {
@@ -527,7 +661,9 @@ core 只切 132 个调用，再排队集中在被压后的长程序。等待列�
             "正是它的实例化：bfcl≈ReAct 工具链、sharegpt≈Chatbot、lats≈MCTS 树搜索。"),
         2: ("_page_1_Figure_0.jpeg",
             "看同一批 4 程序在 2 槽引擎里三种排法的甘特图——等待如何被顺序制造、又被程序信息消掉。",
-            "(b) FCFS 里长调用把 D 挡到 t≈4（调用级队头阻塞，共等 18 单位）；(c) MLFQ 抢占了长调用"
+            "轴的语义（对照原文图注）：横轴一格 = 一次 decode 迭代；纵轴两行 = max batch size 2 的两个"
+            "批槽，即每个 decode 步最多打包 2 个 call 各一次 decode 迭代；(a) 表中每个 call 的长度即它"
+            "需要的 decode 迭代数。(b) FCFS 里长调用把 D 挡到 t≈4（调用级队头阻塞，共等 18 单位）；(c) MLFQ 抢占了长调用"
             "但 A/B 的后续调用又插队（程序级阻塞，仍 18 单位）；(d) PLAS 压后 A/B 的后续调用，等待降到"
             "12 单位。第二部分的 per-program 块就是这张图的 16 槽实盘版：素/opt 行对应 (b)，M 行对应"
             " (c)，C 行对应 (d)。"),
@@ -565,7 +701,7 @@ core 只切 132 个调用，再排队集中在被压后的长程序。等待列�
             "所以 lats 的寿命=关键路径而非调用之和；也因此压后 lats 个别调用（浅红底）不一定拖慢整程序。"),
         10: ("_page_7_Figure_0.jpeg",
             "看一次 LLM 调用在离散化优先级下的生命周期状态机。",
-            "准入按 p(c<sub>j</sub>) 定级、量子用尽降级、β 触发提升——1.2③ 的机制原文。我们账本里"
+            "准入按 p(c<sub>j</sub>) 定级、quantum 用尽降级、β 触发提升——1.2③ 的机制原文。我们账本里"
             "admission Q0–Q3 = 97/102/237/2004、降级 151 次就是这台状态机在本负载上的运行记录。"),
         11: ("_page_8_Figure_8.jpeg",
             "看三类负载的输入/输出长度与每程序调用数分布——我们的合成负载按此校准。",
@@ -618,7 +754,7 @@ core 只切 132 个调用，再排队集中在被压后的长程序。等待列�
 <h3>1.2 论文的方法与 baseline 的对比 —— 负载带来的消融机会（多图）</h3>
 <div class="block"><b>① 论点</b>
 <p>1.1 的三类负载结构不对称，使三种优化各有独立杠杆：bfcl 的密集短调用给"排序"最大杠杆；
-sharegpt 的长 decode 调用是"量子抢占"的作用面；lats 的调用洪流制造两级队头阻塞——只有认得
+sharegpt 的长 decode 调用是"quantum 抢占"的作用面；lats 的调用洪流制造两级队头阻塞——只有认得
 "程序身份"的调度才能区分"洪流的第 180 个调用"与"新程序的第 1 个调用"。三个机会互不重叠，
 四臂因此可以首尾相接地逐对消融。</p></div>
 {pf(2)}
@@ -638,7 +774,7 @@ sharegpt 的长 decode 调用是"量子抢占"的作用面；lats 的调用洪�
 收益。下两张原图给出机会边界：程序内命中高、跨程序命中低。</p></div>
 {pf(7)}{pf(70)}
 <div class="block impl">
-<p><b>调用级抢占</b>（opt→MLFQ）：动机是打破调用级队头阻塞；机制是每队列 token 量子
+<p><b>调用级抢占</b>（opt→MLFQ）：动机是打破调用级队头阻塞；机制是每队列 time quantum（服务配额，本复现以 token 数计 32/64/128/256；论文未给具体值）
 （32/64/128/256）+ 用尽降级；证据角色是类等待坍缩（bfcl p50 {cw['fcfs']['bfcl']['p50']:.0f}→
 {cw['core']['bfcl']['p50']:.0f} ms）与 mean 仅 {e_cp['mean']:.2f}× 并存——省下的等待被再
 prefill 与再排队吃掉，尾部才有 p90 {e_cp['p90']:.2f}×。<b>程序身份</b>（MLFQ→core）：动机是
@@ -687,23 +823,30 @@ vLLM-opt / MLFQ调用级 / agentix_core，同负载同栈，逐对只差一个�
 端点全景（4 臂 × 5 到达率）在附录。窗口与选材标准在 R10_SUMMARY_AUDIT.json；
 本版取代旧版（存 git 历史）。</p>
 
-<h2>第一部分 负载理解 —— 负载特点、分析链与消融机会</h2>
-<h3>1.1 不同负载的特点 —— 并由此认识 program / call / step / scope</h3>
-<p class="theme">这份负载由三类 agent 会话组成，特点差异一眼可分：<b>bfcl</b> 是十余个
-短 decode 请求密集串行、请求间穿插工具延迟；<b>sharegpt</b> 是少量请求、每个 decode 很长；
-<b>lats</b> 是近两百个小请求组成的深链、每波 5 路并行。由这三种差异自然引出四层概念：
-把"一个会话实例"称为 <b>program</b>（三类共 25 个）——区分三类靠的是它内部请求的数量与
-形状；program 里的"一次 LLM 请求"是 <b>call</b>（共 2,440 个）——bfcl 的 call 短而多、
-sharegpt 的 call 长而少；引擎一次连续批迭代是 <b>step</b>（约 1.5 万个/捕获）——一个 step
-同时服务至多 16 个 call 各一小段 decode，反过来一个 call 的服务由几十到上千个 step 拼成，
-这就是"调度只能改 call 进 step 的顺序、改不了 step 本身"的结构原因；step 内的引擎阶段是
-<b>scope</b>（preprocess/forward/sample/postprocess 等，1.3 的 DFG 就画它们）。</p>
+<h2>第一部分 负载理解 —— 负载场景、层次定义与生命周期</h2>
+<h3>1.1 几个 agent 负载场景，与由此引出的四层定义</h3>
+<p class="theme"><b>场景先行。</b>本负载取三个真实 agent 场景：<b>工具代理</b>（bfcl——模型
+反复调用外部工具，每次生成短，调用之间隔着工具延迟）；<b>多轮会话</b>（sharegpt——人与模型
+往返，每轮生成长）；<b>树搜索</b>（lats——MCTS 式搜索，每波 5 路并行展开、近两百次生成连成
+深链）。论文图 1 给出这类场景的一般形态（DAG）：</p>
+{pf(1)}
+<p class="theme"><b>由场景到定义。</b>要说清这三种场景在 serving 引擎里的行为，需要四层
+词汇：一个场景实例（会话/任务全程）称为 <b>program</b>（三类共 25 个）；program 内的一次
+LLM 请求是 <b>call</b>（共 2,440 个）；引擎的一次连续批迭代是 <b>step</b>（一个 step 同时
+服务至多 16 个 call 各一次 decode 迭代，约 1.5 万步/捕获）——一个 call 的服务由几十到上千个
+step 拼成，这就是"调度只能改 call 进 step 的顺序、改不了 step 本身"的结构原因；step 内的
+引擎阶段是 <b>scope</b>（schedule / prepare / forward / sample 等，1.3 的 DFG 画的就是
+它们）。三类场景的区分完全落在前两层：bfcl = call 短而多，sharegpt = call 长而少，
+lats = call 洪流 + 波并行：</p>
 {compo_tbl}
-<p class="cap"><b>表注：</b>三类程序的组成实测（负载规格冻结 JSON + trace 三方对账，A00 门）。</p>
-{pf(1)}{pf(11)}
-<h3 style="font-size:22px">1.1b 三类负载的真实生命周期（各取一个中位规模的程序实例）</h3>
+<p class="cap"><b>表注：</b>三类程序的组成实测（负载规格冻结 JSON 与 trace 三方对账，A00 门）。</p>
+{pf(11)}
+<h3>1.1b 负载场景的生命周期 —— 用四层定义串起来</h3>
+<p class="theme">把定义放回场景（下面三张图是各类一个中位规模的真实实例，opt 臂 trace）：
+bfcl program 的生命周期是"call（等待→服务）→ 工具延迟 → 下一 call"的串行链，寿命由等待与
+工具延迟主导；sharegpt program 是少数长 call 的接力，寿命由服务段主导；lats program 是每波
+5 个并行 call 的推进，波内要等最慢一路（关键路径）——它的 call 都小，program 却最长。</p>
 {life_html}
-{art_html}
 {pf(5)}
 
 {METH}
@@ -724,7 +867,7 @@ W5 代表集选择 → <b>W6 代表 process 的 DFG</b>。本报告全部时间�
 <table><tr><th>臂</th><th>async 输出等待</th><th>#1 forward 堆</th></tr>{async_tbl}</table></p>
 {pf(3)}{pf(8)}
 
-<h3>1.4 度量定义：三个时间量 —— 等待 / 引擎内 / 量子间再排队</h3>
+<h3>1.4 度量定义：三个时间量 —— 等待 / 引擎内 / quantum 间再排队</h3>
 {tri_def}
 {pf(17)}
 
@@ -737,7 +880,7 @@ W5 代表集选择 → <b>W6 代表 process 的 DFG</b>。本报告全部时间�
 <div class="block howto"><b>怎么读下面的截图</b>
 <p>缩写：素 = vLLM 关缓存/关分块；opt = vLLM 全优化 FCFS；MLFQ = 调用级多级反馈队列；
 core = 程序级（Agentix）。红段 = 等待；<span style="background:{REQUEUE}">浅红底</span> =
-量子间再排队（仅 MLFQ/core 两臂存在）；类别色段 = 引擎内量子段
+quantum 间再排队（仅 MLFQ/core 两臂存在）；类别色段 = 引擎内 quantum 段
 （<span style="color:#eb6834">橙 bfcl</span> / <span style="color:#2a78d6">蓝 sharegpt</span> /
 <span style="color:#1baf7a">绿 lats</span>）。<b>排版：每个 program 一块</b>——块头标出
 程序号·类别·调用数与该块自己的时间窗；块内四行紧凑相邻，自上而下 素 / opt / M（MLFQ）/
@@ -750,10 +893,10 @@ core {wait_sums['core']:.0f} s。逐块看三次相邻行对比：素→opt 红�
 {e_sr['mean']:.2f}×）；opt→M 红段几乎清零、但 sharegpt/lats 块浮出浅红底（等待变成了再排队，
 mean 只有 {e_cp['mean']:.2f}×、p90 {e_cp['p90']:.2f}× 的原因在图内可见）；M→C 浅红底从
 bfcl/sharegpt 块移到 lats 块（长程序买单，{e_pi['mean']:.2f}×/p99 {e_pi['p99']:.2f}×）。
-四行色段密度同形；被切量子的调用色段略胀（续段再 prefill，机制的计算价），
+四行色段密度同形；被 quantum 切分的调用色段略胀（续段再 prefill，机制的计算价），
 未被碰过的调用色段逐毫秒相同。</p>
 {fig1}
-<p class="cap"><b>一句话看图：</b>每块四行上下对看——红段（等待）逐臂缩短，浅红底（再排队）在 M/C 行出现并从短程序块转移到 lats 块；行尾标两个数：该程序的全程等待总和与程序 token 延迟，四行中 ms/tok 最短者（全局服务判据）加粗。<b>图注：</b>行尾"等 x s" = 该程序全部调用（提交→首token）之和；"y ms/tok" = 程序响应时间 ÷ 产出 token 数，均不随窗口裁剪。两个判据故意并列以暴露一个关键事实：<b>Σ等待几乎总是 M 行最短</b>（量子抢占让谁都最快拿到首 token），<b>但加粗多不在 M 行</b>——bfcl 块的 ms/tok 赢家多为 C（6/8），sharegpt 块全部为 opt（5/5，MLFQ 的续段再 prefill 惩罚长 decode），lats 块 opt/C 平分（7/5）。等待可与程序内并行重叠、也可被再 prefill 抵消，所以"面向 agent 负载优化全局服务"的判据是程序完成而非等待之和——这正是交换单位从 call 到 program 的意义在逐程序粒度的显形。每块窗口 = 该程序生命周期 ≤40 s 取全程（±2 % 边距），
+<p class="cap"><b>一句话看图：</b>每块四行上下对看——红段（等待）逐臂缩短，浅红底（再排队）在 M/C 行出现并从短程序块转移到 lats 块；行尾标两个数：该程序的全程等待总和与程序 token 延迟，四行中 ms/tok 最短者（全局服务判据）加粗。<b>图注：</b>行尾"等 x s" = 该程序全部调用（提交→首token）之和；"y ms/tok" = 程序响应时间 ÷ 产出 token 数，均不随窗口裁剪。两个判据故意并列以暴露一个关键事实：<b>Σ等待几乎总是 M 行最短</b>（quantum 抢占让谁都最快拿到首 token），<b>但加粗多不在 M 行</b>——bfcl 块的 ms/tok 赢家多为 C（6/8），sharegpt 块全部为 opt（5/5，MLFQ 的续段再 prefill 惩罚长 decode），lats 块 opt/C 平分（7/5）。等待可与程序内并行重叠、也可被再 prefill 抵消，所以"面向 agent 负载优化全局服务"的判据是程序完成而非等待之和——这正是交换单位从 call 到 program 的意义在逐程序粒度的显形。每块窗口 = 该程序生命周期 ≤40 s 取全程（±2 % 边距），
 &gt;40 s 取四臂调用活动最密的 30 s；窗口起止标在块头。<br><b>轴注：</b>块头方括号内为
 从各自运行起点起算的墙钟秒；块内四行共用该窗口与比例尺；行内每条横条 = 一个 call。</p>
 
@@ -761,9 +904,14 @@ bfcl/sharegpt 块移到 lats 块（长程序买单，{e_pi['mean']:.2f}×/p99 {e
 <div class="block howto"><b>怎么读下面的截图</b>
 <p>缩写：堆/pile = 时长相近的调用簇（对数时长 Lloyd 聚类取最高簇）；粗深线 = bfcl/sharegpt
 调用，细淡线 = lats 调用；梯形 = 堆成员包络。一条线一个调用（起点提交、终点完成）。</p></div>
-<p class="theme"><b>运行时效果（图证）：</b>{"；".join(pile_notes)}。素臂的最高堆被排队抬进了
-大量短程序调用；opt 减员但短程序仍在；MLFQ 把短程序清出（等待归零）但堆的总时长没降多少
-（再排队顶替了等待）；core 的最高堆只剩 lats 本身的长调用——高延迟视角下"该等的才在等"。</p>
+<p class="theme"><b>主要观察什么：</b>看粗深线（bfcl/sharegpt——程序短，应尽早结束离开
+最高堆）与绿色细线（lats 的调用——单个 call 短而密，但程序身份长，应当让步）此消彼长。注意
+方向：绿色恰恰是"该让步"的一方——它们单调用虽短，所属程序却最长；让粗线尽早退出高延迟堆、
+绿色留在堆里垫后，就是程序级调度生效的形态。<b>各臂读数：</b>{"；".join(pile_notes)}。素臂的
+最高堆被排队抬进大量短程序调用；opt 减员但短程序仍在；MLFQ 把短程序清出（等待归零）但堆总
+时长没降多少（quantum 间再排队顶替了等待）；core 的最高堆只剩 lats 本身的长调用——高延迟
+视角下"该等的才在等"。</p>
+<p class="theme"><b>每个堆里有什么 process：</b>{"。".join(pile_comp)}。</p>
 {fig2}
 <p class="cap"><b>一句话看图：</b>数每条带里的粗深线——最高时长堆中的短程序调用逐臂被清出。<b>图注：</b>窗口为素臂最高调用堆最密的 60 s，四臂同窗。</p>
 <h3>支撑：重 forward step 堆两侧同形（服务侧不变的 step 级证据）</h3>
@@ -777,27 +925,47 @@ step 宇宙不随策略变形，与预备节执行不变性的三条验证互为
 {pf(4)}
 <div class="block howto"><b>怎么读下面的截图</b>
 <p>缩写：gemm = 批内线性层 kernel 家族；在飞 = 已提交未完成 call 数；cap=16 = 引擎批容量；
-L2/SM(tensor)/DRAM = NCU 对 gemm 家族重放的中位利用率（在 opt/core 两臂实测，素/MLFQ 同栈
-同 kernel 家族）。趋势图三条 lane：GPU busy %、gemm 占比 %、在飞数；显微图为窗内最忙 300 ms
-的逐 kernel 展开。</p></div>
-<p class="theme"><b>运行时效果（图证）：</b>四臂 busy/gemm 两条 lane 同形、在飞 lane 都贴着
-cap=16 红线——资源使用率与并发两个自由度都被排除；显微图四臂 gemm 突发同样致密
-（busy {" / ".join(f"{v['busy_pct']:.0f}%" for v in micro_stats.values())}），
-突发间都是 step 间 host 空隙。剩下的唯一解释是出队顺序——这就是附录端点差距的机理。</p>
-<h3>4.1 端到端过程中的并发（全程趋势）</h3>
-{fig3full}
-<p class="cap"><b>一句话看图：</b>前 60 s 四臂在飞都顶着 cap 红线，差别只在右端排空尾的长短。<b>图注：</b>四臂全程（0 – {wall_ms/1e3:.0f} s）的三条 lane。到达窗（前 60 s）
-内四臂都把在飞数推到 cap 之上；差异在排空段的长短——素臂尾巴最长（等待把完成推后），
-core 的 lats 排空尾略长于 opt（长程序被压后的代价，与附录 makespan 守恒表相符）。</p>
-<h3>4.2 高延迟时段内的并发（细节窗）</h3>
-{fig3}
-<p class="cap"><b>一句话看图：</b>逐根竖条上下对比——busy 与 gemm 同形、在飞根根贴 cap 线。<b>图注：</b>取 opt 臂在飞超 cap 时间最长的 30 s 窗（高延迟 process 最密的
-时段），展示其中部 5 s 的细节（每根竖条 ≈ 100 ms 的一个采样窗口，可逐根对比，不是趋势线）；
-四臂同相对窗同比例尺。</p>
-<h3>4.3 最忙 300 ms 显微与资源墙</h3>
-{fig3b}
-<p class="cap"><b>一句话看图：</b>黄色 gemm 簇四臂同样致密、空白同样来自 step 间 host 空隙——四臂顶着同一面资源墙。<b>图注：</b>每臂取窗内最忙 300 ms；黄行 = gemm 家族、蓝行 = 其它 kernel，
-右侧竖条 = NCU 资源墙（opt/core 实测值）。</p>
+step 率 = 每秒引擎迭代数（host 侧节奏指标）。4.1 每个指标一张图、四臂同图叠加（臂色与图例
+同第一部分）；4.2 每个方法一张图：上半是图窗内每个 program 的时间线（同端到端画法放大，
+红色程序名 = 该臂最高时长调用堆的成员，即高延迟 process），下半是四条指标-时间分布
+（GPU busy / gemm 占比 / 在飞 / step 率），与 process 时间线共用同一时间轴。
+NCU 资源墙（gemm 家族中位 L2 76 % / SM·tensor 49 % / DRAM 17 %，opt 与 core 臂实测）
+是静态参考值，四臂同栈同 kernel 家族。</p></div>
+<p class="theme"><b>运行时效果（图证）：</b>4.1 三张叠加图里四条线几乎重叠——busy 与 gemm
+的轨迹四臂同形、在飞在到达窗内一起顶着 cap 红线；差别集中在右端排空段的长短（素最长；core
+的 lats 排空尾略长于 opt，与附录 makespan 守恒表相符）。4.2 的共轴图把机理落到时间段上：
+高延迟 process 的红段/浅红底与在飞贴 cap、step 率高原正好同段——排队不是资源不足
+（busy/gemm 并未更高），而是出队顺序把等待集中到了这些 process 上。</p>
+<h3>4.1 端到端过程的并发趋势 —— 每指标一图、四臂同图对比</h3>
+{fig4_busy}
+<p class="cap"><b>一句话看图：</b>四条线轨迹几乎重叠——没有哪个方法靠"更忙"取胜，本部分主题
+（收益不来自资源使用率）由此成立。<b>图注：</b>GPU busy 全程分布，0 – {wall_ms/1e3:.0f} s，
+四臂叠加，臂色同图例。</p>
+{fig4_gemm}
+<p class="cap"><b>一句话看图：</b>gemm 占比的四条线同样重叠——step 内部的计算构成不随调度
+策略改变。<b>图注：</b>gemm 家族时间占比全程分布，口径同上。</p>
+{fig4_inf}
+<p class="cap"><b>一句话看图：</b>到达窗内四条线一起压着 cap=16 红线（并发同样打满），右端
+排空尾的长短是四臂唯一的形态差别。<b>图注：</b>在飞调用数全程分布；红虚线 = cap=16。</p>
+<h3>4.2 每方法深潜 —— 高延迟段与并发段内，process 时间线与指标时间线共轴</h3>
+<p class="theme">每图的窗口这样选：先取该臂最高时长调用堆成员活动最密的 10 s（高延迟段），
+再取在飞超 cap 时间最长的 10 s（并发段），图窗覆盖两者（若相距过远则取高延迟段）；两段的
+起止都标在图题并记入审计文件。</p>
+{deep_figs['plain']}
+<p class="cap"><b>一句话看图：</b>素臂图窗里红段占满 process 行、在飞持续贴 cap——重复
+prefill 把队列堵成常态。<b>图注：</b>红名 = 高延迟堆成员程序（{len(deep_hl['plain'])} 个）；
+四条指标 lane 与上方 process 行共用时间轴。</p>
+{deep_figs['opt']}
+<p class="cap"><b>一句话看图：</b>opt 的红段比素臂短但仍集中在短程序行——调用级队头阻塞
+在时间段上的直接显形。<b>图注：</b>红名高延迟程序 {len(deep_hl['opt'])} 个；lane 口径同上。</p>
+{deep_figs['mlfq']}
+<p class="cap"><b>一句话看图：</b>MLFQ 行里红段消失、浅红底铺开——等待被换成 quantum 间
+再排队，而下方 busy/gemm 并未升高。<b>图注：</b>红名高延迟程序 {len(deep_hl['mlfq'])} 个；
+lane 口径同上。</p>
+{deep_figs['core']}
+<p class="cap"><b>一句话看图：</b>core 把浅红底集中到 lats 行、短程序行干净——程序身份把
+"谁在等"重新分配，指标 lane 与其它臂同形。<b>图注：</b>红名高延迟程序
+{len(deep_hl['core'])} 个；lane 口径同上。</p>
 
 {a.fourarm.read_text().replace("<h2>四、论文四臂复现 —— vLLM / vLLM-opt / MLFQ / Agentix 全基线对照</h2>",
                                "<h2>附：端点全景 —— 论文口径的四臂复现（vLLM / vLLM-opt / MLFQ / Agentix）</h2>")}

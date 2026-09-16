@@ -122,7 +122,7 @@ def main():
         return e["fcfs"]["ptl"], e["core"]["ptl"], pairs[p]["endpoint"]["speedup"]
 
     chain = [("状态复用（素 → opt：前缀缓存+分块预填充）", "state_reuse"),
-             ("调用级抢占（opt → MLFQ：量子+降级，call 为单位）", "call_preempt"),
+             ("调用级抢占（opt → MLFQ：quantum+降级，call 为单位）", "call_preempt"),
              ("程序身份（MLFQ → Agentix：交换单位 call→program）", "program_identity")]
     wrows = []
     for label, k in chain:
@@ -156,8 +156,8 @@ def main():
 <div class="block"><b>论文方法与四臂对应</b>
 <p>论文 Fig.12 的四条线在本栈的对应：<b>vLLM 素</b>（关前缀缓存、关分块预填充，测状态复用的基线）、
 <b>vLLM-opt</b>（vLLM 全部工程优化开启，FCFS 顺序）、<b>MLFQ</b>（调用级多级反馈队列：与 Agentix
-同一引擎同一量子表，唯一区别是准入永远从 Q0 开始——不看程序历史）、<b>Agentix core</b>（程序级：
-用进程表累计的 PLAS 离散化准入 + 量子降级 + β 抗饿）。四臂同负载（thr_mixed，60 s 到达窗，
+同一引擎同一 quantum 表，唯一区别是准入永远从 Q0 开始——不看程序历史）、<b>Agentix core</b>（程序级：
+用进程表累计的 PLAS 离散化准入 + quantum 降级 + β 抗饿）。四臂同负载（thr_mixed，60 s 到达窗，
 25 程序 / 2,440 调用 @r0.5）、同 cap16、同 V1 引擎，逐对只差一个变量。</p></div>
 {legend()}
 <div style="display:flex;flex-wrap:wrap;gap:10px">
@@ -196,15 +196,15 @@ vLLM-opt 甚至 Agentix，但 p90 面板里与 Agentix 的间距保持——调�
 它把等待省下的时间在解码干扰里还了回去，只有尾部净赚；程序身份则 mean 与尾部同时改善。</p>
 {tbl_cw}
 <p class="cap"><b>表注：</b>机制的作用方向在类等待上直接可见：MLFQ 把三类的等待一起坍缩
-（bfcl p50 792→82 ms——量子到点就抢占，谁都不许长占）；Agentix 反而把 lats（长程序）的等待
+（bfcl p50 792→82 ms——quantum 用尽即抢占，谁都不许长占）；Agentix 反而把 lats（长程序）的等待
 抬回 1,286 ms——它认得程序身份，把长程序整体压后，换来短程序不被长程序的后续调用二次阻塞。
 两侧账本：MLFQ 准入全部 Q0（{ml_m['admission'].get('0',0)} 次）、降级 {ml_m['demotions']} 次、
-多量子调用 {ml_m['multi_quantum_calls']} 个；Agentix 准入 Q0–Q3 =
+多 quantum 调用 {ml_m['multi_quantum_calls']} 个；Agentix 准入 Q0–Q3 =
 {'/'.join(str(v) for v in ml_a['admission'].values())}（离散化直接把 2,004 个长程序调用放进 Q3）、
-降级 {ml_a['demotions']} 次。同一张量子表，差别只在"从哪一级开始"。</p>
+降级 {ml_a['demotions']} 次。同一张quantum 表，差别只在"从哪一级开始"。</p>
 <h3>结论的三层口径与偏差表</h3>
 <div class="block impl"><b>三层口径</b>
-<p><b>①机制验证（完整主张）：</b>进程表 / PLAS 离散化准入 / 量子降级 / β 抗饿全部按 Algorithm 1
+<p><b>①机制验证（完整主张）：</b>进程表 / PLAS 离散化准入 / quantum 降级 / β 抗饿全部按 Algorithm 1
 运转且有账本与 NVTX 证据；A00 四门（程序/调用/引擎步/join）在全部带 trace 臂上通过。</p>
 <p><b>②形态复现（完整主张，可迁移）：</b>四臂排序在 5 个到达率全部成立；低负载并拢、
 高负载分离、MLFQ 追 mean 不追尾——与论文 Fig.12 的形态逐点一致。</p>

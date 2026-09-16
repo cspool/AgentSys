@@ -123,32 +123,137 @@
       "criterion": "densest section of opt rank-1 forward pile",
       "section": 2
     },
-    "part3": {
+    "part4_atcap": {
       "criterion": "30 s window with max opt time-above-cap16",
       "window_s": [
         140.0,
         170.0
       ]
     },
-    "part3_micro": {
-      "criterion": "busiest 300 ms (max kernel busy) inside part3 window, per arm",
-      "stats": {
-        "plain": {
-          "busy_pct": 95.110874,
-          "gemm_pct": 85.28160966666667
-        },
-        "opt": {
-          "busy_pct": 20.15201,
-          "gemm_pct": 15.203965666666667
-        },
-        "mlfq": {
-          "busy_pct": 26.05560766666667,
-          "gemm_pct": 16.249527333333333
-        },
-        "core": {
-          "busy_pct": 21.465957333333332,
-          "gemm_pct": 16.963890666666668
-        }
+    "part4_deepdive": {
+      "plain": {
+        "hl_window_s": [
+          65.0,
+          75.0
+        ],
+        "atcap_window_s": [
+          30.0,
+          40.0
+        ],
+        "figure_window_s": [
+          65.0,
+          75.0
+        ],
+        "hl_programs": [
+          "p00000",
+          "p00001",
+          "p00002",
+          "p00004",
+          "p00006",
+          "p00009",
+          "p00010",
+          "p00011",
+          "p00012",
+          "p00015",
+          "p00017",
+          "p00019",
+          "p00020",
+          "p00021",
+          "p00022",
+          "p00023",
+          "p00024"
+        ]
+      },
+      "opt": {
+        "hl_window_s": [
+          77.5,
+          87.5
+        ],
+        "atcap_window_s": [
+          45.0,
+          55.0
+        ],
+        "figure_window_s": [
+          77.5,
+          87.5
+        ],
+        "hl_programs": [
+          "p00001",
+          "p00004",
+          "p00009",
+          "p00010",
+          "p00011",
+          "p00012",
+          "p00015",
+          "p00017",
+          "p00019",
+          "p00020",
+          "p00021",
+          "p00022",
+          "p00023",
+          "p00024"
+        ]
+      },
+      "mlfq": {
+        "hl_window_s": [
+          77.5,
+          87.5
+        ],
+        "atcap_window_s": [
+          47.5,
+          57.5
+        ],
+        "figure_window_s": [
+          77.5,
+          87.5
+        ],
+        "hl_programs": [
+          "p00001",
+          "p00004",
+          "p00006",
+          "p00009",
+          "p00010",
+          "p00011",
+          "p00012",
+          "p00015",
+          "p00019",
+          "p00020",
+          "p00021",
+          "p00022",
+          "p00023",
+          "p00024"
+        ]
+      },
+      "core": {
+        "hl_window_s": [
+          60.0,
+          70.0
+        ],
+        "atcap_window_s": [
+          40.0,
+          50.0
+        ],
+        "figure_window_s": [
+          60.0,
+          70.0
+        ],
+        "hl_programs": [
+          "p00000",
+          "p00001",
+          "p00004",
+          "p00006",
+          "p00009",
+          "p00010",
+          "p00011",
+          "p00012",
+          "p00015",
+          "p00019",
+          "p00020",
+          "p00021",
+          "p00022",
+          "p00023",
+          "p00024"
+        ]
       }
     }
   }
