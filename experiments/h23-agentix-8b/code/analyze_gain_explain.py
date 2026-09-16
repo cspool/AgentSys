@@ -65,6 +65,9 @@ def mlfq_ledger(calls):
                 promo += 1
         if c.get("chunks", 1) > 1:
             multi += 1
+    if len(adm) > 16:
+        # not an MLFQ-family arm: queue_path carries attained_us, not queue ids
+        return {"note": "not an MLFQ arm (no queue ledger)"}
     return {"admission": dict(sorted(adm.items())), "demotions": demo,
             "promotions": promo, "multi_quantum_calls": multi}
 
@@ -73,17 +76,21 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--fcfs", type=Path, required=True)
     ap.add_argument("--core", type=Path, required=True)
-    ap.add_argument("--fcfs-groups", type=Path, required=True)
-    ap.add_argument("--core-groups", type=Path, required=True)
+    ap.add_argument("--fcfs-groups", type=Path, default=None,
+                    help="contract-view GROUPS.json; omit when the arm has no ncu views")
+    ap.add_argument("--core-groups", type=Path, default=None)
     ap.add_argument("--out", type=Path, required=True)
     a = ap.parse_args()
     cf, cc = load_calls(a.fcfs), load_calls(a.core)
     sf, sc = load_summary(a.fcfs)["observed"], load_summary(a.core)["observed"]
-    gf = json.load(a.fcfs_groups.open())
-    gc = json.load(a.core_groups.open())
+    gf = json.load(a.fcfs_groups.open()) if a.fcfs_groups else None
+    gc = json.load(a.core_groups.open()) if a.core_groups else None
     def gtop(g):
         t = g["groups"][0]
         return {"sum_s": t["sum_ns"] / 1e9, "n": t["members"], "assoc": t["assoc_members"]}
+    def pside(g):
+        return ({"instances": g["instances"], "fold_marks": g["fold"]["marks"],
+                 "top": gtop(g)} if g else None)
     facts = {
         "endpoint": {
             "fcfs": {"ptl": sf["program_token_latency_ms"], "thr": sf["throughput_tokens_per_s"], "wall": sf["wall_s"]},
@@ -94,10 +101,7 @@ def main():
         "class_wait_ms": {"fcfs": per_class_wait(cf), "core": per_class_wait(cc)},
         "queue": {"fcfs": queue_depth_peak(cf), "core": queue_depth_peak(cc)},
         "mlfq": mlfq_ledger(cc),
-        "piles": {"fcfs": {"instances": gf["instances"], "fold_marks": gf["fold"]["marks"],
-                            "top": gtop(gf)},
-                  "core": {"instances": gc["instances"], "fold_marks": gc["fold"]["marks"],
-                            "top": gtop(gc)}},
+        "piles": {"fcfs": pside(gf), "core": pside(gc)},
     }
     a.out.write_text(json.dumps(facts, indent=2))
     print(json.dumps(facts["endpoint"]["speedup"]))

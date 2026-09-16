@@ -413,7 +413,10 @@ def main():
     ap.add_argument("--scratch", type=Path, required=True)
     ap.add_argument("--art", type=Path, required=True)
     ap.add_argument("--out", type=Path, required=True)
+    ap.add_argument("--fourarm", type=Path, default=None,
+                    help="HTML fragment from build_r10_fourarm_chapter.py (第四章)")
     a = ap.parse_args()
+    fourarm_html = a.fourarm.read_text() if a.fourarm and a.fourarm.exists() else ""
     MODELS = [("llama", "LLaMA-3.1-8B"), ("qwen3", "Qwen3-1.7B"), ("qwenvl", "Qwen2.5-VL-3B")]
     figs = {1: [], 2: [], 3: []}
     stats = {}
@@ -854,6 +857,8 @@ busy 同水平、且都顶着同一面 L2/tensor 墙 → step 内部无优化空
  "资源与并发两个自由度都被排除后，唯一剩下的解释是出队顺序：MLFQ 用相同资源、相同并发把短程序先送进批。"
  "排队压力决定杠杆：above-cap 时长 LLaMA 169 s→p90 1.86×，VL 77 s→1.15×，Qwen3 40 s→1.11×——"
  "这同时解释了三个模型提升幅度的差异。", figs[3])}
+
+{fourarm_html}
 
 <h2>补充：host 侧代表 process（workload_analysis W1–W5 的产物）</h2>
 <p class="theme">本版之前，报告只能说"host 开销大"，说不出大在哪——因为 process 宇宙里

@@ -125,12 +125,13 @@
 <header class="masthead">
   <p class="eyebrow">h22 · lineage llm + llm_vl · 2026-09-12</p>
   <h1>模型推理即 Agent：单卡 4090 AutoTrace 画像</h1>
-  <p class="standfirst">AgentSys 三个 agent 工作流的每个 LLM 调用都以本地模型真实推理执行（transformers 4.57.6，sdpa，bf16），在 RTX&nbsp;4090（GPU&nbsp;1）上完成 AutoTrace w01–w05 串行方法链——先是 Qwen3-1.7B，再以 Qwen2.5-VL-3B 的语言塔重复整条链。两条链的全部守恒门均为零误差。</p>
+  <p class="standfirst">AgentSys 三个 agent 工作流的每个 LLM 调用都以本地模型真实推理执行（transformers 4.57.6，sdpa，bf16），在 RTX&nbsp;4090（GPU&nbsp;1）上完成 AutoTrace w01–w05 串行方法链——先是 Qwen3-1.7B，再以 Qwen2.5-VL-3B 的语言塔重复整条链；随后在 LLaMA-3.1-8B + vLLM 0.29 的 serving 实验（Agentix 论文复现）上应用 serving 适配链 w01′–w05″。全部守恒门为零误差。</p>
   <div class="meta">
     <span class="chip pass">llm 链 w01–w05 通过</span>
     <span class="chip pass">llm_vl 链 w01–w05 通过</span>
     <span class="chip">Qwen3-1.7B · 28 层</span>
     <span class="chip">Qwen2.5-VL-3B · 36 层</span>
+    <span class="chip">LLaMA-3.1-8B · vLLM serving</span>
     <span class="chip">nsys + ncu</span>
     <span class="chip">react_tool · planner_debate · react_moa_mcts</span>
   </div>
@@ -301,9 +302,66 @@
   </div>
 </section>
 
+
+<section>
+  <div class="sec-head"><span class="sec-num">h23</span><h2>Agentix 8B 复现：LLaMA-3.1-8B 上的 serving 链</h2><span class="sec-goal">vLLM 0.29 · w01&#39;–w05&#39;&#39;</span></div>
+  <p class="lede">论文（NSDI&#39;26 Agentix/Autellix）在 8×A100 的改版 vLLM v0.6.1 上做程序级调度；本复现在同一张 4090 上用原版 vLLM 0.29 承载重实现的 <strong>PLAS/ATLAS</strong>，负载按论文 Fig.11 统计量校准（sharegpt/bfcl/lats + Mixed，Poisson 到达，LATS 多线程 wave）。AutoTrace 以 serving 适配链（w01&#39;–w05&#39;&#39;）应用于此实验。完整报告：<code>experiments/h23-agentix-8b/{results,AUDIT}.md</code>。</p>
+  <div class="two-col">
+    <div class="panel">
+      <h3>排队区间：FCFS vs PLAS（统一 max batch=16）</h3>
+      <p class="h3sub">program-level token latency，越短越好；论文协议允许统一 batch 上限（§6.2）</p>
+      <div class="barlist">
+        <span class="name"><span class="swatch" style="background:var(--s1)"></span>FCFS · mean</span><span class="track"><span class="bar" style="width:49.1%;background:var(--s1)" title="28.5 ms"></span></span><span class="val">28.5 ms</span>
+        <span class="name"><span class="swatch" style="background:var(--s2)"></span>PLAS · mean</span><span class="track"><span class="bar" style="width:35.5%;background:var(--s2)" title="20.6 ms（0.72×）"></span></span><span class="val">20.6 ms</span>
+        <span class="name"><span class="swatch" style="background:var(--s1)"></span>FCFS · p90</span><span class="track"><span class="bar" style="width:100%;background:var(--s1)" title="58.0 ms"></span></span><span class="val">58.0 ms</span>
+        <span class="name"><span class="swatch" style="background:var(--s2)"></span>PLAS · p90</span><span class="track"><span class="bar" style="width:57.4%;background:var(--s2)" title="33.3 ms（0.57×）"></span></span><span class="val">33.3 ms</span>
+        <span class="name"><span class="swatch" style="background:var(--s1)"></span>FCFS · bfcl 类（短程序）</span><span class="track"><span class="bar" style="width:97.8%;background:var(--s1)" title="56.7 ms"></span></span><span class="val">56.7 ms</span>
+        <span class="name"><span class="swatch" style="background:var(--s2)"></span>PLAS · bfcl 类</span><span class="track"><span class="bar" style="width:52.2%;background:var(--s2)" title="30.3 ms（−47%）"></span></span><span class="val">30.3 ms</span>
+      </div>
+      <p class="note">短程序收益最大、长程序（lats 11.0→12.6 ms）小幅付出——正是 PLAS「已得服务少者优先」的语义。到达率扫描 0.1–0.8 prog/s（无 batch 上限）三策略完全重合：单卡 + 60 s 到达窗下引擎不排队（峰值 in-flight 60&lt;64），无队列则程序级调度无杠杆——论文的 4–15× 需要其测试台的持续过载稳态；与本对照可比的端点是 Agentix ≈2×（对 vLLM-opt）。</p>
+    </div>
+    <div class="panel">
+      <h3>w01&#39; 阶段级归因（launch-ownership 恢复）</h3>
+      <p class="h3sub">nsys 2026.3.1 + V1 runner scopes，生产 graph 模式，守恒误差 0.08%</p>
+      <div class="barlist">
+        <span class="name"><span class="swatch" style="background:var(--s1)"></span>postprocess（编译区 GEMM + lm_head 发射）</span><span class="track"><span class="bar" style="width:100%;background:var(--s1)" title="81.9%，内部 gemm 95%"></span></span><span class="val">81.9%</span>
+        <span class="name"><span class="swatch" style="background:var(--s2)"></span>forward（即时发射的 attention）</span><span class="track"><span class="bar" style="width:17.8%;background:var(--s2)" title="14.6%，内部 attention 90%"></span></span><span class="val">14.6%</span>
+        <span class="name"><span class="swatch" style="background:var(--s3)"></span>sample</span><span class="track"><span class="bar" style="width:2.4%;background:var(--s3)" title="2.0%"></span></span><span class="val">2.0%</span>
+        <span class="name"><span class="swatch" style="background:var(--s4)"></span>preprocess</span><span class="track"><span class="bar" style="width:1.8%;background:var(--s4)" title="1.5%"></span></span><span class="val">1.5%</span>
+      </div>
+      <p class="note">阶段名沿用 vLLM 自己的 scope 摆放（piecewise graph 下编译区域的发射浮出在 postprocess），不能读作计算的 forward/post 边界；与家族轴交叉可还原结构。另有并发桶划分：74.6% 的 GPU 时间服务 ≥8 并发请求。</p>
+    </div>
+  </div>
+  <div class="panel" style="margin-top:12px">
+    <h3>墙的迁移：eager 单请求（h22）vs 连续批处理 serving（h23）</h3>
+    <p class="h3sub">NCU 中位数，占各单元峰值百分比；同一张 4090</p>
+    <div class="barlist">
+      <span class="name"><span class="swatch" style="background:var(--s1)"></span>h22 decode gemv · DRAM active</span><span class="track"><span class="bar" style="width:97.5%;background:var(--s1)" title="75%"></span></span><span class="val">75%</span>
+      <span class="name"><span class="swatch" style="background:var(--s2)"></span>h23 serving gemm · DRAM active</span><span class="track"><span class="bar" style="width:23.7%;background:var(--s2)" title="18.2%"></span></span><span class="val">18%</span>
+      <span class="name"><span class="swatch" style="background:var(--s1)"></span>h22 decode gemv · L2</span><span class="track"><span class="bar" style="width:60.9%;background:var(--s1)" title="46.9%"></span></span><span class="val">47%</span>
+      <span class="name"><span class="swatch" style="background:var(--s2)"></span>h23 serving gemm · L2</span><span class="track"><span class="bar" style="width:98.8%;background:var(--s2)" title="76.1%"></span></span><span class="val">76%</span>
+      <span class="name"><span class="swatch" style="background:var(--s1)"></span>h22 decode gemv · Tensor pipe</span><span class="track"><span class="bar" style="width:0.5%;background:var(--s1)" title="0%"></span></span><span class="val">0%</span>
+      <span class="name"><span class="swatch" style="background:var(--s2)"></span>h23 serving gemm · Tensor pipe</span><span class="track"><span class="bar" style="width:63.5%;background:var(--s2)" title="48.9%"></span></span><span class="val">49%</span>
+    </div>
+    <p class="note"><strong>连续批处理把 decode 从 gemv/DRAM 墙搬到 GEMM 的 L2/张量流水墙</strong>——h22 的「decode gemv 占 62% GPU 时间、DRAM 74%」是单请求现象，在 serving 引擎下 gemv 仅占 3–8%。这是三条模型链合并后的核心系统结论。</p>
+  </div>
+  <div class="panel" style="margin-top:12px">
+    <h3>论文四臂复现：vLLM 素 / vLLM-opt / MLFQ（调用级）/ Agentix（程序级）</h3>
+    <p class="h3sub">4 臂 × 5 到达率（r=0.2–0.8 程序/秒）各一次完整 serving；r=0.5 三个单变量对均有 nsys 全链 trace + A00 守恒门。图示 r=0.8（排队最深端点）的 mean token 延迟</p>
+    <div class="barlist">
+      <span class="name"><span class="swatch" style="background:var(--s1)"></span>vLLM 素（无缓存/无分块预填充）</span><span class="track"><span class="bar" style="width:100%;background:var(--s1)" title="98.6 ms"></span></span><span class="val">98.6 ms</span>
+      <span class="name"><span class="swatch" style="background:var(--s3)"></span>vLLM-opt（FCFS）</span><span class="track"><span class="bar" style="width:65.7%;background:var(--s3)" title="64.8 ms"></span></span><span class="val">64.8 ms</span>
+      <span class="name"><span class="swatch" style="background:var(--s4)"></span>MLFQ（调用级抢占）</span><span class="track"><span class="bar" style="width:46.1%;background:var(--s4)" title="45.5 ms"></span></span><span class="val">45.5 ms</span>
+      <span class="name"><span class="swatch" style="background:var(--s2)"></span>Agentix core（程序级 MLFQ）</span><span class="track"><span class="bar" style="width:30.8%;background:var(--s2)" title="30.4 ms（对 opt 2.13×、对 MLFQ 1.49×）"></span></span><span class="val">30.4 ms</span>
+    </div>
+    <p class="note">论文 Fig.12 形态逐点复现：全部 5 个到达率保持 vLLM &lt; opt &lt; MLFQ &lt; Agentix 严格排序，低负载三缓存臂并拢、高负载分离、MLFQ 追 mean 不追尾（p90 间距保持）。r=0.5 单变量分解：状态复用 1.60×、调用级抢占 1.03×（等待坍缩被解码干扰吃掉，只有尾部 1.32× 净赚）、程序身份 1.26×（p99 1.85×）。<strong>诚实口径：完成吞吐比 ≈1（r0.8 对 opt 甚至 0.89×）——开环有限负载下重排序守恒 makespan，收益全在延迟与尾部；论文的大吞吐比属于闭环 λ=N/W 通道。</strong>完整四臂章节在 R10_SUMMARY.html（release <code>h23-r10-reports</code>）。</p>
+  </div>
+</section>
+
 <footer>
   数据：<code>artifacts/gpu_autotrace/llm/</code> · <code>artifacts/gpu_autotrace/llm_vl/</code>（nsys-rep · sqlite · ncu-rep · 分析 CSV，全部本地）<br>
   报告：<code>H22_LLM_STRAND_SUMMARY.md</code> · <code>H22_LLM_VL_STRAND_SUMMARY.md</code> · 各目标 <code>*_REPORT.md</code> · 复现脚本 <code>experiments/h22-gpu-autotrace/code/</code><br>
-  方法：AutoTrace w01–w05（参考库已裁剪至 16 MB，<code>AutoTrace/CURATION_MANIFEST.md</code>）
+  方法：AutoTrace w01–w05（参考库已裁剪至 16 MB，<code>AutoTrace/CURATION_MANIFEST.md</code>）<br>
+  代码与报告：github.com/cspool/AgentSys（commit 66b0056）· 原始 trace：release <code>h22-h23-traces</code>
 </footer>
 </div>
