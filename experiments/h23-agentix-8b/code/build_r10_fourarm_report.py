@@ -872,6 +872,27 @@ sharegpt 列 MLFQ 的 {TRI['mlfq']['sharegpt']['ftwait']:.0f}+{TRI['mlfq']['shar
     ml_a = pairs["program_identity"]["mlfq"]
     METH = f"""
 <h2>A1 论文的方法与 baseline 的对比 —— 负载带来的消融机会（多图）</h2>
+<div class="block"><b>A1.0 机制纲要（三点，讨论定稿）</b>
+<p><b>其一（问题与方法主线）：</b>agent 程序并发的特点是异质——不同程序的 call 触发频率不同
+（工具/思考间隔各异）、call 长度不同、<b>程序剩余轮次</b>也不同。理想目标是最小化等待
+（SJF/SRPT 最优），但 call 的未来频率、长度与程序剩余轮次都不可预知。于是用<b>已发生的实测
+替代预知</b>：记录每程序 call 的累计服务时间，新 call 到达时据此在线定级（随状态在线调度）
+进入程序级 MLFQ——轻/新程序高优先、重程序压后；队内执行按 time quantum 预算、用尽降级，
+防长 call 独占。单引擎内的 KV 复用由引擎自带前缀缓存提供、与调度顺序无关（实测未抢占同调用
+驻留比 1.00）；KV 复用真正进入决策的是<b>多引擎路由</b>：各引擎 KV 互不可访问、跨引擎 =
+前缀整段重算，进程表驱动的亲和路由把程序的下一个 call 送回其 KV 所在引擎。</p>
+<p><b>其二（机制细节）：</b>程序累计 call 的服务时间 T<sub>p</sub>（多个短 call 或间歇长 call
+都会积累），使该程序<b>未来 call 的初始队列</b>逐级降低；入队后各 call 按 MLFQ 原样运转
+（队内 FCFS、quantum 用尽降级）。短程序（少且短 call）因此优先完成、等待最小。β 阈值防饿：
+当 (W<sub>p</sub>+W<sub>c</sub>)/(T<sub>p</sub>+T<sub>c</sub>) ≥ β 时把该程序的 call 提升回
+Q1 并重置其 W/T 计数——覆盖"重程序新 call 被低准入压死"与"长 call 降到底爬不出"两种饿死，
+本负载 β=2.0 零触发（保险丝而非收益来源）。</p>
+<p><b>其三（负载特点如何敲定改进）：</b>sharegpt = 单线程间歇长 call；tooluse/bfcl = 单线程
+频繁短 call；lats = 多线程高频短 call。三个特点各敲定一个部件：频繁短 call 的洪流使
+call 级 MLFQ 每个新 call 回 Q0 而永远插队 → 程序级准入；间歇长 call 的单次长占 quanta
+已能治，程序级增量是其后续轮次也被压后；多线程使 sum 累计高估并行程序 → ATLAS 关键路径
+聚合。一句话根因：<b>call 长度与程序长度反相关</b>，按 call 的 LAS 对 agent 负载系统性
+排错，改进 = 只换单位、不换机制。</p></div>
 <div class="block"><b>① 论点</b>
 <p>三类负载（组成见 A2）结构不对称，使三种优化各有独立杠杆：bfcl 的密集短调用给"排序"最大杠杆；
 sharegpt 的长 decode 调用是"quantum 抢占"的作用面；lats 的调用洪流制造两级队头阻塞——只有认得
