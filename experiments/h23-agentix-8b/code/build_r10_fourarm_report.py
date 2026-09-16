@@ -163,25 +163,64 @@ def e2e_program_blocks(C, CH, arm_meta, floor, rh=12, bh=8):
                 (c["finished_rel_ms"] - c["submitted_rel_ms"]) - floor[(pid2, c["call_index"])]
                 for c in cs2))
         cls_wait[k] = {c2: sum(v) / len(v) for c2, v in agg.items()}
+    cls_ptl, tot_wait, all_ptl = {}, {}, {}
+    for k, *_ in arm_meta:
+        aggp, tw, ap = {}, 0.0, []
+        for pid2, cs2 in by_arm[k].items():
+            c0 = cs2[0]["class"]
+            span = max(c["finished_rel_ms"] for c in cs2) - min(c["submitted_rel_ms"] for c in cs2)
+            tok = max(sum(max(c["produced_tokens"], 1) for c in cs2), 1)
+            aggp.setdefault(c0, []).append(span / tok)
+            ap.append(span / tok)
+            tw += sum((c["finished_rel_ms"] - c["submitted_rel_ms"]) - floor[(pid2, c["call_index"])]
+                      for c in cs2)
+        cls_ptl[k] = {c2: sum(v) / len(v) for c2, v in aggp.items()}
+        tot_wait[k] = tw
+        all_ptl[k] = sum(ap) / len(ap)
     seen_cls = set()
     out, y = [], 8
     windows = {}
     for pid in pids:
         _cls0 = by_arm[arm_meta[0][0]][pid][0]["class"]
+        if not seen_cls:
+            # overall banner: the two metrics head-to-head
+            _tw = {k: tot_wait[k] for k, *_ in arm_meta}
+            _pt = {k: all_ptl[k] for k, *_ in arm_meta}
+            _wtw = min(_tw, key=lambda k: _tw[k]); _wpt = min(_pt, key=lambda k: _pt[k])
+            _l1 = "　".join((f'<tspan font-weight="700" fill="#c94040">{SHORT[k]} {v/1e3:,.0f}s</tspan>'
+                            if k == _wtw else f'{SHORT[k]} {v/1e3:,.0f}s') for k, v in _tw.items())
+            _l2 = "　".join((f'<tspan font-weight="700" fill="#c94040">{SHORT[k]} {v:.1f}</tspan>'
+                            if k == _wpt else f'{SHORT[k]} {v:.1f}') for k, v in _pt.items())
+            out.append(f'<rect x="0" y="{y}" width="{W}" height="46" fill="#e8f0e6"/>')
+            out.append(f'<text x="6" y="{y+17}" font-size="16" fill="#1f5f3f">全体 '
+                       f'{len(by_arm[arm_meta[0][0]])} 程序 · Σ等待（call 加权总量）：' + _l1 + '</text>')
+            out.append(f'<text x="6" y="{y+38}" font-size="16" fill="#1f5f3f">'
+                       f'论文指标 · 程序延迟 mean（程序等权 ms/tok）：' + _l2 + '</text>')
+            y += 52
         if _cls0 not in seen_cls:
             seen_cls.add(_cls0)
             _vals = {k: cls_wait[k].get(_cls0, 0.0) for k, *_ in arm_meta}
+            _pv = {k: cls_ptl[k].get(_cls0, 0.0) for k, *_ in arm_meta}
             _wink = min(_vals, key=lambda k: _vals[k])
+            _wpt2 = min(_pv, key=lambda k: _pv[k])
             _parts = []
             for k, v in _vals.items():
                 seg2 = SHORT[k] + " " + f"{v/1e3:.1f}" + "s"
                 if k == _wink:
                     seg2 = '<tspan font-weight="700" fill="#c94040">' + seg2 + '</tspan>'
                 _parts.append(seg2)
-            out.append(f'<rect x="0" y="{y}" width="{W}" height="24" fill="#eef4fa"/>')
+            _parts2 = []
+            for k, v in _pv.items():
+                seg3 = SHORT[k] + " " + f"{v:.1f}"
+                if k == _wpt2:
+                    seg3 = '<tspan font-weight="700" fill="#c94040">' + seg3 + '</tspan>'
+                _parts2.append(seg3)
+            out.append(f'<rect x="0" y="{y}" width="{W}" height="46" fill="#eef4fa"/>')
             out.append(f'<text x="6" y="{y+17}" font-size="16" fill="#2f6f9f">'
-                       f'{_cls0} 类均值（论文口径等待/程序）：' + '　'.join(_parts) + '</text>')
-            y += 30
+                       f'{_cls0} · 等待均值/程序：' + '　'.join(_parts) + '</text>')
+            out.append(f'<text x="6" y="{y+38}" font-size="16" fill="#2f6f9f">'
+                       f'{_cls0} · 论文指标 程序延迟 ms/tok：' + '　'.join(_parts2) + '</text>')
+            y += 52
         allc = [c for k, *_ in arm_meta for c in by_arm[k][pid]]
         cls = allc[0]["class"]
         t0 = min(c["submitted_rel_ms"] for c in allc)
@@ -1484,8 +1523,15 @@ mean 只有 {e_cp['mean']:.2f}×、p90 {e_cp['p90']:.2f}× 的原因在图内可
 bfcl/sharegpt 块移到 lats 块（长程序买单，{e_pi['mean']:.2f}×/p99 {e_pi['p99']:.2f}×）。
 四行色段密度同形；被 quantum 切分的调用色段略胀（续段再 prefill，机制的计算价），
 未被碰过的调用色段逐毫秒相同。</p>
+<div class="block howto"><b>图内两个指标的区别（顶部绿幅与各类蓝幅的两行）</b>
+<p><b>Σ等待（call 加权总量）</b>= Σ<sub>call</sub>（端到端 − 执行底）对全部 call 求和——
+反映系统里排队时间的总量，按 call 数加权：lats 洪流（12 程序 × ~193 call）主导它，调用级
+抢占（M）天然是它的赢家。<b>程序延迟（论文指标）</b>= 每程序（响应时间 ÷ 产出 token）后按
+<b>程序等权</b>取统计——论文 Fig.12/13 的口径，反映"每个程序的体验"，与到达率曲线、P95/99
+同源；core 在此口径全面最优。两行并排的意义：调度把 Σ等待当杠杆、把程序延迟当目标——
+一个方法可以让杠杆量更小（M）却让目标更差，加粗的分离正是这件事的直读。</p></div>
 {fig1}
-<p class="cap"><b>一句话看图：</b>每块四行上下对看——红段（等待）逐臂缩短，浅红底（再排队）在 M/C 行出现并从短程序块转移到 lats 块；行尾标两个数：该程序的<b>论文口径等待</b>与程序 token 延迟；四行中<b>等待最短者加粗</b>——等待正是 Agentix 的优化对象。等待 = Σ<sub>call</sub>（call 端到端 − 该 call 的执行底）——执行底取同一 call 四臂驻留的最小值，因此排队、再排队、再 prefill、机制附加全部计入等待，与论文图 17 把非执行时间都算 Wait 的口径一致，且逐 call 可加、并行程序无歧义。<b>图注：</b>红段/浅红底是等待的<b>时间定位</b>（首token段与 chunk 未覆盖的可见段内等待），行尾"等 x s"是等待的<b>完整量化</b> = Σ（call 端到端 − 执行底），含段内不可见的部分——两者口径已统一到 A2 的 Wait 定义。类均值（s）：bfcl 素 30.1 / opt 13.6 / M 4.4 / <b>C 3.0</b>——方法目标类（短程序）上 Agentix 等待最短、为 opt 的 1/4.5，与论文图 17 一致；sharegpt opt 9.1 最短（M 51.7 被续段 recompute 惩罚、C 16.1）；lats M 199.7 最短、C 294.5≈opt 293.3（压后长程序是设计）。与图 17 逐点全最短的差异来自两处已披露偏差：图 17 为纯单类负载（ShareGPT-only / LATS-only），我们是混载；论文被抢占者走 swap（无 recompute），我们走 recompute。"y ms/tok" = 程序响应时间 ÷ 产出 token 数，均不随窗口裁剪。论文口径下加粗分布：bfcl 块多为 C 行（6/8）、sharegpt 块为 opt 行、lats 块为 M 行——读法见图注的类均值与偏差对账。第二个数保留以并置完成判据：bfcl 块的 ms/tok 赢家多为 C（6/8），sharegpt 块全部为 opt（5/5，MLFQ 的续段再 prefill 惩罚长 decode），lats 块 opt/C 平分（7/5）。等待可与程序内并行重叠、也可被再 prefill 抵消，所以"面向 agent 负载优化全局服务"的判据是程序完成而非等待之和。<b>加粗不总在 C 行不是标记错误</b>——Agentix 优化的是全体程序的统计（mean/p90/p99），不是每个程序：调度是重分配，必有程序付账（sharegpt 为 quantum 切割买单、lats 为压后买单，与 A2 表第三列自洽）；逐块加粗的分布因此是"谁受益、谁买单"的地图。<b>目标函数辨析（为什么 core 不是 Σ等待最小者也不矛盾）：</b>全体 25 程序的总等待为 素 7,091 / opt 3,674 / <b>M 2,690</b> / core 3,639 s——Σ等待按 call 数加权，lats 洪流占大头，调用级抢占的 M 天然是它的赢家；而程序延迟统计（本表下方与附录端点）按程序等权，core 全面最优（mean 20.8、p99 34.7）。agentix 的目标函数是<b>程序延迟的均值与尾部</b>，等待只是杠杆——最小化 Σcall 等待 ≈ 调用级 SJF（M），最小化程序延迟 ≈ 程序级 SRPT 的免预测近似（core）。论文各面板（单类负载+swap）下两口径同向，混载+recompute 把它们拆开——这不是复现失败，是把论文没机会区分的两个目标显影了。<b>与论文结果的正面对照（为什么这里 M 看起来更优、论文里 core 更优）：</b>①<b>指标不同是主因</b>——论文的全部结果指标（Fig.12 平均延迟-到达率、Fig.13 P95/99、Fig.17 Wait 分解）都是<b>程序等权的延迟统计</b>，论文从不报告"Σ全部 call 等待"这种 call 加权总量；按论文指标，我们的 core 同样全面最优（mean 20.8 / p99 34.7，附录五率全序）——<b>即按论文口径我们与论文结论一致</b>，"M 更优"只出现在论文不使用的 Σ等待口径。②负载面板不同：论文主面板是单类负载（ShareGPT-only 等），同类等权与 call 加权近乎同向；我们的 Mixed 让 12 个 lats（各 ~193 call）霸占 call 权重，两口径才分家。③处置不同：论文 MLFQ 用 swap（付带宽不付重算，Fig.17 绿段、Fig.18 优化它），我们 recompute——M 的 sharegpt 因此驻留 +11 s/调用；论文的 M 比我们的 M 更强，但论文里 Agentix 仍以延迟统计胜之 1.5×。④LATS 面板论文 2.5× 含 ATLAS gang 推进与多卡形态，我们未复刻 gang 强化，lats 上 core≈opt。四项合成一句话：<b>差异主要是指标（等权 vs call 加权），其余是偏差表三行（单类 vs 混载、swap vs recompute、gang/多卡）的已披露效应</b>——这正是交换单位从 call 到 program 的意义在逐程序粒度的显形。每块窗口 = 该程序生命周期 ≤40 s 取全程（±2 % 边距），
+<p class="cap"><b>一句话看图：</b>顶部绿幅先看两指标的分离（Σ等待 M 最小、程序延迟 C 最优），每块四行上下对看——红段（等待）逐臂缩短，浅红底（再排队）在 M/C 行出现并从短程序块转移到 lats 块；行尾标两个数：该程序的<b>论文口径等待</b>与程序 token 延迟；四行中<b>等待最短者加粗</b>——等待正是 Agentix 的优化对象。等待 = Σ<sub>call</sub>（call 端到端 − 该 call 的执行底）——执行底取同一 call 四臂驻留的最小值，因此排队、再排队、再 prefill、机制附加全部计入等待，与论文图 17 把非执行时间都算 Wait 的口径一致，且逐 call 可加、并行程序无歧义。<b>图注：</b>红段/浅红底是等待的<b>时间定位</b>（首token段与 chunk 未覆盖的可见段内等待），行尾"等 x s"是等待的<b>完整量化</b> = Σ（call 端到端 − 执行底），含段内不可见的部分——两者口径已统一到 A2 的 Wait 定义。类均值（s）：bfcl 素 30.1 / opt 13.6 / M 4.4 / <b>C 3.0</b>——方法目标类（短程序）上 Agentix 等待最短、为 opt 的 1/4.5，与论文图 17 一致；sharegpt opt 9.1 最短（M 51.7 被续段 recompute 惩罚、C 16.1）；lats M 199.7 最短、C 294.5≈opt 293.3（压后长程序是设计）。与图 17 逐点全最短的差异来自两处已披露偏差：图 17 为纯单类负载（ShareGPT-only / LATS-only），我们是混载；论文被抢占者走 swap（无 recompute），我们走 recompute。"y ms/tok" = 程序响应时间 ÷ 产出 token 数，均不随窗口裁剪。论文口径下加粗分布：bfcl 块多为 C 行（6/8）、sharegpt 块为 opt 行、lats 块为 M 行——读法见图注的类均值与偏差对账。第二个数保留以并置完成判据：bfcl 块的 ms/tok 赢家多为 C（6/8），sharegpt 块全部为 opt（5/5，MLFQ 的续段再 prefill 惩罚长 decode），lats 块 opt/C 平分（7/5）。等待可与程序内并行重叠、也可被再 prefill 抵消，所以"面向 agent 负载优化全局服务"的判据是程序完成而非等待之和。<b>加粗不总在 C 行不是标记错误</b>——Agentix 优化的是全体程序的统计（mean/p90/p99），不是每个程序：调度是重分配，必有程序付账（sharegpt 为 quantum 切割买单、lats 为压后买单，与 A2 表第三列自洽）；逐块加粗的分布因此是"谁受益、谁买单"的地图。<b>目标函数辨析（为什么 core 不是 Σ等待最小者也不矛盾）：</b>全体 25 程序的总等待为 素 7,091 / opt 3,674 / <b>M 2,690</b> / core 3,639 s——Σ等待按 call 数加权，lats 洪流占大头，调用级抢占的 M 天然是它的赢家；而程序延迟统计（本表下方与附录端点）按程序等权，core 全面最优（mean 20.8、p99 34.7）。agentix 的目标函数是<b>程序延迟的均值与尾部</b>，等待只是杠杆——最小化 Σcall 等待 ≈ 调用级 SJF（M），最小化程序延迟 ≈ 程序级 SRPT 的免预测近似（core）。论文各面板（单类负载+swap）下两口径同向，混载+recompute 把它们拆开——这不是复现失败，是把论文没机会区分的两个目标显影了。<b>与论文结果的正面对照（为什么这里 M 看起来更优、论文里 core 更优）：</b>①<b>指标不同是主因</b>——论文的全部结果指标（Fig.12 平均延迟-到达率、Fig.13 P95/99、Fig.17 Wait 分解）都是<b>程序等权的延迟统计</b>，论文从不报告"Σ全部 call 等待"这种 call 加权总量；按论文指标，我们的 core 同样全面最优（mean 20.8 / p99 34.7，附录五率全序）——<b>即按论文口径我们与论文结论一致</b>，"M 更优"只出现在论文不使用的 Σ等待口径。②负载面板不同：论文主面板是单类负载（ShareGPT-only 等），同类等权与 call 加权近乎同向；我们的 Mixed 让 12 个 lats（各 ~193 call）霸占 call 权重，两口径才分家。③处置不同：论文 MLFQ 用 swap（付带宽不付重算，Fig.17 绿段、Fig.18 优化它），我们 recompute——M 的 sharegpt 因此驻留 +11 s/调用；论文的 M 比我们的 M 更强，但论文里 Agentix 仍以延迟统计胜之 1.5×。④LATS 面板论文 2.5× 含 ATLAS gang 推进与多卡形态，我们未复刻 gang 强化，lats 上 core≈opt。四项合成一句话：<b>差异主要是指标（等权 vs call 加权），其余是偏差表三行（单类 vs 混载、swap vs recompute、gang/多卡）的已披露效应</b>——这正是交换单位从 call 到 program 的意义在逐程序粒度的显形。每块窗口 = 该程序生命周期 ≤40 s 取全程（±2 % 边距），
 &gt;40 s 取四臂调用活动最密的 30 s；窗口起止标在块头。<br><b>轴注：</b>块头方括号内为
 从各自运行起点起算的墙钟秒；块内四行共用该窗口与比例尺；行内每条横条 = 一个 call。</p>
 
