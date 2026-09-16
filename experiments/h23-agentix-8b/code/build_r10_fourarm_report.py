@@ -734,8 +734,12 @@ MLFQ 把首token段压到极小、却把 Wait 大头搬进驻留内（sharegpt �
 差值代理、不能在时间轴上逐段定位（A3 图内浅红底只显示 chunk 未覆盖的可见部分）；探针 v2
 （每步 running 集身份）已实现、待 GPU 恢复后重采即可把 Wait/Execution 换成状态区间直测。</p></div>
 {tbl_tri}
-<p class="cap"><b>表注：</b>bfcl 列 Wait：素 2404 → opt 1085+8 → MLFQ 122+230 → core 189+53
-量级（详见表），目标类上 core 合计最短；lats 列 core 首token段 1500 ms 是设计（压后长程序）。</p>"""
+<p class="cap"><b>表注：</b>bfcl 列 Wait：素 {TRI['plain']['bfcl']['wait']:.0f} → opt
+{TRI['opt']['bfcl']['wait']:.0f} → MLFQ {TRI['mlfq']['bfcl']['wait']:.0f} → core
+<b>{TRI['core']['bfcl']['wait']:.0f}</b> ms——目标类上 core 最短（与论文图 17 一致）；
+sharegpt 列 MLFQ 的 {TRI['mlfq']['sharegpt']['ftwait']:.0f}+{TRI['mlfq']['sharegpt']['inres']:.0f}
+是"首token等待被搬进驻留内"的直读证据；lats 列 core 首token段
+{TRI['core']['lats']['ftwait']:.0f} ms 是设计（压后长程序）。</p>"""
 
     _PAPER = {
         1: ("_page_0_Figure_9.jpeg",
