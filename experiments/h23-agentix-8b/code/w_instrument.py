@@ -111,6 +111,28 @@ def install(verbose: bool = True) -> dict:
     except Exception as e:  # pragma: no cover
         applied["w.engine: <outproc import failed>"] = f"{type(e).__name__}"
 
+    # --- per-step batch composition mark (batch8-style concurrency target):
+    # after each schedule() the step's request count and scheduled tokens are
+    # emitted, so the trace carries the batch shape of every engine iteration.
+    try:
+        _orig_sched = S.schedule
+
+        def _sched_with_stats(self, *a, **kw):
+            out = _orig_sched(self, *a, **kw)
+            try:
+                nst = getattr(out, "num_scheduled_tokens", None) or {}
+                tot = getattr(out, "total_num_scheduled_tokens", 0)
+                nvtx.mark(f"w.step::reqs={len(nst)}::tok={tot}")
+            except Exception:
+                pass
+            return out
+
+        _sched_with_stats._w_wrapped = True
+        S.schedule = _sched_with_stats
+        applied["w.step: batch_mark"] = True
+    except Exception as e:  # pragma: no cover
+        applied["w.step: <mark failed>"] = f"{type(e).__name__}"
+
     _INSTALLED = True
     if verbose:
         ok = sum(1 for v in applied.values() if v is True)

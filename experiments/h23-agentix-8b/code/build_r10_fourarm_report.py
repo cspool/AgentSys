@@ -280,6 +280,8 @@ def main():
     ap.add_argument("--fourarm", type=Path, required=True,
                     help="endpoint chapter fragment from build_r10_fourarm_chapter.py")
     ap.add_argument("--out-ablation", type=Path, required=True)
+    ap.add_argument("--process-capture", default=None,
+                    help="capture dir under autotrace/ for Doc B (e.g. ctrl_conc16_core)")
     ap.add_argument("--out-process", type=Path, required=True)
     a = ap.parse_args()
     AT = a.art / "autotrace"
@@ -292,6 +294,32 @@ def main():
         CH[key] = load_chunks(D[key], C[key]) if key in ("mlfq", "core") else {}
         W2[key] = json.loads((D[key] / "w2_hotspot.json").read_text())
         W5[key] = json.loads((D[key] / "W5_REPRESENTATIVE_PROCESSES.json").read_text())
+    BK = "core"
+    spec_b, wstep_b, _off_b = None, [], 0
+    if a.process_capture:
+        BK = "bcap"
+        D[BK] = AT / a.process_capture
+        C[BK] = load_calls(D[BK])
+        P[BK] = json.loads((a.scratch / f"payload_{a.process_capture}.json").read_text())
+        CH[BK] = load_chunks(D[BK], C[BK])
+        W2[BK] = json.loads((D[BK] / "w2_hotspot.json").read_text())
+        W5[BK] = json.loads((D[BK] / "W5_REPRESENTATIVE_PROCESSES.json").read_text())
+        spec_b = json.loads(Path("experiments/h23-agentix-8b/workloads/ctrl_conc16.json").read_text())
+        _db = sqlite3.connect(str(D[BK] / "cap.sqlite"))
+        _sm = _db.execute("select start,text from NVTX_EVENTS where text like 'w.step::%'").fetchall()
+        _cb = _db.execute("select start,text from NVTX_EVENTS where text like 'agentix.call_begin%'").fetchall()
+        _db.close()
+        _subs = {(c["program_id"], c["call_index"]): c["submitted_rel_ms"] for c in C[BK]}
+        _offs = [ts - _subs[(q[1], int(q[2]))] * 1e6 for ts, tx in _cb
+                 for q in [tx.split("::")] if len(q) > 2 and (q[1], int(q[2])) in _subs]
+        _off_b = statistics.median(_offs) if _offs else 0
+        for ts, tx in _sm:
+            try:
+                q = dict(kv.split("=") for kv in tx.split("::")[1:])
+                wstep_b.append(((ts - _off_b) / 1e6, int(q["reqs"]), int(q["tok"])))
+            except Exception:
+                pass
+        wstep_b.sort()
     pairs = {k: json.loads((AT / f"pair_facts_{k}.json").read_text())
              for k in ("state_reuse", "call_preempt", "program_identity")}
     audit = {"purpose": "R10 four-arm edition window/selection criteria", "windows": {}}
@@ -341,6 +369,8 @@ def main():
 
     # ================= 二、高延迟（调用堆四臂主图 + step 堆支撑） ==========
     seg = {k: call_top_pile(C[k]) for k, *_ in ARMS}
+    if BK == "bcap":
+        seg[BK] = call_top_pile(C[BK])
     win = int(60e9)
     best_n, cw0 = -1, 0
     for t in range(0, int(max(m["end"] for m in seg["plain"])) - win, int(5e9)):
@@ -480,7 +510,7 @@ def main():
 
     # ---- 4.2 per-ARM deep dive: high-latency + concurrency window,
     #      process timelines co-axial with metric-time lanes -----------------
-    def deep_dive(key, label):
+    def deep_dive(key, label, fixed=None, extra_lanes=None, color=None):
         r0 = run0_of(key)
         sg = seg[key]                       # top call-pile members, run-rel ns
         # (a) high-latency period: densest 10 s of top-pile member activity
@@ -506,9 +536,12 @@ def main():
         w1 = max(h0 + win, q0 + win)
         if w1 - w0 > 25e3:                   # disjoint far apart: keep the HL window
             w0, w1 = h0, h0 + win
+        if fixed is not None:                # constructed phase window overrides
+            w0, w1 = fixed
+            h0 = q0 = w0
         hl_pids = {m["pid"] for m in sg if m["start"] / 1e6 < w1 and m["end"] / 1e6 > w0}
         parts = axis(w0, w1, 60, 0)          # height patched at the end
-        parts.append(f'<text x="4" y="26" font-size="20" font-weight="600" fill="{ARM_COLOR[key]}">'
+        parts.append(f'<text x="4" y="26" font-size="20" font-weight="600" fill="{color or ARM_COLOR.get(key, '#2f6f9f')}">'
                      f'{label} · 高延迟段 [{h0/1e3:.0f},{(h0+win)/1e3:.0f}] s · '
                      f'超cap并发段 [{q0/1e3:.0f},{(q0+win)/1e3:.0f}] s · 图窗 [{w0/1e3:.0f},{w1/1e3:.0f}] s</text>')
         y = 74
@@ -590,6 +623,8 @@ def main():
         srate = [(b * binw, (b + 1) * binw, n / (binw / 1e3)) for b, n in sorted(bins.items())]
         smax = max((v for *_, v in srate), default=1)
         lane(srate, "step 率（步/s）", smax, "#7a5fb0")
+        for lb, rows_x, vmx, colx, capx in (extra_lanes or []):
+            lane(rows_x, lb, vmx, colx, cap_line=capx)
         audit["windows"].setdefault("part4_deepdive", {})[key] = {
             "hl_window_s": [h0 / 1e3, (h0 + win) / 1e3],
             "atcap_window_s": [q0 / 1e3, (q0 + win) / 1e3],
@@ -699,7 +734,11 @@ core 只对 132 个调用触发 quantum 切分，再排队集中在被压后的�
         7: ("_page_4_Figure_6.jpeg",
             "看程序内 vs 程序间的前缀命中率——程序内高、程序间低。",
             "同一程序的调用共享累积上下文（KV 可复用），跨程序几乎不共享。这就是消融第一对"
-            "（素→opt，1.60×）收益的机会来源，也解释了为什么该收益与调度无关、必须先剥离。"),
+            "（素→opt，1.60×）收益的机会来源。为什么程序感知调度没有把命中变成执行差（图 17 蓝段"
+            "等高）：程序内下一 call 的间隔由工具/思考延迟主导（调度不可压缩），命中能否兑现由"
+            "KV 容量压力决定；论文把跨 call 的 KV 亲和交给进程表驱动的 sticky 路由（多引擎）与"
+            "swap 内核（图 18），不交给 PLAS。单引擎同缓存下三臂兑现命中相近——我们的配对驻留比"
+            "中位 1.00 是其实测；而素臂关缓存后执行确实变长，说明缓存差异存在时是可见的。"),
         70: ("_page_4_Figure_7.jpeg",
             "看跨程序命中率的补充面板——跨程序几乎无前缀可共享。",
             "与上图合为论文 Fig.7 的两个面板：状态复用的收益边界在程序边界处截止。"),
@@ -844,43 +883,93 @@ mean {e_pi['mean']:.2f}× / p99 {e_pi['p99']:.2f}×。下方状态机原图即�
         partsA4 += s
     figA4 = fig(partsA4, yA4 + 6)
 
-    # ============ B: core-only tables / figs ================================
-    dfg_html_B = dfg_fig(W2["core"], "core")
+    # ============ B: tables / figs on the Doc-B capture (BK) ================
+    dfg_html_B = dfg_fig(W2[BK], "core" if BK == "core" else "core·ctrl_conc16")
     def one_row(tbl_html):
-        # keep header + the core row only
         m = re.search(r"(<table><tr>.*?</tr>)(.*)</table>", tbl_html, re.S)
         rows = re.findall(r"<tr><td>.*?</tr>", m.group(2), re.S)
         keep = [r for r in rows if r.startswith("<tr><td>core") or "agentix" in r[:40]]
         return m.group(1) + "".join(keep) + "</table>"
-    tbl_w_B = one_row(tbl_w)
-    tbl_scope_B = one_row(tbl_scope)
-    # core step-pile figure (densest section of core rank-1 forward pile)
-    p1c = P["core"]["hl"]["piles"][0]
+    if BK == "core":
+        tbl_w_B = one_row(tbl_w)
+        tbl_scope_B = one_row(tbl_scope)
+        tbl_piles_B = ('<table><tr><th>#</th><th>类型</th><th>堆</th><th>成员数</th><th>时间和 s</th>'
+                       '<th>高延迟成员</th></tr>' + "".join(
+            f"<tr><td>{g['rank']}</td><td>{g['type'].replace('gpu_model_runner: ','').replace('w.sched: ','').replace('w.engine: ','').replace('w.run: ','')}</td>"
+            f"<td>{g['pile']}</td><td>{g['members']:,}</td><td>{g['sum_ns']/1e9:.1f}</td>"
+            f"<td>{g['hl_members']:,}</td></tr>"
+            for g in json.loads((AT / "llama_core_cap16_views" / "GROUPS.json").read_text())["groups"][:8])
+            + '</table>')
+        tbl_phase, figB_P1, figB_P3 = "", "", ""
+    else:
+        hdr_w = ('<table><tr><th>臂</th><th>prepare_inputs 和（s）</th><th>其中 CUDA API</th>'
+                 '<th>async 输出等待（和 / 均）</th><th>W5 代表集覆盖 host</th></tr>')
+        tbl_w_B = hdr_w + w2row(BK, "core·ctrl") + "</table>"
+        tbl_scope_B = ('<table><tr><th>臂（各 scope 时间和 s）</th><th>schedule</th><th>prepare</th>'
+                       '<th>forward</th><th>sample</th><th>postproc</th><th>update</th><th>outputs</th>'
+                       '<th>async 等待</th></tr>' + sc_row(BK, "core·ctrl") + "</table>")
+        tbl_piles_B = ('<table><tr><th>#</th><th>类型</th><th>成员数</th><th>时间和 s</th></tr>' + "".join(
+            f"<tr><td>{i+1}</td><td>{g['type'].replace('gpu_model_runner: ','').replace('w.sched: ','').replace('w.engine: ','').replace('w.run: ','')}"
+            f" 堆{g['pile_index']}</td><td>{g['count']:,}</td><td>{g['sum_ns']/1e9:.1f}</td></tr>"
+            for i, g in enumerate(P[BK]["hl"]["piles"][:8])) + '</table>')
+    p1c = P[BK]["hl"]["piles"][0]
     sic = max(range(len(p1c["rows"])), key=lambda i: len(p1c["rows"][i]))
-    secc = P["core"]["hl"]["sections"][sic]
+    secc = P[BK]["hl"]["sections"][sic]
     sbc, sec_e = int(secc["begin_ns"]), int(secc["end_ns"])
-    obc = int(P["core"]["hl"]["origin"])
+    obc = int(P[BK]["hl"]["origin"])
     partsB3 = axis((sbc - obc) / 1e6, (sec_e - obc) / 1e6, 60, 380)
-    hB, yhB = hl_strip(P["core"]["hl"], 70, "core", sbc, sec_e)
+    hB, yhB = hl_strip(P[BK]["hl"], 70, "core", sbc, sec_e)
     figB3 = fig(partsB3 + hB, yhB + 6)
-    tbl_piles_B = ('<table><tr><th>#</th><th>类型</th><th>堆</th><th>成员数</th><th>时间和 s</th>'
-                   '<th>高延迟成员</th></tr>' + "".join(
-        f"<tr><td>{g['rank']}</td><td>{g['type'].replace('gpu_model_runner: ','').replace('w.sched: ','').replace('w.engine: ','').replace('w.run: ','')}</td>"
-        f"<td>{g['pile']}</td><td>{g['members']:,}</td><td>{g['sum_ns']/1e9:.1f}</td>"
-        f"<td>{g['hl_members']:,}</td></tr>"
-        for g in json.loads((AT / "llama_core_cap16_views" / "GROUPS.json").read_text())["groups"][:8])
-        + '</table>')
-    # core whole-run lanes + deep dive (already computed: deep_figs['core'])
-    r0c = int(P["core"]["e2e"]["origin"]) - int(P["core"]["hl"]["origin"])
-    partsB4 = axis(0.0, wall_ms, 60, 3 * 162 + 80)
-    sc_, _yend = cu_strip(P["core"]["cu"], 70, "core（全程）", r0c, r0c + int(wall_ms * 1e6))
+    r0c = int(P[BK]["e2e"]["origin"]) - int(P[BK]["hl"]["origin"])
+    wall_b = max(c["finished_rel_ms"] for c in C[BK])
+    partsB4 = axis(0.0, wall_b, 60, 3 * 162 + 80)
+    sc_, _yend = cu_strip(P[BK]["cu"], 70, "core（全程）", r0c, r0c + int(wall_b * 1e6))
     figB4 = fig(partsB4 + sc_, _yend + 6)
-    # kernel-granular micro inside core deep window + NCU per-kernel table
-    dw = audit["windows"]["part4_deepdive"]["core"]["figure_window_s"]
-    e2oc = int(P["core"]["e2e"]["origin"])
-    at_c = kernel_micro_best(D["core"] / "cap.sqlite", e2oc + int(dw[0] * 1e9),
-                             e2oc + int(dw[1] * 1e9), int(300e6))
-    mparts, mye, mbusy, mgemm = kernel_micro_strip(D["core"] / "cap.sqlite", 60, "core", at_c, int(300e6))
+    if BK == "bcap":
+        ph = spec_b["phases"]
+        bl = [("批内请求数", [(ms, ms + 60, r) for ms, r, _ in wstep_b], 16, "#2a78d6", 16),
+              ("批内 token 数", [(ms, ms + 60, tk) for ms, _, tk in wstep_b],
+               max((tk for *_, tk in wstep_b), default=1), "#8a6bbf", None)]
+        figB_P1, _ = deep_dive(BK, "core · P1 稳态满批 decode（构造相位）",
+                               fixed=(ph["P1"][0] * 1e3, ph["P1"][1] * 1e3),
+                               extra_lanes=bl, color="#1f7a4f")
+        figB_P3, _ = deep_dive(BK, "core · P3 准入风暴（构造相位）",
+                               fixed=(ph["P3"][0] * 1e3, min(ph["P3"][1] or 55, 50) * 1e3),
+                               extra_lanes=bl, color="#a8541f")
+        _db = sqlite3.connect(str(D[BK] / "cap.sqlite"))
+        _dm = [(ts - _off_b) / 1e6 for ts, tx in _db.execute(
+            "select start,text from NVTX_EVENTS where text like 'agentix.demote%'").fetchall()]
+        _qb = [((ts - _off_b) / 1e6, tx.split("::")[-1]) for ts, tx in _db.execute(
+            "select start,text from NVTX_EVENTS where text like 'agentix.chunk_begin%'").fetchall()]
+        _db.close()
+        def in_ph(v, name):
+            lo = ph[name][0] * 1e3
+            hi = (ph[name][1] if ph[name][1] is not None else wall_b / 1e3) * 1e3
+            return lo <= v < hi
+        def phstat(name):
+            st = [x for x in wstep_b if in_ph(x[0], name)]
+            reqs = [r for _, r, _ in st]
+            toks = [tk for *_, tk in st]
+            adm = {}
+            for ts2, qq in _qb:
+                if in_ph(ts2, name):
+                    adm[qq] = adm.get(qq, 0) + 1
+            return (f"<tr><td>{name}</td><td>{len(st):,}</td>"
+                    f"<td>{sum(reqs)/max(len(reqs),1):.1f}</td>"
+                    f"<td>{sum(toks)/max(len(toks),1):.0f}</td>"
+                    f"<td>{'/'.join(f'{k2}:{v2}' for k2, v2 in sorted(adm.items())) or '—'}</td>"
+                    f"<td>{sum(1 for v2 in _dm if in_ph(v2, name))}</td></tr>")
+        tbl_phase = ('<table><tr><th>相位</th><th>step 数</th><th>批内请求均值</th>'
+                     '<th>批内 token 均值</th><th>quantum 段准入（队列:次）</th><th>降级次数</th></tr>'
+                     + "".join(phstat(n) for n in ("P1", "P2", "P3", "P4")) + "</table>")
+    if BK == "bcap":
+        dwin = (spec_b["phases"]["P3"][0] * 1e3, min(spec_b["phases"]["P3"][1] or 55, 50) * 1e3)
+    else:
+        dwin = tuple(audit["windows"]["part4_deepdive"]["core"]["figure_window_s"][i] * 1e3 for i in (0, 1))
+    e2oc = int(P[BK]["e2e"]["origin"])
+    at_c = kernel_micro_best(D[BK] / "cap.sqlite", e2oc + int(dwin[0] * 1e6),
+                             e2oc + int(dwin[1] * 1e6), int(300e6))
+    mparts, mye, mbusy, mgemm = kernel_micro_strip(D[BK] / "cap.sqlite", 60, "core", at_c, int(300e6))
     figB4m = fig(mparts, mye + 6)
     import csv as _csv
     _rows = list(_csv.reader((AT / "ncu_focus" / "focus2_raw.csv").open()))
@@ -902,9 +991,16 @@ mean {e_pi['mean']:.2f}× / p99 {e_pi['p99']:.2f}×。下方状态机原图即�
                '<th>L2 命中 %</th><th>L2 吞吐 %峰</th><th>tensor pipe %</th><th>SM 吞吐 %峰</th>'
                '<th>DRAM GB/s</th><th>DRAM %峰</th><th>warp 占用 %</th></tr>' + ncu_tr + '</table>')
     sig_c = chunk_sig.get("core", (0, 0, 0))
-    async_core_s = next((b["sum_ns"] / 1e9 for b in W2["core"]["dominant_idle_boundaries"]
+    if BK == "bcap":
+        _f2, _l2 = [], []
+        for segs_ in CH[BK].values():
+            for i2, (b2, e2, _q2) in enumerate(sorted(segs_)):
+                (_f2 if i2 == 0 else _l2).append(e2 - b2)
+        if _l2:
+            sig_c = (statistics.median(_f2), statistics.median(_l2), len(_l2))
+    async_core_s = next((b["sum_ns"] / 1e9 for b in W2[BK]["dominant_idle_boundaries"]
                          if "set_async" in b["boundary"]), 0.0)
-    prep_core_s = W2["core"]["prepare_inputs_api_split"]["window_union_ns"] / 1e9
+    prep_core_s = W2[BK]["prepare_inputs_api_split"]["window_union_ns"] / 1e9
 
 
     # =================== DOC A: 复现论文机制与学习 ==========================
@@ -937,14 +1033,38 @@ font:18px/1.55 "IBM Plex Mono","Noto Sans Mono CJK SC",monospace;overflow-x:auto
 4 臂 × 5 到达率端点。process 层次的深入分析（call 内部 step/scope/kernel）在姊妹文档
 《R10_PROCESS》。审计：R10_AUDIT.json。</p>
 
+<h2>A0 负载理解 —— 场景、prog/call/step/scope 定义与生命周期串讲</h2>
+
+<p class="theme"><b>场景先行。</b>本负载取三个真实 agent 场景：<b>工具代理</b>（bfcl——模型
+反复调用外部工具，每次生成短，调用之间隔着工具延迟）；<b>多轮会话</b>（sharegpt——人与模型
+往返，每轮生成长）；<b>树搜索</b>（lats——MCTS 式搜索，每波 5 路并行展开、近两百次生成连成
+深链）。论文图 1 给出这类场景的一般形态（DAG）：</p>
+{pf(1)}
+<p class="theme"><b>由场景到定义。</b>要说清这三种场景在 serving 引擎里的行为，需要四层
+词汇：一个场景实例（会话/任务全程）称为 <b>program</b>（三类共 25 个）；program 内的一次
+LLM 请求是 <b>call</b>（共 2,440 个）；引擎的一次连续批迭代是 <b>step</b>（一个 step 同时
+服务至多 16 个 call 各一次 decode 迭代，约 1.5 万步/捕获）——一个 call 的服务由几十到上千个
+step 拼成，这就是"调度只能改 call 进 step 的顺序、改不了 step 本身"的结构原因；step 内的
+引擎阶段是 <b>scope</b>（schedule / prepare / forward / sample 等，姊妹文档 B2 的 DFG 画的就是
+它们）。三类场景的区分完全落在前两层：bfcl = call 短而多，sharegpt = call 长而少，
+lats = call 洪流 + 波并行：</p>
+{compo_tbl}
+<p class="cap"><b>表注：</b>三类程序的组成实测（负载规格冻结 JSON 与 trace 三方对账，A00 门）。</p>
+{pf(11)}
+<h3>A0b 负载场景的生命周期 —— 用四层定义串起来</h3>
+<p class="theme">把定义放回场景（下面三张图是各类一个中位规模的真实实例，opt 臂 trace）：
+bfcl program 的生命周期是"call（等待→服务）→ 工具延迟 → 下一 call"的串行链，寿命由等待与
+工具延迟主导；sharegpt program 是少数长 call 的接力，寿命由服务段主导；lats program 是每波
+5 个并行 call 的推进，波内要等最慢一路（关键路径）——它的 call 都小，program 却最长。</p>
+{life_html}
+{pf(5)}
+
 {METH}
 
 <h2>A2 消融设计与度量</h2>
-<p class="theme"><b>负载：</b>三类 agent 程序的合成混载（组成如下表，按论文图 11 校准；场景
-语义与生命周期详见姊妹文档 B1）。<b>消融设计：</b>三个首尾相接的单变量对——素→opt（状态
-复用）、opt→MLFQ（调用级抢占）、MLFQ→core（程序身份），每对只差一个变量、均有全链 trace。</p>
-{compo_tbl}
-{pf(11)}
+<p class="theme"><b>负载：</b>即 A0 的三类合成混载（组成表与校准图见 A0）。<b>消融设计：</b>
+三个首尾相接的单变量对——素→opt（状态复用）、opt→MLFQ（调用级抢占）、MLFQ→core（程序
+身份），每对只差一个变量、均有全链 trace。</p>
 {tri_def}
 {pf(17)}
 
@@ -1003,6 +1123,21 @@ call 被排队抬进来）；MLFQ 清空粗行但 lats 行反而变密（quantum
 本页与端点数据：release h23-r10-reports。</p>
 </div></body></html>"""
 
+    if BK == "bcap":
+        ver_note = ("<b>数据：受控并发 batch 采集 ctrl_conc16</b>（batch8/16 方法迁移：构造 "
+                    "W/P1/P2/P3/P4 并发相位，见 workflow06/B_BATCH_TRACE_PLAN.md；分析窗口是"
+                    "构造的、不是搜索的）。")
+    else:
+        ver_note = ("<b>版本注：本页为 v0 草稿</b>——基于 r0.5 开环采集；正式版换用受控并发 "
+                    "batch 采集（计划见 workflow06/B_BATCH_TRACE_PLAN.md）。")
+    if BK == "bcap":
+        _adm_tot = {}
+        for _ts3, _q3 in _qb:
+            _adm_tot[_q3] = _adm_tot.get(_q3, 0) + 1
+        adm_note = ("quantum 段准入 " + "/".join(f"{k3}:{v3}" for k3, v3 in sorted(_adm_tot.items()))
+                    + f"、降级 {len(_dm)} 次（相位细分见 B4 表）")
+    else:
+        adm_note = "准入 Q0–Q3 = 97/102/237/2004、降级 151 次"
     # =================== DOC B: process 层次分析（面向优化） ================
     docB = f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
 <title>Agentix serving 的 process 层次分析</title><style>
@@ -1059,7 +1194,7 @@ bfcl program 的生命周期是"call（等待→服务）→ 工具延迟 → �
 {pf(5)}
 <p class="theme"><b>方法回顾（一段话）：</b>Agentix 用全局进程表记每程序累计服务
 {{T<sub>p</sub>, W<sub>p</sub>}}，call 到达时按 p(c<sub>j</sub>) 离散化准入 Q0–Q3、
-time quantum 用尽降级、β 抗饿；本采集中该状态机的账本：准入 97/102/237/2004、降级 151 次。
+time quantum 用尽降级、β 抗饿；本采集中该状态机的账本：{adm_note}。
 架构与状态机原图：</p>
 {pf(8)}{pf(10)}
 
@@ -1100,6 +1235,11 @@ host 未消费的跨步空档，core 臂 {async_core_s:.0f} s / 均 8 ms 级—�
 {figB4}
 <p class="cap"><b>一句话看图：</b>到达窗内在飞贴 cap、busy/gemm 稳定——排队 regime 的全程
 背景。<b>图注：</b>core 臂全程三 lane（GPU busy / gemm 占比 / 在飞）。</p>
+{tbl_phase}
+{figB_P1}
+{"" if not figB_P1 else '<p class="cap"><b>一句话看图：</b>P1 里批内请求数贴 16、token 数≈请求数（纯 decode）、无降级——干净的满批基线。<b>图注：</b>构造相位 P1（16 个单 quantum 调用同批），上半 step 实例条码，下半六条指标 lane（含新增的批内请求/token 两条）。</p>'}
+{figB_P3}
+{"" if not figB_P3 else '<p class="cap"><b>一句话看图：</b>P3 里准入分层（Q0 与 Q2/Q3 同窗出现）、降级密集、批内 token 数被 prefill 抬高——机制的全部动作集中在这一窗。<b>图注：</b>构造相位 P3（aged 长调用与 8 个新短程序同时到达）；lane 口径同 P1。</p>'}
 {deep_figs['core']}
 <p class="cap"><b>一句话看图：</b>红密度高的时段（重 forward 堆成员连片）与在飞贴 cap、
 step 率高原同段——高延迟 process 的时间段即并发最重的时间段。<b>图注：</b>上半为窗内全部
@@ -1127,7 +1267,7 @@ step→kernel 归因用 launch-ownership。</p>
 直接耦合，对应 PREEMPTION_EXPLORATION_PLAN v3 的 S1 机制卡与 S4 实验菜单。</p>
 
 <h2>记账</h2>
-<p class="theme">口径与窗口在 R10_AUDIT.json；A00 守恒门 <code>all_pass</code>；
+<p class="theme">口径与窗口在 R10_AUDIT.json；A00 守恒门：程序/调用/join 三门全过，G-S 记 8 个空批迭代（0.53 %——构造相位间与工具延迟窗内引擎空转，本负载的预期形态）；
 process 宇宙与堆聚类沿 w05/batch8 契约；NCU 重放不进入观测时延计算（契约条款）。
 原始 trace：release h22-h23-traces。</p>
 </div></body></html>"""
