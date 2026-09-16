@@ -3,151 +3,151 @@
   "source_sqlite": "artifacts/agentix_8b/autotrace/ctrl_conc16_core/cap.sqlite",
   "layers": {
     "host": {
-      "denominator_ns": 24013167774,
+      "denominator_ns": 22011347920,
       "denominator_note": "UNION(engine step intervals) - UNION(model-forward intervals); union, not sum, because NVTX ranges nest",
-      "step_union_ns": 26630044182,
-      "forward_union_ns": 2616876408,
+      "step_union_ns": 26722207352,
+      "forward_union_ns": 4710859432,
       "selected": [
         {
           "process": "w.run: dummy_run",
           "count": 34,
-          "sum_ns": 2574662250,
-          "share_of_host": 0.10721876739593215
+          "sum_ns": 2151555408,
+          "share_of_host": 0.09774755348104097
         },
         {
           "process": "gpu_model_runner: postprocess",
           "count": 1508,
-          "sum_ns": 792712312,
-          "share_of_host": 0.03301156763075219
+          "sum_ns": 812696025,
+          "share_of_host": 0.03692168366761248
         },
         {
           "process": "gpu_model_runner: AsyncGPUModelRunnerOutput",
           "count": 1508,
-          "sum_ns": 668312379,
-          "share_of_host": 0.027831079401511034
+          "sum_ns": 663690153,
+          "share_of_host": 0.030152181293584313
         },
         {
           "process": "w.prep: attn_metadata",
           "count": 1522,
-          "sum_ns": 595801433,
-          "share_of_host": 0.024811446728202916
+          "sum_ns": 601070159,
+          "share_of_host": 0.027307285368646336
         },
         {
           "process": "gpu_model_runner: sample",
           "count": 1508,
-          "sum_ns": 552223166,
-          "share_of_host": 0.022996681287419052
+          "sum_ns": 569970796,
+          "share_of_host": 0.02589440674290155
         },
         {
           "process": "w.engine: process_outputs",
           "count": 1508,
-          "sum_ns": 428062825,
-          "share_of_host": 0.017826170583936055
+          "sum_ns": 423891635,
+          "share_of_host": 0.019257868102427415
         },
         {
           "process": "w.prep: input_ids",
           "count": 1508,
-          "sum_ns": 419997986,
-          "share_of_host": 0.017490319892519483
+          "sum_ns": 419218707,
+          "share_of_host": 0.01904557178977161
         },
         {
           "process": "w.sched: update_from_output",
-          "count": 1515,
-          "sum_ns": 347650006,
-          "share_of_host": 0.014477473745734385
+          "count": 1518,
+          "sum_ns": 357286394,
+          "share_of_host": 0.01623191797697049
         },
         {
           "process": "gpu_model_runner: bookkeep",
           "count": 1508,
-          "sum_ns": 258300493,
-          "share_of_host": 0.010756618844752007
+          "sum_ns": 250685743,
+          "share_of_host": 0.011388931923256792
         },
         {
           "process": "schedule: allocate_slots",
           "count": 7169,
-          "sum_ns": 240056654,
-          "share_of_host": 0.009996875724989468
+          "sum_ns": 236063852,
+          "share_of_host": 0.010724643163970305
         },
         {
           "process": "w.run: update_states",
-          "count": 1516,
-          "sum_ns": 166997303,
-          "share_of_host": 0.006954405373405775
+          "count": 1518,
+          "sum_ns": 166745673,
+          "share_of_host": 0.0075754412499423164
         },
         {
           "process": "w.prep: cumsum_arange",
           "count": 1522,
-          "sum_ns": 125979991,
-          "share_of_host": 0.005246287877786931
+          "sum_ns": 121139834,
+          "share_of_host": 0.005503517296636325
         },
         {
           "process": "schedule: make_cached_request_data",
-          "count": 1516,
-          "sum_ns": 55691069,
-          "share_of_host": 0.0023191887686013217
+          "count": 1518,
+          "sum_ns": 66152959,
+          "share_of_host": 0.0030054024515187437
         },
         {
           "process": "schedule: update_after_schedule",
-          "count": 1516,
-          "sum_ns": 40499212,
-          "share_of_host": 0.0016865418332624189
+          "count": 1518,
+          "sum_ns": 39820690,
+          "share_of_host": 0.0018090982044683432
         },
         {
           "process": "w.prep: prev_positions",
           "count": 1508,
-          "sum_ns": 32596352,
-          "share_of_host": 0.0013574365659200262
+          "sum_ns": 31670963,
+          "share_of_host": 0.0014388470490361502
         },
         {
           "process": "schedule: get_num_common_prefix_blocks",
-          "count": 1516,
-          "sum_ns": 24726432,
-          "share_of_host": 0.0010297030459584878
+          "count": 1518,
+          "sum_ns": 24867008,
+          "share_of_host": 0.001129735811290561
         },
         {
           "process": "gpu_model_runner: ModelRunnerOutput",
           "count": 1508,
-          "sum_ns": 19587558,
-          "share_of_host": 0.0008157007098916878
+          "sum_ns": 21163762,
+          "share_of_host": 0.0009614932296249852
         },
         {
           "process": "w.kv: get_computed_blocks",
           "count": 115,
-          "sum_ns": 10210038,
-          "share_of_host": 0.0004251849691840661
+          "sum_ns": 10017217,
+          "share_of_host": 0.0004550933017099845
         },
         {
           "process": "w.run: update_states_after_exec",
           "count": 1508,
-          "sum_ns": 8794065,
-          "share_of_host": 0.00036621844659419237
+          "sum_ns": 8845049,
+          "share_of_host": 0.000401840406691459
         },
         {
           "process": "gpu_model_runner: set_async_sampled_token_ids",
           "count": 1508,
-          "sum_ns": 7637054,
-          "share_of_host": 0.0003180360905265043
+          "sum_ns": 6537449,
+          "share_of_host": 0.00029700357396377023
         },
         {
           "process": "gpu_model_runner: eplb",
           "count": 1508,
-          "sum_ns": 5725723,
-          "share_of_host": 0.0002384409693001631
+          "sum_ns": 5891322,
+          "share_of_host": 0.0002676493062311288
         },
         {
           "process": "w.sched: add_request",
           "count": 115,
-          "sum_ns": 1233480,
-          "share_of_host": 5.1366817223321e-05
+          "sum_ns": 1215574,
+          "share_of_host": 5.5224877841102244e-05
         },
         {
           "process": "w.engine: async_add_request",
           "count": 115,
-          "sum_ns": 1214434,
-          "share_of_host": 5.0573669056479725e-05
+          "sum_ns": 1160019,
+          "share_of_host": 5.2700952445805506e-05
         }
       ],
-      "covered_share": 0.3072760863724601,
+      "covered_share": 0.31762509122158294,
       "cover_target": 0.9,
       "containers_excluded": [
         "gpu_model_runner: preprocess",
@@ -156,27 +156,27 @@
         "w.sched: schedule_total"
       ],
       "container_totals": {
-        "w.sched: schedule_total": {
-          "count": 1516,
-          "sum_ns": 682141344
-        },
         "w.engine: process_engine_step": {
-          "count": 1520,
-          "sum_ns": 26630044182
+          "count": 1524,
+          "sum_ns": 26722207352
         },
-        "gpu_model_runner: preprocess": {
-          "count": 1516,
-          "sum_ns": 5535004660
+        "w.sched: schedule_total": {
+          "count": 1518,
+          "sum_ns": 685909325
         },
         "w.run: prepare_inputs": {
           "count": 1508,
-          "sum_ns": 3956539472
+          "sum_ns": 3935196710
+        },
+        "gpu_model_runner: preprocess": {
+          "count": 1518,
+          "sum_ns": 5508709516
         }
       }
     },
     "device": {
       "process": "gpu_model_runner: forward",
-      "sum_ns": 2616876408,
+      "sum_ns": 4710859432,
       "note": "already covered by the perf_trace chain"
     },
     "request": {
@@ -192,70 +192,70 @@
   },
   "container_account": {
     "w.engine: process_engine_step": {
-      "total_ns": 26630044182,
-      "attributed_share": 0.43189242798080163,
-      "interior_unnamed_ns": 15128729743,
-      "interior_gpu_running_ns": 1318619733,
-      "interior_host_idle_ns": 13810110010
+      "total_ns": 26722207352,
+      "attributed_share": 0.5091901043489815,
+      "interior_unnamed_ns": 13115523802,
+      "interior_gpu_running_ns": 11835518520,
+      "interior_host_idle_ns": 1280005282
     },
     "gpu_model_runner: preprocess": {
-      "total_ns": 5535004660,
-      "attributed_share": 0.852221508698784,
-      "interior_unnamed_ns": 817954638,
-      "interior_gpu_running_ns": 869382,
-      "interior_host_idle_ns": 817085256
+      "total_ns": 5508709516,
+      "attributed_share": 0.8534205280465909,
+      "interior_unnamed_ns": 807463732,
+      "interior_gpu_running_ns": 716082616,
+      "interior_host_idle_ns": 91381116
     },
     "w.run: prepare_inputs": {
-      "total_ns": 3956539472,
-      "attributed_share": 0.146067557290883,
-      "interior_unnamed_ns": 3378617416,
-      "interior_gpu_running_ns": 5099074,
-      "interior_host_idle_ns": 3373518342
+      "total_ns": 3935196710,
+      "attributed_share": 0.14524408260140062,
+      "interior_unnamed_ns": 3363632674,
+      "interior_gpu_running_ns": 2980145766,
+      "interior_host_idle_ns": 383486908
     },
     "w.sched: schedule_total": {
-      "total_ns": 682141344,
-      "attributed_share": 0.5441444185502997,
-      "interior_unnamed_ns": 310957939,
-      "interior_gpu_running_ns": 727663,
-      "interior_host_idle_ns": 310230276
+      "total_ns": 685909325,
+      "attributed_share": 0.5495212155046879,
+      "interior_unnamed_ns": 308987599,
+      "interior_gpu_running_ns": 267739292,
+      "interior_host_idle_ns": 41248307
     }
   },
   "dominant_idle_boundaries": [
     {
       "boundary": "gpu_model_runner: set_async_sampled_token_ids -> w.sched: update_from_output",
-      "sum_ns": 14082109944,
-      "count": 1494,
-      "mean_ms": 9.425776401606425
+      "sum_ns": 12110415746,
+      "count": 1500,
+      "mean_ms": 8.073610497333332
     },
     {
       "boundary": "gpu_model_runner: postprocess -> gpu_model_runner: sample",
-      "sum_ns": 295098181,
-      "count": 1484,
-      "mean_ms": 0.1988532216981132
+      "sum_ns": 293399902,
+      "count": 1504,
+      "mean_ms": 0.1950797220744681
     },
     {
       "boundary": "w.sched: update_from_output -> w.sched: schedule_total",
-      "sum_ns": 162289745,
-      "count": 1406,
-      "mean_ms": 0.11542656116642959
+      "sum_ns": 165896680,
+      "count": 1400,
+      "mean_ms": 0.11849762857142858
     },
     {
       "boundary": "w.sched: schedule_total -> gpu_model_runner: preprocess",
-      "sum_ns": 145101816,
-      "count": 1457,
-      "mean_ms": 0.09958944131777625
+      "sum_ns": 136313568,
+      "count": 1435,
+      "mean_ms": 0.09499203344947736
     },
     {
       "boundary": "gpu_model_runner: preprocess -> gpu_model_runner: forward",
-      "sum_ns": 128327246,
-      "count": 1401,
-      "mean_ms": 0.09159689221984296
+      "sum_ns": 125022022,
+      "count": 1388,
+      "mean_ms": 0.09007350288184439
     },
     {
       "boundary": "w.engine: process_outputs -> w.sched: update_from_output",
-      "sum_ns": 63556969,
+      "sum_ns": 75862420,
       "count": 6,
-      "mean_ms": 10.592828166666665
+      "mean_ms": 12.643736666666666
     }
   ],
   "perf_trace_gap": {
@@ -273,7 +273,7 @@
       "w.sched: add_request",
       "w.engine: async_add_request"
     ],
-    "host_share_not_covered_by_perf_trace": 0.1962756520654958,
+    "host_share_not_covered_by_perf_trace": 0.19507286185315997,
     "mechanism_events_not_in_perf_trace": [
       "chunk_begin",
       "chunk_end",

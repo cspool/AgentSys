@@ -4,215 +4,215 @@
   "ranked_processes": [
     {
       "process": "w.engine: process_engine_step",
-      "count": 1520,
-      "union_ns": 26630044182,
-      "mean_us": 17519.765909210524
+      "count": 1524,
+      "union_ns": 26722207352,
+      "mean_us": 17534.25679265092
     },
     {
       "process": "gpu_model_runner: preprocess",
-      "count": 1516,
-      "union_ns": 5535004660,
-      "mean_us": 3651.0584828496044
-    },
-    {
-      "process": "w.run: prepare_inputs",
-      "count": 1508,
-      "union_ns": 3956539472,
-      "mean_us": 2623.6999151193636
+      "count": 1518,
+      "union_ns": 5508709516,
+      "mean_us": 3628.9258998682476
     },
     {
       "process": "gpu_model_runner: forward",
       "count": 1508,
-      "union_ns": 2616876408,
-      "mean_us": 1735.3291830238727
+      "union_ns": 4710859432,
+      "mean_us": 3123.9120901856763
+    },
+    {
+      "process": "w.run: prepare_inputs",
+      "count": 1508,
+      "union_ns": 3935196710,
+      "mean_us": 2609.5468899204243
     },
     {
       "process": "w.run: dummy_run",
       "count": 34,
-      "union_ns": 2574662250,
-      "mean_us": 75725.36029411765
+      "union_ns": 2151555408,
+      "mean_us": 63281.0414117647
     },
     {
       "process": "gpu_model_runner: postprocess",
       "count": 1508,
-      "union_ns": 792712312,
-      "mean_us": 525.6712944297083
+      "union_ns": 812696025,
+      "mean_us": 538.9230935013263
     },
     {
       "process": "w.sched: schedule_total",
-      "count": 1516,
-      "union_ns": 682141344,
-      "mean_us": 449.96130870712403
+      "count": 1518,
+      "union_ns": 685909325,
+      "mean_us": 451.85067523056654
     },
     {
       "process": "gpu_model_runner: AsyncGPUModelRunnerOutput",
       "count": 1508,
-      "union_ns": 668312379,
-      "mean_us": 443.1779701591512
+      "union_ns": 663690153,
+      "mean_us": 440.11283355437666
     },
     {
       "process": "w.prep: attn_metadata",
       "count": 1522,
-      "union_ns": 595801433,
-      "mean_us": 391.4595486202365
+      "union_ns": 601070159,
+      "mean_us": 394.9212608409987
     },
     {
       "process": "gpu_model_runner: sample",
       "count": 1508,
-      "union_ns": 552223166,
-      "mean_us": 366.1957334217507
+      "union_ns": 569970796,
+      "mean_us": 377.96471883289126
     },
     {
       "process": "w.engine: process_outputs",
       "count": 1508,
-      "union_ns": 428062825,
-      "mean_us": 283.8612897877984
+      "union_ns": 423891635,
+      "mean_us": 281.09524867374006
     },
     {
       "process": "w.prep: input_ids",
       "count": 1508,
-      "union_ns": 419997986,
-      "mean_us": 278.5132533156499
+      "union_ns": 419218707,
+      "mean_us": 277.9964900530504
     },
     {
       "process": "w.sched: update_from_output",
-      "count": 1515,
-      "union_ns": 347650006,
-      "mean_us": 229.4719511551155
+      "count": 1518,
+      "union_ns": 357286394,
+      "mean_us": 235.36653096179185
     },
     {
       "process": "gpu_model_runner: bookkeep",
       "count": 1508,
-      "union_ns": 258300493,
-      "mean_us": 171.28679907161805
+      "union_ns": 250685743,
+      "mean_us": 166.23723010610078
     },
     {
       "process": "schedule: allocate_slots",
       "count": 7169,
-      "union_ns": 240056654,
-      "mean_us": 33.48537508718092
+      "union_ns": 236063852,
+      "mean_us": 32.928421258195
     },
     {
       "process": "w.run: update_states",
-      "count": 1516,
-      "union_ns": 166997303,
-      "mean_us": 110.15653232189973
+      "count": 1518,
+      "union_ns": 166745673,
+      "mean_us": 109.84563438735178
     },
     {
       "process": "w.prep: cumsum_arange",
       "count": 1522,
-      "union_ns": 125979991,
-      "mean_us": 82.77266162943495
+      "union_ns": 121139834,
+      "mean_us": 79.59253219448094
     },
     {
       "process": "schedule: make_cached_request_data",
-      "count": 1516,
-      "union_ns": 55691069,
-      "mean_us": 36.735533641160956
+      "count": 1518,
+      "union_ns": 66152959,
+      "mean_us": 43.579024374176555
     }
   ],
   "prepare_inputs_api_split": {
-    "window_union_ns": 3956539472,
-    "cuda_api_ns": 704388998,
+    "window_union_ns": 3935196710,
+    "cuda_api_ns": 779944824,
     "top_apis": [
       {
         "api": "cudaMemcpyAsync_v3020",
-        "ns": 342569997,
-        "count": 12114
+        "ns": 379479947,
+        "count": 13867
       },
       {
         "api": "cudaLaunchKernel_v7000",
-        "ns": 265749121,
-        "count": 8478
+        "ns": 298135357,
+        "count": 9717
       },
       {
         "api": "cuLaunchKernelEx",
-        "ns": 30944007,
-        "count": 1201
+        "ns": 34635953,
+        "count": 1374
       },
       {
         "api": "cuLibraryLoadData",
-        "ns": 28718828,
+        "ns": 27076073,
         "count": 1
       },
       {
         "api": "cudaStreamIsCapturing_v10000",
-        "ns": 24647458,
-        "count": 8660
+        "ns": 26715006,
+        "count": 9936
       },
       {
         "api": "cuKernelGetName",
-        "ns": 9744301,
-        "count": 8478
+        "ns": 11253158,
+        "count": 9717
       }
     ]
   },
   "container_account": {
     "w.engine: process_engine_step": {
-      "total_ns": 26630044182,
-      "attributed_share": 0.43189242798080163,
-      "interior_unnamed_ns": 15128729743,
-      "interior_gpu_running_ns": 1318619733,
-      "interior_host_idle_ns": 13810110010
+      "total_ns": 26722207352,
+      "attributed_share": 0.5091901043489815,
+      "interior_unnamed_ns": 13115523802,
+      "interior_gpu_running_ns": 11835518520,
+      "interior_host_idle_ns": 1280005282
     },
     "gpu_model_runner: preprocess": {
-      "total_ns": 5535004660,
-      "attributed_share": 0.852221508698784,
-      "interior_unnamed_ns": 817954638,
-      "interior_gpu_running_ns": 869382,
-      "interior_host_idle_ns": 817085256
+      "total_ns": 5508709516,
+      "attributed_share": 0.8534205280465909,
+      "interior_unnamed_ns": 807463732,
+      "interior_gpu_running_ns": 716082616,
+      "interior_host_idle_ns": 91381116
     },
     "w.run: prepare_inputs": {
-      "total_ns": 3956539472,
-      "attributed_share": 0.146067557290883,
-      "interior_unnamed_ns": 3378617416,
-      "interior_gpu_running_ns": 5099074,
-      "interior_host_idle_ns": 3373518342
+      "total_ns": 3935196710,
+      "attributed_share": 0.14524408260140062,
+      "interior_unnamed_ns": 3363632674,
+      "interior_gpu_running_ns": 2980145766,
+      "interior_host_idle_ns": 383486908
     },
     "w.sched: schedule_total": {
-      "total_ns": 682141344,
-      "attributed_share": 0.5441444185502997,
-      "interior_unnamed_ns": 310957939,
-      "interior_gpu_running_ns": 727663,
-      "interior_host_idle_ns": 310230276
+      "total_ns": 685909325,
+      "attributed_share": 0.5495212155046879,
+      "interior_unnamed_ns": 308987599,
+      "interior_gpu_running_ns": 267739292,
+      "interior_host_idle_ns": 41248307
     }
   },
   "dominant_idle_boundaries": [
     {
       "boundary": "gpu_model_runner: set_async_sampled_token_ids -> w.sched: update_from_output",
-      "sum_ns": 14082109944,
-      "count": 1494,
-      "mean_ms": 9.425776401606425
+      "sum_ns": 12110415746,
+      "count": 1500,
+      "mean_ms": 8.073610497333332
     },
     {
       "boundary": "gpu_model_runner: postprocess -> gpu_model_runner: sample",
-      "sum_ns": 295098181,
-      "count": 1484,
-      "mean_ms": 0.1988532216981132
+      "sum_ns": 293399902,
+      "count": 1504,
+      "mean_ms": 0.1950797220744681
     },
     {
       "boundary": "w.sched: update_from_output -> w.sched: schedule_total",
-      "sum_ns": 162289745,
-      "count": 1406,
-      "mean_ms": 0.11542656116642959
+      "sum_ns": 165896680,
+      "count": 1400,
+      "mean_ms": 0.11849762857142858
     },
     {
       "boundary": "w.sched: schedule_total -> gpu_model_runner: preprocess",
-      "sum_ns": 145101816,
-      "count": 1457,
-      "mean_ms": 0.09958944131777625
+      "sum_ns": 136313568,
+      "count": 1435,
+      "mean_ms": 0.09499203344947736
     },
     {
       "boundary": "gpu_model_runner: preprocess -> gpu_model_runner: forward",
-      "sum_ns": 128327246,
-      "count": 1401,
-      "mean_ms": 0.09159689221984296
+      "sum_ns": 125022022,
+      "count": 1388,
+      "mean_ms": 0.09007350288184439
     },
     {
       "boundary": "w.engine: process_outputs -> w.sched: update_from_output",
-      "sum_ns": 63556969,
+      "sum_ns": 75862420,
       "count": 6,
-      "mean_ms": 10.592828166666665
+      "mean_ms": 12.643736666666666
     }
   ]
 }

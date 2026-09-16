@@ -20,13 +20,13 @@
     "gpu_model_runner: eplb": 1508,
     "gpu_model_runner: forward": 1508,
     "gpu_model_runner: postprocess": 1508,
-    "gpu_model_runner: preprocess": 1516,
+    "gpu_model_runner: preprocess": 1518,
     "gpu_model_runner: sample": 1508,
     "gpu_model_runner: set_async_sampled_token_ids": 1508,
     "schedule: allocate_slots": 7169,
-    "schedule: get_num_common_prefix_blocks": 1516,
-    "schedule: make_cached_request_data": 1516,
-    "schedule: update_after_schedule": 1516
+    "schedule: get_num_common_prefix_blocks": 1518,
+    "schedule: make_cached_request_data": 1518,
+    "schedule: update_after_schedule": 1518
   },
   "gates": {
     "G-P_programs": {
@@ -45,7 +45,7 @@
     "G-S_engine_loop": {
       "forward_steps": 1508,
       "per_phase_deviation_from_forward": {
-        "gpu_model_runner: preprocess": 8
+        "gpu_model_runner: preprocess": 10
       },
       "explanation": "positive = engine iterations without forward (empty batch); -1 = trailing iteration truncated by profiler stop",
       "pass": false

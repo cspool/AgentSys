@@ -32,3 +32,29 @@
 chunk/demote/准入事件密度、quantum 段与再 prefill 成本；3. 深潜图 ×2（P1 基线 / P3 风暴）：
 step 实例条码 + busy/gemm/在飞/step率/批组成 lane 共轴；4. kernel 显微（P1 与 P3 各一窗）；
 5. B 文档 v1 重建（--process-capture ctrl_conc16_core）。
+
+## 第二部分：process 定义与 trace 的正规工作流（参考代码移植，DCU→GPU）
+
+用户裁定：process 由 **workload_profile 工作流**确定（不做 kernel 序列手工折叠），trace 按
+**perf_trace batch8/16 工作流**执行；参考实现直接复用，唯一差异 DCU→GPU。
+
+### Stage W：确定 process（workload_profile 移植）
+| 参考件 | 移植 | DCU→GPU 差异 |
+|---|---|---|
+| `fx/tools/reconstruct_r042_fx_process.py` | 对 vLLM LlamaDecoderLayer 做 fx/模块枚举 → PROCESS_TAXONOMY.json（层内算子 process：input_layernorm / qkv_proj / rotary / kv_write / attn_core / o_proj / post_norm / gate_up / act / down / residual；fragment = process 拥有的 kernel 实例） | 无（torch 层面设备无关） |
+| `fx/tools/runtime_patch/` | NVTX 模块打点包装（forward pre/post hook → `p.<layer>.<process>` range），eager 仪器臂使用 | HIPTX→`torch.cuda.nvtx` |
+| `01_torch_profile_patch_targets` 流程 | 单 call eager 探测跑，验证 patch 边界与事件集守恒（Unit-2 selected-manifest 风格） | profiler 后端 |
+
+### Stage T：执行 trace（perf_trace batch8/16 移植）
+| 参考件 | 移植 | 差异 |
+|---|---|---|
+| R07 采集契约 | `ctrl_conc16` 负载 + **eager 仪器臂**（enforce_eager，模块 NVTX 全开；graph 臂保留为性能形态对照——仪器/性能双臂分离即 batch8 契约） | rocprof/hipops→nsys CUPTI；`--cuda-graph-trace=node` 备用 |
+| `build_process_duration_piles.py` / `audit_*` | process 实例堆（10% 阈值+五堆）直接跑在 `p.*` ranges 上 | 表名 NVTX/CUPTI |
+| `build_ranked_single_batch_timelines.py` | 排名 process 时间线页 | 同上 |
+| `analyze_concurrency_windows.py` | 并发窗分析（与 w.step 批组成标记合流） | 同上 |
+| R08 NCU targeted | 按 taxonomy 选 kernel 过滤重放（`--kernel-name regex`），保留 R08 自身测量区间字段 | ncu 替代 rocprof PMC |
+| R09/R10 12 表-lite + 视图 | 喂回 R10_PROCESS B3/B4 | — |
+
+### 状态
+- 已有：ctrl_conc16 负载与两次采集（graph 级 + node 级）、w.step 批组成探针、相位机制表。
+- B3b 当前为**过渡实现**（周期折叠，仅示意层级可达性）；正式 process 层待本工作流执行。

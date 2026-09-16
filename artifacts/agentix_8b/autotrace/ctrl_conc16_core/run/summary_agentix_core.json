@@ -43,41 +43,41 @@
   "mechanism_ledger": null,
   "observed": {
     "call_latency_ms": {
-      "mean": 2333.044611051724,
-      "p90": 5328.412881,
-      "p99": 9367.181672
+      "mean": 2336.466188672414,
+      "p90": 5341.502163,
+      "p99": 9392.462877
     },
     "generated_tokens": 7280,
     "llm_calls": 58,
     "program_response_time_ms": {
-      "mean": 4777.9727212068965,
-      "p50": 647.8863030000002,
-      "p90": 25389.784547000003,
-      "p99": 25391.338967000003
+      "mean": 4784.909008448276,
+      "p50": 644.7344869999997,
+      "p90": 25466.043073,
+      "p99": 25467.429473999997
     },
     "program_token_latency_ms": {
-      "mean": 21.378598216002175,
-      "p90": 23.295887541666666,
-      "p99": 23.364642395833318
+      "mean": 21.299660643677967,
+      "p90": 23.265994236111105,
+      "p99": 23.334727736111088
     },
     "programs": 29,
-    "throughput_programs_per_s": 0.7724881233017021,
-    "throughput_tokens_per_s": 193.9211564702204,
-    "wall_s": 37.541030244
+    "throughput_programs_per_s": 0.7709252514206353,
+    "throughput_tokens_per_s": 193.5288217359388,
+    "wall_s": 37.617135963
   },
   "pass": true,
   "policy": "agentix_core",
   "schema_version": 1,
   "timing_ns": {
-    "ended": 182475157888895,
-    "started": 182437616858651,
-    "t0": 182437616460721
+    "ended": 183031243316216,
+    "started": 182993626180253,
+    "t0": 182993625781575
   },
   "workload": {
     "arrival_rate": 0.0,
     "class": "ctrl_conc16",
     "path": "experiments/h23-agentix-8b/workloads/ctrl_conc16.json",
     "seed": 23,
-    "sha256": "11fb06fddf9d3d6ef13d17342f665a34187c0754ab80d54b935aa21b48ab1fdc"
+    "sha256": "598364b90fed4187552c6a252b81cf9acdedc0f2d931068eefece805ac94b426"
   }
 }

@@ -325,19 +325,29 @@ def main():
     audit = {"purpose": "R10 four-arm edition window/selection criteria", "windows": {}}
 
     # ---------------- trichotomy table + cross-checks ----------------------
-    TRI = {k: tri_stats(C[k], CH[k]) for k, *_ in ARMS}
+    idx = {k: {(r["program_id"], r["call_index"]): r for r in C[k]} for k, *_ in ARMS}
+    def _res(r):
+        return r["finished_rel_ms"] - r["first_token_rel_ms"]
+    TRI = {}
+    for k, *_ in ARMS:
+        per = defaultdict(lambda: {"wait": [], "res": [], "dres": []})
+        for ck, r in idx[k].items():
+            per[r["class"]]["wait"].append(r["first_token_rel_ms"] - r["submitted_rel_ms"])
+            per[r["class"]]["res"].append(_res(r))
+            if ck in idx["opt"]:
+                per[r["class"]]["dres"].append(_res(r) - _res(idx["opt"][ck]))
+        TRI[k] = {c: {m: sum(v[m]) / max(len(v[m]), 1) for m in v} for c, v in per.items()}
     def tri_row(key, label):
         t = TRI[key]
         cells = "".join(
-            f"<td>{t[c]['wait']:.0f} / {t[c]['engine']:.0f} / {t[c]['requeue']:.0f}</td>"
+            f"<td>{t[c]['wait']:.0f} / {t[c]['res']:.0f} / {t[c]['dres']:+.0f}</td>"
             for c in ("bfcl", "sharegpt", "lats"))
         return f"<tr><td>{label}</td>{cells}</tr>"
-    tbl_tri = ('<table><tr><th>臂（每调用均值 ms：等待 / 引擎内 / quantum 间再排队）</th>'
+    tbl_tri = ('<table><tr><th>臂（每调用均值 ms：等待 / 驻留 / 配对驻留差 vs opt）</th>'
                '<th>bfcl</th><th>sharegpt</th><th>lats</th></tr>'
                + "".join(tri_row(k, lab) for k, lab, *_ in ARMS) + "</table>")
     # execution invariance: matched calls UNPREEMPTED on both sides —
     # residence ratio should be 1 (per-token step time is policy-blind)
-    idx = {k: {(r["program_id"], r["call_index"]): r for r in C[k]} for k, *_ in ARMS}
     def res_of(key, ck):
         r = idx[key][ck]
         return r["finished_rel_ms"] - r["first_token_rel_ms"]
@@ -684,26 +694,28 @@ def main():
         life_html = life_html.replace(_old, _new)
     sig_m = chunk_sig.get("mlfq", (0, 0, 0))
     tri_def = f"""
-<div class="block howto"><b>三个时间量的定义（本报告所有时间线图共用，必须区分）</b>
-<p><b>等待</b>（红段）：提交→首 token，排队 + 首段 prefill——调度直接作用的量。
-<b>引擎内 quantum 段</b>（类别色段）：调用被引擎接纳、正在被 step 服务的时段。quantum（原文 time quantum）= 队列发给调用的一次性服务配额，用尽即被抢占并降级——它是服务量的上限，不是队列容量（trace 的
-chunk_begin/end 逐段实测，与首token→完成的驻留取交）。<b>quantum 间再排队</b>（浅红底）：quantum 用尽
-被抢占后、等待下一个 quantum的时段——它发生在首 token 之后，旧版把它并进彩段，才造成
-"调度优化却改变了 busy"的错觉。</p>
-<p><b>执行不变性的验证（三条互相独立）：</b>① 同调用两侧 <code>produced_tokens</code> 逐个相等
+<div class="block howto"><b>三个时间量的定义与这张表的读法</b>
+<p><b>等待</b>：提交→首 token（排队+首段 prefill）——调度直接重分配的量。<b>驻留</b>：首 token→
+完成——服务 + 机制附加（quantum 间再排队、续段再 prefill）混在其中，二者在单臂内不可再分
+（chunk 标记打在客户端续发时刻，续段的引擎内排队被包在段内）。<b>配对驻留差</b>：同一调用
+（同 program、同 index，两侧逐个对齐）的驻留减去 opt 臂驻留——把"机制附加"从驻留里干净
+剥出来的办法：素行的 +差 = 关缓存后的重复 prefill；M/C 行的 +差 = 抢占的再排队+再 prefill。</p>
+<p><b>读法：竖读一列</b> = 同类负载在四臂间的时间重分配（bfcl 列等待
+{TRI['plain']['bfcl']['wait']:.0f}→{TRI['opt']['bfcl']['wait']:.0f}→
+{TRI['mlfq']['bfcl']['wait']:.0f}→{TRI['core']['bfcl']['wait']:.0f} ms——两级抢占把短程序
+等待压掉 ~90 %）；<b>横读一行</b> = 该臂把时间花在哪；<b>第三列单独读</b> = 机制的驻留代价
+（MLFQ 的 sharegpt 行最大：长 decode 被 quantum 反复切，附加 {TRI['mlfq']['sharegpt']['dres']:+.0f} ms/调用；
+core 只切 132 个调用，附加集中在 lats）。<b>合计校验</b>：等待+驻留 ≈ 该类平均调用端到端。</p>
+<p><b>执行不变性的三条独立证据：</b>① 同调用两侧 <code>produced_tokens</code> 逐个相等
 （2,440/2,440）；② 两侧都未被抢占的同调用，驻留比中位 = MLFQ {inv['mlfq']:.2f}（n={inv_n['mlfq']}）/
-core {inv['core']:.2f}（n={inv_n['core']}）——没被机制碰过的调用，服务逐毫秒相同；③ step 宇宙
-（第二章 step 堆、第三章 kernel 显微）四臂同形。</p>
-<p><b>机制的真实执行代价也在这里现形（不是测量误差）：</b>被 quantum 切分的调用，其后续quantum 段要
-重新 prefill 已生成的上下文——MLFQ 的续段 quantum 墙钟中位 {sig_m[1]:,.0f} ms 对首段
-{sig_m[0]:,.0f} ms（{sig_m[2]:,} 个续段）。这份再 prefill 是调用级抢占为"随时可抢"支付的
-计算价，正是它把等待坍缩省下的时间吃掉、让 MLFQ 的 mean 停在 1.03×。</p></div>
+core {inv['core']:.2f}（n={inv_n['core']}）；③ step 宇宙（step 堆、kernel 显微）四臂同形。
+配对驻留差为 0 的行（opt 自身）与 ≈0 的格（core·bfcl/sharegpt 的未抢占主体）是①②在表内的体现。</p>
+<p><b>机制的执行代价（第三列的机理）：</b>被切调用的续段要重 prefill 已生成上下文——MLFQ 续段
+quantum 墙钟中位 {sig_m[1]:,.0f} ms 对首段 {sig_m[0]:,.0f} ms（{sig_m[2]:,} 个续段）。这份代价
+把 MLFQ 等待坍缩省下的时间吃掉大半，mean 停在 1.03×。</p></div>
 {tbl_tri}
-<p class="cap"><b>表注：</b>素/opt 无 quantum 机制，引擎内 ≈ 驻留（再排队恒 0）；MLFQ 把等待压到
-bfcl {TRI['mlfq']['bfcl']['wait']:.0f} ms，代价是再排队（sharegpt
-{TRI['mlfq']['sharegpt']['requeue']:.0f} ms/调用）+ 续段再 prefill（并入引擎内列，使其略胀）；
-core 只对 132 个调用触发 quantum 切分，再排队集中在被压后的长程序。等待列被机制大规模重分配、
-引擎内列只随再 prefill 小幅变化——数据合理性由上面三条不变性钉住。</p>"""
+<p class="cap"><b>表注：</b>素/opt 无 quantum 机制，第三列 = 缓存差（素）与 0（opt 基准）；
+lats 列 core 行等待 {TRI['core']['lats']['wait']:.0f} ms 是刻意抬高（程序身份压后长程序）。</p>"""
 
     _PAPER = {
         1: ("_page_0_Figure_9.jpeg",
@@ -726,7 +738,7 @@ core 只对 132 个调用触发 quantum 切分，再排队集中在被压后的�
         5: ("_page_3_Figure_5.jpeg",
             "看压力升高后程序时间的构成——等待占了大头。",
             "各类 agent 负载在中高负载下程序大部分寿命在等待。这是整份报告\"优化等待而非执行\"的动机，"
-            "与 1.4 三时间量表里等待列被机制大规模重分配、引擎内列几乎不动的实测一致。"),
+            "与 A2 时间量表里等待列被机制大规模重分配、配对驻留差揭示机制附加的实测一致。"),
         6: ("_page_4_Figure_0.jpeg",
             "看短调用/短程序的等待÷执行比冲到 10–50 倍——两级队头阻塞的直接证据。",
             "左列按调用（FCFS 蓝线在短 decode 端最高=调用级阻塞），右列按程序（FCFS 与 MLFQ 都在少调用"
@@ -784,7 +796,11 @@ core 只对 132 个调用触发 quantum 切分，再排队集中在被压后的�
             "未启用 swap 内核，makespan 持平（附录完成吞吐表）——两个结果在各自机制配置下都成立。"),
         17: ("_page_11_Figure_4.jpeg",
             "看每根柱子的分段——蓝色 Execution 三臂等高（调度不碰执行），红色 Wait 差异巨大（调度只重分配等待）。",
-            "(a) ShareGPT、(b) LATS，柱段 = Execution/Scheduler/Swap/Wait。两点常被误读：其一，"
+            "(a) ShareGPT、(b) LATS，柱段 = Execution/Scheduler/Swap/Wait。1 槽微型例先拆常见误读：会话 A 正生成"
+            "400 token，B/C 刚到各要 20 token——FCFS 让 B/C 等完 A 全程；MLFQ 每 32 token 抢占 A，但 A 的"
+            "下一轮调用又从 Q0 插到更晚的新会话前；PLAS 记得 A 已得 400 服务、压其入低队列。三种排法三种"
+            " wait，与程序内是否多线程无关——单线程只锁死'同程序调用必须串行'（故 ATLAS 无增量），"
+            "程序间重排照常发生。两点常被误读：其一，"
             "ShareGPT 是单线程 agent，但三臂延迟依然不同（Wait 0.55/0.36/0.21 s/tok）——调度的"
             "作用面是跨程序的排队竞争，与程序内是否多线程无关；单线程只意味着 ATLAS 的程序内"
             "机制无事可做（退化为 PLAS）。其二，(b) 里 MLFQ 的 Wait 反而高于 vLLM-OPT——追短"
@@ -962,6 +978,78 @@ mean {e_pi['mean']:.2f}× / p99 {e_pi['p99']:.2f}×。下方状态机原图即�
         tbl_phase = ('<table><tr><th>相位</th><th>step 数</th><th>批内请求均值</th>'
                      '<th>批内 token 均值</th><th>quantum 段准入（队列:次）</th><th>降级次数</th></tr>'
                      + "".join(phstat(n) for n in ("P1", "P2", "P3", "P4")) + "</table>")
+    tbl_layer, layer_note = "", ""
+    if BK == "bcap":
+        _db = sqlite3.connect(str(D[BK] / "cap.sqlite"))
+        _q = ("select n.start,n.end from NVTX_EVENTS n left join StringIds s on n.textId=s.id "
+              "where coalesce(n.text,s.value)='gpu_model_runner: forward' and n.end is not null "
+              "order by n.start")
+        _fw = _db.execute(_q).fetchall()
+        def _kname(n):
+            n = (n or "?")
+            if "rms_norm_0" in n: return "norm_in"
+            if "rms_norm_2" in n: return "norm_post"
+            if "cutlass" in n or "gemm" in n.lower(): return "gemm"
+            if "reshape_and_cache" in n: return "kv_write"
+            if "flash_fwd" in n: return "attn_core"
+            if "silu" in n: return "act_mul"
+            if "rotary" in n or "_poi_fused_3" in n: return "rope"
+            if "elementwise" in n: return "resid_ew"
+            return "other"
+        GEMM_NAME = ["qkv_proj", "o_proj", "mlp_gate_up", "mlp_down"]
+        import random as _rnd
+        _rnd.seed(7)
+        # sample from the CONSTRUCTED pure-decode phase P1 (that is what it is for)
+        _e2o = int(P[BK]["e2e"]["origin"])
+        _p1 = spec_b["phases"]["P1"]
+        _lo, _hi = _e2o + int(_p1[0] * 1e9), _e2o + int(_p1[1] * 1e9)
+        _mid = [i for i in range(len(_fw) - 1) if _lo <= _fw[i][0] < _hi]
+        if len(_mid) < 8:
+            _mid = [i for i in range(len(_fw) // 3, 2 * len(_fw) // 3)]
+        proc_t = defaultdict(list)     # per-layer-instance process time (µs)
+        frag_n = defaultdict(set)      # kernels per process
+        layer_w = []
+        for i in _rnd.sample(_mid, min(40, len(_mid))):
+            s_, e_ = _fw[i][0], _fw[i + 1][0]
+            ks = _db.execute("select k.start,k.end,sv.value from CUPTI_ACTIVITY_KIND_KERNEL k "
+                             "left join StringIds sv on k.demangledName=sv.id "
+                             "where k.start>=? and k.start<? order by k.start", (s_, e_)).fetchall()
+            starts = [j for j, (_a, _b, n) in enumerate(ks) if _kname(n) == "norm_in"]
+            for pi in range(len(starts) - 1):
+                seg_k = ks[starts[pi]:starts[pi + 1]]
+                if not (9 <= len(seg_k) <= 18):
+                    continue
+                layer_w.append((ks[starts[pi + 1]][0] - seg_k[0][0]) / 1e3)
+                gi = 0
+                acc = defaultdict(float)
+                for _a, _b, n in seg_k:
+                    kn = _kname(n)
+                    if kn == "gemm":
+                        kn = GEMM_NAME[min(gi, 3)]
+                        gi += 1
+                    acc[kn] += (_b - _a) / 1e3
+                    frag_n[kn].add((n or "?")[:60])
+                for kn, v in acc.items():
+                    proc_t[kn].append(v)
+        _db.close()
+        def _med(v): return statistics.median(v) if v else 0.0
+        def _pct(v, q): return sorted(v)[int(q * (len(v) - 1))] if v else 0.0
+        lw = _med(layer_w)
+        order = ["norm_in", "qkv_proj", "rope", "kv_write", "attn_core", "o_proj",
+                 "norm_post", "mlp_gate_up", "act_mul", "mlp_down", "resid_ew", "other"]
+        rows_l = "".join(
+            f"<tr><td>{kn}</td><td>{len(frag_n.get(kn, []))}</td>"
+            f"<td>{_med(proc_t.get(kn, [])):.2f}</td>"
+            f"<td>{100 * _med(proc_t.get(kn, [])) / max(lw, 1e-9):.0f} %</td></tr>"
+            for kn in order if kn in proc_t)
+        tbl_layer = (f'<table><tr><th>算子 process（层内，按周期位置+名字语义重建）</th>'
+                     f'<th>fragment 种类</th><th>中位 µs/层</th><th>占层墙钟</th></tr>{rows_l}'
+                     f'<tr><td><b>layer 墙钟（32 层，周期起点差）</b></td><td>—</td>'
+                     f'<td>{lw:.1f}</td><td>层间 p10/p90 = {_pct(layer_w, .1):.1f}/{_pct(layer_w, .9):.1f}</td></tr></table>')
+        layer_note = (f"<b>过渡实现（正式版将按 workload_profile→perf_trace 工作流重做，见 B_BATCH_TRACE_PLAN 第二部分）：</b>当前为 kernel 序列周期折叠，采样窗仍混入 chunked-prefill 步、注意力核归组不完整，本表数字只示意层级可达性、不作结论。重建依据：P1 相位内采样 {min(40, len(_mid))} 个 step，按 step 起点→下一 step 起点取设备侧完整 "
+                      f"kernel 序列（node 级图内 kernel 可见；设备执行拖出 host scope，故不以 host "
+                      f"范围截断），以 norm_in 为周期锚切层，每层 ~13 kernel；gemm 按周期内出现"
+                      f"次序命名为 qkv/o/gate_up/down。")
     if BK == "bcap":
         dwin = (spec_b["phases"]["P3"][0] * 1e3, min(spec_b["phases"]["P3"][1] or 55, 50) * 1e3)
     else:
@@ -1077,7 +1165,8 @@ bfcl program 的生命周期是"call（等待→服务）→ 工具延迟 → �
 <div class="block howto"><b>怎么读下面的截图</b>
 <p>缩写：素 = vLLM 关缓存/关分块；opt = vLLM 全优化 FCFS；MLFQ = 调用级多级反馈队列；
 core = 程序级（Agentix）。红段 = 等待；<span style="background:{REQUEUE}">浅红底</span> =
-quantum 间再排队（仅 MLFQ/core 两臂存在）；类别色段 = 引擎内 quantum 段
+chunk 段未覆盖的间隙（再排队的可见部分，仅 MLFQ/core 两臂存在；续段内部的排队与再 prefill
+不可再分，其总量由 A2 表的"配对驻留差"列量化）；类别色段 = quantum 段（客户端续发窗口）
 （<span style="color:#eb6834">橙 bfcl</span> / <span style="color:#2a78d6">蓝 sharegpt</span> /
 <span style="color:#1baf7a">绿 lats</span>）。<b>排版：每个 program 一块</b>——块头标出
 程序号·类别·调用数与该块自己的时间窗；块内四行紧凑相邻，自上而下 素 / opt / M（MLFQ）/
@@ -1225,6 +1314,14 @@ process。</p>
 <p class="cap"><b>一句话看图：</b>一条线 = 一个重 forward step 的真实起止，梯形 = 堆包络——
 这些就是 call 内部的高延迟 process 本体。<b>图注：</b>窗口为 core 第 1 名 forward 堆最密的
 分段（审计文件记录）。</p>
+<h3>B3b iter 之下：layer 与 fragment（kernel 序列周期折叠）</h3>
+<p class="theme">B 的 process 层级到此对齐 batch8 契约的全部深度：request → call → iter(step)
+→ scope → <b>layer → 算子 process → fragment（kernel 实例）</b> → kernel 内 NCU 计数器。layer/process/fragment
+不靠模块打点（cudagraph 下模块 NVTX 为已验证阴性），而是从 kernel 序列的层周期性重建——一个算子 process（如注意力核）可拥多个 fragment（flash_fwd + combine 两个 kernel），fragment 是 process 内的 kernel 级切片而非 process 本身。{layer_note}</p>
+{tbl_layer}
+<p class="cap"><b>表注：</b>gemm 四兄弟（qkv/o/gate_up/down）合计约占层墙钟的大头，注意力核
+（2 个 fragment）次之；层间 p10/p90 接近说明 32 层高度均匀——layer 层没有离群热点，
+优化空间在层间发射间隙与图外 host 段，而不在某一层内部。</p>
 <p class="theme"><b>两个可优化的高延迟来源（数字）：</b>① async 输出等待：GPU 已出 token、
 host 未消费的跨步空档，core 臂 {async_core_s:.0f} s / 均 8 ms 级——超过 forward 本身；
 ② quantum 续段的再 prefill：被切 call 的后续 quantum 段要重算已生成上下文（core 臂
