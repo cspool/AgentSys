@@ -106,11 +106,27 @@ def install(verbose: bool = True) -> dict:
                     layers = obj
                     break
             if layers is not None:
+                # AGENTIX_MODPROC_LAYERS narrows the hooked set. Hooking all 32
+                # layers of an 8B model in the eager arm emits enough NVTX that
+                # nsys stops recording kernels partway through a ~50 s run, and
+                # the fragment-ownership join then sees an empty kernel table
+                # for the second half of the capture. A representative subset
+                # keeps the same per-process evidence at a fraction of the
+                # event volume.
+                sel = os.environ.get("AGENTIX_MODPROC_LAYERS", "").strip()
+                want = ({int(x) for x in sel.split(",") if x.strip()} if sel
+                        else set(range(len(layers))))
+                hooked = 0
                 for li, layer in enumerate(layers):
+                    if li not in want:
+                        continue
                     _hook_layer(layer, li)
-                _S["hooked_layers"] = len(layers)
-                print(f"[wp_modproc] process hooks on {len(layers)} layers × "
-                      f"{len(TAXONOMY)} processes", flush=True)
+                    hooked += 1
+                _S["hooked_layers"] = hooked
+                _S["layer_selection"] = sorted(want) if sel else "all"
+                print(f"[wp_modproc] process hooks on {hooked}/{len(layers)} layers × "
+                      f"{len(TAXONOMY)} processes"
+                      + (f" (selection={sorted(want)})" if sel else ""), flush=True)
         return orig(self, scheduler_output, *a, **kw)
 
     execute_model._w_wrapped = True

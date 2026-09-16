@@ -115,6 +115,16 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
         sys.path.insert(0, str(Path(__file__).parent))
         import wp_modproc
         wp_modproc.install()
+    if os.environ.get("AGENTIX_FXSAMPLE", "0") == "1":
+        # workload_profile R032: sample real serving inputs for the FX branch
+        sys.path.insert(0, str(Path(__file__).parent))
+        import wp_fx_sample
+        wp_fx_sample.install()
+    if os.environ.get("AGENTIX_DISPATCH", "0") == "1":
+        # workload_profile R031: filtered eager DispatchMode on the selected layers
+        sys.path.insert(0, str(Path(__file__).parent))
+        import wp_dispatch_trace
+        wp_dispatch_trace.install()
     # The two preemption mechanisms are MUTUALLY EXCLUSIVE arms, so each one's
     # own overhead is what the trace measures:
     #   agentix_engine — software only: quantum exhaustion drives the scheduler's

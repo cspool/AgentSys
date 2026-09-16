@@ -40,3 +40,6 @@ artifacts/**/*_ncu_raw.partial_backup.csv
 
 # adapt-workflows: reference-derived perf_trace tree stays local (no-push rule)
 perf_trace/
+
+# adapt-workflows: reference-derived workload_profile tree stays local (no-push rule)
+workload_profile/

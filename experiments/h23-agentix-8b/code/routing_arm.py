@@ -59,13 +59,15 @@ def engine_proc(role: str, model_dir: str, gpu_util: float, max_num_seqs: int, m
             params = SamplingParams(max_tokens=out_len, ignore_eos=True,
                                     temperature=0.0)
             produced = 0
+            cached = -1
             async for out in engine.generate({"prompt_token_ids": ids}, params,
                                              request_id=rid):
                 if first is None:
                     first = time.monotonic_ns()
+                    cached = int(getattr(out, "num_cached_tokens", -1) or -1)
                 produced = len(out.outputs[0].token_ids)
             res_q.put((tag, role, t0, first or time.monotonic_ns(),
-                       time.monotonic_ns(), produced, len(ids)))
+                       time.monotonic_ns(), produced, len(ids), cached))
 
         loop = asyncio.get_running_loop()
         while True:
@@ -87,8 +89,10 @@ def main() -> int:
     ap.add_argument("--workload", type=Path, required=True)
     ap.add_argument("--model-dir", required=True)
     ap.add_argument("--routing", choices=["sticky", "rr"], required=True)
-    ap.add_argument("--engines", type=int, default=2)
-    ap.add_argument("--device", default="0")
+    ap.add_argument("--engines", type=int, default=4)
+    ap.add_argument("--device", default="0",
+                    help="comma list, one entry per engine (e.g. 0,0,1,1); a "
+                         "single value places every engine on that GPU")
     ap.add_argument("--gpu-util", type=float, default=0.46)
     ap.add_argument("--max-model-len", type=int, default=3072)
     ap.add_argument("--max-num-seqs", type=int, default=16)
@@ -112,6 +116,12 @@ def main() -> int:
         streams[p["program_id"]] = [rng.randrange(10, 50000)
                                     for _ in range(max(lens) + 1)]
 
+    devs = [d.strip() for d in a.device.split(",") if d.strip()]
+    if len(devs) == 1:
+        devs = devs * a.engines
+    if len(devs) != a.engines:
+        raise SystemExit(f"--device needs 1 or {a.engines} entries, got {devs}")
+
     ctx = mp.get_context("spawn")
     qs = [(ctx.Queue(), ctx.Event()) for _ in range(a.engines)]
     res_q = ctx.Queue()
@@ -119,12 +129,19 @@ def main() -> int:
     for i, (rq, ev) in enumerate(qs):
         pr = ctx.Process(target=engine_proc,
                          args=(f"e{i}", a.model_dir, a.gpu_util, a.max_num_seqs, a.max_model_len,
-                               rq, res_q, ev, a.device), daemon=False)
+                               rq, res_q, ev, devs[i]), daemon=False)
         pr.start()
         procs.append(pr)
     for _, ev in qs:
         ev.wait(timeout=900)
-    print(f"[routing] {a.engines} engines ready, policy={a.routing}", flush=True)
+    print(f"[routing] {a.engines} engines ready on {devs}, policy={a.routing}",
+          flush=True)
+
+    # Sticky home engine: balanced by arrival order, NOT by hash. A hash split
+    # leaves one engine holding more calls than another, and that load skew —
+    # not KV affinity — would then dominate the arm-to-arm difference.
+    home = {p["program_id"]: i % a.engines
+            for i, p in enumerate(sorted(programs, key=lambda x: x["arrival_ns"]))}
 
     t0 = time.monotonic_ns()
     next_idx = {p["program_id"]: 0 for p in programs}
@@ -146,7 +163,7 @@ def main() -> int:
             L = ctx_len[pid][i]
             ids = streams[pid][:max(L, 4)]
             if a.routing == "sticky":
-                ei = hash(pid) % a.engines
+                ei = home[pid]
             else:
                 ei = seq % a.engines
             seq += 1
@@ -155,7 +172,7 @@ def main() -> int:
             pending[pid] = (i, ei, p["class"], time.monotonic_ns(), L)
             break_flag = False
         try:
-            tag, role, ts, tf, te, produced, plen = res_q.get(timeout=0.02)
+            tag, role, ts, tf, te, produced, plen, cached = res_q.get(timeout=0.02)
         except Exception:
             continue
         pid, i = tag.split("#")
@@ -168,19 +185,12 @@ def main() -> int:
             pidx[pid]["llm_calls"][i].get("tool_delay_ns", 0) / 1e9
         rows.append({"program_id": pid, "call_index": i, "class": st[2],
                      "engine": role, "context_len": plen,
+                     "cached_tokens": cached,
                      "submitted_rel_ms": (st[3] - t0) / 1e6,
                      "first_token_rel_ms": (tf - t0) / 1e6,
                      "finished_rel_ms": (te - t0) / 1e6,
                      "produced_tokens": produced})
     wall = (time.monotonic_ns() - t0) / 1e9
-    for rq, _ in qs:
-        rq.put(None)
-    for pr in procs:
-        pr.join(timeout=120)
-        if pr.is_alive():
-            pr.terminate()
-            pr.join(timeout=10)
-
     (a.output_dir / f"calls_routing_{a.routing}.jsonl").write_text(
         "\n".join(json.dumps(r) for r in rows) + "\n")
     by_prog = {}
@@ -193,10 +203,20 @@ def main() -> int:
     pct = lambda q: ptl[min(len(ptl) - 1, int(q * (len(ptl) - 1)))] if ptl else 0
     ttft = [r["first_token_rel_ms"] - r["submitted_rel_ms"] for r in rows]
     ttft.sort()
+    hit = [r["cached_tokens"] / max(r["context_len"], 1)
+           for r in rows if r["cached_tokens"] >= 0]
+    per_eng = {}
+    for r in rows:
+        e = per_eng.setdefault(r["engine"], {"calls": 0, "tokens": 0})
+        e["calls"] += 1
+        e["tokens"] += max(r["produced_tokens"], 1)
     summary = {
         "policy": f"routing_{a.routing}", "engines": a.engines,
+        "devices": devs,
         "observed": {
             "programs": len(by_prog), "llm_calls": len(rows), "wall_s": wall,
+            "prefix_hit_frac_mean": (sum(hit) / len(hit)) if hit else None,
+            "per_engine": per_eng,
             "program_token_latency_ms": {
                 "mean": sum(ptl) / len(ptl) if ptl else 0,
                 "p90": pct(0.9), "p99": pct(0.99)},
@@ -210,8 +230,21 @@ def main() -> int:
     }
     (a.output_dir / f"summary_routing_{a.routing}.json").write_text(
         json.dumps(summary, indent=2) + "\n")
-    print(json.dumps(summary["observed"], indent=1))
-    return 0
+    print(json.dumps(summary["observed"], indent=1), flush=True)
+
+    # Results are on disk before shutdown starts: engine teardown has hung here
+    # before, and a hang after this point must not cost the run.
+    for rq, _ in qs:
+        rq.put(None)
+    for pr in procs:
+        pr.join(timeout=45)
+        if pr.is_alive():
+            pr.terminate()
+            pr.join(timeout=10)
+        if pr.is_alive():
+            pr.kill()
+    print("[routing] engines down", flush=True)
+    os._exit(0)
 
 
 if __name__ == "__main__":

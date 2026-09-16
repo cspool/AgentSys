@@ -45,16 +45,32 @@ def main():
     # denominator = HOOKED steps (layer-level ranges of L00); forwards that
     # bypass execute_model (dummy/profile runs) carry no hooks and are
     # disclosed, not failed — same boundary style as A00's trailing rule.
-    hooked_steps = layer_ranges.get("L00", 0)
+    # Denominator follows the layers actually hooked, not the model's layer
+    # count: AGENTIX_MODPROC_LAYERS may narrow the set to a representative few.
+    ref_layer = min(layers_seen) if layers_seen else "L00"
+    hooked_steps = layer_ranges.get(ref_layer, 0)
     dummy_forwards = steps - hooked_steps
-    expected = 32 * hooked_steps
+    expected = len(layers_seen) * hooked_steps
     conserve = {p: {"ranges": len(v), "expected": expected,
                     "pass": abs(len(v) - expected) <= max(4, expected // 1000)}
                 for p, v in sorted(procs.items())}
     # nesting + fragment ownership on a sample
     frag = {}
     nest_fail = 0
+    # V4 samples only where the kernel table actually has rows. nsys drops CUDA
+    # activity in stretches of a long eager capture, and a range sampled from a
+    # dropped stretch would report "no kernels owned" for a process that in fact
+    # launched them. Coverage is reported, not silently assumed.
+    kcov = {int(r[0] / 1e9) for r in db.execute(
+        "select start from CUPTI_ACTIVITY_KIND_KERNEL")}
+
+    def covered(rng):
+        return int(rng[0] / 1e9) in kcov and int(rng[1] / 1e9) in kcov
+
     for p, v in procs.items():
+        pool = [r for r in v if covered(r)]
+        coverage = len(pool) / len(v) if v else 0.0
+        v = pool or v
         smp = v[:: max(len(v) // 40, 1)][:40]
         owned, durs = [], []
         for s, e in smp:
@@ -66,7 +82,9 @@ def main():
                 "CUPTI_ACTIVITY_KIND_RUNTIME r on k.correlationId=r.correlationId "
                 "where r.start>=? and r.end<=?", (s, e)).fetchone()[0])
         frag[p] = {"med_launches": statistics.median(owned) if owned else 0,
-                   "med_host_us": round(statistics.median(durs), 1) if durs else 0}
+                   "med_host_us": round(statistics.median(durs), 1) if durs else 0,
+                   "kernel_table_coverage": round(coverage, 3),
+                   "sampled_from": "kernel-covered ranges" if pool else "all ranges (no coverage)"}
     out = {
         "capture": str(a.capture_dir),
         "forward_steps": steps,
