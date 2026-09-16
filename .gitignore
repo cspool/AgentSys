@@ -37,3 +37,6 @@ artifacts/**/g07_kernel_timeline_representative.csv
 artifacts/**/g07_high_latency_instances.csv
 artifacts/**/g07_launch_gaps.csv
 artifacts/**/*_ncu_raw.partial_backup.csv
+
+# adapt-workflows: reference-derived perf_trace tree stays local (no-push rule)
+perf_trace/

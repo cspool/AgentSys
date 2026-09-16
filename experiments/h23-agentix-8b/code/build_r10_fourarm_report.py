@@ -153,9 +153,35 @@ def e2e_program_blocks(C, CH, arm_meta, floor, rh=12, bh=8):
                                  [by_arm[arm_meta[0][0]][p][0]["class"]],
                                  min(c["submitted_rel_ms"] for c in by_arm[arm_meta[0][0]][p])))
     SHORT = {"plain": "素", "opt": "opt", "mlfq": "M", "core": "C", "S": "S", "R": "R"}
+    # class-aggregate wait (paper metric) per arm, for the header rows
+    cls_wait = {}
+    for k, *_ in arm_meta:
+        agg = {}
+        for pid2, cs2 in by_arm[k].items():
+            c0 = cs2[0]["class"]
+            agg.setdefault(c0, []).append(sum(
+                (c["finished_rel_ms"] - c["submitted_rel_ms"]) - floor[(pid2, c["call_index"])]
+                for c in cs2))
+        cls_wait[k] = {c2: sum(v) / len(v) for c2, v in agg.items()}
+    seen_cls = set()
     out, y = [], 8
     windows = {}
     for pid in pids:
+        _cls0 = by_arm[arm_meta[0][0]][pid][0]["class"]
+        if _cls0 not in seen_cls:
+            seen_cls.add(_cls0)
+            _vals = {k: cls_wait[k].get(_cls0, 0.0) for k, *_ in arm_meta}
+            _wink = min(_vals, key=lambda k: _vals[k])
+            _parts = []
+            for k, v in _vals.items():
+                seg2 = SHORT[k] + " " + f"{v/1e3:.1f}" + "s"
+                if k == _wink:
+                    seg2 = '<tspan font-weight="700" fill="#c94040">' + seg2 + '</tspan>'
+                _parts.append(seg2)
+            out.append(f'<rect x="0" y="{y}" width="{W}" height="24" fill="#eef4fa"/>')
+            out.append(f'<text x="6" y="{y+17}" font-size="16" fill="#2f6f9f">'
+                       f'{_cls0} 类均值（论文口径等待/程序）：' + '　'.join(_parts) + '</text>')
+            y += 30
         allc = [c for k, *_ in arm_meta for c in by_arm[k][pid]]
         cls = allc[0]["class"]
         t0 = min(c["submitted_rel_ms"] for c in allc)
@@ -1473,7 +1499,7 @@ bfcl/sharegpt 块移到 lats 块（长程序买单，{e_pi['mean']:.2f}×/p99 {e
 call——单个短而密，但程序身份长，应当让步）。素/opt 侧大量粗行出现在高延迟区间（短程序的
 call 被排队抬进来）；MLFQ 清空粗行但 lats 行反而变密（quantum 间再排队）；core 侧只剩 lats
 行——"该等的才在等"。</p>
-<p class="theme"><b>每臂构成：</b>{"。".join(pile_comp)}。</p>
+<p class="theme"><b>对照集构成（core 顶堆身份，四臂共用）：</b>由 core 臂最高时长簇的成员身份给定（图内各带标题的 x/y：y 为集合全量、x 为该臂时序落入窗内的数量；窗口同样由 core 簇最密 60 s 决定，四臂同窗）。各臂自家顶堆不再单列——本图回答"core 认定的高延迟 call 在别的调度下摆在哪"。</p>
 {figA4}
 <p class="cap"><b>一句话看图：</b>同一批 call（core 顶堆身份）在四条带里的位置与长短——core 带右聚（压后）、opt/素带铺满（占槽）、M 带条纹变长（quantum 切碎）。<b>图注：</b>call 集 = core 臂对数时长聚类最高簇的成员身份（w05 契约）；窗口 = 该簇最密的 60 s，四臂同一相对窗；行标 = 程序号·类别·集内 call 数。</p>
 
