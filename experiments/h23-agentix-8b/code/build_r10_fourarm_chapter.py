@@ -164,11 +164,7 @@ def main():
 {chart(E,'mean','程序 token 延迟 mean（对应论文 Fig.12 上排）','ms/token')}
 {chart(E,'p90','程序 token 延迟 p90（论文 Fig.13 尾部口径）','ms/token')}
 </div>
-<p class="cap"><b>一句话看图：</b>四条线的上下排序在所有到达率不变，间距随 r 拉大、且 p90 面板里 MLFQ 与 Agentix 的间距不闭合。<b>图注：</b>四臂在全部 5 个到达率上保持论文的严格排序
-vLLM &lt; vLLM-opt &lt; MLFQ &lt; Agentix（延迟越低越好）。r=0.2 时三个带缓存臂并拢
-（无排队则调度无事可做——论文低负载段的重合区），r 增大后分离；MLFQ 在 mean 上逐渐追平
-vLLM-opt 甚至 Agentix，但 p90 面板里与 Agentix 的间距保持——调用级抢占救 mean 救不了尾部，
-这正是论文用程序身份论证的形态。</p>
+<p class="cap">四条线的排序在五个到达率上不变，且 p90 面板里 M 与 Agentix 的间距不闭合。低载并拢、高载分离与"追均值不追尾"的形态与论文 Fig.12/13 逐点对应。</p>
 {tbl_ep}
 <p class="cap"><b>表注：</b>20 个端点（4 臂 × 5 率）各为一次完整 serving 运行；mean/p90 为全体
 25 程序的 token 延迟统计。</p>
