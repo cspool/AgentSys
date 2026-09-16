@@ -120,7 +120,7 @@
       ]
     },
     "part2b": {
-      "criterion": "densest section of opt rank-1 forward pile",
+      "criterion": "densest section of opt rank-1 forward pile, same rel window on all arms",
       "section": 2
     },
     "part4_atcap": {

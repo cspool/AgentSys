@@ -279,7 +279,8 @@ def main():
     ap.add_argument("--scratch", type=Path, required=True)
     ap.add_argument("--fourarm", type=Path, required=True,
                     help="endpoint chapter fragment from build_r10_fourarm_chapter.py")
-    ap.add_argument("--out", type=Path, required=True)
+    ap.add_argument("--out-ablation", type=Path, required=True)
+    ap.add_argument("--out-process", type=Path, required=True)
     a = ap.parse_args()
     AT = a.art / "autotrace"
 
@@ -370,22 +371,37 @@ def main():
     fig2 = fig(parts2, y + 6)
     audit["windows"]["part2"] = {"criterion": "densest 60 s of vLLM素 top call pile",
                                  "window_s": [cw0 / 1e9, cw1 / 1e9]}
-    # step-pile support (opt vs core, both have NCU views; others quoted in text)
+    # step-pile strips, ALL FOUR ARMS (call-internal iter universe, w05 contract)
     p1 = P["opt"]["hl"]["piles"][0]
     si = max(range(len(p1["rows"])), key=lambda i: len(p1["rows"][i]))
     sec = P["opt"]["hl"]["sections"][si]
     sb, se = int(sec["begin_ns"]), int(sec["end_ns"])
-    parts2b = axis((sb - int(P["opt"]["hl"]["origin"])) / 1e6,
-                   (se - int(P["opt"]["hl"]["origin"])) / 1e6, 60, 700)
-    h1, yh = hl_strip(P["opt"]["hl"], 70, "vLLM-opt（FCFS）", sb, se)
-    # same REL window on the core side
-    ob_c = int(P["core"]["hl"]["origin"])
     ob_f = int(P["opt"]["hl"]["origin"])
-    h2, yh2 = hl_strip(P["core"]["hl"], yh, "agentix_core", sb - ob_f + ob_c, se - ob_f + ob_c)
-    fig2b = fig(parts2b + h1 + h2, yh2 + 6)
+    parts2b = axis((sb - ob_f) / 1e6, (se - ob_f) / 1e6, 60, 1350)
+    yh = 70
+    for key, label, *_ in ARMS:
+        obk = int(P[key]["hl"]["origin"])
+        s, yh = hl_strip(P[key]["hl"], yh, SHORTN[key], sb - ob_f + obk, se - ob_f + obk)
+        yh += 6
+    fig2b = fig(parts2b, yh + 6)
     step_sums = {k: P[k]["hl"]["piles"][0]["sum_ns"] / 1e9 for k, *_ in ARMS}
-    audit["windows"]["part2b"] = {"criterion": "densest section of opt rank-1 forward pile",
+    audit["windows"]["part2b"] = {"criterion": "densest section of opt rank-1 forward pile, same rel window on all arms",
                                   "section": si + 1}
+    # scope/phase composition table (call-internal, per arm; from W5 host layer)
+    SCOPES = ["w.sched: schedule_total", "w.run: prepare_inputs", "gpu_model_runner: forward",
+              "gpu_model_runner: sample", "gpu_model_runner: postprocess",
+              "w.sched: update_from_output", "w.engine: process_outputs"]
+    def sc_row(key, label):
+        w2r = {r["process"]: r for r in W2[key]["ranked_processes"]}
+        cells = "".join(f"<td>{w2r[s]['union_ns']/1e9:.1f}</td>" if s in w2r else "<td>—</td>"
+                        for s in SCOPES)
+        gap = next((b for b in W2[key]["dominant_idle_boundaries"] if "set_async" in b["boundary"]), {})
+        return f"<tr><td>{label}</td>{cells}<td>{gap.get('sum_ns',0)/1e9:.0f}</td></tr>"
+    tbl_scope = ('<table><tr><th>臂（各 scope 时间和 s）</th><th>schedule</th><th>prepare</th>'
+                 '<th>forward</th><th>sample</th><th>postproc</th><th>update</th><th>outputs</th>'
+                 '<th>async 等待</th></tr>'
+                 + "".join(sc_row(k, {"plain":"素","opt":"opt","mlfq":"MLFQ","core":"core"}[k])
+                           for k, *_ in ARMS) + "</table>")
 
     # ================= 三、并发与资源（四臂 lanes + 显微） ==================
     def at_cap_window(calls, cap=16, width_ms=30000, step=5000):
@@ -497,41 +513,42 @@ def main():
                      f'超cap并发段 [{q0/1e3:.0f},{(q0+win)/1e3:.0f}] s · 图窗 [{w0/1e3:.0f},{w1/1e3:.0f}] s</text>')
         y = 74
         Xd = lambda ms: LEFT + (W - LEFT - RIGHT) * (max(min(ms, w1), w0) - w0) / (w1 - w0)
-        # process timelines (zoomed e2e style), high-latency programs flagged
-        lanes_p = {}
-        for c in C[key]:
-            if c["finished_rel_ms"] < w0 or c["submitted_rel_ms"] > w1:
-                continue
-            lanes_p.setdefault(c["program_id"], {"cls": c["class"], "cs": []})["cs"].append(c)
-        order = sorted(lanes_p.items(), key=lambda kv: (
-            {"bfcl": 0, "sharegpt": 1, "lats": 2}[kv[1]["cls"]],
-            min(x["submitted_rel_ms"] for x in kv[1]["cs"])))
-        rh, bh = 11, 7
-        for pid, ln in order:
-            hlf = pid in hl_pids
-            parts.append(f'<text x="{LEFT-6}" y="{y+bh+1}" font-size="14" text-anchor="end" '
-                         f'fill="{WAIT if hlf else "#8fa2b6"}"'
-                         f'{" font-weight=\"700\"" if hlf else ""}>{pid}·{ln["cls"]}</text>')
-            for c in ln["cs"]:
-                ft, fin = c["first_token_rel_ms"], c["finished_rel_ms"]
-                x0, x1, x2 = Xd(c["submitted_rel_ms"]), Xd(ft), Xd(fin)
-                if x1 > x0:
-                    parts.append(f'<rect x="{x0:.1f}" y="{y+1}" width="{max(x1-x0,0.5):.1f}" '
-                                 f'height="{bh}" fill="{WAIT}" opacity=".85"/>')
-                segs = CH[key].get((pid, c["call_index"]))
-                if segs:
-                    parts.append(f'<rect x="{x1:.1f}" y="{y+1}" width="{max(x2-x1,0.5):.1f}" '
-                                 f'height="{bh}" fill="{REQUEUE}" opacity=".9"/>')
-                    for b, e, _q in segs:
-                        b, e = max(b, ft), min(e, fin)
-                        if e <= b:
-                            continue
-                        parts.append(f'<rect x="{Xd(b):.1f}" y="{y+1}" width="{max(Xd(e)-Xd(b),0.5):.1f}" '
-                                     f'height="{bh}" fill="{CLS_COLOR[ln["cls"]]}"/>')
+        # call-internal process timeline: every forward-step instance in the
+        # window is one tick, greedily packed into lanes; rank-1 pile members red
+        e2o = int(P[key]["e2e"]["origin"])
+        inst = []
+        for pi, pile in enumerate(P[key]["hl"]["piles"]):
+            for rows_ in pile["rows"]:
+                for st, du in rows_:
+                    ms0 = (st - e2o) / 1e6
+                    ms1 = ms0 + du / 1e6
+                    if ms1 < w0 or ms0 > w1:
+                        continue
+                    inst.append((ms0, ms1, pi == 0))
+        inst.sort()
+        lane_end = []
+        rh_i = 8
+        n_red = sum(1 for *_x, r in inst if r)
+        parts.append(f'<text x="{LEFT-6}" y="{y+8}" font-size="14" text-anchor="end" '
+                     f'fill="#48607d">step 实例</text>')
+        for ms0, ms1, red in inst:
+            li = next((i for i, e in enumerate(lane_end) if ms0 >= e), None)
+            if li is None:
+                if len(lane_end) >= 18:
+                    li = min(range(len(lane_end)), key=lambda i: lane_end[i])
                 else:
-                    parts.append(f'<rect x="{x1:.1f}" y="{y+1}" width="{max(x2-x1,0.5):.1f}" '
-                                 f'height="{bh}" fill="{CLS_COLOR[ln["cls"]]}" opacity=".9"/>')
-            y += rh
+                    lane_end.append(0.0)
+                    li = len(lane_end) - 1
+            lane_end[li] = ms1
+            yy = y + li * rh_i
+            parts.append(f'<rect x="{Xd(ms0):.1f}" y="{yy}" width="{max(Xd(ms1)-Xd(ms0),0.7):.1f}" '
+                         f'height="{rh_i-2}" fill="{WAIT if red else "#9db3c8"}" '
+                         f'opacity="{".95" if red else ".55"}"/>')
+        y += max(len(lane_end), 1) * rh_i + 16
+        parts.append(f'<text x="{LEFT}" y="{y-4}" font-size="14" fill="#48607d">'
+                     f'窗内 step 实例 {len(inst):,} 个，红色 = 全局第 1 名重 forward 堆成员（{n_red:,} 个）；'
+                     f'其余灰色。一行内的相邻矩形 = 依次执行的引擎迭代。</text>')
+        y += 10
         y += 10
         # metric lanes sharing the same axis: busy / gemm / in-flight / step rate
         def lane(rows_iter, label_l, vmax, color, cap_line=None):
@@ -618,7 +635,6 @@ def main():
                 '<th>quantum 段数</th><th>端到端 ms</th></tr>'
                 + "".join(walk_row(k, lab) for k, lab, *_ in ARMS) + "</table>")
 
-    # ================= assembly ============================================
     e_sr, e_cp, e_pi = (pairs[k]["endpoint"]["speedup"] for k in
                         ("state_reuse", "call_preempt", "program_identity"))
     _compo_raw = compo_section(Path("experiments/h23-agentix-8b/workloads/thr_mixed_r0.5.json"))
@@ -755,9 +771,9 @@ core 只对 132 个调用触发 quantum 切分，再排队集中在被压后的�
     cw = pairs["call_preempt"]["class_wait_ms"]
     ml_a = pairs["program_identity"]["mlfq"]
     METH = f"""
-<h3>1.2 论文的方法与 baseline 的对比 —— 负载带来的消融机会（多图）</h3>
+<h2>A1 论文的方法与 baseline 的对比 —— 负载带来的消融机会（多图）</h2>
 <div class="block"><b>① 论点</b>
-<p>1.1 的三类负载结构不对称，使三种优化各有独立杠杆：bfcl 的密集短调用给"排序"最大杠杆；
+<p>三类负载（组成见 A2）结构不对称，使三种优化各有独立杠杆：bfcl 的密集短调用给"排序"最大杠杆；
 sharegpt 的长 decode 调用是"quantum 抢占"的作用面；lats 的调用洪流制造两级队头阻塞——只有认得
 "程序身份"的调度才能区分"洪流的第 180 个调用"与"新程序的第 1 个调用"。三个机会互不重叠，
 四臂因此可以首尾相接地逐对消融。</p></div>
@@ -791,12 +807,109 @@ mean {e_pi['mean']:.2f}× / p99 {e_pi['p99']:.2f}×。下方状态机原图即�
 {pf(10)}{pf(19)}
 <div class="block howto"><b>④ 双向看图与边界</b>
 <p>顺论文图 2 走读：(b) FCFS 里 D 被挡到 t≈4，(d) PLAS 压后 A/B 的后续调用让 C/D 提前。
-<b>再看我们的图</b>：第二部分 per-program 块把它扩到 16 槽实盘——素/opt 行对应 (b)，M 行对应
+<b>再看我们的图</b>：A3 的 per-program 块把它扩到 16 槽实盘——素/opt 行对应 (b)，M 行对应
 (c)，C 行对应 (d)；D 的提前 = 短程序块红段逐臂消失，B 的垫后 = lats 块 C 行的浅红底。边界：
-这些差异只在"槽被占满"时存在——附录 r=0.2 端点三缓存臂并拢，前提失效则图示差异消失。</p></div>
+这些差异只在"槽被占满"时存在——A5 的 r=0.2 端点三缓存臂并拢，前提失效则图示差异消失。</p></div>
 """
-    doc = f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
-<title>Agentix 四臂复现 · 负载分析与性能 trace</title><style>
+
+    # ============ A4: high-latency calls, grouped per program ==============
+    def hl_prog_strip(members, y0, tag, w0ns, w1ns):
+        by_p = {}
+        for m in members:
+            by_p.setdefault(m["pid"], []).append(m)
+        order = sorted(by_p.items(), key=lambda kv: (
+            {"bfcl": 0, "sharegpt": 1, "lats": 2}[kv[1][0]["cls"]], kv[0]))
+        out = [f'<text x="4" y="{y0+12}" font-size="19" font-weight="600" fill="#1f2f45">{tag}'
+               f' · 最高延迟区间共 {len(members)} 个 call、{len(order)} 个 program</text>']
+        rh = 13
+        X = lambda t: LEFT + (W - LEFT - RIGHT) * (min(max(t, w0ns), w1ns) - w0ns) / (w1ns - w0ns)
+        y = y0 + 20
+        for pid, ms in order:
+            cls = ms[0]["cls"]
+            out.append(f'<text x="{LEFT-6}" y="{y+9}" font-size="13" text-anchor="end" '
+                       f'fill="#48607d">{pid}·{cls}·{len(ms)}</text>')
+            for m in ms:
+                x0, x1 = X(m["start"]), max(X(m["end"]), X(m["start"]) + 0.8)
+                th = 7 if cls != "lats" else 4
+                out.append(f'<rect x="{x0:.1f}" y="{y+(9-th)//2}" width="{x1-x0:.1f}" height="{th}" '
+                           f'fill="{CLS_COLOR[cls]}" opacity="{0.95 if cls != "lats" else 0.55}"/>')
+            y += rh
+        return out, y + 8
+    partsA4 = axis(cw0 / 1e6, cw1 / 1e6, 60, 1800)
+    yA4 = 70
+    for key, label, *_ in ARMS:
+        inw = [m for m in seg[key] if m["start"] < cw1 and m["end"] > cw0]
+        s, yA4 = hl_prog_strip(inw, yA4, SHORTN[key], cw0, cw1)
+        yA4 += 8
+        partsA4 += s
+    figA4 = fig(partsA4, yA4 + 6)
+
+    # ============ B: core-only tables / figs ================================
+    dfg_html_B = dfg_fig(W2["core"], "core")
+    def one_row(tbl_html):
+        # keep header + the core row only
+        m = re.search(r"(<table><tr>.*?</tr>)(.*)</table>", tbl_html, re.S)
+        rows = re.findall(r"<tr><td>.*?</tr>", m.group(2), re.S)
+        keep = [r for r in rows if r.startswith("<tr><td>core") or "agentix" in r[:40]]
+        return m.group(1) + "".join(keep) + "</table>"
+    tbl_w_B = one_row(tbl_w)
+    tbl_scope_B = one_row(tbl_scope)
+    # core step-pile figure (densest section of core rank-1 forward pile)
+    p1c = P["core"]["hl"]["piles"][0]
+    sic = max(range(len(p1c["rows"])), key=lambda i: len(p1c["rows"][i]))
+    secc = P["core"]["hl"]["sections"][sic]
+    sbc, sec_e = int(secc["begin_ns"]), int(secc["end_ns"])
+    obc = int(P["core"]["hl"]["origin"])
+    partsB3 = axis((sbc - obc) / 1e6, (sec_e - obc) / 1e6, 60, 380)
+    hB, yhB = hl_strip(P["core"]["hl"], 70, "core", sbc, sec_e)
+    figB3 = fig(partsB3 + hB, yhB + 6)
+    tbl_piles_B = ('<table><tr><th>#</th><th>类型</th><th>堆</th><th>成员数</th><th>时间和 s</th>'
+                   '<th>高延迟成员</th></tr>' + "".join(
+        f"<tr><td>{g['rank']}</td><td>{g['type'].replace('gpu_model_runner: ','').replace('w.sched: ','').replace('w.engine: ','').replace('w.run: ','')}</td>"
+        f"<td>{g['pile']}</td><td>{g['members']:,}</td><td>{g['sum_ns']/1e9:.1f}</td>"
+        f"<td>{g['hl_members']:,}</td></tr>"
+        for g in json.loads((AT / "llama_core_cap16_views" / "GROUPS.json").read_text())["groups"][:8])
+        + '</table>')
+    # core whole-run lanes + deep dive (already computed: deep_figs['core'])
+    r0c = int(P["core"]["e2e"]["origin"]) - int(P["core"]["hl"]["origin"])
+    partsB4 = axis(0.0, wall_ms, 60, 3 * 162 + 80)
+    sc_, _yend = cu_strip(P["core"]["cu"], 70, "core（全程）", r0c, r0c + int(wall_ms * 1e6))
+    figB4 = fig(partsB4 + sc_, _yend + 6)
+    # kernel-granular micro inside core deep window + NCU per-kernel table
+    dw = audit["windows"]["part4_deepdive"]["core"]["figure_window_s"]
+    e2oc = int(P["core"]["e2e"]["origin"])
+    at_c = kernel_micro_best(D["core"] / "cap.sqlite", e2oc + int(dw[0] * 1e9),
+                             e2oc + int(dw[1] * 1e9), int(300e6))
+    mparts, mye, mbusy, mgemm = kernel_micro_strip(D["core"] / "cap.sqlite", 60, "core", at_c, int(300e6))
+    figB4m = fig(mparts, mye + 6)
+    import csv as _csv
+    _rows = list(_csv.reader((AT / "ncu_focus" / "focus2_raw.csv").open()))
+    _h = _rows[0]
+    _c = lambda n: _h.index(n)
+    ncu_tr = ""
+    for r in _rows[2:]:
+        ncu_tr += ("<tr><td>" + r[_c('Kernel Name')][:44] + "</td>"
+                   f"<td>{float(r[_c('launch__grid_size')]):.0f}×{float(r[_c('launch__block_size')]):.0f}</td>"
+                   f"<td>{float(r[_c('gpu__time_duration.sum')])*1e3:.0f}</td>"
+                   f"<td>{float(r[_c('lts__t_sector_hit_rate.pct')]):.1f}</td>"
+                   f"<td>{float(r[_c('lts__throughput.avg.pct_of_peak_sustained_elapsed')]):.1f}</td>"
+                   f"<td>{float(r[_c('sm__pipe_tensor_cycles_active.avg.pct_of_peak_sustained_active')]):.1f}</td>"
+                   f"<td>{float(r[_c('sm__throughput.avg.pct_of_peak_sustained_elapsed')]):.1f}</td>"
+                   f"<td>{float(r[_c('dram__bytes.sum.per_second')]):.0f}</td>"
+                   f"<td>{float(r[_c('gpu__dram_throughput.avg.pct_of_peak_sustained_elapsed')]):.1f}</td>"
+                   f"<td>{float(r[_c('sm__warps_active.avg.pct_of_peak_sustained_active')]):.1f}</td></tr>")
+    tbl_ncu = ('<table><tr><th>kernel（重放）</th><th>grid×block</th><th>时长 µs</th>'
+               '<th>L2 命中 %</th><th>L2 吞吐 %峰</th><th>tensor pipe %</th><th>SM 吞吐 %峰</th>'
+               '<th>DRAM GB/s</th><th>DRAM %峰</th><th>warp 占用 %</th></tr>' + ncu_tr + '</table>')
+    sig_c = chunk_sig.get("core", (0, 0, 0))
+    async_core_s = next((b["sum_ns"] / 1e9 for b in W2["core"]["dominant_idle_boundaries"]
+                         if "set_async" in b["boundary"]), 0.0)
+    prep_core_s = W2["core"]["prepare_inputs_api_split"]["window_union_ns"] / 1e9
+
+
+    # =================== DOC A: 复现论文机制与学习 ==========================
+    docA = f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<title>Agentix 机制复现与学习 · 四臂消融</title><style>
 body{{margin:0;font:22px/1.7 "Noto Sans CJK SC",system-ui,sans-serif;color:#1f2f45;background:#fff}}
 .wrap{{max-width:1200px;margin:0 auto;padding:26px 22px 60px}}
 h1{{font-size:33px;margin:0 0 6px}} h2{{font-size:27px;color:#2f6f9f;margin:36px 0 6px}}
@@ -817,69 +930,29 @@ td:first-child,th:first-child{{text-align:left}}
 pre.art{{background:#f7f9f7;border:1px solid #cfd9cf;border-radius:6px;padding:12px 14px;
 font:18px/1.55 "IBM Plex Mono","Noto Sans Mono CJK SC",monospace;overflow-x:auto;max-width:1150px}}
 </style></head><body><div class="wrap">
-<h1>Agentix 论文四臂复现 —— 理解负载与优化性能的四部分时间线报告</h1>
-<p class="sub">目的：帮助人类和 AI 理解这份 agent serving 负载与其上的性能优化。四部分递进：
-<b>第一部分</b> 理解负载（负载特点 + 分析链 W1–W6 + 负载带来的方法消融机会与四方法对比）；
-<b>第二部分</b> 代表性 process 的端到端时间线（执行分布 + 消融的运行时差异）；
-<b>第三部分</b> 高延迟 process 放大（潜在优化点）；<b>第四部分</b> 并发与资源使用率时间线。
-数据：LLaMA-3.1-8B · thr_mixed r0.5 · cap16 · 四臂各一次完整 serving 采集（vLLM素 /
-vLLM-opt / MLFQ调用级 / agentix_core，同负载同栈，逐对只差一个变量），A00 守恒门全过；
-端点全景（4 臂 × 5 到达率）在附录。窗口与选材标准在 R10_SUMMARY_AUDIT.json；
-本版取代旧版（存 git 历史）。</p>
-
-<h2>第一部分 负载理解 —— 负载场景、层次定义与生命周期</h2>
-<h3>1.1 几个 agent 负载场景，与由此引出的四层定义</h3>
-<p class="theme"><b>场景先行。</b>本负载取三个真实 agent 场景：<b>工具代理</b>（bfcl——模型
-反复调用外部工具，每次生成短，调用之间隔着工具延迟）；<b>多轮会话</b>（sharegpt——人与模型
-往返，每轮生成长）；<b>树搜索</b>（lats——MCTS 式搜索，每波 5 路并行展开、近两百次生成连成
-深链）。论文图 1 给出这类场景的一般形态（DAG）：</p>
-{pf(1)}
-<p class="theme"><b>由场景到定义。</b>要说清这三种场景在 serving 引擎里的行为，需要四层
-词汇：一个场景实例（会话/任务全程）称为 <b>program</b>（三类共 25 个）；program 内的一次
-LLM 请求是 <b>call</b>（共 2,440 个）；引擎的一次连续批迭代是 <b>step</b>（一个 step 同时
-服务至多 16 个 call 各一次 decode 迭代，约 1.5 万步/捕获）——一个 call 的服务由几十到上千个
-step 拼成，这就是"调度只能改 call 进 step 的顺序、改不了 step 本身"的结构原因；step 内的
-引擎阶段是 <b>scope</b>（schedule / prepare / forward / sample 等，1.3 的 DFG 画的就是
-它们）。三类场景的区分完全落在前两层：bfcl = call 短而多，sharegpt = call 长而少，
-lats = call 洪流 + 波并行：</p>
-{compo_tbl}
-<p class="cap"><b>表注：</b>三类程序的组成实测（负载规格冻结 JSON 与 trace 三方对账，A00 门）。</p>
-{pf(11)}
-<h3>1.1b 负载场景的生命周期 —— 用四层定义串起来</h3>
-<p class="theme">把定义放回场景（下面三张图是各类一个中位规模的真实实例，opt 臂 trace）：
-bfcl program 的生命周期是"call（等待→服务）→ 工具延迟 → 下一 call"的串行链，寿命由等待与
-工具延迟主导；sharegpt program 是少数长 call 的接力，寿命由服务段主导；lats program 是每波
-5 个并行 call 的推进，波内要等最慢一路（关键路径）——它的 call 都小，program 却最长。</p>
-{life_html}
-{pf(5)}
+<h1>Agentix 论文机制复现与学习 —— 方法、消融负载与四臂性能 trace</h1>
+<p class="sub">目的：复现论文机制并从中学习。结构：A1 方法与 baseline（学习核心）→ A2 消融
+设计与度量 → A3 端到端 call 时间线 → A4 高延迟 call 的程序分堆 → A5 端点全景与论文口径。
+数据：LLaMA-3.1-8B · thr_mixed r0.5 · cap16 四臂各一次完整采集（A00 守恒门全过）+
+4 臂 × 5 到达率端点。process 层次的深入分析（call 内部 step/scope/kernel）在姊妹文档
+《R10_PROCESS》。审计：R10_AUDIT.json。</p>
 
 {METH}
 
-<h3>1.3 负载分析链（W1–W6）：代表 process、DFG 与 trace 探针的来源</h3>
-<p class="theme">1.1/1.2 回答了"负载与方法是什么"；这里回答"负载是什么""对负载做了什么分析、后面的 trace 从哪来"。
-方法链：W1 试运行 → W2 热点定位（决定 19 个 host 探针的位置）→ W3 插桩 → W4 代表采集 →
-W5 代表集选择 → <b>W6 代表 process 的 DFG</b>。本报告全部时间线的 process 宇宙就是这条链
-选出的代表集 + 机制事件；探针开销实测 −0.9 %。</p>
-{tbl_w}
-<p class="cap"><b>表注：</b>四臂的 host 侧结构相同：最大单项都是 async 输出等待（GPU 已出
-结果、host 未消费的空档），其次是 prepare_inputs 内 ~80 % 的纯 Python 张量构建。两者与调度
-策略无关（四臂同量级），是执行侧优化的主目标，但不影响本报告的排序收益结论。</p>
-{dfg_html}
-<p class="cap"><b>一句话看图：</b>顺箭头走完一步引擎循环，红虚线是最大的空闲来源（async 输出等待）。<b>图注：</b>节点 = 引擎步内的代表 process（W5 选出），边 = 步内顺序依赖；
-红虚线边 = 跨步的 async 输出等待（数据依赖：sample 的 token 要回到下一步的 schedule，
-但 host 消费滞后）。数字为 opt 臂实测；四臂对照：async 等待
-<table><tr><th>臂</th><th>async 输出等待</th><th>#1 forward 堆</th></tr>{async_tbl}</table></p>
-{pf(3)}{pf(8)}
-
-<h3>1.4 度量定义：三个时间量 —— 等待 / 引擎内 / quantum 间再排队</h3>
+<h2>A2 消融设计与度量</h2>
+<p class="theme"><b>负载：</b>三类 agent 程序的合成混载（组成如下表，按论文图 11 校准；场景
+语义与生命周期详见姊妹文档 B1）。<b>消融设计：</b>三个首尾相接的单变量对——素→opt（状态
+复用）、opt→MLFQ（调用级抢占）、MLFQ→core（程序身份），每对只差一个变量、均有全链 trace。</p>
+{compo_tbl}
+{pf(11)}
 {tri_def}
 {pf(17)}
 
-<h2>第二部分 代表性 process 的端到端时间线 —— 执行分布与消融的运行时差异</h2>
+<h2>A3 端到端 call 时间线 —— 执行分布与消融的运行时差异</h2>
 <p class="theme"><b>代表性 process 的构成：</b>本部分逐块画出全部 25 个 program——它是三种
 代表集的并集：含负载特点的（1.1b 的三类中位实例）、高延迟的（等待最重的短程序，
 如 1.3 走查的 {kb[0]}）、以及 W5 从 host 侧选出的代表 process 所服务的调用。方法描述与
-消融设计见 1.2，本部分只看运行时差异。</p>
+消融设计见 A1，本部分只看运行时差异。</p>
 {pf(9)}
 <div class="block howto"><b>怎么读下面的截图</b>
 <p>缩写：素 = vLLM 关缓存/关分块；opt = vLLM 全优化 FCFS；MLFQ = 调用级多级反馈队列；
@@ -904,89 +977,166 @@ bfcl/sharegpt 块移到 lats 块（长程序买单，{e_pi['mean']:.2f}×/p99 {e
 &gt;40 s 取四臂调用活动最密的 30 s；窗口起止标在块头。<br><b>轴注：</b>块头方括号内为
 从各自运行起点起算的墙钟秒；块内四行共用该窗口与比例尺；行内每条横条 = 一个 call。</p>
 
-<h2>第三部分 高延迟 process 的时间线放大 —— 潜在优化点</h2>
-<div class="block howto"><b>怎么读下面的截图</b>
-<p>缩写：堆/pile = 时长相近的调用簇（对数时长 Lloyd 聚类取最高簇）；粗深线 = bfcl/sharegpt
-调用，细淡线 = lats 调用；梯形 = 堆成员包络。一条线一个调用（起点提交、终点完成）。</p></div>
-<p class="theme"><b>主要观察什么：</b>看粗深线（bfcl/sharegpt——程序短，应尽早结束离开
-最高堆）与绿色细线（lats 的调用——单个 call 短而密，但程序身份长，应当让步）此消彼长。注意
-方向：绿色恰恰是"该让步"的一方——它们单调用虽短，所属程序却最长；让粗线尽早退出高延迟堆、
-绿色留在堆里垫后，就是程序级调度生效的形态。<b>各臂读数：</b>{"；".join(pile_notes)}。素臂的
-最高堆被排队抬进大量短程序调用；opt 减员但短程序仍在；MLFQ 把短程序清出（等待归零）但堆总
-时长没降多少（quantum 间再排队顶替了等待）；core 的最高堆只剩 lats 本身的长调用——高延迟
-视角下"该等的才在等"。</p>
-<p class="theme"><b>每个堆里有什么 process：</b>{"。".join(pile_comp)}。</p>
-{fig2}
-<p class="cap"><b>一句话看图：</b>数每条带里的粗深线——最高时长堆中的短程序调用逐臂被清出。<b>图注：</b>窗口为素臂最高调用堆最密的 60 s，四臂同窗。</p>
-<h3>支撑：重 forward step 堆两侧同形（服务侧不变的 step 级证据）</h3>
-{fig2b}
-<p class="cap"><b>一句话看图：</b>上下两带同形（线密度、线长、梯形宽）——step 服务侧没被策略改变。<b>图注：</b>opt 与 core 的全局第 1 名 forward 堆在同一相对窗内逐成员对画：
-线密度（步频）、线长（步长）、梯形宽度均一致；四臂第 1 名堆总时长
-{" / ".join(f"{lab.split('（')[0]} {step_sums[k]:.0f} s" for k, lab, *_ in ARMS)}——
-step 宇宙不随策略变形，与预备节执行不变性的三条验证互为印证。</p>
 
-<h2>第四部分 并发分析 —— 高延迟时段与端到端的并发及资源使用率</h2>
-{pf(4)}
-<div class="block howto"><b>怎么读下面的截图</b>
-<p>缩写：gemm = 批内线性层 kernel 家族；在飞 = 已提交未完成 call 数；cap=16 = 引擎批容量；
-step 率 = 每秒引擎迭代数（host 侧节奏指标）。4.1 每个指标一张图、四臂同图叠加（臂色与图例
-同第一部分）；4.2 每个方法一张图：上半是图窗内每个 program 的时间线（同端到端画法放大，
-红色程序名 = 该臂最高时长调用堆的成员，即高延迟 process），下半是四条指标-时间分布
-（GPU busy / gemm 占比 / 在飞 / step 率），与 process 时间线共用同一时间轴。
-NCU 资源墙（gemm 家族中位 L2 76 % / SM·tensor 49 % / DRAM 17 %，opt 与 core 臂实测）
-是静态参考值，四臂同栈同 kernel 家族。</p></div>
-<p class="theme"><b>运行时效果（图证）：</b>4.1 三张叠加图里四条线几乎重叠——busy 与 gemm
-的轨迹四臂同形、在飞在到达窗内一起顶着 cap 红线；差别集中在右端排空段的长短（素最长；core
-的 lats 排空尾略长于 opt，与附录 makespan 守恒表相符）。4.2 的共轴图把机理落到时间段上：
-高延迟 process 的红段/浅红底与在飞贴 cap、step 率高原正好同段——排队不是资源不足
-（busy/gemm 并未更高），而是出队顺序把等待集中到了这些 process 上。</p>
-<h3>4.1 端到端过程的并发趋势 —— 每指标一图、四臂同图对比</h3>
-{fig4_busy}
-<p class="cap"><b>一句话看图：</b>四条线轨迹几乎重叠——没有哪个方法靠"更忙"取胜，本部分主题
-（收益不来自资源使用率）由此成立。<b>图注：</b>GPU busy 全程分布，0 – {wall_ms/1e3:.0f} s，
-四臂叠加，臂色同图例。</p>
-{fig4_gemm}
-<p class="cap"><b>一句话看图：</b>gemm 占比的四条线同样重叠——step 内部的计算构成不随调度
-策略改变。<b>图注：</b>gemm 家族时间占比全程分布，口径同上。</p>
-{fig4_inf}
-<p class="cap"><b>一句话看图：</b>到达窗内四条线一起压着 cap=16 红线（并发同样打满），右端
-排空尾的长短是四臂唯一的形态差别。<b>图注：</b>在飞调用数全程分布；红虚线 = cap=16。</p>
-<h3>4.2 每方法深潜 —— 高延迟段与并发段内，process 时间线与指标时间线共轴</h3>
-<p class="theme">每图的窗口这样选：先取该臂最高时长调用堆成员活动最密的 10 s（高延迟段），
-再取在飞超 cap 时间最长的 10 s（并发段），图窗覆盖两者（若相距过远则取高延迟段）；两段的
-起止都标在图题并记入审计文件。</p>
-{deep_figs['plain']}
-<p class="cap"><b>一句话看图：</b>素臂图窗里红段占满 process 行、在飞持续贴 cap——重复
-prefill 把队列堵成常态。<b>图注：</b>红名 = 高延迟堆成员程序（{len(deep_hl['plain'])} 个）；
-四条指标 lane 与上方 process 行共用时间轴。</p>
-{deep_figs['opt']}
-<p class="cap"><b>一句话看图：</b>opt 的红段比素臂短但仍集中在短程序行——调用级队头阻塞
-在时间段上的直接显形。<b>图注：</b>红名高延迟程序 {len(deep_hl['opt'])} 个；lane 口径同上。</p>
-{deep_figs['mlfq']}
-<p class="cap"><b>一句话看图：</b>MLFQ 行里红段消失、浅红底铺开——等待被换成 quantum 间
-再排队，而下方 busy/gemm 并未升高。<b>图注：</b>红名高延迟程序 {len(deep_hl['mlfq'])} 个；
-lane 口径同上。</p>
-{deep_figs['core']}
-<p class="cap"><b>一句话看图：</b>core 把浅红底集中到 lats 行、短程序行干净——程序身份把
-"谁在等"重新分配，指标 lane 与其它臂同形。<b>图注：</b>红名高延迟程序
-{len(deep_hl['core'])} 个；lane 口径同上。</p>
+<h2>A4 高延迟 call 的程序分堆 —— 最高延迟区间里谁的 call 在等</h2>
+{pf(6)}
+<p class="theme"><b>主要观察什么：</b>最高延迟区间（该臂时长最高的 call 簇）按 program 分行
+后，看每行的归属与增减：粗行（bfcl/sharegpt——程序短，应尽早离开此区间）与细淡行（lats 的
+call——单个短而密，但程序身份长，应当让步）。素/opt 侧大量粗行出现在高延迟区间（短程序的
+call 被排队抬进来）；MLFQ 清空粗行但 lats 行反而变密（quantum 间再排队）；core 侧只剩 lats
+行——"该等的才在等"。</p>
+<p class="theme"><b>每臂构成：</b>{"。".join(pile_comp)}。</p>
+{figA4}
+<p class="cap"><b>一句话看图：</b>一行 = 一个 program 在最高延迟区间里的全部 call；粗行逐臂
+消失、细行（lats）留下即程序级调度生效。<b>图注：</b>延迟区间 = 各臂对数时长聚类的最高簇
+（w05 契约），窗口为素臂该区间最密的 60 s，四臂同窗；行标 = 程序号·类别·区间内 call 数。</p>
 
-{a.fourarm.read_text().replace("<h2>四、论文四臂复现 —— vLLM / vLLM-opt / MLFQ / Agentix 全基线对照</h2>",
-                               "<h2>附：端点全景 —— 论文口径的四臂复现（vLLM / vLLM-opt / MLFQ / Agentix）</h2>")}
+{a.fourarm.read_text().replace("<h2>四、论文四臂复现 —— vLLM / vLLM-opt / MLFQ / Agentix 全基线对照</h2>", "<h2>A5 端点全景 —— 论文口径的四臂复现</h2>")}
 
 <h3>附·论文评测原图对照（多引擎/扩展性/开销项，本复现范围之外的部分以偏差表衔接）</h3>
 {pf(12)}{pf(13)}{pf(14)}{pf(15)}{pf(16)}{pf(18)}{pf(20)}
 
+
 <h2>记账</h2>
-<p class="theme">窗口与选材标准全部在 R10_SUMMARY_AUDIT.json；A00 守恒门（程序/调用/引擎步/
-join）四臂 <code>all_pass</code>（各捕获 <code>a00_process_view.json</code>）；trace 开销四臂同担；配对事实
-pair_facts_*.json 与本报告数字同源。原始 trace：release h22-h23-traces；
+<p class="theme">窗口与选材标准在 R10_AUDIT.json；A00 守恒门四臂 <code>all_pass</code>；
+配对事实 pair_facts_*.json 与本文数字同源。原始 trace：release h22-h23-traces；
 本页与端点数据：release h23-r10-reports。</p>
 </div></body></html>"""
-    a.out.write_text(doc)
-    (a.out.parent / "R10_SUMMARY_AUDIT.json").write_text(json.dumps(audit, indent=2))
-    print("wrote", a.out, a.out.stat().st_size // 1024, "KB; busy-invariance",
-          json.dumps(inv), "; tri core.lats", TRI["core"]["lats"])
+
+    # =================== DOC B: process 层次分析（面向优化） ================
+    docB = f"""<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<title>Agentix serving 的 process 层次分析</title><style>
+body{{margin:0;font:22px/1.7 "Noto Sans CJK SC",system-ui,sans-serif;color:#1f2f45;background:#fff}}
+.wrap{{max-width:1200px;margin:0 auto;padding:26px 22px 60px}}
+h1{{font-size:33px;margin:0 0 6px}} h2{{font-size:27px;color:#2f6f9f;margin:36px 0 6px}}
+h3{{font-size:22px;margin:20px 0 6px}}
+.sub,.cap,.theme{{font-size:20px;color:#48607d;max-width:120ch}}
+.cap{{margin:6px 0 0}} .theme{{margin:10px 0 8px}}
+.block{{background:#f2f7fb;border:1px solid #c9d6e4;border-radius:6px;padding:12px 16px;margin:10px 0;font-size:20px;max-width:120ch}}
+.block.impl{{background:#f4faf6;border-color:#bcd8c6}}
+.block.howto{{background:#fbf7ef;border-color:#e2d3ae}}
+.pfig{{margin:10px 0;max-width:980px}}
+.pfig img{{width:100%;height:auto;border:1px solid #c9d6e4;border-radius:6px;background:#fff}}
+.pfig figcaption{{font-size:19px;color:#48607d;margin-top:4px;line-height:1.6}}
+.block b{{display:block;margin-bottom:2px;color:#2f6f9f}}
+.block p{{margin:4px 0}}
+table{{border-collapse:collapse;font-size:20px;margin:10px 0}}
+td,th{{border:1px solid #c9d6e4;padding:4px 10px;text-align:right}}
+td:first-child,th:first-child{{text-align:left}}
+pre.art{{background:#f7f9f7;border:1px solid #cfd9cf;border-radius:6px;padding:12px 14px;
+font:18px/1.55 "IBM Plex Mono","Noto Sans Mono CJK SC",monospace;overflow-x:auto;max-width:1150px}}
+</style></head><body><div class="wrap">
+<h1>Agentix serving 的 process 层次分析与 trace —— 面向进一步优化</h1>
+<p class="sub">目的：为后续性能优化（动态并发/抢占机制探索，S1–S4 计划）提供分析基座。
+对象：agentix_core 臂（论文机制本体）。<b>版本注：本页为 v0 草稿</b>——基于 r0.5 开环采集；正式版将换用受控并发 batch 采集（batch8/16 方法：构造并发相位凸显机制特征，计划见 workflow06/B_BATCH_TRACE_PLAN.md）。process 宇宙分层沿
+auto_trace batch8/16 契约（request→forward/iter→scope→kernel，10 % 阈值 + 对数时长五堆聚类
++ 全局排名）。四臂消融与机制学习在姊妹文档《R10_ABLATION》。</p>
+
+<h2>B1 负载场景、process 层次与方法（合并简述）</h2>
+
+<p class="theme"><b>场景先行。</b>本负载取三个真实 agent 场景：<b>工具代理</b>（bfcl——模型
+反复调用外部工具，每次生成短，调用之间隔着工具延迟）；<b>多轮会话</b>（sharegpt——人与模型
+往返，每轮生成长）；<b>树搜索</b>（lats——MCTS 式搜索，每波 5 路并行展开、近两百次生成连成
+深链）。论文图 1 给出这类场景的一般形态（DAG）：</p>
+{pf(1)}
+<p class="theme"><b>由场景到定义。</b>要说清这三种场景在 serving 引擎里的行为，需要四层
+词汇：一个场景实例（会话/任务全程）称为 <b>program</b>（三类共 25 个）；program 内的一次
+LLM 请求是 <b>call</b>（共 2,440 个）；引擎的一次连续批迭代是 <b>step</b>（一个 step 同时
+服务至多 16 个 call 各一次 decode 迭代，约 1.5 万步/捕获）——一个 call 的服务由几十到上千个
+step 拼成，这就是"调度只能改 call 进 step 的顺序、改不了 step 本身"的结构原因；step 内的
+引擎阶段是 <b>scope</b>（schedule / prepare / forward / sample 等，B2 的 DFG 画的就是
+它们）。三类场景的区分完全落在前两层：bfcl = call 短而多，sharegpt = call 长而少，
+lats = call 洪流 + 波并行：</p>
+{compo_tbl}
+<p class="cap"><b>表注：</b>三类程序的组成实测（负载规格冻结 JSON 与 trace 三方对账，A00 门）。</p>
+{pf(11)}
+<h3>B1b 负载场景的生命周期 —— 用四层定义串起来</h3>
+<p class="theme">把定义放回场景（下面三张图是各类一个中位规模的真实实例，opt 臂 trace）：
+bfcl program 的生命周期是"call（等待→服务）→ 工具延迟 → 下一 call"的串行链，寿命由等待与
+工具延迟主导；sharegpt program 是少数长 call 的接力，寿命由服务段主导；lats program 是每波
+5 个并行 call 的推进，波内要等最慢一路（关键路径）——它的 call 都小，program 却最长。</p>
+{life_html}
+{pf(5)}
+<p class="theme"><b>方法回顾（一段话）：</b>Agentix 用全局进程表记每程序累计服务
+{{T<sub>p</sub>, W<sub>p</sub>}}，call 到达时按 p(c<sub>j</sub>) 离散化准入 Q0–Q3、
+time quantum 用尽降级、β 抗饿；本采集中该状态机的账本：准入 97/102/237/2004、降级 151 次。
+架构与状态机原图：</p>
+{pf(8)}{pf(10)}
+
+<h2>B2 负载分析链（W1–W6）：代表 process、DFG 与 trace 探针</h2>
+<p class="theme">B1 回答了"负载与方法是什么"；这里回答"对负载做了什么分析、后面的 trace 从哪来"。
+方法链：W1 试运行 → W2 热点定位（决定 19 个 host 探针的位置）→ W3 插桩 → W4 代表采集 →
+W5 代表集选择 → <b>W6 代表 process 的 DFG</b>。本报告全部时间线的 process 宇宙就是这条链
+选出的代表集 + 机制事件；探针开销实测 −0.9 %。</p>
+{pf(3)}
+{dfg_html_B}
+<p class="cap"><b>一句话看图：</b>顺箭头走完一步引擎循环，红虚线是最大的空闲来源（async
+输出等待）。<b>图注：</b>节点数字为 core 臂实测（W5 代表集）；这张 DFG 是 B4/B5 一切
+call 内部分析的骨架。</p>
+{tbl_w_B}
+{tbl_scope_B}
+<p class="cap"><b>表注：</b>core 臂的 host 侧结构：最大单项是 async 输出等待（GPU 已出结果、
+host 未消费），其次是 prepare_inputs 内约 80 % 的纯 Python 张量构建。</p>
+
+<h2>B3 call 内部的高延迟 process —— step/scope 宇宙</h2>
+<p class="theme">一个 call 的服务由几十到上千个 step 拼成；高延迟分析从 call 下潜到 step：
+把全部 scope 实例按类型聚 10 % 阈值、对数时长五堆并全局排名（w05 契约），最高堆就是
+call 内部的高延迟 process。core 臂全局排名前八：</p>
+{tbl_piles_B}
+<p class="cap"><b>表注：</b>#1 是重 forward 堆（大批/含 chunked prefill 的 step，
+{step_sums['core']:.0f} s，全部高延迟标记）——它不属于任何单个 call，是"批"这一层的
+process。</p>
+{figB3}
+<p class="cap"><b>一句话看图：</b>一条线 = 一个重 forward step 的真实起止，梯形 = 堆包络——
+这些就是 call 内部的高延迟 process 本体。<b>图注：</b>窗口为 core 第 1 名 forward 堆最密的
+分段（审计文件记录）。</p>
+<p class="theme"><b>两个可优化的高延迟来源（数字）：</b>① async 输出等待：GPU 已出 token、
+host 未消费的跨步空档，core 臂 {async_core_s:.0f} s / 均 8 ms 级——超过 forward 本身；
+② quantum 续段的再 prefill：被切 call 的后续 quantum 段要重算已生成上下文（core 臂
+{sig_c[2]} 个续段，首段中位 {sig_c[0]:,.0f} ms 对续段 {sig_c[1]:,.0f} ms）——机制自身的
+执行代价。</p>
+
+<h2>B4 call 内部的并发与资源 —— step/kernel 粒度，GPU 内指标</h2>
+{figB4}
+<p class="cap"><b>一句话看图：</b>到达窗内在飞贴 cap、busy/gemm 稳定——排队 regime 的全程
+背景。<b>图注：</b>core 臂全程三 lane（GPU busy / gemm 占比 / 在飞）。</p>
+{deep_figs['core']}
+<p class="cap"><b>一句话看图：</b>红密度高的时段（重 forward 堆成员连片）与在飞贴 cap、
+step 率高原同段——高延迟 process 的时间段即并发最重的时间段。<b>图注：</b>上半为窗内全部
+step 实例的条码时间线（红 = 第 1 名重 forward 堆成员），下半四条指标 lane 与其共轴。</p>
+{figB4m}
+<p class="cap"><b>一句话看图：</b>黄色 gemm 簇背靠背、簇间空白是 step 间 host 空档——kernel
+粒度的 process 视图。<b>图注：</b>深潜窗内最忙 300 ms 逐 kernel 展开（黄 = gemm 家族，
+蓝 = 其它）；窗内 busy {mbusy:.0f} %、gemm 占 {mgemm:.0f} %。</p>
+<p class="theme"><b>GPU 内指标（NCU 逐 kernel 重放，serving GEMM 代表样本）：</b></p>
+{tbl_ncu}
+<p class="cap"><b>表注：</b>四个代表 GEMM 的墙一致：L2 命中 ~96 %、L2 吞吐 ~76 % 峰、
+tensor pipe ~49 %、DRAM 仅 14–20 % 峰（~137–194 GB/s，4090 峰 ~1008）——批内 GEMM 顶在
+L2/tensor 而非 DRAM；warp 占用仅 ~16 %（大 tile 少 warp 的 GEMM 形态）。边界：重放样本
+4 kernel（launch 过滤后），家族中位与 w03' 一致；逐 step 的 batch 组成无逐事件记录，
+step→kernel 归因用 launch-ownership。</p>
+
+<h2>B5 优化机会清单（数据排序，指向 S1 机制卡片计划）</h2>
+<table><tr><th>#</th><th>机会</th><th>证据量级（core 臂）</th><th>方向</th></tr>
+<tr><td>1</td><td>async 输出等待（host 消费滞后）</td><td>{async_core_s:.0f} s，超过 forward 总和</td><td>host 侧流水化/合并消费；与调度无关</td></tr>
+<tr><td>2</td><td>prepare_inputs 纯 Python 张量构建</td><td>~{prep_core_s:.0f} s，其中 CUDA API 仅 ~19 %</td><td>预构建/向量化/图化</td></tr>
+<tr><td>3</td><td>quantum 再 prefill（抢占的计算价）</td><td>续段中位 {sig_c[1]:,.0f} ms 对首段 {sig_c[0]:,.0f} ms</td><td>KV 保留式抢占（S1 kvres/驻留机制卡）</td></tr>
+<tr><td>4</td><td>排空尾 makespan 项</td><td>core 465 s 对 opt 412 s（r0.8）</td><td>动态并发/尾部调度（S4 E4/E5）</td></tr>
+<tr><td>5</td><td>L2/tensor 墙内的批形态</td><td>L2 76 % 峰、tensor 49 %、DRAM 14–20 %</td><td>批大小/图档位定价（S4 E1）</td></tr></table>
+<p class="theme">1–2 与调度无关、对四臂同在（消融文档 A 的不变性佐证）；3–5 与抢占/并发机制
+直接耦合，对应 PREEMPTION_EXPLORATION_PLAN v3 的 S1 机制卡与 S4 实验菜单。</p>
+
+<h2>记账</h2>
+<p class="theme">口径与窗口在 R10_AUDIT.json；A00 守恒门 <code>all_pass</code>；
+process 宇宙与堆聚类沿 w05/batch8 契约；NCU 重放不进入观测时延计算（契约条款）。
+原始 trace：release h22-h23-traces。</p>
+</div></body></html>"""
+
+    a.out_ablation.write_text(docA)
+    a.out_process.write_text(docB)
+    (a.out_ablation.parent / "R10_AUDIT.json").write_text(json.dumps(audit, indent=2))
+    print("wrote", a.out_ablation, a.out_ablation.stat().st_size // 1024, "KB;",
+          a.out_process, a.out_process.stat().st_size // 1024, "KB")
 
 
 if __name__ == "__main__":
