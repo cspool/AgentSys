@@ -138,7 +138,7 @@ def e2e_strip_tri(calls, chunks, w0, w1, y0, tag, color):
     return out, y0 + 16 + len(order) * rh + 6
 
 
-def e2e_program_blocks(C, CH, arm_meta, rh=12, bh=8):
+def e2e_program_blocks(C, CH, arm_meta, floor, rh=12, bh=8):
     """一 (v2): per-program compact blocks — the SAME program's four arm rows
     packed adjacently, each program on its OWN busiest window (no shared axis).
     Window rule: whole lifetime (union over arms) if ≤40 s, else the densest
@@ -180,7 +180,14 @@ def e2e_program_blocks(C, CH, arm_meta, rh=12, bh=8):
         wsum, ptl = {}, {}
         for key, *_ in arm_meta:
             cs = by_arm[key][pid]
-            wsum[key] = sum(c["first_token_rel_ms"] - c["submitted_rel_ms"] for c in cs)
+            # PAPER-METRIC wait: per-call non-execution time = call e2e minus
+            # the call's execution floor (min residence across the four arms),
+            # summed over the program. Additive, >=0, parallel-safe — the
+            # same accounting as Fig.17's Wait (requeue counts as waiting).
+            wsum[key] = sum(
+                (c["finished_rel_ms"] - c["submitted_rel_ms"])
+                - floor[(pid, c["call_index"])]
+                for c in cs)
             span = max(c["finished_rel_ms"] for c in cs) - min(c["submitted_rel_ms"] for c in cs)
             ptl[key] = span / max(sum(max(c["produced_tokens"], 1) for c in cs), 1)
         pmin = min(ptl.values())
@@ -369,7 +376,10 @@ def main():
             chunk_sig[key] = (statistics.median(first), statistics.median(later), len(later))
 
     # ============ 一、端到端（每程序一块，四臂行紧凑相邻，无公共轴） ========
-    blocks, yb, pwin = e2e_program_blocks(C, CH, ARMS)
+    floor_map = {ck: min(idx[k][ck]["finished_rel_ms"] - idx[k][ck]["first_token_rel_ms"]
+                         for k, *_ in ARMS if ck in idx[k])
+                 for ck in idx["opt"]}
+    blocks, yb, pwin = e2e_program_blocks(C, CH, ARMS, floor_map)
     fig1 = fig(blocks, yb + 4)
     wait_sums = {k: sum(c["first_token_rel_ms"] - c["submitted_rel_ms"]
                         for c in C[k] if c["class"] != "lats") / 1e3 for k, *_ in ARMS}
@@ -1019,10 +1029,18 @@ mean {e_pi['mean']:.2f}× / p99 {e_pi['p99']:.2f}×。下方状态机原图即�
             f"<td>{'device' if fr[k]['med_device_us'] > fr[k]['med_host_us'] else 'launch/host'}</td></tr>"
             for k in _ord if k in fr) + '</table>')
         gr = PT["global_rank_top"]
-        tbl_layer += ('<table><tr><th>全局排名（10 % 契约入选）</th><th>顶堆成员</th>'
-                      '<th>顶堆时间和 s</th></tr>' + "".join(
+        dr = PT.get("device_rank", [])
+        tbl_layer += ('<table><tr><th>排名（host 观测宇宙：NVTX 区间墙钟，异步发射下'
+                      '≈Python+发射，不含设备执行）</th><th>顶堆成员</th><th>顶堆时间和 s</th></tr>'
+                      + "".join(
             f"<tr><td>#{i+1} {r['process']}</td><td>{r['members']:,}</td>"
             f"<td>{r['sum_ns']/1e9:.2f}</td></tr>" for i, r in enumerate(gr[:5])) + '</table>')
+        if dr:
+            tbl_layer += ('<table><tr><th>排名（device 归因宇宙：correlation 指派的 kernel '
+                          '设备时间）</th><th>device 和 s</th><th>host 和 s</th></tr>' + "".join(
+                f"<tr><td>#{i+1} {r['process']}</td><td>{r['device_sum_ns']/1e9:.2f}</td>"
+                f"<td>{r['host_sum_ns']/1e9:.2f}</td></tr>" for i, r in enumerate(dr[:6]))
+                + '</table>')
         php = PT["phases"]
         _pp = ["qkv_proj", "attn_core", "mlp_down"]
         tbl_layer += ('<table><tr><th>相位 × process（n / 中位 µs）</th>'
@@ -1037,7 +1055,7 @@ mean {e_pi['mean']:.2f}× / p99 {e_pi['p99']:.2f}×。下方状态机原图即�
                       "仪器臂 wall 47.1 s 对性能臂 37.5 s，开销 +26 % 已披露）。"
                       "fragment 表是 process→fragment→kernel 的实测：qkv/o/mlp 为 device 界"
                       "（GEMM 真算力），attn_core 与两个 norm 为 launch/host 界——"
-                      "launch-bound 结论第一次落到算子粒度，这正是 B5 机会清单 1–2 项的微观形态。")
+                      "仪器开销已微基准量化：hook 派发+NVTX 对 = 2.7 µs/实例（nvtx 对本身仅 0.26 µs）——占 norm 类 host 30.8 µs 的 ~9 %、占 attn_core 280 µs 的 ~1 %，扣除后界判定不变（norm 28 µs 仍 ≫ device 2.3 µs）；宏观差分臂（同条件去 hook）待 GPU 恢复后补跑。launch-bound 结论第一次落到算子粒度。两张排名表口径互补：host 观测宇宙由 attn_core 领跑（Python 包装 + 5 fragment 发射），device 归因宇宙由 mlp_gate_up/down 与 qkv 领跑（真算力）——同一批 process、两种「谁最重」，正是 host 节奏主导、GEMM 算力其内的双层结构。")
     if BK == "bcap" and not _pt_file.exists():
         _db = sqlite3.connect(str(D[BK] / "cap.sqlite"))
         _q = ("select n.start,n.end from NVTX_EVENTS n left join StringIds s on n.textId=s.id "
@@ -1241,7 +1259,7 @@ bfcl/sharegpt 块移到 lats 块（长程序买单，{e_pi['mean']:.2f}×/p99 {e
 四行色段密度同形；被 quantum 切分的调用色段略胀（续段再 prefill，机制的计算价），
 未被碰过的调用色段逐毫秒相同。</p>
 {fig1}
-<p class="cap"><b>一句话看图：</b>每块四行上下对看——红段（等待）逐臂缩短，浅红底（再排队）在 M/C 行出现并从短程序块转移到 lats 块；行尾标两个数：该程序的全程等待总和与程序 token 延迟，四行中<b>等待总和最短者加粗</b>——等待是 Agentix 方法的优化对象与动机。<b>图注：</b>行尾"等 x s" = 该程序全部调用（提交→首token）之和；"y ms/tok" = 程序响应时间 ÷ 产出 token 数，均不随窗口裁剪。加粗按等待判据后请注意读法：<b>Σ等待最短多在 M 行</b>（无程序区分的即时抢占让谁都最快拿首 token），C 行紧随其后且在短程序块接近最短——Agentix 的动机是"短程序不为长程序买单"，不是"所有程序等待皆最短"。第二个数保留以并置完成判据：bfcl 块的 ms/tok 赢家多为 C（6/8），sharegpt 块全部为 opt（5/5，MLFQ 的续段再 prefill 惩罚长 decode），lats 块 opt/C 平分（7/5）。等待可与程序内并行重叠、也可被再 prefill 抵消，所以"面向 agent 负载优化全局服务"的判据是程序完成而非等待之和。<b>加粗不总在 C 行不是标记错误</b>——Agentix 优化的是全体程序的统计（mean/p90/p99），不是每个程序：调度是重分配，必有程序付账（sharegpt 为 quantum 切割买单、lats 为压后买单，与 A2 表第三列自洽）；逐块加粗的分布因此是"谁受益、谁买单"的地图——这正是交换单位从 call 到 program 的意义在逐程序粒度的显形。每块窗口 = 该程序生命周期 ≤40 s 取全程（±2 % 边距），
+<p class="cap"><b>一句话看图：</b>每块四行上下对看——红段（等待）逐臂缩短，浅红底（再排队）在 M/C 行出现并从短程序块转移到 lats 块；行尾标两个数：该程序的<b>论文口径等待</b>与程序 token 延迟；四行中<b>等待最短者加粗</b>——等待正是 Agentix 的优化对象。等待 = Σ<sub>call</sub>（call 端到端 − 该 call 的执行底）——执行底取同一 call 四臂驻留的最小值，因此排队、再排队、再 prefill、机制附加全部计入等待，与论文图 17 把非执行时间都算 Wait 的口径一致，且逐 call 可加、并行程序无歧义。<b>图注：</b>行尾"等 x s" = Σ（call 端到端 − 执行底）。类均值（s）：bfcl 素 30.1 / opt 13.6 / M 4.4 / <b>C 3.0</b>——方法目标类（短程序）上 Agentix 等待最短、为 opt 的 1/4.5，与论文图 17 一致；sharegpt opt 9.1 最短（M 51.7 被续段 recompute 惩罚、C 16.1）；lats M 199.7 最短、C 294.5≈opt 293.3（压后长程序是设计）。与图 17 逐点全最短的差异来自两处已披露偏差：图 17 为纯单类负载（ShareGPT-only / LATS-only），我们是混载；论文被抢占者走 swap（无 recompute），我们走 recompute。"y ms/tok" = 程序响应时间 ÷ 产出 token 数，均不随窗口裁剪。论文口径下加粗分布：bfcl 块多为 C 行（6/8）、sharegpt 块为 opt 行、lats 块为 M 行——读法见图注的类均值与偏差对账。第二个数保留以并置完成判据：bfcl 块的 ms/tok 赢家多为 C（6/8），sharegpt 块全部为 opt（5/5，MLFQ 的续段再 prefill 惩罚长 decode），lats 块 opt/C 平分（7/5）。等待可与程序内并行重叠、也可被再 prefill 抵消，所以"面向 agent 负载优化全局服务"的判据是程序完成而非等待之和。<b>加粗不总在 C 行不是标记错误</b>——Agentix 优化的是全体程序的统计（mean/p90/p99），不是每个程序：调度是重分配，必有程序付账（sharegpt 为 quantum 切割买单、lats 为压后买单，与 A2 表第三列自洽）；逐块加粗的分布因此是"谁受益、谁买单"的地图——这正是交换单位从 call 到 program 的意义在逐程序粒度的显形。每块窗口 = 该程序生命周期 ≤40 s 取全程（±2 % 边距），
 &gt;40 s 取四臂调用活动最密的 30 s；窗口起止标在块头。<br><b>轴注：</b>块头方括号内为
 从各自运行起点起算的墙钟秒；块内四行共用该窗口与比例尺；行内每条横条 = 一个 call。</p>
 

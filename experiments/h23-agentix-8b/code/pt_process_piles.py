@@ -119,12 +119,37 @@ def main():
                        "med_device_us": round(statistics.median(kd), 1) if kd else 0,
                        "med_host_us": round(statistics.median(
                            [d / 1e3 for _, d in smp]), 1)}
+    # ---- FULL device attribution (rank basis #2) --------------------------
+    # host-observed ranges under-weight device-bound processes (async launch:
+    # the range holds python+launch only). Assign every kernel's device time to
+    # the process range that issued its launch (correlation -> runtime interval
+    # -> innermost 3-part p.* range; process ranges are mutually disjoint).
+    dev_sum = defaultdict(float)
+    if have_kernel:
+        flat = sorted((s, s + d, p) for p, v in inst.items() for s, d in v)
+        starts = [f[0] for f in flat]
+        import bisect
+        rows = db.execute(
+            "select r.start, k.end - k.start from CUPTI_ACTIVITY_KIND_KERNEL k "
+            "join CUPTI_ACTIVITY_KIND_RUNTIME r on k.correlationId=r.correlationId")
+        for ls, kd in rows:
+            i = bisect.bisect_right(starts, ls) - 1
+            if i >= 0 and flat[i][0] <= ls < flat[i][1]:
+                dev_sum[flat[i][2]] += kd
+    device_rank = sorted(({"process": p, "device_sum_ns": int(v),
+                           "host_sum_ns": int(sum(d for _, d in inst[p]))}
+                          for p, v in dev_sum.items()),
+                         key=lambda r: -r["device_sum_ns"])
+
     out = {"capture": str(a.capture_dir), "process_types": len(inst),
            "instances_total": sum(len(v) for v in inst.values()),
            "selected_types": sorted(selected),
            "piles": piles_out,
+           "rank_basis": "host_observed_ranges (async launch: python+launch, "
+                         "device execution excluded — batch8 R07 observation)",
            "global_rank_top": [{k: r[k] for k in ("process", "sum_ns", "members")}
                                for r in ranked[:8]],
+           "device_rank": device_rank[:10],
            "ranked_top_pile_instances": {r["process"]: r["instances"]
                                          for r in ranked[:3]},
            "phases": phases_out,

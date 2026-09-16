@@ -44,11 +44,54 @@
    }
   ]
  },
+ "rank_basis": "host_observed_ranges (async launch: python+launch, device execution excluded \u2014 batch8 R07 observation)",
  "global_rank_top": [
   {
    "process": "attn_core",
    "sum_ns": 865035870,
    "members": 1828
+  }
+ ],
+ "device_rank": [
+  {
+   "process": "mlp_gate_up",
+   "device_sum_ns": 11996270855,
+   "host_sum_ns": 2110219939
+  },
+  {
+   "process": "mlp_down",
+   "device_sum_ns": 6149599522,
+   "host_sum_ns": 1944520699
+  },
+  {
+   "process": "qkv_proj",
+   "device_sum_ns": 2686285879,
+   "host_sum_ns": 2010987247
+  },
+  {
+   "process": "o_proj",
+   "device_sum_ns": 1846906260,
+   "host_sum_ns": 2719527510
+  },
+  {
+   "process": "attn_core",
+   "device_sum_ns": 1263283192,
+   "host_sum_ns": 13907538313
+  },
+  {
+   "process": "act_mul",
+   "device_sum_ns": 151940366,
+   "host_sum_ns": 1870840934
+  },
+  {
+   "process": "norm_in",
+   "device_sum_ns": 107473375,
+   "host_sum_ns": 1565382198
+  },
+  {
+   "process": "norm_post",
+   "device_sum_ns": 94068486,
+   "host_sum_ns": 1774996762
   }
  ],
  "ranked_top_pile_instances": {
