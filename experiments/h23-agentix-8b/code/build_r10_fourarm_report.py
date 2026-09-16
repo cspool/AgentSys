@@ -1006,7 +1006,39 @@ mean {e_pi['mean']:.2f}× / p99 {e_pi['p99']:.2f}×。下方状态机原图即�
                      '<th>批内 token 均值</th><th>quantum 段准入（队列:次）</th><th>降级次数</th></tr>'
                      + "".join(phstat(n) for n in ("P1", "P2", "P3", "P4")) + "</table>")
     tbl_layer, layer_note = "", ""
-    if BK == "bcap":
+    _pt_file = D.get("bcap", Path("/nonexistent")) / "PT_PROCESS_ANALYSIS.json" if BK == "bcap" else Path("/nonexistent")
+    if _pt_file.exists():
+        PT = json.loads(_pt_file.read_text())
+        _ord = ["norm_in", "qkv_proj", "attn_core", "o_proj", "norm_post",
+                "mlp_gate_up", "act_mul", "mlp_down"]
+        fr = PT["fragments"]
+        tbl_layer = ('<table><tr><th>算子 process（模块打点实测）</th><th>fragment 中位数/实例</th>'
+                     '<th>host 中位 µs</th><th>device 中位 µs</th><th>界</th></tr>' + "".join(
+            f"<tr><td>{k}</td><td>{fr[k]['med_fragments']:.0f}</td>"
+            f"<td>{fr[k]['med_host_us']}</td><td>{fr[k]['med_device_us']}</td>"
+            f"<td>{'device' if fr[k]['med_device_us'] > fr[k]['med_host_us'] else 'launch/host'}</td></tr>"
+            for k in _ord if k in fr) + '</table>')
+        gr = PT["global_rank_top"]
+        tbl_layer += ('<table><tr><th>全局排名（10 % 契约入选）</th><th>顶堆成员</th>'
+                      '<th>顶堆时间和 s</th></tr>' + "".join(
+            f"<tr><td>#{i+1} {r['process']}</td><td>{r['members']:,}</td>"
+            f"<td>{r['sum_ns']/1e9:.2f}</td></tr>" for i, r in enumerate(gr[:5])) + '</table>')
+        php = PT["phases"]
+        _pp = ["qkv_proj", "attn_core", "mlp_down"]
+        tbl_layer += ('<table><tr><th>相位 × process（n / 中位 µs）</th>'
+                      + "".join(f"<th>{k}</th>" for k in _pp) + '</tr>' + "".join(
+            f"<tr><td>{ph}</td>" + "".join(
+                (lambda d_: f"<td>{d_['n']:,} / {d_['med_us']}</td>" if d_ else "<td>—</td>")(
+                    php.get(ph, {}).get(k)) for k in _pp) + "</tr>"
+            for ph in ("P1", "P2", "P3")) + '</table>')
+        layer_note = ("<b>正式实现（Stage W→T 工作流产物）：</b>process 由模块结构确定"
+                      "（PROCESS_TAXONOMY，四门验证通过），trace 为模块打点 eager 仪器臂"
+                      "（perf_trace 双臂契约：时序结论以 graph 性能臂为准，本臂供结构与归因；"
+                      "仪器臂 wall 47.1 s 对性能臂 37.5 s，开销 +26 % 已披露）。"
+                      "fragment 表是 process→fragment→kernel 的实测：qkv/o/mlp 为 device 界"
+                      "（GEMM 真算力），attn_core 与两个 norm 为 launch/host 界——"
+                      "launch-bound 结论第一次落到算子粒度，这正是 B5 机会清单 1–2 项的微观形态。")
+    if BK == "bcap" and not _pt_file.exists():
         _db = sqlite3.connect(str(D[BK] / "cap.sqlite"))
         _q = ("select n.start,n.end from NVTX_EVENTS n left join StringIds s on n.textId=s.id "
               "where coalesce(n.text,s.value)='gpu_model_runner: forward' and n.end is not null "

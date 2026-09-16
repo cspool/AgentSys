@@ -1,0 +1,155 @@
+{
+  "model": "llama",
+  "source_sqlite": "artifacts/agentix_8b/autotrace/ctrl_conc16_eagerproc/cap.sqlite",
+  "layers": {
+    "host": {
+      "denominator_ns": 2992129365,
+      "denominator_note": "UNION(engine step intervals) - UNION(model-forward intervals); union, not sum, because NVTX ranges nest",
+      "step_union_ns": 36693967524,
+      "forward_union_ns": 33701838159,
+      "selected": [
+        {
+          "process": "p.L00",
+          "count": 1507,
+          "sum_ns": 1318764922,
+          "share_of_host": 0.4407446206791931
+        },
+        {
+          "process": "p.L01",
+          "count": 1507,
+          "sum_ns": 1144197476,
+          "share_of_host": 0.38240240859372066
+        },
+        {
+          "process": "p.L02",
+          "count": 1507,
+          "sum_ns": 1118101638,
+          "share_of_host": 0.3736809146953444
+        }
+      ],
+      "covered_share": 1.1968279439682583,
+      "cover_target": 0.9,
+      "containers_excluded": [
+        "gpu_model_runner: preprocess",
+        "w.engine: process_engine_step",
+        "w.run: prepare_inputs",
+        "w.sched: schedule_total"
+      ],
+      "container_totals": {
+        "w.engine: process_engine_step": {
+          "count": 1519,
+          "sum_ns": 36693967524
+        },
+        "w.sched: schedule_total": {
+          "count": 1515,
+          "sum_ns": 193388761
+        },
+        "gpu_model_runner: preprocess": {
+          "count": 1515,
+          "sum_ns": 1653766264
+        },
+        "w.run: prepare_inputs": {
+          "count": 1507,
+          "sum_ns": 1226516329
+        }
+      }
+    },
+    "device": {
+      "process": "gpu_model_runner: forward",
+      "sum_ns": 33701838159,
+      "note": "already covered by the perf_trace chain"
+    },
+    "request": {
+      "call_begin_marks": 58,
+      "call_end_marks": 58
+    },
+    "mechanism": {
+      "chunk_begin": 106,
+      "chunk_end": 106,
+      "demote": 44,
+      "promote": 0
+    }
+  },
+  "container_account": {
+    "w.engine: process_engine_step": {
+      "total_ns": 36693967524,
+      "attributed_share": 0.9904446940830077,
+      "interior_unnamed_ns": 350622085,
+      "interior_gpu_running_ns": 309467706,
+      "interior_host_idle_ns": 41154379
+    },
+    "gpu_model_runner: preprocess": {
+      "total_ns": 1653766264,
+      "attributed_share": 0.8770095627008146,
+      "interior_unnamed_ns": 203397436,
+      "interior_gpu_running_ns": 43880511,
+      "interior_host_idle_ns": 159516925
+    },
+    "w.run: prepare_inputs": {
+      "total_ns": 1226516329,
+      "attributed_share": 0.13953239019616837,
+      "interior_unnamed_ns": 1055377574,
+      "interior_gpu_running_ns": 715642055,
+      "interior_host_idle_ns": 339735519
+    },
+    "w.sched: schedule_total": {
+      "total_ns": 193388761,
+      "attributed_share": 0.5432191170613063,
+      "interior_unnamed_ns": 88336289,
+      "interior_gpu_running_ns": 79510397,
+      "interior_host_idle_ns": 8825892
+    }
+  },
+  "dominant_idle_boundaries": [
+    {
+      "boundary": "gpu_model_runner: postprocess -> gpu_model_runner: sample",
+      "sum_ns": 98236676,
+      "count": 1506,
+      "mean_ms": 0.06523019654714475
+    },
+    {
+      "boundary": "gpu_model_runner: set_async_sampled_token_ids -> w.sched: update_from_output",
+      "sum_ns": 81226459,
+      "count": 1411,
+      "mean_ms": 0.057566590361445784
+    },
+    {
+      "boundary": "w.sched: schedule_total -> gpu_model_runner: preprocess",
+      "sum_ns": 2717687,
+      "count": 8,
+      "mean_ms": 0.339710875
+    },
+    {
+      "boundary": "w.engine: process_outputs -> w.sched: schedule_total",
+      "sum_ns": 1682720,
+      "count": 3,
+      "mean_ms": 0.5609066666666667
+    },
+    {
+      "boundary": "w.engine: process_outputs -> gpu_model_runner: forward",
+      "sum_ns": 1189267,
+      "count": 1,
+      "mean_ms": 1.189267
+    },
+    {
+      "boundary": "w.sched: update_from_output -> w.engine: process_outputs",
+      "sum_ns": 1170759,
+      "count": 4,
+      "mean_ms": 0.29268975
+    }
+  ],
+  "perf_trace_gap": {
+    "host_processes_not_in_perf_trace": [
+      "p.L00",
+      "p.L01",
+      "p.L02"
+    ],
+    "host_share_not_covered_by_perf_trace": 1.196827943968258,
+    "mechanism_events_not_in_perf_trace": [
+      "chunk_begin",
+      "chunk_end",
+      "demote"
+    ],
+    "verdict": "RECAPTURE_REQUIRED"
+  }
+}
