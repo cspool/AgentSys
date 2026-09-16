@@ -58,3 +58,23 @@ step 实例条码 + busy/gemm/在飞/step率/批组成 lane 共轴；4. kernel �
 ### 状态
 - 已有：ctrl_conc16 负载与两次采集（graph 级 + node 级）、w.step 批组成探针、相位机制表。
 - B3b 当前为**过渡实现**（周期折叠，仅示意层级可达性）；正式 process 层待本工作流执行。
+
+## 第三部分：A6 —— 第三组创新复现（sticky 路由 / 多引擎 KV 亲和）
+
+用户指令（2026-09-16）：第三组创新复现加入 A 计划；用 1.5B 级模型（本地 Qwen3-1.7B 充当，
+不下载约束）跑 agent 程序测试；补与 A3/A4 一致的端到端与高延迟 call 时间线；可多开 engine。
+
+- **设置**：单 GPU 双引擎（两 CUDA 上下文各 0.40 显存，dual_ctx 模式），同模型同参；
+  唯一变量 = 路由器：`sticky`（program→固定引擎，进程表亲和 = 论文③）vs `rr`
+  （逐 call 轮转，破坏程序内亲和）。`routing_arm.py`。
+- **真实复用面**：每程序私有随机 token 流，call j 的 prompt = 流前 L_j 个 token，
+  L 严格递增（cap 3400）→ 程序内前缀精确嵌套（同引擎命中 / 异引擎冷）、跨程序零共享
+  ——负载即论文 Fig.7 两个面板的构造版。
+- **指标与图**：TTFT（命中兑现的直接读数，按 context_len 分档）、PTL、类等待；
+  A3 式 per-program 块（每程序 S/R 两行）与 A4 式高延迟 call 带（同窗对照）；
+  引擎日志 prefix-cache 命中率行（disable_log_stats=False）入证。
+- **边界**：单 GPU 双引擎共享算力/带宽（论文为多卡多引擎）；swap 内核（④）不在此臂。
+
+## 待 GPU1 恢复的挂起任务
+1. 探针 v2 重采（AGENTIX_REQTRACE：状态区间直测 Wait/Execution）。
+2. eager 无 hook 差分臂（宏观仪器开销定量）。
