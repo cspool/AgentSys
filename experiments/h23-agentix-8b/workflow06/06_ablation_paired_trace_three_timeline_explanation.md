@@ -113,6 +113,10 @@ A00 只保证层级对账；**代表 process 的发现属于 workload_analysis �
 
 ### A05 总结文档（图形化消融报告）
 
+目的层大纲（四部分递进，详见 skill）：①负载理解（负载分析 W1–W6 并入预备开篇，含代表
+process 的 DFG）→ ②代表性 process 端到端时间线（执行分布 + 消融差异）→ ③高延迟 process
+放大（优化点）→ ④并发与资源使用率时间线。三时间量（等待/引擎内/再排队）必须三种视觉元素。
+
 单文档结构：**预备节**（用负载规格 + trace 把论文未明说的 program/call 具体化为四层 process
 层级：program→call→step→scope，含各类 program 的组成表：程序数、调用/程序、并行宽度、
 token 规模，并给出"1 个 call 的服务段由多个 step 的成员资格拼成"的结构性说明）+ 三部分。
