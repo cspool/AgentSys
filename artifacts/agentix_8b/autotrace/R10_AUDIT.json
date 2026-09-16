@@ -275,6 +275,14 @@
           "ag03"
         ]
       }
+    },
+    "A4": {
+      "criterion": "call set = core top-pile identities; window = densest 60 s of the core pile, same for all arms",
+      "window_s": [
+        60.0,
+        120.0
+      ],
+      "set_size": 394
     }
   }
 }

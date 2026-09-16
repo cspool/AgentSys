@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "protocol": "wp probe: single call, eager, module-process NVTX validation",
+ "protocol": "wp probe v2: 8 progs x 3 calls, eager, long enough for CUPTI flush",
  "provenance": {
   "generator": "inline"
  },
@@ -10,29 +10,290 @@
   "seed": 1
  },
  "summary": {
-  "programs": 1,
-  "llm_calls": 1,
-  "total_output_tokens": 64
+  "programs": 8,
+  "llm_calls": 24,
+  "total_output_tokens": 6144
  },
  "programs": [
   {
-   "program_id": "pb000",
-   "class": "bfcl",
+   "program_id": "pb00",
+   "class": "sharegpt",
    "arrival_ns": 0,
    "llm_calls": [
     {
      "index": 0,
      "wave": 0,
      "parents": [],
-     "prompt_tokens": 128,
-     "output_tokens": 64,
+     "prompt_tokens": 256,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [],
+     "prompt_tokens": 320,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [],
+     "prompt_tokens": 384,
+     "output_tokens": 256,
      "tool_delay_ns": 0
     }
    ],
-   "waves": 1,
+   "waves": 3,
    "width": 1,
-   "total_prompt_tokens": 128,
-   "total_output_tokens": 64
+   "total_prompt_tokens": 960,
+   "total_output_tokens": 768
+  },
+  {
+   "program_id": "pb01",
+   "class": "sharegpt",
+   "arrival_ns": 200000000,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 256,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [],
+     "prompt_tokens": 320,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [],
+     "prompt_tokens": 384,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    }
+   ],
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 960,
+   "total_output_tokens": 768
+  },
+  {
+   "program_id": "pb02",
+   "class": "sharegpt",
+   "arrival_ns": 400000000,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 256,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [],
+     "prompt_tokens": 320,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [],
+     "prompt_tokens": 384,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    }
+   ],
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 960,
+   "total_output_tokens": 768
+  },
+  {
+   "program_id": "pb03",
+   "class": "sharegpt",
+   "arrival_ns": 600000000,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 256,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [],
+     "prompt_tokens": 320,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [],
+     "prompt_tokens": 384,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    }
+   ],
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 960,
+   "total_output_tokens": 768
+  },
+  {
+   "program_id": "pb04",
+   "class": "sharegpt",
+   "arrival_ns": 800000000,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 256,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [],
+     "prompt_tokens": 320,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [],
+     "prompt_tokens": 384,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    }
+   ],
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 960,
+   "total_output_tokens": 768
+  },
+  {
+   "program_id": "pb05",
+   "class": "sharegpt",
+   "arrival_ns": 1000000000,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 256,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [],
+     "prompt_tokens": 320,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [],
+     "prompt_tokens": 384,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    }
+   ],
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 960,
+   "total_output_tokens": 768
+  },
+  {
+   "program_id": "pb06",
+   "class": "sharegpt",
+   "arrival_ns": 1200000000,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 256,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [],
+     "prompt_tokens": 320,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [],
+     "prompt_tokens": 384,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    }
+   ],
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 960,
+   "total_output_tokens": 768
+  },
+  {
+   "program_id": "pb07",
+   "class": "sharegpt",
+   "arrival_ns": 1400000000,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 256,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [],
+     "prompt_tokens": 320,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [],
+     "prompt_tokens": 384,
+     "output_tokens": 256,
+     "tool_delay_ns": 0
+    }
+   ],
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 960,
+   "total_output_tokens": 768
   }
  ]
 }

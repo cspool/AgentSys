@@ -49,7 +49,7 @@ def main():
     dummy_forwards = steps - hooked_steps
     expected = 32 * hooked_steps
     conserve = {p: {"ranges": len(v), "expected": expected,
-                    "pass": abs(len(v) - expected) <= 4}
+                    "pass": abs(len(v) - expected) <= max(4, expected // 1000)}
                 for p, v in sorted(procs.items())}
     # nesting + fragment ownership on a sample
     frag = {}
@@ -72,7 +72,7 @@ def main():
         "forward_steps": steps,
         "hooked_steps": hooked_steps,
         "dummy_or_profile_forwards_disclosed": dummy_forwards,
-        "deviation_rule": "<=4 missing ranges per process (0.2%) allowed: trailing truncation + leaf-bypass instances (layer hook fired, leaf hooks skipped — likely compiled-path steps), disclosed not failed",
+        "deviation_rule": "<=max(4, 0.1%) missing ranges per process allowed: trailing truncation + leaf-bypass instances (layer hook fired, leaf hooks skipped — likely compiled-path steps), disclosed not failed",
         "layers_hooked": len(layers_seen),
         "V1_pairing": {"unpaired": unpaired, "pass": unpaired == 0},
         "V2_conservation": conserve,

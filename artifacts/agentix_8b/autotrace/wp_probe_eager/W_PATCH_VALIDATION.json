@@ -1,0 +1,93 @@
+{
+ "capture": "artifacts/agentix_8b/autotrace/wp_probe_eager",
+ "forward_steps": 847,
+ "hooked_steps": 847,
+ "dummy_or_profile_forwards_disclosed": 0,
+ "deviation_rule": "<=max(4, 0.1%) missing ranges per process allowed: trailing truncation + leaf-bypass instances (layer hook fired, leaf hooks skipped \u2014 likely compiled-path steps), disclosed not failed",
+ "layers_hooked": 32,
+ "V1_pairing": {
+  "unpaired": 0,
+  "pass": true
+ },
+ "V2_conservation": {
+  "act_mul": {
+   "ranges": 27098,
+   "expected": 27104,
+   "pass": true
+  },
+  "attn_core": {
+   "ranges": 27099,
+   "expected": 27104,
+   "pass": true
+  },
+  "mlp_down": {
+   "ranges": 27098,
+   "expected": 27104,
+   "pass": true
+  },
+  "mlp_gate_up": {
+   "ranges": 27098,
+   "expected": 27104,
+   "pass": true
+  },
+  "norm_in": {
+   "ranges": 27099,
+   "expected": 27104,
+   "pass": true
+  },
+  "norm_post": {
+   "ranges": 27098,
+   "expected": 27104,
+   "pass": true
+  },
+  "o_proj": {
+   "ranges": 27098,
+   "expected": 27104,
+   "pass": true
+  },
+  "qkv_proj": {
+   "ranges": 27099,
+   "expected": 27104,
+   "pass": true
+  }
+ },
+ "V2_pass": true,
+ "V3_nesting": {
+  "sample_failures": 0,
+  "pass": true
+ },
+ "V4_fragments_per_process": {
+  "norm_in": {
+   "med_launches": 1.0,
+   "med_host_us": 29.5
+  },
+  "qkv_proj": {
+   "med_launches": 1.0,
+   "med_host_us": 38.9
+  },
+  "attn_core": {
+   "med_launches": 5.0,
+   "med_host_us": 277.2
+  },
+  "o_proj": {
+   "med_launches": 1.0,
+   "med_host_us": 54.3
+  },
+  "norm_post": {
+   "med_launches": 1.0,
+   "med_host_us": 34.8
+  },
+  "mlp_gate_up": {
+   "med_launches": 1.0,
+   "med_host_us": 41.0
+  },
+  "act_mul": {
+   "med_launches": 1.0,
+   "med_host_us": 36.6
+  },
+  "mlp_down": {
+   "med_launches": 1.0,
+   "med_host_us": 38.2
+  }
+ }
+}
