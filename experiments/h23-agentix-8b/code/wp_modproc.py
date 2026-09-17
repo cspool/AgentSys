@@ -52,6 +52,24 @@ def _get(obj, path):
 
 
 def _hook_layer(layer, li):
+    # Layer-only mode emits one range per layer instead of one per layer plus
+    # eight per layer. R01 consumes layer ranges and is contractually forbidden
+    # from consuming process ranges, so the 9x NVTX volume buys it nothing — and
+    # on a high-concurrency workload that volume back-pressures nsys until the
+    # traced process stalls with an idle GPU.
+    if os.environ.get("AGENTIX_MODPROC_LAYER_ONLY", "0") == "1":
+        _ll_only = f"p.L{li:02d}"
+
+        def lpre_only(_m, _inp):
+            nvtx.range_push(_ll_only)
+            _S["counts"]["layer"] += 1
+
+        def lpost_only(_m, _inp, _out):
+            nvtx.range_pop()
+
+        layer.register_forward_pre_hook(lpre_only)
+        layer.register_forward_hook(lpost_only)
+        return
     for path, proc in TAXONOMY.items():
         mod = _get(layer, path)
         if mod is None:

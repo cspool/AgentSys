@@ -50,9 +50,9 @@ def prep(gid):
     expect = f"A{len(done)+1:02d}"
     if gid != expect:
         sys.exit(f"serial order violation: next goal is {expect}, not {gid}")
-    wf = g["workflow"]
+    wf = g["workflow_input"]
     assert sha(Path(wf["path"])) == wf["sha256"], "workflow hash drift"
-    for r in g.get("reference_skills", []):
+    for r in g.get("reference_skill_inputs", []):
         assert sha(Path(r["path"])) == r["sha256"], f"reference hash drift: {r['path']}"
     print(json.dumps({
         "goal": gid, "mode": g["mode"], "focus": g.get("focus", "")[:400],
@@ -83,10 +83,10 @@ def commit(gid, migrations_file):
         assert key in text, f"runtime contract key missing: {key}"
     assert f"runtime_goal={g['runtime_goal']}" in text, "runtime_goal mismatch"
     mig = json.loads(Path(migrations_file).read_text())
-    wf = g["workflow"]
+    wf = g["workflow_input"]
     assert sha(Path(wf["path"])) == wf["sha256"]
     refs = []
-    for r in g.get("reference_skills", []):
+    for r in g.get("reference_skill_inputs", []):
         assert sha(Path(r["path"])) == r["sha256"]
         refs.append({"requested_name": r["requested_name"],
                      "resolved_name": r["resolved_name"], "path": r["path"],
