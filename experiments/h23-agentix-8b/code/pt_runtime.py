@@ -957,7 +957,16 @@ def stage_r07(a) -> None:
     root = root_of(goal)
     cap = Path(a.capture).resolve()
     db = sqlite3.connect(str(cap / 'cap.sqlite'))
+    # R07 analyses only the window the capture declared complete. Outside it the
+    # collector dropped seconds, and amendment 001 rules that invalid rather than
+    # partial — so nothing outside the window is read, and the window is carried
+    # into the handoff as this stage's declared scope.
+    scope = json.loads((cap / 'capture_scope.json').read_text())
+    win = scope['attempts'][-1].get('window_ns')
     steps, comp = step_index(db)
+    if win:
+        steps = [(s, e) for s, e in steps if s >= win[0] and e <= win[1]]
+        comp = {ts: v for ts, v in comp.items() if win[0] <= ts <= win[1]}
     kcov = kernel_coverage(db)
     comp_by_step = {}
     for ts, v in comp.items():
@@ -965,12 +974,13 @@ def stage_r07(a) -> None:
         if si is not None:
             comp_by_step[si] = v
 
+    lo, hi = (win if win else (0, 1 << 62))
     ranges = []
     for pat, kind in (("p.L%", 'layer_or_process'),
                       ("w.engine: process_engine_step", 'step'),
                       ("w.sched: %", 'stage'), ("w.run: %", 'stage'), ("w.prep: %", 'stage')):
         for s, e, txt in db.execute(NVTX_Q, (pat,)):
-            if e is None:
+            if e is None or s < lo or e > hi:
                 continue
             k, proc, layer = kind, None, None
             if kind == 'layer_or_process':
@@ -986,7 +996,7 @@ def stage_r07(a) -> None:
 
     proc_ranges = sorted([r for r in ranges if r['kind'] == 'process'], key=lambda r: r['start'])
     starts = [r['start'] for r in proc_ranges]
-    ko = launch_owned(db)
+    ko = [r for r in launch_owned(db) if r[0] >= lo and r[3] <= hi]
     kernels = []
     for rs, re_, ks, ke, cid in ko:
         hi = bisect.bisect_right(starts, rs) - 1
@@ -1076,6 +1086,9 @@ def stage_r07(a) -> None:
         'coverage_target_met': True, 'next_authorization_required': False,
         'trace_profile_sha256': sha(cap / 'cap.sqlite'),
         'capture': str(cap.relative_to(ROOT)),
+        'declared_scope': {'window_ns': win, 'window_s': scope['attempts'][-1].get('window_s'),
+                           'steps_in_window': scope['attempts'][-1].get('steps_in_window'),
+                           'rule': scope['attempts'][-1].get('rule')},
         'ranges': len(ranges), 'kernels': len(kernels), 'kernels_with_owner': owned,
         'coverage': cov, 'gates': gates,
         'evidence_note': ('R07 is the only observed schedule clock in this lineage; every '

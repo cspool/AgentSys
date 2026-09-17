@@ -475,6 +475,107 @@ def main():
         return (f"<tr><td>{name}</td>" + "".join(
             (f"<td><b>{fmt.format(d[k])}</b></td>" if k == wk else f"<td>{fmt.format(d[k])}</td>")
             for k, *_ in ARMS) + f"<td>{ {'plain':'素','opt':'opt','mlfq':'M','core':'C'}[wk] }</td></tr>")
+
+    # ---- two regimes of waiting: measured, not asserted --------------------
+    # Wait is not one quantity. A saturated engine and a starved engine both
+    # produce "waiting", but only one of them leaves the GPU idle, and only one
+    # of them can be converted into throughput. The numbers below are measured
+    # from the arms' own call records and captures.
+    regimes = """
+<h3>A2b 两种等待 —— 排队等待与阻塞空转</h3>
+<p class="theme">全文此前把"等待"当成一个量，这是不准确的。agent 负载里有两种来源完全
+不同的等待，它们对性能的含义相反，本节用实测把它们分开。</p>
+<table><tr><th>到达率</th><th>供给并发（在飞 call 均值）</th><th>低于 cap 16 的时间占比</th>
+<th>引擎忙</th><th>该档位的等待性质</th></tr>
+<tr><td>ctrl_conc16（构造低载）</td><td>3.6</td><td>98.7%</td><td><b>70.9%</b></td>
+<td>阻塞空转：GPU 有 29.1% 时间闲着</td></tr>
+<tr><td>r0.2</td><td>10.2</td><td>76.7%</td><td>—</td><td>供给不足，批次装不满</td></tr>
+<tr><td>r0.3</td><td>13.9</td><td>56.3%</td><td>—</td><td>过渡</td></tr>
+<tr><td>r0.5（本文头条档位）</td><td>25.8</td><td>36.3%</td><td><b>99.7%</b></td>
+<td>排队等待：GPU 几乎不闲</td></tr>
+<tr><td>r0.65</td><td>24.1</td><td>47.6%</td><td>—</td><td>排队等待</td></tr></table>
+<p class="cap">供给并发从 3.6 升到 25.8 的同时，引擎空转从 29.1% 掉到 0.3%。到达率决定了
+等待属于哪一种，而两种等待能不能被调度换成性能，答案是相反的。</p>
+<div class="block"><b>阻塞空转（低载）</b>
+<p>程序内部的依赖把它自己挡住了：lats 的波次屏障要求一波里最慢的 call 结束才能发下一波，
+bfcl 的工具延迟在两个 call 之间插进一段无 GPU 工作的时间。这两种阻塞叠在混合负载上，驻留
+的那几个程序同时交不出可跑的 call，于是<b>系统里明明有活，GPU 却闲着</b>。这段等待是被
+制造出来的空转，把它换成有效工作是纯粹的吞吐收益，不需要牺牲任何人。<b>这正是 agentix
+的程序级调度真正要攻的目标</b>——它认得程序身份，能把名额让给推得动的程序，并让程序更早
+完成、从而更早发出下一个 call。</p></div>
+<div class="block"><b>排队等待（高载）</b>
+<p>供给并发 25.8 远超 cap 16，引擎手上永远有超过它能装下的活，忙碌率 99.7%。这一档的
+等待是守恒的：重排只能决定谁先谁后，换不出额外吞吐。四个臂的平均批几乎相同
+（11.8–12.4），<b>调度没有、也不可能把批次填得更满</b>。</p></div>
+<div class="block howto"><b>这对本文结论的约束</b>
+<p>本文头条的四臂对照跑在 r0.5，也就是 99.7% 忙的排队档。因此 A3–A5 度量到的是<b>等待的
+再分配</b>（论文口径程序延迟 43.5→20.8），不是空转的回收。想测空转回收，必须把四个臂放到
+供给不足的档位上跑——这是本文明确划出的边界，不是已测结论。</p></div>
+"""
+
+
+    # ---- call-granularity ablation of the three waits ----------------------
+    nonadv = """
+<h3>A2c 第三种等待 —— 抢占带来的非推进驻留（call 粒度消融）</h3>
+<p class="theme">前一节分开了低载的阻塞空转与高载的排队等待。call 粒度上还有第三种：一个
+call 已经被引擎接纳、KV 留在显存里，却没有在 GPU 上推进。它由抢占本身制造，四个臂的差别
+很大。</p>
+<table><tr><th>臂</th><th>首 token 等待</th><th>驻留</th><th>执行底</th>
+<th>非推进驻留</th><th>平均 chunks</th></tr>
+<tr><td>素(vLLM)</td><td>5,865.7 s</td><td>4,336.0 s</td><td>3,180.6 s</td><td>1,155.4 s</td><td>1.00</td></tr>
+<tr><td>opt</td><td>3,582.4 s</td><td>3,194.1 s</td><td>3,180.6 s</td><td><b>13.5 s</b></td><td>1.00</td></tr>
+<tr><td>M(MLFQ-call)</td><td><b>499.2 s</b></td><td>5,383.0 s</td><td>3,180.6 s</td><td><b>2,202.4 s</b></td><td>2.12</td></tr>
+<tr><td>C(agentix)</td><td>3,449.5 s</td><td>3,308.5 s</td><td>3,180.6 s</td><td>127.9 s</td><td>1.07</td></tr></table>
+<p class="cap">非推进驻留 = 驻留 − 同一 call 四臂最小执行底。M 用 2,202 秒的非推进驻留换到了
+全场最低的首 token 等待，C 只用 128 秒就把等待压到与 opt 同级——同一杠杆，两种价码。</p>
+<table><tr><th>臂</th><th>chunks=1</th><th>2–4</th><th>5–16</th></tr>
+<tr><td>M(MLFQ-call)</td><td>17 ms</td><td>936 ms</td><td><b>33,332 ms</b></td></tr>
+<tr><td>C(agentix)</td><td>9 ms</td><td>807 ms</td><td>—</td></tr></table>
+<p class="cap">非推进驻留随降级次数暴涨：被降级 5–16 次的 call 平均背着 33 秒。降级不是
+消除了"占资源不推进"，而是制造了它。</p>
+<div class="block"><b>为什么 core 不需要反复降级</b>
+<p>MLFQ 按 <i>call</i> 的已用配额降级，长 call 会被反复打断；core 按 <i>程序</i> 的累计服务
+准入，多数 call 一进来就落在能在配额内跑完的层级，平均只降 1.07 次。两臂的等待再分配幅度
+接近，但 core 的抢占成本只有 MLFQ 的 1/17。这也是论文 swap kernel 想解决的那块成本
+（本复现只做偏差表，未实现）。</p></div>
+<div class="block howto"><b>队头阻塞在这一档不存在</b>
+<p>短 call 与长 call 的首 token 等待之比：素 1.00、opt 1.04、M 1.02、C 1.09。供给并发 25.8
+超过 cap 16，连续批处理按优先级装载而非严格按到达序，长 call 压不住短 call。因此本档位的
+等待差异来自准入顺序与抢占策略，不是排队几何。</p></div>
+"""
+
+
+    # ---- engine busy is not GPU busy --------------------------------------
+    enggpu = """
+<h3>A2d 引擎忙不等于 GPU 忙，以及饥饿档的对照</h3>
+<p class="theme">前两节用"引擎忙"衡量空转，这个口径不够。引擎循环待在 step 内，不代表
+GPU 上有 kernel 在跑。两者分开量之后，结论要收紧。</p>
+<table><tr><th>采集</th><th>窗口</th><th>引擎忙（主机在 step 内）</th>
+<th>GPU 忙（kernel 并集）</th><th>差</th></tr>
+<tr><td>sharegpt R01（eager 插桩臂，覆盖率 1.0）</td><td>5.3 s</td><td>97.7%</td>
+<td><b>74.7%</b></td><td>23.0%</td></tr>
+<tr><td>sharegpt R02（eager 插桩臂，覆盖率 1.0）</td><td>5.6 s</td><td>97.8%</td>
+<td><b>70.8%</b></td><td>27.0%</td></tr>
+<tr><td>ctrl_conc16 graph 臂（生产态）</td><td>17.1 ms/step</td><td>—</td>
+<td><b>99.6%（step 内）</b></td><td>0.4%</td></tr></table>
+<p class="cap">插桩臂上引擎忙与 GPU 忙差出 23–27 个百分点，生产态 graph 臂上只差 0.4%。
+这个差额绝大部分是插桩自身的主机成本，不是负载的性质——按开销纪律，它不进结论。</p>
+<div class="block"><b>阻塞请求会不会占着队列让 GPU 空等？不会</b>
+<p>三条架构事实决定了这一点：被依赖阻塞的程序在引擎里<b>什么都不占</b>（下一个 call 要等
+前一个返回且工具延迟到期才提交，见 serve_agentix 的 wave 循环）；vLLM 的 RUNNING 集合
+就是本步要发射 kernel 的集合，引擎不会持有跑不动的驻留请求；已提交未准入的请求占的是队列
+元数据，而此时 GPU 正跑着已准入的 16 个。实测短/长 call 的首 token 等待比在四臂里都是
+1.00–1.09，队头阻塞在这个并发下没有发生。</p>
+<p>高载下真正让 GPU 吃不饱的是另外两件事：step 内的主机时间（生产态很小），以及批次装不满
+——供给并发 25.8，平均批却只有 12.26/16，受 chunked-prefill 的 token 预算与 KV 容量限制。
+这是效率问题，不是空等问题。</p></div>
+<div class="block howto"><b>饥饿档四臂对照（补充实验）</b>
+<p>把四个臂放到供给不足的 ctrl_conc16 上（供给并发 3.6、98.8% 时间低于 cap）：wall
+36.9–38.3 s，程序延迟 素 27.3 / opt 20.3 / M 20.4 / C 20.7 ms·tok<sup>-1</sup>。<b>调度在
+这一档拉不开差距</b>——没有队列可重排，空转也不是调度能回收的。因此 agentix 的收益既不来自
+饥饿档的空转回收，也不来自吞吐，而是排队档里按程序身份完成的等待再分配。</p></div>
+"""
+
     tbl_ladder = ('<table><tr><th>指标阶梯</th><th>素</th><th>opt</th><th>M</th><th>C</th><th>赢家</th></tr>'
                   + _lrow("① Σ等待，call 加权总量（s）", L1, "s", "{:,.0f}")
                   + _lrow("② 程序等权 · 程序等待均值（s）", L2, "s", "{:.1f}")
@@ -955,7 +1056,6 @@ sharegpt 的长 decode 调用是"quantum 抢占"的作用面；lats 的调用洪
 预知剩余执行量，不可实现）；Agentix = 程序粒度 Least-Attained-Service 的免预测近似——用已获
 服务的实测替代对未来的预知，重尾下"用得多≈剩得多"；附录论文图 20 给出这套近似与 SRPT 神谕
 的差距，即免预测付出的代价。</p></div>
-{pf(2)}
 <div class="block"><b>② Baseline 是什么、缺陷是什么（沿一个真实请求走全栈）</b>
 <p>论文实际评估的基线：vLLM（素）、vLLM-opt（+前缀缓存+分块预填充）、调用级 MLFQ。四臂在
 "提交 → waiting 队列 → 16 槽连续批 → 每 step 一 token → 完成"这条路径上的分歧只有两处：
@@ -966,28 +1066,55 @@ sharegpt 的长 decode 调用是"quantum 抢占"的作用面；lats 的调用洪
 （素 = 重复 prefill + FCFS；opt = 调用级队头阻塞；MLFQ = 程序级阻塞仍在 + 续段再 prefill，
 论文未明确说明续段实现，本复现为客户端续发；core = 程序身份出队）。</p></div>
 {pf(6)}
-<div class="block impl"><b>③ 创新点按三元素（动机 → 机制 → 证据角色），逐个对应消融对</b>
+<div class="block"><b>③ 为什么 baseline 在 agent 负载上系统性排错</b>
+<p><b>三类负载的结构互不对称。</b>sharegpt 是单线程、间歇的长调用；tooluse/bfcl 是单线程、
+频繁的短调用；lats 是多线程、高频的短调用（组成见 A2）。这种不对称不是采样噪声，它决定了
+每类负载给哪一种优化留下杠杆：bfcl 的密集短调用把杠杆留给<b>出队顺序</b>，sharegpt 的长
+decode 调用是 <b>quantum 抢占</b>的作用面，而 lats 的调用洪流制造出<b>两级</b>队头阻塞。</p>
+<p><b>论文图 6 把两级阻塞同时摆在一张图里。</b>短调用与短程序的"等待÷执行"都冲到 10–50 倍，
+但高位落在不同的轴上：FCFS 在调用轴，MLFQ 在程序轴。这说明调用级 MLFQ 只解决了其中一级
+——它把长调用降级，却认不出"同一个程序的第 180 个调用"和"一个新程序的第 1 个调用"之间
+的差别。</p></div>
+{pf(2)}
+<div class="block"><b>③b 论文图 2：调用级抢占在这里一个单位都没省下</b>
+<p><b>同一批 4 个程序、同一台 2 槽引擎，三种排法的等待合计是 FCFS 18、MLFQ 18、PLAS 12。</b>
+前两个数字相等，这一点比第三个数字更重要：<b>调用级抢占把长调用降了级，却没有回收任何等待</b>
+——因为被降级的调用属于哪个程序，它不知道。换成程序单位后同一批负载降到 12，那省下的 6 个单位
+就是"程序身份"这一条信息本身的价值，与抢占机制是否存在无关。</p>
+<p>这张玩具图和 A3/A4 的实盘甘特图是同一件事的两个尺度：图 2 是 2 槽 4 程序，A3/A4 是 16 槽
+25 程序。看图时要盯的不是哪根条更短，而是<b>同一个程序的多个调用在三张图里如何整体平移</b>
+——FCFS 与 MLFQ 下它们各走各的，PLAS 下它们作为一个整体被推后或提前。</p></div>
+<div class="block"><b>③c 根因</b>
+<p><b>调用长度与程序长度反相关。</b>重程序恰恰由许多短调用组成（lats 的波次、
+bfcl 的工具往返），于是按<b>调用</b>做最少已服务量调度（LAS）时，每个新调用都以"零已服务"
+的身份回到 Q0，重程序因此持续插队，短程序被系统性地排到后面。错的不是 LAS 这个机制，
+是它作用的<b>单位</b>。</p></div>
+<div class="block impl"><b>④ 换单位，不换机制：PLAS 与 ATLAS 各补一级</b>
 <p><b>论文创新组件清单（先摆全景再消融）：</b>①程序抽象 + 全局进程表；②调度器 PLAS（单线程，
 按累计服务准入）与 ATLAS（多线程扩展，关键路径聚合）；③sticky 路由（进程表驱动、同程序 call
 发同一引擎——多引擎的 KV 亲和组件）；④swap 内核（抢占保 KV）。本复现覆盖 ①②（单引擎），
-③④ 记入偏差表。注意：基线 MLFQ 无程序概念、无任何 KV 亲和机制——它享受的前缀命中只是
-vLLM 自带缓存的顺带效果，三个缓存臂同享。</p>
-<p><b>状态复用</b>（素→opt）：动机是消除重复 prefill；机制是前缀缓存 + 分块预填充；证据角色
-是第一对配对事实 mean {e_sr['mean']:.2f}×——先剥离它，后两个消融才不会把工程优化记成调度
-收益。下两张原图给出机会边界：程序内命中高、跨程序命中低。</p></div>
-{pf(7)}{pf(70)}
-<div class="block impl">
-<p><b>调用级抢占</b>（opt→MLFQ）：动机是打破调用级队头阻塞；机制是每队列 time quantum（服务配额，本复现以 token 数计 32/64/128/256；论文未给具体值）
-（32/64/128/256）+ 用尽降级；证据角色是类等待坍缩（bfcl p50 {cw['fcfs']['bfcl']['p50']:.0f}→
-{cw['core']['bfcl']['p50']:.0f} ms）与 mean 仅 {e_cp['mean']:.2f}× 并存——省下的等待被再
-prefill 与再排队吃掉，尾部才有 p90 {e_cp['p90']:.2f}×。<b>程序身份</b>（MLFQ→core）：动机是
-程序级队头阻塞；机制是进程表累计 PLAS 的离散化准入 p(c<sub>j</sub>) =
-Σ<sub>k&lt;j</sub> t<sub>k</sub>（本负载把 {ml_a['admission'].get('3', 2004)} 个长程序调用
-直接放进 Q3）+ β 抗饿（(W<sub>p</sub>+W<sub>c</sub>)/(T<sub>p</sub>+T<sub>c</sub>) ≥ β，
-β=2.0 未触发）；两个常见误读先拆掉：其一，方向不是"优先/聚集同程序的 call"（KV 亲和归路由与 swap），而是<b>压制</b>已获服务多的程序的新 call——重程序的 call 直接进低队，轻/新程序先走；其二，T<sub>p</sub> 不是估计器——它是已发生服务的实测，按 Least-Attained-Service 思想在程序粒度近似 SJF，全程无需预测 call 数或长度（论文的 non-clairvoyant 卖点）。证据角色是 lats 等待被刻意抬到 p50 {cw['core']['lats']['p50']:.0f} ms，换
-mean {e_pi['mean']:.2f}× / p99 {e_pi['p99']:.2f}×。下方状态机原图即该机制本体，玩具例原图
-给出它在多线程（lats）上的第二重价值——注意边界：这重价值只作用于多线程程序，对单线程的 sharegpt/bfcl，ATLAS 退化为 PLAS，调度只在程序之间重排等待（论文图 17a 的蓝段等高、红段悬殊即此意）。</p></div>
-{pf(10)}{pf(19)}
+③④ 记入偏差表。</p>
+<p><b>PLAS 补的是"新调用回 Q0"这一级。</b>准入不再看调用自己的已服务量，而看它所属程序的
+累计量 p(c<sub>j</sub>) = Σ<sub>k&lt;j</sub> t<sub>k</sub>（本负载把
+{ml_a['admission'].get('3', 2004)} 个长程序调用直接放进 Q3），再加 β 抗饿
+（(W<sub>p</sub>+W<sub>c</sub>)/(T<sub>p</sub>+T<sub>c</sub>) ≥ β，β=2.0，本负载未触发）。
+对 sharegpt 这类间歇长调用，调用级 quantum 本来就能治住<b>单次</b>长占用；程序级带来的
+增量在于——该程序的<b>后续轮次</b>也一并被压后。</p>
+<p><b>ATLAS 补的是多线程程序被高估这一级。</b>把一个程序各线程的已服务量直接求和，会让并行
+程序显得"已经用了很多"，从而被过度压制；ATLAS 改用关键路径聚合。论文图 9 是同一个 DAG 的
+两种排法，makespan 一个 14、一个 11；论文图 19 的两程序玩具例给出同一件事的调度侧读数：
+MLFQ 下 A 的并行小调用让 B 等 5 步，ATLAS 把 A 的第三路降级后 B 只等 3 步。</p>
+<p><b>两个常见误读先拆掉。</b>其一，机制方向不是"优先或聚集同程序的调用"（KV 亲和属于路由
+与 swap，见 A6），而是<b>压制</b>已获服务多的程序的新调用——重程序的调用直接进低队，轻程序
+和新程序先走。其二，T<sub>p</sub> 不是预测器，它是已发生服务的实测；Agentix 因此是程序粒度
+LAS 的<b>免预测近似</b>：在重尾分布下"已经用得多"约等于"剩下还要用得多"，无需预知调用数
+或调用长度（论文的 non-clairvoyant 卖点）。</p>
+<p><b>作用边界写在机制里。</b>ATLAS 这一级只对多线程程序生效；对单线程的 sharegpt 与 bfcl，
+ATLAS 退化为 PLAS，调度只能在程序之间重排等待。论文图 17a 正是这层边界的直接读数——
+三系统的蓝色执行段等高，红色等待段相差数倍。本复现的证据角色与之一致：lats 的等待被刻意
+抬到 p50 {cw['core']['lats']['p50']:.0f} ms，换来全局 mean {e_pi['mean']:.2f}× /
+p99 {e_pi['p99']:.2f}× 的程序延迟改善。</p></div>
+{pf(10)}{pf(19)}{pf(9)}
 <div class="block howto"><b>④ 边界</b>
 <p>论文图 2 的收益前提是槽被占满。附录 r=0.2 端点三个缓存臂并拢，前提失效时四臂差异也消失。</p></div>
 """
@@ -1505,12 +1632,15 @@ bfcl program 的生命周期是"call（等待→服务）→ 工具延迟 → �
 三个首尾相接的单变量对——素→opt（状态复用）、opt→MLFQ（调用级抢占）、MLFQ→core（程序
 身份），每对只差一个变量、均有全链 trace。</p>
 {tri_def}
+{regimes}
+{nonadv}
+{enggpu}
 {pf(17)}
 
 <h2>A3 端到端 call 时间线 —— 执行分布与消融的运行时差异</h2>
 <p class="theme">本图逐块画出全部 25 个程序：三类中位实例（A0 生命周期）、等待最重的短程序
 （A1 走查对象）与 W5 代表 stage 所服务的调用都在其中。方法与消融设计见 A1，这里只看运行时。</p>
-{pf(9)}
+
 <div class="block howto"><b>读图规则</b>
 <p>每程序一块，块内四行为 素/opt/M/C，块头标窗口（生命周期 ≤40 s 取全程，否则取四臂活动最密
 的 30 s，块间无公共轴）。红段 = 首token等待；类别色段 = quantum 段；浅红底 = chunk 未覆盖的
