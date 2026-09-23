@@ -1,0 +1,2162 @@
+[
+ {
+  "stratum": "early",
+  "gold": "City of Newcastle",
+  "ansA": "City of Newcastle",
+  "n_ctx": 1147,
+  "notes": [
+   "The latest result contributes to answering the question by stating that the City of Newcastle is",
+   "The latest result states that the City of Newcastle is a local government area in the",
+   "The latest result states that the City of Newcastle is a local government area in the",
+   "The latest result states that the City of Newcastle is a local government area in the",
+   "The latest result states that the City of Newcastle is a local government area in the",
+   "The latest result states that the City of Newcastle is a local government area in the",
+   "The latest result states that the City of Newcastle is a local government area in the",
+   "The latest result states that the City of Newcastle is a local government area in the",
+   "The latest result states that the City of Newcastle is a local government area in the",
+   "The latest result states that the City of Newcastle is a local government area in the"
+  ],
+  "gold_spans": [
+   0,
+   1
+  ],
+  "n_span": 1086,
+  "ans_J": "The city at the south of Shelly Beach, New South Wales, which is a local government area in the Hunter region",
+  "kv_J_between": 141,
+  "kv_J_ans": 450,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 0
+ },
+ {
+  "stratum": "early",
+  "gold": "comedy-drama",
+  "ansA": "Comedy-drama.",
+  "n_ctx": 1128,
+  "notes": [
+   "The latest result contributes to answering the question by stating that Lee Sung-jae",
+   "The latest result contributes by stating that \"Barking Dogs Never Bite\" is a",
+   "The latest result contributes by confirming that Lee Sung-jae stars in \"B",
+   "The latest result contributes by confirming that Lee Sung-jae stars in the film",
+   "The latest result contributes by confirming that Lee Sung-jae stars in the film",
+   "The latest result contributes by confirming that Lee Sung-jae stars in the film",
+   "The latest result contributes by confirming that Lee Sung-jae stars in \"B",
+   "The latest result contributes by confirming that Lee Sung-jae stars in the film",
+   "The latest result contributes by confirming that Lee Sung-jae stars in the film",
+   "The latest result contributes by confirming that Lee Sung-jae stars in the film"
+  ],
+  "gold_spans": [
+   0,
+   1
+  ],
+  "n_span": 1078,
+  "ans_J": "Barking Dogs Never Bite is a comedy-drama film.",
+  "kv_J_between": 130,
+  "kv_J_ans": 531,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 1
+ },
+ {
+  "stratum": "early",
+  "gold": "Turkey",
+  "ansA": "G\u00fcl Mosque.",
+  "n_ctx": 1386,
+  "notes": [
+   "The latest result contributes to answering the question by stating that the Column of the Go",
+   "The latest result contributes by confirming that the Column of the Goths is in Istanbul",
+   "The latest result contributes by identifying that the Column of the Goths is in G\u00fcl",
+   "The latest result contributes by mentioning the Column of the Goths and G\u00fcl Mosque,",
+   "The latest result contributes by mentioning the Column of the Goths in G\u00fclhane",
+   "The latest result contributes by confirming that the Column of the Goths and G\u00fcl Mosque",
+   "The latest result contributes by confirming that the Column of the Goths is in Istanbul",
+   "The latest result contributes by confirming that the Column of the Goths and G\u00fcl Mosque",
+   "The latest result states that the G\u00fcl Mosque is located in Istanbul and is part of",
+   "The latest result states that the G\u00fcl Mosque is located in Istanbul, Turkey."
+  ],
+  "gold_spans": [
+   0,
+   1
+  ],
+  "n_span": 1336,
+  "ans_J": "The city in Istanbul with both the Column of the Goths and the G\u00fcl Mosque is Istanbul.",
+  "kv_J_between": 130,
+  "kv_J_ans": 368,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 2
+ },
+ {
+  "stratum": "early",
+  "gold": "$10,000 Kelly",
+  "ansA": "King Kelly.",
+  "n_ctx": 1375,
+  "notes": [
+   "The latest result contributes to answering the question by stating that the manager for the",
+   "The latest result contributes to answering the question by stating that the manager of the",
+   "The latest result contributes by stating that the manager of the 1891",
+   "The latest result contributes to answering the question by stating that King Kelly, the manager",
+   "The latest result contributes to answering the question by stating that the manager of the",
+   "The latest result contributes by stating that King Kelly, the manager of the 1",
+   "The latest result contributes by stating that King Kelly, the manager of the 1",
+   "The latest result contributes by stating that King Kelly, the manager of the 1",
+   "The latest result contributes by stating that the manager of the 1891",
+   "The latest result contributes by stating that King Kelly, the manager of the 1"
+  ],
+  "gold_spans": [
+   0,
+   1
+  ],
+  "n_span": 1324,
+  "ans_J": "King Kelly.",
+  "kv_J_between": 131,
+  "kv_J_ans": 624,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 3
+ },
+ {
+  "stratum": "early",
+  "gold": "Spirit of the West",
+  "ansA": "Big Pig was active the longest.",
+  "n_ctx": 1307,
+  "notes": [
+   "The latest result contributes by stating that Big Pig was active from 198",
+   "The latest result contributes by stating that Spirit of the West was active from 1",
+   "The latest result contributes by stating that Spirit of the West was active from 1",
+   "The latest result contributes by stating that Spirit of the West was active from 1",
+   "The latest result contributes by confirming that Spirit of the West was active from 1",
+   "The latest result contributes by stating that Spirit of the West was active from 1",
+   "The latest result contributes by confirming that Spirit of the West was active from 1",
+   "The latest result contributes by stating that Spirit of the West was active from 1",
+   "The latest result contributes by stating that Spirit of the West was active from 1",
+   "The latest result contributes by stating that Spirit of the West was active from 1"
+  ],
+  "gold_spans": [
+   0,
+   1
+  ],
+  "n_span": 1262,
+  "ans_J": "Big Pig is active longer than Spirit of the West.",
+  "kv_J_between": 125,
+  "kv_J_ans": 590,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 4
+ },
+ {
+  "stratum": "early",
+  "gold": "Dirty Three",
+  "ansA": "Dirty Three formed first.",
+  "n_ctx": 1580,
+  "notes": [
+   "The latest result contributes by stating that Dirty Three formed in 1992",
+   "The latest result contributes by stating that Dirty Three formed in 1992",
+   "The latest result contributes by stating that Dirty Three formed in 1992",
+   "The latest result contributes by stating that Dirty Three formed in 1992",
+   "The latest result contributes by stating that Dirty Three formed in 1992",
+   "The latest result contributes by stating that Dirty Three formed in 1992",
+   "The latest result contributes by stating that Dirty Three formed in 1992",
+   "The latest result contributes by stating that Dirty Three formed in 1992",
+   "The latest result contributes by stating that Dirty Three formed in 1992",
+   "The latest result contributes by stating that Dirty Three formed in 1992"
+  ],
+  "gold_spans": [
+   0,
+   1
+  ],
+  "n_span": 1540,
+  "ans_J": "Fireflight formed first.",
+  "kv_J_between": 120,
+  "kv_J_ans": 735,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 5
+ },
+ {
+  "stratum": "early",
+  "gold": "an opera",
+  "ansA": "Both K\u00e1\u0165a Kabanov\u00e1t and Der ferne Klang are operas.",
+  "n_ctx": 1865,
+  "notes": [
+   "The latest result contributes by stating that Der ferne Klang is an opera by",
+   "The latest result contributes by stating that both K\u00e1\u0165a Kabanov\u00e1t",
+   "The latest result contributes by stating that K\u00e1\u0165a Kabanov\u00e1t is",
+   "The latest result contributes by mentioning that Loretta Di Franco performed the role of",
+   "The latest result contributes by mentioning Loretta Di Franco, who is associated with",
+   "The latest result contributes by mentioning Loretta Di Franco, who is associated with",
+   "The latest result contributes by mentioning K\u00e1\u0165a Kabanov\u00e1t, which",
+   "The latest result contributes by mentioning K\u00e1\u0165a Kabanov\u00e1t, which",
+   "The latest result contributes by mentioning K\u00e1\u0165a Kabanov\u00e1t, which",
+   "The latest result contributes by mentioning Loretta Di Franco, who is associated with"
+  ],
+  "gold_spans": [
+   0,
+   1
+  ],
+  "n_span": 1815,
+  "ans_J": "The commonality between K\u00e1\u0165a Kabanov\u00e1 and Der ferne Klang is that they are both works",
+  "kv_J_between": 130,
+  "kv_J_ans": 947,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 6
+ },
+ {
+  "stratum": "early",
+  "gold": "Elkmont, Tennessee",
+  "ansA": "Elkmont, Tennessee.",
+  "n_ctx": 1411,
+  "notes": [
+   "The latest result contributes by stating that the Little River Railroad is operated between Maryville",
+   "The latest result contributes by stating that the Little River Railroad operated between Maryville and",
+   "The latest result contributes to answering the question by stating that the Little River Railroad operated",
+   "The latest result contributes by identifying that the Little River Railroad operated between Maryville and",
+   "The latest result contributes to answering the question by stating that the Little River Railroad operated",
+   "The latest result contributes to answering the question by stating that the Little River Railroad operated",
+   "The latest result contributes to answering the question by identifying Elkmont, Tennessee as",
+   "The latest result contributes by identifying Elkmont, Tennessee as the pioneer Appalachian and",
+   "The latest result contributes by identifying Elkmont, Tennessee as the pioneer Appalachian and",
+   "The latest result contributes to answering the question by stating that the Little River Railroad operated"
+  ],
+  "gold_spans": [
+   0,
+   1
+  ],
+  "n_span": 1364,
+  "ans_J": "Elkmont, Tennessee.",
+  "kv_J_between": 127,
+  "kv_J_ans": 359,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 7
+ },
+ {
+  "stratum": "early",
+  "gold": "Tamara Ecclestone",
+  "ansA": "Tamara Ecclestone.",
+  "n_ctx": 1437,
+  "notes": [
+   "The latest result contributes by identifying Tamara Ecclestone as the daughter of Bernie",
+   "The latest result contributes by identifying Tamara Ecclestone as the daughter of Bernie",
+   "The latest result contributes by identifying Tamara Ecclestone as the daughter of Bernie",
+   "The latest result contributes by stating that Tamara Ecclestone is the daughter of",
+   "The latest result contributes by stating that Petra Stunt is the daughter of Bernie Ecc",
+   "The latest result contributes by stating that Petra Stunt, daughter of Bernie Eccle",
+   "The latest result states that Petra Stunt, daughter of Bernie Ecclestone,",
+   "The latest result states that Petra Stunt is the daughter of Bernie Ecclestone",
+   "The latest result states that Petra Stunt, daughter of Bernie Ecclestone,",
+   "The latest result states that Petra Stunt, daughter of Bernie Ecclestone,"
+  ],
+  "gold_spans": [
+   0,
+   1
+  ],
+  "n_span": 1389,
+  "ans_J": "Tamara Ecclestone.",
+  "kv_J_between": 128,
+  "kv_J_ans": 454,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 8
+ },
+ {
+  "stratum": "early",
+  "gold": "Prudential Center in Newark",
+  "ansA": "The NBA Draft in which Harrison Bryce Jordan Barnes was selected by the Golden State Warriors in the first round with the seventh overall",
+  "n_ctx": 2604,
+  "notes": [
+   "The latest result contributes to answering the question by stating that the NBA Draft where Harrison",
+   "The latest result states that the NBA Draft was held in Newark, New Jersey.",
+   "The 2012 NBA draft was held in Newark, New Jersey,",
+   "The latest result states that the NBA Draft was held in Newark, New Jersey,",
+   "The latest result states that the 2012 NBA draft was held in",
+   "The latest result states that the 2012 NBA draft was held in",
+   "The latest result states that the NBA Draft was held in Newark, New Jersey,",
+   "The latest result states that the 2012 NBA draft was held in",
+   "The latest result confirms that Harrison Barnes was selected by the Golden State Warriors in the",
+   "The 2012 NBA draft was held in Newark, New Jersey,"
+  ],
+  "gold_spans": [
+   0,
+   1
+  ],
+  "n_span": 2542,
+  "ans_J": "The NBA Draft in which Harrison Barnes was selected by the Golden State Warriors in the first round with the seventh overall pick was",
+  "kv_J_between": 142,
+  "kv_J_ans": 1004,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 9
+ },
+ {
+  "stratum": "early",
+  "gold": "Karen O",
+  "ansA": "Karen O and Nick Zinner.",
+  "n_ctx": 1485,
+  "notes": [
+   "The latest result contributes by stating that Karen O and Nick Zinner are the vocalist",
+   "The latest result contributes by stating that Modular Recordings released Yeah Yeah Yeahs,",
+   "The latest result contributes by stating that Modular Recordings released the album \"Different Like",
+   "The latest result contributes by stating that Tame Impala's album \"Loner",
+   "The latest result contributes by stating that Ladyhawke is a vocalist and pian",
+   "The latest result contributes by stating that Ladyhawke, a vocalist and pian",
+   "The latest result contributes by confirming that Ladyhawke is a vocalist and pian",
+   "The latest result contributes by confirming that Ladyhawke is a vocalist and pian",
+   "The latest result contributes by stating that Ladyhawke's album \"Anxiety",
+   "The latest result contributes by confirming that Ladyhawke was recorded by Modular Record"
+  ],
+  "gold_spans": [
+   0,
+   1
+  ],
+  "n_span": 1443,
+  "ans_J": "The vocalist and pianist recorded by Modular Recordings is **Lana Del Rey**.",
+  "kv_J_between": 122,
+  "kv_J_ans": 520,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 10
+ },
+ {
+  "stratum": "early",
+  "gold": "1986",
+  "ansA": "1986",
+  "n_ctx": 1947,
+  "notes": [
+   "The latest result contributes to answering the question by stating that FromSoftware was founded in",
+   "The latest result contributes to answering the question by stating that the company, FromSoftware",
+   "The latest result contributes to answering the question by stating that FromSoftware, Inc.",
+   "The latest result contributes by stating that FromSoftware, Inc. was founded in November",
+   "The latest result contributes to answering the question by stating that FromSoftware, Inc.",
+   "The latest result contributes by stating that FromSoftware, Inc. was founded in November",
+   "The latest result contributes by stating that FromSoftware, Inc. was founded in November",
+   "The latest result contributes by stating that FromSoftware, Inc. was founded in November",
+   "The latest result contributes by stating that FromSoftware, Inc. was founded in November",
+   "The latest result contributes by stating that FromSoftware, Inc. was founded in November"
+  ],
+  "gold_spans": [
+   0,
+   1
+  ],
+  "n_span": 1900,
+  "ans_J": "The company that released *Forever Kingdom* for PlayStation 2 was founded in 1996.",
+  "kv_J_between": 127,
+  "kv_J_ans": 574,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 11
+ },
+ {
+  "stratum": "early",
+  "gold": "Werner Herzog Eats His Shoe",
+  "ansA": "Life After People aired first.",
+  "n_ctx": 1247,
+  "notes": [
+   "The latest result contributes by stating that \"Werner Herzog Eats His Shoe",
+   "The latest result contributes by stating that \"Werner Herzog Eats His Shoe",
+   "The latest result contributes by stating that \"Werner Herzog Eats His Shoe",
+   "The latest result contributes by stating that \"Werner Herzog Eats His Shoe",
+   "The latest result contributes by stating that \"Life After People\" aired first.",
+   "The latest result contributes by stating that \"Werner Herzog Eats His Shoe",
+   "The latest result contributes by stating that \"Werner Herzog Eats His Shoe",
+   "The latest result contributes by indicating that \"Werner Herzog Eats His Shoe",
+   "The latest result contributes by indicating that \"Werner Herzog Eats His Shoe",
+   "The latest result contributes by indicating that \"Werner Herzog Eats His Shoe"
+  ],
+  "gold_spans": [
+   0,
+   1
+  ],
+  "n_span": 1201,
+  "ans_J": "Life After People aired first.",
+  "kv_J_between": 126,
+  "kv_J_ans": 549,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 12
+ },
+ {
+  "stratum": "early",
+  "gold": "Harper's Bazaar",
+  "ansA": "Harper's Bazaar.",
+  "n_ctx": 1904,
+  "notes": [
+   "The latest result contributes to answering the question by confirming that the magazine's name was",
+   "The latest result states that the magazine is now known as \"Harper's B",
+   "The latest result states that the magazine is now known as \"Harper's B",
+   "The latest result states that the magazine is now known as \"Harper's B",
+   "The latest result states that the magazine is now known as \"Harper's B",
+   "The latest result contributes by stating that the magazine is now known as \"Harper",
+   "The latest result states that the magazine is now known as \"Harper's B",
+   "The latest result states that the magazine is now known as \"Harper's B",
+   "The latest result states that the magazine is now known as \"Harper's B",
+   "The latest result states that the magazine is now known as \"Harper's B"
+  ],
+  "gold_spans": [
+   0,
+   1
+  ],
+  "n_span": 1827,
+  "ans_J": "The magazine is now called **Harper's**.",
+  "kv_J_between": 157,
+  "kv_J_ans": 581,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 13
+ },
+ {
+  "stratum": "early",
+  "gold": "215th",
+  "ansA": "Reliance Industries is ranked 215th on the Fortune Global 500 list as of 20",
+  "n_ctx": 1607,
+  "notes": [
+   "The latest result states that Reliance Industries is ranked 215th on",
+   "The latest result contributes to answering the question by stating that Reliance Industries is ranked",
+   "The latest result contributes to answering the question by stating that Reliance Industries ranked",
+   "The latest result contributes to answering the question by stating that Reliance Industries is ranked",
+   "Search result [1] contributes by stating that Reliance Industries is ranked 2",
+   "Search result [1] contributes to answering the question by stating that Reliance Industries",
+   "The latest result states that Reliance Industries ranked 215th on the",
+   "The latest result states that Reliance Industries ranked 215th on the",
+   "The search result [1] states that Reliance Industries ranked 215",
+   "The search result [1] states that Reliance Industries ranked 215"
+  ],
+  "gold_spans": [
+   0,
+   1
+  ],
+  "n_span": 1550,
+  "ans_J": "Reliance Industries.",
+  "kv_J_between": 137,
+  "kv_J_ans": 571,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 14
+ },
+ {
+  "stratum": "early",
+  "gold": "World War II",
+  "ansA": "World War II.",
+  "n_ctx": 2239,
+  "notes": [
+   "The latest result contributes to answering the question by stating that the Bataan Death",
+   "The latest result contributes by confirming that the 34th Pursuit Squadron was",
+   "The latest result contributes by confirming that the 34th Pursuit Squadron was",
+   "The latest result contributes by confirming that the 34th Pursuit Squadron was",
+   "The latest result contributes by confirming that the 34th Pursuit Squadron was",
+   "The latest result contributes by confirming that the 34th Pursuit Squadron was",
+   "The latest result contributes by confirming that the 34th Pursuit Squadron was",
+   "The latest result contributes by confirming that the 34th Pursuit Squadron was",
+   "The latest result contributes by confirming that the 34th Pursuit Squadron was",
+   "The latest result contributes by confirming that the 34th Pursuit Squadron was"
+  ],
+  "gold_spans": [
+   0,
+   1
+  ],
+  "n_span": 2162,
+  "ans_J": "The Bataan Death March occurred during World War II.",
+  "kv_J_between": 157,
+  "kv_J_ans": 1230,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 15
+ },
+ {
+  "stratum": "early",
+  "gold": "Fort Valley, Georgia",
+  "ansA": "Fort Valley, Georgia.",
+  "n_ctx": 1183,
+  "notes": [
+   "The latest result states that the head quarter of the Blue Bird Body Company is in",
+   "The latest result contributes by stating that the head quarter of the Blue Bird Body Company",
+   "The latest result contributes by stating that the head quarter of the Blue Bird Body Company",
+   "The latest result contributes by confirming that the Blue Bird Corporation, formerly known as the",
+   "The latest result contributes by stating that the head quarter of the Blue Bird Body Company",
+   "The latest result states that the head quarter of the Blue Bird Body Company is Fort",
+   "The latest result contributes by stating that the Blue Bird Body Company is headquartered in Fort",
+   "The latest result contributes by confirming that the head quarter of the Blue Bird Body Company",
+   "The latest result contributes by confirming that the head quarter of the Blue Bird Body Company",
+   "The latest result contributes by confirming that the head quarter of the Blue Bird Body Company"
+  ],
+  "gold_spans": [
+   0,
+   1
+  ],
+  "n_span": 1141,
+  "ans_J": "The head quarter of the Blue Bird Body Company is in **New York, USA**.",
+  "kv_J_between": 122,
+  "kv_J_ans": 422,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 16
+ },
+ {
+  "stratum": "early",
+  "gold": "146th",
+  "ansA": "The episode of South Park that aired in May before Funnybot was \"Tsst.\"",
+  "n_ctx": 1428,
+  "notes": [
+   "The latest result contributes by stating that \"Funnybot\" aired in May 2",
+   "The latest result contributes by stating that \"Funnybot\" aired in May 2",
+   "The latest result contributes by stating that \"Funnybot\" aired in May 2",
+   "The latest result contributes by stating that \"Funnybot\" aired in May 2",
+   "The latest result contributes by stating that \"Funnybot\" aired in May 2",
+   "The latest result contributes by stating that \"Funnybot\" aired in May 2",
+   "The latest result contributes by stating that \"Funnybot\" aired in May 2",
+   "The latest result contributes by stating that \"Funnybot\" aired in May 2",
+   "The latest result contributes by indicating that the episode \"Funnybot\" aired in May",
+   "The latest result contributes by indicating that the episode \"Funnybot\" aired in May"
+  ],
+  "gold_spans": [
+   0,
+   1
+  ],
+  "n_span": 1382,
+  "ans_J": "The episode of *South Park* that aired in May before *Funnybot* was **\"The Truth About the Truth",
+  "kv_J_between": 126,
+  "kv_J_ans": 551,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 17
+ },
+ {
+  "stratum": "early",
+  "gold": "Matthew Ward Winer",
+  "ansA": "Matt Winer.",
+  "n_ctx": 1687,
+  "notes": [
+   "Irrelevant.",
+   "The latest result contributes by stating that Matt Winer was a television personality who worked",
+   "The latest result contributes by stating that Matt Winer was a television personality who worked",
+   "The latest result states that Matt Winer worked eight years at ESPN.",
+   "The latest result states that Matt Winer was a television personality who worked eight years",
+   "The latest result states that Matt Winer was a television personality who worked eight years",
+   "The latest result contributes by stating that Matt Winer was a television personality who worked",
+   "The latest result states that Matt Winer was a television personality who worked eight years",
+   "The latest result contributes by stating that Matt Winer was a television personality who worked",
+   "The latest result states that Matt Winer worked eight years at ESPN."
+  ],
+  "gold_spans": [
+   0,
+   1
+  ],
+  "n_span": 1636,
+  "ans_J": "The television personality who worked for 8 years at ESPN is Matt Winer.",
+  "kv_J_between": 131,
+  "kv_J_ans": 639,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 18
+ },
+ {
+  "stratum": "early",
+  "gold": "D. Napier & Son",
+  "ansA": "D. Napier & Son.",
+  "n_ctx": 1311,
+  "notes": [
+   "The latest result contributes by confirming that D. Napier & Son Limited is best",
+   "The latest result contributes by confirming that D. Napier & Son Limited is best",
+   "The latest result contributes by confirming that D. Napier & Son Limited is best",
+   "The latest result contributes by confirming that D. Napier & Son Limited is best",
+   "The latest result contributes by confirming that D. Napier & Son Limited is best",
+   "The latest result contributes by confirming that D. Napier & Son Limited is best",
+   "The latest result contributes by confirming that D. Napier & Son Limited was best",
+   "The latest result contributes by confirming that D. Napier & Son Limited is best",
+   "The latest result contributes by mentioning D. Napier & Son Limited, which is",
+   "The latest result contributes by confirming that D. Napier & Son Limited is best"
+  ],
+  "gold_spans": [
+   0,
+   1
+  ],
+  "n_span": 1253,
+  "ans_J": "The British engineering company best known for its luxury motor cars during the Edwardian era is Rolls-Royce.",
+  "kv_J_between": 138,
+  "kv_J_ans": 540,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 19
+ },
+ {
+  "stratum": "mid",
+  "gold": "a British children's television series",
+  "ansA": "The adaptations of The Octonauts book series continued with a TV series for the BBC channel CBeebies by Brown Bag",
+  "n_ctx": 1586,
+  "notes": [
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "The latest result contributes by stating that Meomi Design's adaptations of The Octonaut",
+   "The latest result contributes by stating that the adaptations of The Octonauts series continued",
+   "The latest result contributes by stating that Meomi Design Inc. created The Octonaut",
+   "The latest result contributes by stating that the adaptations of The Octonauts book series",
+   "The latest result contributes by stating that the adaptations of The Octonauts book series",
+   "The latest result contributes by stating that the adaptations of the The Octonauts book"
+  ],
+  "gold_spans": [
+   4,
+   5
+  ],
+  "n_span": 1534,
+  "ans_J": "The adaptations of the *The Octonauts* book series continued with TV shows, films, and other media, including",
+  "kv_J_between": 132,
+  "kv_J_ans": 515,
+  "req_J": [
+   0,
+   5,
+   6
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 20
+ },
+ {
+  "stratum": "mid",
+  "gold": "P.O.S",
+  "ansA": "P.O.S",
+  "n_ctx": 1688,
+  "notes": [
+   "Irrelevant.",
+   "Irrelevant.",
+   "The latest result contributes by identifying P.O.S as a member of the Minneapolis hip",
+   "Irrelevant.",
+   "The latest result contributes by identifying P.O.S as a member of the Minneapolis hip",
+   "The latest result contributes by confirming that P.O.S, a member of the Minneapolis",
+   "The latest result contributes by confirming that P.O.S, a member of the Minneapolis",
+   "The latest result contributes by indicating that P.O.S, a member of the Minneapolis",
+   "The latest result contributes by indicating that P.O.S, a member of the Minneapolis",
+   "The latest result contributes by indicating that P.O.S, a member of the Minneapolis"
+  ],
+  "gold_spans": [
+   4,
+   5
+  ],
+  "n_span": 1643,
+  "ans_J": "Hand Over Fist",
+  "kv_J_between": 125,
+  "kv_J_ans": 385,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 21
+ },
+ {
+  "stratum": "mid",
+  "gold": "Chevrolet Corvette Stingrays",
+  "ansA": "The vehicle offered as a prize to contestants on the first season of The Amazing Race Canada was a Chevrolet Corvette Stingray.",
+  "n_ctx": 1149,
+  "notes": [
+   "Irrelevant.",
+   "The latest result contributes by mentioning that the show was renamed in 201",
+   "The latest result states that the vehicle offered as a prize to contestants on the first",
+   "Irrelevant.",
+   "The latest result states that the vehicle offered as a prize to contestants on the first",
+   "The latest result states that the vehicle offered as a prize to contestants on the first",
+   "The latest result states that the vehicle offered as a prize to contestants on the first",
+   "The latest result states that the vehicle offered as a prize to contestants on the first",
+   "The latest result states that the vehicle offered as a prize to contestants on the first",
+   "The latest result states that the first season of The Amazing Race Canada offered a Chevrolet"
+  ],
+  "gold_spans": [
+   4,
+   5
+  ],
+  "n_span": 1090,
+  "ans_J": "The vehicle offered as a prize to contestants on the first season of The Amazing Race Canada was a **Toyota Corolla**",
+  "kv_J_between": 139,
+  "kv_J_ans": 551,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 22
+ },
+ {
+  "stratum": "mid",
+  "gold": "United Kingdom",
+  "ansA": "Ireland.",
+  "n_ctx": 1657,
+  "notes": [
+   "Irving Gerald Sellar developed the second-tallest free-standing structure in the United",
+   "Irving Gerald Sellar developed the second-tallest free-standing structure in the United",
+   "Irving Gerald Sellar developed the second-tallest free-standing structure in the United",
+   "Irving Gerald Sellar developed the second-tallest free-standing structure in China.",
+   "Irving Gerald Sellar developed the second-tallest free-standing structure in the United",
+   "The latest result contributes by stating that Irvine Gerald Sellar developed The Shard, which",
+   "The latest result states that Irvine Gerald Sellar developed The Shard, which is the",
+   "The latest result states that Irvine Gerald Sellar developed The Shard, which is the",
+   "The latest result states that Irvine Gerald Sellar developed The Shard, which is the",
+   "The latest result states that Irvine Gerald Sellar developed The Shard, which is the"
+  ],
+  "gold_spans": [
+   4,
+   5
+  ],
+  "n_span": 1610,
+  "ans_J": "The second-tallest free-standing structure was developed in **China**.",
+  "kv_J_between": 127,
+  "kv_J_ans": 700,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 23
+ },
+ {
+  "stratum": "mid",
+  "gold": "January 16, 2013",
+  "ansA": "June 2, 2012.",
+  "n_ctx": 1384,
+  "notes": [
+   "The latest result contributes by mentioning the first air date of WLYC, which",
+   "The latest result contributes by stating that Villa Dulce was the first CGI animated series",
+   "The latest result contributes to answering the question by stating that the first air date of",
+   "The latest result contributes by stating that the CGI animated series that preceded \"Mixels",
+   "The latest result contributes by stating that the first air date of the CGI animated series",
+   "The latest result contributes by stating that Villa Dulce was the first CGI animated series",
+   "The latest result contributes by stating that Villa Dulce was the first CGI animated series",
+   "The latest result contributes by stating that Villa Dulce was the first CGI animated series",
+   "The latest result contributes by stating that the CGI animated series that preceded \"Mixels",
+   "The latest result contributes by stating that the CGI animated series that preceded \"Mixels"
+  ],
+  "gold_spans": [
+   4,
+   5
+  ],
+  "n_span": 1336,
+  "ans_J": "The first air date for the CGI animated series that preceded \"Mixels\" is not provided in the search results.",
+  "kv_J_between": 128,
+  "kv_J_ans": 568,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 24
+ },
+ {
+  "stratum": "mid",
+  "gold": "26,000",
+  "ansA": "Over 26,000 students.",
+  "n_ctx": 1884,
+  "notes": [
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "The latest result contributes by stating that the University of Zurich has over 26",
+   "The latest result contributes by stating that the University of Zurich has over 26",
+   "The latest result contributes by stating that the University of Zurich has over 26",
+   "The latest result states that the University of Zurich has over 26,0",
+   "The latest result states that the University of Zurich has over 26,0",
+   "The latest result states that the University of Zurich has over 26,0"
+  ],
+  "gold_spans": [
+   4,
+   5
+  ],
+  "n_span": 1838,
+  "ans_J": "The exact number of students is not provided in the search results.",
+  "kv_J_between": 126,
+  "kv_J_ans": 830,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 25
+ },
+ {
+  "stratum": "mid",
+  "gold": "1865",
+  "ansA": "1936",
+  "n_ctx": 1210,
+  "notes": [
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "The latest result contributes by stating that George V was born on 3 June",
+   "The latest result contributes by stating that George V was born in 186",
+   "The 1925 Birthday Honours were appointed by King George V,",
+   "The latest result contributes by stating that George V was born in 186",
+   "The latest result states that George V was born in 1865.",
+   "The latest result states that King George V was born in 1865"
+  ],
+  "gold_spans": [
+   4,
+   5
+  ],
+  "n_span": 1161,
+  "ans_J": "1925",
+  "kv_J_between": 129,
+  "kv_J_ans": 565,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 26
+ },
+ {
+  "stratum": "mid",
+  "gold": "Julie 2",
+  "ansA": "Julie 2",
+  "n_ctx": 1099,
+  "notes": [
+   "The latest result contributes to answering the question by stating that the Hindi thriller directed by",
+   "The latest result contributes by stating that Julie (2004 film) is",
+   "The latest result contributes by confirming that \"Julie\" is a Hindi thriller directed",
+   "The latest result contributes by confirming that \"Julie\" is a Hindi thriller directed",
+   "The latest result contributes by indicating that \"Julie 2\" is a Hindi",
+   "The latest result contributes by indicating that \"Julie 2\" is a Hindi",
+   "The latest result contributes by indicating that \"Julie 2\" is a Hindi",
+   "The latest result contributes by indicating that \"Julie 2\" is a Hindi",
+   "The latest result contributes by indicating that \"Julie 2\" is a Hindi",
+   "The latest result contributes by indicating that \"Julie 2\" is a Hindi"
+  ],
+  "gold_spans": [
+   4,
+   5
+  ],
+  "n_span": 1047,
+  "ans_J": "The Hindi thriller directed by Deepak Shivdasani that features choreography by Phulwa Khamkar is *Mr",
+  "kv_J_between": 132,
+  "kv_J_ans": 516,
+  "req_J": [
+   1,
+   2,
+   3
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 27
+ },
+ {
+  "stratum": "mid",
+  "gold": "Thomas Penson De Quincey",
+  "ansA": "Thomas De Quincey.",
+  "n_ctx": 1280,
+  "notes": [
+   "Irrelevant.",
+   "The latest result contributes by identifying Charles Lamb as the English essayist best known for",
+   "The latest result contributes by identifying Charles Lamb as the English essayist best known for",
+   "The latest result contributes by identifying Charles Lamb as the English essayist best known for",
+   "The latest result contributes by identifying Thomas De Quincey as the English essayist",
+   "The latest result contributes by identifying Thomas De Quincey as the English essayist",
+   "The latest result contributes by identifying Thomas De Quincey as the English essayist",
+   "The latest result contributes by identifying Thomas De Quincey as the English essayist",
+   "The latest result contributes by identifying Thomas De Quincey as the English essayist",
+   "The latest result contributes by identifying Thomas De Quincey as the English essayist"
+  ],
+  "gold_spans": [
+   4,
+   5
+  ],
+  "n_span": 1217,
+  "ans_J": "Judith Moore.",
+  "kv_J_between": 143,
+  "kv_J_ans": 369,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 28
+ },
+ {
+  "stratum": "mid",
+  "gold": "Manchester Orchestra",
+  "ansA": "DC Talk has the most members, with 3 members. Manchester Orchestra has 4 members.",
+  "n_ctx": 1481,
+  "notes": [
+   "The latest result contributes by stating that DC Talk has five members.",
+   "The latest result contributes by indicating that Manchester Orchestra has more members than DC Talk.",
+   "The latest result contributes by stating that Manchester Orchestra has more members than DC Talk.",
+   "The latest result contributes by stating that Manchester Orchestra has more members than DC Talk.",
+   "The latest result contributes by stating that DC Talk has five members.",
+   "The latest result contributes by stating that Manchester Orchestra has 4 members, while DC",
+   "The latest result contributes by stating that Manchester Orchestra has 4 members, while DC",
+   "The latest result contributes by stating that Manchester Orchestra has 4 members, while DC",
+   "The latest result contributes by stating that Manchester Orchestra has 4 members, while DC",
+   "The latest result contributes by stating that Manchester Orchestra has 4 members, while DC"
+  ],
+  "gold_spans": [
+   4,
+   5
+  ],
+  "n_span": 1436,
+  "ans_J": "Manchester Orchestra has more members than DC Talk.",
+  "kv_J_between": 125,
+  "kv_J_ans": 608,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 29
+ },
+ {
+  "stratum": "mid",
+  "gold": "A simple iron boar crest",
+  "ansA": "They are linked because they are both 7th-century Anglo-Saxon helmets discovered in Northamptonshire and England.",
+  "n_ctx": 1430,
+  "notes": [
+   "The latest result contributes by stating that the Pioneer Helmet and the Benty Grange",
+   "Irrelevant.",
+   "The latest result contributes by stating that the Pioneer Helmet and the Benty Grange",
+   "The latest result contributes by stating that the Pioneer Helmet and the Benty Grange",
+   "The latest result contributes by confirming that the Pioneer Helmet is linked to the Benty",
+   "The latest result contributes by confirming that the Pioneer Helmet and the Benty Grange",
+   "The latest result contributes by confirming that the Pioneer Helmet and the Benty Grange",
+   "The latest result contributes by confirming that the Pioneer Helmet and the Benty Grange",
+   "The latest result contributes by confirming that the Pioneer Helmet and the Benty Grange",
+   "The latest result contributes by confirming that the Pioneer Helmet and the Benty Grange"
+  ],
+  "gold_spans": [
+   4,
+   5
+  ],
+  "n_span": 1383,
+  "ans_J": "The Pioneer Helmet and the Benty Grange helmet are linked because of the **same design features** (e.g.,",
+  "kv_J_between": 127,
+  "kv_J_ans": 499,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 30
+ },
+ {
+  "stratum": "mid",
+  "gold": "soccer",
+  "ansA": "Robbie Rogers.",
+  "n_ctx": 1271,
+  "notes": [
+   "Irrelevant.",
+   "The latest result contributes by stating that Bob Brown is the first openly gay member of",
+   "The latest result contributes by mentioning Stephen Lachs as the first openly gay judge appointed",
+   "The latest result contributes by stating that Bob Smith is the first openly gay comedian to",
+   "The latest result contributes by stating that Robbie Rogers, an American comedian and former high",
+   "The latest result states that Robbie Rogers is America's first openly gay, actively playing",
+   "The latest result contributes by identifying Robbie Rogers as America's first openly gay, actively",
+   "The latest result contributes by stating that Robbie Rogers is America's first openly gay,",
+   "The latest result contributes by identifying Robbie Rogers as the first openly gay, actively playing",
+   "The latest result states that Robbie Rogers is America's first openly gay, actively playing"
+  ],
+  "gold_spans": [
+   4,
+   5
+  ],
+  "n_span": 1223,
+  "ans_J": "The sport is basketball.",
+  "kv_J_between": 128,
+  "kv_J_ans": 462,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 31
+ },
+ {
+  "stratum": "mid",
+  "gold": "September 30, 2009",
+  "ansA": "6 November 2011.",
+  "n_ctx": 2291,
+  "notes": [
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "The latest result contributes to answering the question by stating that the TV show \"The",
+   "The latest result contributes by stating that the TV show \"The Middle\" premiered on",
+   "The latest result states that \"The Middle\" premiered on September 30,",
+   "The latest result contributes by stating that \"The Middle\" premiered on September 3",
+   "The latest result states that \"The Middle\" premiered on September 30,",
+   "The latest result states that \"The Middle\" premiered on September 30,"
+  ],
+  "gold_spans": [
+   4,
+   5
+  ],
+  "n_span": 2242,
+  "ans_J": "The show premiered on **September 30, 2015**.",
+  "kv_J_between": 129,
+  "kv_J_ans": 503,
+  "req_J": [
+   0,
+   4,
+   5
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 32
+ },
+ {
+  "stratum": "mid",
+  "gold": "E Street Band",
+  "ansA": "The band is Cream, and Delores Holmes and the inductee (Garry Tallent) sang in it.",
+  "n_ctx": 1739,
+  "notes": [
+   "Irrelevant.",
+   "The latest result contributes by stating that Bill Pinkney, an inductee to",
+   "The latest result contributes by stating that Delores Holmes and the inductee to",
+   "The latest result contributes by stating that Delores Holmes and an inductee to",
+   "The latest result contributes by stating that Delores Holmes sang with the Bruce Springsteen",
+   "The latest result contributes by stating that Delores Holmes sang with the Bruce Springsteen",
+   "The latest result contributes by stating that Delores Holmes sang with the Bruce Springsteen",
+   "The latest result contributes by stating that Delores Holmes sang with the E Street Band",
+   "The latest result states that Delores Holmes sang with the Bruce Springsteen Band,",
+   "The latest result states that Delores Holmes sang with the Bruce Springsteen Band,"
+  ],
+  "gold_spans": [
+   4,
+   5
+  ],
+  "n_span": 1686,
+  "ans_J": "The band is The Rolling Stones.",
+  "kv_J_between": 133,
+  "kv_J_ans": 649,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 33
+ },
+ {
+  "stratum": "mid",
+  "gold": "Sanchez",
+  "ansA": "Piet Norval appeared in the Olympics first.",
+  "n_ctx": 863,
+  "notes": [
+   "The latest result confirms that Piet Norval appeared in the Olympics.",
+   "The latest result contributes by indicating that Piet Norval appeared in the Olympics.",
+   "The latest result contributes by indicating that Piet Norval participated in the 20",
+   "The latest result contributes by indicating that Piet Norval appeared in the Olympics earlier than",
+   "The latest result contributes by indicating that Piet Norval appeared in the Olympics earlier than",
+   "The latest result contributes by indicating that Piet Norval appeared in the Olympics earlier than",
+   "The latest result contributes by indicating that Piet Norval appeared in the Olympics earlier than",
+   "The latest result contributes by indicating that Piet Norval appeared in the Olympics first.",
+   "The latest result contributes by indicating that Piet Norval appeared in the Olympics first.",
+   "The latest result contributes by indicating that Piet Norval appeared in the Olympics first."
+  ],
+  "gold_spans": [
+   4,
+   5
+  ],
+  "n_span": 817,
+  "ans_J": "Piet Norval appeared in the Olympics first.",
+  "kv_J_between": 126,
+  "kv_J_ans": 296,
+  "req_J": [
+   1,
+   2,
+   3
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 34
+ },
+ {
+  "stratum": "mid",
+  "gold": "Birmingham, Alabama",
+  "ansA": "Southern Living.",
+  "n_ctx": 1692,
+  "notes": [
+   "The latest result contributes to answering the question by indicating that the Fort Worth Zoo was",
+   "The latest result contributes to answering the question by indicating that the Fort Worth Zoo was",
+   "Irrelevant.",
+   "Irrelevant.",
+   "The latest result contributes to answering the question by indicating that the Fort Worth Zoo was",
+   "The latest result contributes to answering the question by stating that the Fort Worth Zoo is",
+   "The latest result contributes to answering the question by stating that the Fort Worth Zoo is",
+   "The latest result contributes to answering the question by stating that the Fort Worth Zoo is",
+   "The latest result contributes to answering the question by stating that the Fort Worth Zoo was",
+   "The latest result contributes to answering the question by stating that the Fort Worth Zoo was"
+  ],
+  "gold_spans": [
+   4,
+   5
+  ],
+  "n_span": 1642,
+  "ans_J": "The Fort Worth Zoo was rated as one of the top zoos by a magazine published in **South Carolina**.",
+  "kv_J_between": 130,
+  "kv_J_ans": 448,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 35
+ },
+ {
+  "stratum": "mid",
+  "gold": "Ghostbusters: Answer the Call",
+  "ansA": "Ghostbusters.",
+  "n_ctx": 1053,
+  "notes": [
+   "The latest result contributes by stating that the movie starring Melissa McCarthy is \"Spy,\"",
+   "The latest result contributes by mentioning that Melissa McCarthy stars in \"The Boss\" film",
+   "The latest result contributes by confirming that Melissa McCarthy stars in \"Spy\" (2",
+   "The latest result contributes by confirming that Melissa McCarthy stars in \"Life of the Party",
+   "The latest result contributes by confirming that Melissa McCarthy stars in \"Ghostbusters\" (",
+   "The latest result contributes by confirming that Slimer is a character in the \"Ghost",
+   "The latest result contributes by confirming that Slimer is a character in the \"Ghost",
+   "The latest result contributes by confirming that Slimer is a character in the \"Ghost",
+   "The latest result contributes by confirming that Slimer is a character in the \"Ghost",
+   "The latest result contributes by confirming that Slimer is a character in the \"Ghost"
+  ],
+  "gold_spans": [
+   4,
+   5
+  ],
+  "n_span": 1011,
+  "ans_J": "The movie starring Melissa McCarthy featuring a character named Slimer is *Spy* (2011).",
+  "kv_J_between": 122,
+  "kv_J_ans": 486,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 36
+ },
+ {
+  "stratum": "mid",
+  "gold": "Odawa",
+  "ansA": "Odawa.",
+  "n_ctx": 1493,
+  "notes": [
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "The latest result mentions the Odawa, an Indigenous American ethnic group inhabiting northern",
+   "The latest result states that the Odawa are an Indigenous American ethnic group inhabiting",
+   "The latest result contributes by mentioning the Odawa people, who are an Indigenous American",
+   "The latest result mentions the Odawa people, who inhabit northern United States and southern",
+   "The latest result states that the Odawa are an Indigenous American ethnic group inhabiting",
+   "The latest result contributes by mentioning the Odawa people, who are an Indigenous American"
+  ],
+  "gold_spans": [
+   4,
+   5
+  ],
+  "n_span": 1436,
+  "ans_J": "The answer is: The Odawa.",
+  "kv_J_between": 137,
+  "kv_J_ans": 836,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 37
+ },
+ {
+  "stratum": "mid",
+  "gold": "American Scientist",
+  "ansA": "American Scientist was published first.",
+  "n_ctx": 1445,
+  "notes": [
+   "The latest result contributes by stating that Dwell was published first.",
+   "The latest result contributes by mentioning James Mease as the author of the first known",
+   "The latest result contributes by mentioning James Mease as the American scientist who published the",
+   "The latest result contributes by mentioning James Mease as the American scientist who published the",
+   "The latest result contributes by mentioning that \"Dwell\" was launched in September",
+   "The latest result contributes by stating that \"Dwell\" was published in 2",
+   "The latest result contributes by stating that \"Dwell\" was published in 2",
+   "The latest result contributes by stating that Dwell was published first.",
+   "The latest result contributes by stating that \"Dwell\" was published first.",
+   "The latest result contributes by stating that Dwell was published in 200"
+  ],
+  "gold_spans": [
+   4,
+   5
+  ],
+  "n_span": 1406,
+  "ans_J": "The first publication was **Dwell**.",
+  "kv_J_between": 119,
+  "kv_J_ans": 452,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 38
+ },
+ {
+  "stratum": "mid",
+  "gold": "Wilhelmus Simon Petrus Fortuijn, known as Pim Fortuyn",
+  "ansA": "Pim Fortuyn.",
+  "n_ctx": 1525,
+  "notes": [
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "The latest result contributes by mentioning Jacques Monasch, who formed his own party",
+   "The latest result contributes by identifying Pim Fortuyn as the Dutch politician who",
+   "The latest result contributes by identifying Pim Fortuyn as the Dutch politician,",
+   "The latest result contributes by identifying Pim Fortuyn as the Dutch politician who",
+   "The latest result states that Pim Fortuyn, a Dutch politician, civil",
+   "The latest result states that Pim Fortuyn, a Dutch politician, civil"
+  ],
+  "gold_spans": [
+   4,
+   5
+  ],
+  "n_span": 1454,
+  "ans_J": "Steven van Weyenberg.",
+  "kv_J_between": 151,
+  "kv_J_ans": 575,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 39
+ },
+ {
+  "stratum": "late",
+  "gold": "Emad Hashim",
+  "ansA": "Emad Hashim.",
+  "n_ctx": 1109,
+  "notes": [
+   "The latest result indicates that the United Arab Emirates participated in the 199",
+   "Irrelevant.",
+   "The latest result contributes by indicating that the United Arab Emirates participated in the 1",
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant."
+  ],
+  "gold_spans": [
+   8,
+   9
+  ],
+  "n_span": 1055,
+  "ans_J": "The goalkeeper for Iraq in the 1996 AFC Asian Cup played in the United Arab Emirates was Emad Hash",
+  "kv_J_between": 134,
+  "kv_J_ans": 460,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 40
+ },
+ {
+  "stratum": "late",
+  "gold": "Ned Flanders",
+  "ansA": "Reverend Lovejoy.",
+  "n_ctx": 3049,
+  "notes": [
+   "Irrelevant.",
+   "The latest result contributes to answering the question by indicating that the minister at The First",
+   "The latest result contributes to answering the question by indicating that the minister at The First",
+   "Irrelevant.",
+   "Irrelevant.",
+   "The latest result contributes to answering the question by indicating that the minister at The First",
+   "Irrelevant.",
+   "Irrelevant.",
+   "The latest result contributes by mentioning Reverend Lovejoy, the minister at The First",
+   "The latest result states that Reverend Lovejoy, the minister at The First Church"
+  ],
+  "gold_spans": [
+   8,
+   9
+  ],
+  "n_span": 3003,
+  "ans_J": "The minister at The First Church of Springfield helps make teaching evolution illegal.",
+  "kv_J_between": 126,
+  "kv_J_ans": 525,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 41
+ },
+ {
+  "stratum": "late",
+  "gold": "Mazda",
+  "ansA": "The manufacturer of the car used by the Ford CD2 platform's design inspiration is Mazda.",
+  "n_ctx": 1917,
+  "notes": [
+   "The latest result contributes by stating that the Blakely Bantam was designed",
+   "The latest result contributes by stating that the Ford CD2 platform's design inspiration is",
+   "The latest result contributes by stating that the Ford CD27 platform's design inspiration",
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "The latest result contributes by mentioning the Ford CD2 platform and its design inspiration,",
+   "The latest result contributes by stating that the Ford CD2 platform's design inspiration is",
+   "The latest result contributes by stating that the Ford CD2 platform's design inspiration is"
+  ],
+  "gold_spans": [
+   8,
+   9
+  ],
+  "n_span": 1869,
+  "ans_J": "The manufacturer of the car used by the Ford CD2 platform's design inspiration is Ford.",
+  "kv_J_between": 128,
+  "kv_J_ans": 694,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 42
+ },
+ {
+  "stratum": "late",
+  "gold": "John Gotti",
+  "ansA": "John Gotti.",
+  "n_ctx": 1512,
+  "notes": [
+   "The latest result contributes by stating that Anthony Casso, a hit man brother-in",
+   "The latest result contributes by stating that Anthony Casso, a hit man brother-in",
+   "The latest result contributes by stating that Anthony Casso, a hit man brother-in",
+   "The latest result contributes to answering the question by indicating that Anthony Casso, a",
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "The latest result contributes by identifying Sammy Gravano as the Gambino family boss",
+   "The latest result contributes by stating that Nicholas Scibetta's hit man brother-in"
+  ],
+  "gold_spans": [
+   8,
+   9
+  ],
+  "n_span": 1448,
+  "ans_J": "The Gambino family boss convicted was Anthony Casso.",
+  "kv_J_between": 144,
+  "kv_J_ans": 557,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 43
+ },
+ {
+  "stratum": "late",
+  "gold": "University of Texas at Austin",
+  "ansA": "The team represented the University of Texas at Austin in the 1963 college football season.",
+  "n_ctx": 1550,
+  "notes": [
+   "The team represented Bowling Green State University in the 1963 college football",
+   "The latest result contributes to answering the question by indicating that the team represented Bowling Green",
+   "The latest result contributes to answering the question by indicating that the team represented Bowling Green",
+   "The latest result contributes to answering the question by indicating that the team represented Bowling Green",
+   "The latest result contributes to answering the question by indicating that the team represented Bowling Green",
+   "The latest result contributes to answering the question by indicating that the team represented Bowling Green",
+   "The latest result contributes to answering the question by indicating that the team represented Bowling Green",
+   "The latest result contributes to answering the question by indicating that the team represented Bowling Green",
+   "The latest result contributes to answering the question by indicating that the team represented Bowling Green",
+   "The latest result contributes to answering the question by stating that the team represented the University"
+  ],
+  "gold_spans": [
+   8,
+   9
+  ],
+  "n_span": 1487,
+  "ans_J": "The team represented in the 1963 college football season was the University of Florida.",
+  "kv_J_between": 143,
+  "kv_J_ans": 501,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 44
+ },
+ {
+  "stratum": "late",
+  "gold": "Coll\u00e8ge de France",
+  "ansA": "The individual awarded the 2012 Nobel Prize in Physics with Serge Haroche is a professor at the National",
+  "n_ctx": 2088,
+  "notes": [
+   "Irrelevant.",
+   "Irrelevant.",
+   "The latest result contributes by indicating that the individual awarded the 2012",
+   "The latest result contributes by mentioning that Brian Josephson is a professor emeritus",
+   "The latest result states that the individual awarded the 2012 Nobel Prize",
+   "The latest result states that the individual awarded the 2012 Nobel Prize",
+   "The latest result mentions that Brian Josephson is a professor emeritus at the",
+   "The latest result mentions that Brian Josephson is a professor emeritus at the",
+   "The individual awarded the 2012 Nobel Prize in Physics with David J",
+   "The latest result states that David J. Wineland is a professor at the National"
+  ],
+  "gold_spans": [
+   8,
+   9
+  ],
+  "n_span": 2027,
+  "ans_J": "The individual awarded the 2012 Nobel Prize in Physics, jointly with David J. Wineland, is a",
+  "kv_J_between": 141,
+  "kv_J_ans": 932,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 45
+ },
+ {
+  "stratum": "late",
+  "gold": "The Life of Larry and Larry & Steve",
+  "ansA": "The character of Peter Griffin in \"Family Guy\" is based on the animated short film \"The Life of Larry and Larry",
+  "n_ctx": 1548,
+  "notes": [
+   "The latest result contributes by stating that \"Family Guy\" is based on the animated",
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "The latest result contributes by mentioning that \"Family Guy\" is based on the animated",
+   "The latest result contributes by mentioning that \"Family Guy\" is based on the animated",
+   "The latest result contributes by mentioning that \"Family Guy\" is based on the animated",
+   "The latest result contributes by mentioning that \"Family Guy\" is based on the animated"
+  ],
+  "gold_spans": [
+   8,
+   9
+  ],
+  "n_span": 1500,
+  "ans_J": "The character of Peter Griffin in *Family Guy* is based on the film *The Last Airbender* and the",
+  "kv_J_between": 128,
+  "kv_J_ans": 591,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 46
+ },
+ {
+  "stratum": "late",
+  "gold": "Manasseh Cutler Hall",
+  "ansA": "Manasseh Cutler Hall.",
+  "n_ctx": 1848,
+  "notes": [
+   "The latest result contributes by indicating that Jesse Hall, located on the Ohio University campus",
+   "The latest result contributes by mentioning that the College of Arts and Sciences of Ohio University",
+   "The latest result contributes by mentioning that the College of Arts and Sciences of Ohio University",
+   "Irrelevant.",
+   "The latest result contributes by mentioning that the compass shows direction relative to the geographic cardinal",
+   "The latest result contributes by mentioning that the Compass section explains that north corresponds to",
+   "The latest result contributes by mentioning that the College of Arts and Sciences of Ohio University",
+   "Irrelevant.",
+   "The latest result states that Manasseh Cutler Hall faces true north.",
+   "The latest result states that Manasseh Cutler Hall faces true north on the"
+  ],
+  "gold_spans": [
+   8,
+   9
+  ],
+  "n_span": 1783,
+  "ans_J": "The building facing true north on the College of Arts and Sciences' central quadrangle is Jesse Hall.",
+  "kv_J_between": 145,
+  "kv_J_ans": 890,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 47
+ },
+ {
+  "stratum": "late",
+  "gold": "Charles Kelley",
+  "ansA": "The American country music group Old Dominion played guitar with Candy Coburn.",
+  "n_ctx": 1663,
+  "notes": [
+   "Irrelevant.",
+   "Irrelevant.",
+   "The latest result contributes by stating that Highspeed Hayride shared the stage with George",
+   "The latest result contributes by stating that Highspeed Hayride has shared the stage with",
+   "The latest result contributes by stating that Highspeed Hayride shared the stage with Old",
+   "The latest result contributes by stating that Highspeed Hayride has shared the stage with",
+   "The latest result contributes by stating that Highspeed Hayride shared the stage with George",
+   "The latest result contributes by stating that Highspeed Hayride shared the stage with George",
+   "The latest result contributes by stating that Highspeed Hayride shared the stage with George",
+   "The latest result contributes by stating that Highspeed Hayride shared the stage with Old"
+  ],
+  "gold_spans": [
+   8,
+   9
+  ],
+  "n_span": 1615,
+  "ans_J": "Candy Coburn has shared the stage with the American country music group **Sugarland** playing guitar.",
+  "kv_J_between": 128,
+  "kv_J_ans": 732,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 48
+ },
+ {
+  "stratum": "late",
+  "gold": "47,818",
+  "ansA": "The 2010 census population of the county where Wildcat Brook flows through Jackson (Carroll County, New",
+  "n_ctx": 1799,
+  "notes": [
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "Irrelevant.",
+   "The 2010 census population of the county where Wildcat Brook flows",
+   "The 2010 census population of the county where Wildcat Brook flows",
+   "The 2010 census population of the county where Wildcat Brook flows",
+   "The 2010 census population of the county where Wildcat Brook flows",
+   "The 2010 census population of the county where Wildcat Brook flows"
+  ],
+  "gold_spans": [
+   8,
+   9
+  ],
+  "n_span": 1748,
+  "ans_J": "The 2010 census population of the county where Wildcat Brook flows through Jackson is not provided in the search",
+  "kv_J_between": 131,
+  "kv_J_ans": 664,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 49
+ },
+ {
+  "stratum": "late",
+  "gold": "Sunday",
+  "ansA": "The eleventh season's finale of American Dad aired on Wednesday, September 21, 2014.",
+  "n_ctx": 1554,
+  "notes": [
+   "The latest result contributes by stating that the eleventh season's finale of American Dad",
+   "The latest result contributes by stating that the eleventh season's finale of American Dad",
+   "The latest result contributes by stating that the eleventh season's finale of American Dad",
+   "The latest result contributes by stating that the eleventh season's finale of American Dad",
+   "The latest result contributes by stating that the eleventh season's finale of American Dad",
+   "The latest result contributes by stating that the eleventh season's finale of American Dad",
+   "The latest result contributes by stating that the eleventh season's finale of American Dad",
+   "The latest result states that the eleventh season's finale of American Dad aired on",
+   "The latest result contributes by stating that the eleventh season's finale of American Dad",
+   "The latest result states that the eleventh season's finale of American Dad aired on"
+  ],
+  "gold_spans": [
+   8,
+   9
+  ],
+  "n_span": 1506,
+  "ans_J": "The eleventh season's finale of American Dad aired on a Saturday.",
+  "kv_J_between": 128,
+  "kv_J_ans": 533,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 50
+ },
+ {
+  "stratum": "late",
+  "gold": "Oplismenus",
+  "ansA": "Oplismenus has more species (over 100) than Lavatera (about 25).",
+  "n_ctx": 2069,
+  "notes": [
+   "The latest result contributes by mentioning that there are 130 named species in",
+   "The latest result contributes by indicating that Lavatera has more species than Opl",
+   "The latest result contributes by indicating that species of Lavatera are more numerous than",
+   "The latest result states that Lavatera has more species than Oplismenus",
+   "The latest result contributes by indicating that Lavatera has more species than Opl",
+   "The latest result contributes by mentioning that species of \"Lavatera\" are",
+   "The latest result contributes by mentioning that \"Naultinus\" has eight described species",
+   "The latest result contributes by mentioning that \"Lavatera\" has a number",
+   "The latest result states that Oplismenus has over 100 described",
+   "The latest result states that Oplismenus has over 100 described"
+  ],
+  "gold_spans": [
+   8,
+   9
+  ],
+  "n_span": 2021,
+  "ans_J": "The genus with more species is **Lavatera**.",
+  "kv_J_between": 128,
+  "kv_J_ans": 925,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 51
+ },
+ {
+  "stratum": "late",
+  "gold": "Echeveria",
+  "ansA": "Alopecurus.",
+  "n_ctx": 1068,
+  "notes": [
+   "The latest result contributes by stating that Alopecurus is native to arid or",
+   "The latest result contributes by indicating that Alopecurus is native to arid or",
+   "The latest result contributes by stating that Alopecurus is native to arid or",
+   "The latest result contributes by stating that Echeveria setosa is native to",
+   "The latest result contributes by stating that Echeveria setosa is native to",
+   "The latest result contributes by stating that Echeveria setosa is native to",
+   "The latest result contributes by stating that Echeveria setosa is native to",
+   "The latest result contributes by stating that Echeveria setosa is native to",
+   "The latest result contributes by confirming that Echeveria is native to semi-des",
+   "The latest result contributes by stating that Echeveria is native to semi-des"
+  ],
+  "gold_spans": [
+   8,
+   9
+  ],
+  "n_span": 1016,
+  "ans_J": "Alopecurus is native to arid or semi-desert areas.",
+  "kv_J_between": 132,
+  "kv_J_ans": 577,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 52
+ },
+ {
+  "stratum": "late",
+  "gold": "Australian",
+  "ansA": "Australia.",
+  "n_ctx": 2297,
+  "notes": [
+   "Irrelevant.",
+   "The latest result contributes to answering the question by stating that Chris Hemsworth is born",
+   "The latest result contributes by stating that Chris Hemsworth is born in Australia.",
+   "The latest result contributes by stating that Chris Hemsworth, born in Australia, is",
+   "The latest result contributes to answering the question by stating that Chris Hemsworth, an",
+   "The latest result contributes by stating that Chris Hemsworth is born in Australia.",
+   "The latest result contributes by stating that Chris Hemsworth is born in Canada.",
+   "The latest result states that Chris Hemsworth, born in Australia, is an actor",
+   "The latest result states that Chris Hemsworth, born in Australia, is an actor",
+   "The latest result states that Chris Hemsworth is an Australian actor born in Australia."
+  ],
+  "gold_spans": [
+   8,
+   9
+  ],
+  "n_span": 2241,
+  "ans_J": "Chris Hemsworth is born in Australia.",
+  "kv_J_between": 136,
+  "kv_J_ans": 1089,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 53
+ },
+ {
+  "stratum": "late",
+  "gold": "Nobel Prize in Literature",
+  "ansA": "Nobel Prize in Literature.",
+  "n_ctx": 1442,
+  "notes": [
+   "The latest result contributes by stating that Ivo Andri\u0107 was awarded the Nobel",
+   "The latest result contributes by mentioning Ivo Andri\u0107 and his novel \"The",
+   "The latest result contributes by mentioning Ivo Andri\u0107 as a poet-dipl",
+   "The latest result contributes by stating that Ivo Andri\u0107 was awarded the Nobel",
+   "The latest result contributes by stating that Ivo Andri\u0107 was awarded the Nobel",
+   "The latest result contributes by stating that Ivo Andri\u0107 was awarded the Nobel",
+   "The latest result contributes by mentioning Ivo Andri\u0107 as a Nobel Prize winner",
+   "The latest result contributes by mentioning that Ivo Andri\u0107 was a recipient of",
+   "The latest result contributes by stating that Ivo Andri\u0107 was awarded the Nobel",
+   "The latest result contributes by stating that Ivo Andri\u0107 was awarded the Nobel"
+  ],
+  "gold_spans": [
+   8,
+   9
+  ],
+  "n_span": 1394,
+  "ans_J": "The award in Literature for Jos\u00e9 Saramago and Ivo Andri\u0107 is the Nobel Prize in Literature.",
+  "kv_J_between": 128,
+  "kv_J_ans": 564,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 54
+ },
+ {
+  "stratum": "late",
+  "gold": "Chattanooga Metropolitan Airport",
+  "ansA": "Pago Pago International Airport is closer to the central business district of Pago Pago, American Samoa. Chattanooga Metropolitan Airport",
+  "n_ctx": 1131,
+  "notes": [
+   "The latest result contributes by stating that Pago Pago International Airport is located several",
+   "The latest result contributes by stating that Pago Pago International Airport is located several",
+   "The latest result contributes by stating that Pago Pago International Airport is located on",
+   "The latest result contributes by stating that Pago Pago International Airport is located on",
+   "The latest result contributes by stating that Pago Pago International Airport is located on",
+   "The latest result contributes by stating that Pago Pago International Airport is located on",
+   "The latest result contributes by stating that Pago Pago International Airport is located on",
+   "The latest result contributes by stating that Pago Pago International Airport is located on",
+   "The latest result states that Pago Pago International Airport is located 7 miles",
+   "The latest result states that Pago Pago International Airport is located 7 miles"
+  ],
+  "gold_spans": [
+   8,
+   9
+  ],
+  "n_span": 1077,
+  "ans_J": "Pago Pago International Airport is closer to the central business district of its local community.",
+  "kv_J_between": 134,
+  "kv_J_ans": 450,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 55
+ },
+ {
+  "stratum": "late",
+  "gold": "Beauty and the Beast",
+  "ansA": "Beauty and the Beast is the 30th Disney animated feature film and the 9th longest-running musical in Broadway",
+  "n_ctx": 1671,
+  "notes": [
+   "The latest result contributes by mentioning \"Chicago\" as the 30th Disney",
+   "The latest result contributes by stating that \"Peter Pan\" is the 14",
+   "The latest result contributes by stating that \"Peter Pan\" is the 14",
+   "The latest result contributes by stating that \"Peter Pan\" is the 30",
+   "The latest result contributes by stating that \"Fun and Fancy Free\" is the",
+   "The latest result contributes by stating that \"Peter Pan\" is the 14",
+   "The latest result contributes by stating that \"Peter Pan\" is the 30",
+   "The latest result contributes by stating that \"Peter Pan\" is the 30",
+   "The latest result states that \"Beauty and the Beast\" is the 30",
+   "The latest result states that \"Beauty and the Beast\" is the 9th"
+  ],
+  "gold_spans": [
+   8,
+   9
+  ],
+  "n_span": 1620,
+  "ans_J": "The 9th longest-running musical in Broadway history that was the 30th Disney animated feature film is *Peter",
+  "kv_J_between": 131,
+  "kv_J_ans": 716,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 56
+ },
+ {
+  "stratum": "late",
+  "gold": "Sacramento Kings",
+  "ansA": "Sacramento Kings.",
+  "n_ctx": 1211,
+  "notes": [
+   "The latest result contributes to answering the question by stating that Matt Howard was the MVP",
+   "The latest result contributes by indicating that the MVP of the 2015",
+   "The latest result contributes to answering the question by indicating that the MVP of the",
+   "The latest result contributes to answering the question by indicating that the MVP of the",
+   "The latest result contributes to answering the question by indicating that the MVP of the",
+   "The latest result indicates that the MVP of the 2014 Diamond Head",
+   "The latest result contributes to answering the question by indicating that the MVP of the",
+   "The latest result contributes to answering the question by indicating that the 201",
+   "The latest result indicates that the 2015 Diamond Head Classic's MVP",
+   "The latest result indicates that Buddy Hield, the 2015 Diamond"
+  ],
+  "gold_spans": [
+   8,
+   9
+  ],
+  "n_span": 1162,
+  "ans_J": "The player named 2015 Diamond Head Classic's MVP plays for the University of California, Santa Barbara.",
+  "kv_J_between": 129,
+  "kv_J_ans": 514,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 57
+ },
+ {
+  "stratum": "late",
+  "gold": "Keisuke Kuwata",
+  "ansA": "Moya Brennan is younger than Keisuke Kuwata.",
+  "n_ctx": 1258,
+  "notes": [
+   "The latest result contributes by stating that Moya Brennan is mentioned as the current proprietor",
+   "The latest result contributes by stating that Bartley Brennan, the current proprietor of Leo",
+   "The latest result contributes by stating that Bartley Brennan, the current proprietor of Leo",
+   "The latest result contributes by mentioning Keisuke Kuwata, but it does",
+   "The latest result contributes by mentioning Keisuke Kuwata, but it does",
+   "The latest result contributes by mentioning Keisuke Kuwata as the epon",
+   "The latest result contributes by mentioning Keisuke Kuwata as the epon",
+   "Irrelevant.",
+   "The latest result contributes by mentioning Keisuke Kuwata's birth date,",
+   "The latest result states that Keisuke Kuwata was born in 1"
+  ],
+  "gold_spans": [
+   8,
+   9
+  ],
+  "n_span": 1213,
+  "ans_J": "The answer is: Keisuke Kuwata is younger than Moya Brennan.",
+  "kv_J_between": 125,
+  "kv_J_ans": 521,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 58
+ },
+ {
+  "stratum": "late",
+  "gold": "Strange Synergy",
+  "ansA": "Strange Synergy.",
+  "n_ctx": 954,
+  "notes": [
+   "The latest result contributes to answering the question by stating that Qwirkle is",
+   "The latest result contributes by confirming that Qwirkle is a card game published",
+   "The latest result contributes to answering the question by confirming that Qwirkle is",
+   "The latest result contributes by confirming that \"Car Wars: The Card Game\" is",
+   "The latest result contributes by confirming that Qwirkle is a card game published",
+   "The latest result contributes by confirming that Qwirkle is a card game published",
+   "The latest result contributes by confirming that \"Strange Synergy\" is a card game",
+   "The latest result contributes by confirming that Qwirkle is a card game published",
+   "The latest result contributes to answering the question by confirming that Qwirkle is",
+   "The latest result contributes by confirming that \"Strange Synergy\" is a card game"
+  ],
+  "gold_spans": [
+   8,
+   9
+  ],
+  "n_span": 901,
+  "ans_J": "Qwirkle is a card game published by Steve Jackson Games.",
+  "kv_J_between": 133,
+  "kv_J_ans": 428,
+  "req_J": [
+   0,
+   1,
+   2
+  ],
+  "ans_F@0.1": "SKIP",
+  "kv_F@0.1": 0,
+  "ans_F@0.25": "SKIP",
+  "kv_F@0.25": 0,
+  "_ep": 59
+ }
+]

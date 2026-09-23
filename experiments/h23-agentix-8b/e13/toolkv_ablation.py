@@ -14,6 +14,7 @@ ap.add_argument('--data',default='hotpot',choices=['hotpot','local'])
 ap.add_argument('--arms',default='')
 ap.add_argument('--cache',default='/workspace/AgentSys/experiments/h23-agentix-8b/e13/pass1_cache')
 ap.add_argument('--no-cache',action='store_true')
+ap.add_argument('--judge',default='note',choices=['note','strict'])
 a=ap.parse_args()
 RHOS=[float(x) for x in a.rhos.split(',')]
 M='/data3/docker_model/AgentSys/Qwen3-1.7B'
@@ -25,6 +26,8 @@ SYS="<|im_start|>system\nYou answer questions using the provided search results.
 ANS_SUF="\nGive the final short answer to the question now, nothing else.<|im_end|>\n<|im_start|>assistant\n"+NOTHINK
 LIST_SUF="\nBased on the numbered results, which ones do you need to re-read in full to answer the question? Reply with at most 3 numbers, comma-separated, nothing else.<|im_end|>\n<|im_start|>assistant\n"+NOTHINK
 NOTE_SUF="\nState what the latest result contributes to answering the question, in one short sentence; if nothing, say irrelevant.<|im_end|>\n<|im_start|>assistant\n"+NOTHINK
+if a.judge=='strict':
+    NOTE_SUF="\nDoes the latest result contain information required to answer the question? Reply exactly YES or NO.<|im_end|>\n<|im_start|>assistant\n"+NOTHINK
 def ids(s): return tok(s, return_tensors='pt', add_special_tokens=False).input_ids.to('cuda')
 def build_local(nps):
     import json as _j
@@ -153,7 +156,7 @@ def keep_sets(spans, cons, glob, rho, rng, notes=None):
     if notes is not None:
         ki=[head]
         for k,(st,en,_) in enumerate(spans):
-            rel='irrelevant' not in notes[k].lower()
+            rel=('NO' not in notes[k].upper()) if a.judge=='strict' else ('irrelevant' not in notes[k].lower())
             ki.append(np.arange(st,en) if rel else np.arange(st,min(st+4,en)))
         out['I']=np.sort(np.concatenate(ki))
     return out

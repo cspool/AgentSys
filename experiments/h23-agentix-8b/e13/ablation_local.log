@@ -1,0 +1,9 @@
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.35it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  2.67it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  2.33it/s]
+Traceback (most recent call last):
+  File "/workspace/AgentSys/experiments/h23-agentix-8b/e13/toolkv_ablation.py", line 74, in <module>
+    samples.append(dict(q=ex['question'], ans=ex['answer'], stratum=st,
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/AgentSys/experiments/h23-agentix-8b/e13/toolkv_ablation.py", line 49, in build_local
+    gold=(f"Internal briefing: the project codenamed {code} was directed by {name} and launched in "
+                    ^^^^^^^^^^
+IndexError: list index out of range
