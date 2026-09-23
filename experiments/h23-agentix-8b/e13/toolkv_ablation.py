@@ -12,6 +12,8 @@ ap.add_argument('--smoke',type=int,default=0)
 ap.add_argument('--out',default='/workspace/AgentSys/experiments/h23-agentix-8b/e13/ablation_results.json')
 ap.add_argument('--data',default='hotpot',choices=['hotpot','local'])
 ap.add_argument('--arms',default='')
+ap.add_argument('--cache',default='/workspace/AgentSys/experiments/h23-agentix-8b/e13/pass1_cache')
+ap.add_argument('--no-cache',action='store_true')
 a=ap.parse_args()
 RHOS=[float(x) for x in a.rhos.split(',')]
 M='/data3/docker_model/AgentSys/Qwen3-1.7B'
@@ -70,6 +72,16 @@ for ex in data:
     if all(sum(1 for s_ in samples if s_['stratum']==st)>=a.n_per_stratum for st in strata): break
 if a.data=='local': samples=build_local(a.n_per_stratum)
 if a.smoke: samples=samples[:a.smoke]
+import os,hashlib
+os.makedirs(a.cache,exist_ok=True)
+def ckey(ep): return os.path.join(a.cache, f"{a.data}_{ep}_{hashlib.md5((M+NOTE_SUF).encode()).hexdigest()[:8]}.npz")
+# 增量输出: 已有结果跳过
+done={}
+if os.path.exists(a.out+'.jsonl'):
+    for ln in open(a.out+'.jsonl'):
+        try: r=json.loads(ln); done[r['_ep']]=r
+        except Exception: pass
+print(f"resume: {len(done)} episodes already done", flush=True)
 print(f"episodes: {len(samples)}", flush=True)
 
 @torch.inference_mode()
@@ -146,29 +158,51 @@ def keep_sets(spans, cons, glob, rho, rng, notes=None):
     return out
 
 results=[]; t0=time.time()
+outf=open(a.out+'.jsonl','a')
 for ep,s in enumerate(samples):
-    # ---- 遍1: 全KV + 评分 ----
+    if ep in done:
+        results.append(done[ep]); continue
+    # ---- 遍1: 全KV + 评分(可缓存) ----
+    ck=ckey(ep)
+    cached=None
+    if (not a.no_cache) and os.path.exists(ck):
+        z=np.load(ck, allow_pickle=True)
+        cached=dict(z); 
     cache=DynamicCache()
     head=SYS+f"<|im_start|>user\nQuestion: {s['q']}\nSearch results (arriving incrementally):\n"
-    hid=ids(head); fwd(cache,hid,0); pos=hid.shape[1]
+    hid=ids(head)
     spans=[]; cons={}; span_ids=[]; notes=[]
     globacc=None; pfacc=None
-    for k,(t,x,g) in enumerate(s['paras']):
-        tid=ids(f"[{k+1}] {t}: {x}\n"); span_ids.append(tid)
-        st_=pos; o=fwd(cache,tid,pos,attn=True); pos+=tid.shape[1]; spans.append((st_,pos,g))
-        L0=cache.get_seq_length()
-        psc=np.zeros(L0)
-        for at in o.attentions: psc[:L0]+=at[0,:,:,:L0].mean(dim=0).mean(dim=0).float().cpu().numpy()
-        if pfacc is None: pfacc=np.zeros(0)
-        pfacc=np.pad(pfacc,(0,L0-pfacc.shape[0])); pfacc+=psc
+    if cached is not None:
+        meta=json.loads(str(cached['meta']))
+        spans=[tuple(x) for x in meta['spans']]; notes=meta['notes']; ansA=meta['ansA']; pos=meta['pos']
+        cons={k:cached[f'cons{k}'] for k in range(len(spans))}
+        globacc=cached['glob']; pfacc=cached['pf']
+        span_ids=[ids(f"[{k+1}] {t}: {x}\n") for k,(t,x,g) in enumerate(s['paras'])]
+        del cache
+    else:
+        fwd(cache,hid,0); pos=hid.shape[1]
+    if cached is None:
+        for k,(t,x,g) in enumerate(s['paras']):
+            tid=ids(f"[{k+1}] {t}: {x}\n"); span_ids.append(tid)
+            st_=pos; o=fwd(cache,tid,pos,attn=True); pos+=tid.shape[1]; spans.append((st_,pos,g))
+            L0=cache.get_seq_length()
+            psc=np.zeros(L0)
+            for at in o.attentions: psc[:L0]+=at[0,:,:,:L0].mean(dim=0).mean(dim=0).float().cpu().numpy()
+            if pfacc is None: pfacc=np.zeros(0)
+            pfacc=np.pad(pfacc,(0,L0-pfacc.shape[0])); pfacc+=psc
+            L=cache.get_seq_length()
+            ntxt,sc=gen(cache, NOTE_SUF, pos, 16, attn=True, K_ctx=L)
+            cache.crop(L); cons[k]=sc[st_:pos]; notes.append(ntxt)
+            if globacc is None: globacc=np.zeros(0)
+            globacc=np.pad(globacc,(0,L-globacc.shape[0])); globacc[:L]+=sc
         L=cache.get_seq_length()
-        ntxt,sc=gen(cache, NOTE_SUF, pos, 16, attn=True, K_ctx=L)
-        cache.crop(L); cons[k]=sc[st_:pos]; notes.append(ntxt)
-        if globacc is None: globacc=np.zeros(0)
-        globacc=np.pad(globacc,(0,L-globacc.shape[0])); globacc[:L]+=sc
-    L=cache.get_seq_length()
-    ansA,_=gen(cache, ANS_SUF, pos, 24)
-    del cache; torch.cuda.empty_cache()
+        ansA,_=gen(cache, ANS_SUF, pos, 24)
+        del cache; torch.cuda.empty_cache()
+        if not a.no_cache:
+            np.savez(ck, glob=globacc, pf=pfacc,
+                     meta=json.dumps(dict(spans=[list(x) for x in spans], notes=notes, ansA=ansA, pos=int(pos))),
+                     **{f'cons{k}':v for k,v in cons.items()})
     rec=dict(stratum=s['stratum'], gold=s['ans'], ansA=ansA, n_ctx=int(pos), notes=notes,
              gold_spans=[k for k,(_,_,g) in enumerate(spans) if g],
              n_span=sum(en-st for st,en,_ in spans))
@@ -216,7 +250,9 @@ for ep,s in enumerate(samples):
         ansF,_=gen(c, ANS_SUF, p, 24)
         rec[f'ans_F@{rho}']=ansF; rec[f'kv_F@{rho}']=kv_between
         del c; torch.cuda.empty_cache()
+    rec['_ep']=ep
     results.append(rec)
+    outf.write(json.dumps(rec)+'\n'); outf.flush()
     if (ep+1)%5==0: print(f"  {ep+1}/{len(samples)} ({time.time()-t0:.0f}s)", flush=True)
 json.dump(results, open(a.out,'w'), indent=1)
 # 汇总
