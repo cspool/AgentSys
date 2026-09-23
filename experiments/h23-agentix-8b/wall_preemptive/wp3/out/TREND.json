@@ -1,0 +1,28 @@
+{
+ "TC 轴": {
+  "n": 282,
+  "t0": 76.6,
+  "t1": 132.8,
+  "first": 3040.0,
+  "last": 3680.0,
+  "median": 3520.0,
+  "slope_per_s": 9.77,
+  "rel_slope_pct_per_s": 0.28,
+  "total_change_pct": 21.05,
+  "G_p": 0.129,
+  "solo": 27286.6
+ },
+ "DRAM 轴": {
+  "n": 150,
+  "t0": 82.0,
+  "t1": 156.5,
+  "first": 3168.0,
+  "last": 3200.0,
+  "median": 3072.0,
+  "slope_per_s": 4.8,
+  "rel_slope_pct_per_s": 0.157,
+  "total_change_pct": 1.01,
+  "G_p": 0.4706,
+  "solo": 6527.4
+ }
+}

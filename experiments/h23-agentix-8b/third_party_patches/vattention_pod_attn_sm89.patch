@@ -1,0 +1,325 @@
+diff --git a/pod_attn/pod_attn/fused_fwd_kernel.h b/pod_attn/pod_attn/fused_fwd_kernel.h
+index 6316fcc..7ffe944 100644
+--- a/pod_attn/pod_attn/fused_fwd_kernel.h
++++ b/pod_attn/pod_attn/fused_fwd_kernel.h
+@@ -1498,6 +1498,25 @@ inline __device__ void compute_fused_tb_attn(const Params &prefill_params, const
+     // Fetch from shared memory the assigned blockId and operation.
+     linear_block_id = ((int*)smem_)[0];
+     op = ((int*)smem_)[1];
++#if defined(POD_TBLOG)
++    // h23 调试: 记录每个 CTA 的 (smid, op, t_start, t_end), 用于测量 P/D 的**瞬时**共驻组成。
++    // 日志区挂在 tbAssign 尾部: [numSMs+2]=计数器, 其后每 4 个 int 一条。
++    // 提前 return 的空转 CTA 自然留 t_end=0, 分析时排除。
++    if(threadIdx.x == 0) {
++        int nsm_dbg; asm volatile("mov.u32 %0, %%nsmid;" : "=r"(nsm_dbg));
++        int smid_dbg; asm volatile("mov.u32 %0, %%smid;" : "=r"(smid_dbg));
++        unsigned long long tnow; asm volatile("mov.u64 %0, %%globaltimer;" : "=l"(tnow) :: "memory");
++        int slot = atomicAdd(&tbAssign[nsm_dbg + 2], 1);
++        if(slot < POD_TBLOG) {
++            int *e = &tbAssign[nsm_dbg + 3 + 4*slot];
++            e[0] = smid_dbg; e[1] = op;
++            e[2] = (int)(tnow & 0x7FFFFFFFull); e[3] = 0;
++        }
++        ((int*)smem_)[2] = slot;
++    }
++    __syncthreads();
++    const int pod_log_slot = ((int*)smem_)[2];
++#endif
+     // Sync to force all threads to wait
+     __syncthreads();
+ 
+@@ -1587,6 +1606,16 @@ inline __device__ void compute_fused_tb_attn(const Params &prefill_params, const
+             }
+         }*/
+     }
++#if defined(POD_TBLOG)
++    // 必须等全 CTA 的 epilogue(写 O / softmax_lse) 完成, 否则 thread 0 提前读表会系统性低估时长,
++    // 且 P 与 D 的 epilogue 长度不同 => 低估幅度不对称, 直接污染时间加权 P:D。
++    __syncthreads();
++    if(threadIdx.x == 0 && pod_log_slot >= 0 && pod_log_slot < POD_TBLOG) {
++        int nsm_dbg; asm volatile("mov.u32 %0, %%nsmid;" : "=r"(nsm_dbg));
++        unsigned long long tend; asm volatile("mov.u64 %0, %%globaltimer;" : "=l"(tend) :: "memory");
++        tbAssign[nsm_dbg + 3 + 4*pod_log_slot + 3] = (int)(tend & 0x7FFFFFFFull);
++    }
++#endif
+ }
+ 
+ ////////////////////////////////////////////////////////////////////////////////////////////////////
+diff --git a/pod_attn/pod_attn/fused_fwd_launch_template.h b/pod_attn/pod_attn/fused_fwd_launch_template.h
+index fc48cac..fc72553 100644
+--- a/pod_attn/pod_attn/fused_fwd_launch_template.h
++++ b/pod_attn/pod_attn/fused_fwd_launch_template.h
+@@ -3,6 +3,9 @@
+  ******************************************************************************/
+ 
+ #pragma once
++#include <vector>
++#include <cstdio>
++#include <cstdlib>
+ 
+ #include <ATen/cuda/CUDAContext.h>
+ 
+@@ -10,6 +13,29 @@
+ #include "flash.h"
+ #include "fused_fwd_kernel.h"
+ #define HFUSE
++// --- h23 patch (2026-09-22) Ada/sm_89 适配 ---
++// 事实: smem_size = max(P::kSmemSize*blk_factor_p, D::kSmemSize*blk_factor_d)  (本文件 :435)
++//      blk_factor_x = max(nthr_p,nthr_d)/nthr_x                                (本文件 :412-416)
++// 原配置 P(128,64,4)=64KB / D(64,128,4)=80KB -> smem 80KB/CTA -> Ada 100KB 只放得下 1 个 CTA
++//      => prefill 与 decode 无法共驻同一 SM, POD 的核心机制失效(A100 164KB 可放 2 个)
++// 原则(用户指定): **保持 PD 比例, 只降每 SM 可容纳的 PD 上限**
++//   - kBlockM 与 warp 数(=4, 128 线程)全部锁死 —— 比例由 kBlockM 与 kNThreads 决定
++//     (fused_fwd_kernel.h:1426-1427 -> :1450-1453 -> :1456-1471), 与 smem/占用无关
++//   - 只砍 kBlockN, 使所有 live 配置 blk_factor=1、48KB/CTA、2 CTA/SM、8 warp/SM(与 A100 同)
++//   - 绝不把 Warps_d 降到 1: split 路径 oaccum 的 GmemTiledCopyOaccum 线程布局在
++//     kernel_traits.h:139-149 对 headdim=128 硬编码 128 线程, 32 线程会静默写漏行
++// --- end h23 header ---
++#if defined(POD_ADA_SMEM)
++  #define POD_ADA_BM64 64
++  #define POD_ADA_BN64 64      // E3/E6: (64,128,4) 80KB -> (64,64,4) 48KB
++  #define POD_ADA_4CTA 1      // E6: 4CTA 档压到 24KB/CTA (Ada 100KB/SM)
++  #define POD_ADA_W2   4       // E4: (64,32,2) 64线程 -> (64,32,4) 128线程, blk_factor_p 2->1
++#else
++  #define POD_ADA_BM64 64
++  #define POD_ADA_BN64 128
++  #define POD_ADA_4CTA 0
++  #define POD_ADA_W2   2
++#endif
+ #ifdef HFUSE
+ // HFuse headers
+ #include "hfuse_regular.cuh"
+@@ -406,8 +432,15 @@ void run_true_fused_fwd(Flash_fwd_params &prefill_params, Flash_fwd_params &deco
+                                     // Can we preallocate this somewhere? Seems kinda clunky doing it here.
+                                     auto numSMs = at::cuda::getCurrentDeviceProperties()->multiProcessorCount;
+                                     int *tbAssign = nullptr;
++#if defined(POD_TBLOG)
++                                    // h23 调试: 尾部挂 CTA 角色日志 (见 fused_fwd_kernel.h)
++                                    const size_t pod_log_ints = (size_t)(numSMs + 3 + 4 * POD_TBLOG);
++                                    cudaMalloc(&tbAssign, sizeof(int) * pod_log_ints);
++                                    cudaMemset(tbAssign, 0, sizeof(int) * pod_log_ints);
++#else
+                                     cudaMalloc(&tbAssign, sizeof(int) * (numSMs + 2));
+                                     cudaMemset(tbAssign, 0, sizeof(int) * (numSMs + 2));
++#endif
+                                     
+                                     static constexpr int num_threads = Kernel_traits_prefill::kNThreads > Kernel_traits_decode::kNThreads ? 
+                                        Kernel_traits_prefill::kNThreads : Kernel_traits_decode::kNThreads;
+@@ -446,6 +479,23 @@ void run_true_fused_fwd(Flash_fwd_params &prefill_params, Flash_fwd_params &deco
+                                         kernel<<<grid, num_threads, smem_size, stream>>>(prefill_params, decode_params, tbAssign);
+                                     }
+                                     C10_CUDA_KERNEL_LAUNCH_CHECK();
++#if defined(POD_TBLOG)
++                                    {   // h23 调试: 导出 CTA 角色日志, 供宿主侧分析瞬时 P/D 组成
++                                        cudaStreamSynchronize(stream);
++                                        std::vector<int> hb(pod_log_ints);
++                                        cudaMemcpy(hb.data(), tbAssign, sizeof(int)*pod_log_ints, cudaMemcpyDeviceToHost);
++                                        int n = hb[numSMs + 2];
++                                        const char *fn = getenv("POD_TBLOG_FILE");
++                                        if (n > 0 && fn) {
++                                            FILE *f = fopen(fn, "wb");
++                                            if (f) { int m2 = n < POD_TBLOG ? n : POD_TBLOG;
++                                                     fwrite(&m2, 4, 1, f);
++                                                     fwrite(hb.data()+numSMs+3, 4, 4*(size_t)m2, f);
++                                                     fclose(f); }
++                                        }
++                                        cudaFree(tbAssign);   // 原版无 free, 插桩下每次泄漏 4MB
++                                    }
++#endif
+                                 //});
+                                     });
+                                     });
+@@ -542,14 +592,35 @@ void run_true_fused_mha_fwd_hdim128(Flash_fwd_params &params_prefill, Flash_fwd_
+                     // --------------------------> HFUSED CODE <--------------------------
+                     const bool prefill_split = params_prefill.num_splits > 1;
+                     if(!prefill_split) {
++#if defined(POD_ADA_SMEM)
++  #if defined(POD_HF_MIN)
++                        // E5-min: 对论文改动最小 —— prefill 完全保持原版 P(128,64,4)=64KB,
++                        // 只把 decode 的 kBlockN 128->32 (D=32KB), 合计 96KB <= Ada 99KB。
++                        // (decode 的 smem 由 kBlockN 主导, 降 kBlockM 无法压到 35KB 以内, 故必须降 kBlockN)
++                        using traits_p = Flash_fwd_kernel_traits<Headdim, 128, 64, 4, false, false, T>;
++                        using traits_d = Flash_fwd_kernel_traits<Headdim, 64, 32, 4, false, false, T>;
++  #elif defined(POD_HF_ALT)
++                        // E5-alt: 保留原始 kBlockM_p=128(维持 P 每-CTA 工作量), 只砍 kBlockN.
++                        // P(128,32,4)=48KB + D(64,32,4)=32KB = 80KB <= Ada 99KB, 线程 128+128=256.
++                        using traits_p = Flash_fwd_kernel_traits<Headdim, 128, 32, 4, false, false, T>;
++                        using traits_d = Flash_fwd_kernel_traits<Headdim, 64, 32, 4, false, false, T>;
++  #else
++                        // E5: HFuse 把两 kernel 合进同一 block(smem 相加, 线程相加).
++                        // 必须保持 128+128=256 线程 —— hfuse_regular.cuh:1086 是 __launch_bounds__(256) 且含 bar.sync 2,128.
++                        // P(64,64,4)+D(64,64,4) = 48+48 = 96KB <= Ada 99KB 上限.
++                        using traits_p = Flash_fwd_kernel_traits<Headdim, 64, 64, 4, false, false, T>;
++                        using traits_d = Flash_fwd_kernel_traits<Headdim, POD_ADA_BM64, POD_ADA_BN64, 4, false, false, T>;
++  #endif
++#else
+                         using traits_p = Flash_fwd_kernel_traits<Headdim, 128, 64, 4, false, false, T>;
+-                        using traits_d = Flash_fwd_kernel_traits<Headdim, 64, 128, 4, false, false, T>;
++                        using traits_d = Flash_fwd_kernel_traits<Headdim, POD_ADA_BM64, POD_ADA_BN64, 4, false, false, T>;
++#endif
+                         run_hfused_fwd<traits_p, traits_d, Is_dropout, Is_causal, fusedOp, DecodeSplit>(params_prefill, params_decode, stream);
+                     } else {
+                         // Just for clarity.
+                         constexpr int PrefillSplit = true;
+-                        using traits_p = Flash_fwd_kernel_traits<Headdim, 64, 128, 4, false, false, T>;
+-                        using traits_d = Flash_fwd_kernel_traits<Headdim, 64, 128, 4, false, false, T>;
++                        using traits_p = Flash_fwd_kernel_traits<Headdim, POD_ADA_BM64, POD_ADA_BN64, 4, false, false, T>;
++                        using traits_d = Flash_fwd_kernel_traits<Headdim, POD_ADA_BM64, POD_ADA_BN64, 4, false, false, T>;
+                         run_hfused_fwd<traits_p, traits_p, Is_dropout, Is_causal, fusedOp, DecodeSplit, PrefillSplit>(params_prefill, params_decode, stream);
+                     }
+                     return;
+@@ -559,47 +630,79 @@ void run_true_fused_mha_fwd_hdim128(Flash_fwd_params &params_prefill, Flash_fwd_
+                     // Split kernel requires tile lengths (64, 128). Non-split we can play around with.
+                     const bool prefill_split = params_prefill.num_splits > 1;
+                     // (64, 128) -> for split decodes; (16, 32) -> for non-split decodes
++#if defined(POD_ADA_SMEM)
++                    // E1: 统一 128 线程 -> blk_factor_d==1; split 路径必须 4 warps(oaccum 硬编码 128 线程)
++                    // E6(h23): 论文语义 fused_params 9=2CTA/SM, 11=4CTA/SM。
++                    //   A100 靠 smem=max(32KB, 20KB*2)=40KB 达成 4CTA (164/40=4)。
++                    //   Ada 只有 100KB/SM, 4CTA 需 <=25KB => (64,16,4)=24KB。
++                    //   机制不变(仍是 SM-aware CTA 调度 + 每SM CTA 数目标), 只调容量参数。
++                    // 4CTA 档(fusedOp&2)沿用 A100 结构: prefill 2 warps(64线程) + decode 1 warp(32线程),
++                    // blk_factor_d=2。Ada 只有 100KB/SM(A100 164KB), 故 kBlockN 再减半到 16:
++                    //   P(64,16,2)=24KB, D(16,16,1)=12KB -> smem=max(24, 12*2)=24KB -> 100/24 = 4 CTA/SM。
++                    // decode 被 split 时必须 4 warps(oaccum 硬编码 128 线程)且 smem 里要放 float O 累加器
++                    // (kBlockM*headdim*4=32KB, 与 kBlockN 无关), 4CTA 目标在 split 下无法达成 —— A100 亦然。
++                    constexpr bool FourCTA = (fusedOp & 2) && POD_ADA_4CTA && !DecodeSplit;
++                    constexpr int QDim_d  = FourCTA ? 16 : 64;
++                    constexpr int KVDim_d = FourCTA ? 16 : (DecodeSplit ? 64 : 32);
++                    constexpr int Warps_d = FourCTA ? 1 : 4;
++#else
+                     constexpr int QDim_d = DecodeSplit ? 64 : 16;
+                     constexpr int KVDim_d = DecodeSplit ? 128 : 32;
+                     constexpr int Warps_d = DecodeSplit ? 4 : 1;
++#endif
+                     // Restrict decode tile size to 16 x HeadDim, for minimal compute utilization
+                     using traits_d = Flash_fwd_kernel_traits<Headdim, QDim_d, KVDim_d, Warps_d, false, false, T>;
+                     if(!prefill_split) {
+                         if constexpr(fusedOp & 2) {
+-                            using traits_p = Flash_fwd_kernel_traits<Headdim, 64, 32, 2, false, false, T>;
++                            // E6: 4CTA 档 prefill 用 (64,16,2) = 24KB / 64线程 (A100 是 (64,32,2)=32KB)
++                            constexpr int KVDim_p4 = FourCTA ? 16 : 32;
++                            constexpr int Warps_p4 = FourCTA ? 2 : POD_ADA_W2;
++                            using traits_p = Flash_fwd_kernel_traits<Headdim, 64, KVDim_p4, Warps_p4, false, false, T>;
+                             run_true_fused_fwd<traits_p, traits_d, Is_dropout, Is_causal, fusedOp, DecodeSplit>(params_prefill, params_decode, stream);
+                         } else if constexpr(fusedOp & 4) {
+                             using traits_p = Flash_fwd_kernel_traits<Headdim, 16, 32, 1, false, false, T>;
+                             run_true_fused_fwd<traits_p, traits_d, Is_dropout, Is_causal, fusedOp, DecodeSplit>(params_prefill, params_decode, stream);
+                         } else {
++#if defined(POD_ADA_SMEM)
++                            using traits_p = Flash_fwd_kernel_traits<Headdim, 128, 32, 4, false, false, T>;   // E2
++#else
+                             using traits_p = Flash_fwd_kernel_traits<Headdim, 128, 64, 4, false, false, T>;
++#endif
+                             run_true_fused_fwd<traits_p, traits_d, Is_dropout, Is_causal, fusedOp, DecodeSplit>(params_prefill, params_decode, stream);
+                         }
+                     } else {
+                         // Just for clarity.
+                         constexpr int PrefillSplit = true;
+-                        using traits_p = Flash_fwd_kernel_traits<Headdim, 64, 128, 4, false, false, T>;
++                        using traits_p = Flash_fwd_kernel_traits<Headdim, POD_ADA_BM64, POD_ADA_BN64, 4, false, false, T>;
+                         run_true_fused_fwd<traits_p, traits_d, Is_dropout, Is_causal, fusedOp, DecodeSplit, PrefillSplit>(params_prefill, params_decode, stream);
+                     }
+                 } else {
+                     if constexpr(fusedOp & 2) {
+-                        using traits_p = Flash_fwd_kernel_traits<Headdim, 64, 32, 2, false, false, T>;
++                        using traits_p = Flash_fwd_kernel_traits<Headdim, 64, 32, POD_ADA_W2, false, false, T>;
++#if defined(POD_ADA_SMEM)
++                        using traits_d = Flash_fwd_kernel_traits<Headdim, 32, 64, 4, false, false, T>;   // E4b
++#else
+                         using traits_d = Flash_fwd_kernel_traits<Headdim, 32, 64, 2, false, false, T>;
++#endif
+                         run_true_fused_fwd<traits_p, traits_d, Is_dropout, Is_causal, fusedOp, DecodeSplit>(params_prefill, params_decode, stream);
+                     } else if constexpr(fusedOp & 4) {
+                         using traits_p = Flash_fwd_kernel_traits<Headdim, 16, 32, 1, false, false, T>;
+                         using traits_d = Flash_fwd_kernel_traits<Headdim, 16, 32, 1, false, false, T>;
+                         run_true_fused_fwd<traits_p, traits_d, Is_dropout, Is_causal, fusedOp, DecodeSplit>(params_prefill, params_decode, stream);
+                     } else {
++#if defined(POD_ADA_SMEM)
++                        using traits_p = Flash_fwd_kernel_traits<Headdim, 128, 32, 4, false, false, T>;   // E2b
++#else
+                         using traits_p = Flash_fwd_kernel_traits<Headdim, 128, 64, 4, false, false, T>;
+-                        using traits_d = Flash_fwd_kernel_traits<Headdim, 64, 128, 4, false, false, T>;
++#endif
++                        using traits_d = Flash_fwd_kernel_traits<Headdim, POD_ADA_BM64, POD_ADA_BN64, 4, false, false, T>;
+                         run_true_fused_fwd<traits_p, traits_d, Is_dropout, Is_causal, fusedOp, DecodeSplit>(params_prefill, params_decode, stream);
+                     }
+                 }
+             //}
+             // run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 64, 4, true, false, T>, Is_dropout, Is_causal>(params, stream);
+             // run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 64, 4, true, true, T>, Is_dropout, Is_causal>(params, stream);
+-            // run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 64, 128, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
++            // run_flash_fwd<Flash_fwd_kernel_traits<Headdim, POD_ADA_BM64, POD_ADA_BN64, 4, false, false, T>, Is_dropout, Is_causal>(params, stream);
+             // Using 8 warps (128 x 128 and 256 x 64) is 28% slower for seqlen=2k
+             // run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 128, 8, false, false, T>, Is_dropout, Is_causal>(params, stream);
+             // run_flash_fwd<Flash_fwd_kernel_traits<Headdim, 128, 64, 8, false, false, T>, Is_dropout, Is_causal>(params, stream);
+diff --git a/pod_attn/setup.py b/pod_attn/setup.py
+index 2783da4..ebfc658 100644
+--- a/pod_attn/setup.py
++++ b/pod_attn/setup.py
+@@ -114,9 +114,38 @@ if not SKIP_CUDA_BUILD:
+             )
+     # cc_flag.append("-gencode")
+     # cc_flag.append("arch=compute_75,code=sm_75")
+-    cc_flag.append("-gencode")
+-    cc_flag.append("arch=compute_80,code=sm_80")
+-    if CUDA_HOME is not None:
++    # h23: POD_ONLY_ADA=1 时只生成 sm_89 —— 我们只在 4090 上跑, sm_80/sm_90 的
++    # SASS 是纯浪费, 而 HFuse 合并 kernel 的 ptxas 很慢, 一个 arch 省掉 3/4 的后端时间。
++    if os.environ.get("POD_ONLY_ADA", "0") != "1":
++        cc_flag.append("-gencode")
++        cc_flag.append("arch=compute_80,code=sm_80")
++    # --- h23 patch (2026-09-22): Ada/sm_89 支持 ---
++    # 原版只生成 sm_80/sm_90 的 SASS 且不嵌 PTX(code=sm_XX 而非 code=compute_XX),
++    # 因此在 RTX 4090(sm_89) 上会 "no kernel image is available"。
++    # 源码层面所有架构分支都是 __CUDA_ARCH__ >= 800, 不排斥 Ada。
++    # 用 POD_CUDA_ARCH 环境变量控制, 默认加 sm_89 + compute_80 PTX 兜底。
++    # h23: Ada smem 上限 99KB(<A100 163KB), HFuse 分支需要缩 tile
++    if os.environ.get("POD_ADA_SMEM", "1") == "1":
++        cc_flag.append("-DPOD_ADA_SMEM")
++    # HFuse(fo64) 的 Ada 变体: 保留 kBlockM_p=128, 只砍 kBlockN (P 48KB + D 32KB = 80KB)
++    if os.environ.get("POD_HF_ALT", "0") == "1":
++        cc_flag.append("-DPOD_HF_ALT")
++    # HFuse(fo64) 最小改动变体: prefill 保持原版, 只降 decode 的 kBlockN (P 64KB + D 32KB = 96KB)
++    if os.environ.get("POD_HF_MIN", "0") == "1":
++        cc_flag.append("-DPOD_HF_MIN")
++    # h23 调试: CTA 角色日志容量(条数). 设为 0/不设则完全不插桩
++    _tblog = os.environ.get("POD_TBLOG", "0")
++    if _tblog and _tblog != "0":
++        cc_flag.append(f"-DPOD_TBLOG={int(_tblog)}")
++    _extra_arch = os.environ.get("POD_CUDA_ARCH", "89")
++    for _a in [x.strip() for x in _extra_arch.split(",") if x.strip()]:
++        cc_flag.append("-gencode")
++        cc_flag.append(f"arch=compute_{_a},code=sm_{_a}")
++    if os.environ.get("POD_EMBED_PTX", "1") == "1" and os.environ.get("POD_ONLY_ADA","0") != "1":
++        cc_flag.append("-gencode")
++        cc_flag.append("arch=compute_80,code=compute_80")   # PTX 兜底
++    # --- end h23 patch ---
++    if CUDA_HOME is not None and os.environ.get("POD_ONLY_ADA", "0") != "1":
+         if bare_metal_version >= Version("11.8"):
+             cc_flag.append("-gencode")
+             cc_flag.append("arch=compute_90,code=sm_90")
+@@ -129,7 +158,11 @@ if not SKIP_CUDA_BUILD:
+     ext_modules.append(
+         CUDAExtension(
+             name="fused_attn",
+-            sources=[
++            extra_objects=(
++                ["/tmp/pod_o0/truefused_fwd_hdim128_fp16_fo64_sm80.o",
++                 "/tmp/pod_o0/truefused_fwd_hdim128_fp16_split_fo64_sm80.o"]
++                if os.environ.get("POD_PREBUILT_O0", "0") == "1" else []),
++            sources=[x for x in [
+                 "pod_attn/fused_api.cpp",
+                 #"pod_attn/truefused_fwd_hdim128_fp16_sm80.cu",
+                 #"pod_attn/truefused_fwd_hdim128_fp16_split_sm80.cu",
+@@ -155,7 +188,9 @@ if not SKIP_CUDA_BUILD:
+                 "pod_attn/truefused_fwd_hdim128_fp16_causal_split_fo11_sm80.cu",
+                 "pod_attn/truefused_fwd_hdim128_fp16_causal_fo64_sm80.cu",
+                 "pod_attn/truefused_fwd_hdim128_fp16_causal_split_fo64_sm80.cu",
+-            ],
++            ] if not (os.environ.get("POD_PREBUILT_O0","0")=="1"
++                      and x.endswith(("truefused_fwd_hdim128_fp16_fo64_sm80.cu",
++                                      "truefused_fwd_hdim128_fp16_split_fo64_sm80.cu")))],
+             extra_compile_args={
+                 "cxx": ["-O3", "-std=c++17"] + generator_flag,
+                 "nvcc": append_nvcc_threads(

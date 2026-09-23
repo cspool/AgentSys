@@ -1,0 +1,79 @@
+{
+  "setup": {
+    "victim": "TC墙 fp16 GEMM 6144^3 <-> DRAM墙 SDPA decode B=64 KV=16k",
+    "co": "tc (fp16 GEMM 2048x2048x4096) x22",
+    "orthogonal_phase": "dram",
+    "k": 300,
+    "period_s": 0.1
+  },
+  "arms": {
+    "valve": {
+      "hit_wall": 190,
+      "k": 300,
+      "rho": 0.655,
+      "victim_tp_per_s": 262.64,
+      "burst_busy_ms": 84.7,
+      "burst_e2e_ms": 98.4,
+      "phases": {
+        "dram": {
+          "clean_ms": 4.576,
+          "hit_ms": 4.706,
+          "delta_ms": 0.13,
+          "delta_pct": 2.84
+        },
+        "tc": {
+          "clean_ms": 2.828,
+          "hit_ms": 2.969,
+          "delta_ms": 0.14,
+          "delta_pct": 4.96
+        }
+      }
+    },
+    "random_defer": {
+      "hit_wall": 191,
+      "k": 300,
+      "rho": 0.655,
+      "victim_tp_per_s": 262.39,
+      "burst_busy_ms": 84.75,
+      "burst_e2e_ms": 99.6,
+      "phases": {
+        "dram": {
+          "clean_ms": 4.578,
+          "hit_ms": 4.704,
+          "delta_ms": 0.126,
+          "delta_pct": 2.75
+        },
+        "tc": {
+          "clean_ms": 2.835,
+          "hit_ms": 2.97,
+          "delta_ms": 0.134,
+          "delta_pct": 4.73
+        }
+      }
+    },
+    "wall_aware": {
+      "hit_wall": 300,
+      "k": 300,
+      "rho": 0.654,
+      "victim_tp_per_s": 262.53,
+      "burst_busy_ms": 84.72,
+      "burst_e2e_ms": 99.5,
+      "phases": {
+        "dram": {
+          "clean_ms": 4.574,
+          "hit_ms": 4.706,
+          "delta_ms": 0.132,
+          "delta_pct": 2.89
+        },
+        "tc": {
+          "clean_ms": 2.83,
+          "hit_ms": 2.971,
+          "delta_ms": 0.14,
+          "delta_pct": 4.96
+        }
+      }
+    }
+  },
+  "finding": "落墙率 63%->100% 而吞吐与逐事件扰动完全不变. 两相位的**绝对**扰动几乎相同(dram +0.130ms / tc +0.140ms), 相对值虽差1.8倍(2.8% vs 5.0%)但因 tc 相位基线更短而拉平; 吞吐只认绝对毫秒, 故择时无收益.",
+  "contrast": "合成 Triton 负载上墙态 0.02ms vs 饱和态 3.85ms, 差 >100 倍. 差异根源: 合成深访存墙 SM 仅 16%, 留下大量空闲 SM 吸收共跑者; 真实 DRAM 墙(SDPA decode) TC 仍 37%/L2 38% 且铺满所有 SM, 无空位可让."
+}

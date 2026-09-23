@@ -1,0 +1,644 @@
+{
+  "purpose": "在单张 RTX 4090 上为 wall_preemptive 寻找 MPS 之外的 SM 空间共享基底, 并实测其可行性与代价",
+  "date": "2026-09-22",
+  "hardware": {
+    "gpu": "NVIDIA GeForce RTX 4090",
+    "cc": "8.9",
+    "sm": 128,
+    "driver": "595.91.07",
+    "cuda": "12.8",
+    "torch": "2.11.0+cu128",
+    "mig": false
+  },
+  "key_distinction": {
+    "claim": "'MPS 太老' 这句话必须拆成两层, 否则会选错基底",
+    "layer_1_cross_process_concurrency": {
+      "question": "两个进程如何同时在一张卡上执行",
+      "answer": "单卡上只有 MPS 或 MIG。没有它们, 两个 CUDA context 只能时间片轮转。4090 无 MIG。",
+      "implication": "green context 与 libsmctrl 都是 context 内分区, 都不能替代 MPS 的这一层"
+    },
+    "layer_2_sm_carving": {
+      "question": "如何把 SM 切开",
+      "mps_defect": "CUDA_MPS_ACTIVE_THREAD_PERCENTAGE 只是执行资源配额, 不绑定具体 SM, 分区可重叠 (ECRTS'25 nvtaskset 证实)",
+      "alternatives": [
+        "CUDA Green Context (12.4+, 官方文档化)",
+        "libsmctrl TPC mask (未文档化, 需源码)"
+      ]
+    },
+    "resolution": "取消跨进程结构 —— 把 victim 与 preemptor 放进同一进程的两个 green context。这更贴近真实 LLM serving: vLLM 是单进程, 抢占本就发生在同一 context 内。"
+  },
+  "measured": {
+    "V1_partition": {
+      "tool": "gc_probe.cu",
+      "result": "128 SM 按 minCount=16 切出 8 组; A=96 SM, B=32 SM, 合计 128"
+    },
+    "V2_sm_binding": {
+      "result": "PASS",
+      "detail": "A 实占 96 个物理 SM, B 实占 32 个, %smid 交集 0 —— MPS 的百分比做不到"
+    },
+    "V3_true_concurrency": {
+      "result": "PASS",
+      "detail": "%globaltimer 区间重叠 19.97/20.00 ms = 99.9%, 非时间片轮转; 单进程内无需 MPS"
+    },
+    "V4_repartition_cost": {
+      "create_green_ctx_us": 2670.91,
+      "generate_desc_us": 3.24,
+      "destroy_us": 12.53,
+      "prebuilt_pool_switch_us": 4.26,
+      "note": "Bullet 报的 4.1us 是预建池的切换代价, 不是创建代价。正确用法: 启动时一次性建池 (7 个分区 18.2ms), 之后每次抢占只付 4.26us (cuCtxSetCurrent 0.063us + 异步 launch 4.198us)"
+    },
+    "C3_granularity": {
+      "ada_8_9_measured": "最小 2 SM/组 (64 组), 步长 2; cuda.h 文档说 8.X 最小 4 —— 实测更细",
+      "exactness": "minCount=4/8/16 时实测占用的物理 SM 数与 provisioned 完全一致",
+      "ignore_sm_coscheduling_flag": "在 Ada 上与 flags=0 结果相同"
+    }
+  },
+  "static_partition_cost": {
+    "setup": "victim 96 SM / preemptor 32 SM, 与 MPS 严格长跑 (S12) 同负载",
+    "victim_wall_phase_ms": {
+      "mps_128sm": 160.9,
+      "green_96sm": 162.3,
+      "delta_pct": 0.9
+    },
+    "victim_saturated_phase_ms": {
+      "mps_128sm": 166.3,
+      "green_96sm": 199.2,
+      "delta_pct": 19.8
+    },
+    "reading": "受害者在访存墙相位几乎不在乎失去 32 个 SM (它是 DRAM-bound), 在饱和相位则实打实损失 20%。墙论断在基底层面直接复现。",
+    "preemptor_burst_ms": {
+      "mps_shared_sm": 27.2,
+      "green_32sm": 63.2
+    },
+    "tradeoff": "green context 给出精确隔离, 代价是抢占者只能用分到的 SM, 延迟按比例上升; MPS/CILP 下抢占者可机会性占用全部 SM。这正是既有的 Pareto 轴(受害者扰动 vs 抢占者 e2e)。"
+  },
+  "candidates_surveyed": {
+    "green_context": {
+      "source": "CUDA 12.4+ 官方 API; PyTorch 2.11 torch.cuda.green_contexts",
+      "status": "本机可用, 已验证",
+      "scope": "进程内",
+      "needs_download": false
+    },
+    "libsmctrl_nvtaskset": {
+      "source": "Bakita & Anderson, RTAS'23 + ECRTS'25 (UNC)",
+      "status": "支持 cc 3.5-8.9 含 Ada; 需源码, 受不下载约束",
+      "note": "TPC 级掩码, 亚微秒; 但与 CUDA Graph 不兼容 (Bullet 报告)"
+    },
+    "lithos": {
+      "source": "SOSP'25 (CMU)",
+      "note": "TPC 粒度调度 + TPC stealing + kernel atomization 做抢占, 尾延迟比 MPS 低 13x; 可作 2025 baseline"
+    },
+    "bullet": {
+      "source": "SOSP'25 / arXiv 2504.19516",
+      "note": "LLM serving prefill/decode 共置, SM 掩码重配 4.1us"
+    },
+    "mpk_megakernel": {
+      "source": "OSDI'26 Mirage Persistent Kernel",
+      "note": "整模型融成 persistent megakernel, worker/scheduler SM 物理分区, 抢占退化为 task 队列的软件决策 -> 硬件切换税 c->0"
+    },
+    "tally": {
+      "source": "ASPLOS'25",
+      "note": "GPU 没有中断特定 kernel 的接口, 于是把 BE kernel 改造出软抢占接口"
+    },
+    "scg": {
+      "source": "NV 专利 SIMULTANEOUS COMPUTE AND GRAPHICS (本地笔记)",
+      "note": "MPC(scheduler+arbiter) 驻留每个 DPC 旁, arbiter 监控 SM 资源使用率找 hole 再向 CWD 申请 CTA —— 这是'资源墙抢占'的硬件版本, 但无用户态接口"
+    }
+  },
+  "three_arm_comparison": [
+    {
+      "protocol": "负载/burst工作量/泊松到达序列(同种子)/K=300/period=1.5s/pattern w,s 与 MPS 严格长跑 S12 逐字相同, 唯一变量是空间共享基底",
+      "arms": {
+        "MPS_shared_sm_2proc": {
+          "valve": {
+            "n": 299,
+            "wall_hits": 141,
+            "d_wall_ms": 0.02,
+            "d_sat_ms": 3.85,
+            "per_event_ms": 2.59,
+            "se_ms": 0.27,
+            "busy_ms": 27,
+            "e2e_ms": 29
+          },
+          "random_defer": {
+            "n": 300,
+            "wall_hits": 147,
+            "d_wall_ms": 0.03,
+            "d_sat_ms": 3.76,
+            "per_event_ms": 2.01,
+            "se_ms": 0.14,
+            "busy_ms": 24,
+            "e2e_ms": 26
+          },
+          "wall_aware": {
+            "n": 300,
+            "wall_hits": 297,
+            "d_wall_ms": 0.0,
+            "d_sat_ms": 1.87,
+            "per_event_ms": 0.1,
+            "se_ms": 0.05,
+            "busy_ms": 16,
+            "e2e_ms": 18
+          },
+          "advantage_vs_valve": 26.29,
+          "advantage_vs_random_defer": 20.4
+        },
+        "GreenCtx_disjoint_sm_1proc_96_32": {
+          "valve": {
+            "n": 300,
+            "wall_hits": 140,
+            "d_wall_ms": 0.09,
+            "d_sat_ms": 5.26,
+            "per_event_ms": 3.82,
+            "se_ms": 0.47,
+            "busy_ms": 63,
+            "e2e_ms": 63
+          },
+          "random_defer": {
+            "n": 299,
+            "wall_hits": 130,
+            "d_wall_ms": 0.14,
+            "d_sat_ms": 5.79,
+            "per_event_ms": 5.17,
+            "se_ms": 0.65,
+            "busy_ms": 63,
+            "e2e_ms": 63
+          },
+          "wall_aware": {
+            "n": 298,
+            "wall_hits": 294,
+            "d_wall_ms": 0.04,
+            "d_sat_ms": 3.86,
+            "per_event_ms": 0.2,
+            "se_ms": 0.04,
+            "busy_ms": 63,
+            "e2e_ms": 63
+          },
+          "advantage_vs_valve": 18.99,
+          "advantage_vs_random_defer": 25.75
+        },
+        "none_2streams_1proc": {
+          "valve": {
+            "n": 40,
+            "wall_hits": 21,
+            "d_wall_ms": 0.56,
+            "d_sat_ms": 3.75,
+            "per_event_ms": 2.58,
+            "se_ms": 0.64,
+            "busy_ms": 21.3,
+            "e2e_ms": 22
+          },
+          "note": "只跑了 valve 一臂作基底对照, K=40"
+        }
+      },
+      "findings": [
+        "MPS 不是并发的必要条件, 只是跨进程并发的必要条件: 单进程两条流在两个轴上都不输 MPS —— 扰动 2.58 vs 2.59 ms 持平, 抢占者 e2e 22 vs 29 ms 快 24%。",
+        "墙感知的收益在三种基底下都成立, 且都不是'推迟'本身带来的: 两种基底下 random_defer 花掉同样的推迟预算却拿不到收益 (MPS 20.40x, GreenCtx 25.75x)。",
+        "静态 green 分区在本负载下是错误配置: 抢占占空比只有 4% (63ms/1.5s), 却让受害者全程失去 32 个 SM。它在两个轴上都被 none 支配 (扰动 3.82 vs 2.58 ms, e2e 63 vs 22 ms)。正确用法是按需分区 —— 预建池后切换只要 4.26us。",
+        "墙论断在分区代价上独立复现: 让出 32 个 SM, 访存墙相位只贵 0.7% (162.0 vs 160.9 ms), 饱和相位贵 20% (199.8 vs 166.3 ms)。"
+      ]
+    }
+  ],
+  "residual_coupling_mechanism": {
+    "question": "green context 下两侧用不相交的物理 SM, 为什么在饱和相位注入 burst 仍有扰动?",
+    "refuted": {
+      "L2_or_DRAM": "burst kernel 工作集 786KB (L2 72MB 内), 一次 load + 一次 store, 63ms 内内存流量约 25MB/s —— 相对 900GB/s 可忽略"
+    },
+    "supported": {
+      "hypothesis": "功耗墙 -> 时钟降频",
+      "evidence": {
+        "board_power_limit_w": 450,
+        "saturated_phase_power_w": "435 -> 437 (已达上限的 97%)",
+        "saturated_phase_sm_clock_mhz": "2682 -> 2608 (-74 MHz, -2.8%)",
+        "wall_phase_power_w": "348 -> 351 (有余量)",
+        "wall_phase_sm_clock_mhz": "2694 -> 2700 (+6 MHz, 无变化)",
+        "paired_iteration_delta": {
+          "wall_ms": -2.45,
+          "wall_se": 0.25,
+          "saturated_ms": 2.63,
+          "saturated_note": "饱和臂配对方差大(SE 5.75ms), 取中位数; 墙臂干净"
+        }
+      },
+      "reading": "饱和相位 GPU 已贴在 450W 板级功耗上限, 抢占者加进来无法再取电, 于是时钟掉 74MHz; 算力受限的受害者把降频直接换成时间。访存墙相位受害者是 DRAM-bound 且功耗有余量, 降频不降频都不影响它。",
+      "significance": "这与 MPS 下的机制不同(那里是 SM 争用/CILP 切换税), 但指向同一条结论: 该在墙态抢占。换言之墙感知的收益不依赖某一种基底。"
+    },
+    "caveat": "clock_probe 采用持续注入, 全程贴功耗墙, 绝对迭代时间比 G12 长(饱和 266ms vs 200ms); 有效比较是同相位交替注入的配对差, 不是跨探针的绝对值。"
+  },
+  "layering": {
+    "note": "green context / MPS / TSG 分属不同硬件层, 不是替代关系。术语对齐 human_notes: GPU channel for nested、TSG、QM; meeting-26 03 24; GPU并发机制TS、MPS、MIG、vGPU",
+    "layers": [
+      {
+        "层": "前端 runlist / TSG",
+        "单位": "TSG (= 同一 context 的一组 channel)",
+        "在这层被分开的是": "进程 / CUDA context",
+        "跨进程能否并发": "不能 —— 抢占式轮转, 每个 TSG 一个时间片",
+        "旋钮": "MPS(把多进程 stream 打进一个 server ctx 即一个 TSG) / MIG(物理切 SysPipe -> SME)",
+        "原文依据": "Bakita&Anderson: 'all a TSG's channels must be from the same context'; 'While a TSG is active, commands from all its contained channels are pulled and executed... Each TSG has an associated time-slice'"
+      },
+      {
+        "层": "channel / work queue (HyperQ)",
+        "单位": "物理 channel (Kepler 起 32 个硬件队列)",
+        "在这层被分开的是": "同一 context 内的 stream",
+        "旋钮": "stream 优先级 / CUDA_DEVICE_MAX_CONNECTIONS",
+        "实测": "driver 595.91.07 + Ada 上该环境变量不再限制并发: 16 条 stream 各 4 block 自旋 30ms, MAX_CONNECTIONS=1..32 最大并发恒为 16, 总墙钟 30.1ms(串行应 480ms)"
+      },
+      {
+        "层": "CTA 派发 (CWD/WDU -> GPC)",
+        "单位": "TPC (Ada = 2 SM)",
+        "在这层被分开的是": "同一 context 内 kernel 的 CTA 落点",
+        "旋钮": "green context / libsmctrl TPC mask",
+        "实测": "4090 128 SM, minCount=1 或 2 均切出 64 组 x 2 SM = 恰好 64 个 TPC -> green context 的真实粒度是 TPC, 与 libsmctrl 同层"
+      },
+      {
+        "层": "SM 内",
+        "单位": "warp / CTA slot",
+        "在这层被分开的是": "同一 SM 上的 warp",
+        "旋钮": "无用户态接口 (硬件 CILP 指令级抢占)"
+      }
+    ],
+    "green_context_is_not": [
+      "不是 SM 内划分 —— 它切整颗 SM, 实测最小组 2 SM = 1 个 Ada TPC",
+      "不是跨进程划分 —— 它是同一 CUDA context 内的分区; 不同进程是不同 context 即不同 TSG, 在第 1 层就被轮转隔开了"
+    ],
+    "nvidia_caveat_quote": "cuda.h green context 段: 'Even if the green contexts have disjoint SM partitions, it is not guaranteed that the kernels launched in them will run concurrently or have forward progress guarantees. This is due to other resources (like HW connections, see CUDA_DEVICE_MAX_CONNECTIONS) that could cause a dependency.' —— NVIDIA 自己承认第 3 层的分区解决不了第 2 层的依赖; 本机实测第 2 层未成为约束",
+    "co_residency_measurement": {
+      "tool": "smid_share.cu",
+      "setup": "两个 kernel 各 256 block x 128 线程, 各自旋 20ms; 逐 block 记 %smid 与 %globaltimer 起止, 再逐 SM 检查两侧 block 区间是否时间重叠",
+      "plain_two_streams_one_ctx": {
+        "A_sm": 128,
+        "B_sm": 128,
+        "shared_sm": 128,
+        "co_resident_sm": 128,
+        "结论": "默认行为就是不同 kernel 的 block 同时驻留在同一颗 SM, 共享该 SM 的 warp slot"
+      },
+      "green_two_disjoint_ctx": {
+        "A_sm": 64,
+        "B_sm": 64,
+        "shared_sm": 0,
+        "co_resident_sm": 0,
+        "结论": "green context 禁止共驻, 把两侧压到不相交的 SM 上"
+      },
+      "correction": "green context 不是'让不同类型 block 到相同 SM', 恰恰相反 —— 共驻是默认行为, green context 是用来禁止共驻的"
+    },
+    "mechanism_roles": {
+      "CILP / WFI-drain": {
+        "层": "SM 内(执行机构)",
+        "目的": "把当前 context 从 SM 上卸下来, 服务于第 1 层的 TSG 时间片轮转",
+        "备注": "WFI/drain 需等 CTA 排空, 长 kernel 会拖住切换; CILP 可在指令边界卸载。h23 实测 Ada 走 CILP(block 寿命拉长 500x 而切换税恒定)"
+      },
+      "SCG": {
+        "层": "SM 内(并发机制)",
+        "目的": "让图形与计算负载在同一 SM 内按 warp 粒度共存, 从而**不需要**切 context",
+        "备注": "MPC(scheduler+arbiter) 驻每个 DPC 旁, arbiter 找 LC 任务不用的 hole 再启动 BE 任务 —— 这是 wall_aware 的硬件版本; 无用户态接口"
+      },
+      "MPS": {
+        "层": "前端(第 1 层)",
+        "目的": "把多进程的 stream 打进一个 server context 即一个 TSG, 使其被 GPU 当作一个应用 —— 是**合并**而非隔离",
+        "备注": "ECRTS'25: MPS 的 subcontext 'does not isolate MPS clients from one another in the GPU hardware scheduling pipeline'"
+      },
+      "MIG": {
+        "层": "前端(第 1 层)",
+        "目的": "按 SysPipe 物理切成 SMC Engine, 每个 SME 有独立 channel/runlist —— 这才是真正的 channel 资源隔离",
+        "备注": "4090 (Ada consumer) 不支持"
+      },
+      "GreenContext / libsmctrl": {
+        "层": "CTA 派发(第 3 层)",
+        "目的": "限制一个 kernel 的 CTA 能落到哪些 TPC, 与 context 调度无关"
+      }
+    }
+  },
+  "libsmctrl_measured_2026_09_22": {
+    "source": "http://rtsrv.cs.unc.edu/cgit/cgit.cgi/libsmctrl.git -> /workspace/AgentSys/third_party/libsmctrl (2026-09-22 下载, 约束解除后)",
+    "build": "make CUDA=/usr/local/cuda-12.8 libsmctrl.a tests —— 编译通过",
+    "self_tests_on_4090": {
+      "global_mask": "PASS —— 只开 TPC 0 时 kernel 只用 2 个 SM(ID 0-1); 只开 TPC 32 时只用 SM 64-65",
+      "next_mask": "PASS —— 同上",
+      "stream_mask": "库自带的版本表最高到 CUDA 12.7(0x4fc), 本机驱动报 13020(CUDA 13.2) -> 开箱失败",
+      "gpc_info": "需要 UNC 的 nvdebug 内核模块, 未加载"
+    },
+    "new_finding_stream_mask_offset": {
+      "driver": "595.91.07",
+      "cuda_reported": 13020,
+      "MASK_OFF": 288,
+      "total_offset": "0x604",
+      "method": "scan_mask_off.sh 暴力扫描 delta ∈ [-256, 512] step 4, 每次独立进程",
+      "note": "这是库的表里没有的新条目(表止于 CU_12_7_MASK_OFF=0x4fc), 可回馈上游"
+    },
+    "head_to_head_vs_green_context": {
+      "tool": "gc/smctrl_probe.cu (MASK_OFF=288)",
+      "setup": "同一 context 两条普通 stream, A 拿 TPC[0,48)=96 SM, B 拿 TPC[48,64)=32 SM",
+      "S1_sm_binding": "A 实占 96 个物理 SM, B 实占 32 个, 交集 0 -> PASS",
+      "S2_true_concurrency": "重叠 19.98/20.00 ms = 99.9% -> PASS",
+      "S3_switch_cost_us": 1.1631,
+      "green_context_switch_cost_us": 4.26,
+      "verdict": "libsmctrl 快 3.7x, 且不需要预建分区池 —— 任意 mask 可随时设到任意 stream 上, 无 context 切换; green context 只能在预建好的分区之间切",
+      "tpc_count_cross_check": "libsmctrl_get_tpc_info_cuda 报 TPC=64, 与 green context 粒度扫描(64 组 x 2 SM)一致"
+    },
+    "tradeoffs": {
+      "green_context": "官方文档化、PyTorch 有封装、与 CUDA Graph 兼容; 但需预建池, 切换 4.26us, 且要 context push/pop",
+      "libsmctrl": "per-stream 任意 mask、1.16us、无 context 切换; 但 API 未文档化(靠 CUstream 结构偏移)、每个驱动版本要重新定位偏移、与 CUDA Graph 不兼容(Bullet 报告)"
+    }
+  },
+  "vuda_paper": {
+    "pdf": "/workspace/AgentSys/third_party/papers/VUDA_2605.01352.pdf (16 页, 已抽文本 VUDA.txt)",
+    "code": "无公开代码(2026-09-22 检索未见 release)",
+    "core_premise_quote": "both CUDA and Vulkan submit work to the GPU through channels, and all channels within the same GPU context share a timeslice group (TSG). Because the two runtimes create separate GPU contexts, their channels reside in different TSGs and are therefore confined to mutually exclusive time slices—spatial co-execution is impossible. We refer to this fundamental obstacle as **execution isolation**.",
+    "significance": "这条正是本项目分层表 L2 的结论, 且论文进一步断言 'No existing GPU-sharing mechanism overcomes execution isolation' —— 为'跨 context 并发只能在 L2 解决'提供了 2026 年的独立佐证, 也给 execution isolation 这个术语",
+    "their_fix": "channel redirection(把 CUDA stream 的 channel 重定向进 Vulkan 的 TSG) + page-table grafting(合并页表); 4090 上 ManiSkill3 吞吐 +85%"
+  },
+  "angle2_intra_sm_coresidency_2026_09_22": {
+    "question": "μShare 式 blocksize shaping —— 不做任何分区, 只靠 block 形状让'资源亲和互补'的两个 kernel 共驻同一 SM",
+    "kb_basis": "human_notes/GPU_TPU_专用加速器_动态运行时资源调度方法_2025至今.md §8 μShare (TJU); §11 Demystifying GPU Thread Block Scheduler (left-over 放置策略)",
+    "tool": "gc/ushare_probe.cu (受害者=DRAM 流式, 抢占者=纯寄存器 FMA; 逐 block 记 %smid + %globaltimer, 按 SM 求跨 kernel 区间重叠)",
+    "pitfalls_found": [
+      "初版把'曾经在该 SM 跑过'当成共驻 -> 必须用区间重叠",
+      "两个 host 线程同时发射会产生发射竞态, 结果在 700/800 之间随机跳; 改成受害者先进入稳态再注入后完全可复现",
+      "受害者 grid 恰好填满整卡时, 非整除 blocksize 会留下永远放不下的排队块堵住 CWD, 掩盖 co-location; 必须让受害者 grid 无排队块"
+    ],
+    "result": {
+      "threshold": "受害者 blockDim <= 448 时, 后到的抢占者在 128/128 个 SM 上与其共驻; blockDim >= 512 时共驻为 0",
+      "independent_of_free_threads": "1 块/SM 下 bs=512 只用 512 线程(余 1024)仍不共驻; 2 块/SM 下 bs=448 用 896 线程(余 640)仍共驻 -> 阈值由 blockDim 本身决定, 与剩余线程数无关",
+      "independent_of_bandwidth_saturation": "2 块/SM 下 bs=256..448 全部已到带宽下限 36.4ms 且共驻; 1 块/SM 下 bs=512 同样到下限却不共驻",
+      "payoff": "共驻时 合计墙钟 = 受害者单独耗时 (抢占者完全免费); 不共驻时 合计 = 95~98ms vs 串行基线 55ms (反而更差)",
+      "table_1block_per_sm": {
+        "256": {
+          "co_sm": 128,
+          "total_ms": 51.6,
+          "v_solo": 51.6
+        },
+        "320": {
+          "co_sm": 128,
+          "total_ms": 45.4,
+          "v_solo": 45.5
+        },
+        "384": {
+          "co_sm": 128,
+          "total_ms": 42.6,
+          "v_solo": 42.6
+        },
+        "448": {
+          "co_sm": 128,
+          "total_ms": 40.8,
+          "v_solo": 40.8
+        },
+        "512": {
+          "co_sm": 0,
+          "total_ms": 98.5,
+          "v_solo": 36.3
+        }
+      },
+      "reproducibility": "两种 grid 配置(1 块/SM 与 2 块/SM)独立给出同一阈值 512"
+    },
+    "mechanism": "未定。已排除: 剩余线程数、带宽饱和、寄存器(mem_k 20 regs, cmp_k 18 regs)。阈值恰在 512 线程=16 warp 处, 疑与 Ada SM 的 4 个 sub-partition 的 warp slot 分配有关, 待查。",
+    "implication_for_this_project": "这是第三种空间共享基底, 位于 L5(SM 内), 不需要任何 API —— 只需选对受害者的 blockDim。代价为零, 但要求受害者可控且 blockDim<=448。我们的 Triton 受害者(BLOCK=256)本来就在共驻区, 这解释了 MPS 臂与 none 臂里后到的 burst 能挤进去。"
+  },
+  "ondemand_resize_R12": {
+    "protocol": "R12: substrate=resize(按需分区), chunks=16, sm_pre_sat=32, sm_pre_wall=64; 负载/burst/到达序列/K=300/period=1.5 与 S12(MPS)、G12(静态green) 逐字相同",
+    "per_event_disturbance": {
+      "valve": {
+        "n": 299,
+        "wall": 141,
+        "d_wall": 1.19,
+        "d_sat": 19.83,
+        "per": 10.44,
+        "se": 0.55,
+        "e2e": 51
+      },
+      "random_defer": {
+        "n": 298,
+        "wall": 149,
+        "d_wall": 1.16,
+        "d_sat": 19.98,
+        "per": 10.22,
+        "se": 0.58,
+        "e2e": 51
+      },
+      "wall_aware": {
+        "n": 284,
+        "wall": 283,
+        "d_wall": 1.18,
+        "d_sat": 8.67,
+        "per": 1.29,
+        "se": 0.05,
+        "e2e": 49
+      },
+      "wall_aware_resize": {
+        "n": 278,
+        "wall": 272,
+        "d_wall": 12.58,
+        "d_sat": 5.33,
+        "per": 13.07,
+        "se": 0.33,
+        "e2e": 30,
+        "note": "墙态给抢占者 64SM => 受害者掉到 64SM; 我们只验过 128->96 在墙态近乎免费, 128->64 不是"
+      }
+    },
+    "absolute_victim_throughput_normalized_to_MPS_valve": {
+      "MPS_valve": 1.0,
+      "MPS_random_defer": 1.001,
+      "MPS_wall_aware": 1.001,
+      "green_static_valve": 0.902,
+      "green_static_random_defer": 0.901,
+      "green_static_wall_aware": 0.903,
+      "resize_valve": 0.998,
+      "resize_random_defer": 0.998,
+      "resize_wall_aware": 1.004,
+      "resize_wall_aware_resize": 0.997
+    },
+    "conclusions": [
+      "按需分区修好了静态分区: 受害者吞吐 0.902 -> 0.998, 10% 损失全部收回。静态分区在 4% 抢占占空比下永远是错的。",
+      "wall_aware_resize 不是帕累托外推, 只是沿前沿移动(预测被证否): 用 0.7% 受害者吞吐换 39% 抢占者延迟(49->30ms)。",
+      "本负载上 MPS + wall_aware 在两个轴上都赢过所有 green 配置(吞吐 1.001 / e2e 18ms)。green context 的价值不是性能, 是精确、文档化、单进程的 SM 控制权。"
+    ]
+  },
+  "METHODOLOGICAL_CORRECTION_2026_09_22": {
+    "issue": "每事件扰动(D)是相对各自局部基线算的, 而不同基底的基线本身不同 —— 静态 green 分区的饱和相位基线已被拖到 199.8ms(vs MPS 166.3), 那 20% 的损失全程都在付却不计入'扰动'。",
+    "consequence": "跨基底比较 D 的倍数会得出相反结论: 按 D 看静态 green 的 wall_aware 只扰动 0.20ms(优秀), 按绝对吞吐看它是 0.903(最差)。",
+    "rule": "D 的倍数只在同一基底内可比, 衡量的是'抢占自身造成的扰动被压掉多少'; 跨基底必须用绝对吞吐(迭代/s)。",
+    "system_level_gain_formula": "系统收益 ≈ D 的压缩倍数 × 抢占占空比。本实验占空比仅 ~4%(63ms/1.5s), 故 wall_aware 相对 valve 的绝对吞吐收益只有 +0.6%(1.004 vs 0.998)。",
+    "internal_consistency_check": "resize 臂 300 次 × 13.07ms = 3.9s, 占 463s 的 0.85%, 与 1.004->0.997 的吞吐差吻合。",
+    "next_experiment_needed": "高抢占占空比一组(如 period 0.3s -> 占空比 ~20%)来量化收益随占空比的放大关系 —— 这是把主张从'相对扰动'抬到'绝对吞吐'的关键数据。"
+  },
+  "angle2_threshold_open_question": {
+    "phenomenon": "后到的 kernel 能否与在位 kernel 共驻同一 SM, 由**两侧 blockDim** 决定, 呈三级阶梯; 共驻时合计墙钟=受害者单独耗时(抢占者免费), 不共驻时≈串行",
+    "law_measured": {
+      "victim blockDim <= 224 (<=7 warp)": "preemptor blockDim >= 32 (1 warp) 即可",
+      "victim blockDim 256..480 (8-15 warp)": "preemptor blockDim >= 96 (3 warp)",
+      "victim blockDim >= 512 (>=16 warp, 实测到 1024)": "preemptor blockDim >= 192 (6 warp)",
+      "额外约束": "v_block*每SM块数 + c_block <= 1536 (容量)"
+    },
+    "invariances_verified": [
+      "受害者每 SM 块数: vmul=1 与 vmul=2 的边界图完全一致",
+      "寄存器压力: 受害者寄存器 16/24/45/85 -> 理论块/SM 6/6/5/2 (v=256) 与 3/3/2/1 (v=512), 而 c_min 分别恒为 96 与 192, 完全不动",
+      "kernel 身份: 两侧用**完全相同**的 spin kernel 仍得同一阶梯, 排除指令/访存/寄存器差异",
+      "剩余线程数: v=512 只用 512 线程余 1024 仍需 c>=192",
+      "带宽饱和: 无关(spin kernel 不碰内存, 阶梯不变)"
+    ],
+    "ruled_out": [
+      "剩余线程数",
+      "带宽饱和",
+      "寄存器/理论占用率",
+      "块槽位(maxBlocks/SM=24)",
+      "受害者块数",
+      "kernel 差异",
+      "自提的 4*c_warp>v_warp 规则(被 v=768/1024 数据推翻)"
+    ],
+    "status": "现象与规律已固化(多维不变性验证), 但底层机制推不出任何文档化的限制 —— 疑为 CWD/MPC 未文档化的放置启发式。属于 'Demystifying the Placement Policies of the NVIDIA GPU Thread Block Scheduler' 那条线要回答的问题。",
+    "actionable_rule": "把抢占者 blockDim 设到 >= 192(6 warp), 对受害者 blockDim 直到 1024 都能共驻。零 API、零切换代价的 L5 基底。",
+    "tools": [
+      "gc/ushare_probe.cu",
+      "gc/warpslot_probe.cu",
+      "gc/occ_check.cu",
+      "gc/bmap_probe.cu",
+      "gc/reg_probe.cu"
+    ]
+  },
+  "angle1_fusion_levels_2026_09_22": {
+    "question": "混合负载打包进一个 kernel 的三个层级(stream/CTA/warp)分别值多少 —— 对标 POD-Attention Table 2",
+    "kb_basis": "human_notes/可复现paper + paper总结-26 03 11-ty 中 POD-Attention 的 Table 2(Streams/CTA/Warp(HFuse)/Intra-thread/SM-aware CTA, 按 GC=保证共位 与 WQ=减少 wave 量化 两列分类); 笔记原话: 'SCG 中 SM 周期性更换 block 策略…POD 参考 SCG 的原理'",
+    "tool": "gc/fuse_probe.cu (受害者=DRAM 流式 grid-stride, 抢占者=纯寄存器 FMA; 抢占者总工作量随 blockDim 反比缩 reps 以固定)",
+    "results_ms": {
+      "blockDim=256": {
+        "victim_solo": 50.7,
+        "burst_solo": 24.3,
+        "serial": 75.1,
+        "streams": 50.4,
+        "cta_fused": 49.7,
+        "warp_best": "54.8 (6/8)"
+      },
+      "blockDim=512": {
+        "victim_solo": 36.2,
+        "burst_solo": 19.6,
+        "serial": 55.8,
+        "streams": 36.4,
+        "cta_fused": 36.5,
+        "warp_best": "42.3 (12/16)"
+      },
+      "blockDim=768": {
+        "victim_solo": 36.2,
+        "burst_solo": 19.1,
+        "serial": 55.3,
+        "streams": 36.5,
+        "cta_fused": 39.2,
+        "warp_best": "36.3 (18/24)"
+      },
+      "blockDim=1024": {
+        "victim_solo": 36.3,
+        "burst_solo": 19.1,
+        "serial": 55.4,
+        "streams": 55.4,
+        "cta_fused": 55.4,
+        "warp_best": "36.3 (24/32)"
+      }
+    },
+    "conclusions": [
+      "自然共驻成立时(blockDim<=768), stream 级并发已经最优 —— 抢占者完全免费(合计=受害者单独), CTA 融合不增益(49.7 vs 50.4 / 36.5 vs 36.4), warp 融合反而更差(54.8 vs 50.4)。",
+      "共驻失败时(blockDim=1024, v+c=2048>1536 容量不够), stream 与 CTA 融合同时失败且数值完全相同(55.4=serial) —— 印证 POD 表里 Streams 与 CTA 两行 GC 都是 ✗: 它们都不保证共位。",
+      "只有 warp 级融合(HFuse)在任何 blockDim 下都能恢复完全重叠(36.3=受害者单独), 因为两种负载在同一个 block 内, 共位是构造保证的(POD 表 Warp 行 GC=✓)。",
+      "warp 融合对切分比极敏感(straggler): blockDim=256 时 2/8 切分是 125.7ms —— 比串行 75.1ms 还差 67%; 6/8 才降到 54.8ms。切分比必须匹配两侧负载的相对时长。"
+    ],
+    "synthesis_with_angle2": "该用哪一级融合, 取决于角度2 的自然共驻是否成立。block 够小(流级并发本就共驻) -> 用 stream, 融合只是纯成本; block 太大(共驻失败) -> 只有 warp 级融合能把重叠找回来, 代价是 straggler 敏感。POD 的 SM-aware CTA 正是要同时拿到 GC 与 WQ。"
+  },
+  "angle3_mpk_persistent_kernel_2026_09_22": {
+    "question": "SM 内驻留持久 kernel, 记录运行中各资源亲和类型的任务数, 据此抓取互补类型 —— SCG arbiter 的软件版",
+    "kb_basis": "MPK-tGraph-Mega-Kernel化(worker/scheduler SM 分工 + task/event 队列); SCG-SM(arbiter 监控资源使用率找 hole 再向 CWD 申请 CTA)",
+    "tool": "gc/mpk_probe.cu —— 持久 kernel, NSM x W 个常驻 worker block, 全局任务队列, 每 SM 两类在跑任务计数器",
+    "setup": "2048 个任务(1024 访存亲和 + 1024 算力亲和), 两类总时长配平; 任务成块到达(先全访存再全算力, 模拟 prefill/decode 相位)。交错混合的队列会让 FIFO 白拿完美配比, 不公平。",
+    "policies": {
+      "fifo": "单混合队列先到先得(亲和盲基线)",
+      "affinity": "读本 SM 两类在跑数, 取欠缺的那一类",
+      "alternate": "每个 worker 严格交替取两类(无状态对照)"
+    },
+    "results_speedup_vs_fifo": {
+      "2 worker/SM": {
+        "fifo": "4.9ms 1.00x",
+        "affinity": "4.1ms 1.19x",
+        "alternate": "3.7ms 1.30x"
+      },
+      "4 worker/SM": {
+        "fifo": "5.5ms 1.00x",
+        "affinity": "4.1ms 1.33x",
+        "alternate": "3.1ms 1.73x"
+      },
+      "8 worker/SM": {
+        "fifo": "5.2ms 1.00x",
+        "affinity": "5.0ms 1.05x",
+        "alternate": "3.5ms 1.49x"
+      }
+    },
+    "conclusions": [
+      "核内混合互补亲和的任务确实有收益: 最好 1.73x(4 worker/SM)。这条成立。",
+      "但'看运行时状态'的策略在所有 worker 数下都输给无状态的严格交替(1.19/1.33/1.05 vs 1.30/1.73/1.49)。把读计数器从 atomicAdd(..,0) 换成 volatile 读后结论不变, 所以不是读的开销。",
+      "机制: running[sm] 是同 SM 上所有 worker 共同观察并同时反应的共享信号, 产生羊群/振荡; 无状态的 per-worker 交替不需要任何反馈回路就能稳定拿到 50/50 配比。",
+      "8 worker/SM 时 affinity 退化到 1.05x —— worker 越多, 共享信号的竞争与失效越严重。"
+    ],
+    "connection_to_scg": "这正好解释了 SCG 为什么把 arbiter 做进硬件、物理上邻近每个 DPC: 本地笔记原话 'arbiter 物理上邻近 SM, 加快决策速度, 提高针对 SM 使用率的反馈准确率(时效性好)'。我们的软件版在 task-claim 粒度上做反馈, 太粗太慢, 反而不如静态配比规则。",
+    "implication": "角度3 的可用形态是'静态互补配比'(alternate), 不是'运行时亲和反馈'(affinity)。要做反馈就必须下沉到 warp 粒度并靠近 SM —— 而那一层没有用户态接口。"
+  },
+  "duty_cycle_sweep_2026_09_22": {
+    "question": "把主张从'相对扰动'抬到'绝对吞吐': 收益如何随抢占占空比放大",
+    "setup": "同一基底(按需分区 resize)、同一负载、同一 K=300, 只改到达率 period ∈ {1.5, 0.6, 0.3}s",
+    "points": [
+      {
+        "period": 1.5,
+        "duty": 0.033,
+        "compression": 8.12,
+        "gain": 0.0053,
+        "tp": {
+          "valve": 6.072,
+          "random_defer": 6.071,
+          "wall_aware": 6.104
+        },
+        "D": {
+          "valve": 10.44,
+          "random_defer": 10.22,
+          "wall_aware": 1.29
+        }
+      },
+      {
+        "period": 0.6,
+        "duty": 0.079,
+        "compression": 8.42,
+        "gain": 0.0124,
+        "tp": {
+          "valve": 6.013,
+          "random_defer": 6.01,
+          "wall_aware": 6.087
+        },
+        "D": {
+          "valve": 10.42,
+          "random_defer": 11.16,
+          "wall_aware": 1.24
+        }
+      },
+      {
+        "period": 0.3,
+        "duty": 0.149,
+        "compression": 8.6,
+        "gain": 0.027,
+        "tp": {
+          "valve": 5.906,
+          "random_defer": 5.921,
+          "wall_aware": 6.066
+        },
+        "D": {
+          "valve": 6.92,
+          "random_defer": 7.6,
+          "wall_aware": 0.8
+        }
+      }
+    ],
+    "fit": "吞吐增益 = 0.176 x 占空比 (过原点线性, R^2=0.987)",
+    "extrapolation": {
+      "duty_50pct": "+8.8%",
+      "duty_100pct": "+17.6%"
+    },
+    "findings": [
+      "扰动压缩倍数在 4.5 倍的占空比跨度上稳定在 8.12~8.60x —— 它是机制属性, 与占空比无关。",
+      "吞吐增益随占空比线性放大, R^2=0.987。这正是'系统收益 ≈ D 压缩倍数 x 抢占占空比'的直接验证。",
+      "更干净的陈述: valve 的受害者吞吐随抢占频率下滑(6.072->6.013->5.906, 跌 2.7%), 而 wall_aware 几乎不动(6.104->6.087->6.066, 跌 0.6%)。**择时让受害者吞吐对抢占频率近乎免疫。**",
+      "period=0.3 时 wall_aware 强发 11 次(截止预算 0.27s < 受害者相位周期 0.326s), 落墙率仍 289/300。"
+    ],
+    "measurement_caveat": "每事件扰动 D 在高占空比下被低估(valve 从 10.44 掉到 6.92ms): 抢占变密后, 局部基线里混进了邻近事件的扰动。因此高占空比区应以绝对吞吐为准; 拟合斜率 0.176 高于由 D 推的理论斜率 0.120, 差额正是这个污染。"
+  }
+}

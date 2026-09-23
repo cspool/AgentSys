@@ -1,0 +1,102 @@
+{
+ "cells": {
+  "serial|a100": {
+   "G_v": 0.8036,
+   "targeted_phase": 0.7025,
+   "G_p": 0.1839,
+   "STP": 0.9875
+  },
+  "serial|a000": {
+   "G_v": 0.8978,
+   "targeted_phase": 0.7012,
+   "G_p": 0.1828,
+   "STP": 1.0806
+  },
+  "streams|a100": {
+   "G_v": 0.8111,
+   "targeted_phase": 0.7075,
+   "G_p": 0.1839,
+   "STP": 0.995
+  },
+  "streams|a000": {
+   "G_v": 0.8911,
+   "targeted_phase": 0.6937,
+   "G_p": 0.1821,
+   "STP": 1.0732
+  },
+  "hfuse|a100": {
+   "G_v": 0.816,
+   "targeted_phase": 0.7109,
+   "G_p": 0.1828,
+   "STP": 0.9988
+  },
+  "hfuse|a000": {
+   "G_v": 0.8898,
+   "targeted_phase": 0.6963,
+   "G_p": 0.1903,
+   "STP": 1.0801
+  },
+  "pod2|a100": {
+   "G_v": 0.83,
+   "targeted_phase": 0.7102,
+   "G_p": 0.181,
+   "STP": 1.011
+  },
+  "pod2|a000": {
+   "G_v": 0.8937,
+   "targeted_phase": 0.7459,
+   "G_p": 0.16,
+   "STP": 1.0536
+  },
+  "pod4|a100": {
+   "G_v": 0.8194,
+   "targeted_phase": 0.7104,
+   "G_p": 0.1812,
+   "STP": 1.0006
+  },
+  "pod4|a000": {
+   "G_v": 0.9117,
+   "targeted_phase": 0.7657,
+   "G_p": 0.1491,
+   "STP": 1.0608
+  },
+  "greenctx|a100": {
+   "G_v": 0.7967,
+   "targeted_phase": 0.7156,
+   "G_p": 0.1786,
+   "STP": 0.9753
+  },
+  "greenctx|a000": {
+   "G_v": 0.9234,
+   "targeted_phase": 0.7369,
+   "G_p": 0.1585,
+   "STP": 1.0818
+  }
+ },
+ "summary": {
+  "serial": {
+   "dSTP_pct": -8.62,
+   "c_state_pp": 0.1
+  },
+  "streams": {
+   "dSTP_pct": -7.29,
+   "c_state_pp": 1.4
+  },
+  "hfuse": {
+   "dSTP_pct": -7.53,
+   "c_state_pp": 1.5
+  },
+  "pod2": {
+   "dSTP_pct": -4.05,
+   "c_state_pp": -3.6
+  },
+  "pod4": {
+   "dSTP_pct": -5.67,
+   "c_state_pp": -5.5
+  },
+  "greenctx": {
+   "dSTP_pct": -9.85,
+   "c_state_pp": -2.1
+  }
+ }
+}

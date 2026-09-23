@@ -1,0 +1,295 @@
+{
+  "setup": {
+    "gpu": "RTX 4090 #1 (Ada sm_89)",
+    "victim": "TC墙 fp16 GEMM 6144^3 (2.82ms) <-> DRAM墙 SDPA decode B=64 Hkv=8 KV=16k (4.58ms)",
+    "victim_wall_profiles": "TC墙 TC49.2(=可达峰值100%)/L2 54/DRAM 18; DRAM墙 DRAM96.97/TC 37/L2 38",
+    "co_runners": {
+      "tc": "fp16 GEMM 2048x2048x4096 x22",
+      "dram": "SDPA decode B=16 KV=4096 x6",
+      "fp32": "fp32 GEMM 512x4096x4096 x17"
+    },
+    "k": 300,
+    "period_s": 0.1,
+    "policies": "valve(状态盲) / wall_aware(推迟到正交相位) / random_defer(同推迟预算不看状态)",
+    "metric": "把被任何 burst 覆盖的迭代从基线剔除, 比\"干净 vs 被扰\"的中位数 —— 高 rho 下局部配对基线会被污染"
+  },
+  "results": {
+    "tc": {
+      "co_resource": "TC 每SM私有",
+      "orthogonal_phase": "dram",
+      "arms": {
+        "valve": {
+          "wall_phase": "dram",
+          "hit_wall": 190,
+          "k": 300,
+          "rho": 0.655,
+          "victim_tp_per_s": 262.64,
+          "total_disturb_s": 0.8165,
+          "burst_busy_ms": 84.7,
+          "burst_e2e_ms": 98.4,
+          "phases": {
+            "dram": {
+              "clean_ms": 4.576,
+              "hit_ms": 4.706,
+              "delta_ms": 0.13,
+              "delta_pct": 2.84,
+              "n_hit": 3040,
+              "n_clean": 1499
+            },
+            "tc": {
+              "clean_ms": 2.828,
+              "hit_ms": 2.969,
+              "delta_ms": 0.14,
+              "delta_pct": 4.96,
+              "n_hit": 3002,
+              "n_clean": 1537
+            }
+          }
+        },
+        "random_defer": {
+          "wall_phase": "dram",
+          "hit_wall": 191,
+          "k": 300,
+          "rho": 0.655,
+          "victim_tp_per_s": 262.39,
+          "total_disturb_s": 0.7828,
+          "burst_busy_ms": 84.75,
+          "burst_e2e_ms": 99.6,
+          "phases": {
+            "dram": {
+              "clean_ms": 4.578,
+              "hit_ms": 4.704,
+              "delta_ms": 0.126,
+              "delta_pct": 2.75,
+              "n_hit": 3019,
+              "n_clean": 1513
+            },
+            "tc": {
+              "clean_ms": 2.835,
+              "hit_ms": 2.97,
+              "delta_ms": 0.134,
+              "delta_pct": 4.73,
+              "n_hit": 3000,
+              "n_clean": 1532
+            }
+          }
+        },
+        "wall_aware": {
+          "wall_phase": "dram",
+          "hit_wall": 300,
+          "k": 300,
+          "rho": 0.654,
+          "victim_tp_per_s": 262.53,
+          "total_disturb_s": 0.8204,
+          "burst_busy_ms": 84.72,
+          "burst_e2e_ms": 99.5,
+          "phases": {
+            "dram": {
+              "clean_ms": 4.574,
+              "hit_ms": 4.706,
+              "delta_ms": 0.132,
+              "delta_pct": 2.89,
+              "n_hit": 3057,
+              "n_clean": 1481
+            },
+            "tc": {
+              "clean_ms": 2.83,
+              "hit_ms": 2.971,
+              "delta_ms": 0.14,
+              "delta_pct": 4.96,
+              "n_hit": 2963,
+              "n_clean": 1575
+            }
+          }
+        }
+      }
+    },
+    "dram": {
+      "co_resource": "DRAM GPU全局",
+      "orthogonal_phase": "tc",
+      "arms": {
+        "valve": {
+          "wall_phase": "tc",
+          "hit_wall": 117,
+          "k": 300,
+          "rho": 0.219,
+          "victim_tp_per_s": 266.2,
+          "total_disturb_s": 0.4447,
+          "burst_busy_ms": 25.04,
+          "burst_e2e_ms": 25.2,
+          "phases": {
+            "dram": {
+              "clean_ms": 4.572,
+              "hit_ms": 4.814,
+              "delta_ms": 0.242,
+              "delta_pct": 5.29,
+              "n_hit": 1093,
+              "n_clean": 3513
+            },
+            "tc": {
+              "clean_ms": 2.824,
+              "hit_ms": 3.001,
+              "delta_ms": 0.177,
+              "delta_pct": 6.28,
+              "n_hit": 1018,
+              "n_clean": 3588
+            }
+          }
+        },
+        "random_defer": {
+          "wall_phase": "tc",
+          "hit_wall": 115,
+          "k": 300,
+          "rho": 0.218,
+          "victim_tp_per_s": 266.25,
+          "total_disturb_s": 0.433,
+          "burst_busy_ms": 25.21,
+          "burst_e2e_ms": 25.5,
+          "phases": {
+            "dram": {
+              "clean_ms": 4.573,
+              "hit_ms": 4.815,
+              "delta_ms": 0.242,
+              "delta_pct": 5.29,
+              "n_hit": 1080,
+              "n_clean": 3520
+            },
+            "tc": {
+              "clean_ms": 2.824,
+              "hit_ms": 2.992,
+              "delta_ms": 0.168,
+              "delta_pct": 5.95,
+              "n_hit": 1023,
+              "n_clean": 3577
+            }
+          }
+        },
+        "wall_aware": {
+          "wall_phase": "tc",
+          "hit_wall": 300,
+          "k": 300,
+          "rho": 0.219,
+          "victim_tp_per_s": 266.25,
+          "total_disturb_s": 0.3773,
+          "burst_busy_ms": 25.51,
+          "burst_e2e_ms": 25.7,
+          "phases": {
+            "dram": {
+              "clean_ms": 4.573,
+              "hit_ms": 4.854,
+              "delta_ms": 0.281,
+              "delta_pct": 6.14,
+              "n_hit": 904,
+              "n_clean": 3697
+            },
+            "tc": {
+              "clean_ms": 2.824,
+              "hit_ms": 2.929,
+              "delta_ms": 0.104,
+              "delta_pct": 3.7,
+              "n_hit": 1182,
+              "n_clean": 3419
+            }
+          }
+        }
+      }
+    },
+    "fp32": {
+      "co_resource": "FP32 每SM私有",
+      "orthogonal_phase": "dram",
+      "arms": {
+        "valve": {
+          "wall_phase": "dram",
+          "hit_wall": 180,
+          "k": 300,
+          "rho": 0.563,
+          "victim_tp_per_s": 258.98,
+          "total_disturb_s": 1.2789,
+          "burst_busy_ms": 66.72,
+          "burst_e2e_ms": 71.9,
+          "phases": {
+            "dram": {
+              "clean_ms": 4.575,
+              "hit_ms": 4.815,
+              "delta_ms": 0.24,
+              "delta_pct": 5.24,
+              "n_hit": 2560,
+              "n_clean": 1914
+            },
+            "tc": {
+              "clean_ms": 2.839,
+              "hit_ms": 3.101,
+              "delta_ms": 0.261,
+              "delta_pct": 9.2,
+              "n_hit": 2544,
+              "n_clean": 1930
+            }
+          }
+        },
+        "random_defer": {
+          "wall_phase": "dram",
+          "hit_wall": 186,
+          "k": 300,
+          "rho": 0.564,
+          "victim_tp_per_s": 259.1,
+          "total_disturb_s": 1.2906,
+          "burst_busy_ms": 66.82,
+          "burst_e2e_ms": 71.2,
+          "phases": {
+            "dram": {
+              "clean_ms": 4.573,
+              "hit_ms": 4.815,
+              "delta_ms": 0.242,
+              "delta_pct": 5.28,
+              "n_hit": 2552,
+              "n_clean": 1925
+            },
+            "tc": {
+              "clean_ms": 2.839,
+              "hit_ms": 3.104,
+              "delta_ms": 0.265,
+              "delta_pct": 9.34,
+              "n_hit": 2541,
+              "n_clean": 1936
+            }
+          }
+        },
+        "wall_aware": {
+          "wall_phase": "dram",
+          "hit_wall": 300,
+          "k": 300,
+          "rho": 0.567,
+          "victim_tp_per_s": 259.03,
+          "total_disturb_s": 1.2897,
+          "burst_busy_ms": 66.92,
+          "burst_e2e_ms": 71.5,
+          "phases": {
+            "dram": {
+              "clean_ms": 4.574,
+              "hit_ms": 4.815,
+              "delta_ms": 0.241,
+              "delta_pct": 5.26,
+              "n_hit": 2571,
+              "n_clean": 1902
+            },
+            "tc": {
+              "clean_ms": 2.839,
+              "hit_ms": 3.104,
+              "delta_ms": 0.265,
+              "delta_pct": 9.34,
+              "n_hit": 2530,
+              "n_clean": 1943
+            }
+          }
+        }
+      }
+    }
+  },
+  "findings": [
+    "H2 被支持: 共跑者抢 GPU 全局资源(DRAM 带宽)时, 正交相位比重叠相位便宜 1.36x(0.177 vs 0.242ms), wall_aware 把落墙从 39% 提到 100%, 正交相扰动进一步降到 0.104ms, 总扰动降 15%(0.445->0.377s).",
+    "H1 只在全局资源上成立: 共跑者抢每 SM 私有资源(TC 1.08x / FP32 1.09x)时, 正交与重叠几乎无差, 择时完全无效(总扰动比 1.005 / 1.008). 机制自洽: 私有资源可靠\"铺到别的 SM\"绕开, 全局资源躲不掉.",
+    "三组吞吐全部无变化(比值 0.9996-1.0002). DRAM 组总扰动虽降 15%, 但 0.068s 摊到 35s 只有 0.2%, 淹没在噪声里.",
+    "与合成负载的关键差异: 真实 kernel 上扰动压缩只有 1.36x, 合成 Triton 负载上是 100x. 根源是 SM 占用 —— 合成深访存墙 SM 仅 16% 留出大量空位; 真实 DRAM 墙(SDPA decode) TC 仍 37%/L2 38% 且铺满所有 SM."
+  ],
+  "pitfall_fixed": "受害者必须活过控制器, 否则 PHASE_NOW 冻结在最后一个相位, 落墙统计全假(首次 smoke 出现 valve 落墙 12/12). 已加 victim_outlasted_controller 校验字段; 修复后 valve 落墙率与相位时间占比吻合."
+}

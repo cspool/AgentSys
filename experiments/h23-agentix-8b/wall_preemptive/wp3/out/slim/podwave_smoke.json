@@ -1,0 +1,1 @@
+{"secs": 20.001, "fp": 15, "phase_ms": 600, "n_switch": 33, "single_phase": null, "walls": {"1": "TC相_prefill重", "0": "DRAM相_decode重"}, "shapes": {"1": [1, 4096, 4, 2048], "0": [1, 256, 64, 8192]}, "n_iter": {"0": 8371, "1": 7898}, "median_ms": {"0": 1.2085, "1": 1.2378}, "throughput_iter_per_s": 813.43}

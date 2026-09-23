@@ -1,0 +1,73 @@
+{
+  "purpose": "用真实 kernel(不是合成 microbenchmark)构造 wall 负载, 供并发干扰与 wall 择时对照使用",
+  "date": "2026-09-22",
+  "hardware": "RTX 4090 (Ada sm_89), 128 SM, L2 72MB, smem/SM 100KB (单 block 上限 48KB), 450W",
+  "criterion": {
+    "定义": "wall = 某一资源接近满载, 其余资源使用也较高",
+    "目标轴": ">= 80% (或达到该轴在本卡的可达峰值)",
+    "副轴": "30-60% 为宜; < 20% 判为不合格 —— 那是只用一种资源的合成 kernel, 不是真实负载的墙",
+    "修订说明": "此前用合成 kernel 造出的 L2 墙(DRAM 4.4%/FMA 2.2%)与 smem 墙(L2 0.11%/DRAM 0.56%)副轴接近 0, 已按此口径判为不合格, 仅保留为资源满载的参照上界"
+  },
+  "measurement": {
+    "tool": "ncu 2026.2, --cache-control none (默认 --cache-control all 会在每次 replay 前清空 L2, 导致 L2 驻留型负载测不出来)",
+    "kernel_filter": "必须按 kernel 名过滤 —— randn 的 curand kernel 排在前面, --launch-skip 会命中它而不是目标 kernel",
+    "names": {
+      "SDPA prefill": "flash_fwd_kernel (pytorch_flash)",
+      "SDPA decode": "flash_fwd_splitkv_kernel",
+      "fp16 GEMM": "ampere_fp16_s1688gemm_*",
+      "fp32 GEMM": "cutlass::Kernel2<cutlass_80_simt_sgemm_*>"
+    },
+    "achievable_peaks": {
+      "TC (sm__pipe_tensor_cycles_active_v2, fp16+fp32累加)": "49% —— 四种不同 GEMM 形状(4096x4096x16384 / 2048x2048x32768 / 6144^3 / 8192^3)全部卡在 48.7-49.3%, 是 Ada 上 FP16 配 FP32 累加走半速路径的硬件上限, 不是负载不够",
+      "note": "MANIFEST.json 里记的 TC 可达峰值 97% 是我们自己用 Triton tl.dot(bf16) 测的, 与 cuBLAS 的 FP16+FP32 累加不是同一条路径, 两者需分开记"
+    }
+  },
+  "walls_constructible": {
+    "W_TC 张量核墙": {
+      "kernel": "torch.matmul fp16, 6144x6144x6144 (tc_sq6k)",
+      "归属": "每 SM 私有 (张量核 + warp scheduler 发射带宽)",
+      "画像": {"TC": 49.24, "TC_归一": "100% of 49% 可达峰值", "L2": 53.55, "L1": 29.97, "DRAM": 17.96, "FMA": 0.24},
+      "判定": "合格"
+    },
+    "W_FP32 算力墙": {
+      "kernel": "torch.matmul fp32, 512x8192x8192 (l2f32_skinny), 走 cutlass_80_simt_sgemm 不走 TC",
+      "归属": "每 SM 私有 (CUDA core + 发射带宽)",
+      "画像": {"FMA": 73.03, "SM": 81.61, "smem": 42.42, "L1": 43.09, "L2": 28.72, "DRAM": 31.63, "TC": 0},
+      "判定": "合格 —— 副轴全部落在 29-43%, 是目前最干净的一堵墙"
+    },
+    "W_DRAM 访存墙": {
+      "kernel": "SDPA decode, B=32 Hkv=8 S_kv=2048 (decode_kv64m) 或 B=64 S_kv=16384 (decode_kv1g)",
+      "归属": "GPU 全局 (DRAM 带宽)",
+      "画像_kv64m": {"DRAM": 93.08, "TC": 35.87, "L2": 36.22, "L1": 14.87, "smem": 14.8},
+      "画像_kv1g": {"DRAM": 96.96, "TC": 36.64, "L2": 37.96, "L1": 15.02},
+      "判定": "合格"
+    },
+    "W_SAT 全饱和": {
+      "kernel": "torch.matmul fp16, 2048^3 (gemm_small, 热缓存) 或 256x8192x8192 (l2f16_skinny)",
+      "画像_gemm_small": {"TC": 46.18, "TC_归一": "94% of 峰值", "L2": 72.20, "L1": 34.50, "smem": 22.44, "DRAM": 0.05},
+      "画像_l2f16_skinny": {"TC": 45.30, "L2": 70.51, "DRAM": 64.39, "L1": 34.05},
+      "判定": "合格(双轴高) —— TC 与 L2 同时接近饱和"
+    }
+  },
+  "walls_not_constructible": {
+    "W_L2 L2 墙": {
+      "尝试": [
+        "decode KV 压进 L2 (17/34/50/67MB, 热缓存): DRAM 降到 0.4-7%, 但 L2 只有 21-35% —— 延迟受限, 不是带宽受限",
+        "提高并行度 (B=16/32/64/128, KV 固定 34MB): L2 仍只有 21-32%",
+        "fp16 GEMM L2 驻留: L2 到 70-77%, 但 TC 同时满载(94% 峰值) —— 是双轴高, 归入全饱和",
+        "fp32 GEMM (不走 TC): L2 只到 28.7-35.6%"
+      ],
+      "结论": "L2 的饱和在真实 kernel 里总是与 TC 饱和绑定(GEMM 的 tile 同时驱动两者); 单独的 L2 墙受算法结构约束, 不可构造"
+    },
+    "W_SMEM shared memory 墙": {
+      "尝试": "全部真实 kernel(FlashAttention / fp16 GEMM / fp32 GEMM)的 smem 专项指标最高 48% (l2f32_3k), 从不是最高轴",
+      "结论": "真实 kernel 中 smem 从不是瓶颈轴, 不可构造"
+    }
+  },
+  "impact_on_H2": {
+    "原计划": "用 smem 墙(每 SM 私有) vs L2 墙(GPU 全局)做判决性对照, 预测分区能隔离前者、不能隔离后者",
+    "问题": "两堵墙都造不出来",
+    "修订": "改用已造出的一对 —— **TC 墙(每 SM 私有: 张量核+发射带宽) vs DRAM 访存墙(GPU 全局)**。预测: 空间分区能隔离 TC 墙, 不能隔离访存墙。两者都是干净的真实 kernel 墙, 比原方案更扎实。"
+  },
+  "artifacts": ["real_walls.py", "prof_walls.sh", "newwalls.cu (合成版, 仅作满载参照上界)"]
+}
