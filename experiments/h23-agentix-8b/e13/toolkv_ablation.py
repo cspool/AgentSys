@@ -15,11 +15,13 @@ ap.add_argument('--arms',default='')
 ap.add_argument('--cache',default='/workspace/AgentSys/experiments/h23-agentix-8b/e13/pass1_cache')
 ap.add_argument('--no-cache',action='store_true')
 ap.add_argument('--judge',default='note',choices=['note','strict'])
+ap.add_argument('--model',default='/data3/docker_model/AgentSys/Qwen3-1.7B')
+ap.add_argument('--device-map',default='cuda')
 a=ap.parse_args()
 RHOS=[float(x) for x in a.rhos.split(',')]
-M='/data3/docker_model/AgentSys/Qwen3-1.7B'
+M=a.model
 tok=AutoTokenizer.from_pretrained(M)
-model=AutoModelForCausalLM.from_pretrained(M, dtype=torch.bfloat16, device_map='cuda',
+model=AutoModelForCausalLM.from_pretrained(M, dtype=torch.bfloat16, device_map=a.device_map,
                                            attn_implementation='eager'); model.eval()
 NOTHINK="<think>\n\n</think>\n\n"
 SYS="<|im_start|>system\nYou answer questions using the provided search results. Be concise.<|im_end|>\n"
