@@ -1,0 +1,7982 @@
+[
+ {
+  "stratum": "early",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.12324208300560713,
+  "t_ds": 0.8638167259923648,
+  "stop_at": 1,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 43,
+    "t_prefill": 0.06291067400889006
+   },
+   {
+    "k": 1,
+    "n_tok": 99,
+    "t_prefill": 0.029935282000224106
+   },
+   {
+    "k": 2,
+    "n_tok": 120,
+    "t_prefill": 0.029732413997408003
+   },
+   {
+    "k": 3,
+    "n_tok": 108,
+    "t_prefill": 0.027593042002990842
+   },
+   {
+    "k": 4,
+    "n_tok": 108,
+    "t_prefill": 0.028196209008456208
+   },
+   {
+    "k": 5,
+    "n_tok": 119,
+    "t_prefill": 0.027791140993940644
+   },
+   {
+    "k": 6,
+    "n_tok": 67,
+    "t_prefill": 0.026569061999907717
+   },
+   {
+    "k": 7,
+    "n_tok": 128,
+    "t_prefill": 0.028930730011779815
+   },
+   {
+    "k": 8,
+    "n_tok": 121,
+    "t_prefill": 0.028879812991362996
+   },
+   {
+    "k": 9,
+    "n_tok": 173,
+    "t_prefill": 0.02733473699481692
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.1606059609912336,
+    "n": 52,
+    "yes": true,
+    "tent": "City of Newcastle<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.09163604700006545,
+    "n": 52,
+    "yes": true,
+    "tent": "City of Newcastle<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.09513281799445394,
+    "n": 52,
+    "yes": true,
+    "tent": "City of Newcastle<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.09263383099460043,
+    "n": 52,
+    "yes": true,
+    "tent": "City of Newcastle<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.09419027500553057,
+    "n": 52,
+    "yes": true,
+    "tent": "City of Newcastle<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.09148525600903668,
+    "n": 52,
+    "yes": true,
+    "tent": "City of Newcastle<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.09043528999609407,
+    "n": 52,
+    "yes": true,
+    "tent": "City of Newcastle<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.09241699099948164,
+    "n": 52,
+    "yes": true,
+    "tent": "City of Newcastle<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.09324954099429306,
+    "n": 52,
+    "yes": true,
+    "tent": "City of Newcastle<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.09167884199996479,
+    "n": 52,
+    "yes": true,
+    "tent": "City of Newcastle<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.09387715200136881
+ },
+ {
+  "stratum": "early",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.026634162990376353,
+  "t_ds": 0.6437992499995744,
+  "stop_at": 5,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 83,
+    "t_prefill": 0.028994289998081513
+   },
+   {
+    "k": 1,
+    "n_tok": 151,
+    "t_prefill": 0.02938061200256925
+   },
+   {
+    "k": 2,
+    "n_tok": 132,
+    "t_prefill": 0.02788133200374432
+   },
+   {
+    "k": 3,
+    "n_tok": 106,
+    "t_prefill": 0.028229159011971205
+   },
+   {
+    "k": 4,
+    "n_tok": 98,
+    "t_prefill": 0.02807137099443935
+   },
+   {
+    "k": 5,
+    "n_tok": 89,
+    "t_prefill": 0.027817804002552293
+   },
+   {
+    "k": 6,
+    "n_tok": 86,
+    "t_prefill": 0.028029217006405815
+   },
+   {
+    "k": 7,
+    "n_tok": 48,
+    "t_prefill": 0.026084044991876
+   },
+   {
+    "k": 8,
+    "n_tok": 155,
+    "t_prefill": 0.02774088000296615
+   },
+   {
+    "k": 9,
+    "n_tok": 130,
+    "t_prefill": 0.02690230100415647
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.2911183730029734,
+    "n": 61,
+    "yes": true,
+    "tent": "Barking Dogs Never Bite is a film genre of comedy.<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.11317860899725929,
+    "n": 53,
+    "yes": true,
+    "tent": "Comedy-drama<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.31688775100337807,
+    "n": 62,
+    "yes": true,
+    "tent": "Barking Dogs Never Bite is a dark comedy-drama film.<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.35424608101311605,
+    "n": 64,
+    "yes": true,
+    "tent": "Barking Dogs Never Bite is a South Korean dark comedy-drama film.<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.11369733199535403,
+    "n": 53,
+    "yes": true,
+    "tent": "Comedy-drama<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.11219195000012405,
+    "n": 53,
+    "yes": true,
+    "tent": "Comedy-drama<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.11366262000228744,
+    "n": 53,
+    "yes": true,
+    "tent": "Comedy-drama<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.11208561500825454,
+    "n": 53,
+    "yes": true,
+    "tent": "Comedy-drama<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.11315670399926603,
+    "n": 53,
+    "yes": true,
+    "tent": "Comedy-drama<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.11156016300083138,
+    "n": 53,
+    "yes": true,
+    "tent": "Comedy-drama<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.13488026800041553
+ },
+ {
+  "stratum": "early",
+  "spec": true,
+  "acc": false,
+  "t_verify": 0.02566807701077778,
+  "t_ds": 0.5075937340006931,
+  "stop_at": 1,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 57,
+    "t_prefill": 0.02767885400680825
+   },
+   {
+    "k": 1,
+    "n_tok": 52,
+    "t_prefill": 0.026560643993434496
+   },
+   {
+    "k": 2,
+    "n_tok": 87,
+    "t_prefill": 0.028337568990536965
+   },
+   {
+    "k": 3,
+    "n_tok": 146,
+    "t_prefill": 0.027787070008344017
+   },
+   {
+    "k": 4,
+    "n_tok": 164,
+    "t_prefill": 0.02805537500535138
+   },
+   {
+    "k": 5,
+    "n_tok": 230,
+    "t_prefill": 0.02831163200607989
+   },
+   {
+    "k": 6,
+    "n_tok": 126,
+    "t_prefill": 0.027152808994287625
+   },
+   {
+    "k": 7,
+    "n_tok": 67,
+    "t_prefill": 0.02683815600175876
+   },
+   {
+    "k": 8,
+    "n_tok": 246,
+    "t_prefill": 0.027212771004997194
+   },
+   {
+    "k": 9,
+    "n_tok": 161,
+    "t_prefill": 0.027212286004214548
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.09304155099380296,
+    "n": 52,
+    "yes": true,
+    "tent": "G\u00fcl Mosque<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.09671056999650318,
+    "n": 52,
+    "yes": true,
+    "tent": "G\u00fcl Mosque<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.09197086399944965,
+    "n": 52,
+    "yes": true,
+    "tent": "G\u00fcl Mosque<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.09297873100149445,
+    "n": 52,
+    "yes": true,
+    "tent": "G\u00fcl Mosque<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.09126577198912855,
+    "n": 52,
+    "yes": true,
+    "tent": "G\u00fcl Mosque<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.09200010298809502,
+    "n": 52,
+    "yes": true,
+    "tent": "G\u00fcl Mosque<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.09164186799898744,
+    "n": 52,
+    "yes": true,
+    "tent": "G\u00fcl Mosque<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.092398539010901,
+    "n": 52,
+    "yes": true,
+    "tent": "G\u00fcl Mosque<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.09147323899378534,
+    "n": 52,
+    "yes": true,
+    "tent": "G\u00fcl Mosque<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.09067570100887679,
+    "n": 52,
+    "yes": true,
+    "tent": "G\u00fcl Mosque<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.11443435400724411
+ },
+ {
+  "stratum": "early",
+  "spec": true,
+  "acc": false,
+  "t_verify": 0.02578453000751324,
+  "t_ds": 0.8833982079959242,
+  "stop_at": 1,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 219,
+    "t_prefill": 0.02982361700560432
+   },
+   {
+    "k": 1,
+    "n_tok": 103,
+    "t_prefill": 0.02799826199770905
+   },
+   {
+    "k": 2,
+    "n_tok": 145,
+    "t_prefill": 0.02717183499771636
+   },
+   {
+    "k": 3,
+    "n_tok": 154,
+    "t_prefill": 0.02640390399028547
+   },
+   {
+    "k": 4,
+    "n_tok": 63,
+    "t_prefill": 0.026354547997470945
+   },
+   {
+    "k": 5,
+    "n_tok": 100,
+    "t_prefill": 0.02702817200042773
+   },
+   {
+    "k": 6,
+    "n_tok": 113,
+    "t_prefill": 0.028451570004108362
+   },
+   {
+    "k": 7,
+    "n_tok": 100,
+    "t_prefill": 0.026745373994344845
+   },
+   {
+    "k": 8,
+    "n_tok": 227,
+    "t_prefill": 0.027285254996968433
+   },
+   {
+    "k": 9,
+    "n_tok": 100,
+    "t_prefill": 0.027057037004851736
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.20269373898918275,
+    "n": 57,
+    "yes": true,
+    "tent": "$10,000 Kelly<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.20186789899889845,
+    "n": 57,
+    "yes": true,
+    "tent": "$10,000 Kelly<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.20122024200099986,
+    "n": 57,
+    "yes": true,
+    "tent": "$10,000 Kelly<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.19956600399746094,
+    "n": 57,
+    "yes": true,
+    "tent": "$10,000 Kelly<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.20068308000918478,
+    "n": 57,
+    "yes": true,
+    "tent": "$10,000 Kelly<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.20621582599414978,
+    "n": 57,
+    "yes": true,
+    "tent": "$10,000 Kelly<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.20362453600682784,
+    "n": 57,
+    "yes": true,
+    "tent": "$10,000 Kelly<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.19821356701140758,
+    "n": 57,
+    "yes": true,
+    "tent": "$10,000 Kelly<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.20622948498930782,
+    "n": 57,
+    "yes": true,
+    "tent": "$10,000 Kelly<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.06893965898780152,
+    "n": 51,
+    "yes": true,
+    "tent": "King Kelly<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.09262943299836479
+ },
+ {
+  "stratum": "early",
+  "spec": true,
+  "acc": false,
+  "t_verify": 0.02835089100699406,
+  "t_ds": 0.6399956080131233,
+  "stop_at": 1,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 156,
+    "t_prefill": 0.029878050001570955
+   },
+   {
+    "k": 1,
+    "n_tok": 89,
+    "t_prefill": 0.030275690005510114
+   },
+   {
+    "k": 2,
+    "n_tok": 186,
+    "t_prefill": 0.029013380000833422
+   },
+   {
+    "k": 3,
+    "n_tok": 70,
+    "t_prefill": 0.027306442003464326
+   },
+   {
+    "k": 4,
+    "n_tok": 173,
+    "t_prefill": 0.026770498996484093
+   },
+   {
+    "k": 5,
+    "n_tok": 49,
+    "t_prefill": 0.02553330600494519
+   },
+   {
+    "k": 6,
+    "n_tok": 95,
+    "t_prefill": 0.027772999004810117
+   },
+   {
+    "k": 7,
+    "n_tok": 259,
+    "t_prefill": 0.029043030997854657
+   },
+   {
+    "k": 8,
+    "n_tok": 95,
+    "t_prefill": 0.026649705003364943
+   },
+   {
+    "k": 9,
+    "n_tok": 90,
+    "t_prefill": 0.028234030003659427
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.07114492500841152,
+    "n": 51,
+    "yes": true,
+    "tent": "Big Pig<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.06912696200015489,
+    "n": 51,
+    "yes": true,
+    "tent": "Big Pig<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.06923805199039634,
+    "n": 51,
+    "yes": true,
+    "tent": "Big Pig<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.11695855000289157,
+    "n": 53,
+    "yes": true,
+    "tent": "Spirit of the West<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.11395163499400951,
+    "n": 53,
+    "yes": true,
+    "tent": "Spirit of the West<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.11322620999999344,
+    "n": 53,
+    "yes": true,
+    "tent": "Spirit of the West<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.11346081100055017,
+    "n": 53,
+    "yes": true,
+    "tent": "Spirit of the West<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.11266013399290387,
+    "n": 53,
+    "yes": true,
+    "tent": "Spirit of the West<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.07328639600018505,
+    "n": 51,
+    "yes": true,
+    "tent": "Big Pig<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.07119577800040133,
+    "n": 51,
+    "yes": true,
+    "tent": "Big Pig<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.22549136899760924
+ },
+ {
+  "stratum": "early",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.0254838390101213,
+  "t_ds": 0.14167153200833127,
+  "stop_at": 1,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 226,
+    "t_prefill": 0.02950832100759726
+   },
+   {
+    "k": 1,
+    "n_tok": 179,
+    "t_prefill": 0.028698851994704455
+   },
+   {
+    "k": 2,
+    "n_tok": 182,
+    "t_prefill": 0.029345100992941298
+   },
+   {
+    "k": 3,
+    "n_tok": 294,
+    "t_prefill": 0.029608693002955988
+   },
+   {
+    "k": 4,
+    "n_tok": 126,
+    "t_prefill": 0.026873573995544575
+   },
+   {
+    "k": 5,
+    "n_tok": 84,
+    "t_prefill": 0.026387652003904805
+   },
+   {
+    "k": 6,
+    "n_tok": 123,
+    "t_prefill": 0.026945427001919597
+   },
+   {
+    "k": 7,
+    "n_tok": 94,
+    "t_prefill": 0.026521987005253322
+   },
+   {
+    "k": 8,
+    "n_tok": 59,
+    "t_prefill": 0.025838792993454263
+   },
+   {
+    "k": 9,
+    "n_tok": 173,
+    "t_prefill": 0.027419403995736502
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.07279346098948736,
+    "n": 51,
+    "yes": true,
+    "tent": "Dirty Three<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.0705109559930861,
+    "n": 51,
+    "yes": true,
+    "tent": "Dirty Three<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.06871569799841382,
+    "n": 51,
+    "yes": true,
+    "tent": "Dirty Three<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.06871055500232615,
+    "n": 51,
+    "yes": true,
+    "tent": "Dirty Three<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.07329405398922972,
+    "n": 51,
+    "yes": true,
+    "tent": "Dirty Three<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.07012731599388644,
+    "n": 51,
+    "yes": true,
+    "tent": "Dirty Three<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.07004760099516716,
+    "n": 51,
+    "yes": true,
+    "tent": "Dirty Three<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.07079976800014265,
+    "n": 51,
+    "yes": true,
+    "tent": "Dirty Three<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.09216684800048824,
+    "n": 52,
+    "yes": true,
+    "tent": "Dirty Three.<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.06930475299304817,
+    "n": 51,
+    "yes": true,
+    "tent": "Dirty Three<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.1337929820001591
+ },
+ {
+  "stratum": "early",
+  "spec": false,
+  "acc": false,
+  "t_verify": 0.0,
+  "t_ds": 0.787868757994147,
+  "stop_at": null,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 36,
+    "t_prefill": 0.026551103990641423
+   },
+   {
+    "k": 1,
+    "n_tok": 204,
+    "t_prefill": 0.030460362002486363
+   },
+   {
+    "k": 2,
+    "n_tok": 530,
+    "t_prefill": 0.030999768001493067
+   },
+   {
+    "k": 3,
+    "n_tok": 46,
+    "t_prefill": 0.026230343006318435
+   },
+   {
+    "k": 4,
+    "n_tok": 285,
+    "t_prefill": 0.028535189005197026
+   },
+   {
+    "k": 5,
+    "n_tok": 88,
+    "t_prefill": 0.027002433009329252
+   },
+   {
+    "k": 6,
+    "n_tok": 67,
+    "t_prefill": 0.026484118992812
+   },
+   {
+    "k": 7,
+    "n_tok": 295,
+    "t_prefill": 0.02913158001319971
+   },
+   {
+    "k": 8,
+    "n_tok": 181,
+    "t_prefill": 0.02737104801053647
+   },
+   {
+    "k": 9,
+    "n_tok": 83,
+    "t_prefill": 0.026114350010175258
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.0482684309972683,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.04837296699406579,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.04708499100524932,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.04866143799154088,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.04761663998942822,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.04715306199796032,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.0473089449951658,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.04727130400715396,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.04701903599197976,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.04905569901166018,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.7408739109960152
+ },
+ {
+  "stratum": "early",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.027159123987075873,
+  "t_ds": 0.49372449700604193,
+  "stop_at": 1,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 96,
+    "t_prefill": 0.029555788001744077
+   },
+   {
+    "k": 1,
+    "n_tok": 46,
+    "t_prefill": 0.02639073200407438
+   },
+   {
+    "k": 2,
+    "n_tok": 61,
+    "t_prefill": 0.027709841990144923
+   },
+   {
+    "k": 3,
+    "n_tok": 120,
+    "t_prefill": 0.029447743989294395
+   },
+   {
+    "k": 4,
+    "n_tok": 145,
+    "t_prefill": 0.027719292003894225
+   },
+   {
+    "k": 5,
+    "n_tok": 185,
+    "t_prefill": 0.027327306001097895
+   },
+   {
+    "k": 6,
+    "n_tok": 149,
+    "t_prefill": 0.02813070699630771
+   },
+   {
+    "k": 7,
+    "n_tok": 220,
+    "t_prefill": 0.028046089995768853
+   },
+   {
+    "k": 8,
+    "n_tok": 186,
+    "t_prefill": 0.027019997010938823
+   },
+   {
+    "k": 9,
+    "n_tok": 156,
+    "t_prefill": 0.026780404994497076
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.09185482900647912,
+    "n": 52,
+    "yes": true,
+    "tent": "Elkmont<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.09297865998814814,
+    "n": 52,
+    "yes": true,
+    "tent": "Elkmont<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.09563064799294807,
+    "n": 52,
+    "yes": true,
+    "tent": "Elkmont<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.09477719799906481,
+    "n": 52,
+    "yes": true,
+    "tent": "Elkmont<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.09510946899536066,
+    "n": 52,
+    "yes": true,
+    "tent": "Elkmont<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.09297174100356642,
+    "n": 52,
+    "yes": true,
+    "tent": "Elkmont<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.09446535199822392,
+    "n": 52,
+    "yes": true,
+    "tent": "Elkmont<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.09247835600399412,
+    "n": 52,
+    "yes": true,
+    "tent": "Elkmont<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.09255141200264916,
+    "n": 52,
+    "yes": true,
+    "tent": "Elkmont<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.09118406599736772,
+    "n": 52,
+    "yes": true,
+    "tent": "Elkmont<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.15959263300464954
+ },
+ {
+  "stratum": "early",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.02897783400840126,
+  "t_ds": 0.5371465149946744,
+  "stop_at": 1,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 49,
+    "t_prefill": 0.027885086004971527
+   },
+   {
+    "k": 1,
+    "n_tok": 91,
+    "t_prefill": 0.02827215399884153
+   },
+   {
+    "k": 2,
+    "n_tok": 157,
+    "t_prefill": 0.029733675997704268
+   },
+   {
+    "k": 3,
+    "n_tok": 94,
+    "t_prefill": 0.027205448001041077
+   },
+   {
+    "k": 4,
+    "n_tok": 150,
+    "t_prefill": 0.028111484003602527
+   },
+   {
+    "k": 5,
+    "n_tok": 304,
+    "t_prefill": 0.030540059000486508
+   },
+   {
+    "k": 6,
+    "n_tok": 128,
+    "t_prefill": 0.026909484004136175
+   },
+   {
+    "k": 7,
+    "n_tok": 187,
+    "t_prefill": 0.027194117996259592
+   },
+   {
+    "k": 8,
+    "n_tok": 50,
+    "t_prefill": 0.02657559100771323
+   },
+   {
+    "k": 9,
+    "n_tok": 179,
+    "t_prefill": 0.027207842998905107
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.13710494700353593,
+    "n": 54,
+    "yes": true,
+    "tent": "Tamara Ecclestone<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.1398083910025889,
+    "n": 54,
+    "yes": true,
+    "tent": "Tamara Ecclestone<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.13802088898955844,
+    "n": 54,
+    "yes": true,
+    "tent": "Tamara Ecclestone<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.13787902898911852,
+    "n": 54,
+    "yes": true,
+    "tent": "Tamara Ecclestone<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.13671542999509256,
+    "n": 54,
+    "yes": true,
+    "tent": "Tamara Ecclestone<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.1372878469992429,
+    "n": 54,
+    "yes": true,
+    "tent": "Tamara Ecclestone<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.1349038250045851,
+    "n": 54,
+    "yes": true,
+    "tent": "Tamara Ecclestone<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.15627870100433938,
+    "n": 55,
+    "yes": true,
+    "tent": "Tamara Ecclestone.<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.13616287799959537,
+    "n": 54,
+    "yes": true,
+    "tent": "Tamara Ecclestone<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.13541311299195513,
+    "n": 54,
+    "yes": true,
+    "tent": "Tamara Ecclestone<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.15741513700049836
+ },
+ {
+  "stratum": "early",
+  "spec": true,
+  "acc": false,
+  "t_verify": 0.026151240002945997,
+  "t_ds": 0.7341143570083659,
+  "stop_at": 2,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 97,
+    "t_prefill": 0.028448657001717947
+   },
+   {
+    "k": 1,
+    "n_tok": 252,
+    "t_prefill": 0.03089682199060917
+   },
+   {
+    "k": 2,
+    "n_tok": 466,
+    "t_prefill": 0.02961273399705533
+   },
+   {
+    "k": 3,
+    "n_tok": 143,
+    "t_prefill": 0.02667352999560535
+   },
+   {
+    "k": 4,
+    "n_tok": 347,
+    "t_prefill": 0.03007458600040991
+   },
+   {
+    "k": 5,
+    "n_tok": 270,
+    "t_prefill": 0.029795467999065295
+   },
+   {
+    "k": 6,
+    "n_tok": 197,
+    "t_prefill": 0.02762513999186922
+   },
+   {
+    "k": 7,
+    "n_tok": 224,
+    "t_prefill": 0.027131348993862048
+   },
+   {
+    "k": 8,
+    "n_tok": 232,
+    "t_prefill": 0.0270923119969666
+   },
+   {
+    "k": 9,
+    "n_tok": 314,
+    "t_prefill": 0.029757080992567353
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.09294400300132111,
+    "n": 52,
+    "yes": true,
+    "tent": "Golden State Warriors<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.15918934800720308,
+    "n": 55,
+    "yes": true,
+    "tent": "Newark, New Jersey.<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.1573542069963878,
+    "n": 55,
+    "yes": true,
+    "tent": "Newark, New Jersey.<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.16032091299712192,
+    "n": 55,
+    "yes": true,
+    "tent": "Newark, New Jersey.<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.15774681299808435,
+    "n": 55,
+    "yes": true,
+    "tent": "Newark, New Jersey.<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.15693280201230664,
+    "n": 55,
+    "yes": true,
+    "tent": "Newark, New Jersey.<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.15651246700144839,
+    "n": 55,
+    "yes": true,
+    "tent": "Newark, New Jersey.<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.16018616998917423,
+    "n": 55,
+    "yes": true,
+    "tent": "Newark, New Jersey.<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.15989762199751567,
+    "n": 55,
+    "yes": true,
+    "tent": "Newark, New Jersey.<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.15813289899961092,
+    "n": 55,
+    "yes": true,
+    "tent": "Newark, New Jersey.<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.7289954320003744
+ },
+ {
+  "stratum": "early",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.026692612998886034,
+  "t_ds": 0.418145232993993,
+  "stop_at": 3,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 133,
+    "t_prefill": 0.03203329999814741
+   },
+   {
+    "k": 1,
+    "n_tok": 149,
+    "t_prefill": 0.028691865998553112
+   },
+   {
+    "k": 2,
+    "n_tok": 75,
+    "t_prefill": 0.027682086001732387
+   },
+   {
+    "k": 3,
+    "n_tok": 189,
+    "t_prefill": 0.028158542001619935
+   },
+   {
+    "k": 4,
+    "n_tok": 129,
+    "t_prefill": 0.02814327398664318
+   },
+   {
+    "k": 5,
+    "n_tok": 126,
+    "t_prefill": 0.027669500996125862
+   },
+   {
+    "k": 6,
+    "n_tok": 69,
+    "t_prefill": 0.026474506987142377
+   },
+   {
+    "k": 7,
+    "n_tok": 206,
+    "t_prefill": 0.027367264992790297
+   },
+   {
+    "k": 8,
+    "n_tok": 229,
+    "t_prefill": 0.027131558003020473
+   },
+   {
+    "k": 9,
+    "n_tok": 138,
+    "t_prefill": 0.027691309005604126
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.07640364200051408,
+    "n": 51,
+    "yes": true,
+    "tent": "Karen O<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.11560593800095376,
+    "n": 53,
+    "yes": true,
+    "tent": "Yeah Yeah Yeahs<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.0712638159893686,
+    "n": 51,
+    "yes": true,
+    "tent": "Karen O<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.0693169529986335,
+    "n": 51,
+    "yes": true,
+    "tent": "Karen O<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.33054827399610076,
+    "n": 63,
+    "yes": true,
+    "tent": "The vocalist and pianist recorded by Modular Recordings is Karen O.<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.33451750500535127,
+    "n": 63,
+    "yes": true,
+    "tent": "The vocalist and pianist recorded by Modular Recordings is Karen O.<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.07047047399100848,
+    "n": 51,
+    "yes": true,
+    "tent": "Karen O<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.3313809959945502,
+    "n": 63,
+    "yes": true,
+    "tent": "The vocalist and pianist recorded by Modular Recordings is Karen O.<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.33852919399214443,
+    "n": 63,
+    "yes": true,
+    "tent": "The vocalist and pianist recorded by Modular Recordings is Karen O.<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.3337004579952918,
+    "n": 63,
+    "yes": true,
+    "tent": "The vocalist and pianist recorded by Modular Recordings is Karen O.<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.17983966499741655
+ },
+ {
+  "stratum": "early",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.027517536000232212,
+  "t_ds": 0.43427663399779703,
+  "stop_at": 1,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 84,
+    "t_prefill": 0.02861553299590014
+   },
+   {
+    "k": 1,
+    "n_tok": 62,
+    "t_prefill": 0.02742638101335615
+   },
+   {
+    "k": 2,
+    "n_tok": 257,
+    "t_prefill": 0.02995509500033222
+   },
+   {
+    "k": 3,
+    "n_tok": 243,
+    "t_prefill": 0.028574629002832808
+   },
+   {
+    "k": 4,
+    "n_tok": 221,
+    "t_prefill": 0.027675559991621412
+   },
+   {
+    "k": 5,
+    "n_tok": 232,
+    "t_prefill": 0.026944625991745852
+   },
+   {
+    "k": 6,
+    "n_tok": 232,
+    "t_prefill": 0.026757701009046286
+   },
+   {
+    "k": 7,
+    "n_tok": 157,
+    "t_prefill": 0.02714263999951072
+   },
+   {
+    "k": 8,
+    "n_tok": 213,
+    "t_prefill": 0.02717433100042399
+   },
+   {
+    "k": 9,
+    "n_tok": 199,
+    "t_prefill": 0.027259636990493163
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.11431604099925607,
+    "n": 53,
+    "yes": true,
+    "tent": "1986<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.11512884499097709,
+    "n": 53,
+    "yes": true,
+    "tent": "1986<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.11721970899088774,
+    "n": 53,
+    "yes": true,
+    "tent": "1986<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.11378920599236153,
+    "n": 53,
+    "yes": true,
+    "tent": "1986<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.11325221799779683,
+    "n": 53,
+    "yes": true,
+    "tent": "1986<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.11220776000118349,
+    "n": 53,
+    "yes": true,
+    "tent": "1986<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.11474850199010689,
+    "n": 53,
+    "yes": true,
+    "tent": "1986<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.11455653599114157,
+    "n": 53,
+    "yes": true,
+    "tent": "1986<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.11453818299924023,
+    "n": 53,
+    "yes": true,
+    "tent": "1986<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.1137007279903628,
+    "n": 53,
+    "yes": true,
+    "tent": "1986<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.11261089000618085
+ },
+ {
+  "stratum": "early",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.02745098600280471,
+  "t_ds": 0.1588852360000601,
+  "stop_at": 1,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 127,
+    "t_prefill": 0.029040310997515917
+   },
+   {
+    "k": 1,
+    "n_tok": 123,
+    "t_prefill": 0.02781378899817355
+   },
+   {
+    "k": 2,
+    "n_tok": 144,
+    "t_prefill": 0.027044764006859623
+   },
+   {
+    "k": 3,
+    "n_tok": 49,
+    "t_prefill": 0.027766024999436922
+   },
+   {
+    "k": 4,
+    "n_tok": 138,
+    "t_prefill": 0.029092950993799604
+   },
+   {
+    "k": 5,
+    "n_tok": 71,
+    "t_prefill": 0.026594171999022365
+   },
+   {
+    "k": 6,
+    "n_tok": 145,
+    "t_prefill": 0.0270256759977201
+   },
+   {
+    "k": 7,
+    "n_tok": 280,
+    "t_prefill": 0.02869711299717892
+   },
+   {
+    "k": 8,
+    "n_tok": 52,
+    "t_prefill": 0.026202868000837043
+   },
+   {
+    "k": 9,
+    "n_tok": 72,
+    "t_prefill": 0.02660539599310141
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.09258350401069038,
+    "n": 52,
+    "yes": true,
+    "tent": "Life After People<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.09424795699305832,
+    "n": 52,
+    "yes": true,
+    "tent": "Life After People<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.09286690100270789,
+    "n": 52,
+    "yes": true,
+    "tent": "Life After People<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.05222830300044734,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.09151990100508556,
+    "n": 52,
+    "yes": true,
+    "tent": "Life After People<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.09444050399179105,
+    "n": 52,
+    "yes": true,
+    "tent": "Life After People<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.0924821009975858,
+    "n": 52,
+    "yes": true,
+    "tent": "Life After People<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.0495986659952905,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.04882416200416628,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.0915146960032871,
+    "n": 52,
+    "yes": true,
+    "tent": "Life After People<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.1567433590098517
+ },
+ {
+  "stratum": "early",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.024907978004193865,
+  "t_ds": 0.21846433699829504,
+  "stop_at": 2,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 91,
+    "t_prefill": 0.028030674991896376
+   },
+   {
+    "k": 1,
+    "n_tok": 175,
+    "t_prefill": 0.02977367899438832
+   },
+   {
+    "k": 2,
+    "n_tok": 124,
+    "t_prefill": 0.027759270000387914
+   },
+   {
+    "k": 3,
+    "n_tok": 282,
+    "t_prefill": 0.028831151998019777
+   },
+   {
+    "k": 4,
+    "n_tok": 162,
+    "t_prefill": 0.028210682998178527
+   },
+   {
+    "k": 5,
+    "n_tok": 454,
+    "t_prefill": 0.030039997000130825
+   },
+   {
+    "k": 6,
+    "n_tok": 64,
+    "t_prefill": 0.02841630500915926
+   },
+   {
+    "k": 7,
+    "n_tok": 165,
+    "t_prefill": 0.02829280101286713
+   },
+   {
+    "k": 8,
+    "n_tok": 97,
+    "t_prefill": 0.027233348999288864
+   },
+   {
+    "k": 9,
+    "n_tok": 213,
+    "t_prefill": 0.02679835598974023
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.048522304990910925,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.13871437498892192,
+    "n": 54,
+    "yes": true,
+    "tent": "Harper's Bazaar<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.13485277800646145,
+    "n": 54,
+    "yes": true,
+    "tent": "Harper's Bazaar<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.13398933499411214,
+    "n": 54,
+    "yes": true,
+    "tent": "Harper's Bazaar<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.14255565199709963,
+    "n": 54,
+    "yes": true,
+    "tent": "Harper's Bazaar<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.13730069498706143,
+    "n": 54,
+    "yes": true,
+    "tent": "Harper's Bazaar<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.13487260701367632,
+    "n": 54,
+    "yes": true,
+    "tent": "Harper's Bazaar<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.1584654009930091,
+    "n": 55,
+    "yes": true,
+    "tent": "Harper's Bazaar.<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.15597147699736524,
+    "n": 55,
+    "yes": true,
+    "tent": "Harper's Bazaar.<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.1343591080076294,
+    "n": 54,
+    "yes": true,
+    "tent": "Harper's Bazaar<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.15963770099915564
+ },
+ {
+  "stratum": "early",
+  "spec": true,
+  "acc": false,
+  "t_verify": 0.028555069002322853,
+  "t_ds": 0.5946556330018211,
+  "stop_at": 2,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 242,
+    "t_prefill": 0.034384423997835256
+   },
+   {
+    "k": 1,
+    "n_tok": 47,
+    "t_prefill": 0.026624644990079105
+   },
+   {
+    "k": 2,
+    "n_tok": 118,
+    "t_prefill": 0.026971127997967415
+   },
+   {
+    "k": 3,
+    "n_tok": 83,
+    "t_prefill": 0.026524531000177376
+   },
+   {
+    "k": 4,
+    "n_tok": 184,
+    "t_prefill": 0.027591052989009768
+   },
+   {
+    "k": 5,
+    "n_tok": 110,
+    "t_prefill": 0.027398378995712847
+   },
+   {
+    "k": 6,
+    "n_tok": 131,
+    "t_prefill": 0.0276353060035035
+   },
+   {
+    "k": 7,
+    "n_tok": 202,
+    "t_prefill": 0.026854204988921992
+   },
+   {
+    "k": 8,
+    "n_tok": 212,
+    "t_prefill": 0.030405999001231976
+   },
+   {
+    "k": 9,
+    "n_tok": 221,
+    "t_prefill": 0.026821934996405616
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.08103622699854895,
+    "n": 51,
+    "yes": true,
+    "tent": "8th<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.11624858299910557,
+    "n": 53,
+    "yes": true,
+    "tent": "215th<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.11374094599159434,
+    "n": 53,
+    "yes": true,
+    "tent": "215th<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.11199216599925421,
+    "n": 53,
+    "yes": true,
+    "tent": "215th<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.11501547499210574,
+    "n": 53,
+    "yes": true,
+    "tent": "215th<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.11442686400550883,
+    "n": 53,
+    "yes": true,
+    "tent": "215th<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.1150986099964939,
+    "n": 53,
+    "yes": true,
+    "tent": "215th<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.11388139599876013,
+    "n": 53,
+    "yes": true,
+    "tent": "215th<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.11521669400099199,
+    "n": 53,
+    "yes": true,
+    "tent": "215th<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.11381829899619333,
+    "n": 53,
+    "yes": true,
+    "tent": "215th<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.6178377129981527
+ },
+ {
+  "stratum": "early",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.02668223799264524,
+  "t_ds": 1.0675452340074116,
+  "stop_at": 1,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 289,
+    "t_prefill": 0.03446535600232892
+   },
+   {
+    "k": 1,
+    "n_tok": 110,
+    "t_prefill": 0.028452364989789203
+   },
+   {
+    "k": 2,
+    "n_tok": 639,
+    "t_prefill": 0.030485099996440113
+   },
+   {
+    "k": 3,
+    "n_tok": 180,
+    "t_prefill": 0.028716389002511278
+   },
+   {
+    "k": 4,
+    "n_tok": 298,
+    "t_prefill": 0.029344076989218593
+   },
+   {
+    "k": 5,
+    "n_tok": 109,
+    "t_prefill": 0.026994509011274204
+   },
+   {
+    "k": 6,
+    "n_tok": 110,
+    "t_prefill": 0.026711996004451066
+   },
+   {
+    "k": 7,
+    "n_tok": 101,
+    "t_prefill": 0.027917006009374745
+   },
+   {
+    "k": 8,
+    "n_tok": 162,
+    "t_prefill": 0.028330622997600585
+   },
+   {
+    "k": 9,
+    "n_tok": 164,
+    "t_prefill": 0.027321553003275767
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.09799190500052646,
+    "n": 52,
+    "yes": true,
+    "tent": "World War II<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.09107375700841658,
+    "n": 52,
+    "yes": true,
+    "tent": "World War II<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.09274892299436033,
+    "n": 52,
+    "yes": true,
+    "tent": "World War II<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.11492804400040768,
+    "n": 53,
+    "yes": true,
+    "tent": "World War II.<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.1154140400030883,
+    "n": 53,
+    "yes": true,
+    "tent": "World War II.<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.11339174999739043,
+    "n": 53,
+    "yes": true,
+    "tent": "World War II.<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.11591965600382537,
+    "n": 53,
+    "yes": true,
+    "tent": "World War II.<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.1146093120041769,
+    "n": 53,
+    "yes": true,
+    "tent": "World War II.<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.11696878900693264,
+    "n": 53,
+    "yes": true,
+    "tent": "World War II.<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.1131571099977009,
+    "n": 53,
+    "yes": true,
+    "tent": "World War II.<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.11390958100673743
+ },
+ {
+  "stratum": "early",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.0249903960066149,
+  "t_ds": 0.4208802229986759,
+  "stop_at": 1,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 97,
+    "t_prefill": 0.029005183998378925
+   },
+   {
+    "k": 1,
+    "n_tok": 72,
+    "t_prefill": 0.027236377994995564
+   },
+   {
+    "k": 2,
+    "n_tok": 90,
+    "t_prefill": 0.027873468992765993
+   },
+   {
+    "k": 3,
+    "n_tok": 234,
+    "t_prefill": 0.027353569006663747
+   },
+   {
+    "k": 4,
+    "n_tok": 116,
+    "t_prefill": 0.02927849200204946
+   },
+   {
+    "k": 5,
+    "n_tok": 145,
+    "t_prefill": 0.027895036997506395
+   },
+   {
+    "k": 6,
+    "n_tok": 100,
+    "t_prefill": 0.027463203005027026
+   },
+   {
+    "k": 7,
+    "n_tok": 95,
+    "t_prefill": 0.02698057101224549
+   },
+   {
+    "k": 8,
+    "n_tok": 108,
+    "t_prefill": 0.027205471007619053
+   },
+   {
+    "k": 9,
+    "n_tok": 84,
+    "t_prefill": 0.026546363995294087
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.1376231759932125,
+    "n": 54,
+    "yes": true,
+    "tent": "Fort Valley, Georgia.<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.13612121201003902,
+    "n": 54,
+    "yes": true,
+    "tent": "Fort Valley, Georgia.<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.13994562199513894,
+    "n": 54,
+    "yes": true,
+    "tent": "Fort Valley, Georgia.<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.13606749899918213,
+    "n": 54,
+    "yes": true,
+    "tent": "Fort Valley, Georgia.<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.13763144399854355,
+    "n": 54,
+    "yes": true,
+    "tent": "Fort Valley, Georgia.<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.13501054998778272,
+    "n": 54,
+    "yes": true,
+    "tent": "Fort Valley, Georgia.<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.1356131189968437,
+    "n": 54,
+    "yes": true,
+    "tent": "Fort Valley, Georgia.<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.13616143599210773,
+    "n": 54,
+    "yes": true,
+    "tent": "Fort Valley, Georgia.<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.1381799660011893,
+    "n": 54,
+    "yes": true,
+    "tent": "Fort Valley, Georgia.<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.13491123299172614,
+    "n": 54,
+    "yes": true,
+    "tent": "Fort Valley, Georgia.<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.1361804759944789
+ },
+ {
+  "stratum": "early",
+  "spec": true,
+  "acc": false,
+  "t_verify": 0.026912841000012122,
+  "t_ds": 0.44562472600955516,
+  "stop_at": 2,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 128,
+    "t_prefill": 0.028887546999612823
+   },
+   {
+    "k": 1,
+    "n_tok": 91,
+    "t_prefill": 0.02762865500699263
+   },
+   {
+    "k": 2,
+    "n_tok": 159,
+    "t_prefill": 0.028120590999606065
+   },
+   {
+    "k": 3,
+    "n_tok": 148,
+    "t_prefill": 0.027215219000936486
+   },
+   {
+    "k": 4,
+    "n_tok": 142,
+    "t_prefill": 0.027424101004726253
+   },
+   {
+    "k": 5,
+    "n_tok": 129,
+    "t_prefill": 0.026693441992392763
+   },
+   {
+    "k": 6,
+    "n_tok": 173,
+    "t_prefill": 0.026211516989860684
+   },
+   {
+    "k": 7,
+    "n_tok": 124,
+    "t_prefill": 0.026938848997815512
+   },
+   {
+    "k": 8,
+    "n_tok": 143,
+    "t_prefill": 0.027093362994492054
+   },
+   {
+    "k": 9,
+    "n_tok": 145,
+    "t_prefill": 0.02708257400081493
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.07319505400664639,
+    "n": 51,
+    "yes": true,
+    "tent": "14<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.07156674400903285,
+    "n": 51,
+    "yes": true,
+    "tent": "Tsst<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.06925642699934542,
+    "n": 51,
+    "yes": true,
+    "tent": "Tsst<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.09355235399561934,
+    "n": 52,
+    "yes": true,
+    "tent": "210<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.0921832629974233,
+    "n": 52,
+    "yes": true,
+    "tent": "210<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.09321307401114609,
+    "n": 52,
+    "yes": true,
+    "tent": "210<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.08965192800678778,
+    "n": 52,
+    "yes": true,
+    "tent": "210<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.09318082399840932,
+    "n": 52,
+    "yes": true,
+    "tent": "210<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.09155285799351986,
+    "n": 52,
+    "yes": true,
+    "tent": "210<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.09416964500269387,
+    "n": 52,
+    "yes": true,
+    "tent": "201<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.7224504399928264
+ },
+ {
+  "stratum": "early",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.026913702007732354,
+  "t_ds": 0.6886293069983367,
+  "stop_at": 2,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 195,
+    "t_prefill": 0.029471072004525922
+   },
+   {
+    "k": 1,
+    "n_tok": 50,
+    "t_prefill": 0.02714960700541269
+   },
+   {
+    "k": 2,
+    "n_tok": 224,
+    "t_prefill": 0.02718217999790795
+   },
+   {
+    "k": 3,
+    "n_tok": 221,
+    "t_prefill": 0.026737967011285946
+   },
+   {
+    "k": 4,
+    "n_tok": 157,
+    "t_prefill": 0.028245533991139382
+   },
+   {
+    "k": 5,
+    "n_tok": 98,
+    "t_prefill": 0.027165434003109112
+   },
+   {
+    "k": 6,
+    "n_tok": 180,
+    "t_prefill": 0.026449824988958426
+   },
+   {
+    "k": 7,
+    "n_tok": 223,
+    "t_prefill": 0.027030676006688736
+   },
+   {
+    "k": 8,
+    "n_tok": 103,
+    "t_prefill": 0.028104293000069447
+   },
+   {
+    "k": 9,
+    "n_tok": 185,
+    "t_prefill": 0.027114566008094698
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.04936573999293614,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.09354205199633725,
+    "n": 52,
+    "yes": true,
+    "tent": "Matt Winer<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.08981109099113382,
+    "n": 52,
+    "yes": true,
+    "tent": "Matt Winer<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.09118403399770614,
+    "n": 52,
+    "yes": true,
+    "tent": "Matt Winer<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.09046746300009545,
+    "n": 52,
+    "yes": true,
+    "tent": "Matt Winer<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.09214253099344205,
+    "n": 52,
+    "yes": true,
+    "tent": "Matt Winer<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.09261235099984333,
+    "n": 52,
+    "yes": true,
+    "tent": "Matt Winer<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.09126272799039725,
+    "n": 52,
+    "yes": true,
+    "tent": "Matt Winer<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.09197150699037593,
+    "n": 52,
+    "yes": true,
+    "tent": "Matt Winer<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.09166161500615999,
+    "n": 52,
+    "yes": true,
+    "tent": "Matthew Winer<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.11183366800833028
+ },
+ {
+  "stratum": "early",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.028315827003098093,
+  "t_ds": 0.6269537369953468,
+  "stop_at": 1,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 53,
+    "t_prefill": 0.026904858998022974
+   },
+   {
+    "k": 1,
+    "n_tok": 165,
+    "t_prefill": 0.0285071969992714
+   },
+   {
+    "k": 2,
+    "n_tok": 139,
+    "t_prefill": 0.02858997500152327
+   },
+   {
+    "k": 3,
+    "n_tok": 109,
+    "t_prefill": 0.026972328996635042
+   },
+   {
+    "k": 4,
+    "n_tok": 58,
+    "t_prefill": 0.02618097499362193
+   },
+   {
+    "k": 5,
+    "n_tok": 133,
+    "t_prefill": 0.026867848995607346
+   },
+   {
+    "k": 6,
+    "n_tok": 194,
+    "t_prefill": 0.02730343800794799
+   },
+   {
+    "k": 7,
+    "n_tok": 164,
+    "t_prefill": 0.028672984000877477
+   },
+   {
+    "k": 8,
+    "n_tok": 111,
+    "t_prefill": 0.0276630739972461
+   },
+   {
+    "k": 9,
+    "n_tok": 127,
+    "t_prefill": 0.02720064899767749
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.1575889640080277,
+    "n": 55,
+    "yes": true,
+    "tent": "D. Napier & Son<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.16189445099735167,
+    "n": 55,
+    "yes": true,
+    "tent": "D. Napier & Son<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.16037743000197224,
+    "n": 55,
+    "yes": true,
+    "tent": "D. Napier & Son<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.15876111399848014,
+    "n": 55,
+    "yes": true,
+    "tent": "D. Napier & Son<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.15731640000012703,
+    "n": 55,
+    "yes": true,
+    "tent": "D. Napier & Son<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.15806051300023682,
+    "n": 55,
+    "yes": true,
+    "tent": "D. Napier & Son<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.15869562300213147,
+    "n": 55,
+    "yes": true,
+    "tent": "D. Napier & Son<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.16197232500417158,
+    "n": 55,
+    "yes": true,
+    "tent": "D. Napier & Son<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.15774915298970882,
+    "n": 55,
+    "yes": true,
+    "tent": "D. Napier & Son<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.15657753600680735,
+    "n": 55,
+    "yes": true,
+    "tent": "D. Napier & Son<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.1791720759938471
+ },
+ {
+  "stratum": "mid",
+  "spec": true,
+  "acc": false,
+  "t_verify": 0.027911853001569398,
+  "t_ds": 0.6884462669986533,
+  "stop_at": 5,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 135,
+    "t_prefill": 0.029658048995770514
+   },
+   {
+    "k": 1,
+    "n_tok": 82,
+    "t_prefill": 0.028184524999232963
+   },
+   {
+    "k": 2,
+    "n_tok": 264,
+    "t_prefill": 0.02866838700720109
+   },
+   {
+    "k": 3,
+    "n_tok": 84,
+    "t_prefill": 0.02648958799545653
+   },
+   {
+    "k": 4,
+    "n_tok": 97,
+    "t_prefill": 0.027725644991733134
+   },
+   {
+    "k": 5,
+    "n_tok": 79,
+    "t_prefill": 0.027315692001138814
+   },
+   {
+    "k": 6,
+    "n_tok": 122,
+    "t_prefill": 0.028209659009007737
+   },
+   {
+    "k": 7,
+    "n_tok": 126,
+    "t_prefill": 0.028047900996170938
+   },
+   {
+    "k": 8,
+    "n_tok": 166,
+    "t_prefill": 0.028527934991871007
+   },
+   {
+    "k": 9,
+    "n_tok": 379,
+    "t_prefill": 0.0332461729994975
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.04936001999885775,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.05154303398740012,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.04803326301043853,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.0479037379991496,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.37891768000554293,
+    "n": 64,
+    "yes": true,
+    "tent": "The adaptations of The Octonauts book series continued with a TV series for the"
+   },
+   {
+    "k": 5,
+    "t": 0.3813798159972066,
+    "n": 64,
+    "yes": true,
+    "tent": "The adaptations of The Octonauts book series continued with a TV series for the"
+   },
+   {
+    "k": 6,
+    "t": 0.38078668899834156,
+    "n": 64,
+    "yes": true,
+    "tent": "The adaptations of The Octonauts book series continued with a TV series for the"
+   },
+   {
+    "k": 7,
+    "t": 0.3772105280077085,
+    "n": 64,
+    "yes": true,
+    "tent": "The adaptations of the The Octonauts book series continued with a TV series for"
+   },
+   {
+    "k": 8,
+    "t": 0.38560367899481207,
+    "n": 64,
+    "yes": true,
+    "tent": "The adaptations of The Octonauts book series continued with a TV series for the"
+   },
+   {
+    "k": 9,
+    "t": 0.38393289799569175,
+    "n": 64,
+    "yes": true,
+    "tent": "The adaptations of The Octonauts book series continued with a TV series for the"
+   }
+  ],
+  "t_ansA": 0.7024836909986334
+ },
+ {
+  "stratum": "mid",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.026936728012515232,
+  "t_ds": 0.5093603510031244,
+  "stop_at": 3,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 61,
+    "t_prefill": 0.028173688988317735
+   },
+   {
+    "k": 1,
+    "n_tok": 111,
+    "t_prefill": 0.029354081008932553
+   },
+   {
+    "k": 2,
+    "n_tok": 62,
+    "t_prefill": 0.02695979899726808
+   },
+   {
+    "k": 3,
+    "n_tok": 301,
+    "t_prefill": 0.02891277099843137
+   },
+   {
+    "k": 4,
+    "n_tok": 108,
+    "t_prefill": 0.026275104988599196
+   },
+   {
+    "k": 5,
+    "n_tok": 46,
+    "t_prefill": 0.026238167003612034
+   },
+   {
+    "k": 6,
+    "n_tok": 55,
+    "t_prefill": 0.026455510000232607
+   },
+   {
+    "k": 7,
+    "n_tok": 443,
+    "t_prefill": 0.029344643000513315
+   },
+   {
+    "k": 8,
+    "n_tok": 297,
+    "t_prefill": 0.028458155007683672
+   },
+   {
+    "k": 9,
+    "n_tok": 159,
+    "t_prefill": 0.026985354008502327
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.04961069299315568,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.05018828698666766,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.09488210400741082,
+    "n": 52,
+    "yes": true,
+    "tent": "P.O.S<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.09253489300317597,
+    "n": 52,
+    "yes": true,
+    "tent": "P.O.S<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.09139411100477446,
+    "n": 52,
+    "yes": true,
+    "tent": "P.O.S<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.09101692000695039,
+    "n": 52,
+    "yes": true,
+    "tent": "P.O.S<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.09401736399740912,
+    "n": 52,
+    "yes": true,
+    "tent": "P.O.S<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.09193476599466521,
+    "n": 52,
+    "yes": true,
+    "tent": "P.O.S<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.09379123100370634,
+    "n": 52,
+    "yes": true,
+    "tent": "P.O.S<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.09178513099323027,
+    "n": 52,
+    "yes": true,
+    "tent": "P.O.S<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.09242691899999045
+ },
+ {
+  "stratum": "mid",
+  "spec": true,
+  "acc": false,
+  "t_verify": 0.02592880799784325,
+  "t_ds": 0.9758007029886357,
+  "stop_at": 6,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 151,
+    "t_prefill": 0.029578146000858396
+   },
+   {
+    "k": 1,
+    "n_tok": 58,
+    "t_prefill": 0.028066753991879523
+   },
+   {
+    "k": 2,
+    "n_tok": 156,
+    "t_prefill": 0.02808594799716957
+   },
+   {
+    "k": 3,
+    "n_tok": 87,
+    "t_prefill": 0.027441376994829625
+   },
+   {
+    "k": 4,
+    "n_tok": 102,
+    "t_prefill": 0.02818364200356882
+   },
+   {
+    "k": 5,
+    "n_tok": 80,
+    "t_prefill": 0.027732141999877058
+   },
+   {
+    "k": 6,
+    "n_tok": 114,
+    "t_prefill": 0.02885969600174576
+   },
+   {
+    "k": 7,
+    "n_tok": 113,
+    "t_prefill": 0.026690363985835575
+   },
+   {
+    "k": 8,
+    "n_tok": 111,
+    "t_prefill": 0.028746220006723888
+   },
+   {
+    "k": 9,
+    "n_tok": 118,
+    "t_prefill": 0.028241798005183227
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.04902279200905468,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.04837576000136323,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.04813120499602519,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.04986987200391013,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.37991614699421916,
+    "n": 64,
+    "yes": true,
+    "tent": "The vehicle offered as a prize to contestants on the first season of The Amazing Race"
+   },
+   {
+    "k": 5,
+    "t": 0.13996573501208331,
+    "n": 54,
+    "yes": true,
+    "tent": "Chevrolet Corvette Stingray<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.1369509779906366,
+    "n": 54,
+    "yes": true,
+    "tent": "Chevrolet Corvette Stingray<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.13566461500886362,
+    "n": 54,
+    "yes": true,
+    "tent": "Chevrolet Corvette Stingray<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.13685511800576933,
+    "n": 54,
+    "yes": true,
+    "tent": "Chevrolet Corvette Stingray<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.134942004995537,
+    "n": 54,
+    "yes": true,
+    "tent": "Chevrolet Corvette Stingray<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.5484377780085197
+ },
+ {
+  "stratum": "mid",
+  "spec": false,
+  "acc": false,
+  "t_verify": 0.0,
+  "t_ds": 0.26933101000031456,
+  "stop_at": null,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 161,
+    "t_prefill": 0.02890054599265568
+   },
+   {
+    "k": 1,
+    "n_tok": 150,
+    "t_prefill": 0.0280511399905663
+   },
+   {
+    "k": 2,
+    "n_tok": 225,
+    "t_prefill": 0.02751689100114163
+   },
+   {
+    "k": 3,
+    "n_tok": 138,
+    "t_prefill": 0.027746745996410027
+   },
+   {
+    "k": 4,
+    "n_tok": 123,
+    "t_prefill": 0.02833861300314311
+   },
+   {
+    "k": 5,
+    "n_tok": 59,
+    "t_prefill": 0.02646512701176107
+   },
+   {
+    "k": 6,
+    "n_tok": 157,
+    "t_prefill": 0.02803892400697805
+   },
+   {
+    "k": 7,
+    "n_tok": 133,
+    "t_prefill": 0.02748602899373509
+   },
+   {
+    "k": 8,
+    "n_tok": 158,
+    "t_prefill": 0.027236879992415197
+   },
+   {
+    "k": 9,
+    "n_tok": 306,
+    "t_prefill": 0.02861684800882358
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.050085745999240316,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.04839114300557412,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.04799074098991696,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.04807493400585372,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.04813577700406313,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.04916782600048464,
+    "n": 50,
+    "yes": true,
+    "tent": "England<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.05138899899611715,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.04926049699133728,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.04775230199447833,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.04894306100322865,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.2730224280094262
+ },
+ {
+  "stratum": "mid",
+  "spec": false,
+  "acc": false,
+  "t_verify": 0.0,
+  "t_ds": 0.5956242450047284,
+  "stop_at": null,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 140,
+    "t_prefill": 0.03035750100389123
+   },
+   {
+    "k": 1,
+    "n_tok": 91,
+    "t_prefill": 0.028075228998204693
+   },
+   {
+    "k": 2,
+    "n_tok": 163,
+    "t_prefill": 0.02946485299617052
+   },
+   {
+    "k": 3,
+    "n_tok": 112,
+    "t_prefill": 0.02869280600862112
+   },
+   {
+    "k": 4,
+    "n_tok": 160,
+    "t_prefill": 0.027014883991796523
+   },
+   {
+    "k": 5,
+    "n_tok": 68,
+    "t_prefill": 0.026825153006939217
+   },
+   {
+    "k": 6,
+    "n_tok": 177,
+    "t_prefill": 0.026945060002617538
+   },
+   {
+    "k": 7,
+    "n_tok": 57,
+    "t_prefill": 0.02603858600195963
+   },
+   {
+    "k": 8,
+    "n_tok": 224,
+    "t_prefill": 0.026797034006449394
+   },
+   {
+    "k": 9,
+    "n_tok": 144,
+    "t_prefill": 0.02632065600482747
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.050760953992721625,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.04872926601092331,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.24640231700323056,
+    "n": 59,
+    "yes": true,
+    "tent": "June 2, 2012.<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.049652436005999334,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.048915171006228775,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.24602299499383662,
+    "n": 59,
+    "yes": true,
+    "tent": "June 2, 2012.<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.05046634600148536,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.05016413101111539,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.04721306900319178,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.0484887730126502,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.2461729060014477
+ },
+ {
+  "stratum": "mid",
+  "spec": true,
+  "acc": false,
+  "t_verify": 0.02994172100443393,
+  "t_ds": 0.4904978489939822,
+  "stop_at": 5,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 229,
+    "t_prefill": 0.02984774399374146
+   },
+   {
+    "k": 1,
+    "n_tok": 215,
+    "t_prefill": 0.028660554002271965
+   },
+   {
+    "k": 2,
+    "n_tok": 224,
+    "t_prefill": 0.02780517599603627
+   },
+   {
+    "k": 3,
+    "n_tok": 190,
+    "t_prefill": 0.02713349199621007
+   },
+   {
+    "k": 4,
+    "n_tok": 79,
+    "t_prefill": 0.027690928996889852
+   },
+   {
+    "k": 5,
+    "n_tok": 58,
+    "t_prefill": 0.027765093007474206
+   },
+   {
+    "k": 6,
+    "n_tok": 39,
+    "t_prefill": 0.02590269999927841
+   },
+   {
+    "k": 7,
+    "n_tok": 203,
+    "t_prefill": 0.027691968003637157
+   },
+   {
+    "k": 8,
+    "n_tok": 347,
+    "t_prefill": 0.028456664993427694
+   },
+   {
+    "k": 9,
+    "n_tok": 254,
+    "t_prefill": 0.029777179996017367
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.05043655200279318,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.04882256199198309,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.05014489700261038,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.04893884199555032,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.16146016800485086,
+    "n": 55,
+    "yes": true,
+    "tent": "26,000<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.15857450000476092,
+    "n": 55,
+    "yes": true,
+    "tent": "26,000<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.158754943011445,
+    "n": 55,
+    "yes": true,
+    "tent": "26,000<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.16024577400821727,
+    "n": 55,
+    "yes": true,
+    "tent": "26,000<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.15925478900317103,
+    "n": 55,
+    "yes": true,
+    "tent": "26,000<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.15903868500026874,
+    "n": 55,
+    "yes": true,
+    "tent": "26,000<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.25915890900068916
+ },
+ {
+  "stratum": "mid",
+  "spec": true,
+  "acc": false,
+  "t_verify": 0.027092885007732548,
+  "t_ds": 0.5128907780017471,
+  "stop_at": 7,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 118,
+    "t_prefill": 0.02973165399453137
+   },
+   {
+    "k": 1,
+    "n_tok": 154,
+    "t_prefill": 0.029238672999781556
+   },
+   {
+    "k": 2,
+    "n_tok": 137,
+    "t_prefill": 0.028073150009731762
+   },
+   {
+    "k": 3,
+    "n_tok": 109,
+    "t_prefill": 0.03718138000112958
+   },
+   {
+    "k": 4,
+    "n_tok": 69,
+    "t_prefill": 0.029542894000769593
+   },
+   {
+    "k": 5,
+    "n_tok": 79,
+    "t_prefill": 0.028159479988971725
+   },
+   {
+    "k": 6,
+    "n_tok": 101,
+    "t_prefill": 0.02791658800560981
+   },
+   {
+    "k": 7,
+    "n_tok": 124,
+    "t_prefill": 0.028698353009531274
+   },
+   {
+    "k": 8,
+    "n_tok": 115,
+    "t_prefill": 0.028412047991878353
+   },
+   {
+    "k": 9,
+    "n_tok": 155,
+    "t_prefill": 0.02915959899837617
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.049633793998509645,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.05182532699836884,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.0488047520047985,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.06671967200236395,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.15355635099695064,
+    "n": 53,
+    "yes": true,
+    "tent": "1865<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.11884155200095847,
+    "n": 53,
+    "yes": true,
+    "tent": "1936<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.11746851800126024,
+    "n": 53,
+    "yes": true,
+    "tent": "1925<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.11939930600055959,
+    "n": 53,
+    "yes": true,
+    "tent": "1925<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.11789476200647186,
+    "n": 53,
+    "yes": true,
+    "tent": "1936<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.11842167799477465,
+    "n": 53,
+    "yes": true,
+    "tent": "1936<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.11948915499669965
+ },
+ {
+  "stratum": "mid",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.026512625001487322,
+  "t_ds": 0.5720547749951947,
+  "stop_at": 1,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 78,
+    "t_prefill": 0.029613774007884786
+   },
+   {
+    "k": 1,
+    "n_tok": 71,
+    "t_prefill": 0.029243116005090997
+   },
+   {
+    "k": 2,
+    "n_tok": 168,
+    "t_prefill": 0.03058540399069898
+   },
+   {
+    "k": 3,
+    "n_tok": 98,
+    "t_prefill": 0.027783651996287517
+   },
+   {
+    "k": 4,
+    "n_tok": 78,
+    "t_prefill": 0.02673659000720363
+   },
+   {
+    "k": 5,
+    "n_tok": 164,
+    "t_prefill": 0.02683065799647011
+   },
+   {
+    "k": 6,
+    "n_tok": 59,
+    "t_prefill": 0.026409666999825276
+   },
+   {
+    "k": 7,
+    "n_tok": 83,
+    "t_prefill": 0.027901063993340358
+   },
+   {
+    "k": 8,
+    "n_tok": 99,
+    "t_prefill": 0.027589278004597872
+   },
+   {
+    "k": 9,
+    "n_tok": 149,
+    "t_prefill": 0.02865179300715681
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.07545810299052391,
+    "n": 51,
+    "yes": true,
+    "tent": "Julie<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.07552714100165758,
+    "n": 51,
+    "yes": true,
+    "tent": "Julie<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.05013021299964748,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.05158137700345833,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.07015405199490488,
+    "n": 51,
+    "yes": true,
+    "tent": "Julie<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.1163891890028026,
+    "n": 53,
+    "yes": true,
+    "tent": "Julie 2<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.11785518600663636,
+    "n": 53,
+    "yes": true,
+    "tent": "Julie 2<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.11766311599058099,
+    "n": 53,
+    "yes": true,
+    "tent": "Julie 2<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.11652024499198887,
+    "n": 53,
+    "yes": true,
+    "tent": "Julie 2<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.1187758589949226,
+    "n": 53,
+    "yes": true,
+    "tent": "Julie 2<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.11890337799559347
+ },
+ {
+  "stratum": "mid",
+  "spec": true,
+  "acc": false,
+  "t_verify": 0.025697126009617932,
+  "t_ds": 1.0155504619906424,
+  "stop_at": 2,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 50,
+    "t_prefill": 0.028587009001057595
+   },
+   {
+    "k": 1,
+    "n_tok": 82,
+    "t_prefill": 0.03007675900880713
+   },
+   {
+    "k": 2,
+    "n_tok": 67,
+    "t_prefill": 0.030610742993303575
+   },
+   {
+    "k": 3,
+    "n_tok": 240,
+    "t_prefill": 0.030370036998647265
+   },
+   {
+    "k": 4,
+    "n_tok": 133,
+    "t_prefill": 0.0288008760107914
+   },
+   {
+    "k": 5,
+    "n_tok": 86,
+    "t_prefill": 0.027540103998035192
+   },
+   {
+    "k": 6,
+    "n_tok": 68,
+    "t_prefill": 0.02702375799708534
+   },
+   {
+    "k": 7,
+    "n_tok": 187,
+    "t_prefill": 0.027463457008707337
+   },
+   {
+    "k": 8,
+    "n_tok": 132,
+    "t_prefill": 0.028702241004793905
+   },
+   {
+    "k": 9,
+    "n_tok": 172,
+    "t_prefill": 0.037878397008171305
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.05242060200544074,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.07770823499595281,
+    "n": 51,
+    "yes": true,
+    "tent": "Charles Lamb<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.07564526601345278,
+    "n": 51,
+    "yes": true,
+    "tent": "Charles Lamb<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.07134022399259266,
+    "n": 51,
+    "yes": true,
+    "tent": "Charles Lamb<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.14030272599484306,
+    "n": 54,
+    "yes": true,
+    "tent": "Thomas De Quincey<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.13909711000451352,
+    "n": 54,
+    "yes": true,
+    "tent": "Thomas De Quincey<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.14320703299017623,
+    "n": 54,
+    "yes": true,
+    "tent": "Thomas De Quincey<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.1408934130013222,
+    "n": 54,
+    "yes": true,
+    "tent": "Thomas De Quincey<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.15630253400013316,
+    "n": 54,
+    "yes": true,
+    "tent": "Thomas De Quincey<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.15031653200276196,
+    "n": 54,
+    "yes": true,
+    "tent": "Thomas De Quincey<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.16942675001337193
+ },
+ {
+  "stratum": "mid",
+  "spec": true,
+  "acc": false,
+  "t_verify": 0.025669686001492664,
+  "t_ds": 0.3187732689984841,
+  "stop_at": 2,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 212,
+    "t_prefill": 0.03208164199895691
+   },
+   {
+    "k": 1,
+    "n_tok": 95,
+    "t_prefill": 0.029603175993543118
+   },
+   {
+    "k": 2,
+    "n_tok": 144,
+    "t_prefill": 0.027397393001592718
+   },
+   {
+    "k": 3,
+    "n_tok": 261,
+    "t_prefill": 0.03121409099549055
+   },
+   {
+    "k": 4,
+    "n_tok": 152,
+    "t_prefill": 0.027304960996843874
+   },
+   {
+    "k": 5,
+    "n_tok": 140,
+    "t_prefill": 0.028510800999356434
+   },
+   {
+    "k": 6,
+    "n_tok": 109,
+    "t_prefill": 0.02662550400418695
+   },
+   {
+    "k": 7,
+    "n_tok": 100,
+    "t_prefill": 0.026881617013714276
+   },
+   {
+    "k": 8,
+    "n_tok": 116,
+    "t_prefill": 0.027223254001000896
+   },
+   {
+    "k": 9,
+    "n_tok": 107,
+    "t_prefill": 0.02791367599274963
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.049452659994130954,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.07464803000038955,
+    "n": 51,
+    "yes": true,
+    "tent": "Manchester Orchestra<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.07433506799861789,
+    "n": 51,
+    "yes": true,
+    "tent": "Manchester Orchestra<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.0696103439986473,
+    "n": 51,
+    "yes": true,
+    "tent": "Manchester Orchestra<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.07387417899735738,
+    "n": 51,
+    "yes": true,
+    "tent": "Manchester Orchestra<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.06979605300875846,
+    "n": 51,
+    "yes": true,
+    "tent": "Manchester Orchestra<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.06860521300404798,
+    "n": 51,
+    "yes": true,
+    "tent": "Manchester Orchestra<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.0694674970000051,
+    "n": 51,
+    "yes": true,
+    "tent": "Manchester Orchestra<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.2234799750003731,
+    "n": 58,
+    "yes": true,
+    "tent": "Manchester Orchestra has more members than DC Talk.<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.2223859480000101,
+    "n": 58,
+    "yes": true,
+    "tent": "Manchester Orchestra has more members than DC Talk.<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.43996545700065326
+ },
+ {
+  "stratum": "mid",
+  "spec": true,
+  "acc": false,
+  "t_verify": 0.026580413992633112,
+  "t_ds": 0.5567886060016463,
+  "stop_at": 4,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 75,
+    "t_prefill": 0.027778236006270163
+   },
+   {
+    "k": 1,
+    "n_tok": 152,
+    "t_prefill": 0.028207227995153517
+   },
+   {
+    "k": 2,
+    "n_tok": 98,
+    "t_prefill": 0.028948295002919622
+   },
+   {
+    "k": 3,
+    "n_tok": 79,
+    "t_prefill": 0.027341459994204342
+   },
+   {
+    "k": 4,
+    "n_tok": 203,
+    "t_prefill": 0.027939498992054723
+   },
+   {
+    "k": 5,
+    "n_tok": 71,
+    "t_prefill": 0.026512197000556625
+   },
+   {
+    "k": 6,
+    "n_tok": 222,
+    "t_prefill": 0.027242113996180706
+   },
+   {
+    "k": 7,
+    "n_tok": 102,
+    "t_prefill": 0.028287780995015055
+   },
+   {
+    "k": 8,
+    "n_tok": 213,
+    "t_prefill": 0.027149108005687594
+   },
+   {
+    "k": 9,
+    "n_tok": 168,
+    "t_prefill": 0.0274321110046003
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.11367377699934877,
+    "n": 53,
+    "yes": true,
+    "tent": "Coppergate Helmet<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.051225780000095256,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.11698903900105506,
+    "n": 53,
+    "yes": true,
+    "tent": "Coppergate Helmet<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.37334733200259507,
+    "n": 64,
+    "yes": true,
+    "tent": "The Pioneer Helmet and the Benty Grange helmet are linked because they are both"
+   },
+   {
+    "k": 4,
+    "t": 0.3737933329975931,
+    "n": 64,
+    "yes": true,
+    "tent": "The Pioneer Helmet and the Benty Grange helmet are linked because they are both"
+   },
+   {
+    "k": 5,
+    "t": 0.376237622986082,
+    "n": 64,
+    "yes": true,
+    "tent": "The Pioneer Helmet and the Benty Grange helmet are linked because they are both"
+   },
+   {
+    "k": 6,
+    "t": 0.37099473900161684,
+    "n": 64,
+    "yes": true,
+    "tent": "The Pioneer Helmet and the Benty Grange helmet are linked because they are both"
+   },
+   {
+    "k": 7,
+    "t": 0.3743253709981218,
+    "n": 64,
+    "yes": true,
+    "tent": "The Pioneer Helmet and the Benty Grange helmet are linked because they are both"
+   },
+   {
+    "k": 8,
+    "t": 0.37044893999700435,
+    "n": 64,
+    "yes": true,
+    "tent": "The Pioneer Helmet and the Benty Grange helmet are linked because they are both"
+   },
+   {
+    "k": 9,
+    "t": 0.3700933260115562,
+    "n": 64,
+    "yes": true,
+    "tent": "The Pioneer Helmet and the Benty Grange helmet are linked because they are both"
+   }
+  ],
+  "t_ansA": 0.35277587198652327
+ },
+ {
+  "stratum": "mid",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.02655165400938131,
+  "t_ds": 0.6532774439983768,
+  "stop_at": 5,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 90,
+    "t_prefill": 0.02779860599548556
+   },
+   {
+    "k": 1,
+    "n_tok": 142,
+    "t_prefill": 0.028101944000809453
+   },
+   {
+    "k": 2,
+    "n_tok": 74,
+    "t_prefill": 0.02875133100314997
+   },
+   {
+    "k": 3,
+    "n_tok": 103,
+    "t_prefill": 0.02820000700012315
+   },
+   {
+    "k": 4,
+    "n_tok": 159,
+    "t_prefill": 0.026329187996452674
+   },
+   {
+    "k": 5,
+    "n_tok": 148,
+    "t_prefill": 0.02656732800824102
+   },
+   {
+    "k": 6,
+    "n_tok": 111,
+    "t_prefill": 0.026646894999430515
+   },
+   {
+    "k": 7,
+    "n_tok": 146,
+    "t_prefill": 0.027565761003643274
+   },
+   {
+    "k": 8,
+    "n_tok": 118,
+    "t_prefill": 0.027197504008654505
+   },
+   {
+    "k": 9,
+    "n_tok": 132,
+    "t_prefill": 0.02858010199270211
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.04880695100291632,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.04932450200431049,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.04942371099605225,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.04842514700430911,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.09050507500069216,
+    "n": 52,
+    "yes": true,
+    "tent": "Robbie Rogers<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.09057589899748564,
+    "n": 52,
+    "yes": true,
+    "tent": "Robbie Rogers<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.09503332700114697,
+    "n": 52,
+    "yes": true,
+    "tent": "Robbie Rogers<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.09346452901081648,
+    "n": 52,
+    "yes": true,
+    "tent": "Robbie Rogers<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.09086222300538793,
+    "n": 52,
+    "yes": true,
+    "tent": "Robbie Rogers<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.09137186998850666,
+    "n": 52,
+    "yes": true,
+    "tent": "Robbie Rogers<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.11356765299569815
+ },
+ {
+  "stratum": "mid",
+  "spec": false,
+  "acc": false,
+  "t_verify": 0.0,
+  "t_ds": 0.355634766005096,
+  "stop_at": null,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 127,
+    "t_prefill": 0.028663151009823196
+   },
+   {
+    "k": 1,
+    "n_tok": 92,
+    "t_prefill": 0.028438591994927265
+   },
+   {
+    "k": 2,
+    "n_tok": 128,
+    "t_prefill": 0.03017370100133121
+   },
+   {
+    "k": 3,
+    "n_tok": 125,
+    "t_prefill": 0.02923512100824155
+   },
+   {
+    "k": 4,
+    "n_tok": 55,
+    "t_prefill": 0.03157002999796532
+   },
+   {
+    "k": 5,
+    "n_tok": 152,
+    "t_prefill": 0.026561464997939765
+   },
+   {
+    "k": 6,
+    "n_tok": 850,
+    "t_prefill": 0.038196519992197864
+   },
+   {
+    "k": 7,
+    "n_tok": 271,
+    "t_prefill": 0.029085048008710146
+   },
+   {
+    "k": 8,
+    "n_tok": 247,
+    "t_prefill": 0.02691725399927236
+   },
+   {
+    "k": 9,
+    "n_tok": 195,
+    "t_prefill": 0.026723850998678245
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.048555114000919275,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.0499314240005333,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.05004637000092771,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.06354116799775511,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.047791682998649776,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.09181029399042018,
+    "n": 52,
+    "yes": true,
+    "tent": "November 6<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.18036574800498784,
+    "n": 56,
+    "yes": true,
+    "tent": "6 November 2011<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.06943917699391022,
+    "n": 51,
+    "yes": true,
+    "tent": "6 November<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.198286263999762,
+    "n": 57,
+    "yes": true,
+    "tent": "6 November 2011.<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.06977704400196671,
+    "n": 51,
+    "yes": true,
+    "tent": "9 November<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.20044247500482015
+ },
+ {
+  "stratum": "mid",
+  "spec": true,
+  "acc": false,
+  "t_verify": 0.028105918012443,
+  "t_ds": 0.7962793390033767,
+  "stop_at": 3,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 176,
+    "t_prefill": 0.02960585900291335
+   },
+   {
+    "k": 1,
+    "n_tok": 134,
+    "t_prefill": 0.028259787999559194
+   },
+   {
+    "k": 2,
+    "n_tok": 176,
+    "t_prefill": 0.027560079004615545
+   },
+   {
+    "k": 3,
+    "n_tok": 130,
+    "t_prefill": 0.026578663993859664
+   },
+   {
+    "k": 4,
+    "n_tok": 108,
+    "t_prefill": 0.026803542001289316
+   },
+   {
+    "k": 5,
+    "n_tok": 133,
+    "t_prefill": 0.02686612399702426
+   },
+   {
+    "k": 6,
+    "n_tok": 184,
+    "t_prefill": 0.02696302799449768
+   },
+   {
+    "k": 7,
+    "n_tok": 178,
+    "t_prefill": 0.026624487989465706
+   },
+   {
+    "k": 8,
+    "n_tok": 348,
+    "t_prefill": 0.028120940987719223
+   },
+   {
+    "k": 9,
+    "n_tok": 119,
+    "t_prefill": 0.02703037099854555
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.05093098799989093,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.20148317300481722,
+    "n": 57,
+    "yes": true,
+    "tent": "The band is The Drifters.<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.13424823300738353,
+    "n": 54,
+    "yes": true,
+    "tent": "The band is Cream.<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.13326745900849346,
+    "n": 54,
+    "yes": true,
+    "tent": "The band is Cream.<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.1330968859983841,
+    "n": 54,
+    "yes": true,
+    "tent": "The band is Cream.<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.13393763999920338,
+    "n": 54,
+    "yes": true,
+    "tent": "The band is Cream.<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.19894631700299215,
+    "n": 57,
+    "yes": true,
+    "tent": "The band is The Drifters.<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.2033085800067056,
+    "n": 57,
+    "yes": true,
+    "tent": "The band is The Drifters.<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.13604436899186112,
+    "n": 54,
+    "yes": true,
+    "tent": "The band is Cream.<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.13516072799393442,
+    "n": 54,
+    "yes": true,
+    "tent": "The band is Cream.<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.07093691799673252
+ },
+ {
+  "stratum": "mid",
+  "spec": true,
+  "acc": false,
+  "t_verify": 0.024925290999817662,
+  "t_ds": 0.25011455999629106,
+  "stop_at": 1,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 64,
+    "t_prefill": 0.029051188001176342
+   },
+   {
+    "k": 1,
+    "n_tok": 38,
+    "t_prefill": 0.026439361987286247
+   },
+   {
+    "k": 2,
+    "n_tok": 34,
+    "t_prefill": 0.02738004899583757
+   },
+   {
+    "k": 3,
+    "n_tok": 65,
+    "t_prefill": 0.027199014992220327
+   },
+   {
+    "k": 4,
+    "n_tok": 133,
+    "t_prefill": 0.02811923698754981
+   },
+   {
+    "k": 5,
+    "n_tok": 114,
+    "t_prefill": 0.028573000003234483
+   },
+   {
+    "k": 6,
+    "n_tok": 62,
+    "t_prefill": 0.026798496997798793
+   },
+   {
+    "k": 7,
+    "n_tok": 57,
+    "t_prefill": 0.026241330007906072
+   },
+   {
+    "k": 8,
+    "n_tok": 196,
+    "t_prefill": 0.034039653997751884
+   },
+   {
+    "k": 9,
+    "n_tok": 54,
+    "t_prefill": 0.026467382005648687
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.11514208299922757,
+    "n": 53,
+    "yes": true,
+    "tent": "Piet Norval<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.11471394100226462,
+    "n": 53,
+    "yes": true,
+    "tent": "Piet Norval<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.11789691499143373,
+    "n": 53,
+    "yes": true,
+    "tent": "Piet Norval<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.11536905300454237,
+    "n": 53,
+    "yes": true,
+    "tent": "Piet Norval<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.24739036199753173,
+    "n": 59,
+    "yes": true,
+    "tent": "Emilio S\u00e1nchez appeared in the Olympics first.<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.11442421399988234,
+    "n": 53,
+    "yes": true,
+    "tent": "Piet Norval<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.1150354630080983,
+    "n": 53,
+    "yes": true,
+    "tent": "Piet Norval<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.12906081300752703,
+    "n": 53,
+    "yes": true,
+    "tent": "Piet Norval<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.11860806700133253,
+    "n": 53,
+    "yes": true,
+    "tent": "Emilio S\u00e1nchez<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.1139162600011332,
+    "n": 53,
+    "yes": true,
+    "tent": "Piet Norval<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.2480468900030246
+ },
+ {
+  "stratum": "mid",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.026757077997899614,
+  "t_ds": 0.5305373580049491,
+  "stop_at": 6,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 104,
+    "t_prefill": 0.030056235991651192
+   },
+   {
+    "k": 1,
+    "n_tok": 97,
+    "t_prefill": 0.028328298998530954
+   },
+   {
+    "k": 2,
+    "n_tok": 71,
+    "t_prefill": 0.030138379996060394
+   },
+   {
+    "k": 3,
+    "n_tok": 172,
+    "t_prefill": 0.029107009002473205
+   },
+   {
+    "k": 4,
+    "n_tok": 58,
+    "t_prefill": 0.027261490002274513
+   },
+   {
+    "k": 5,
+    "n_tok": 125,
+    "t_prefill": 0.02897644101176411
+   },
+   {
+    "k": 6,
+    "n_tok": 182,
+    "t_prefill": 0.028002659004414454
+   },
+   {
+    "k": 7,
+    "n_tok": 198,
+    "t_prefill": 0.026636700000381097
+   },
+   {
+    "k": 8,
+    "n_tok": 286,
+    "t_prefill": 0.028923830002895556
+   },
+   {
+    "k": 9,
+    "n_tok": 349,
+    "t_prefill": 0.028361111995764077
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.049172382001415826,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.05176815600134432,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.05157596401113551,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.04929007499595173,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.047426004995941184,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.07050045899813995,
+    "n": 51,
+    "yes": true,
+    "tent": "Southern Living<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.06899856100790203,
+    "n": 51,
+    "yes": true,
+    "tent": "Southern Living<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.0714188880083384,
+    "n": 51,
+    "yes": true,
+    "tent": "Southern Living<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.07342978400993161,
+    "n": 51,
+    "yes": true,
+    "tent": "Southern Living<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.07117370700871106,
+    "n": 51,
+    "yes": true,
+    "tent": "Southern Living<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.09618268698977772
+ },
+ {
+  "stratum": "mid",
+  "spec": true,
+  "acc": false,
+  "t_verify": 0.026480713990167715,
+  "t_ds": 1.1044107689958764,
+  "stop_at": 6,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 95,
+    "t_prefill": 0.03212919800716918
+   },
+   {
+    "k": 1,
+    "n_tok": 94,
+    "t_prefill": 0.02957560299546458
+   },
+   {
+    "k": 2,
+    "n_tok": 131,
+    "t_prefill": 0.0292209930048557
+   },
+   {
+    "k": 3,
+    "n_tok": 99,
+    "t_prefill": 0.030970913008786738
+   },
+   {
+    "k": 4,
+    "n_tok": 147,
+    "t_prefill": 0.027888456999789923
+   },
+   {
+    "k": 5,
+    "n_tok": 139,
+    "t_prefill": 0.02835336100542918
+   },
+   {
+    "k": 6,
+    "n_tok": 62,
+    "t_prefill": 0.026715646003140137
+   },
+   {
+    "k": 7,
+    "n_tok": 87,
+    "t_prefill": 0.028044805992976762
+   },
+   {
+    "k": 8,
+    "n_tok": 93,
+    "t_prefill": 0.026962596995872445
+   },
+   {
+    "k": 9,
+    "n_tok": 64,
+    "t_prefill": 0.02741495800728444
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.08199650199094322,
+    "n": 51,
+    "yes": true,
+    "tent": "Slimer<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.3817298540088814,
+    "n": 64,
+    "yes": true,
+    "tent": "Slimer is a character in the movie *Spy* (2015"
+   },
+   {
+    "k": 2,
+    "t": 0.05109275600989349,
+    "n": 50,
+    "yes": true,
+    "tent": "Spy<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.35455368999100756,
+    "n": 64,
+    "yes": true,
+    "tent": "Slimer is a character in the movie *Spy* starring Melissa McCarthy.<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.38349031600228045,
+    "n": 64,
+    "yes": true,
+    "tent": "Slimer is a character in the movie *Ghostbusters* (201"
+   },
+   {
+    "k": 5,
+    "t": 0.07143090099270921,
+    "n": 51,
+    "yes": true,
+    "tent": "Slimer<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.07200658599322196,
+    "n": 51,
+    "yes": true,
+    "tent": "Slimer<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.06897007400402799,
+    "n": 51,
+    "yes": true,
+    "tent": "Slimer<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.37440049400902353,
+    "n": 64,
+    "yes": true,
+    "tent": "Slimer is a character from the movie \"Ghostbusters: Answer the Call\""
+   },
+   {
+    "k": 9,
+    "t": 0.37669823798933066,
+    "n": 64,
+    "yes": true,
+    "tent": "Slimer is a character in the movie \"Ghostbusters: Answer the Call\""
+   }
+  ],
+  "t_ansA": 0.48286844899121206
+ },
+ {
+  "stratum": "mid",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.027019953005947173,
+  "t_ds": 0.6749925269978121,
+  "stop_at": 5,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 228,
+    "t_prefill": 0.030690466999658383
+   },
+   {
+    "k": 1,
+    "n_tok": 145,
+    "t_prefill": 0.029629242009832524
+   },
+   {
+    "k": 2,
+    "n_tok": 295,
+    "t_prefill": 0.0286499299982097
+   },
+   {
+    "k": 3,
+    "n_tok": 86,
+    "t_prefill": 0.02690997598983813
+   },
+   {
+    "k": 4,
+    "n_tok": 112,
+    "t_prefill": 0.027290678001008928
+   },
+   {
+    "k": 5,
+    "n_tok": 106,
+    "t_prefill": 0.0269372719922103
+   },
+   {
+    "k": 6,
+    "n_tok": 64,
+    "t_prefill": 0.027306996009428985
+   },
+   {
+    "k": 7,
+    "n_tok": 126,
+    "t_prefill": 0.027516625996213406
+   },
+   {
+    "k": 8,
+    "n_tok": 143,
+    "t_prefill": 0.027626545997918583
+   },
+   {
+    "k": 9,
+    "n_tok": 131,
+    "t_prefill": 0.027684593995218165
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.04902965899964329,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.04918523599917535,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.04855957601103,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.05080865099444054,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.06996500500827096,
+    "n": 51,
+    "yes": true,
+    "tent": "Odawa<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.06938171699584927,
+    "n": 51,
+    "yes": true,
+    "tent": "Odawa<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.07025673201133031,
+    "n": 51,
+    "yes": true,
+    "tent": "Odawa<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.07018812300520949,
+    "n": 51,
+    "yes": true,
+    "tent": "Odawa<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.07196389800810721,
+    "n": 51,
+    "yes": true,
+    "tent": "Odawa<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.07040644700464327,
+    "n": 51,
+    "yes": true,
+    "tent": "Odawa<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.09211901800881606
+ },
+ {
+  "stratum": "mid",
+  "spec": false,
+  "acc": false,
+  "t_verify": 0.0,
+  "t_ds": 0.2964895280019846,
+  "stop_at": null,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 122,
+    "t_prefill": 0.02863494500343222
+   },
+   {
+    "k": 1,
+    "n_tok": 54,
+    "t_prefill": 0.027008201999706216
+   },
+   {
+    "k": 2,
+    "n_tok": 125,
+    "t_prefill": 0.02764200601086486
+   },
+   {
+    "k": 3,
+    "n_tok": 139,
+    "t_prefill": 0.02772290399298072
+   },
+   {
+    "k": 4,
+    "n_tok": 211,
+    "t_prefill": 0.026889839995419607
+   },
+   {
+    "k": 5,
+    "n_tok": 69,
+    "t_prefill": 0.026549044996500015
+   },
+   {
+    "k": 6,
+    "n_tok": 200,
+    "t_prefill": 0.026891610003076494
+   },
+   {
+    "k": 7,
+    "n_tok": 253,
+    "t_prefill": 0.027163663995452225
+   },
+   {
+    "k": 8,
+    "n_tok": 108,
+    "t_prefill": 0.026461729998118244
+   },
+   {
+    "k": 9,
+    "n_tok": 125,
+    "t_prefill": 0.02704140599234961
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.0492373159941053,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.04873808199772611,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.05109423599787988,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.050758069002768025,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.047891523005091585,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.048155314987525344,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.04982292398926802,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.04799094000190962,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.04712397500406951,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.048887787997955456,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.1565641569904983
+ },
+ {
+  "stratum": "mid",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.028118942995206453,
+  "t_ds": 0.94327975899796,
+  "stop_at": 6,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 121,
+    "t_prefill": 0.02839263000350911
+   },
+   {
+    "k": 1,
+    "n_tok": 179,
+    "t_prefill": 0.029415111988782883
+   },
+   {
+    "k": 2,
+    "n_tok": 95,
+    "t_prefill": 0.026815367004019208
+   },
+   {
+    "k": 3,
+    "n_tok": 189,
+    "t_prefill": 0.028360984986647964
+   },
+   {
+    "k": 4,
+    "n_tok": 131,
+    "t_prefill": 0.027311538011417724
+   },
+   {
+    "k": 5,
+    "n_tok": 95,
+    "t_prefill": 0.026804997003637254
+   },
+   {
+    "k": 6,
+    "n_tok": 166,
+    "t_prefill": 0.02752447901002597
+   },
+   {
+    "k": 7,
+    "n_tok": 94,
+    "t_prefill": 0.026786002999870107
+   },
+   {
+    "k": 8,
+    "n_tok": 220,
+    "t_prefill": 0.028138481997302733
+   },
+   {
+    "k": 9,
+    "n_tok": 164,
+    "t_prefill": 0.028248716989764944
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.05083545099478215,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.04846158000873402,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.050560919000417925,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.04939690099854488,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.04849956500402186,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.1363532610121183,
+    "n": 54,
+    "yes": true,
+    "tent": "Pim Fortuyn<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.13473538299149368,
+    "n": 54,
+    "yes": true,
+    "tent": "Pim Fortuyn<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.1367187180003384,
+    "n": 54,
+    "yes": true,
+    "tent": "Pim Fortuyn<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.1359368940029526,
+    "n": 54,
+    "yes": true,
+    "tent": "Pim Fortuyn<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.13442988099996,
+    "n": 54,
+    "yes": true,
+    "tent": "Pim Fortuyn<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.16009687099722214
+ },
+ {
+  "stratum": "late",
+  "spec": false,
+  "acc": false,
+  "t_verify": 0.0,
+  "t_ds": 0.6625975839997409,
+  "stop_at": null,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 128,
+    "t_prefill": 0.02940132601361256
+   },
+   {
+    "k": 1,
+    "n_tok": 56,
+    "t_prefill": 0.027059491010732017
+   },
+   {
+    "k": 2,
+    "n_tok": 95,
+    "t_prefill": 0.0287305489910068
+   },
+   {
+    "k": 3,
+    "n_tok": 149,
+    "t_prefill": 0.028523023996967822
+   },
+   {
+    "k": 4,
+    "n_tok": 108,
+    "t_prefill": 0.02705297000647988
+   },
+   {
+    "k": 5,
+    "n_tok": 148,
+    "t_prefill": 0.027029249002225697
+   },
+   {
+    "k": 6,
+    "n_tok": 79,
+    "t_prefill": 0.02787145999900531
+   },
+   {
+    "k": 7,
+    "n_tok": 129,
+    "t_prefill": 0.027379599006962962
+   },
+   {
+    "k": 8,
+    "n_tok": 92,
+    "t_prefill": 0.027049285999964923
+   },
+   {
+    "k": 9,
+    "n_tok": 71,
+    "t_prefill": 0.026517436999711208
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.05071435699937865,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.04980519298987929,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.05012679600622505,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.04958796899882145,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.04782201600028202,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.04795668300357647,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.04917957300494891,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.0484521619946463,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.04800389800220728,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.11351605399977416,
+    "n": 53,
+    "yes": true,
+    "tent": "Emad Hashim<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.13345118799770717
+ },
+ {
+  "stratum": "late",
+  "spec": false,
+  "acc": false,
+  "t_verify": 0.0,
+  "t_ds": 0.4912590559979435,
+  "stop_at": null,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 108,
+    "t_prefill": 0.02933580699027516
+   },
+   {
+    "k": 1,
+    "n_tok": 231,
+    "t_prefill": 0.03109088199562393
+   },
+   {
+    "k": 2,
+    "n_tok": 23,
+    "t_prefill": 0.026541640007053502
+   },
+   {
+    "k": 3,
+    "n_tok": 1548,
+    "t_prefill": 0.06699104199651629
+   },
+   {
+    "k": 4,
+    "n_tok": 225,
+    "t_prefill": 0.026995153006282635
+   },
+   {
+    "k": 5,
+    "n_tok": 207,
+    "t_prefill": 0.027205411999602802
+   },
+   {
+    "k": 6,
+    "n_tok": 327,
+    "t_prefill": 0.029638975000125356
+   },
+   {
+    "k": 7,
+    "n_tok": 94,
+    "t_prefill": 0.027290003999951296
+   },
+   {
+    "k": 8,
+    "n_tok": 99,
+    "t_prefill": 0.02698440500535071
+   },
+   {
+    "k": 9,
+    "n_tok": 141,
+    "t_prefill": 0.027567630997509696
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.05196263898687903,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.05016719299601391,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.048552132997429,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.04818082400015555,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.047783474990865216,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.047728379009640776,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.048140553990378976,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.04792574800376315,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.048564390002866276,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.15610439199372195,
+    "n": 55,
+    "yes": true,
+    "tent": "Reverend Lovejoy.<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.1554168570000911
+ },
+ {
+  "stratum": "late",
+  "spec": false,
+  "acc": false,
+  "t_verify": 0.0,
+  "t_ds": 0.40270477200101595,
+  "stop_at": null,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 204,
+    "t_prefill": 0.029143515988835134
+   },
+   {
+    "k": 1,
+    "n_tok": 119,
+    "t_prefill": 0.028649148996919394
+   },
+   {
+    "k": 2,
+    "n_tok": 202,
+    "t_prefill": 0.028905612998642027
+   },
+   {
+    "k": 3,
+    "n_tok": 318,
+    "t_prefill": 0.02859085099771619
+   },
+   {
+    "k": 4,
+    "n_tok": 223,
+    "t_prefill": 0.02695098999538459
+   },
+   {
+    "k": 5,
+    "n_tok": 147,
+    "t_prefill": 0.027655161000438966
+   },
+   {
+    "k": 6,
+    "n_tok": 136,
+    "t_prefill": 0.028227467002579942
+   },
+   {
+    "k": 7,
+    "n_tok": 314,
+    "t_prefill": 0.028490063006756827
+   },
+   {
+    "k": 8,
+    "n_tok": 88,
+    "t_prefill": 0.027944942994508892
+   },
+   {
+    "k": 9,
+    "n_tok": 118,
+    "t_prefill": 0.027081085005193017
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.0492523460125085,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.04849083498993423,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.04776561899052467,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.0479605539876502,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.049900024998351,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.048628298987750895,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.04828595201252028,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.04790225499891676,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.04858715999580454,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.04788888800248969,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.37419246599893086
+ },
+ {
+  "stratum": "late",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.027492531997268088,
+  "t_ds": 0.8216596440033754,
+  "stop_at": 7,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 204,
+    "t_prefill": 0.0301872190029826
+   },
+   {
+    "k": 1,
+    "n_tok": 115,
+    "t_prefill": 0.02827999400324188
+   },
+   {
+    "k": 2,
+    "n_tok": 60,
+    "t_prefill": 0.02664133399957791
+   },
+   {
+    "k": 3,
+    "n_tok": 131,
+    "t_prefill": 0.027125445994897746
+   },
+   {
+    "k": 4,
+    "n_tok": 198,
+    "t_prefill": 0.026717918997746892
+   },
+   {
+    "k": 5,
+    "n_tok": 193,
+    "t_prefill": 0.027786043006926775
+   },
+   {
+    "k": 6,
+    "n_tok": 253,
+    "t_prefill": 0.026986169003066607
+   },
+   {
+    "k": 7,
+    "n_tok": 112,
+    "t_prefill": 0.026815684002940543
+   },
+   {
+    "k": 8,
+    "n_tok": 89,
+    "t_prefill": 0.027085485009592958
+   },
+   {
+    "k": 9,
+    "n_tok": 93,
+    "t_prefill": 0.026431945007061586
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.049624418999883346,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.04863518199999817,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.09280100400792435,
+    "n": 52,
+    "yes": true,
+    "tent": "John Gotti<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.04808959100046195,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.04845513799227774,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.04794803100230638,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.0910422830056632,
+    "n": 52,
+    "yes": true,
+    "tent": "John Gotti<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.11288233198865782,
+    "n": 53,
+    "yes": true,
+    "tent": "John Gotti.<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.11387599300360307,
+    "n": 53,
+    "yes": true,
+    "tent": "John Gotti.<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.11486930100363679,
+    "n": 53,
+    "yes": true,
+    "tent": "John Gotti.<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.1122116219921736
+ },
+ {
+  "stratum": "late",
+  "spec": true,
+  "acc": false,
+  "t_verify": 0.025718898003106005,
+  "t_ds": 0.4359179919993039,
+  "stop_at": 1,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 113,
+    "t_prefill": 0.028057791001629084
+   },
+   {
+    "k": 1,
+    "n_tok": 87,
+    "t_prefill": 0.02778996599954553
+   },
+   {
+    "k": 2,
+    "n_tok": 116,
+    "t_prefill": 0.030172860002494417
+   },
+   {
+    "k": 3,
+    "n_tok": 136,
+    "t_prefill": 0.027177344003575854
+   },
+   {
+    "k": 4,
+    "n_tok": 254,
+    "t_prefill": 0.02764001600735355
+   },
+   {
+    "k": 5,
+    "n_tok": 121,
+    "t_prefill": 0.027224193006986752
+   },
+   {
+    "k": 6,
+    "n_tok": 195,
+    "t_prefill": 0.026922956996713765
+   },
+   {
+    "k": 7,
+    "n_tok": 272,
+    "t_prefill": 0.028538145998027176
+   },
+   {
+    "k": 8,
+    "n_tok": 76,
+    "t_prefill": 0.026814993005245924
+   },
+   {
+    "k": 9,
+    "n_tok": 117,
+    "t_prefill": 0.0271263549948344
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.09255414699146058,
+    "n": 52,
+    "yes": true,
+    "tent": "Bowling Green<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.09303361999627668,
+    "n": 52,
+    "yes": true,
+    "tent": "Bowling Green<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.048547726997639984,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.048760632998892106,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.09509071099455468,
+    "n": 52,
+    "yes": true,
+    "tent": "Bowling Green<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.0912893070053542,
+    "n": 52,
+    "yes": true,
+    "tent": "Bowling Green<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.09237794300133828,
+    "n": 52,
+    "yes": true,
+    "tent": "Bowling Green<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.09265452899853699,
+    "n": 52,
+    "yes": true,
+    "tent": "Bowling Green<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.09285910199105274,
+    "n": 52,
+    "yes": true,
+    "tent": "Bowling Green<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.09048452800197992,
+    "n": 52,
+    "yes": true,
+    "tent": "Bowling Green<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.4625836560007883
+ },
+ {
+  "stratum": "late",
+  "spec": false,
+  "acc": false,
+  "t_verify": 0.0,
+  "t_ds": 0.749701754990383,
+  "stop_at": null,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 362,
+    "t_prefill": 0.03268113799276762
+   },
+   {
+    "k": 1,
+    "n_tok": 213,
+    "t_prefill": 0.028044837003108114
+   },
+   {
+    "k": 2,
+    "n_tok": 169,
+    "t_prefill": 0.02712574000179302
+   },
+   {
+    "k": 3,
+    "n_tok": 239,
+    "t_prefill": 0.026967477999278344
+   },
+   {
+    "k": 4,
+    "n_tok": 293,
+    "t_prefill": 0.02898317200015299
+   },
+   {
+    "k": 5,
+    "n_tok": 261,
+    "t_prefill": 0.02883202099474147
+   },
+   {
+    "k": 6,
+    "n_tok": 114,
+    "t_prefill": 0.02653943000768777
+   },
+   {
+    "k": 7,
+    "n_tok": 115,
+    "t_prefill": 0.026751550001790747
+   },
+   {
+    "k": 8,
+    "n_tok": 151,
+    "t_prefill": 0.02678223499970045
+   },
+   {
+    "k": 9,
+    "n_tok": 110,
+    "t_prefill": 0.026278207005816512
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.04990546799672302,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.04857997299404815,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.04794581199530512,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.048035300002084114,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.048383257002569735,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.04861985000025015,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.04855965399474371,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.050640809000469744,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.047966908998205326,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.04684883599111345,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.7454292439942947
+ },
+ {
+  "stratum": "late",
+  "spec": false,
+  "acc": false,
+  "t_verify": 0.0,
+  "t_ds": 0.7680110009969212,
+  "stop_at": null,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 139,
+    "t_prefill": 0.028985800003283657
+   },
+   {
+    "k": 1,
+    "n_tok": 108,
+    "t_prefill": 0.028099410992581397
+   },
+   {
+    "k": 2,
+    "n_tok": 169,
+    "t_prefill": 0.026837857003556564
+   },
+   {
+    "k": 3,
+    "n_tok": 176,
+    "t_prefill": 0.02651735401013866
+   },
+   {
+    "k": 4,
+    "n_tok": 164,
+    "t_prefill": 0.028169465993414633
+   },
+   {
+    "k": 5,
+    "n_tok": 127,
+    "t_prefill": 0.02696626899705734
+   },
+   {
+    "k": 6,
+    "n_tok": 242,
+    "t_prefill": 0.02760399499675259
+   },
+   {
+    "k": 7,
+    "n_tok": 105,
+    "t_prefill": 0.026993667997885495
+   },
+   {
+    "k": 8,
+    "n_tok": 153,
+    "t_prefill": 0.026902008001343347
+   },
+   {
+    "k": 9,
+    "n_tok": 117,
+    "t_prefill": 0.027266983990557492
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.05081241499283351,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.04941224699723534,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.04711474699433893,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.047627389008994214,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.04825370799517259,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.0476474380120635,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.048424765991512686,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.04825838100805413,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.047618629003409296,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.3758827870042296,
+    "n": 64,
+    "yes": true,
+    "tent": "The character of Peter Griffith in \"Family Guy\" is based on the character Peter"
+   }
+  ],
+  "t_ansA": 0.7177957640087698
+ },
+ {
+  "stratum": "late",
+  "spec": false,
+  "acc": false,
+  "t_verify": 0.0,
+  "t_ds": 0.8959375179983908,
+  "stop_at": 9,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 249,
+    "t_prefill": 0.030678804003400728
+   },
+   {
+    "k": 1,
+    "n_tok": 342,
+    "t_prefill": 0.027664116001687944
+   },
+   {
+    "k": 2,
+    "n_tok": 111,
+    "t_prefill": 0.02687278999655973
+   },
+   {
+    "k": 3,
+    "n_tok": 173,
+    "t_prefill": 0.029460687990649603
+   },
+   {
+    "k": 4,
+    "n_tok": 162,
+    "t_prefill": 0.026847827990422957
+   },
+   {
+    "k": 5,
+    "n_tok": 137,
+    "t_prefill": 0.026773496996611357
+   },
+   {
+    "k": 6,
+    "n_tok": 105,
+    "t_prefill": 0.026606760002323426
+   },
+   {
+    "k": 7,
+    "n_tok": 292,
+    "t_prefill": 0.028376541013130918
+   },
+   {
+    "k": 8,
+    "n_tok": 112,
+    "t_prefill": 0.02744663000339642
+   },
+   {
+    "k": 9,
+    "n_tok": 100,
+    "t_prefill": 0.026535035998676904
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.05041564899147488,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.047295647993450984,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.04969692100712564,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.04762740900332574,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.04930748599872459,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.048325329000363126,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.04737957900215406,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.049937896998017095,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.15800609899451956,
+    "n": 55,
+    "yes": true,
+    "tent": "Manasseh Cutler Hall<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.15689760500390548,
+    "n": 55,
+    "yes": true,
+    "tent": "Manasseh Cutler Hall<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.1796937580074882
+ },
+ {
+  "stratum": "late",
+  "spec": true,
+  "acc": false,
+  "t_verify": 0.028112716012401506,
+  "t_ds": 0.5867729949968634,
+  "stop_at": 5,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 209,
+    "t_prefill": 0.0305333040014375
+   },
+   {
+    "k": 1,
+    "n_tok": 112,
+    "t_prefill": 0.02808621700387448
+   },
+   {
+    "k": 2,
+    "n_tok": 239,
+    "t_prefill": 0.026705250013037585
+   },
+   {
+    "k": 3,
+    "n_tok": 132,
+    "t_prefill": 0.02814150099584367
+   },
+   {
+    "k": 4,
+    "n_tok": 256,
+    "t_prefill": 0.027128033005283214
+   },
+   {
+    "k": 5,
+    "n_tok": 114,
+    "t_prefill": 0.02782221899542492
+   },
+   {
+    "k": 6,
+    "n_tok": 201,
+    "t_prefill": 0.02724227799626533
+   },
+   {
+    "k": 7,
+    "n_tok": 161,
+    "t_prefill": 0.026963861993863247
+   },
+   {
+    "k": 8,
+    "n_tok": 94,
+    "t_prefill": 0.026983288989868015
+   },
+   {
+    "k": 9,
+    "n_tok": 97,
+    "t_prefill": 0.027329228003509343
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.050990646006539464,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.048672192002413794,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.07092746300622821,
+    "n": 51,
+    "yes": true,
+    "tent": "George Strait<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.11620176899305079,
+    "n": 53,
+    "yes": true,
+    "tent": "Highspeed Hayride<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.06988894099777099,
+    "n": 51,
+    "yes": true,
+    "tent": "George Strait<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.06931165700370912,
+    "n": 51,
+    "yes": true,
+    "tent": "George Strait<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.06931928799895104,
+    "n": 51,
+    "yes": true,
+    "tent": "George Strait<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.07010219000221696,
+    "n": 51,
+    "yes": true,
+    "tent": "George Strait<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.3766265919985017,
+    "n": 64,
+    "yes": true,
+    "tent": "The American country music group Old Dominion, led by singer-songwriter Old Dominion,"
+   },
+   {
+    "k": 9,
+    "t": 0.07231185700220522,
+    "n": 51,
+    "yes": true,
+    "tent": "George Strait<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.3317144150059903
+ },
+ {
+  "stratum": "late",
+  "spec": false,
+  "acc": false,
+  "t_verify": 0.0,
+  "t_ds": 0.6866997809993336,
+  "stop_at": null,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 128,
+    "t_prefill": 0.02892833700752817
+   },
+   {
+    "k": 1,
+    "n_tok": 233,
+    "t_prefill": 0.03153793199453503
+   },
+   {
+    "k": 2,
+    "n_tok": 125,
+    "t_prefill": 0.027547111007152125
+   },
+   {
+    "k": 3,
+    "n_tok": 107,
+    "t_prefill": 0.028954520996194333
+   },
+   {
+    "k": 4,
+    "n_tok": 191,
+    "t_prefill": 0.028029734996380284
+   },
+   {
+    "k": 5,
+    "n_tok": 360,
+    "t_prefill": 0.028550257993629202
+   },
+   {
+    "k": 6,
+    "n_tok": 162,
+    "t_prefill": 0.02723746698757168
+   },
+   {
+    "k": 7,
+    "n_tok": 161,
+    "t_prefill": 0.02692242899502162
+   },
+   {
+    "k": 8,
+    "n_tok": 133,
+    "t_prefill": 0.02778742800001055
+   },
+   {
+    "k": 9,
+    "n_tok": 148,
+    "t_prefill": 0.027398366000852548
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.04880979399604257,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.052335209999000654,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.04826373601099476,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.04782057799457107,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.049940177996177226,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.04877117900468875,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.04825146899383981,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.050593134001246653,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.049621785001363605,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.048068693999084644,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.6421062489971519
+ },
+ {
+  "stratum": "late",
+  "spec": true,
+  "acc": false,
+  "t_verify": 0.02822455500427168,
+  "t_ds": 0.3254647410067264,
+  "stop_at": 4,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 142,
+    "t_prefill": 0.028889195004012436
+   },
+   {
+    "k": 1,
+    "n_tok": 87,
+    "t_prefill": 0.028027829001075588
+   },
+   {
+    "k": 2,
+    "n_tok": 139,
+    "t_prefill": 0.03081355099857319
+   },
+   {
+    "k": 3,
+    "n_tok": 74,
+    "t_prefill": 0.027367079994292
+   },
+   {
+    "k": 4,
+    "n_tok": 195,
+    "t_prefill": 0.027777458002674393
+   },
+   {
+    "k": 5,
+    "n_tok": 285,
+    "t_prefill": 0.028652678010985255
+   },
+   {
+    "k": 6,
+    "n_tok": 197,
+    "t_prefill": 0.026965942000970244
+   },
+   {
+    "k": 7,
+    "n_tok": 184,
+    "t_prefill": 0.029575526001281105
+   },
+   {
+    "k": 8,
+    "n_tok": 128,
+    "t_prefill": 0.02689157798886299
+   },
+   {
+    "k": 9,
+    "n_tok": 75,
+    "t_prefill": 0.026793195997015573
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.11400031199445948,
+    "n": 53,
+    "yes": true,
+    "tent": "May 28<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.04947379798977636,
+    "n": 50,
+    "yes": true,
+    "tent": "Wednesday<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.12207416999444831,
+    "n": 53,
+    "yes": true,
+    "tent": "May 28<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.04855725899687968,
+    "n": 50,
+    "yes": true,
+    "tent": "Wednesday<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.049783939990447834,
+    "n": 50,
+    "yes": true,
+    "tent": "Wednesday<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.048063914000522345,
+    "n": 50,
+    "yes": true,
+    "tent": "Wednesday<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.049786761999712326,
+    "n": 50,
+    "yes": true,
+    "tent": "Wednesday<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.047892310001770966,
+    "n": 50,
+    "yes": true,
+    "tent": "Wednesday<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.26339864000328816,
+    "n": 60,
+    "yes": true,
+    "tent": "September 21, 2014.<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.2638591400027508,
+    "n": 60,
+    "yes": true,
+    "tent": "September 21, 2014.<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.5508876160020009
+ },
+ {
+  "stratum": "late",
+  "spec": false,
+  "acc": false,
+  "t_verify": 0.0,
+  "t_ds": 0.6992222330009099,
+  "stop_at": null,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 314,
+    "t_prefill": 0.03201225900556892
+   },
+   {
+    "k": 1,
+    "n_tok": 163,
+    "t_prefill": 0.027266861987300217
+   },
+   {
+    "k": 2,
+    "n_tok": 284,
+    "t_prefill": 0.028321372010395862
+   },
+   {
+    "k": 3,
+    "n_tok": 155,
+    "t_prefill": 0.027005776995792985
+   },
+   {
+    "k": 4,
+    "n_tok": 99,
+    "t_prefill": 0.02787499499390833
+   },
+   {
+    "k": 5,
+    "n_tok": 275,
+    "t_prefill": 0.02873169600206893
+   },
+   {
+    "k": 6,
+    "n_tok": 231,
+    "t_prefill": 0.027624377005849965
+   },
+   {
+    "k": 7,
+    "n_tok": 343,
+    "t_prefill": 0.029036525986157358
+   },
+   {
+    "k": 8,
+    "n_tok": 93,
+    "t_prefill": 0.02667900300002657
+   },
+   {
+    "k": 9,
+    "n_tok": 64,
+    "t_prefill": 0.026209717005258426
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.04906061801011674,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.04799482799717225,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.047824237000895664,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.048140430997591466,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.048713607000536285,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.04800957700354047,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.04849614299018867,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.047195202991133556,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.04746012699615676,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.11256964500353206,
+    "n": 53,
+    "yes": true,
+    "tent": "Oplismenus<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.5737646280031186
+ },
+ {
+  "stratum": "late",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.02762457299104426,
+  "t_ds": 1.00122187899251,
+  "stop_at": 1,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 57,
+    "t_prefill": 0.02792360499734059
+   },
+   {
+    "k": 1,
+    "n_tok": 73,
+    "t_prefill": 0.02729627600638196
+   },
+   {
+    "k": 2,
+    "n_tok": 277,
+    "t_prefill": 0.0301099130010698
+   },
+   {
+    "k": 3,
+    "n_tok": 53,
+    "t_prefill": 0.025667894005891867
+   },
+   {
+    "k": 4,
+    "n_tok": 168,
+    "t_prefill": 0.026833131996681914
+   },
+   {
+    "k": 5,
+    "n_tok": 53,
+    "t_prefill": 0.026116776003618725
+   },
+   {
+    "k": 6,
+    "n_tok": 87,
+    "t_prefill": 0.026389047998236492
+   },
+   {
+    "k": 7,
+    "n_tok": 138,
+    "t_prefill": 0.026680241004214622
+   },
+   {
+    "k": 8,
+    "n_tok": 45,
+    "t_prefill": 0.026194367004791275
+   },
+   {
+    "k": 9,
+    "n_tok": 65,
+    "t_prefill": 0.026308497006539255
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.11585072599700652,
+    "n": 53,
+    "yes": true,
+    "tent": "Alopecurus<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.11284904900821857,
+    "n": 53,
+    "yes": true,
+    "tent": "Alopecurus<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.114037704988732,
+    "n": 53,
+    "yes": true,
+    "tent": "Alopecurus<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.11062813900934998,
+    "n": 53,
+    "yes": true,
+    "tent": "Alopecurus<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.1143339200061746,
+    "n": 53,
+    "yes": true,
+    "tent": "Alopecurus<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.11250189000566024,
+    "n": 53,
+    "yes": true,
+    "tent": "Alopecurus<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.11189157199987676,
+    "n": 53,
+    "yes": true,
+    "tent": "Echeveria<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.11415703399688937,
+    "n": 53,
+    "yes": true,
+    "tent": "Alopecurus<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.11100012299721129,
+    "n": 53,
+    "yes": true,
+    "tent": "Alopecurus<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.1111222280014772,
+    "n": 53,
+    "yes": true,
+    "tent": "Alopecurus<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.13243639099528082
+ },
+ {
+  "stratum": "late",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.027032489000703208,
+  "t_ds": 0.5022219449892873,
+  "stop_at": 2,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 335,
+    "t_prefill": 0.03155633200367447
+   },
+   {
+    "k": 1,
+    "n_tok": 208,
+    "t_prefill": 0.027770549000706524
+   },
+   {
+    "k": 2,
+    "n_tok": 379,
+    "t_prefill": 0.02820975201029796
+   },
+   {
+    "k": 3,
+    "n_tok": 183,
+    "t_prefill": 0.0271715669950936
+   },
+   {
+    "k": 4,
+    "n_tok": 186,
+    "t_prefill": 0.02675526800157968
+   },
+   {
+    "k": 5,
+    "n_tok": 224,
+    "t_prefill": 0.026541875005932525
+   },
+   {
+    "k": 6,
+    "n_tok": 145,
+    "t_prefill": 0.026701084003434516
+   },
+   {
+    "k": 7,
+    "n_tok": 193,
+    "t_prefill": 0.026486446004128084
+   },
+   {
+    "k": 8,
+    "n_tok": 215,
+    "t_prefill": 0.02714319400547538
+   },
+   {
+    "k": 9,
+    "n_tok": 173,
+    "t_prefill": 0.026699909998569638
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.04793236099067144,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.0473374139983207,
+    "n": 50,
+    "yes": true,
+    "tent": "Australia<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.047429620986804366,
+    "n": 50,
+    "yes": true,
+    "tent": "Australia<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.04714783499366604,
+    "n": 50,
+    "yes": true,
+    "tent": "Australia<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.04989630800264422,
+    "n": 50,
+    "yes": true,
+    "tent": "Australia<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.047450360012589954,
+    "n": 50,
+    "yes": true,
+    "tent": "Australia<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.047387189988512546,
+    "n": 50,
+    "yes": true,
+    "tent": "Australia<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.04747219099954236,
+    "n": 50,
+    "yes": true,
+    "tent": "Australia<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.04731509598786943,
+    "n": 50,
+    "yes": true,
+    "tent": "Australia<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.06973485898924991,
+    "n": 51,
+    "yes": true,
+    "tent": "Australia.<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.0681553369940957
+ },
+ {
+  "stratum": "late",
+  "spec": true,
+  "acc": true,
+  "t_verify": 0.026382240001112223,
+  "t_ds": 0.4972718979988713,
+  "stop_at": 5,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 119,
+    "t_prefill": 0.028625434002606198
+   },
+   {
+    "k": 1,
+    "n_tok": 129,
+    "t_prefill": 0.027181523997569457
+   },
+   {
+    "k": 2,
+    "n_tok": 143,
+    "t_prefill": 0.026840097008971497
+   },
+   {
+    "k": 3,
+    "n_tok": 182,
+    "t_prefill": 0.0273639390070457
+   },
+   {
+    "k": 4,
+    "n_tok": 114,
+    "t_prefill": 0.026841475002584048
+   },
+   {
+    "k": 5,
+    "n_tok": 69,
+    "t_prefill": 0.026670496998121962
+   },
+   {
+    "k": 6,
+    "n_tok": 317,
+    "t_prefill": 0.028471506986534223
+   },
+   {
+    "k": 7,
+    "n_tok": 70,
+    "t_prefill": 0.02772593600093387
+   },
+   {
+    "k": 8,
+    "n_tok": 162,
+    "t_prefill": 0.027010278005036525
+   },
+   {
+    "k": 9,
+    "n_tok": 89,
+    "t_prefill": 0.027164332001120783
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.04985139099881053,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.048664685993571766,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.04801839399442542,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.13483011499920394,
+    "n": 54,
+    "yes": true,
+    "tent": "Nobel Prize in Literature<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.13257897600124124,
+    "n": 54,
+    "yes": true,
+    "tent": "Nobel Prize for Literature<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.1329530579969287,
+    "n": 54,
+    "yes": true,
+    "tent": "Nobel Prize for Literature<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.1382512330019381,
+    "n": 54,
+    "yes": true,
+    "tent": "Nobel Prize for Literature<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.1340024689998245,
+    "n": 54,
+    "yes": true,
+    "tent": "Nobel Prize for Literature<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.15720955899450928,
+    "n": 55,
+    "yes": true,
+    "tent": "Nobel Prize in Literature.<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.18976032800856046,
+    "n": 55,
+    "yes": true,
+    "tent": "Nobel Prize in Literature.<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.18912901400472037
+ },
+ {
+  "stratum": "late",
+  "spec": true,
+  "acc": false,
+  "t_verify": 0.026447012001881376,
+  "t_ds": 0.5223271809954895,
+  "stop_at": 2,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 48,
+    "t_prefill": 0.02808127598837018
+   },
+   {
+    "k": 1,
+    "n_tok": 59,
+    "t_prefill": 0.02688047700212337
+   },
+   {
+    "k": 2,
+    "n_tok": 169,
+    "t_prefill": 0.02839915499498602
+   },
+   {
+    "k": 3,
+    "n_tok": 97,
+    "t_prefill": 0.026998300993000157
+   },
+   {
+    "k": 4,
+    "n_tok": 74,
+    "t_prefill": 0.02684877600404434
+   },
+   {
+    "k": 5,
+    "n_tok": 162,
+    "t_prefill": 0.026582083009998314
+   },
+   {
+    "k": 6,
+    "n_tok": 179,
+    "t_prefill": 0.026845365995541215
+   },
+   {
+    "k": 7,
+    "n_tok": 88,
+    "t_prefill": 0.02685122399998363
+   },
+   {
+    "k": 8,
+    "n_tok": 104,
+    "t_prefill": 0.026650044004782103
+   },
+   {
+    "k": 9,
+    "n_tok": 97,
+    "t_prefill": 0.026614287999109365
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.0496628149994649,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.13705208800092805,
+    "n": 54,
+    "yes": true,
+    "tent": "Pago Pago International Airport<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.13659055800235365,
+    "n": 54,
+    "yes": true,
+    "tent": "Pago Pago International Airport<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.13542067899834365,
+    "n": 54,
+    "yes": true,
+    "tent": "Pago Pago International Airport<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.3690284280019114,
+    "n": 64,
+    "yes": true,
+    "tent": "Pago Pago International Airport is closer to the central business district of their local community"
+   },
+   {
+    "k": 5,
+    "t": 0.36955041700275615,
+    "n": 64,
+    "yes": true,
+    "tent": "Pago Pago International Airport is closer to the central business district of its local community"
+   },
+   {
+    "k": 6,
+    "t": 0.3679572690016357,
+    "n": 64,
+    "yes": true,
+    "tent": "Pago Pago International Airport is closer to the central business district of their local community"
+   },
+   {
+    "k": 7,
+    "t": 0.13286044298729394,
+    "n": 54,
+    "yes": true,
+    "tent": "Pago Pago International Airport<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.13285573400207795,
+    "n": 54,
+    "yes": true,
+    "tent": "Pago Pago International Airport<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.3676574879937107,
+    "n": 64,
+    "yes": true,
+    "tent": "Pago Pago International Airport is closer to the central business district of Pago P"
+   }
+  ],
+  "t_ansA": 0.7104635440045968
+ },
+ {
+  "stratum": "late",
+  "spec": true,
+  "acc": false,
+  "t_verify": 0.02716063598927576,
+  "t_ds": 0.6065183180035092,
+  "stop_at": 4,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 174,
+    "t_prefill": 0.029610147001221776
+   },
+   {
+    "k": 1,
+    "n_tok": 193,
+    "t_prefill": 0.02877460900344886
+   },
+   {
+    "k": 2,
+    "n_tok": 171,
+    "t_prefill": 0.027303795999614522
+   },
+   {
+    "k": 3,
+    "n_tok": 127,
+    "t_prefill": 0.026871804002439603
+   },
+   {
+    "k": 4,
+    "n_tok": 224,
+    "t_prefill": 0.02688973098702263
+   },
+   {
+    "k": 5,
+    "n_tok": 142,
+    "t_prefill": 0.026604295999277383
+   },
+   {
+    "k": 6,
+    "n_tok": 96,
+    "t_prefill": 0.026855778007302433
+   },
+   {
+    "k": 7,
+    "n_tok": 112,
+    "t_prefill": 0.02740954099863302
+   },
+   {
+    "k": 8,
+    "n_tok": 242,
+    "t_prefill": 0.027623613001196645
+   },
+   {
+    "k": 9,
+    "n_tok": 139,
+    "t_prefill": 0.026621147990226746
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.049138678004965186,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.04843672600691207,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.04733024899906013,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.13339169099344872,
+    "n": 54,
+    "yes": true,
+    "tent": "Lady and the Tramp<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.13287422900612,
+    "n": 54,
+    "yes": true,
+    "tent": "Lady and the Tramp<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.13626530999317765,
+    "n": 54,
+    "yes": true,
+    "tent": "Lady and the Tramp<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.13293694300227799,
+    "n": 54,
+    "yes": true,
+    "tent": "Lady and the Tramp<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.13236506300745532,
+    "n": 54,
+    "yes": true,
+    "tent": "Lady and the Tramp<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.11201704099948984,
+    "n": 53,
+    "yes": true,
+    "tent": "Beauty and the Beast<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.11157414800254628,
+    "n": 53,
+    "yes": true,
+    "tent": "Beauty and the Beast<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.5833612939895829
+ },
+ {
+  "stratum": "late",
+  "spec": false,
+  "acc": false,
+  "t_verify": 0.0,
+  "t_ds": 0.4545755709987134,
+  "stop_at": null,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 107,
+    "t_prefill": 0.02839052799390629
+   },
+   {
+    "k": 1,
+    "n_tok": 113,
+    "t_prefill": 0.028819511004257947
+   },
+   {
+    "k": 2,
+    "n_tok": 119,
+    "t_prefill": 0.029419173995847814
+   },
+   {
+    "k": 3,
+    "n_tok": 110,
+    "t_prefill": 0.028431509010260925
+   },
+   {
+    "k": 4,
+    "n_tok": 121,
+    "t_prefill": 0.027343237001332454
+   },
+   {
+    "k": 5,
+    "n_tok": 115,
+    "t_prefill": 0.027091170006315224
+   },
+   {
+    "k": 6,
+    "n_tok": 114,
+    "t_prefill": 0.02732536599796731
+   },
+   {
+    "k": 7,
+    "n_tok": 93,
+    "t_prefill": 0.026520150000578724
+   },
+   {
+    "k": 8,
+    "n_tok": 114,
+    "t_prefill": 0.0271683250030037
+   },
+   {
+    "k": 9,
+    "n_tok": 156,
+    "t_prefill": 0.027424626998254098
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.048756057003629394,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.050665226008277386,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.05142723099561408,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.0488701380090788,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.04961160499078687,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.04822072199021932,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.04734194598859176,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.04791112199018244,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.04836269099905621,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.09102545199857559,
+    "n": 52,
+    "yes": true,
+    "tent": "Sacramento Kings<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.11386189299810212
+ },
+ {
+  "stratum": "late",
+  "spec": false,
+  "acc": false,
+  "t_verify": 0.0,
+  "t_ds": 0.3377184779965319,
+  "stop_at": null,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 107,
+    "t_prefill": 0.02842364700336475
+   },
+   {
+    "k": 1,
+    "n_tok": 106,
+    "t_prefill": 0.02820226299809292
+   },
+   {
+    "k": 2,
+    "n_tok": 143,
+    "t_prefill": 0.02892723800323438
+   },
+   {
+    "k": 3,
+    "n_tok": 124,
+    "t_prefill": 0.027270152000710368
+   },
+   {
+    "k": 4,
+    "n_tok": 115,
+    "t_prefill": 0.026612928995746188
+   },
+   {
+    "k": 5,
+    "n_tok": 123,
+    "t_prefill": 0.027038719999836758
+   },
+   {
+    "k": 6,
+    "n_tok": 112,
+    "t_prefill": 0.027058432999183424
+   },
+   {
+    "k": 7,
+    "n_tok": 108,
+    "t_prefill": 0.027158440003404394
+   },
+   {
+    "k": 8,
+    "n_tok": 102,
+    "t_prefill": 0.027075841993791983
+   },
+   {
+    "k": 9,
+    "n_tok": 173,
+    "t_prefill": 0.026995883003110066
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.04871102099423297,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.04916375401080586,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.048511975997826084,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.048300719005055726,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.04729641700396314,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.049255884005106054,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.04820599600498099,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.04779050200886559,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.0481021960004,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.04816968100203667,
+    "n": 50,
+    "yes": false,
+    "tent": "UNKNOWN<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.3110484350036131
+ },
+ {
+  "stratum": "late",
+  "spec": true,
+  "acc": false,
+  "t_verify": 0.025678570003947243,
+  "t_ds": 0.6778668330080109,
+  "stop_at": 1,
+  "seg": [
+   {
+    "k": 0,
+    "n_tok": 81,
+    "t_prefill": 0.0285585270030424
+   },
+   {
+    "k": 1,
+    "n_tok": 129,
+    "t_prefill": 0.02868723099527415
+   },
+   {
+    "k": 2,
+    "n_tok": 48,
+    "t_prefill": 0.02660928999830503
+   },
+   {
+    "k": 3,
+    "n_tok": 107,
+    "t_prefill": 0.027608721997239627
+   },
+   {
+    "k": 4,
+    "n_tok": 105,
+    "t_prefill": 0.027201539007364772
+   },
+   {
+    "k": 5,
+    "n_tok": 117,
+    "t_prefill": 0.026406999997561797
+   },
+   {
+    "k": 6,
+    "n_tok": 52,
+    "t_prefill": 0.026276901000528596
+   },
+   {
+    "k": 7,
+    "n_tok": 75,
+    "t_prefill": 0.026446271003806032
+   },
+   {
+    "k": 8,
+    "n_tok": 151,
+    "t_prefill": 0.026920516000245698
+   },
+   {
+    "k": 9,
+    "n_tok": 36,
+    "t_prefill": 0.025957423000363633
+   }
+  ],
+  "judges": [
+   {
+    "k": 0,
+    "t": 0.11531019701214973,
+    "n": 53,
+    "yes": true,
+    "tent": "Qwirkle<|im_end|>"
+   },
+   {
+    "k": 1,
+    "t": 0.11426856099569704,
+    "n": 53,
+    "yes": true,
+    "tent": "Qwirkle<|im_end|>"
+   },
+   {
+    "k": 2,
+    "t": 0.11609468900132924,
+    "n": 53,
+    "yes": true,
+    "tent": "Qwirkle<|im_end|>"
+   },
+   {
+    "k": 3,
+    "t": 0.11345023699686863,
+    "n": 53,
+    "yes": true,
+    "tent": "Qwirkle<|im_end|>"
+   },
+   {
+    "k": 4,
+    "t": 0.11276315800205339,
+    "n": 53,
+    "yes": true,
+    "tent": "Qwirkle<|im_end|>"
+   },
+   {
+    "k": 5,
+    "t": 0.11227634600072633,
+    "n": 53,
+    "yes": true,
+    "tent": "Qwirkle<|im_end|>"
+   },
+   {
+    "k": 6,
+    "t": 0.11273463600082323,
+    "n": 53,
+    "yes": true,
+    "tent": "Qwirkle<|im_end|>"
+   },
+   {
+    "k": 7,
+    "t": 0.11285991501063108,
+    "n": 53,
+    "yes": true,
+    "tent": "Qwirkle<|im_end|>"
+   },
+   {
+    "k": 8,
+    "t": 0.11232538199692499,
+    "n": 53,
+    "yes": true,
+    "tent": "Qwirkle<|im_end|>"
+   },
+   {
+    "k": 9,
+    "t": 0.09253992099547759,
+    "n": 52,
+    "yes": true,
+    "tent": "Strange Synergy<|im_end|>"
+   }
+  ],
+  "t_ansA": 0.11305248699500225
+ }
+]
