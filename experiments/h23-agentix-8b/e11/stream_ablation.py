@@ -22,8 +22,8 @@ ap.add_argument('--n-per-stratum', type=int, default=20)
 ap.add_argument('--seed', type=int, default=7)
 ap.add_argument('--out', required=True)
 ap.add_argument('--smoke', type=int, default=0)
-ap.add_argument('--stop-rule', default='first', choices=['first','consec2'],
-    help='early-stop 判据: first=首个YES即停(朴素); consec2=连续两段YES才停(投机+verify, 防多跳误停)')
+ap.add_argument('--stop-rule', default='first', choices=['first','consec2','answer2'],
+    help='early-stop 判据: first=首个YES即停(朴素); consec2=连续两段YES才停; answer2=暂定答案自一致(连续两段答案相同且非UNKNOWN才停)')
 a = ap.parse_args()
 
 tok = AutoTokenizer.from_pretrained(a.model)
@@ -134,6 +134,7 @@ def build_samples():
 SYS="<|im_start|>system\nYou answer questions using the provided search results. Be concise.<|im_end|>\n"
 def user_head(q): return f"<|im_start|>user\nQuestion: {q}\nSearch results (arriving incrementally):\n"
 ANS_SUF="\nGive the final short answer to the question now, nothing else.<|im_end|>\n<|im_start|>assistant\n"+NOTHINK
+TENT_SUF="\nBased only on the results so far, give your best short answer to the question. If the results so far do not contain the answer, reply exactly UNKNOWN. Answer only, nothing else.<|im_end|>\n<|im_start|>assistant\n"+NOTHINK
 JDG_SUF="\nJudging only from the results so far: can the question already be answered with confidence? Reply exactly YES or NO.<|im_end|>\n<|im_start|>assistant\n"+NOTHINK
 
 @torch.inference_mode()
@@ -148,13 +149,22 @@ def run_sample(s):
         tp,np_=prefill(cache, ptxt)
         seg.append(dict(k=k, n_tok=np_, t_prefill=tp))
         Lk=cache.get_seq_length()
-        jtxt,tj,njp,njg=gen(cache, JDG_SUF, 4, ['YES','NO'])
-        cache.crop(Lk)
-        yes='YES' in jtxt.upper()
-        judges.append(dict(k=k, t=tj, n=njp+njg, yes=yes))
-        if stop_at is None:
-            if a.stop_rule=='first' and yes: stop_at=k
-            elif a.stop_rule=='consec2' and yes and k>0 and judges[-2]['yes']: stop_at=k
+        if a.stop_rule=='answer2':
+            jtxt,tj,njp,njg=gen(cache, TENT_SUF, 16, ['<|im_end|>','\n'])
+            cache.crop(Lk)
+            tent=jtxt.strip(); unk=(not tent) or 'UNKNOWN' in tent.upper()
+            judges.append(dict(k=k, t=tj, n=njp+njg, yes=not unk, tent=tent))
+            if stop_at is None and not unk and k>0:
+                prev=judges[-2].get('tent','')
+                if prev and 'UNKNOWN' not in prev.upper() and norm(tent)==norm(prev): stop_at=k
+        else:
+            jtxt,tj,njp,njg=gen(cache, JDG_SUF, 4, ['YES','NO'])
+            cache.crop(Lk)
+            yes='YES' in jtxt.upper()
+            judges.append(dict(k=k, t=tj, n=njp+njg, yes=yes))
+            if stop_at is None:
+                if a.stop_rule=='first' and yes: stop_at=k
+                elif a.stop_rule=='consec2' and yes and k>0 and judges[-2]['yes']: stop_at=k
     # 全量答案(A 与 B1 共用: 同一 KV 内容)
     ansA,tA,nAp,nAg=gen(cache, ANS_SUF, 32, ['<|im_end|>','\n'])
     r.update(t_head=t_head,n_head=n_head,seg=seg,judges=judges,stop_at=stop_at,
