@@ -22,6 +22,8 @@ ap.add_argument('--n-per-stratum', type=int, default=20)
 ap.add_argument('--seed', type=int, default=7)
 ap.add_argument('--out', required=True)
 ap.add_argument('--smoke', type=int, default=0)
+ap.add_argument('--stop-rule', default='first', choices=['first','consec2'],
+    help='early-stop 判据: first=首个YES即停(朴素); consec2=连续两段YES才停(投机+verify, 防多跳误停)')
 a = ap.parse_args()
 
 tok = AutoTokenizer.from_pretrained(a.model)
@@ -150,7 +152,9 @@ def run_sample(s):
         cache.crop(Lk)
         yes='YES' in jtxt.upper()
         judges.append(dict(k=k, t=tj, n=njp+njg, yes=yes))
-        if yes and stop_at is None: stop_at=k
+        if stop_at is None:
+            if a.stop_rule=='first' and yes: stop_at=k
+            elif a.stop_rule=='consec2' and yes and k>0 and judges[-2]['yes']: stop_at=k
     # 全量答案(A 与 B1 共用: 同一 KV 内容)
     ansA,tA,nAp,nAg=gen(cache, ANS_SUF, 32, ['<|im_end|>','\n'])
     r.update(t_head=t_head,n_head=n_head,seg=seg,judges=judges,stop_at=stop_at,
