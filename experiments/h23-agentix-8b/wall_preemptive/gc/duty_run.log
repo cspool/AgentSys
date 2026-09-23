@@ -1,0 +1,33 @@
+=== D06: period=0.6s cycles=900 ===
+--- valve ---
+  victim w: n=573 med=161.8ms
+  victim s: n=573 med=164.3ms
+  burst: n=300 busy_med=50.3ms e2e_med=51ms 分区分布={32: 300}
+  valve[resize/chunks=16]: 落墙态=136/300 强发=0 平均延迟=1ms 建池=13ms
+--- wall_aware ---
+  victim w: n=581 med=162.1ms
+  victim s: n=581 med=164.3ms
+  burst: n=299 busy_med=48.3ms e2e_med=49ms 分区分布={32: 299}
+  wall_aware[resize/chunks=16]: 落墙态=296/300 强发=4 平均延迟=45ms 建池=14ms
+--- random_defer ---
+  victim w: n=573 med=161.8ms
+  victim s: n=573 med=164.5ms
+  burst: n=299 busy_med=50.0ms e2e_med=51ms 分区分布={32: 299}
+  random_defer[resize/chunks=16]: 落墙态=139/300 强发=0 平均延迟=46ms 建池=14ms
+=== D03: period=0.3s cycles=500 ===
+--- valve ---
+  victim w: n=303 med=162.2ms
+  victim s: n=303 med=175.2ms
+  burst: n=300 busy_med=50.9ms e2e_med=51ms 分区分布={32: 300}
+  valve[resize/chunks=16]: 落墙态=138/300 强发=0 平均延迟=1ms 建池=13ms
+--- wall_aware ---
+  victim w: n=312 med=162.9ms
+  victim s: n=312 med=164.4ms
+  burst: n=299 busy_med=48.2ms e2e_med=49ms 分区分布={32: 299}
+  wall_aware[resize/chunks=16]: 落墙态=289/300 强发=11 平均延迟=46ms 建池=14ms
+--- random_defer ---
+  victim w: n=304 med=162.1ms
+  victim s: n=304 med=167.8ms
+  burst: n=299 busy_med=50.3ms e2e_med=51ms 分区分布={32: 299}
+  random_defer[resize/chunks=16]: 落墙态=139/300 强发=0 平均延迟=47ms 建池=13ms
+=== 扫描完成 ===

@@ -1,0 +1,10 @@
+=== 1/6 on_solo(+T_cool 实测)===
+G=17317ms T_cool=34634ms n=350
+{"max_gap_s": 17.317219495773315, "t_cool_s": 34.63443899154663, "n": 350}T_cool=34.63443899154663 s
+=== 2/6 off_solo ===
+=== 3/6 colo_naive(自由共跑)===
+=== 4/6 colo_channel(SIGSTOP 忙停 + T_cool)===
+controller: 1 preemptions
+=== 5/6 colo_iter(迭代门 KernelPreempt 代理 + T_cool)===
+iter_ctl: 1 preemptions
+=== Valve 正式复现完成 ===

@@ -1,0 +1,31 @@
+=== v4 dram control ===
+calibrated reps=2356 kernel=439ms
+Traceback (most recent call last):
+  File "/workspace/AgentSys/experiments/h23-agentix-8b/preempt_ablation/victim2.py", line 81, in <module>
+    iters.append({'t': ts, 'ms': s.elapsed_time(e)})
+                       ^^
+NameError: name 'ts' is not defined. Did you mean: 'tl'?
+=== v4 dram disturbed ===
+calibrated reps=2356 kernel=449ms
+Traceback (most recent call last):
+  File "/workspace/AgentSys/experiments/h23-agentix-8b/preempt_ablation/victim2.py", line 81, in <module>
+    iters.append({'t': ts, 'ms': s.elapsed_time(e)})
+                       ^^
+NameError: name 'ts' is not defined. Did you mean: 'tl'?
+disturber: 40 bursts, burst_ms_med=0.74
+=== v4 sm control ===
+calibrated reps=8625298 kernel=254ms
+Traceback (most recent call last):
+  File "/workspace/AgentSys/experiments/h23-agentix-8b/preempt_ablation/victim2.py", line 81, in <module>
+    iters.append({'t': ts, 'ms': s.elapsed_time(e)})
+                       ^^
+NameError: name 'ts' is not defined. Did you mean: 'tl'?
+=== v4 sm disturbed ===
+calibrated reps=8625298 kernel=264ms
+Traceback (most recent call last):
+  File "/workspace/AgentSys/experiments/h23-agentix-8b/preempt_ablation/victim2.py", line 81, in <module>
+    iters.append({'t': ts, 'ms': s.elapsed_time(e)})
+                       ^^
+NameError: name 'ts' is not defined. Did you mean: 'tl'?
+disturber: 40 bursts, burst_ms_med=0.74
+=== v4 矩阵完成 ===

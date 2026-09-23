@@ -1,0 +1,2482 @@
+{
+ "config": {
+  "workload_class": "pt_prefill_wall",
+  "call_dag": true,
+  "seed": 3301,
+  "max_num_seqs": 16,
+  "note": "long prompts + minimal generation -> continuous prefill GEMM (compute wall, VRAM-BW moderate)",
+  "arrival_rate_programs_per_s": 1.0
+ },
+ "programs": [
+  {
+   "program_id": "p000",
+   "class": "prefill_wall",
+   "arrival_ns": 2252583261,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3324,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3324,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p001",
+   "class": "prefill_wall",
+   "arrival_ns": 10423897646,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3794,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3794,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p002",
+   "class": "prefill_wall",
+   "arrival_ns": 59537165092,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3657,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3657,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p003",
+   "class": "prefill_wall",
+   "arrival_ns": 55325133694,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3786,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3786,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p004",
+   "class": "prefill_wall",
+   "arrival_ns": 93113200715,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3711,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3711,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p005",
+   "class": "prefill_wall",
+   "arrival_ns": 65698811114,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3228,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3228,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p006",
+   "class": "prefill_wall",
+   "arrival_ns": 66667847696,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3517,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3517,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p007",
+   "class": "prefill_wall",
+   "arrival_ns": 42497018697,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3799,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3799,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p008",
+   "class": "prefill_wall",
+   "arrival_ns": 36580228994,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3338,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3338,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p009",
+   "class": "prefill_wall",
+   "arrival_ns": 85973392637,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3633,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3633,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p010",
+   "class": "prefill_wall",
+   "arrival_ns": 56530487662,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3778,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3778,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p011",
+   "class": "prefill_wall",
+   "arrival_ns": 86888945461,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3724,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3724,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p012",
+   "class": "prefill_wall",
+   "arrival_ns": 87228556749,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3539,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3539,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p013",
+   "class": "prefill_wall",
+   "arrival_ns": 12472747399,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3777,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3777,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p014",
+   "class": "prefill_wall",
+   "arrival_ns": 39618034612,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3252,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3252,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p015",
+   "class": "prefill_wall",
+   "arrival_ns": 2977820733,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3275,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3275,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p016",
+   "class": "prefill_wall",
+   "arrival_ns": 64151530734,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3763,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3763,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p017",
+   "class": "prefill_wall",
+   "arrival_ns": 70644006907,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3433,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3433,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p018",
+   "class": "prefill_wall",
+   "arrival_ns": 52046769104,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3271,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3271,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p019",
+   "class": "prefill_wall",
+   "arrival_ns": 63269765084,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3271,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3271,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p020",
+   "class": "prefill_wall",
+   "arrival_ns": 25204813433,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3689,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3689,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p021",
+   "class": "prefill_wall",
+   "arrival_ns": 52055462435,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3702,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3702,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p022",
+   "class": "prefill_wall",
+   "arrival_ns": 75398589492,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3696,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3696,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p023",
+   "class": "prefill_wall",
+   "arrival_ns": 87571363667,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3322,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3322,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p024",
+   "class": "prefill_wall",
+   "arrival_ns": 63072734254,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3510,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3510,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p025",
+   "class": "prefill_wall",
+   "arrival_ns": 13762098339,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3496,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3496,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p026",
+   "class": "prefill_wall",
+   "arrival_ns": 61349926911,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3553,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3553,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p027",
+   "class": "prefill_wall",
+   "arrival_ns": 61957190284,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3779,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3779,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p028",
+   "class": "prefill_wall",
+   "arrival_ns": 10400176266,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3586,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3586,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p029",
+   "class": "prefill_wall",
+   "arrival_ns": 3696407061,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3232,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3232,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p030",
+   "class": "prefill_wall",
+   "arrival_ns": 938877584,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3373,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3373,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p031",
+   "class": "prefill_wall",
+   "arrival_ns": 69616956526,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3619,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3619,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p032",
+   "class": "prefill_wall",
+   "arrival_ns": 51196840392,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3354,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3354,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p033",
+   "class": "prefill_wall",
+   "arrival_ns": 81499983100,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3316,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3316,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p034",
+   "class": "prefill_wall",
+   "arrival_ns": 81220275353,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3585,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3585,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p035",
+   "class": "prefill_wall",
+   "arrival_ns": 46843557212,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3248,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3248,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p036",
+   "class": "prefill_wall",
+   "arrival_ns": 8954162424,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3459,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3459,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p037",
+   "class": "prefill_wall",
+   "arrival_ns": 86679144352,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3479,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3479,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p038",
+   "class": "prefill_wall",
+   "arrival_ns": 87262766654,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3677,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3677,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p039",
+   "class": "prefill_wall",
+   "arrival_ns": 86261316151,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3639,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3639,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p040",
+   "class": "prefill_wall",
+   "arrival_ns": 83908075467,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3742,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3742,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p041",
+   "class": "prefill_wall",
+   "arrival_ns": 68452701047,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3272,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3272,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p042",
+   "class": "prefill_wall",
+   "arrival_ns": 33149760407,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3248,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3248,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p043",
+   "class": "prefill_wall",
+   "arrival_ns": 4086462089,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3721,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3721,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p044",
+   "class": "prefill_wall",
+   "arrival_ns": 15785273833,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3668,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3668,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p045",
+   "class": "prefill_wall",
+   "arrival_ns": 7184604119,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3254,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3254,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p046",
+   "class": "prefill_wall",
+   "arrival_ns": 68257822882,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3678,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3678,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p047",
+   "class": "prefill_wall",
+   "arrival_ns": 21251450526,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3578,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3578,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p048",
+   "class": "prefill_wall",
+   "arrival_ns": 84203121732,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3232,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3232,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p049",
+   "class": "prefill_wall",
+   "arrival_ns": 44528758377,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3493,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3493,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p050",
+   "class": "prefill_wall",
+   "arrival_ns": 25965469925,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3690,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3690,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p051",
+   "class": "prefill_wall",
+   "arrival_ns": 3968369539,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3799,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3799,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p052",
+   "class": "prefill_wall",
+   "arrival_ns": 86197525597,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3245,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3245,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p053",
+   "class": "prefill_wall",
+   "arrival_ns": 3234845952,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3614,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3614,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p054",
+   "class": "prefill_wall",
+   "arrival_ns": 73725114092,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3366,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3366,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p055",
+   "class": "prefill_wall",
+   "arrival_ns": 76606225346,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3397,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3397,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p056",
+   "class": "prefill_wall",
+   "arrival_ns": 45856781903,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3798,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3798,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p057",
+   "class": "prefill_wall",
+   "arrival_ns": 72529109459,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3498,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3498,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p058",
+   "class": "prefill_wall",
+   "arrival_ns": 32596150468,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3720,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3720,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p059",
+   "class": "prefill_wall",
+   "arrival_ns": 90741029075,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3408,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3408,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p060",
+   "class": "prefill_wall",
+   "arrival_ns": 63312849519,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3249,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3249,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p061",
+   "class": "prefill_wall",
+   "arrival_ns": 54816477586,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3659,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3659,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p062",
+   "class": "prefill_wall",
+   "arrival_ns": 8732655660,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3253,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3253,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p063",
+   "class": "prefill_wall",
+   "arrival_ns": 6891665114,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3579,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3579,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p064",
+   "class": "prefill_wall",
+   "arrival_ns": 44157708250,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3200,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3200,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p065",
+   "class": "prefill_wall",
+   "arrival_ns": 17374485293,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3533,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3533,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p066",
+   "class": "prefill_wall",
+   "arrival_ns": 30027764372,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3507,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3507,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p067",
+   "class": "prefill_wall",
+   "arrival_ns": 72455241803,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3711,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3711,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p068",
+   "class": "prefill_wall",
+   "arrival_ns": 71038839026,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3411,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3411,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p069",
+   "class": "prefill_wall",
+   "arrival_ns": 22182702894,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3649,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3649,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p070",
+   "class": "prefill_wall",
+   "arrival_ns": 87136800745,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3701,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3701,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p071",
+   "class": "prefill_wall",
+   "arrival_ns": 6309130728,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3223,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3223,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p072",
+   "class": "prefill_wall",
+   "arrival_ns": 9174516162,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3485,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3485,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p073",
+   "class": "prefill_wall",
+   "arrival_ns": 16986704709,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3578,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3578,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p074",
+   "class": "prefill_wall",
+   "arrival_ns": 46631242662,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3587,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3587,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p075",
+   "class": "prefill_wall",
+   "arrival_ns": 20319182447,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3602,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3602,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p076",
+   "class": "prefill_wall",
+   "arrival_ns": 28233974899,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3436,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3436,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p077",
+   "class": "prefill_wall",
+   "arrival_ns": 42580126597,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3319,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3319,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p078",
+   "class": "prefill_wall",
+   "arrival_ns": 85715831130,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3479,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3479,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p079",
+   "class": "prefill_wall",
+   "arrival_ns": 48318050079,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3369,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3369,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p080",
+   "class": "prefill_wall",
+   "arrival_ns": 41628644362,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3315,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3315,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p081",
+   "class": "prefill_wall",
+   "arrival_ns": 32921263516,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3710,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3710,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p082",
+   "class": "prefill_wall",
+   "arrival_ns": 22921919799,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3702,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3702,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p083",
+   "class": "prefill_wall",
+   "arrival_ns": 36522698610,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3260,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3260,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p084",
+   "class": "prefill_wall",
+   "arrival_ns": 78102622140,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3647,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3647,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p085",
+   "class": "prefill_wall",
+   "arrival_ns": 72515786669,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3696,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3696,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p086",
+   "class": "prefill_wall",
+   "arrival_ns": 60139464675,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3751,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3751,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p087",
+   "class": "prefill_wall",
+   "arrival_ns": 82824792881,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3685,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3685,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p088",
+   "class": "prefill_wall",
+   "arrival_ns": 64273195632,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3729,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3729,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p089",
+   "class": "prefill_wall",
+   "arrival_ns": 26548259935,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3401,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3401,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p090",
+   "class": "prefill_wall",
+   "arrival_ns": 94534384166,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3706,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3706,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p091",
+   "class": "prefill_wall",
+   "arrival_ns": 7669318342,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3611,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3611,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p092",
+   "class": "prefill_wall",
+   "arrival_ns": 41522938251,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3340,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3340,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p093",
+   "class": "prefill_wall",
+   "arrival_ns": 55079482208,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3293,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3293,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p094",
+   "class": "prefill_wall",
+   "arrival_ns": 63773718943,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3399,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3399,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p095",
+   "class": "prefill_wall",
+   "arrival_ns": 76310062125,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3456,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3456,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p096",
+   "class": "prefill_wall",
+   "arrival_ns": 57890315956,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3328,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3328,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p097",
+   "class": "prefill_wall",
+   "arrival_ns": 22356903028,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3536,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3536,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p098",
+   "class": "prefill_wall",
+   "arrival_ns": 47382494740,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3421,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3421,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p099",
+   "class": "prefill_wall",
+   "arrival_ns": 5098575407,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3743,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3743,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p100",
+   "class": "prefill_wall",
+   "arrival_ns": 45004082316,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3712,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3712,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p101",
+   "class": "prefill_wall",
+   "arrival_ns": 46916230327,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3298,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3298,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p102",
+   "class": "prefill_wall",
+   "arrival_ns": 26468849750,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3395,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3395,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p103",
+   "class": "prefill_wall",
+   "arrival_ns": 67266289640,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3258,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3258,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p104",
+   "class": "prefill_wall",
+   "arrival_ns": 61956652811,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3579,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3579,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p105",
+   "class": "prefill_wall",
+   "arrival_ns": 81760947685,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3258,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3258,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p106",
+   "class": "prefill_wall",
+   "arrival_ns": 93849715891,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3388,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3388,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p107",
+   "class": "prefill_wall",
+   "arrival_ns": 36205499536,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3332,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3332,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p108",
+   "class": "prefill_wall",
+   "arrival_ns": 81041807251,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3449,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3449,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p109",
+   "class": "prefill_wall",
+   "arrival_ns": 37416898809,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3711,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3711,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p110",
+   "class": "prefill_wall",
+   "arrival_ns": 50485304686,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3727,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3727,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p111",
+   "class": "prefill_wall",
+   "arrival_ns": 30631071762,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3281,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3281,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p112",
+   "class": "prefill_wall",
+   "arrival_ns": 9415156089,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3724,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3724,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p113",
+   "class": "prefill_wall",
+   "arrival_ns": 41751056727,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3363,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3363,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p114",
+   "class": "prefill_wall",
+   "arrival_ns": 91979690775,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3534,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3534,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p115",
+   "class": "prefill_wall",
+   "arrival_ns": 56106060939,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3236,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3236,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p116",
+   "class": "prefill_wall",
+   "arrival_ns": 86219995895,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3344,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3344,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p117",
+   "class": "prefill_wall",
+   "arrival_ns": 80983702846,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3727,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3727,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p118",
+   "class": "prefill_wall",
+   "arrival_ns": 70542317957,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3206,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3206,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p119",
+   "class": "prefill_wall",
+   "arrival_ns": 90367445843,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3697,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3697,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p120",
+   "class": "prefill_wall",
+   "arrival_ns": 36756055243,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3641,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3641,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p121",
+   "class": "prefill_wall",
+   "arrival_ns": 47710405942,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3484,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3484,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p122",
+   "class": "prefill_wall",
+   "arrival_ns": 69460956702,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3507,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3507,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p123",
+   "class": "prefill_wall",
+   "arrival_ns": 31551008633,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3680,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3680,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p124",
+   "class": "prefill_wall",
+   "arrival_ns": 16101407446,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3562,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3562,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p125",
+   "class": "prefill_wall",
+   "arrival_ns": 23626999781,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3215,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3215,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p126",
+   "class": "prefill_wall",
+   "arrival_ns": 13450494465,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3645,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3645,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p127",
+   "class": "prefill_wall",
+   "arrival_ns": 79546216140,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3794,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3794,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p128",
+   "class": "prefill_wall",
+   "arrival_ns": 27202263418,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3300,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3300,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "p129",
+   "class": "prefill_wall",
+   "arrival_ns": 5048761343,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 3282,
+   "total_output_tokens": 4,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 3282,
+     "output_tokens": 4,
+     "tool_delay_ns": 0
+    }
+   ]
+  }
+ ]
+}

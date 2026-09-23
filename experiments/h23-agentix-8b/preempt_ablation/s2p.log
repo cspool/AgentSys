@@ -1,0 +1,9 @@
+=== S2p l2 disturbed(alloc+copy) ===
+reps=20574
+swapper2: 20 alloc+copy med=75ms
+l2: n=180 med=250.2ms max=262.4
+=== S2p dram disturbed(alloc+copy) ===
+reps=2038
+swapper2: 20 alloc+copy med=68ms
+dram: n=116 med=389.1ms max=390.4
+=== S2p 完成 ===

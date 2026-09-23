@@ -1,0 +1,79 @@
+=== dram ctrl_a ===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+makespan=75.93s n=390
+=== dram W=1ms ===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+W=1.0ms reps=4000 solo=42.536ms
+contended burst med=0.03ms (solo 42.54)
+makespan=75.98s n=390
+=== dram W=4ms ===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+W=4.0ms reps=428416 solo=5.675ms
+contended burst med=5.68ms (solo 5.68)
+makespan=76.11s n=390
+=== dram W=8ms ===
+W=8.0ms reps=981971 solo=7.940ms
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+contended burst med=14.75ms (solo 7.94)
+makespan=76.40s n=390
+=== dram W=16ms ===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+W=16.0ms reps=1666335 solo=27.224ms
+contended burst med=27.29ms (solo 27.22)
+makespan=76.67s n=390
+=== dram ctrl_b ===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+makespan=76.25s n=390
+=== l2 ctrl_a ===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+makespan=74.89s n=330
+=== l2 W=1ms ===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+W=1.0ms reps=4000 solo=2.392ms
+contended burst med=0.03ms (solo 2.39)
+makespan=74.94s n=330
+=== l2 W=4ms ===
+W=4.0ms reps=428416 solo=4.701ms
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+contended burst med=5.67ms (solo 4.70)
+makespan=75.54s n=330
+=== l2 W=8ms ===
+W=8.0ms reps=981971 solo=7.975ms
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+contended burst med=14.70ms (solo 7.97)
+makespan=75.65s n=330
+=== l2 W=16ms ===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+W=16.0ms reps=1666335 solo=28.170ms
+contended burst med=27.24ms (solo 28.17)
+makespan=76.08s n=330
+=== l2 ctrl_b ===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+makespan=74.91s n=330
+=== sm ctrl_a ===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+makespan=76.98s n=360
+=== sm W=1ms ===
+W=1.0ms reps=4000 solo=1.709ms
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+contended burst med=0.03ms (solo 1.71)
+makespan=77.20s n=360
+=== sm W=4ms ===
+W=4.0ms reps=428416 solo=4.650ms
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+contended burst med=5.62ms (solo 4.65)
+makespan=77.32s n=360
+=== sm W=8ms ===
+W=8.0ms reps=981971 solo=7.999ms
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+contended burst med=14.51ms (solo 8.00)
+makespan=77.35s n=360
+=== sm W=16ms ===
+W=16.0ms reps=1666335 solo=13.495ms
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+contended burst med=26.77ms (solo 13.50)
+makespan=77.78s n=360
+=== sm ctrl_b ===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+makespan=77.00s n=360
+=== 扫描完成 ===

@@ -46,3 +46,4 @@ workload_profile/
 
 # adapt-workflows: v2 three-pass tree stays local (no-push rule)
 perf_trace_v2/
+experiments/h23-agentix-8b/astra_repro/Astra/

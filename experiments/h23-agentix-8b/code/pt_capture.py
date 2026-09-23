@@ -20,6 +20,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import json
 import shlex
 import sqlite3
 import subprocess
@@ -36,6 +37,33 @@ PY = str(ROOT / '.venv-vllm/bin/python')
 SERVE = str(ROOT / 'experiments/h23-agentix-8b/code/serve_agentix.py')
 
 
+def completeness_nvtx_only(sqlite_path: Path) -> dict:
+    """Completeness for a pass that collects no hardware counters.
+
+    The kernel-row ceiling is a property of CUDA activity collection. A pass that
+    traces only NVTX has no kernel rows to lose, so its scope is the whole run and
+    the only question is whether the marks are there. Windowing such a pass would
+    discard evidence for no reason.
+    """
+    db = sqlite3.connect(str(sqlite_path))
+    q = ("select n.start, n.end from NVTX_EVENTS n left join StringIds s "
+         "on n.textId = s.id where coalesce(n.text, s.value) like ?")
+    ranges = [(a, b) for a, b in db.execute(q, ('p.L%',)) if b]
+    steps = [(a, b) for a, b in db.execute(q, ('w.engine: process_engine_step',)) if b]
+    marks = db.execute(
+        "select count(*) from NVTX_EVENTS n left join StringIds s on n.textId = s.id "
+        "where coalesce(n.text, s.value) like 'agentix.%'").fetchone()[0]
+    if not ranges or not steps:
+        return {'complete': False, 'reason': 'no process ranges or no engine steps'}
+    span = (max(b for _a, b in steps) - min(a for a, _b in steps))
+    return {'mode': 'nvtx_only', 'window_ns': None,
+            'window_s': round(span / 1e9, 2), 'ranges_in_window': len(ranges),
+            'steps_in_window': len(steps), 'agentix_marks': marks,
+            'complete': len(steps) >= MIN_STEPS_IN_WINDOW,
+            'rule': ('no hardware counters in this pass, so the declared scope is the '
+                     'whole run; the kernel-row ceiling does not apply')}
+
+
 def completeness(sqlite_path: Path) -> dict:
     """Find the window in which the device evidence is actually complete.
 
@@ -47,7 +75,9 @@ def completeness(sqlite_path: Path) -> dict:
     Amendment 001 gives the alternative: narrow the declared scope until the
     evidence inside it is complete. So instead of judging the whole run, this
     finds the longest stretch of consecutive seconds that the kernel table
-    covers, and declares that stretch as the scope. Coverage is measured against
+    covers **and in which the engine is actually taking steps**, and declares
+    that stretch as the scope. Requiring steps excludes model load and warmup,
+    which run kernels but serve nothing. Coverage is measured against
     the NVTX layer ranges inside it, never against the kernel table itself.
     """
     db = sqlite3.connect(str(sqlite_path))
@@ -57,8 +87,23 @@ def completeness(sqlite_path: Path) -> dict:
         return {'kernel_rows': 0, 'complete': False, 'reason': 'no kernel table'}
     if not n:
         return {'kernel_rows': 0, 'complete': False, 'reason': 'kernel table empty'}
-    secs = sorted({int(x[0] / 1e9) for x in
-                   db.execute("select start from CUPTI_ACTIVITY_KIND_KERNEL")})
+    ksecs = {int(x[0] / 1e9) for x in
+             db.execute("select start from CUPTI_ACTIVITY_KIND_KERNEL")}
+    # A second may hold kernels and still be outside the thing being measured:
+    # model load and warmup run kernels before the engine takes its first step.
+    # A window that starts there is 40% not-serving, which understates device
+    # occupancy by exactly that much -- the defect that made every lineage report
+    # about half the engine's real utilisation. The scope is therefore the
+    # intersection: seconds with kernel rows AND with an engine step in them.
+    qstep = ("select n.start from NVTX_EVENTS n left join StringIds s "
+             "on n.textId = s.id where coalesce(n.text, s.value)="
+             "'w.engine: process_engine_step'")
+    ssecs = {int(x[0] / 1e9) for x in db.execute(qstep)}
+    serving = ksecs & ssecs
+    if not serving:
+        return {'kernel_rows': n, 'complete': False,
+                'reason': 'no second holds both kernel rows and an engine step'}
+    secs = sorted(serving)
     # longest run of consecutive covered seconds
     best = cur = [secs[0], secs[0]]
     for s in secs[1:]:
@@ -95,7 +140,8 @@ def completeness(sqlite_path: Path) -> dict:
 
 
 def capture(out_dir: Path, workload: Path, tag: str, layers: str, layer_only: bool,
-            reqtrace: bool, device: str, duration: int | None, extra_env: dict) -> dict:
+            reqtrace: bool, device: str, duration: int | None, extra_env: dict,
+            preempt: bool = False, trigger: dict | None = None) -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / 'run').mkdir(exist_ok=True)
     env = dict(os.environ)
@@ -107,11 +153,21 @@ def capture(out_dir: Path, workload: Path, tag: str, layers: str, layer_only: bo
         'AGENTIX_MODPROC_LAYERS': layers,
         'AGENTIX_MODPROC_LAYER_ONLY': '1' if layer_only else '0',
         'AGENTIX_REQTRACE': '1' if reqtrace else '0',
+        'AGENTIX_PREEMPT_TRACE': '1' if preempt else '0',
+        'AGENTIX_PREEMPT_OUT': str(out_dir / 'engine_preempt.jsonl'),
     })
-    env.update(extra_env)
-    nsys = ['nsys', 'profile', '--force-overwrite=true', '--trace=cuda,nvtx,osrt',
+    env.update({k: v for k, v in extra_env.items() if not k.startswith('_')})
+    trace = 'nvtx,osrt' if extra_env.get('_NVTX_ONLY') else 'cuda,nvtx,osrt'
+    nsys = ['nsys', 'profile', '--force-overwrite=true', f'--trace={trace}',
             '--sample=none', '--cpuctxsw=none', '--cuda-flush-interval=0',
             '--trace-fork-before-exec=true', f'--output={out_dir / tag}']
+    if trigger:
+        # The traced process opens the collector itself, once its own batch state
+        # satisfies the frozen condition. Without this the kernel budget is spent
+        # on model load and the ramp, and the regime under study is never
+        # recorded at all.
+        env['AGENTIX_CAPTURE_TRIGGER'] = json.dumps(trigger, ensure_ascii=False)
+        nsys += ['--capture-range=cudaProfilerApi', '--capture-range-end=stop']
     if duration:
         nsys += ['--duration', str(duration)]
     cmd = nsys + [PY, SERVE, '--workload', str(workload), '--policy', 'agentix_core',
@@ -128,6 +184,8 @@ def capture(out_dir: Path, workload: Path, tag: str, layers: str, layer_only: bo
     subprocess.run(['nsys', 'export', '--type', 'sqlite', '--force-overwrite=true',
                     '--output', str(out_dir / 'cap.sqlite'), str(rep)],
                    capture_output=True, timeout=1800)
+    if extra_env.get('_NVTX_ONLY'):
+        return completeness_nvtx_only(out_dir / 'cap.sqlite')
     return completeness(out_dir / 'cap.sqlite')
 
 
@@ -139,6 +197,14 @@ def main() -> int:
     ap.add_argument('--layers', default='')
     ap.add_argument('--layer-only', action='store_true')
     ap.add_argument('--reqtrace', action='store_true')
+    ap.add_argument('--trigger', default='',
+                    help='JSON condition; the traced process opens the collector '
+                         'itself once its batch state satisfies it')
+    ap.add_argument('--nvtx-only', action='store_true',
+                    help='no CUDA activity: the pass collects no hardware counters, '
+                         'so its scope is the whole run')
+    ap.add_argument('--preempt', action='store_true',
+                    help='also mark engine-side (KV) preemptions')
     ap.add_argument('--device', default='1')
     ap.add_argument('--duration', type=int, default=None,
                     help='seconds of collection; omit for an unbounded probe workload')
@@ -151,7 +217,9 @@ def main() -> int:
     history = []
     for attempt in range(1, a.attempts + 1):
         res = capture(a.out_dir, workload, a.tag, a.layers, a.layer_only,
-                      a.reqtrace, a.device, dur, {})
+                      a.reqtrace, a.device, dur,
+                      {'_NVTX_ONLY': '1'} if a.nvtx_only else {}, preempt=a.preempt,
+                      trigger=json.loads(a.trigger) if a.trigger else None)
         res['attempt'] = attempt
         res['duration_s'] = dur
         history.append(res)

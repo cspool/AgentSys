@@ -1,0 +1,664 @@
+{
+ "config": {
+  "workload_class": "single_user_dual_chain_loops",
+  "arrival_rate_programs_per_s": 1.0,
+  "seed": 311,
+  "max_num_seqs": 16,
+  "note": "C decides both chains' entry points each cycle and releases them simultaneously; chains route independently (A->B or B); C joins both tails; context grows per cycle",
+  "call_dag": true
+ },
+ "programs": [
+  {
+   "program_id": "D0000",
+   "class": "dual_chain_loop",
+   "arrival_ns": 3992825592,
+   "waves": 14,
+   "width": 2,
+   "total_prompt_tokens": 14569,
+   "total_output_tokens": 4581,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "role": "C.decision",
+     "prompt_tokens": 507,
+     "output_tokens": 212,
+     "tool_delay_ns": 122505485
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "role": "A0.lab",
+     "prompt_tokens": 623,
+     "output_tokens": 642,
+     "tool_delay_ns": 1964674143
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "role": "B0.judge",
+     "prompt_tokens": 859,
+     "output_tokens": 221,
+     "tool_delay_ns": 210463652
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      0
+     ],
+     "role": "A1.lab",
+     "prompt_tokens": 672,
+     "output_tokens": 618,
+     "tool_delay_ns": 1072257802
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "role": "B1.judge",
+     "prompt_tokens": 902,
+     "output_tokens": 228,
+     "tool_delay_ns": 118896956
+    },
+    {
+     "index": 5,
+     "wave": 5,
+     "parents": [
+      2,
+      4
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 979,
+     "output_tokens": 259,
+     "tool_delay_ns": 75826445
+    },
+    {
+     "index": 6,
+     "wave": 6,
+     "parents": [
+      5
+     ],
+     "role": "B0.judge",
+     "prompt_tokens": 1193,
+     "output_tokens": 167,
+     "tool_delay_ns": 214735482
+    },
+    {
+     "index": 7,
+     "wave": 7,
+     "parents": [
+      5
+     ],
+     "role": "A1.lab",
+     "prompt_tokens": 533,
+     "output_tokens": 590,
+     "tool_delay_ns": 1170758403
+    },
+    {
+     "index": 8,
+     "wave": 8,
+     "parents": [
+      7
+     ],
+     "role": "B1.judge",
+     "prompt_tokens": 1238,
+     "output_tokens": 159,
+     "tool_delay_ns": 151906410
+    },
+    {
+     "index": 9,
+     "wave": 9,
+     "parents": [
+      6,
+      8
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 1471,
+     "output_tokens": 279,
+     "tool_delay_ns": 142459374
+    },
+    {
+     "index": 10,
+     "wave": 10,
+     "parents": [
+      9
+     ],
+     "role": "B0.judge",
+     "prompt_tokens": 1556,
+     "output_tokens": 296,
+     "tool_delay_ns": 215132097
+    },
+    {
+     "index": 11,
+     "wave": 11,
+     "parents": [
+      9
+     ],
+     "role": "A1.lab",
+     "prompt_tokens": 508,
+     "output_tokens": 466,
+     "tool_delay_ns": 1747848006
+    },
+    {
+     "index": 12,
+     "wave": 12,
+     "parents": [
+      11
+     ],
+     "role": "B1.judge",
+     "prompt_tokens": 1433,
+     "output_tokens": 262,
+     "tool_delay_ns": 159467640
+    },
+    {
+     "index": 13,
+     "wave": 13,
+     "parents": [
+      10,
+      12
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 2095,
+     "output_tokens": 182,
+     "tool_delay_ns": 70648630
+    }
+   ]
+  },
+  {
+   "program_id": "D0001",
+   "class": "dual_chain_loop",
+   "arrival_ns": 3496177808,
+   "waves": 14,
+   "width": 2,
+   "total_prompt_tokens": 15004,
+   "total_output_tokens": 4705,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "role": "C.decision",
+     "prompt_tokens": 571,
+     "output_tokens": 240,
+     "tool_delay_ns": 112563034
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "role": "A0.lab",
+     "prompt_tokens": 429,
+     "output_tokens": 546,
+     "tool_delay_ns": 945494141
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "role": "B0.judge",
+     "prompt_tokens": 955,
+     "output_tokens": 153,
+     "tool_delay_ns": 275900987
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      0
+     ],
+     "role": "A1.lab",
+     "prompt_tokens": 576,
+     "output_tokens": 649,
+     "tool_delay_ns": 1160462562
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "role": "B1.judge",
+     "prompt_tokens": 1020,
+     "output_tokens": 295,
+     "tool_delay_ns": 138014538
+    },
+    {
+     "index": 5,
+     "wave": 5,
+     "parents": [
+      2,
+      4
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 964,
+     "output_tokens": 194,
+     "tool_delay_ns": 110573114
+    },
+    {
+     "index": 6,
+     "wave": 6,
+     "parents": [
+      5
+     ],
+     "role": "B0.judge",
+     "prompt_tokens": 1314,
+     "output_tokens": 295,
+     "tool_delay_ns": 106506522
+    },
+    {
+     "index": 7,
+     "wave": 7,
+     "parents": [
+      5
+     ],
+     "role": "B1.judge",
+     "prompt_tokens": 1273,
+     "output_tokens": 287,
+     "tool_delay_ns": 172336676
+    },
+    {
+     "index": 8,
+     "wave": 8,
+     "parents": [
+      6,
+      7
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 1588,
+     "output_tokens": 260,
+     "tool_delay_ns": 70796789
+    },
+    {
+     "index": 9,
+     "wave": 9,
+     "parents": [
+      8
+     ],
+     "role": "A0.lab",
+     "prompt_tokens": 560,
+     "output_tokens": 535,
+     "tool_delay_ns": 1523183460
+    },
+    {
+     "index": 10,
+     "wave": 10,
+     "parents": [
+      9
+     ],
+     "role": "B0.judge",
+     "prompt_tokens": 1564,
+     "output_tokens": 204,
+     "tool_delay_ns": 169202656
+    },
+    {
+     "index": 11,
+     "wave": 11,
+     "parents": [
+      8
+     ],
+     "role": "A1.lab",
+     "prompt_tokens": 620,
+     "output_tokens": 676,
+     "tool_delay_ns": 1404559547
+    },
+    {
+     "index": 12,
+     "wave": 12,
+     "parents": [
+      11
+     ],
+     "role": "B1.judge",
+     "prompt_tokens": 1518,
+     "output_tokens": 160,
+     "tool_delay_ns": 155871512
+    },
+    {
+     "index": 13,
+     "wave": 13,
+     "parents": [
+      10,
+      12
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 2052,
+     "output_tokens": 211,
+     "tool_delay_ns": 117638992
+    }
+   ]
+  },
+  {
+   "program_id": "D0002",
+   "class": "dual_chain_loop",
+   "arrival_ns": 3130844388,
+   "waves": 16,
+   "width": 2,
+   "total_prompt_tokens": 15303,
+   "total_output_tokens": 5750,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "role": "C.decision",
+     "prompt_tokens": 453,
+     "output_tokens": 272,
+     "tool_delay_ns": 83142496
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "role": "A0.lab",
+     "prompt_tokens": 555,
+     "output_tokens": 418,
+     "tool_delay_ns": 1567311994
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "role": "B0.judge",
+     "prompt_tokens": 851,
+     "output_tokens": 262,
+     "tool_delay_ns": 145400798
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      0
+     ],
+     "role": "A1.lab",
+     "prompt_tokens": 636,
+     "output_tokens": 671,
+     "tool_delay_ns": 800396809
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "role": "B1.judge",
+     "prompt_tokens": 919,
+     "output_tokens": 221,
+     "tool_delay_ns": 137952289
+    },
+    {
+     "index": 5,
+     "wave": 5,
+     "parents": [
+      2,
+      4
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 1005,
+     "output_tokens": 263,
+     "tool_delay_ns": 91199825
+    },
+    {
+     "index": 6,
+     "wave": 6,
+     "parents": [
+      5
+     ],
+     "role": "A0.lab",
+     "prompt_tokens": 454,
+     "output_tokens": 660,
+     "tool_delay_ns": 1390938282
+    },
+    {
+     "index": 7,
+     "wave": 7,
+     "parents": [
+      6
+     ],
+     "role": "B0.judge",
+     "prompt_tokens": 1289,
+     "output_tokens": 293,
+     "tool_delay_ns": 168421715
+    },
+    {
+     "index": 8,
+     "wave": 8,
+     "parents": [
+      5
+     ],
+     "role": "A1.lab",
+     "prompt_tokens": 590,
+     "output_tokens": 571,
+     "tool_delay_ns": 1040686908
+    },
+    {
+     "index": 9,
+     "wave": 9,
+     "parents": [
+      8
+     ],
+     "role": "B1.judge",
+     "prompt_tokens": 1201,
+     "output_tokens": 169,
+     "tool_delay_ns": 118356188
+    },
+    {
+     "index": 10,
+     "wave": 10,
+     "parents": [
+      7,
+      9
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 1457,
+     "output_tokens": 275,
+     "tool_delay_ns": 138979368
+    },
+    {
+     "index": 11,
+     "wave": 11,
+     "parents": [
+      10
+     ],
+     "role": "A0.lab",
+     "prompt_tokens": 446,
+     "output_tokens": 526,
+     "tool_delay_ns": 1959490288
+    },
+    {
+     "index": 12,
+     "wave": 12,
+     "parents": [
+      11
+     ],
+     "role": "B0.judge",
+     "prompt_tokens": 1526,
+     "output_tokens": 208,
+     "tool_delay_ns": 180337048
+    },
+    {
+     "index": 13,
+     "wave": 13,
+     "parents": [
+      10
+     ],
+     "role": "A1.lab",
+     "prompt_tokens": 554,
+     "output_tokens": 459,
+     "tool_delay_ns": 1370427232
+    },
+    {
+     "index": 14,
+     "wave": 14,
+     "parents": [
+      13
+     ],
+     "role": "B1.judge",
+     "prompt_tokens": 1422,
+     "output_tokens": 281,
+     "tool_delay_ns": 165238552
+    },
+    {
+     "index": 15,
+     "wave": 15,
+     "parents": [
+      12,
+      14
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 1945,
+     "output_tokens": 201,
+     "tool_delay_ns": 92328917
+    }
+   ]
+  },
+  {
+   "program_id": "D0003",
+   "class": "dual_chain_loop",
+   "arrival_ns": 1688427308,
+   "waves": 11,
+   "width": 2,
+   "total_prompt_tokens": 9511,
+   "total_output_tokens": 3516,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "role": "C.decision",
+     "prompt_tokens": 593,
+     "output_tokens": 250,
+     "tool_delay_ns": 88304489
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "role": "A0.lab",
+     "prompt_tokens": 609,
+     "output_tokens": 455,
+     "tool_delay_ns": 857952869
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "role": "B0.judge",
+     "prompt_tokens": 1001,
+     "output_tokens": 216,
+     "tool_delay_ns": 150922583
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      0
+     ],
+     "role": "A1.lab",
+     "prompt_tokens": 475,
+     "output_tokens": 575,
+     "tool_delay_ns": 1380753684
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "role": "B1.judge",
+     "prompt_tokens": 845,
+     "output_tokens": 160,
+     "tool_delay_ns": 134526872
+    },
+    {
+     "index": 5,
+     "wave": 5,
+     "parents": [
+      2,
+      4
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 971,
+     "output_tokens": 232,
+     "tool_delay_ns": 73335962
+    },
+    {
+     "index": 6,
+     "wave": 6,
+     "parents": [
+      5
+     ],
+     "role": "A0.lab",
+     "prompt_tokens": 626,
+     "output_tokens": 470,
+     "tool_delay_ns": 1989921578
+    },
+    {
+     "index": 7,
+     "wave": 7,
+     "parents": [
+      6
+     ],
+     "role": "B0.judge",
+     "prompt_tokens": 1290,
+     "output_tokens": 168,
+     "tool_delay_ns": 293722735
+    },
+    {
+     "index": 8,
+     "wave": 8,
+     "parents": [
+      5
+     ],
+     "role": "A1.lab",
+     "prompt_tokens": 415,
+     "output_tokens": 599,
+     "tool_delay_ns": 1701096261
+    },
+    {
+     "index": 9,
+     "wave": 9,
+     "parents": [
+      8
+     ],
+     "role": "B1.judge",
+     "prompt_tokens": 1136,
+     "output_tokens": 162,
+     "tool_delay_ns": 259172928
+    },
+    {
+     "index": 10,
+     "wave": 10,
+     "parents": [
+      7,
+      9
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 1550,
+     "output_tokens": 229,
+     "tool_delay_ns": 125009679
+    }
+   ]
+  }
+ ]
+}

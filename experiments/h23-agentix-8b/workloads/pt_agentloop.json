@@ -1,0 +1,531 @@
+{
+ "config": {
+  "workload_class": "single_user_agent_loops",
+  "arrival_rate_programs_per_s": 1.0,
+  "seed": 207,
+  "max_num_seqs": 16,
+  "note": "ref_MoA direction_experiment_loop shape: C(decision) routes each cycle to A(lab)+B(judge) or B alone or stop; context grows per cycle; Lab carries long tool delay; 4 loops of one user run concurrently"
+ },
+ "programs": [
+  {
+   "program_id": "L0000",
+   "class": "agent_loop",
+   "arrival_ns": 691734074,
+   "waves": 7,
+   "width": 1,
+   "total_prompt_tokens": 5579,
+   "total_output_tokens": 2046,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "role": "C.decision",
+     "prompt_tokens": 579,
+     "output_tokens": 234,
+     "tool_delay_ns": 116906521
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "role": "A.lab",
+     "prompt_tokens": 513,
+     "output_tokens": 481,
+     "tool_delay_ns": 829111495
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "role": "B.judge",
+     "prompt_tokens": 878,
+     "output_tokens": 188,
+     "tool_delay_ns": 238977681
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 821,
+     "output_tokens": 157,
+     "tool_delay_ns": 81454883
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "role": "A.lab",
+     "prompt_tokens": 433,
+     "output_tokens": 566,
+     "tool_delay_ns": 1483866014
+    },
+    {
+     "index": 5,
+     "wave": 5,
+     "parents": [
+      4
+     ],
+     "role": "B.judge",
+     "prompt_tokens": 1157,
+     "output_tokens": 201,
+     "tool_delay_ns": 177612215
+    },
+    {
+     "index": 6,
+     "wave": 6,
+     "parents": [
+      5
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 1198,
+     "output_tokens": 219,
+     "tool_delay_ns": 64965545
+    }
+   ]
+  },
+  {
+   "program_id": "L0001",
+   "class": "agent_loop",
+   "arrival_ns": 2988483811,
+   "waves": 16,
+   "width": 1,
+   "total_prompt_tokens": 17933,
+   "total_output_tokens": 5322,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "role": "C.decision",
+     "prompt_tokens": 495,
+     "output_tokens": 238,
+     "tool_delay_ns": 60134123
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "role": "A.lab",
+     "prompt_tokens": 530,
+     "output_tokens": 655,
+     "tool_delay_ns": 1585212761
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "role": "B.judge",
+     "prompt_tokens": 822,
+     "output_tokens": 249,
+     "tool_delay_ns": 158391852
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 893,
+     "output_tokens": 226,
+     "tool_delay_ns": 96007491
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "role": "A.lab",
+     "prompt_tokens": 588,
+     "output_tokens": 586,
+     "tool_delay_ns": 1319328610
+    },
+    {
+     "index": 5,
+     "wave": 5,
+     "parents": [
+      4
+     ],
+     "role": "B.judge",
+     "prompt_tokens": 1134,
+     "output_tokens": 203,
+     "tool_delay_ns": 280437311
+    },
+    {
+     "index": 6,
+     "wave": 6,
+     "parents": [
+      5
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 1208,
+     "output_tokens": 181,
+     "tool_delay_ns": 101189032
+    },
+    {
+     "index": 7,
+     "wave": 7,
+     "parents": [
+      6
+     ],
+     "role": "A.lab",
+     "prompt_tokens": 699,
+     "output_tokens": 560,
+     "tool_delay_ns": 1194123988
+    },
+    {
+     "index": 8,
+     "wave": 8,
+     "parents": [
+      7
+     ],
+     "role": "B.judge",
+     "prompt_tokens": 1425,
+     "output_tokens": 277,
+     "tool_delay_ns": 139725689
+    },
+    {
+     "index": 9,
+     "wave": 9,
+     "parents": [
+      8
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 1541,
+     "output_tokens": 152,
+     "tool_delay_ns": 108640447
+    },
+    {
+     "index": 10,
+     "wave": 10,
+     "parents": [
+      9
+     ],
+     "role": "A.lab",
+     "prompt_tokens": 454,
+     "output_tokens": 562,
+     "tool_delay_ns": 1977012257
+    },
+    {
+     "index": 11,
+     "wave": 11,
+     "parents": [
+      10
+     ],
+     "role": "B.judge",
+     "prompt_tokens": 1679,
+     "output_tokens": 171,
+     "tool_delay_ns": 198405950
+    },
+    {
+     "index": 12,
+     "wave": 12,
+     "parents": [
+      11
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 1960,
+     "output_tokens": 232,
+     "tool_delay_ns": 145749969
+    },
+    {
+     "index": 13,
+     "wave": 13,
+     "parents": [
+      12
+     ],
+     "role": "A.lab",
+     "prompt_tokens": 434,
+     "output_tokens": 545,
+     "tool_delay_ns": 1022403401
+    },
+    {
+     "index": 14,
+     "wave": 14,
+     "parents": [
+      13
+     ],
+     "role": "B.judge",
+     "prompt_tokens": 1795,
+     "output_tokens": 253,
+     "tool_delay_ns": 146494785
+    },
+    {
+     "index": 15,
+     "wave": 15,
+     "parents": [
+      14
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 2276,
+     "output_tokens": 232,
+     "tool_delay_ns": 88416096
+    }
+   ]
+  },
+  {
+   "program_id": "L0002",
+   "class": "agent_loop",
+   "arrival_ns": 731382614,
+   "waves": 10,
+   "width": 1,
+   "total_prompt_tokens": 11582,
+   "total_output_tokens": 2467,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "role": "C.decision",
+     "prompt_tokens": 533,
+     "output_tokens": 150,
+     "tool_delay_ns": 59967922
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "role": "A.lab",
+     "prompt_tokens": 442,
+     "output_tokens": 622,
+     "tool_delay_ns": 888214558
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "role": "B.judge",
+     "prompt_tokens": 866,
+     "output_tokens": 203,
+     "tool_delay_ns": 213676620
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 921,
+     "output_tokens": 215,
+     "tool_delay_ns": 65083363
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "role": "B.judge",
+     "prompt_tokens": 1192,
+     "output_tokens": 250,
+     "tool_delay_ns": 181804281
+    },
+    {
+     "index": 5,
+     "wave": 5,
+     "parents": [
+      4
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 1179,
+     "output_tokens": 179,
+     "tool_delay_ns": 72034481
+    },
+    {
+     "index": 6,
+     "wave": 6,
+     "parents": [
+      5
+     ],
+     "role": "B.judge",
+     "prompt_tokens": 1374,
+     "output_tokens": 287,
+     "tool_delay_ns": 210272242
+    },
+    {
+     "index": 7,
+     "wave": 7,
+     "parents": [
+      6
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 1502,
+     "output_tokens": 165,
+     "tool_delay_ns": 68074711
+    },
+    {
+     "index": 8,
+     "wave": 8,
+     "parents": [
+      7
+     ],
+     "role": "B.judge",
+     "prompt_tokens": 1670,
+     "output_tokens": 195,
+     "tool_delay_ns": 286864665
+    },
+    {
+     "index": 9,
+     "wave": 9,
+     "parents": [
+      8
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 1903,
+     "output_tokens": 201,
+     "tool_delay_ns": 56804564
+    }
+   ]
+  },
+  {
+   "program_id": "L0003",
+   "class": "agent_loop",
+   "arrival_ns": 622258074,
+   "waves": 11,
+   "width": 1,
+   "total_prompt_tokens": 12186,
+   "total_output_tokens": 2773,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "role": "C.decision",
+     "prompt_tokens": 500,
+     "output_tokens": 192,
+     "tool_delay_ns": 89763247
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "role": "A.lab",
+     "prompt_tokens": 455,
+     "output_tokens": 421,
+     "tool_delay_ns": 1531530712
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "role": "B.judge",
+     "prompt_tokens": 950,
+     "output_tokens": 222,
+     "tool_delay_ns": 299581561
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 839,
+     "output_tokens": 168,
+     "tool_delay_ns": 86108283
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "role": "B.judge",
+     "prompt_tokens": 1095,
+     "output_tokens": 212,
+     "tool_delay_ns": 167347930
+    },
+    {
+     "index": 5,
+     "wave": 5,
+     "parents": [
+      4
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 1277,
+     "output_tokens": 224,
+     "tool_delay_ns": 60077329
+    },
+    {
+     "index": 6,
+     "wave": 6,
+     "parents": [
+      5
+     ],
+     "role": "B.judge",
+     "prompt_tokens": 1434,
+     "output_tokens": 194,
+     "tool_delay_ns": 188122796
+    },
+    {
+     "index": 7,
+     "wave": 7,
+     "parents": [
+      6
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 1612,
+     "output_tokens": 160,
+     "tool_delay_ns": 139357231
+    },
+    {
+     "index": 8,
+     "wave": 8,
+     "parents": [
+      7
+     ],
+     "role": "A.lab",
+     "prompt_tokens": 546,
+     "output_tokens": 603,
+     "tool_delay_ns": 1043104839
+    },
+    {
+     "index": 9,
+     "wave": 9,
+     "parents": [
+      8
+     ],
+     "role": "B.judge",
+     "prompt_tokens": 1543,
+     "output_tokens": 164,
+     "tool_delay_ns": 213975486
+    },
+    {
+     "index": 10,
+     "wave": 10,
+     "parents": [
+      9
+     ],
+     "role": "C.decision",
+     "prompt_tokens": 1935,
+     "output_tokens": 213,
+     "tool_delay_ns": 86396855
+    }
+   ]
+  }
+ ]
+}

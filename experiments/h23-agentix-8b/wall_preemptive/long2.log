@@ -1,0 +1,58 @@
+An instance of this daemon is already running
+MODE=mps K=150 period=1.5 cycles=560 pattern=w,w,s prefix=J23 reps=1485188
+=== J23 ctrl ===
+  w: n=1120 med=161.2ms
+  s: n=560 med=166.0ms
+makespan=274.0s
+=== J23 valve ===
+disturber4: fired=150 busy_med=15.5ms
+valve: K=150 落墙态=104 强发=0 平均延迟=2ms
+  w: n=1120 med=160.7ms
+  s: n=560 med=166.2ms
+makespan=274.0s
+=== J23 wall_aware ===
+wall_aware: K=150 落墙态=146 强发=4 平均延迟=28ms
+disturber4: fired=150 busy_med=15.7ms
+  w: n=1120 med=160.8ms
+  s: n=560 med=166.1ms
+makespan=273.7s
+=== J23 完成 ===
+An instance of this daemon is already running
+MODE=mps K=150 period=1.5 cycles=840 pattern=w,s prefix=J12 reps=1485188
+=== J12 ctrl ===
+  w: n=840 med=161.6ms
+  s: n=840 med=166.0ms
+makespan=275.5s
+=== J12 valve ===
+disturber4: fired=150 busy_med=20.2ms
+valve: K=150 落墙态=79 强发=0 平均延迟=2ms
+  w: n=840 med=161.7ms
+  s: n=840 med=166.2ms
+makespan=276.2s
+=== J12 wall_aware ===
+wall_aware: K=150 落墙态=150 强发=0 平均延迟=37ms
+disturber4: fired=150 busy_med=15.8ms
+  w: n=840 med=160.9ms
+  s: n=840 med=166.1ms
+makespan=275.5s
+=== J12 完成 ===
+An instance of this daemon is already running
+MODE=mps K=150 period=1.5 cycles=560 pattern=w,s,s prefix=J13 reps=1485188
+=== J13 ctrl ===
+  w: n=560 med=161.6ms
+  s: n=1120 med=166.2ms
+makespan=277.1s
+=== J13 valve ===
+disturber4: fired=150 busy_med=55.6ms
+valve: K=150 落墙态=47 强发=0 平均延迟=2ms
+  w: n=560 med=161.7ms
+  s: n=1120 med=166.4ms
+makespan=278.2s
+=== J13 wall_aware ===
+wall_aware: K=150 落墙态=141 强发=9 平均延迟=118ms
+disturber4: fired=150 busy_med=16.0ms
+  w: n=560 med=160.9ms
+  s: n=1120 med=166.4ms
+makespan=277.2s
+=== J13 完成 ===
+=== 泊松到达长跑完成 ===

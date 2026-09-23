@@ -1,0 +1,19 @@
+An instance of this daemon is already running
+MODE=mps K=40 period=1.5 cycles=260 prefix=sm reps=1485188
+=== sm ctrl ===
+  w: n=520 med=161.3ms
+  s: n=260 med=165.9ms
+makespan=127.3s
+=== sm valve ===
+disturber4: fired=40 busy_med=16.8ms
+valve: K=40 落墙态=27 强发=0 平均延迟=2ms
+  w: n=520 med=161.2ms
+  s: n=260 med=166.2ms
+makespan=127.6s
+=== sm wall_aware ===
+wall_aware: K=40 落墙态=40 强发=0 平均延迟=26ms
+disturber4: fired=40 busy_med=16.1ms
+  w: n=520 med=160.7ms
+  s: n=260 med=166.1ms
+makespan=127.3s
+=== sm 完成 ===

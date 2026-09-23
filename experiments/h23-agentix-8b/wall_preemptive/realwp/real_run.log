@@ -1,0 +1,58 @@
+===== 共跑者=tc  正交相位=dram  co_reps=22 =====
+--- valve ---
+  victim tc: n=4539 med=2.96ms
+  victim dram: n=4539 med=4.70ms
+  burst(tc): n=270 busy_med=84.70ms e2e_med=99ms
+  并发比例 rho=0.66
+  valve[tc_dram, 墙态=dram]: 落墙=190/300 强发=0
+--- wall_aware ---
+  victim tc: n=4538 med=2.96ms
+  victim dram: n=4538 med=4.70ms
+  burst(tc): n=270 busy_med=84.72ms e2e_med=100ms
+  并发比例 rho=0.65
+  wall_aware[tc_dram, 墙态=dram]: 落墙=300/300 强发=0
+--- random_defer ---
+  victim tc: n=4532 med=2.96ms
+  victim dram: n=4532 med=4.70ms
+  burst(tc): n=270 busy_med=84.75ms e2e_med=101ms
+  并发比例 rho=0.65
+  random_defer[tc_dram, 墙态=dram]: 落墙=191/300 强发=0
+===== 共跑者=dram  正交相位=tc  co_reps=6 =====
+--- valve ---
+  victim tc: n=4606 med=2.82ms
+  victim dram: n=4606 med=4.58ms
+  burst(dram): n=300 busy_med=25.04ms e2e_med=25ms
+  并发比例 rho=0.22
+  valve[tc_dram, 墙态=tc]: 落墙=117/300 强发=0
+--- wall_aware ---
+  victim tc: n=4601 med=2.83ms
+  victim dram: n=4601 med=4.58ms
+  burst(dram): n=299 busy_med=25.51ms e2e_med=26ms
+  并发比例 rho=0.22
+  wall_aware[tc_dram, 墙态=tc]: 落墙=300/300 强发=0
+--- random_defer ---
+  victim tc: n=4600 med=2.82ms
+  victim dram: n=4600 med=4.58ms
+  burst(dram): n=299 busy_med=25.21ms e2e_med=25ms
+  并发比例 rho=0.22
+  random_defer[tc_dram, 墙态=tc]: 落墙=115/300 强发=0
+===== 共跑者=fp32  正交相位=dram  co_reps=17 =====
+--- valve ---
+  victim tc: n=4474 med=3.07ms
+  victim dram: n=4474 med=4.80ms
+  burst(fp32): n=293 busy_med=66.72ms e2e_med=72ms
+  并发比例 rho=0.56
+  valve[tc_dram, 墙态=dram]: 落墙=180/300 强发=0
+--- wall_aware ---
+  victim tc: n=4473 med=3.07ms
+  victim dram: n=4473 med=4.80ms
+  burst(fp32): n=292 busy_med=66.92ms e2e_med=72ms
+  并发比例 rho=0.57
+  wall_aware[tc_dram, 墙态=dram]: 落墙=300/300 强发=0
+--- random_defer ---
+  victim tc: n=4477 med=3.07ms
+  victim dram: n=4477 med=4.80ms
+  burst(fp32): n=292 busy_med=66.82ms e2e_med=71ms
+  并发比例 rho=0.56
+  random_defer[tc_dram, 墙态=dram]: 落墙=186/300 强发=0
+=== 真实负载 wall 抢占对照完成 ===

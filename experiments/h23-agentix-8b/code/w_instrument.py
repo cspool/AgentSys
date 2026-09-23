@@ -12,6 +12,7 @@ process-universe loader picks them up with no schema change.
 from __future__ import annotations
 
 import os
+import json
 
 import torch.cuda.nvtx as nvtx
 
@@ -111,6 +112,65 @@ def install(verbose: bool = True) -> dict:
     except Exception as e:  # pragma: no cover
         applied["w.engine: <outproc import failed>"] = f"{type(e).__name__}"
 
+    # --- condition-triggered capture gate ------------------------------------
+    # The collector has a finite kernel budget. Starting it at process launch
+    # spends that budget on model load and the ramp, and by the time the engine
+    # reaches the regime the analysis is about, CUDA activity is no longer being
+    # recorded — measured: the busy regime began at 25 s and ran to 66 s, while
+    # the kernel table stopped at 28 s. So the process itself decides when to
+    # collect: it watches its own batch state and opens the profiler when the
+    # frozen condition holds. nsys must run with
+    # --capture-range=cudaProfilerApi --capture-range-end=stop.
+    _trig = os.environ.get("AGENTIX_CAPTURE_TRIGGER", "")
+    _gate = {"on": False, "hits": 0, "t0": None, "done": False, "cond": None}
+    if _trig:
+        try:
+            _gate["cond"] = json.loads(_trig)
+        except Exception as e:
+            applied["w.capture: <bad trigger>"] = f"{type(e).__name__}"
+
+    def _phase(reqs, tok):
+        if not reqs or not tok:
+            return "unknown"
+        if tok > reqs * 4:
+            return "prefill_heavy"
+        if reqs >= 12:
+            return "storm"
+        return "steady_decode"
+
+    def _capture_gate(reqs, tok):
+        c = _gate["cond"]
+        if not c or _gate["done"]:
+            return
+        import time
+        import torch.cuda.profiler as prof
+        if not _gate["on"]:
+            good = True
+            if c.get("reqs_ge") is not None and reqs < c["reqs_ge"]:
+                good = False
+            if c.get("reqs_le") is not None and reqs > c["reqs_le"]:
+                good = False
+            if c.get("phase_in") and _phase(reqs, tok) not in c["phase_in"]:
+                good = False
+            _gate["hits"] = _gate["hits"] + 1 if good else 0
+            if _gate["hits"] >= c.get("consecutive", 5):
+                prof.start()
+                _gate["on"] = True
+                _gate["t0"] = time.monotonic()
+                nvtx.mark(f"w.capture::start::reqs={reqs}::tok={tot_or(tok)}")
+                print(f"[w.capture] 条件成立，开启采集 reqs={reqs} tok={tok}", flush=True)
+        else:
+            import time as _t
+            if _t.monotonic() - _gate["t0"] >= c.get("hold_s", 8):
+                nvtx.mark("w.capture::stop")
+                prof.stop()
+                _gate["on"] = False
+                _gate["done"] = True
+                print("[w.capture] 采集窗口结束", flush=True)
+
+    def tot_or(x):
+        return x
+
     # --- per-step batch composition mark (batch8-style concurrency target):
     # after each schedule() the step's request count and scheduled tokens are
     # emitted, so the trace carries the batch shape of every engine iteration.
@@ -123,6 +183,7 @@ def install(verbose: bool = True) -> dict:
                 nst = getattr(out, "num_scheduled_tokens", None) or {}
                 tot = getattr(out, "total_num_scheduled_tokens", 0)
                 nvtx.mark(f"w.step::reqs={len(nst)}::tok={tot}")
+                _capture_gate(len(nst), tot)
                 if os.environ.get("AGENTIX_REQTRACE", "0") == "1":
                     # probe v2: per-step RUNNING-set identity, so每个 call 的
                     # 运行/抢占/等待/恢复 状态区间可离线精确重建 (paper-metric

@@ -1,0 +1,35 @@
+{
+ "argv": [
+  "--workload",
+  "experiments/h23-agentix-8b/workloads/pt_valve_online.json",
+  "--output-dir",
+  "experiments/h23-agentix-8b/valve_repro/v3_on_channel",
+  "--policy",
+  "atlas",
+  "--enforce-eager",
+  "--model-dir",
+  "/data3/docker_model/AgentSys/Qwen3-1.7B",
+  "--gpu-memory-utilization",
+  "0.40"
+ ],
+ "workload": "experiments/h23-agentix-8b/workloads/pt_valve_online.json",
+ "workload_sha256": "533b05a0aae4155a22be9a00fe282f054df98aa7f1a57b39a43495699d8cc991",
+ "harness_sha256": {
+  "serve_agentix.py": "21ee3ac82fcbc8a1ab9cba7ef9c043106ce14d0d92f94a26d2c748277f7eefcd",
+  "astra_swap.py": "ca682a793c28890d069e31eb3e7b962fcfabdcea0a53cc77ed66eacfd7967df3"
+ },
+ "env": {
+  "AGENTIX_WALLFLAG_PATH": "/tmp/agentix_wallflag_online.json",
+  "AGENTIX_WALLFLAG": "1",
+  "CUDA_VISIBLE_DEVICES": "1",
+  "LD_LIBRARY_PATH": "/usr/local/cuda-12.8/lib64:/root/chipyard/esp-tools-install/lib:/root/chipyard/riscv-tools-install/lib:/root/chipyard/esp-tools-install/lib:/root/chipyard/riscv-tools-install/lib:/root/chipyard/esp-tools-install/lib:/root/chipyard/riscv-tools-install/lib:/root/chipyard/esp-tools-install/lib:/root/chipyard/riscv-tools-install/lib:/usr/local/cuda-12.8/lib64:/root/chipyard/esp-tools-install/lib:/root/chipyard/riscv-tools-install/lib:/root/riscv-tools-install/lib",
+  "CUDA_HOME": "/usr/local/cuda-12.8",
+  "CUDA_DEFAULT": "system",
+  "CUDA_VERSION": "",
+  "CUDA_SHORT": "12.8",
+  "VLLM_ENABLE_V1_MULTIPROCESSING": "0",
+  "VLLM_USE_V2_MODEL_RUNNER": "0"
+ },
+ "gpu_driver": "NVIDIA GeForce RTX 4090, 595.91.07",
+ "utc": "2026-09-21T10:12:11Z"
+}

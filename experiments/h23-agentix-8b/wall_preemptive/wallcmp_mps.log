@@ -1,0 +1,17 @@
+=== MPS ctrl ===
+  w: n=520 med=161.0ms
+  s: n=260 med=166.4ms
+makespan=127.4s
+=== MPS valve ===
+disturber4: fired=40 busy_med=22.7ms
+valve: K=40 落墙态=28 强发=0 平均延迟=2ms
+  w: n=520 med=160.3ms
+  s: n=260 med=166.3ms
+makespan=127.3s
+=== MPS wall_aware ===
+wall_aware: K=40 落墙态=40 强发=0 平均延迟=27ms
+disturber4: fired=40 busy_med=21.6ms
+  w: n=520 med=161.1ms
+  s: n=260 med=166.5ms
+makespan=127.7s
+=== MPS 对照完成 ===

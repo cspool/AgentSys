@@ -67,6 +67,12 @@ def gen(cache, suffix, pos_start, max_new=24, attn=False, K_ctx=0):
     txt=tok.decode(toks).replace('<|im_end|>','').strip()
     return (txt,(acc/max(steps,1)).float().cpu().numpy()) if attn else (txt,None)
 
+def smooth(x,k=7):
+    if x.shape[0]<=1: return x
+    pad=k//2; xp=np.pad(x,(pad,pad),mode='edge')
+    from numpy.lib.stride_tricks import sliding_window_view
+    return sliding_window_view(xp,k).max(axis=1)
+
 def keep_sets(spans, cons, glob, rho, rng):
     """返回各臂的 keep 索引(全局坐标, 含头部全部)。spans=[(st,en,g)]"""
     out={}
@@ -88,6 +94,21 @@ def keep_sets(spans, cons, glob, rho, rng):
     allidx=np.concatenate([np.arange(st,en) for st,en,_ in spans])
     sc=np.concatenate([glob[st:en] for st,en,_ in spans])
     out['E']=np.sort(np.concatenate([head, allidx[np.argsort(sc)[-budget:]]]))
+    # v2: 平滑分(实体完整性)
+    out['B2']=per_span(lambda k,n,keep: np.sort(np.argsort(smooth(cons[k]))[-keep:]))
+    sc2=np.concatenate([smooth(glob[st:en]) for st,en,_ in spans])
+    out['E2']=np.sort(np.concatenate([head, allidx[np.argsort(sc2)[-budget:]]]))
+    # H: E2 + 近期护盾(最后2跨度全保, 预算只作用于其余跨度)
+    ns=len(spans); shield={ns-1,ns-2}
+    rest=[(st,en) for k,(st,en,_) in enumerate(spans) if k not in shield]
+    sh=[np.arange(st,en) for k,(st,en,_) in enumerate(spans) if k in shield]
+    if rest:
+        ridx=np.concatenate([np.arange(st,en) for st,en in rest])
+        rsc=np.concatenate([smooth(glob[st:en]) for st,en in rest])
+        bud=max(1,int(round(sum(en-st for st,en in rest)*rho)))
+        kept=ridx[np.argsort(rsc)[-bud:]]
+    else: kept=np.zeros(0,dtype=int)
+    out['H']=np.sort(np.concatenate([head]+sh+[kept]))
     return out
 
 results=[]; t0=time.time()
@@ -170,7 +191,7 @@ nctx=stt.mean(r['n_ctx'] for r in results)
 print(f"A 全KV: 质量 {100*qA:.0f}%  上下文均值 {nctx:.0f} tok")
 for rho in RHOS:
     print(f"-- ρ={rho} --")
-    for arm in 'BCDEFG':
+    for arm in ['B','B2','C','D','E','E2','G','H','F']:
         q=stt.mean(ok(r[f'ans_{arm}@{rho}'],r['gold']) for r in results)
         kv=stt.mean(r[f'kv_{arm}@{rho}'] for r in results)
         print(f"  {arm}: 质量 {100*q:3.0f}%  保留KV {kv:5.0f} tok ({100*kv/nctx:.0f}%)  显存降 {100*(1-kv/nctx):.0f}%")

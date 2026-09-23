@@ -1,0 +1,865 @@
+{
+ "config": {
+  "workload_class": "trimodal_dual_chain_loops",
+  "call_dag": true,
+  "seed": 419,
+  "max_num_seqs": 16,
+  "note": "C(LM) routes vis-chain and audio/text-chain each cycle; encoder cost declared by asset size; three 1.xB engines co-resident on one 24G GPU"
+ },
+ "programs": [
+  {
+   "program_id": "M0000",
+   "class": "mm_dual_chain_loop",
+   "arrival_ns": 3246843987,
+   "waves": 19,
+   "width": 2,
+   "total_prompt_tokens": 13714,
+   "total_output_tokens": 3508,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "role": "C.decision",
+     "modality": "lm",
+     "prompt_tokens": 439,
+     "output_tokens": 156,
+     "tool_delay_ns": 62974413
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "role": "A0.vis",
+     "modality": "vis",
+     "prompt_tokens": 78,
+     "output_tokens": 166,
+     "tool_delay_ns": 243301781,
+     "image_hw": [
+      448,
+      448
+     ]
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "role": "B0.lm_interpret",
+     "modality": "lm",
+     "prompt_tokens": 700,
+     "output_tokens": 235,
+     "tool_delay_ns": 167456560
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      0
+     ],
+     "role": "B1.lm_reason",
+     "modality": "lm",
+     "prompt_tokens": 750,
+     "output_tokens": 246,
+     "tool_delay_ns": 133964918
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      2,
+      3
+     ],
+     "role": "C.decision",
+     "modality": "lm",
+     "prompt_tokens": 719,
+     "output_tokens": 174,
+     "tool_delay_ns": 130855696
+    },
+    {
+     "index": 5,
+     "wave": 5,
+     "parents": [
+      4
+     ],
+     "role": "A0.vis",
+     "modality": "vis",
+     "prompt_tokens": 118,
+     "output_tokens": 121,
+     "tool_delay_ns": 164296130,
+     "image_hw": [
+      672,
+      672
+     ]
+    },
+    {
+     "index": 6,
+     "wave": 6,
+     "parents": [
+      5
+     ],
+     "role": "B0.lm_interpret",
+     "modality": "lm",
+     "prompt_tokens": 900,
+     "output_tokens": 203,
+     "tool_delay_ns": 124639796
+    },
+    {
+     "index": 7,
+     "wave": 7,
+     "parents": [
+      4
+     ],
+     "role": "A1.audio",
+     "modality": "audio",
+     "prompt_tokens": 84,
+     "output_tokens": 196,
+     "tool_delay_ns": 277022561,
+     "audio_s": 7.5
+    },
+    {
+     "index": 8,
+     "wave": 8,
+     "parents": [
+      7
+     ],
+     "role": "B1.lm_interpret",
+     "modality": "lm",
+     "prompt_tokens": 850,
+     "output_tokens": 164,
+     "tool_delay_ns": 51299245
+    },
+    {
+     "index": 9,
+     "wave": 9,
+     "parents": [
+      6,
+      8
+     ],
+     "role": "C.decision",
+     "modality": "lm",
+     "prompt_tokens": 996,
+     "output_tokens": 155,
+     "tool_delay_ns": 98776148
+    },
+    {
+     "index": 10,
+     "wave": 10,
+     "parents": [
+      9
+     ],
+     "role": "A0.vis",
+     "modality": "vis",
+     "prompt_tokens": 63,
+     "output_tokens": 121,
+     "tool_delay_ns": 103001784,
+     "image_hw": [
+      672,
+      672
+     ]
+    },
+    {
+     "index": 11,
+     "wave": 11,
+     "parents": [
+      10
+     ],
+     "role": "B0.lm_interpret",
+     "modality": "lm",
+     "prompt_tokens": 1100,
+     "output_tokens": 239,
+     "tool_delay_ns": 99045474
+    },
+    {
+     "index": 12,
+     "wave": 12,
+     "parents": [
+      9
+     ],
+     "role": "B1.lm_reason",
+     "modality": "lm",
+     "prompt_tokens": 1250,
+     "output_tokens": 254,
+     "tool_delay_ns": 214669726
+    },
+    {
+     "index": 13,
+     "wave": 13,
+     "parents": [
+      11,
+      12
+     ],
+     "role": "C.decision",
+     "modality": "lm",
+     "prompt_tokens": 1294,
+     "output_tokens": 185,
+     "tool_delay_ns": 52825995
+    },
+    {
+     "index": 14,
+     "wave": 14,
+     "parents": [
+      13
+     ],
+     "role": "A0.vis",
+     "modality": "vis",
+     "prompt_tokens": 120,
+     "output_tokens": 198,
+     "tool_delay_ns": 149752482,
+     "image_hw": [
+      672,
+      672
+     ]
+    },
+    {
+     "index": 15,
+     "wave": 15,
+     "parents": [
+      14
+     ],
+     "role": "B0.lm_interpret",
+     "modality": "lm",
+     "prompt_tokens": 1300,
+     "output_tokens": 231,
+     "tool_delay_ns": 190490385
+    },
+    {
+     "index": 16,
+     "wave": 16,
+     "parents": [
+      13
+     ],
+     "role": "A1.audio",
+     "modality": "audio",
+     "prompt_tokens": 49,
+     "output_tokens": 118,
+     "tool_delay_ns": 224599309,
+     "audio_s": 6.4
+    },
+    {
+     "index": 17,
+     "wave": 17,
+     "parents": [
+      16
+     ],
+     "role": "B1.lm_interpret",
+     "modality": "lm",
+     "prompt_tokens": 1250,
+     "output_tokens": 163,
+     "tool_delay_ns": 137761695
+    },
+    {
+     "index": 18,
+     "wave": 18,
+     "parents": [
+      15,
+      17
+     ],
+     "role": "C.decision",
+     "modality": "lm",
+     "prompt_tokens": 1654,
+     "output_tokens": 183,
+     "tool_delay_ns": 97921357
+    }
+   ]
+  },
+  {
+   "program_id": "M0001",
+   "class": "mm_dual_chain_loop",
+   "arrival_ns": 2249552968,
+   "waves": 15,
+   "width": 2,
+   "total_prompt_tokens": 9154,
+   "total_output_tokens": 2862,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "role": "C.decision",
+     "modality": "lm",
+     "prompt_tokens": 457,
+     "output_tokens": 211,
+     "tool_delay_ns": 145757040
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "role": "A0.vis",
+     "modality": "vis",
+     "prompt_tokens": 98,
+     "output_tokens": 199,
+     "tool_delay_ns": 246753804,
+     "image_hw": [
+      896,
+      896
+     ]
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "role": "B0.lm_interpret",
+     "modality": "lm",
+     "prompt_tokens": 700,
+     "output_tokens": 197,
+     "tool_delay_ns": 139461049
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      0
+     ],
+     "role": "B1.lm_reason",
+     "modality": "lm",
+     "prompt_tokens": 750,
+     "output_tokens": 261,
+     "tool_delay_ns": 251129253
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      2,
+      3
+     ],
+     "role": "C.decision",
+     "modality": "lm",
+     "prompt_tokens": 677,
+     "output_tokens": 203,
+     "tool_delay_ns": 56780777
+    },
+    {
+     "index": 5,
+     "wave": 5,
+     "parents": [
+      4
+     ],
+     "role": "A0.vis",
+     "modality": "vis",
+     "prompt_tokens": 61,
+     "output_tokens": 214,
+     "tool_delay_ns": 137200435,
+     "image_hw": [
+      448,
+      448
+     ]
+    },
+    {
+     "index": 6,
+     "wave": 6,
+     "parents": [
+      5
+     ],
+     "role": "B0.lm_interpret",
+     "modality": "lm",
+     "prompt_tokens": 900,
+     "output_tokens": 166,
+     "tool_delay_ns": 189235701
+    },
+    {
+     "index": 7,
+     "wave": 7,
+     "parents": [
+      4
+     ],
+     "role": "A1.audio",
+     "modality": "audio",
+     "prompt_tokens": 42,
+     "output_tokens": 120,
+     "tool_delay_ns": 112217805,
+     "audio_s": 9.8
+    },
+    {
+     "index": 8,
+     "wave": 8,
+     "parents": [
+      7
+     ],
+     "role": "B1.lm_interpret",
+     "modality": "lm",
+     "prompt_tokens": 850,
+     "output_tokens": 233,
+     "tool_delay_ns": 175684847
+    },
+    {
+     "index": 9,
+     "wave": 9,
+     "parents": [
+      6,
+      8
+     ],
+     "role": "C.decision",
+     "modality": "lm",
+     "prompt_tokens": 986,
+     "output_tokens": 173,
+     "tool_delay_ns": 63713255
+    },
+    {
+     "index": 10,
+     "wave": 10,
+     "parents": [
+      9
+     ],
+     "role": "A0.vis",
+     "modality": "vis",
+     "prompt_tokens": 120,
+     "output_tokens": 186,
+     "tool_delay_ns": 230583339,
+     "image_hw": [
+      448,
+      448
+     ]
+    },
+    {
+     "index": 11,
+     "wave": 11,
+     "parents": [
+      10
+     ],
+     "role": "B0.lm_interpret",
+     "modality": "lm",
+     "prompt_tokens": 1100,
+     "output_tokens": 184,
+     "tool_delay_ns": 55423228
+    },
+    {
+     "index": 12,
+     "wave": 12,
+     "parents": [
+      9
+     ],
+     "role": "A1.audio",
+     "modality": "audio",
+     "prompt_tokens": 55,
+     "output_tokens": 158,
+     "tool_delay_ns": 191174373,
+     "audio_s": 8.1
+    },
+    {
+     "index": 13,
+     "wave": 13,
+     "parents": [
+      12
+     ],
+     "role": "B1.lm_interpret",
+     "modality": "lm",
+     "prompt_tokens": 1050,
+     "output_tokens": 141,
+     "tool_delay_ns": 141090995
+    },
+    {
+     "index": 14,
+     "wave": 14,
+     "parents": [
+      11,
+      13
+     ],
+     "role": "C.decision",
+     "modality": "lm",
+     "prompt_tokens": 1308,
+     "output_tokens": 216,
+     "tool_delay_ns": 61674088
+    }
+   ]
+  },
+  {
+   "program_id": "M0002",
+   "class": "mm_dual_chain_loop",
+   "arrival_ns": 3511821545,
+   "waves": 10,
+   "width": 2,
+   "total_prompt_tokens": 4810,
+   "total_output_tokens": 1920,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "role": "C.decision",
+     "modality": "lm",
+     "prompt_tokens": 376,
+     "output_tokens": 209,
+     "tool_delay_ns": 132628670
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "role": "A0.vis",
+     "modality": "vis",
+     "prompt_tokens": 66,
+     "output_tokens": 132,
+     "tool_delay_ns": 283267255,
+     "image_hw": [
+      896,
+      896
+     ]
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      0
+     ],
+     "role": "A1.audio",
+     "modality": "audio",
+     "prompt_tokens": 42,
+     "output_tokens": 160,
+     "tool_delay_ns": 171945639,
+     "audio_s": 3.8
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "role": "B1.lm_interpret",
+     "modality": "lm",
+     "prompt_tokens": 650,
+     "output_tokens": 227,
+     "tool_delay_ns": 90394734
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      1,
+      3
+     ],
+     "role": "C.decision",
+     "modality": "lm",
+     "prompt_tokens": 733,
+     "output_tokens": 164,
+     "tool_delay_ns": 104179139
+    },
+    {
+     "index": 5,
+     "wave": 5,
+     "parents": [
+      4
+     ],
+     "role": "A0.vis",
+     "modality": "vis",
+     "prompt_tokens": 90,
+     "output_tokens": 205,
+     "tool_delay_ns": 161817192,
+     "image_hw": [
+      672,
+      672
+     ]
+    },
+    {
+     "index": 6,
+     "wave": 6,
+     "parents": [
+      5
+     ],
+     "role": "B0.lm_interpret",
+     "modality": "lm",
+     "prompt_tokens": 900,
+     "output_tokens": 227,
+     "tool_delay_ns": 71246585
+    },
+    {
+     "index": 7,
+     "wave": 7,
+     "parents": [
+      4
+     ],
+     "role": "A1.audio",
+     "modality": "audio",
+     "prompt_tokens": 68,
+     "output_tokens": 174,
+     "tool_delay_ns": 289753489,
+     "audio_s": 5.8
+    },
+    {
+     "index": 8,
+     "wave": 8,
+     "parents": [
+      7
+     ],
+     "role": "B1.lm_interpret",
+     "modality": "lm",
+     "prompt_tokens": 850,
+     "output_tokens": 234,
+     "tool_delay_ns": 197465808
+    },
+    {
+     "index": 9,
+     "wave": 9,
+     "parents": [
+      6,
+      8
+     ],
+     "role": "C.decision",
+     "modality": "lm",
+     "prompt_tokens": 1035,
+     "output_tokens": 188,
+     "tool_delay_ns": 73269229
+    }
+   ]
+  },
+  {
+   "program_id": "M0003",
+   "class": "mm_dual_chain_loop",
+   "arrival_ns": 3894696981,
+   "waves": 18,
+   "width": 2,
+   "total_prompt_tokens": 11608,
+   "total_output_tokens": 3184,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "role": "C.decision",
+     "modality": "lm",
+     "prompt_tokens": 379,
+     "output_tokens": 205,
+     "tool_delay_ns": 110459184
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "role": "A0.vis",
+     "modality": "vis",
+     "prompt_tokens": 69,
+     "output_tokens": 176,
+     "tool_delay_ns": 225385712,
+     "image_hw": [
+      672,
+      672
+     ]
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      0
+     ],
+     "role": "A1.audio",
+     "modality": "audio",
+     "prompt_tokens": 85,
+     "output_tokens": 194,
+     "tool_delay_ns": 284637696,
+     "audio_s": 5.6
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "role": "B1.lm_interpret",
+     "modality": "lm",
+     "prompt_tokens": 650,
+     "output_tokens": 217,
+     "tool_delay_ns": 176685633
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      1,
+      3
+     ],
+     "role": "C.decision",
+     "modality": "lm",
+     "prompt_tokens": 724,
+     "output_tokens": 154,
+     "tool_delay_ns": 53807822
+    },
+    {
+     "index": 5,
+     "wave": 5,
+     "parents": [
+      4
+     ],
+     "role": "A0.vis",
+     "modality": "vis",
+     "prompt_tokens": 85,
+     "output_tokens": 179,
+     "tool_delay_ns": 118435891,
+     "image_hw": [
+      896,
+      896
+     ]
+    },
+    {
+     "index": 6,
+     "wave": 6,
+     "parents": [
+      5
+     ],
+     "role": "B0.lm_interpret",
+     "modality": "lm",
+     "prompt_tokens": 900,
+     "output_tokens": 165,
+     "tool_delay_ns": 64598629
+    },
+    {
+     "index": 7,
+     "wave": 7,
+     "parents": [
+      4
+     ],
+     "role": "A1.audio",
+     "modality": "audio",
+     "prompt_tokens": 77,
+     "output_tokens": 123,
+     "tool_delay_ns": 126559913,
+     "audio_s": 3.4
+    },
+    {
+     "index": 8,
+     "wave": 8,
+     "parents": [
+      7
+     ],
+     "role": "B1.lm_interpret",
+     "modality": "lm",
+     "prompt_tokens": 850,
+     "output_tokens": 171,
+     "tool_delay_ns": 122826171
+    },
+    {
+     "index": 9,
+     "wave": 9,
+     "parents": [
+      6,
+      8
+     ],
+     "role": "C.decision",
+     "modality": "lm",
+     "prompt_tokens": 1056,
+     "output_tokens": 156,
+     "tool_delay_ns": 138994443
+    },
+    {
+     "index": 10,
+     "wave": 10,
+     "parents": [
+      9
+     ],
+     "role": "A0.vis",
+     "modality": "vis",
+     "prompt_tokens": 95,
+     "output_tokens": 164,
+     "tool_delay_ns": 134449647,
+     "image_hw": [
+      896,
+      896
+     ]
+    },
+    {
+     "index": 11,
+     "wave": 11,
+     "parents": [
+      10
+     ],
+     "role": "B0.lm_interpret",
+     "modality": "lm",
+     "prompt_tokens": 1100,
+     "output_tokens": 196,
+     "tool_delay_ns": 195898060
+    },
+    {
+     "index": 12,
+     "wave": 12,
+     "parents": [
+      9
+     ],
+     "role": "B1.lm_reason",
+     "modality": "lm",
+     "prompt_tokens": 1250,
+     "output_tokens": 237,
+     "tool_delay_ns": 146119186
+    },
+    {
+     "index": 13,
+     "wave": 13,
+     "parents": [
+      11,
+      12
+     ],
+     "role": "C.decision",
+     "modality": "lm",
+     "prompt_tokens": 1279,
+     "output_tokens": 197,
+     "tool_delay_ns": 89735385
+    },
+    {
+     "index": 14,
+     "wave": 14,
+     "parents": [
+      13
+     ],
+     "role": "A0.vis",
+     "modality": "vis",
+     "prompt_tokens": 78,
+     "output_tokens": 150,
+     "tool_delay_ns": 139960905,
+     "image_hw": [
+      672,
+      672
+     ]
+    },
+    {
+     "index": 15,
+     "wave": 15,
+     "parents": [
+      13
+     ],
+     "role": "A1.audio",
+     "modality": "audio",
+     "prompt_tokens": 70,
+     "output_tokens": 179,
+     "tool_delay_ns": 115320793,
+     "audio_s": 8.4
+    },
+    {
+     "index": 16,
+     "wave": 16,
+     "parents": [
+      15
+     ],
+     "role": "B1.lm_interpret",
+     "modality": "lm",
+     "prompt_tokens": 1250,
+     "output_tokens": 181,
+     "tool_delay_ns": 120229725
+    },
+    {
+     "index": 17,
+     "wave": 17,
+     "parents": [
+      14,
+      16
+     ],
+     "role": "C.decision",
+     "modality": "lm",
+     "prompt_tokens": 1611,
+     "output_tokens": 140,
+     "tool_delay_ns": 118884946
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,3578 @@
+{
+ "config": {
+  "workload_class": "prefill_dominant",
+  "arrival_rate_programs_per_s": 12.0,
+  "seed": 23,
+  "max_num_seqs": 16,
+  "note": "P \u4e3b\u5bfc\uff1aprompt\u00d74\u3001decode\u00f75\u3001sharegpt \u504f\u91cd\uff1bunique_prompts \u4f7f\u6bcf\u6b21\u8c03\u7528\u7684 prompt \u524d\u7f00\u552f\u4e00\uff0c\u7ed5\u5f00\u524d\u7f00\u7f13\u5b58\u8ba9 prefill \u771f\u5b9e\u5230\u8fbe GPU\uff08\u6b64\u524d\u5b9e\u6d4b 95% \u88ab\u7f13\u5b58\u5403\u6389\uff09",
+  "unique_prompts": true
+ },
+ "programs": [
+  {
+   "program_id": "p00000",
+   "class": "sharegpt",
+   "arrival_ns": 255052397,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 3752,
+   "total_output_tokens": 153,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1848,
+     "output_tokens": 71,
+     "tool_delay_ns": 94457357
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1904,
+     "output_tokens": 82,
+     "tool_delay_ns": 52476696
+    }
+   ]
+  },
+  {
+   "program_id": "p00001",
+   "class": "sharegpt",
+   "arrival_ns": 417169892,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 3920,
+   "total_output_tokens": 165,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2044,
+     "output_tokens": 89,
+     "tool_delay_ns": 68202921
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1876,
+     "output_tokens": 76,
+     "tool_delay_ns": 131587349
+    }
+   ]
+  },
+  {
+   "program_id": "p00002",
+   "class": "bfcl",
+   "arrival_ns": 469022280,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 6240,
+   "total_output_tokens": 151,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1176,
+     "output_tokens": 30,
+     "tool_delay_ns": 217681743
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1260,
+     "output_tokens": 33,
+     "tool_delay_ns": 100985496
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 1232,
+     "output_tokens": 34,
+     "tool_delay_ns": 135465836
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 1420,
+     "output_tokens": 25,
+     "tool_delay_ns": 270281788
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 1152,
+     "output_tokens": 29,
+     "tool_delay_ns": 205637559
+    }
+   ]
+  },
+  {
+   "program_id": "p00003",
+   "class": "sharegpt",
+   "arrival_ns": 615545832,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 4504,
+   "total_output_tokens": 168,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2132,
+     "output_tokens": 90,
+     "tool_delay_ns": 112099145
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 2372,
+     "output_tokens": 78,
+     "tool_delay_ns": 125978661
+    }
+   ]
+  },
+  {
+   "program_id": "p00004",
+   "class": "bfcl",
+   "arrival_ns": 652284901,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 6000,
+   "total_output_tokens": 157,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1292,
+     "output_tokens": 37,
+     "tool_delay_ns": 287253590
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1220,
+     "output_tokens": 37,
+     "tool_delay_ns": 194249789
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 1160,
+     "output_tokens": 23,
+     "tool_delay_ns": 216489450
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 1160,
+     "output_tokens": 36,
+     "tool_delay_ns": 337613421
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 1168,
+     "output_tokens": 24,
+     "tool_delay_ns": 232242496
+    }
+   ]
+  },
+  {
+   "program_id": "p00005",
+   "class": "sharegpt",
+   "arrival_ns": 688061959,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 4164,
+   "total_output_tokens": 189,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2344,
+     "output_tokens": 102,
+     "tool_delay_ns": 139243334
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1820,
+     "output_tokens": 87,
+     "tool_delay_ns": 92374740
+    }
+   ]
+  },
+  {
+   "program_id": "p00006",
+   "class": "bfcl",
+   "arrival_ns": 1265164441,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 6540,
+   "total_output_tokens": 171,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1296,
+     "output_tokens": 34,
+     "tool_delay_ns": 163265588
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1248,
+     "output_tokens": 36,
+     "tool_delay_ns": 211173131
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 1216,
+     "output_tokens": 35,
+     "tool_delay_ns": 303438986
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 1428,
+     "output_tokens": 32,
+     "tool_delay_ns": 203155551
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 1352,
+     "output_tokens": 34,
+     "tool_delay_ns": 259878037
+    }
+   ]
+  },
+  {
+   "program_id": "p00007",
+   "class": "sharegpt",
+   "arrival_ns": 1293436148,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 3944,
+   "total_output_tokens": 172,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2124,
+     "output_tokens": 90,
+     "tool_delay_ns": 81439111
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1820,
+     "output_tokens": 82,
+     "tool_delay_ns": 121791400
+    }
+   ]
+  },
+  {
+   "program_id": "p00008",
+   "class": "sharegpt",
+   "arrival_ns": 1392919332,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 4432,
+   "total_output_tokens": 158,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2208,
+     "output_tokens": 80,
+     "tool_delay_ns": 101263392
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 2224,
+     "output_tokens": 78,
+     "tool_delay_ns": 55755452
+    }
+   ]
+  },
+  {
+   "program_id": "p00009",
+   "class": "sharegpt",
+   "arrival_ns": 1465150230,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 3752,
+   "total_output_tokens": 153,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1848,
+     "output_tokens": 71,
+     "tool_delay_ns": 94457357
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1904,
+     "output_tokens": 82,
+     "tool_delay_ns": 52476696
+    }
+   ]
+  },
+  {
+   "program_id": "p00010",
+   "class": "sharegpt",
+   "arrival_ns": 1517179458,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 3920,
+   "total_output_tokens": 165,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2044,
+     "output_tokens": 89,
+     "tool_delay_ns": 68202921
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1876,
+     "output_tokens": 76,
+     "tool_delay_ns": 131587349
+    }
+   ]
+  },
+  {
+   "program_id": "p00011",
+   "class": "sharegpt",
+   "arrival_ns": 1636181405,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 4504,
+   "total_output_tokens": 168,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2132,
+     "output_tokens": 90,
+     "tool_delay_ns": 112099145
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 2372,
+     "output_tokens": 78,
+     "tool_delay_ns": 125978661
+    }
+   ]
+  },
+  {
+   "program_id": "p00012",
+   "class": "bfcl",
+   "arrival_ns": 1769708063,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 6656,
+   "total_output_tokens": 161,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1356,
+     "output_tokens": 29,
+     "tool_delay_ns": 272252403
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1292,
+     "output_tokens": 30,
+     "tool_delay_ns": 231531673
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 1200,
+     "output_tokens": 35,
+     "tool_delay_ns": 121597652
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 1424,
+     "output_tokens": 35,
+     "tool_delay_ns": 224451621
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 1384,
+     "output_tokens": 32,
+     "tool_delay_ns": 251268387
+    }
+   ]
+  },
+  {
+   "program_id": "p00013",
+   "class": "lats",
+   "arrival_ns": 1789183402,
+   "waves": 4,
+   "width": 3,
+   "total_prompt_tokens": 18188,
+   "total_output_tokens": 459,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1336,
+     "output_tokens": 33,
+     "tool_delay_ns": 42179602
+    },
+    {
+     "index": 1,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1692,
+     "output_tokens": 37,
+     "tool_delay_ns": 29571286
+    },
+    {
+     "index": 2,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1540,
+     "output_tokens": 33,
+     "tool_delay_ns": 22300309
+    },
+    {
+     "index": 3,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1560,
+     "output_tokens": 47,
+     "tool_delay_ns": 66554976
+    },
+    {
+     "index": 4,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1624,
+     "output_tokens": 31,
+     "tool_delay_ns": 53702736
+    },
+    {
+     "index": 5,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1580,
+     "output_tokens": 42,
+     "tool_delay_ns": 46802488
+    },
+    {
+     "index": 6,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1316,
+     "output_tokens": 46,
+     "tool_delay_ns": 35932348
+    },
+    {
+     "index": 7,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1628,
+     "output_tokens": 37,
+     "tool_delay_ns": 66751717
+    },
+    {
+     "index": 8,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1444,
+     "output_tokens": 30,
+     "tool_delay_ns": 45680934
+    },
+    {
+     "index": 9,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1508,
+     "output_tokens": 43,
+     "tool_delay_ns": 44225294
+    },
+    {
+     "index": 10,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1592,
+     "output_tokens": 35,
+     "tool_delay_ns": 63959650
+    },
+    {
+     "index": 11,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1368,
+     "output_tokens": 45,
+     "tool_delay_ns": 76663431
+    }
+   ]
+  },
+  {
+   "program_id": "p00014",
+   "class": "bfcl",
+   "arrival_ns": 1828290729,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 6112,
+   "total_output_tokens": 151,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1280,
+     "output_tokens": 24,
+     "tool_delay_ns": 215680709
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1132,
+     "output_tokens": 30,
+     "tool_delay_ns": 210533511
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 1416,
+     "output_tokens": 26,
+     "tool_delay_ns": 312715503
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 1180,
+     "output_tokens": 37,
+     "tool_delay_ns": 258544889
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 1104,
+     "output_tokens": 34,
+     "tool_delay_ns": 168911645
+    }
+   ]
+  },
+  {
+   "program_id": "p00015",
+   "class": "sharegpt",
+   "arrival_ns": 1927695378,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 4164,
+   "total_output_tokens": 189,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2344,
+     "output_tokens": 102,
+     "tool_delay_ns": 139243334
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1820,
+     "output_tokens": 87,
+     "tool_delay_ns": 92374740
+    }
+   ]
+  },
+  {
+   "program_id": "p00016",
+   "class": "bfcl",
+   "arrival_ns": 1929975495,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 6380,
+   "total_output_tokens": 147,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1200,
+     "output_tokens": 28,
+     "tool_delay_ns": 292916415
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1300,
+     "output_tokens": 30,
+     "tool_delay_ns": 306635233
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 1128,
+     "output_tokens": 31,
+     "tool_delay_ns": 183125576
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 1300,
+     "output_tokens": 35,
+     "tool_delay_ns": 162088055
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 1452,
+     "output_tokens": 23,
+     "tool_delay_ns": 240505320
+    }
+   ]
+  },
+  {
+   "program_id": "p00017",
+   "class": "sharegpt",
+   "arrival_ns": 2017691022,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 3944,
+   "total_output_tokens": 172,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2124,
+     "output_tokens": 90,
+     "tool_delay_ns": 81439111
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1820,
+     "output_tokens": 82,
+     "tool_delay_ns": 121791400
+    }
+   ]
+  },
+  {
+   "program_id": "p00018",
+   "class": "bfcl",
+   "arrival_ns": 2173366133,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 6484,
+   "total_output_tokens": 136,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1144,
+     "output_tokens": 35,
+     "tool_delay_ns": 122593498
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1368,
+     "output_tokens": 28,
+     "tool_delay_ns": 269860613
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 1200,
+     "output_tokens": 23,
+     "tool_delay_ns": 328792484
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 1336,
+     "output_tokens": 25,
+     "tool_delay_ns": 344047947
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 1436,
+     "output_tokens": 25,
+     "tool_delay_ns": 104774976
+    }
+   ]
+  },
+  {
+   "program_id": "p00019",
+   "class": "sharegpt",
+   "arrival_ns": 2423011571,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 4432,
+   "total_output_tokens": 158,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2208,
+     "output_tokens": 80,
+     "tool_delay_ns": 101263392
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 2224,
+     "output_tokens": 78,
+     "tool_delay_ns": 55755452
+    }
+   ]
+  },
+  {
+   "program_id": "p00020",
+   "class": "bfcl",
+   "arrival_ns": 2441727569,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 5920,
+   "total_output_tokens": 140,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1128,
+     "output_tokens": 23,
+     "tool_delay_ns": 109733292
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1192,
+     "output_tokens": 31,
+     "tool_delay_ns": 305165795
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 1212,
+     "output_tokens": 28,
+     "tool_delay_ns": 172121081
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 1204,
+     "output_tokens": 34,
+     "tool_delay_ns": 237248367
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 1184,
+     "output_tokens": 24,
+     "tool_delay_ns": 295952266
+    }
+   ]
+  },
+  {
+   "program_id": "p00021",
+   "class": "bfcl",
+   "arrival_ns": 2489897015,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 6332,
+   "total_output_tokens": 139,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1208,
+     "output_tokens": 27,
+     "tool_delay_ns": 175542938
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1456,
+     "output_tokens": 27,
+     "tool_delay_ns": 196887555
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 1248,
+     "output_tokens": 34,
+     "tool_delay_ns": 219439698
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 1300,
+     "output_tokens": 26,
+     "tool_delay_ns": 169517475
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 1120,
+     "output_tokens": 25,
+     "tool_delay_ns": 165972037
+    }
+   ]
+  },
+  {
+   "program_id": "p00022",
+   "class": "bfcl",
+   "arrival_ns": 2628519629,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 6588,
+   "total_output_tokens": 153,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1404,
+     "output_tokens": 26,
+     "tool_delay_ns": 236369755
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1440,
+     "output_tokens": 31,
+     "tool_delay_ns": 336366611
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 1152,
+     "output_tokens": 37,
+     "tool_delay_ns": 113979952
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 1244,
+     "output_tokens": 22,
+     "tool_delay_ns": 302390816
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 1348,
+     "output_tokens": 37,
+     "tool_delay_ns": 301240933
+    }
+   ]
+  },
+  {
+   "program_id": "p00023",
+   "class": "sharegpt",
+   "arrival_ns": 2667186673,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 3752,
+   "total_output_tokens": 153,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1848,
+     "output_tokens": 71,
+     "tool_delay_ns": 94457357
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1904,
+     "output_tokens": 82,
+     "tool_delay_ns": 52476696
+    }
+   ]
+  },
+  {
+   "program_id": "p00024",
+   "class": "lats",
+   "arrival_ns": 2682144202,
+   "waves": 4,
+   "width": 3,
+   "total_prompt_tokens": 18176,
+   "total_output_tokens": 453,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1564,
+     "output_tokens": 29,
+     "tool_delay_ns": 55284593
+    },
+    {
+     "index": 1,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1524,
+     "output_tokens": 38,
+     "tool_delay_ns": 27280091
+    },
+    {
+     "index": 2,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1320,
+     "output_tokens": 37,
+     "tool_delay_ns": 28734496
+    },
+    {
+     "index": 3,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1584,
+     "output_tokens": 34,
+     "tool_delay_ns": 57238652
+    },
+    {
+     "index": 4,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1632,
+     "output_tokens": 40,
+     "tool_delay_ns": 51894993
+    },
+    {
+     "index": 5,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1380,
+     "output_tokens": 35,
+     "tool_delay_ns": 78676882
+    },
+    {
+     "index": 6,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1412,
+     "output_tokens": 33,
+     "tool_delay_ns": 49597043
+    },
+    {
+     "index": 7,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1540,
+     "output_tokens": 43,
+     "tool_delay_ns": 37714588
+    },
+    {
+     "index": 8,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1728,
+     "output_tokens": 28,
+     "tool_delay_ns": 67421751
+    },
+    {
+     "index": 9,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1548,
+     "output_tokens": 45,
+     "tool_delay_ns": 29183920
+    },
+    {
+     "index": 10,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1604,
+     "output_tokens": 46,
+     "tool_delay_ns": 60023353
+    },
+    {
+     "index": 11,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1340,
+     "output_tokens": 45,
+     "tool_delay_ns": 78178240
+    }
+   ]
+  },
+  {
+   "program_id": "p00025",
+   "class": "lats",
+   "arrival_ns": 2708870610,
+   "waves": 4,
+   "width": 3,
+   "total_prompt_tokens": 17996,
+   "total_output_tokens": 473,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1388,
+     "output_tokens": 36,
+     "tool_delay_ns": 23512701
+    },
+    {
+     "index": 1,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1432,
+     "output_tokens": 36,
+     "tool_delay_ns": 69376396
+    },
+    {
+     "index": 2,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1560,
+     "output_tokens": 36,
+     "tool_delay_ns": 34755987
+    },
+    {
+     "index": 3,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1432,
+     "output_tokens": 41,
+     "tool_delay_ns": 46727514
+    },
+    {
+     "index": 4,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1368,
+     "output_tokens": 44,
+     "tool_delay_ns": 54536914
+    },
+    {
+     "index": 5,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1732,
+     "output_tokens": 38,
+     "tool_delay_ns": 57384073
+    },
+    {
+     "index": 6,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1484,
+     "output_tokens": 40,
+     "tool_delay_ns": 75130071
+    },
+    {
+     "index": 7,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1736,
+     "output_tokens": 41,
+     "tool_delay_ns": 45814359
+    },
+    {
+     "index": 8,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1320,
+     "output_tokens": 44,
+     "tool_delay_ns": 43485290
+    },
+    {
+     "index": 9,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1464,
+     "output_tokens": 29,
+     "tool_delay_ns": 22047708
+    },
+    {
+     "index": 10,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1468,
+     "output_tokens": 47,
+     "tool_delay_ns": 64434546
+    },
+    {
+     "index": 11,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1612,
+     "output_tokens": 41,
+     "tool_delay_ns": 36372389
+    }
+   ]
+  },
+  {
+   "program_id": "p00026",
+   "class": "sharegpt",
+   "arrival_ns": 2730189224,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 3920,
+   "total_output_tokens": 165,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2044,
+     "output_tokens": 89,
+     "tool_delay_ns": 68202921
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1876,
+     "output_tokens": 76,
+     "tool_delay_ns": 131587349
+    }
+   ]
+  },
+  {
+   "program_id": "p00027",
+   "class": "lats",
+   "arrival_ns": 2922006110,
+   "waves": 4,
+   "width": 3,
+   "total_prompt_tokens": 18572,
+   "total_output_tokens": 481,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1680,
+     "output_tokens": 43,
+     "tool_delay_ns": 61580262
+    },
+    {
+     "index": 1,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1340,
+     "output_tokens": 42,
+     "tool_delay_ns": 66300371
+    },
+    {
+     "index": 2,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1576,
+     "output_tokens": 46,
+     "tool_delay_ns": 76817048
+    },
+    {
+     "index": 3,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1580,
+     "output_tokens": 46,
+     "tool_delay_ns": 28627285
+    },
+    {
+     "index": 4,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1428,
+     "output_tokens": 38,
+     "tool_delay_ns": 51360602
+    },
+    {
+     "index": 5,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1724,
+     "output_tokens": 40,
+     "tool_delay_ns": 57278589
+    },
+    {
+     "index": 6,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1572,
+     "output_tokens": 46,
+     "tool_delay_ns": 44025068
+    },
+    {
+     "index": 7,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1628,
+     "output_tokens": 39,
+     "tool_delay_ns": 44145804
+    },
+    {
+     "index": 8,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1444,
+     "output_tokens": 31,
+     "tool_delay_ns": 20654410
+    },
+    {
+     "index": 9,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1444,
+     "output_tokens": 34,
+     "tool_delay_ns": 24873249
+    },
+    {
+     "index": 10,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1512,
+     "output_tokens": 35,
+     "tool_delay_ns": 75560289
+    },
+    {
+     "index": 11,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1644,
+     "output_tokens": 41,
+     "tool_delay_ns": 70819327
+    }
+   ]
+  },
+  {
+   "program_id": "p00028",
+   "class": "sharegpt",
+   "arrival_ns": 2945034256,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 4504,
+   "total_output_tokens": 168,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2132,
+     "output_tokens": 90,
+     "tool_delay_ns": 112099145
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 2372,
+     "output_tokens": 78,
+     "tool_delay_ns": 125978661
+    }
+   ]
+  },
+  {
+   "program_id": "p00029",
+   "class": "sharegpt",
+   "arrival_ns": 2991042564,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 4164,
+   "total_output_tokens": 189,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2344,
+     "output_tokens": 102,
+     "tool_delay_ns": 139243334
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1820,
+     "output_tokens": 87,
+     "tool_delay_ns": 92374740
+    }
+   ]
+  },
+  {
+   "program_id": "p00030",
+   "class": "lats",
+   "arrival_ns": 3187590279,
+   "waves": 4,
+   "width": 3,
+   "total_prompt_tokens": 18736,
+   "total_output_tokens": 462,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1352,
+     "output_tokens": 42,
+     "tool_delay_ns": 48132537
+    },
+    {
+     "index": 1,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1612,
+     "output_tokens": 39,
+     "tool_delay_ns": 66242423
+    },
+    {
+     "index": 2,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1664,
+     "output_tokens": 39,
+     "tool_delay_ns": 55483883
+    },
+    {
+     "index": 3,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1440,
+     "output_tokens": 31,
+     "tool_delay_ns": 25549345
+    },
+    {
+     "index": 4,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1680,
+     "output_tokens": 32,
+     "tool_delay_ns": 45593866
+    },
+    {
+     "index": 5,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1436,
+     "output_tokens": 40,
+     "tool_delay_ns": 52000783
+    },
+    {
+     "index": 6,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1680,
+     "output_tokens": 36,
+     "tool_delay_ns": 41714340
+    },
+    {
+     "index": 7,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1588,
+     "output_tokens": 42,
+     "tool_delay_ns": 75527902
+    },
+    {
+     "index": 8,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1432,
+     "output_tokens": 45,
+     "tool_delay_ns": 78886018
+    },
+    {
+     "index": 9,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1736,
+     "output_tokens": 30,
+     "tool_delay_ns": 42806702
+    },
+    {
+     "index": 10,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1644,
+     "output_tokens": 44,
+     "tool_delay_ns": 22370937
+    },
+    {
+     "index": 11,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1472,
+     "output_tokens": 42,
+     "tool_delay_ns": 65496740
+    }
+   ]
+  },
+  {
+   "program_id": "p00031",
+   "class": "sharegpt",
+   "arrival_ns": 3224511351,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 3944,
+   "total_output_tokens": 172,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2124,
+     "output_tokens": 90,
+     "tool_delay_ns": 81439111
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1820,
+     "output_tokens": 82,
+     "tool_delay_ns": 121791400
+    }
+   ]
+  },
+  {
+   "program_id": "p00032",
+   "class": "lats",
+   "arrival_ns": 3232377684,
+   "waves": 4,
+   "width": 3,
+   "total_prompt_tokens": 18724,
+   "total_output_tokens": 422,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1344,
+     "output_tokens": 40,
+     "tool_delay_ns": 33648530
+    },
+    {
+     "index": 1,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1740,
+     "output_tokens": 36,
+     "tool_delay_ns": 73167400
+    },
+    {
+     "index": 2,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1404,
+     "output_tokens": 30,
+     "tool_delay_ns": 57620023
+    },
+    {
+     "index": 3,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1604,
+     "output_tokens": 33,
+     "tool_delay_ns": 75608077
+    },
+    {
+     "index": 4,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1732,
+     "output_tokens": 41,
+     "tool_delay_ns": 78880441
+    },
+    {
+     "index": 5,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1740,
+     "output_tokens": 31,
+     "tool_delay_ns": 63821547
+    },
+    {
+     "index": 6,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1632,
+     "output_tokens": 42,
+     "tool_delay_ns": 40372736
+    },
+    {
+     "index": 7,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1536,
+     "output_tokens": 39,
+     "tool_delay_ns": 70997269
+    },
+    {
+     "index": 8,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1312,
+     "output_tokens": 35,
+     "tool_delay_ns": 38892328
+    },
+    {
+     "index": 9,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1652,
+     "output_tokens": 30,
+     "tool_delay_ns": 23701389
+    },
+    {
+     "index": 10,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1344,
+     "output_tokens": 30,
+     "tool_delay_ns": 46111281
+    },
+    {
+     "index": 11,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1684,
+     "output_tokens": 35,
+     "tool_delay_ns": 26068889
+    }
+   ]
+  },
+  {
+   "program_id": "p00033",
+   "class": "lats",
+   "arrival_ns": 3307640915,
+   "waves": 4,
+   "width": 3,
+   "total_prompt_tokens": 18284,
+   "total_output_tokens": 475,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1480,
+     "output_tokens": 44,
+     "tool_delay_ns": 24908361
+    },
+    {
+     "index": 1,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1440,
+     "output_tokens": 41,
+     "tool_delay_ns": 56716880
+    },
+    {
+     "index": 2,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1668,
+     "output_tokens": 32,
+     "tool_delay_ns": 68251531
+    },
+    {
+     "index": 3,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1652,
+     "output_tokens": 31,
+     "tool_delay_ns": 28389765
+    },
+    {
+     "index": 4,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1556,
+     "output_tokens": 47,
+     "tool_delay_ns": 56823878
+    },
+    {
+     "index": 5,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1484,
+     "output_tokens": 38,
+     "tool_delay_ns": 68573028
+    },
+    {
+     "index": 6,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1528,
+     "output_tokens": 38,
+     "tool_delay_ns": 55597065
+    },
+    {
+     "index": 7,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1716,
+     "output_tokens": 43,
+     "tool_delay_ns": 70348881
+    },
+    {
+     "index": 8,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1412,
+     "output_tokens": 39,
+     "tool_delay_ns": 69385161
+    },
+    {
+     "index": 9,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1616,
+     "output_tokens": 46,
+     "tool_delay_ns": 74912664
+    },
+    {
+     "index": 10,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1348,
+     "output_tokens": 38,
+     "tool_delay_ns": 41465692
+    },
+    {
+     "index": 11,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1384,
+     "output_tokens": 38,
+     "tool_delay_ns": 79015987
+    }
+   ]
+  },
+  {
+   "program_id": "p00034",
+   "class": "sharegpt",
+   "arrival_ns": 3347681445,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 4432,
+   "total_output_tokens": 158,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2208,
+     "output_tokens": 80,
+     "tool_delay_ns": 101263392
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 2224,
+     "output_tokens": 78,
+     "tool_delay_ns": 55755452
+    }
+   ]
+  },
+  {
+   "program_id": "p00035",
+   "class": "sharegpt",
+   "arrival_ns": 3391795105,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 3752,
+   "total_output_tokens": 153,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1848,
+     "output_tokens": 71,
+     "tool_delay_ns": 94457357
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1904,
+     "output_tokens": 82,
+     "tool_delay_ns": 52476696
+    }
+   ]
+  },
+  {
+   "program_id": "p00036",
+   "class": "sharegpt",
+   "arrival_ns": 3437540642,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 3920,
+   "total_output_tokens": 165,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2044,
+     "output_tokens": 89,
+     "tool_delay_ns": 68202921
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1876,
+     "output_tokens": 76,
+     "tool_delay_ns": 131587349
+    }
+   ]
+  },
+  {
+   "program_id": "p00037",
+   "class": "sharegpt",
+   "arrival_ns": 3475660990,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 4504,
+   "total_output_tokens": 168,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2132,
+     "output_tokens": 90,
+     "tool_delay_ns": 112099145
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 2372,
+     "output_tokens": 78,
+     "tool_delay_ns": 125978661
+    }
+   ]
+  },
+  {
+   "program_id": "p00038",
+   "class": "sharegpt",
+   "arrival_ns": 3504488170,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 4164,
+   "total_output_tokens": 189,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2344,
+     "output_tokens": 102,
+     "tool_delay_ns": 139243334
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1820,
+     "output_tokens": 87,
+     "tool_delay_ns": 92374740
+    }
+   ]
+  },
+  {
+   "program_id": "p00039",
+   "class": "bfcl",
+   "arrival_ns": 3512834472,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 6240,
+   "total_output_tokens": 151,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1176,
+     "output_tokens": 30,
+     "tool_delay_ns": 217681743
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1260,
+     "output_tokens": 33,
+     "tool_delay_ns": 100985496
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 1232,
+     "output_tokens": 34,
+     "tool_delay_ns": 135465836
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 1420,
+     "output_tokens": 25,
+     "tool_delay_ns": 270281788
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 1152,
+     "output_tokens": 29,
+     "tool_delay_ns": 205637559
+    }
+   ]
+  },
+  {
+   "program_id": "p00040",
+   "class": "lats",
+   "arrival_ns": 3729598536,
+   "waves": 4,
+   "width": 3,
+   "total_prompt_tokens": 18600,
+   "total_output_tokens": 433,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1668,
+     "output_tokens": 30,
+     "tool_delay_ns": 24877556
+    },
+    {
+     "index": 1,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1652,
+     "output_tokens": 42,
+     "tool_delay_ns": 77431231
+    },
+    {
+     "index": 2,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1580,
+     "output_tokens": 38,
+     "tool_delay_ns": 36324111
+    },
+    {
+     "index": 3,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1552,
+     "output_tokens": 47,
+     "tool_delay_ns": 58799933
+    },
+    {
+     "index": 4,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1688,
+     "output_tokens": 32,
+     "tool_delay_ns": 64098004
+    },
+    {
+     "index": 5,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1624,
+     "output_tokens": 29,
+     "tool_delay_ns": 69211966
+    },
+    {
+     "index": 6,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1372,
+     "output_tokens": 32,
+     "tool_delay_ns": 23672746
+    },
+    {
+     "index": 7,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1592,
+     "output_tokens": 31,
+     "tool_delay_ns": 78541872
+    },
+    {
+     "index": 8,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1292,
+     "output_tokens": 43,
+     "tool_delay_ns": 65550049
+    },
+    {
+     "index": 9,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1548,
+     "output_tokens": 39,
+     "tool_delay_ns": 67878695
+    },
+    {
+     "index": 10,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1580,
+     "output_tokens": 31,
+     "tool_delay_ns": 67810782
+    },
+    {
+     "index": 11,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1452,
+     "output_tokens": 39,
+     "tool_delay_ns": 50746079
+    }
+   ]
+  },
+  {
+   "program_id": "p00041",
+   "class": "sharegpt",
+   "arrival_ns": 3856071124,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 3944,
+   "total_output_tokens": 172,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2124,
+     "output_tokens": 90,
+     "tool_delay_ns": 81439111
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1820,
+     "output_tokens": 82,
+     "tool_delay_ns": 121791400
+    }
+   ]
+  },
+  {
+   "program_id": "p00042",
+   "class": "sharegpt",
+   "arrival_ns": 4084605667,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 4432,
+   "total_output_tokens": 158,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2208,
+     "output_tokens": 80,
+     "tool_delay_ns": 101263392
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 2224,
+     "output_tokens": 78,
+     "tool_delay_ns": 55755452
+    }
+   ]
+  },
+  {
+   "program_id": "p00043",
+   "class": "lats",
+   "arrival_ns": 4182723240,
+   "waves": 4,
+   "width": 3,
+   "total_prompt_tokens": 18188,
+   "total_output_tokens": 459,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1336,
+     "output_tokens": 33,
+     "tool_delay_ns": 42179602
+    },
+    {
+     "index": 1,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1692,
+     "output_tokens": 37,
+     "tool_delay_ns": 29571286
+    },
+    {
+     "index": 2,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1540,
+     "output_tokens": 33,
+     "tool_delay_ns": 22300309
+    },
+    {
+     "index": 3,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1560,
+     "output_tokens": 47,
+     "tool_delay_ns": 66554976
+    },
+    {
+     "index": 4,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1624,
+     "output_tokens": 31,
+     "tool_delay_ns": 53702736
+    },
+    {
+     "index": 5,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1580,
+     "output_tokens": 42,
+     "tool_delay_ns": 46802488
+    },
+    {
+     "index": 6,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1316,
+     "output_tokens": 46,
+     "tool_delay_ns": 35932348
+    },
+    {
+     "index": 7,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1628,
+     "output_tokens": 37,
+     "tool_delay_ns": 66751717
+    },
+    {
+     "index": 8,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1444,
+     "output_tokens": 30,
+     "tool_delay_ns": 45680934
+    },
+    {
+     "index": 9,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1508,
+     "output_tokens": 43,
+     "tool_delay_ns": 44225294
+    },
+    {
+     "index": 10,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1592,
+     "output_tokens": 35,
+     "tool_delay_ns": 63959650
+    },
+    {
+     "index": 11,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1368,
+     "output_tokens": 45,
+     "tool_delay_ns": 76663431
+    }
+   ]
+  },
+  {
+   "program_id": "p00044",
+   "class": "lats",
+   "arrival_ns": 4236907200,
+   "waves": 4,
+   "width": 3,
+   "total_prompt_tokens": 18176,
+   "total_output_tokens": 453,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1564,
+     "output_tokens": 29,
+     "tool_delay_ns": 55284593
+    },
+    {
+     "index": 1,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1524,
+     "output_tokens": 38,
+     "tool_delay_ns": 27280091
+    },
+    {
+     "index": 2,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1320,
+     "output_tokens": 37,
+     "tool_delay_ns": 28734496
+    },
+    {
+     "index": 3,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1584,
+     "output_tokens": 34,
+     "tool_delay_ns": 57238652
+    },
+    {
+     "index": 4,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1632,
+     "output_tokens": 40,
+     "tool_delay_ns": 51894993
+    },
+    {
+     "index": 5,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1380,
+     "output_tokens": 35,
+     "tool_delay_ns": 78676882
+    },
+    {
+     "index": 6,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1412,
+     "output_tokens": 33,
+     "tool_delay_ns": 49597043
+    },
+    {
+     "index": 7,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1540,
+     "output_tokens": 43,
+     "tool_delay_ns": 37714588
+    },
+    {
+     "index": 8,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1728,
+     "output_tokens": 28,
+     "tool_delay_ns": 67421751
+    },
+    {
+     "index": 9,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1548,
+     "output_tokens": 45,
+     "tool_delay_ns": 29183920
+    },
+    {
+     "index": 10,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1604,
+     "output_tokens": 46,
+     "tool_delay_ns": 60023353
+    },
+    {
+     "index": 11,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1340,
+     "output_tokens": 45,
+     "tool_delay_ns": 78178240
+    }
+   ]
+  },
+  {
+   "program_id": "p00045",
+   "class": "sharegpt",
+   "arrival_ns": 4306613255,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 3752,
+   "total_output_tokens": 153,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1848,
+     "output_tokens": 71,
+     "tool_delay_ns": 94457357
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1904,
+     "output_tokens": 82,
+     "tool_delay_ns": 52476696
+    }
+   ]
+  },
+  {
+   "program_id": "p00046",
+   "class": "bfcl",
+   "arrival_ns": 4369551538,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 6000,
+   "total_output_tokens": 157,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1292,
+     "output_tokens": 37,
+     "tool_delay_ns": 287253590
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1220,
+     "output_tokens": 37,
+     "tool_delay_ns": 194249789
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 1160,
+     "output_tokens": 23,
+     "tool_delay_ns": 216489450
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 1160,
+     "output_tokens": 36,
+     "tool_delay_ns": 337613421
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 1168,
+     "output_tokens": 24,
+     "tool_delay_ns": 232242496
+    }
+   ]
+  },
+  {
+   "program_id": "p00047",
+   "class": "sharegpt",
+   "arrival_ns": 4373155890,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 3920,
+   "total_output_tokens": 165,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2044,
+     "output_tokens": 89,
+     "tool_delay_ns": 68202921
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1876,
+     "output_tokens": 76,
+     "tool_delay_ns": 131587349
+    }
+   ]
+  },
+  {
+   "program_id": "p00048",
+   "class": "sharegpt",
+   "arrival_ns": 4409735038,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 4504,
+   "total_output_tokens": 168,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2132,
+     "output_tokens": 90,
+     "tool_delay_ns": 112099145
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 2372,
+     "output_tokens": 78,
+     "tool_delay_ns": 125978661
+    }
+   ]
+  },
+  {
+   "program_id": "p00049",
+   "class": "sharegpt",
+   "arrival_ns": 4459584341,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 4164,
+   "total_output_tokens": 189,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2344,
+     "output_tokens": 102,
+     "tool_delay_ns": 139243334
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1820,
+     "output_tokens": 87,
+     "tool_delay_ns": 92374740
+    }
+   ]
+  },
+  {
+   "program_id": "p00050",
+   "class": "sharegpt",
+   "arrival_ns": 4647223763,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 3944,
+   "total_output_tokens": 172,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2124,
+     "output_tokens": 90,
+     "tool_delay_ns": 81439111
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1820,
+     "output_tokens": 82,
+     "tool_delay_ns": 121791400
+    }
+   ]
+  },
+  {
+   "program_id": "p00051",
+   "class": "bfcl",
+   "arrival_ns": 4835817253,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 6540,
+   "total_output_tokens": 171,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1296,
+     "output_tokens": 34,
+     "tool_delay_ns": 163265588
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1248,
+     "output_tokens": 36,
+     "tool_delay_ns": 211173131
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 1216,
+     "output_tokens": 35,
+     "tool_delay_ns": 303438986
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 1428,
+     "output_tokens": 32,
+     "tool_delay_ns": 203155551
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 1352,
+     "output_tokens": 34,
+     "tool_delay_ns": 259878037
+    }
+   ]
+  },
+  {
+   "program_id": "p00052",
+   "class": "sharegpt",
+   "arrival_ns": 4886904334,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 4432,
+   "total_output_tokens": 158,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2208,
+     "output_tokens": 80,
+     "tool_delay_ns": 101263392
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 2224,
+     "output_tokens": 78,
+     "tool_delay_ns": 55755452
+    }
+   ]
+  },
+  {
+   "program_id": "p00053",
+   "class": "sharegpt",
+   "arrival_ns": 4899684015,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 3752,
+   "total_output_tokens": 153,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1848,
+     "output_tokens": 71,
+     "tool_delay_ns": 94457357
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1904,
+     "output_tokens": 82,
+     "tool_delay_ns": 52476696
+    }
+   ]
+  },
+  {
+   "program_id": "p00054",
+   "class": "sharegpt",
+   "arrival_ns": 4923166516,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 3920,
+   "total_output_tokens": 165,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2044,
+     "output_tokens": 89,
+     "tool_delay_ns": 68202921
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1876,
+     "output_tokens": 76,
+     "tool_delay_ns": 131587349
+    }
+   ]
+  },
+  {
+   "program_id": "p00055",
+   "class": "lats",
+   "arrival_ns": 4971836006,
+   "waves": 4,
+   "width": 3,
+   "total_prompt_tokens": 17996,
+   "total_output_tokens": 473,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1388,
+     "output_tokens": 36,
+     "tool_delay_ns": 23512701
+    },
+    {
+     "index": 1,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1432,
+     "output_tokens": 36,
+     "tool_delay_ns": 69376396
+    },
+    {
+     "index": 2,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1560,
+     "output_tokens": 36,
+     "tool_delay_ns": 34755987
+    },
+    {
+     "index": 3,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1432,
+     "output_tokens": 41,
+     "tool_delay_ns": 46727514
+    },
+    {
+     "index": 4,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1368,
+     "output_tokens": 44,
+     "tool_delay_ns": 54536914
+    },
+    {
+     "index": 5,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1732,
+     "output_tokens": 38,
+     "tool_delay_ns": 57384073
+    },
+    {
+     "index": 6,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1484,
+     "output_tokens": 40,
+     "tool_delay_ns": 75130071
+    },
+    {
+     "index": 7,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1736,
+     "output_tokens": 41,
+     "tool_delay_ns": 45814359
+    },
+    {
+     "index": 8,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1320,
+     "output_tokens": 44,
+     "tool_delay_ns": 43485290
+    },
+    {
+     "index": 9,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1464,
+     "output_tokens": 29,
+     "tool_delay_ns": 22047708
+    },
+    {
+     "index": 10,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1468,
+     "output_tokens": 47,
+     "tool_delay_ns": 64434546
+    },
+    {
+     "index": 11,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1612,
+     "output_tokens": 41,
+     "tool_delay_ns": 36372389
+    }
+   ]
+  },
+  {
+   "program_id": "p00056",
+   "class": "sharegpt",
+   "arrival_ns": 5080068314,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 4504,
+   "total_output_tokens": 168,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 2132,
+     "output_tokens": 90,
+     "tool_delay_ns": 112099145
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 2372,
+     "output_tokens": 78,
+     "tool_delay_ns": 125978661
+    }
+   ]
+  },
+  {
+   "program_id": "p00057",
+   "class": "bfcl",
+   "arrival_ns": 5105059463,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 6656,
+   "total_output_tokens": 161,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1356,
+     "output_tokens": 29,
+     "tool_delay_ns": 272252403
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1292,
+     "output_tokens": 30,
+     "tool_delay_ns": 231531673
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 1200,
+     "output_tokens": 35,
+     "tool_delay_ns": 121597652
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 1424,
+     "output_tokens": 35,
+     "tool_delay_ns": 224451621
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 1384,
+     "output_tokens": 32,
+     "tool_delay_ns": 251268387
+    }
+   ]
+  },
+  {
+   "program_id": "p00058",
+   "class": "bfcl",
+   "arrival_ns": 5118435347,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 6112,
+   "total_output_tokens": 151,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1280,
+     "output_tokens": 24,
+     "tool_delay_ns": 215680709
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 1132,
+     "output_tokens": 30,
+     "tool_delay_ns": 210533511
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 1416,
+     "output_tokens": 26,
+     "tool_delay_ns": 312715503
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 1180,
+     "output_tokens": 37,
+     "tool_delay_ns": 258544889
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 1104,
+     "output_tokens": 34,
+     "tool_delay_ns": 168911645
+    }
+   ]
+  },
+  {
+   "program_id": "p00059",
+   "class": "lats",
+   "arrival_ns": 5168093301,
+   "waves": 4,
+   "width": 3,
+   "total_prompt_tokens": 18572,
+   "total_output_tokens": 481,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1680,
+     "output_tokens": 43,
+     "tool_delay_ns": 61580262
+    },
+    {
+     "index": 1,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1340,
+     "output_tokens": 42,
+     "tool_delay_ns": 66300371
+    },
+    {
+     "index": 2,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 1576,
+     "output_tokens": 46,
+     "tool_delay_ns": 76817048
+    },
+    {
+     "index": 3,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1580,
+     "output_tokens": 46,
+     "tool_delay_ns": 28627285
+    },
+    {
+     "index": 4,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1428,
+     "output_tokens": 38,
+     "tool_delay_ns": 51360602
+    },
+    {
+     "index": 5,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 1724,
+     "output_tokens": 40,
+     "tool_delay_ns": 57278589
+    },
+    {
+     "index": 6,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1572,
+     "output_tokens": 46,
+     "tool_delay_ns": 44025068
+    },
+    {
+     "index": 7,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1628,
+     "output_tokens": 39,
+     "tool_delay_ns": 44145804
+    },
+    {
+     "index": 8,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 1444,
+     "output_tokens": 31,
+     "tool_delay_ns": 20654410
+    },
+    {
+     "index": 9,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1444,
+     "output_tokens": 34,
+     "tool_delay_ns": 24873249
+    },
+    {
+     "index": 10,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1512,
+     "output_tokens": 35,
+     "tool_delay_ns": 75560289
+    },
+    {
+     "index": 11,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 1644,
+     "output_tokens": 41,
+     "tool_delay_ns": 70819327
+    }
+   ]
+  }
+ ],
+ "summary": {
+  "programs": 60,
+  "llm_calls": 285,
+  "prompt_tokens": 450764,
+  "output_tokens": 13332,
+  "P_over_D": 33.81,
+  "arrival_span_s": 5.17
+ }
+}

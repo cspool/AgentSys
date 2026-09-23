@@ -1,0 +1,253 @@
+{
+ "schema_version": 1,
+ "protocol": "ctrl_conc16: constructed concurrency phases (batch8/16-style) for the process-hierarchy trace; phases W/P1/P2/P3/P4",
+ "provenance": {
+  "generator": "make_ctrl_conc.py",
+  "seed": 23
+ },
+ "config": {
+  "workload_class": "wp_v4_probe (ctrl_conc16 first 10 programs)",
+  "arrival_rate_programs_per_s": 0.0,
+  "seed": 23,
+  "max_num_seqs": 16,
+  "quanta_tokens": [
+   32,
+   64,
+   128,
+   256
+  ],
+  "mlfq_bounds_s": [
+   0,
+   2,
+   8,
+   32
+  ]
+ },
+ "phases": {
+  "W": [
+   0,
+   5
+  ],
+  "P1": [
+   5,
+   11
+  ],
+  "P2": [
+   12,
+   27
+  ],
+  "P3": [
+   27,
+   38
+  ],
+  "P4": [
+   38,
+   null
+  ]
+ },
+ "summary": {
+  "programs": 29,
+  "llm_calls": 58,
+  "total_output_tokens": 7280
+ },
+ "programs": [
+  {
+   "program_id": "w0000",
+   "class": "bfcl",
+   "arrival_ns": 0,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 64,
+     "output_tokens": 16,
+     "tool_delay_ns": 0
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [],
+     "prompt_tokens": 96,
+     "output_tokens": 16,
+     "tool_delay_ns": 200000000
+    }
+   ],
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 160,
+   "total_output_tokens": 32
+  },
+  {
+   "program_id": "st00",
+   "class": "sharegpt",
+   "arrival_ns": 5000000000,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 293,
+     "output_tokens": 28,
+     "tool_delay_ns": 0
+    }
+   ],
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 293,
+   "total_output_tokens": 28
+  },
+  {
+   "program_id": "st01",
+   "class": "sharegpt",
+   "arrival_ns": 5010000000,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 266,
+     "output_tokens": 28,
+     "tool_delay_ns": 0
+    }
+   ],
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 266,
+   "total_output_tokens": 28
+  },
+  {
+   "program_id": "st02",
+   "class": "sharegpt",
+   "arrival_ns": 5020000000,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 258,
+     "output_tokens": 28,
+     "tool_delay_ns": 0
+    }
+   ],
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 258,
+   "total_output_tokens": 28
+  },
+  {
+   "program_id": "st03",
+   "class": "sharegpt",
+   "arrival_ns": 5030000000,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 295,
+     "output_tokens": 28,
+     "tool_delay_ns": 0
+    }
+   ],
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 295,
+   "total_output_tokens": 28
+  },
+  {
+   "program_id": "st04",
+   "class": "sharegpt",
+   "arrival_ns": 5040000000,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 310,
+     "output_tokens": 28,
+     "tool_delay_ns": 0
+    }
+   ],
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 310,
+   "total_output_tokens": 28
+  },
+  {
+   "program_id": "st05",
+   "class": "sharegpt",
+   "arrival_ns": 5050000000,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 304,
+     "output_tokens": 28,
+     "tool_delay_ns": 0
+    }
+   ],
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 304,
+   "total_output_tokens": 28
+  },
+  {
+   "program_id": "st06",
+   "class": "sharegpt",
+   "arrival_ns": 5060000000,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 301,
+     "output_tokens": 28,
+     "tool_delay_ns": 0
+    }
+   ],
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 301,
+   "total_output_tokens": 28
+  },
+  {
+   "program_id": "st07",
+   "class": "sharegpt",
+   "arrival_ns": 5070000000,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 272,
+     "output_tokens": 28,
+     "tool_delay_ns": 0
+    }
+   ],
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 272,
+   "total_output_tokens": 28
+  },
+  {
+   "program_id": "st08",
+   "class": "sharegpt",
+   "arrival_ns": 5080000000,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 280,
+     "output_tokens": 28,
+     "tool_delay_ns": 0
+    }
+   ],
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 280,
+   "total_output_tokens": 28
+  }
+ ]
+}

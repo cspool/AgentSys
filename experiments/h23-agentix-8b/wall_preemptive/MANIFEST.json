@@ -1,0 +1,88 @@
+{
+ "name": "wall_preemptive",
+ "version": "1.0 (2026-09-21)",
+ "purpose": "抢占择时基准:提供可控的'资源墙态'与'全饱和态',用于对照墙感知抢占策略与墙盲策略(Valve/GPreempt/Orion/Autellix)。",
+ "hardware_calibrated_on": "RTX 4090 (Ada), CUDA 12.8; 可达峰值 FP32 77-80%, TC(bf16) 97%, VRAM 87-89% of 1008GB/s",
+ "metric": {
+  "D": "整体扰动 = c × W",
+  "c": "每单位抢占工作的受害者时延税(拟合斜率)",
+  "W": "被波及的资源工作量 = Σ_axis 利用率/该轴可达峰值",
+  "attribution": "同跑内 40 分位基线(免疫热漂移);抢占者 reps 必须在受害者启动前校准"
+ },
+ "victims": {
+  "2axis (victim6.py, 单 kernel 族仅调算术强度)": {
+   "mem_wall": {
+    "inner": 120,
+    "measured": "算力31% / VRAM85%",
+    "W": 1.37
+   },
+   "saturated": {
+    "inner": 290,
+    "measured": "算力74% / VRAM83%",
+    "W": 1.87
+   },
+   "compute_wall": {
+    "inner": 600,
+    "measured": "算力79% / VRAM43%",
+    "W": 1.48
+   },
+   "deep_mem_wall": {
+    "inner": 60,
+    "measured": "算力16% / VRAM86%",
+    "W": 1.18
+   }
+  },
+  "3axis (victim7.py, +tensor core)": {
+   "vram_wall": {
+    "inner": 0,
+    "dots": 0,
+    "measured": "FP32 0 / TC 0 / VRAM 88%",
+    "W": 0.99
+   },
+   "tc_wall": {
+    "inner": 0,
+    "dots": 32,
+    "measured": "FP32 0 / TC 95% / VRAM 61%",
+    "W": 1.66
+   },
+   "fp32_wall": {
+    "inner": 400,
+    "dots": 0,
+    "measured": "FP32 76% / TC 0 / VRAM 62%",
+    "W": 1.68
+   },
+   "triple_sat": {
+    "inner": 200,
+    "dots": 12,
+    "measured": "FP32 49% / TC 47% / VRAM 81%",
+    "W": 2.04
+   }
+  }
+ },
+ "preemptor": {
+  "script": "disturber3.py",
+  "shape": "全卡满占用 FMA burst,等量 K 次定时发射",
+  "work_levels_ms": [
+   0.05,
+   4.35,
+   12.0
+  ],
+  "note": "reps 冻结于 burst_reps_e.json;真 solo 在 true_solo_e.json"
+ },
+ "real_serving (vLLM, Llama-3.1-8B)": {
+  "ridge_point": "82 FLOP/byte ≈ 82 tokens/step(每步读 16GB 权重)",
+  "decode_wall": "pt_decode_wall.json  — 16 tokens/step,深度访存墙",
+  "saturated": "chunked prefill 令 tokens/step≈82 — 双轴饱和(用 --max-num-batched-tokens 控制)",
+  "prefill_wall": "pt_prefill_wall.json — 2048 tokens/step,深度算力墙"
+ },
+ "headline_results": {
+  "2axis_timeslice (无 MPS)": "D 跨度 1.36×(真实比例负载),c 三态近似,差距全由 W 贡献",
+  "2axis_MPS (空间共享)": "D 跨度 3.14×(全饱和 vs 访存墙);深墙态 c≈0,抢占工作被闲置维完全吸收;抢占者自身在全饱和态膨胀 6.6×",
+  "3axis_timeslice": "D 跨度 1.95×(三轴饱和 vs VRAM 单墙),维数越多 W 比越大"
+ },
+ "mechanism": {
+  "verdict": "指令级 CILP(WFI 与 CTA-drain 均被实测排除)",
+  "evidence": "block 寿命跨 500×(0.36→177ms)切换税恒为 1.03-1.04",
+  "ada_note": "tensor core 与 FP32 共享 warp scheduler 发射带宽:单独可达 97%/77%,合用各自仅约 50%"
+ }
+}

@@ -1,0 +1,15 @@
+=== v4 dram control ===
+calibrated reps=2490 kernel=462ms
+dram: n=97 med=463.9ms min=463.3 max=464.7
+=== v4 dram disturbed ===
+calibrated reps=2490 kernel=472ms
+disturber: 40 bursts, burst_ms_med=1.72
+dram: n=98 med=463.7ms min=462.8 max=464.7
+=== v4 sm control ===
+calibrated reps=8189374 kernel=253ms
+sm: n=191 med=235.9ms min=235.7 max=248.2
+=== v4 sm disturbed ===
+calibrated reps=8189374 kernel=255ms
+disturber: 40 bursts, burst_ms_med=1.59
+sm: n=191 med=235.8ms min=235.7 max=248.4
+=== v4 矩阵完成 ===

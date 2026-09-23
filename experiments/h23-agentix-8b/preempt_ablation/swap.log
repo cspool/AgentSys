@@ -1,0 +1,15 @@
+=== swap l2 control ===
+reps=20574
+l2: n=185 med=243.2ms max=246.3
+=== swap l2 disturbed(K=20 x 1GB H2D) ===
+reps=20574
+swapper: 20 copies med=47ms
+l2: n=185 med=243.5ms max=261.4
+=== swap dram control ===
+reps=2038
+dram: n=119 med=379.5ms max=380.1
+=== swap dram disturbed(K=20 x 1GB H2D) ===
+reps=2038
+swapper: 20 copies med=44ms
+dram: n=119 med=379.1ms max=399.5
+=== swap 矩阵完成 ===

@@ -1,0 +1,127 @@
+=== wallSM ctrl ===
+sm cpb=1 reps=5754329 kernel=180.5ms grid=1024 block_life~22.56ms | SM 81% DRAM 0%
+n=600 med=165.98ms makespan=99.7s
+=== wallSM W=1 ===
+W=1.0ms reps=4000 solo=1.171ms
+sm cpb=1 reps=5754329 kernel=181.1ms grid=1024 block_life~22.64ms | SM 81% DRAM 0%
+contended burst med=0.03ms (solo 1.17)
+n=600 med=165.98ms makespan=99.7s
+=== wallSM W=4 ===
+W=4.0ms reps=536443 solo=3.969ms
+sm cpb=1 reps=5754329 kernel=167.2ms grid=1024 block_life~20.89ms | SM 87% DRAM 0%
+contended burst med=6.36ms (solo 3.97)
+n=600 med=166.00ms makespan=100.0s
+=== wallSM W=12 ===
+W=12.0ms reps=1485188 solo=11.996ms
+sm cpb=1 reps=5754329 kernel=181.7ms grid=1024 block_life~22.71ms | SM 80% DRAM 0%
+contended burst med=22.70ms (solo 12.00)
+n=600 med=166.00ms makespan=100.5s
+=== wallMEM ctrl ===
+dram cpb=1 reps=891 kernel=181.1ms grid=117188 block_life~0.20ms | SM 1% DRAM 469%
+n=600 med=165.80ms makespan=99.5s
+=== wallMEM W=1 ===
+W=1.0ms reps=4000 solo=5.562ms
+dram cpb=1 reps=891 kernel=176.1ms grid=117188 block_life~0.19ms | SM 1% DRAM 482%
+contended burst med=0.03ms (solo 5.56)
+n=600 med=165.82ms makespan=99.6s
+=== wallMEM W=4 ===
+W=4.0ms reps=536443 solo=4.597ms
+dram cpb=1 reps=891 kernel=180.7ms grid=117188 block_life~0.20ms | SM 1% DRAM 469%
+contended burst med=6.42ms (solo 4.60)
+n=600 med=165.82ms makespan=99.8s
+=== wallMEM W=12 ===
+dram cpb=1 reps=891 kernel=180.9ms grid=117188 block_life~0.20ms | SM 1% DRAM 469%
+W=12.0ms reps=1485188 solo=23.063ms
+contended burst med=23.09ms (solo 23.06)
+n=600 med=166.13ms makespan=100.5s
+=== balanced ctrl ===
+balanced cpb=1 reps=894 kernel=182.4ms grid=117188 block_life~0.20ms | SM 71% DRAM 467%
+n=600 med=184.74ms makespan=110.7s
+=== balanced W=1 ===
+balanced cpb=1 reps=894 kernel=181.2ms grid=117188 block_life~0.20ms | SM 72% DRAM 470%
+W=1.0ms reps=4000 solo=2.410ms
+contended burst med=0.04ms (solo 2.41)
+n=600 med=183.50ms makespan=110.1s
+=== balanced W=4 ===
+W=4.0ms reps=536443 solo=9.238ms
+balanced cpb=1 reps=894 kernel=188.5ms grid=117188 block_life~0.21ms | SM 69% DRAM 452%
+contended burst med=9.28ms (solo 9.24)
+n=600 med=183.66ms makespan=110.5s
+=== balanced W=12 ===
+W=12.0ms reps=1485188 solo=22.049ms
+balanced cpb=1 reps=894 kernel=193.6ms grid=117188 block_life~0.21ms | SM 67% DRAM 440%
+contended burst med=24.36ms (solo 22.05)
+n=600 med=183.32ms makespan=110.8s
+=== blk177 ctrl ===
+sm cpb=8 reps=4632643 kernel=176.2ms grid=128 block_life~176.20ms | SM 67% DRAM 0%
+n=600 med=164.96ms makespan=99.0s
+=== blk177 W=1 ===
+W=1.0ms reps=4000 solo=1.638ms
+sm cpb=8 reps=4632643 kernel=176.3ms grid=128 block_life~176.26ms | SM 67% DRAM 0%
+contended burst med=0.03ms (solo 1.64)
+n=600 med=164.99ms makespan=99.0s
+=== blk177 W=4 ===
+W=4.0ms reps=536443 solo=4.648ms
+sm cpb=8 reps=4632643 kernel=172.9ms grid=128 block_life~172.93ms | SM 68% DRAM 0%
+contended burst med=6.31ms (solo 4.65)
+n=600 med=165.02ms makespan=99.3s
+=== blk177 W=12 ===
+sm cpb=8 reps=4632643 kernel=178.5ms grid=128 block_life~178.50ms | SM 66% DRAM 0%
+W=12.0ms reps=1485188 solo=22.697ms
+contended burst med=22.59ms (solo 22.70)
+n=600 med=165.00ms makespan=99.8s
+=== blk22 ctrl ===
+sm cpb=1 reps=5754329 kernel=175.8ms grid=1024 block_life~21.97ms | SM 83% DRAM 0%
+n=600 med=165.77ms makespan=99.5s
+=== blk22 W=1 ===
+W=1.0ms reps=4000 solo=1.731ms
+sm cpb=1 reps=5754329 kernel=181.7ms grid=1024 block_life~22.71ms | SM 80% DRAM 0%
+contended burst med=0.03ms (solo 1.73)
+n=600 med=165.75ms makespan=99.5s
+=== blk22 W=4 ===
+W=4.0ms reps=536443 solo=4.400ms
+sm cpb=1 reps=5754329 kernel=180.6ms grid=1024 block_life~22.57ms | SM 81% DRAM 0%
+contended burst med=6.37ms (solo 4.40)
+n=600 med=165.76ms makespan=99.8s
+=== blk22 W=12 ===
+W=12.0ms reps=1485188 solo=12.001ms
+sm cpb=1 reps=5754329 kernel=175.8ms grid=1024 block_life~21.97ms | SM 83% DRAM 0%
+contended burst med=22.70ms (solo 12.00)
+n=600 med=165.75ms makespan=100.3s
+=== blk2p8 ctrl ===
+sm cpb=1 reps=731080 kernel=179.7ms grid=8192 block_life~2.81ms | SM 83% DRAM 0%
+n=600 med=165.58ms makespan=100.2s
+=== blk2p8 W=1 ===
+W=1.0ms reps=4000 solo=2.381ms
+sm cpb=1 reps=731080 kernel=181.5ms grid=8192 block_life~2.84ms | SM 82% DRAM 0%
+contended burst med=0.03ms (solo 2.38)
+n=600 med=165.57ms makespan=100.2s
+=== blk2p8 W=4 ===
+W=4.0ms reps=536443 solo=6.497ms
+sm cpb=1 reps=731080 kernel=180.8ms grid=8192 block_life~2.83ms | SM 82% DRAM 0%
+contended burst med=6.45ms (solo 6.50)
+n=600 med=165.50ms makespan=100.4s
+=== blk2p8 W=12 ===
+W=12.0ms reps=1485188 solo=12.084ms
+sm cpb=1 reps=731080 kernel=181.7ms grid=8192 block_life~2.84ms | SM 82% DRAM 0%
+contended burst med=23.07ms (solo 12.08)
+n=600 med=165.76ms makespan=101.0s
+=== blk0p4 ctrl ===
+sm cpb=1 reps=91632 kernel=174.0ms grid=65536 block_life~0.34ms | SM 86% DRAM 0%
+n=600 med=172.37ms makespan=103.4s
+=== blk0p4 W=1 ===
+W=1.0ms reps=4000 solo=1.173ms
+sm cpb=1 reps=91632 kernel=181.8ms grid=65536 block_life~0.36ms | SM 82% DRAM 0%
+contended burst med=0.04ms (solo 1.17)
+n=600 med=172.41ms makespan=103.7s
+=== blk0p4 W=4 ===
+W=4.0ms reps=536443 solo=4.021ms
+sm cpb=1 reps=91632 kernel=167.3ms grid=65536 block_life~0.33ms | SM 89% DRAM 0%
+contended burst med=9.02ms (solo 4.02)
+n=600 med=173.36ms makespan=104.1s
+=== blk0p4 W=12 ===
+W=12.0ms reps=1485188 solo=12.026ms
+sm cpb=1 reps=91632 kernel=180.0ms grid=65536 block_life~0.35ms | SM 83% DRAM 0%
+contended burst med=23.65ms (solo 12.03)
+n=600 med=173.35ms makespan=104.7s
+=== E1+E2 完成 ===

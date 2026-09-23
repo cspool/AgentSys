@@ -1,0 +1,46 @@
+=== v1 ctrl ===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+makespan=33.81s n=168
+=== v1 uniform ===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+makespan=34.26s n=168
+uniform: K=24 落点纯度=24/24 forced=0
+=== v1 comp ===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+makespan=34.22s n=168
+comp: K=24 落点纯度=24/24 forced=0
+=== v1 adv ===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+makespan=34.32s n=168
+adv: K=24 落点纯度=21/24 forced=3
+=== v2 ctrl ===
+reps: {'dram': 1014, 'l2': 24078, 'sm': 7523418}
+makespan=33.49s n=168
+=== v2 uniform ===
+reps: {'dram': 1014, 'l2': 24078, 'sm': 7523418}
+makespan=33.79s n=168
+uniform: K=24 落点纯度=24/24 forced=0
+=== v2 comp ===
+reps: {'dram': 1014, 'l2': 24078, 'sm': 7523418}
+makespan=33.91s n=168
+comp: K=24 落点纯度=24/24 forced=0
+=== v2 adv ===
+reps: {'dram': 1014, 'l2': 24078, 'sm': 7523418}
+makespan=33.97s n=168
+adv: K=24 落点纯度=21/24 forced=3
+=== v3 ctrl ===
+reps: {'dram': 1034, 'l2': 19974, 'sm': 7264906}
+makespan=36.82s n=168
+=== v3 uniform ===
+reps: {'dram': 1034, 'l2': 19974, 'sm': 7264906}
+makespan=37.08s n=168
+uniform: K=24 落点纯度=24/24 forced=0
+=== v3 comp ===
+reps: {'dram': 1034, 'l2': 19974, 'sm': 7264906}
+makespan=37.14s n=168
+comp: K=24 落点纯度=24/24 forced=0
+=== v3 adv ===
+reps: {'dram': 1034, 'l2': 19974, 'sm': 7264906}
+makespan=37.09s n=168
+adv: K=24 落点纯度=22/24 forced=2
+=== S1' 全部完成 ===

@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "protocol": "Agentix \u00a76.1-6.2 (program-level, Poisson arrivals)",
+  "provenance": {
+    "source": "synthesised locally with the same program-class structure; the paper's traces are not public and not present on this machine",
+    "class_parameters": {
+      "sharegpt": {
+        "calls_mean": 6.66,
+        "calls_sigma": 0.95,
+        "calls_max": 80,
+        "tool_ms": 20.0,
+        "prefill_mean": 255.65,
+        "decode_mean": 276.81,
+        "width": 1
+      },
+      "bfcl": {
+        "calls_mean": 10.75,
+        "calls_sigma": 0.8,
+        "calls_max": 70,
+        "tool_ms": 250.0,
+        "prefill_mean": 735.06,
+        "decode_mean": 34.14,
+        "width": 1
+      },
+      "lats": {
+        "calls_mean": 159.71,
+        "calls_sigma": 0.55,
+        "calls_max": 2000,
+        "tool_ms": 120.0,
+        "prefill_mean": 467.24,
+        "decode_mean": 72.64,
+        "width": 5
+      }
+    },
+    "calibrated_to": "Agentix paper \u00a76.1 / Fig. 11 per-class means (calls, prefill tokens, decode tokens)",
+    "mixed_weights": {
+      "sharegpt": 1.0,
+      "bfcl": 1.0,
+      "lats": 1.0
+    },
+    "interception_model": "exponential tool delay before each wave; calls inside a wave run concurrently",
+    "threading": "paper \u00a76.1: ShareGPT and BFCL single-threaded, LATS multi-threaded"
+  },
+  "config": {
+    "workload_class": "bfcl",
+    "arrival_rate_programs_per_s": 1.2,
+    "duration_s": 4.0,
+    "seed": 23,
+    "max_programs": 5000
+  },
+  "summary": {
+    "programs": 2,
+    "llm_calls": 8,
+    "prompt_tokens": 5546,
+    "output_tokens": 212,
+    "by_class": {
+      "sharegpt": 0,
+      "bfcl": 2,
+      "lats": 0
+    },
+    "multi_threaded_programs": 0
+  },
+  "programs": [
+    {
+      "program_id": "p00000",
+      "class": "bfcl",
+      "arrival_ns": 2157060110,
+      "llm_calls": [
+        {
+          "index": 0,
+          "wave": 0,
+          "parents": [],
+          "prompt_tokens": 586,
+          "output_tokens": 22,
+          "tool_delay_ns": 0
+        },
+        {
+          "index": 1,
+          "wave": 1,
+          "parents": [
+            0
+          ],
+          "prompt_tokens": 629,
+          "output_tokens": 30,
+          "tool_delay_ns": 22419391
+        }
+      ],
+      "waves": 2,
+      "width": 1,
+      "total_prompt_tokens": 1215,
+      "total_output_tokens": 52
+    },
+    {
+      "program_id": "p00001",
+      "class": "bfcl",
+      "arrival_ns": 3188645638,
+      "llm_calls": [
+        {
+          "index": 0,
+          "wave": 0,
+          "parents": [],
+          "prompt_tokens": 881,
+          "output_tokens": 38,
+          "tool_delay_ns": 0
+        },
+        {
+          "index": 1,
+          "wave": 1,
+          "parents": [
+            0
+          ],
+          "prompt_tokens": 427,
+          "output_tokens": 24,
+          "tool_delay_ns": 270093978
+        },
+        {
+          "index": 2,
+          "wave": 2,
+          "parents": [
+            1
+          ],
+          "prompt_tokens": 568,
+          "output_tokens": 29,
+          "tool_delay_ns": 223271573
+        },
+        {
+          "index": 3,
+          "wave": 3,
+          "parents": [
+            2
+          ],
+          "prompt_tokens": 593,
+          "output_tokens": 23,
+          "tool_delay_ns": 97673318
+        },
+        {
+          "index": 4,
+          "wave": 4,
+          "parents": [
+            3
+          ],
+          "prompt_tokens": 900,
+          "output_tokens": 19,
+          "tool_delay_ns": 212638561
+        },
+        {
+          "index": 5,
+          "wave": 5,
+          "parents": [
+            4
+          ],
+          "prompt_tokens": 962,
+          "output_tokens": 27,
+          "tool_delay_ns": 90884407
+        }
+      ],
+      "waves": 6,
+      "width": 1,
+      "total_prompt_tokens": 4331,
+      "total_output_tokens": 160
+    }
+  ]
+}

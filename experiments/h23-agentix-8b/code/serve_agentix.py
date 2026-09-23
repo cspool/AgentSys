@@ -97,6 +97,12 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
         engine_kwargs["enable_chunked_prefill"] = False
     if args.no_cudagraph:
         engine_kwargs["compilation_config"] = {"cudagraph_mode": "NONE"}
+    if getattr(args, "max_num_batched_tokens", None):
+        engine_kwargs["max_num_batched_tokens"] = args.max_num_batched_tokens
+    if getattr(args, "cudagraph_mode", None):
+        engine_kwargs.setdefault("compilation_config", {})["cudagraph_mode"] = args.cudagraph_mode
+    if getattr(args, "kv_cache_dtype", None):
+        engine_kwargs["kv_cache_dtype"] = args.kv_cache_dtype
     if args.kv_cache_memory_gb is not None:
         engine_kwargs["kv_cache_memory_bytes"] = int(args.kv_cache_memory_gb * 2**30)
     if args.kv_offloading_size_gb is not None:
@@ -115,6 +121,20 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
         sys.path.insert(0, str(Path(__file__).parent))
         import wp_modproc
         wp_modproc.install()
+    if os.environ.get("AGENTIX_PAUSE_FILE"):
+        sys.path.insert(0, str(Path(__file__).parent))
+        import wp_pause
+        wp_pause.install()
+    if os.environ.get("AGENTIX_WALLFLAG", "0") == "1":
+        sys.path.insert(0, str(Path(__file__).parent))
+        import wp_wallflag
+        wp_wallflag.install()
+    if os.environ.get("AGENTIX_PREEMPT_TRACE", "0") == "1":
+        # engine-side preemption (KV eviction), distinct from the client-side
+        # quantum preemption that agentix.chunk_* already marks
+        sys.path.insert(0, str(Path(__file__).parent))
+        import wp_preempt_trace
+        wp_preempt_trace.install()
     if os.environ.get("AGENTIX_FXSAMPLE", "0") == "1":
         # workload_profile R032: sample real serving inputs for the FX branch
         sys.path.insert(0, str(Path(__file__).parent))
@@ -182,6 +202,28 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
 
         filler = [args.filler_token_id] * args.max_model_len  # prompt token ids are sliced per call
 
+        # Prefix caching serves a shared prompt from cache, so a filler prompt
+        # reaches the GPU as almost no prefill at all (measured: 58,811 declared
+        # prompt tokens -> 3,085 actually scheduled). A workload that studies
+        # prefill must therefore make every call's prompt unique; the flag lives
+        # in the workload file so it enters the workload hash and the run
+        # contract, rather than being an invisible CLI switch.
+        _uniq = bool((workload.get("config") or {}).get("unique_prompts"))
+
+        def prompt_ids(program: dict[str, Any], call: dict[str, Any]) -> list[int]:
+            n = int(call["prompt_tokens"])
+            if not _uniq:
+                return filler[:n]
+            # deterministic, collision-free across (program, call): a distinct
+            # high-entropy head defeats the prefix cache, the tail stays filler
+            # so token count and shape are exactly what the workload declares
+            import hashlib
+            seed = hashlib.sha256(
+                f'{program["program_id"]}:{call["index"]}'.encode()).digest()
+            head = [1000 + ((seed[i % len(seed)] << 8 | seed[(i * 7 + 3) % len(seed)]) + i * 131)
+                    % 20000 for i in range(min(n, 64))]
+            return head + filler[: max(n - len(head), 0)]
+
         async def run_call(program: dict[str, Any], call: dict[str, Any], priority: int,
                            ready_ns: int) -> tuple[int, int]:
             """Issue one LLM call; returns (finished_ns, runtime_us).
@@ -227,7 +269,7 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
                     # continuations and queue migrations show up on the timeline.
                     _nvtx_mark(f"agentix.chunk_begin::{args.mark_tag}{program['program_id']}::{call['index']}::{chunks}::Q{q}")
                     quantum = min(MLFQ_QUANTUM_TOKENS[q], remaining)
-                    prompt = filler[: int(call["prompt_tokens"])] + gen_ids
+                    prompt = prompt_ids(program, call) + gen_ids
                     params = SamplingParams(max_tokens=quantum, ignore_eos=True, temperature=0.0)
                     c_sub = time.monotonic_ns()
                     c_first = None
@@ -255,7 +297,25 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
                     state["attained_us"] += chunk_run
                     state["wait_us"] += chunk_wait
                     # demotion: quantum exhausted -> one queue down (line 21-23)
-                    if remaining > 0 and q < len(MLFQ_QUANTUM_TOKENS) - 1:
+                    # A1 消融门(资源互补):墙状态决定本次降级(=真抢占)是否执行
+                    #   cheap_only: 当前步含 prefill(SM 墙,切换货币不撞墙)或批<=4
+                    #   (发射地板)才降级;expensive_only 反相;always=现行;never=不降级
+                    _gate = os.environ.get('AGENTIX_PREEMPT_GATE', 'always')
+                    _do_preempt = True
+                    if _gate != 'always':
+                        _cheap = True
+                        try:
+                            import json as _j
+                            _wf = _j.load(open(os.environ.get('AGENTIX_WALLFLAG_PATH',
+                                               '/tmp/agentix_wallflag.json')))
+                            _cheap = (_wf['n_prefill'] > 0) or (_wf['n_running'] <= 4)
+                        except Exception:
+                            pass
+                        _do_preempt = {'cheap_only': _cheap, 'expensive_only': not _cheap,
+                                       'never': False}.get(_gate, True)
+                        if not _do_preempt:
+                            _nvtx_mark(f"agentix.gate_skip::{args.mark_tag}{program['program_id']}::{call['index']}::Q{q}")
+                    if _do_preempt and remaining > 0 and q < len(MLFQ_QUANTUM_TOKENS) - 1:
                         q += 1
                         _nvtx_mark(f"agentix.demote::{args.mark_tag}{program['program_id']}::{call['index']}::{q-1}->{q}")
                 finished = time.monotonic_ns()
@@ -264,7 +324,7 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
                 # vLLM sorts the waiting queue by (priority, arrival_time) ascending, so a
                 # lower value is served first.
                 async for out in engine.generate(
-                    {"prompt_token_ids": filler[: int(call["prompt_tokens"])]},
+                    {"prompt_token_ids": prompt_ids(program, call)},
                     params, request_id=rid_base,
                     priority=(mlfq_queue(program["_table"]["attained_us"])
                               if args.policy in ("agentix_engine", "agentix_hw", "agentix_hw_gctx",
@@ -275,10 +335,14 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
                     if first_token is None:
                         first_token = time.monotonic_ns()
                     produced = len(out.outputs[0].token_ids)
+                    out_ids = out.outputs[0].token_ids
                 finished = time.monotonic_ns()
+                # 内容级等价仪器:输出 token-id 序列哈希(计数门在 ignore_eos 下空洞)
+                out_sha = hashlib.sha256(
+                    b''.join(int(x).to_bytes(4, 'little') for x in out_ids)).hexdigest()[:16]
             _nvtx_mark(f"agentix.call_end::{args.mark_tag}{program['program_id']}::{call['index']}::{program['class']}")
             async with lock:
-                call_rows.append({
+                _row = {
                     "program_id": program["program_id"], "class": program["class"], "call_index": call["index"],
                     "wave": call.get("wave", 0), "parents": call.get("parents", []),
                     "prompt_tokens": int(call["prompt_tokens"]), "output_tokens": int(call["output_tokens"]),
@@ -289,7 +353,17 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
                     "call_latency_ms": (finished - submitted) / 1e6, "priority": priority,
                     "chunks": chunks, "queue_path": queue_path,
                     "policy": args.policy, "produced_tokens": produced,
-                })
+                    "output_sha": (out_sha if 'out_sha' in dir() else hashlib.sha256(
+                        b''.join(int(x).to_bytes(4, 'little') for x in gen_ids)
+                        if 'gen_ids' in dir() else b'').hexdigest()[:16]),
+                }
+                call_rows.append(_row)
+                # 流式落盘:长跑臂可能被外部终止,逐行 append 保证已完成的 call 不丢
+                _sp = os.environ.get("AGENTIX_STREAM_CALLS")
+                if _sp:
+                    with open(_sp, "a") as _f:
+                        _f.write(json.dumps(_row, sort_keys=True) + "\n")
+                        _f.flush()
             return finished, (finished - submitted) // 1000
 
         async def run_program(program: dict[str, Any]) -> None:
@@ -308,6 +382,34 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
             prio_of: dict[int, int] = {}          # ATLAS: per-call critical-path priority
             runtime_of: dict[int, int] = {}
             finished_of: dict[int, int] = {}
+
+            if (workload.get("config") or {}).get("call_dag"):
+                # True per-call DAG scheduling: a call waits only on its own
+                # parents, never on a wave barrier. Needed for dynamic
+                # multi-agent loops (independent chains released by one
+                # decision call must actually overlap). The wave path below is
+                # untouched for lineage workloads.
+                done_ev: dict[int, asyncio.Event] = {c["index"]: asyncio.Event() for c in calls}
+
+                async def run_dag_call(c):
+                    nonlocal attained_us
+                    for i in c.get("parents", []):
+                        await done_ev[i].wait()
+                    ready_base = max((finished_of[i] for i in c.get("parents", [])),
+                                     default=t0 + program["arrival_ns"])
+                    if args.policy == "atlas":
+                        prio = max((prio_of[i] + runtime_of[i] for i in c.get("parents", [])), default=0)
+                    else:
+                        prio = attained_us
+                    prio_of[c["index"]] = prio
+                    fin, rt_us = await run_call(program, c, prio, ready_base + int(c.get("tool_delay_ns", 0)))
+                    finished_of[c["index"]] = fin
+                    runtime_of[c["index"]] = rt_us
+                    attained_us += rt_us
+                    done_ev[c["index"]].set()
+
+                await asyncio.gather(*(run_dag_call(c) for c in calls))
+                return
 
             for wave in sorted(waves):
                 members = waves[wave]
@@ -329,7 +431,63 @@ async def run(args: argparse.Namespace) -> dict[str, Any]:
                     runtime_of[c["index"]] = rt_us
                     attained_us += rt_us
 
+        async def injector():
+            """S3: equal-count forced-eviction injector.
+            K high-priority micro-requests; placement strategy decides WHEN.
+            uniform: fire on schedule; prefill: wait for a prefill wave
+            (SM wall, bandwidth slack); decode: wait for decode-only storm
+            (DRAM wall). Forced firing at deadline is logged."""
+            mode = os.environ.get("AGENTIX_INJECT", "off")
+            if mode == "off":
+                return
+            K = int(os.environ.get("AGENTIX_INJECT_K", "40"))
+            period = float(os.environ.get("AGENTIX_INJECT_PERIOD", "6.0"))
+            flag = os.environ.get("AGENTIX_WALLFLAG_PATH", "/tmp/agentix_wallflag.json")
+            ntok = int(os.environ.get("AGENTIX_INJECT_TOKENS", "24"))
+            log = []
+
+            def wall():
+                try:
+                    return json.loads(Path(flag).read_text())
+                except Exception:
+                    return {"n_prefill": 0, "n_running": 0}
+
+            for i in range(K):
+                tick = t0 + int((i + 1) * period * 1e9)
+                now = time.monotonic_ns()
+                if tick > now:
+                    await asyncio.sleep((tick - now) / 1e9)
+                deadline = time.monotonic_ns() + int(period * 0.9 * 1e9)
+                forced = False
+                if mode in ("prefill", "decode"):
+                    while True:
+                        w = wall()
+                        ok = (w.get("n_prefill", 0) > 0) if mode == "prefill" \
+                             else (w.get("n_prefill", 0) == 0 and w.get("n_running", 0) >= 4)
+                        if ok or time.monotonic_ns() >= deadline:
+                            forced = not ok
+                            break
+                        await asyncio.sleep(0.01)
+                w = wall()
+                sub = time.monotonic_ns()
+                ip = SamplingParams(max_tokens=ntok, ignore_eos=True, temperature=0.0)
+                async for _ in engine.generate(
+                        {"prompt_token_ids": [1] * 32}, ip,
+                        request_id=f"inject-{i}", priority=-1):
+                    pass
+                fin = time.monotonic_ns()
+                log.append({"i": i, "t_rel_ms": (sub - t0) / 1e6, "forced": forced,
+                            "wall": w, "lat_ms": (fin - sub) / 1e6})
+            _idir = Path(args.output_dir)          # out_dir 在 gather 后才赋值
+            _idir.mkdir(parents=True, exist_ok=True)
+            (_idir / "inject_log.json").write_text(
+                json.dumps({"mode": mode, "k": K, "events": log}, indent=1) + "\n")
+            print(f"[inject] {mode}: K={K} forced={sum(1 for e in log if e['forced'])}",
+                  flush=True)
+
         tasks = [asyncio.create_task(run_program(p)) for p in program_list]
+        if os.environ.get("AGENTIX_INJECT", "off") != "off":
+            tasks.append(asyncio.create_task(injector()))
         started = time.monotonic_ns()
         if args.nvtx:
             import torch
@@ -422,6 +580,13 @@ def main() -> int:
     ap.add_argument("--max-num-seqs", type=int, default=None,
                     help="cap the resident batch to force request queueing (the regime program-level scheduling targets)")
     ap.add_argument("--enforce-eager", action="store_true")
+    ap.add_argument("--max-num-batched-tokens", type=int, default=None,
+                    help="chunked prefill 每步 token 预算:直接把引擎放到 roofline 的"
+                         "指定位置(Llama-8B 脊点约 82 tokens/step)")
+    ap.add_argument("--cudagraph-mode", default=None,
+                    help="v3 修正归因:attn host 派发 ~45%%,FULL_DECODE_ONLY 把 attention 捕进图")
+    ap.add_argument("--kv-cache-dtype", default=None,
+                    help="v3 归因指向的杠杆:attn_core(54.5%%)DRAM 受限,FP8 KV 砍字节")
     ap.add_argument("--nvtx", action="store_true", help="emit client-side NVTX windows for AutoTrace")
     ap.add_argument("--enable-layerwise-nvtx-tracing", action="store_true",
                     help="vLLM worker emits per-module NVTX ranges (operator-level attribution for w01')")

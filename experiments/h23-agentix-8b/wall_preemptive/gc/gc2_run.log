@@ -1,0 +1,37 @@
+=== R12: substrate=resize(按需分区) K=300 period=1.5 ===
+--- valve ---
+  victim w: n=1407 med=161.7ms
+  victim s: n=1407 med=164.2ms
+  burst: n=300 busy_med=50.6ms e2e_med=51ms 分区分布={32: 300}
+  valve[resize/chunks=16]: 落墙态=141/300 强发=0 平均延迟=1ms 建池=9ms
+--- wall_aware ---
+  victim w: n=1415 med=161.8ms
+  victim s: n=1415 med=164.3ms
+  burst: n=299 busy_med=48.2ms e2e_med=49ms 分区分布={32: 299}
+  wall_aware[resize/chunks=16]: 落墙态=299/300 强发=1 平均延迟=46ms 建池=27ms
+--- wall_aware_resize ---
+  victim w: n=1405 med=161.8ms
+  victim s: n=1405 med=164.2ms
+  burst: n=299 busy_med=29.2ms e2e_med=30ms 分区分布={32: 6, 64: 293}
+  wall_aware_resize[resize/chunks=16]: 落墙态=294/300 强发=6 平均延迟=45ms 建池=14ms
+--- random_defer (重放 wall_aware 的推迟预算) ---
+  victim w: n=1407 med=161.7ms
+  victim s: n=1407 med=164.4ms
+  burst: n=299 busy_med=50.4ms e2e_med=51ms 分区分布={32: 299}
+  random_defer[resize/chunks=16]: 落墙态=152/300 强发=0 平均延迟=47ms 建池=13ms
+
+=== 配对分析 ===
+策略                      命中    落墙       墙态扰动       饱和扰动      加权每次     ±SE   抢占busy    抢占e2e        抢占分区
+--------------------------------------------------------------------------------------------------------
+valve                  299   141      1.19ms     19.83ms    10.44ms   0.55ms      51ms      51ms   {32: 300}
+random_defer           298   149      1.16ms     19.98ms    10.22ms   0.58ms      50ms      51ms   {32: 299}
+wall_aware             284   283      1.18ms      8.67ms     1.29ms   0.05ms      48ms      49ms   {32: 299}
+wall_aware_resize      278   272     12.58ms      5.33ms    13.07ms   0.33ms      29ms      30ms{32: 6, 64: 293}
+
+受害者 访存墙 中位数: valve=161.7ms  random_defer=161.7ms  wall_aware=161.8ms  wall_aware_resize=161.8ms
+受害者 全饱和 中位数: valve=164.2ms  random_defer=164.4ms  wall_aware=164.3ms  wall_aware_resize=164.2ms
+
+resize vs wall_aware: 扰动 1.29 -> 13.07 ms (10.16×), 抢占者 e2e 49 -> 30 ms (0.61×)
+  仅沿前沿移动
+wall_aware 对 valve 的扰动优势: 8.12×
+wall_aware_resize 对 valve 的扰动优势: 0.80×

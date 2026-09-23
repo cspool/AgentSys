@@ -1,0 +1,31 @@
+{
+ "config": {
+  "workload_class": "sharegpt_same_input_probe",
+  "arrival_rate_programs_per_s": 0.0,
+  "duration_s": 40.0,
+  "seed": 23,
+  "max_programs": 5000,
+  "note": "SAME_INPUT R01 denominator probe: one call, 32 new tokens, class-mean prompt; bounded so the kernel table is complete"
+ },
+ "programs": [
+  {
+   "program_id": "p_probe",
+   "class": "sharegpt",
+   "arrival_ns": 0,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 284,
+   "total_output_tokens": 32,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 284,
+     "output_tokens": 32,
+     "tool_delay_ns": 0
+    }
+   ]
+  }
+ ]
+}

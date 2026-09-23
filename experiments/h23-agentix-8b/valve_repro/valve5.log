@@ -1,0 +1,14 @@
+=== on_solo ===
+G=67.0ms T_cool=134.0ms n=536
+arm=on_solo done {"cool_s": 0.074}
+=== off_solo ===
+arm=off_solo done {"cool_s": 0.074}
+=== naive ===
+arm=naive done {"cool_s": 0.074, "offline_serving_at": 1789997277.0930872, "online_serving_at": 1789997294.7123, "online_done_at": 1789997435.521252}
+=== channel ===
+controller: 6 preemptions
+arm=channel done {"cool_s": 0.074, "offline_serving_at": 1789997455.4043305, "online_serving_at": 1789997473.22606, "online_done_at": 1789997613.609638}
+=== iter ===
+iter_ctl: 6 preemptions
+arm=iter done {"cool_s": 0.074, "offline_serving_at": 1789997631.32989, "online_serving_at": 1789997653.9533656, "online_done_at": 1789997792.159919}
+=== Valve v4 完成 ===

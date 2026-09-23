@@ -1,0 +1,18 @@
+burst reps=1485188(12ms)  K=40  period=2.0s  T_cool=0.074s  dev=0
+=== ctrl(无抢占基线)===
+  w: n=120 med=161.0ms
+  s: n=60 med=166.1ms
+makespan=29.4s
+=== valve ===
+  w: n=120 med=160.5ms
+  s: n=60 med=166.0ms
+makespan=29.4s
+disturber4: fired=40 busy_med=12.2ms
+valve: K=40 落墙态=5 强发=0 平均延迟=1ms
+=== wall_aware ===
+  w: n=120 med=160.4ms
+  s: n=60 med=165.5ms
+makespan=29.3s
+wall_aware: K=40 落墙态=5 强发=35 平均延迟=1577ms
+disturber4: fired=40 busy_med=12.2ms
+=== wallcmp 完成 ===

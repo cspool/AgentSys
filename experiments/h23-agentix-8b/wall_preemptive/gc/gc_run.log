@@ -1,0 +1,37 @@
+=== G12: substrate=green_split P=32SM K=300 period=1.5 ===
+--- valve ---
+  victim w: n=1268 med=162.0ms
+  victim s: n=1268 med=199.8ms
+  burst: n=300 busy_med=62.9ms e2e_med=63ms
+  valve[split/P=32]: 落墙态=140/300 强发=0 平均延迟=1ms
+--- wall_aware ---
+  victim w: n=1269 med=162.0ms
+  victim s: n=1269 med=200.1ms
+  burst: n=299 busy_med=63.1ms e2e_med=63ms
+  wall_aware[split/P=32]: 落墙态=296/300 强发=4 平均延迟=57ms
+--- random_defer (重放 wall_aware 的推迟预算, 打乱顺序) ---
+  victim w: n=1266 med=162.0ms
+  victim s: n=1266 med=200.2ms
+  burst: n=299 busy_med=63.0ms e2e_med=63ms
+  random_defer[split/P=32]: 落墙态=129/300 强发=0 平均延迟=59ms
+
+=== 基底对照: substrate=none (同 context 两条流, 不分区) ===
+  victim w: n=160 med=161.4ms
+  victim s: n=160 med=166.0ms
+  burst: n=40 busy_med=21.3ms e2e_med=22ms
+  valve[none/P=32]: 落墙态=21/40 强发=0 平均延迟=1ms
+
+=== 配对分析 ===
+          策略     命中     墙态     饱和       墙态扰动       饱和扰动      加权每次     抢占者e2e
+      valve    300      140      160       0.09ms       5.26ms     3.82ms        63ms
+ wall_aware    298      294        4       0.04ms       3.86ms     0.20ms        63ms
+random_defer    299      130      169       0.14ms       5.79ms     5.17ms        63ms
+
+→ 对 Valve 的优势: 18.99×
+→ 对 random_defer(同推迟预算、不看状态)的优势: 25.75×   ← 这一项才证明收益来自墙感知而非推迟本身
+   落墙态: valve 140/300, random_defer 130/299, wall_aware 294/298
+
+帕累托(受害者扰动 ↓ / 抢占者 e2e 延迟 ↑):
+          valve: 扰动 3.82ms, 抢占者 e2e 63ms
+     wall_aware: 扰动 0.20ms, 抢占者 e2e 63ms
+   random_defer: 扰动 5.17ms, 抢占者 e2e 63ms

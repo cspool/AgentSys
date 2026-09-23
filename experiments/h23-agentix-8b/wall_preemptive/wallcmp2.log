@@ -1,0 +1,18 @@
+reps=1485188 K=40 period=1.5s T_cool=0.074s cycles=260 dev=0
+=== ctrl ===
+  w: n=520 med=161.0ms
+  s: n=260 med=166.4ms
+makespan=127.4s
+=== valve ===
+disturber4: fired=40 busy_med=23.2ms
+valve: K=40 落墙态=25 强发=0 平均延迟=2ms
+  w: n=520 med=160.4ms
+  s: n=260 med=166.4ms
+makespan=127.5s
+=== wall_aware ===
+wall_aware: K=40 落墙态=40 强发=0 平均延迟=30ms
+disturber4: fired=40 busy_med=23.4ms
+  w: n=520 med=160.5ms
+  s: n=260 med=166.3ms
+makespan=127.5s
+=== wallcmp 完成 ===

@@ -1,0 +1,22 @@
+=== L1 ctrl_n1 ===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+makespan=33.87s n=168
+=== L1 ctrl_n2 ===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+makespan=33.93s n=168
+=== L1 uniform(20min)===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+makespan=973.09s n=4800
+uniform: K=200 落点纯度=200/200 forced=0
+=== L1 comp(20min)===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+makespan=972.59s n=4800
+comp: K=200 落点纯度=200/200 forced=0
+=== L1 adv(20min)===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+makespan=967.83s n=4800
+adv: K=200 落点纯度=161/200 forced=39
+=== L1 ctrl_long(漂移核对)===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+makespan=966.31s n=4800
+=== L1 完成 ===

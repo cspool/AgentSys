@@ -1,0 +1,33 @@
+{
+ "argv": [
+  "--workload",
+  "experiments/h23-agentix-8b/workloads/pt_big_mixed.json",
+  "--output-dir",
+  "experiments/h23-agentix-8b/valve_repro/off_valve",
+  "--policy",
+  "fcfs",
+  "--enforce-eager",
+  "--model-dir",
+  "/data3/docker_model/AgentSys/Qwen3-1.7B",
+  "--gpu-memory-utilization",
+  "0.30"
+ ],
+ "workload": "experiments/h23-agentix-8b/workloads/pt_big_mixed.json",
+ "workload_sha256": "e9d348f86309d22495331373989ea11f003dc30a1e7ed7f6479b9bd078d7d81b",
+ "harness_sha256": {
+  "serve_agentix.py": "a9bcbc6336c71bc47e0c8df97d739484fa2a5892eb5cdc5f92abaac957282632",
+  "astra_swap.py": "ca682a793c28890d069e31eb3e7b962fcfabdcea0a53cc77ed66eacfd7967df3"
+ },
+ "env": {
+  "CUDA_VISIBLE_DEVICES": "1",
+  "LD_LIBRARY_PATH": "/usr/local/cuda-12.8/lib64:/root/chipyard/esp-tools-install/lib:/root/chipyard/riscv-tools-install/lib:/root/chipyard/esp-tools-install/lib:/root/chipyard/riscv-tools-install/lib:/root/chipyard/esp-tools-install/lib:/root/chipyard/riscv-tools-install/lib:/root/chipyard/esp-tools-install/lib:/root/chipyard/riscv-tools-install/lib:/usr/local/cuda-12.8/lib64:/root/chipyard/esp-tools-install/lib:/root/chipyard/riscv-tools-install/lib:/root/riscv-tools-install/lib",
+  "CUDA_HOME": "/usr/local/cuda-12.8",
+  "CUDA_DEFAULT": "system",
+  "CUDA_VERSION": "",
+  "CUDA_SHORT": "12.8",
+  "VLLM_ENABLE_V1_MULTIPROCESSING": "0",
+  "VLLM_USE_V2_MODEL_RUNNER": "0"
+ },
+ "gpu_driver": "NVIDIA GeForce RTX 4090, 595.91.07",
+ "utc": "2026-09-21T06:41:00Z"
+}

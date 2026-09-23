@@ -1,0 +1,11 @@
+=== v6 dram disturbed(K=30 全卡burst) ===
+burst reps=300000 ~45.0ms
+calibrated reps=2490 kernel=491ms
+full-GPU disturber: 30 bursts busy_med=4.7ms
+dram: n=97 med=476.4ms min=475.6 max=480.0
+=== v6 sm disturbed(K=30 全卡burst) ===
+calibrated reps=8189374 kernel=254ms
+burst reps=1294602 ~19.3ms
+full-GPU disturber: 30 bursts busy_med=19.3ms
+sm: n=189 med=242.2ms min=242.1 max=263.4
+=== v6 完成 ===

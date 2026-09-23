@@ -1,0 +1,1919 @@
+{
+ "config": {
+  "workload_class": "mixed_preempt",
+  "arrival_rate_programs_per_s": 3.0,
+  "seed": 23,
+  "max_num_seqs": 16,
+  "note": "three classes contending for the same seats; calls cross the quantum ladder; lats fan into waves"
+ },
+ "programs": [
+  {
+   "program_id": "p00021",
+   "class": "lats",
+   "arrival_ns": 189678253,
+   "waves": 4,
+   "width": 3,
+   "total_prompt_tokens": 4547,
+   "total_output_tokens": 2312,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 334,
+     "output_tokens": 166,
+     "tool_delay_ns": 42179602
+    },
+    {
+     "index": 1,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 423,
+     "output_tokens": 186,
+     "tool_delay_ns": 29571286
+    },
+    {
+     "index": 2,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 385,
+     "output_tokens": 165,
+     "tool_delay_ns": 22300309
+    },
+    {
+     "index": 3,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 390,
+     "output_tokens": 236,
+     "tool_delay_ns": 66554976
+    },
+    {
+     "index": 4,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 406,
+     "output_tokens": 157,
+     "tool_delay_ns": 53702736
+    },
+    {
+     "index": 5,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 395,
+     "output_tokens": 214,
+     "tool_delay_ns": 46802488
+    },
+    {
+     "index": 6,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 329,
+     "output_tokens": 230,
+     "tool_delay_ns": 35932348
+    },
+    {
+     "index": 7,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 407,
+     "output_tokens": 186,
+     "tool_delay_ns": 66751717
+    },
+    {
+     "index": 8,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 361,
+     "output_tokens": 151,
+     "tool_delay_ns": 45680934
+    },
+    {
+     "index": 9,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 377,
+     "output_tokens": 217,
+     "tool_delay_ns": 44225294
+    },
+    {
+     "index": 10,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 398,
+     "output_tokens": 178,
+     "tool_delay_ns": 63959650
+    },
+    {
+     "index": 11,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 342,
+     "output_tokens": 226,
+     "tool_delay_ns": 76663431
+    }
+   ]
+  },
+  {
+   "program_id": "p00011",
+   "class": "bfcl",
+   "arrival_ns": 654397810,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 1560,
+   "total_output_tokens": 764,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 294,
+     "output_tokens": 154,
+     "tool_delay_ns": 217681743
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 315,
+     "output_tokens": 166,
+     "tool_delay_ns": 100985496
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 308,
+     "output_tokens": 171,
+     "tool_delay_ns": 135465836
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 355,
+     "output_tokens": 127,
+     "tool_delay_ns": 270281788
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 288,
+     "output_tokens": 146,
+     "tool_delay_ns": 205637559
+    }
+   ]
+  },
+  {
+   "program_id": "p00001",
+   "class": "sharegpt",
+   "arrival_ns": 686192690,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 938,
+   "total_output_tokens": 765,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 462,
+     "output_tokens": 355,
+     "tool_delay_ns": 94457357
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 476,
+     "output_tokens": 410,
+     "tool_delay_ns": 52476696
+    }
+   ]
+  },
+  {
+   "program_id": "p00018",
+   "class": "lats",
+   "arrival_ns": 886432227,
+   "waves": 4,
+   "width": 3,
+   "total_prompt_tokens": 4544,
+   "total_output_tokens": 2294,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 391,
+     "output_tokens": 148,
+     "tool_delay_ns": 55284593
+    },
+    {
+     "index": 1,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 381,
+     "output_tokens": 194,
+     "tool_delay_ns": 27280091
+    },
+    {
+     "index": 2,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 330,
+     "output_tokens": 187,
+     "tool_delay_ns": 28734496
+    },
+    {
+     "index": 3,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 396,
+     "output_tokens": 171,
+     "tool_delay_ns": 57238652
+    },
+    {
+     "index": 4,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 408,
+     "output_tokens": 200,
+     "tool_delay_ns": 51894993
+    },
+    {
+     "index": 5,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 345,
+     "output_tokens": 175,
+     "tool_delay_ns": 78676882
+    },
+    {
+     "index": 6,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 353,
+     "output_tokens": 169,
+     "tool_delay_ns": 49597043
+    },
+    {
+     "index": 7,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 385,
+     "output_tokens": 217,
+     "tool_delay_ns": 37714588
+    },
+    {
+     "index": 8,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 432,
+     "output_tokens": 144,
+     "tool_delay_ns": 67421751
+    },
+    {
+     "index": 9,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 387,
+     "output_tokens": 228,
+     "tool_delay_ns": 29183920
+    },
+    {
+     "index": 10,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 401,
+     "output_tokens": 232,
+     "tool_delay_ns": 60023353
+    },
+    {
+     "index": 11,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 335,
+     "output_tokens": 229,
+     "tool_delay_ns": 78178240
+    }
+   ]
+  },
+  {
+   "program_id": "p00017",
+   "class": "lats",
+   "arrival_ns": 1349231311,
+   "waves": 4,
+   "width": 3,
+   "total_prompt_tokens": 4499,
+   "total_output_tokens": 2379,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 347,
+     "output_tokens": 181,
+     "tool_delay_ns": 23512701
+    },
+    {
+     "index": 1,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 358,
+     "output_tokens": 183,
+     "tool_delay_ns": 69376396
+    },
+    {
+     "index": 2,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 390,
+     "output_tokens": 181,
+     "tool_delay_ns": 34755987
+    },
+    {
+     "index": 3,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 358,
+     "output_tokens": 206,
+     "tool_delay_ns": 46727514
+    },
+    {
+     "index": 4,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 342,
+     "output_tokens": 220,
+     "tool_delay_ns": 54536914
+    },
+    {
+     "index": 5,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 433,
+     "output_tokens": 193,
+     "tool_delay_ns": 57384073
+    },
+    {
+     "index": 6,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 371,
+     "output_tokens": 200,
+     "tool_delay_ns": 75130071
+    },
+    {
+     "index": 7,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 434,
+     "output_tokens": 205,
+     "tool_delay_ns": 45814359
+    },
+    {
+     "index": 8,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 330,
+     "output_tokens": 222,
+     "tool_delay_ns": 43485290
+    },
+    {
+     "index": 9,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 366,
+     "output_tokens": 147,
+     "tool_delay_ns": 22047708
+    },
+    {
+     "index": 10,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 367,
+     "output_tokens": 235,
+     "tool_delay_ns": 64434546
+    },
+    {
+     "index": 11,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 403,
+     "output_tokens": 206,
+     "tool_delay_ns": 36372389
+    }
+   ]
+  },
+  {
+   "program_id": "p00008",
+   "class": "bfcl",
+   "arrival_ns": 1357439559,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 1500,
+   "total_output_tokens": 791,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 323,
+     "output_tokens": 186,
+     "tool_delay_ns": 287253590
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 305,
+     "output_tokens": 185,
+     "tool_delay_ns": 194249789
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 290,
+     "output_tokens": 118,
+     "tool_delay_ns": 216489450
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 290,
+     "output_tokens": 182,
+     "tool_delay_ns": 337613421
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 292,
+     "output_tokens": 120,
+     "tool_delay_ns": 232242496
+    }
+   ]
+  },
+  {
+   "program_id": "p00005",
+   "class": "sharegpt",
+   "arrival_ns": 1564862822,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 980,
+   "total_output_tokens": 831,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 511,
+     "output_tokens": 449,
+     "tool_delay_ns": 68202921
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 469,
+     "output_tokens": 382,
+     "tool_delay_ns": 131587349
+    }
+   ]
+  },
+  {
+   "program_id": "p00009",
+   "class": "bfcl",
+   "arrival_ns": 1907393428,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 1635,
+   "total_output_tokens": 870,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 324,
+     "output_tokens": 173,
+     "tool_delay_ns": 163265588
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 312,
+     "output_tokens": 180,
+     "tool_delay_ns": 211173131
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 304,
+     "output_tokens": 179,
+     "tool_delay_ns": 303438986
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 357,
+     "output_tokens": 164,
+     "tool_delay_ns": 203155551
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 338,
+     "output_tokens": 174,
+     "tool_delay_ns": 259878037
+    }
+   ]
+  },
+  {
+   "program_id": "p00022",
+   "class": "lats",
+   "arrival_ns": 2197359930,
+   "waves": 4,
+   "width": 3,
+   "total_prompt_tokens": 4643,
+   "total_output_tokens": 2425,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 420,
+     "output_tokens": 216,
+     "tool_delay_ns": 61580262
+    },
+    {
+     "index": 1,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 335,
+     "output_tokens": 212,
+     "tool_delay_ns": 66300371
+    },
+    {
+     "index": 2,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 394,
+     "output_tokens": 234,
+     "tool_delay_ns": 76817048
+    },
+    {
+     "index": 3,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 395,
+     "output_tokens": 230,
+     "tool_delay_ns": 28627285
+    },
+    {
+     "index": 4,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 357,
+     "output_tokens": 192,
+     "tool_delay_ns": 51360602
+    },
+    {
+     "index": 5,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 431,
+     "output_tokens": 202,
+     "tool_delay_ns": 57278589
+    },
+    {
+     "index": 6,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 393,
+     "output_tokens": 232,
+     "tool_delay_ns": 44025068
+    },
+    {
+     "index": 7,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 407,
+     "output_tokens": 199,
+     "tool_delay_ns": 44145804
+    },
+    {
+     "index": 8,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 361,
+     "output_tokens": 157,
+     "tool_delay_ns": 20654410
+    },
+    {
+     "index": 9,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 361,
+     "output_tokens": 171,
+     "tool_delay_ns": 24873249
+    },
+    {
+     "index": 10,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 378,
+     "output_tokens": 175,
+     "tool_delay_ns": 75560289
+    },
+    {
+     "index": 11,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 411,
+     "output_tokens": 205,
+     "tool_delay_ns": 70819327
+    }
+   ]
+  },
+  {
+   "program_id": "p00012",
+   "class": "bfcl",
+   "arrival_ns": 2333013396,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 1664,
+   "total_output_tokens": 821,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 339,
+     "output_tokens": 148,
+     "tool_delay_ns": 272252403
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 323,
+     "output_tokens": 154,
+     "tool_delay_ns": 231531673
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 300,
+     "output_tokens": 179,
+     "tool_delay_ns": 121597652
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 356,
+     "output_tokens": 177,
+     "tool_delay_ns": 224451621
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 346,
+     "output_tokens": 163,
+     "tool_delay_ns": 251268387
+    }
+   ]
+  },
+  {
+   "program_id": "p00014",
+   "class": "bfcl",
+   "arrival_ns": 2897964749,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 1528,
+   "total_output_tokens": 764,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 320,
+     "output_tokens": 120,
+     "tool_delay_ns": 215680709
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 283,
+     "output_tokens": 154,
+     "tool_delay_ns": 210533511
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 354,
+     "output_tokens": 131,
+     "tool_delay_ns": 312715503
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 295,
+     "output_tokens": 186,
+     "tool_delay_ns": 258544889
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 276,
+     "output_tokens": 173,
+     "tool_delay_ns": 168911645
+    }
+   ]
+  },
+  {
+   "program_id": "p00003",
+   "class": "sharegpt",
+   "arrival_ns": 2949470518,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 1126,
+   "total_output_tokens": 844,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 533,
+     "output_tokens": 453,
+     "tool_delay_ns": 112099145
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 593,
+     "output_tokens": 391,
+     "tool_delay_ns": 125978661
+    }
+   ]
+  },
+  {
+   "program_id": "p00000",
+   "class": "sharegpt",
+   "arrival_ns": 4240704080,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 1041,
+   "total_output_tokens": 953,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 586,
+     "output_tokens": 514,
+     "tool_delay_ns": 139243334
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 455,
+     "output_tokens": 439,
+     "tool_delay_ns": 92374740
+    }
+   ]
+  },
+  {
+   "program_id": "p00016",
+   "class": "lats",
+   "arrival_ns": 4280734310,
+   "waves": 4,
+   "width": 3,
+   "total_prompt_tokens": 4684,
+   "total_output_tokens": 2333,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 338,
+     "output_tokens": 212,
+     "tool_delay_ns": 48132537
+    },
+    {
+     "index": 1,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 403,
+     "output_tokens": 196,
+     "tool_delay_ns": 66242423
+    },
+    {
+     "index": 2,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 416,
+     "output_tokens": 199,
+     "tool_delay_ns": 55483883
+    },
+    {
+     "index": 3,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 360,
+     "output_tokens": 155,
+     "tool_delay_ns": 25549345
+    },
+    {
+     "index": 4,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 420,
+     "output_tokens": 162,
+     "tool_delay_ns": 45593866
+    },
+    {
+     "index": 5,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 359,
+     "output_tokens": 201,
+     "tool_delay_ns": 52000783
+    },
+    {
+     "index": 6,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 420,
+     "output_tokens": 183,
+     "tool_delay_ns": 41714340
+    },
+    {
+     "index": 7,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 397,
+     "output_tokens": 213,
+     "tool_delay_ns": 75527902
+    },
+    {
+     "index": 8,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 358,
+     "output_tokens": 226,
+     "tool_delay_ns": 78886018
+    },
+    {
+     "index": 9,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 434,
+     "output_tokens": 154,
+     "tool_delay_ns": 42806702
+    },
+    {
+     "index": 10,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 411,
+     "output_tokens": 221,
+     "tool_delay_ns": 22370937
+    },
+    {
+     "index": 11,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 368,
+     "output_tokens": 211,
+     "tool_delay_ns": 65496740
+    }
+   ]
+  },
+  {
+   "program_id": "p00010",
+   "class": "bfcl",
+   "arrival_ns": 4334519333,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 1595,
+   "total_output_tokens": 748,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 300,
+     "output_tokens": 143,
+     "tool_delay_ns": 292916415
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 325,
+     "output_tokens": 153,
+     "tool_delay_ns": 306635233
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 282,
+     "output_tokens": 159,
+     "tool_delay_ns": 183125576
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 325,
+     "output_tokens": 175,
+     "tool_delay_ns": 162088055
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 363,
+     "output_tokens": 118,
+     "tool_delay_ns": 240505320
+    }
+   ]
+  },
+  {
+   "program_id": "p00004",
+   "class": "sharegpt",
+   "arrival_ns": 4724877583,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 986,
+   "total_output_tokens": 867,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 531,
+     "output_tokens": 453,
+     "tool_delay_ns": 81439111
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 455,
+     "output_tokens": 414,
+     "tool_delay_ns": 121791400
+    }
+   ]
+  },
+  {
+   "program_id": "p00015",
+   "class": "bfcl",
+   "arrival_ns": 4887983243,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 1621,
+   "total_output_tokens": 686,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 286,
+     "output_tokens": 175,
+     "tool_delay_ns": 122593498
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 342,
+     "output_tokens": 142,
+     "tool_delay_ns": 269860613
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 300,
+     "output_tokens": 118,
+     "tool_delay_ns": 328792484
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 334,
+     "output_tokens": 125,
+     "tool_delay_ns": 344047947
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 359,
+     "output_tokens": 126,
+     "tool_delay_ns": 104774976
+    }
+   ]
+  },
+  {
+   "program_id": "p00023",
+   "class": "lats",
+   "arrival_ns": 5359792313,
+   "waves": 4,
+   "width": 3,
+   "total_prompt_tokens": 4681,
+   "total_output_tokens": 2132,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 336,
+     "output_tokens": 200,
+     "tool_delay_ns": 33648530
+    },
+    {
+     "index": 1,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 435,
+     "output_tokens": 182,
+     "tool_delay_ns": 73167400
+    },
+    {
+     "index": 2,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 351,
+     "output_tokens": 151,
+     "tool_delay_ns": 57620023
+    },
+    {
+     "index": 3,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 401,
+     "output_tokens": 166,
+     "tool_delay_ns": 75608077
+    },
+    {
+     "index": 4,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 433,
+     "output_tokens": 207,
+     "tool_delay_ns": 78880441
+    },
+    {
+     "index": 5,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 435,
+     "output_tokens": 156,
+     "tool_delay_ns": 63821547
+    },
+    {
+     "index": 6,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 408,
+     "output_tokens": 212,
+     "tool_delay_ns": 40372736
+    },
+    {
+     "index": 7,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 384,
+     "output_tokens": 198,
+     "tool_delay_ns": 70997269
+    },
+    {
+     "index": 8,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 328,
+     "output_tokens": 178,
+     "tool_delay_ns": 38892328
+    },
+    {
+     "index": 9,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 413,
+     "output_tokens": 153,
+     "tool_delay_ns": 23701389
+    },
+    {
+     "index": 10,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 336,
+     "output_tokens": 153,
+     "tool_delay_ns": 46111281
+    },
+    {
+     "index": 11,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 421,
+     "output_tokens": 176,
+     "tool_delay_ns": 26068889
+    }
+   ]
+  },
+  {
+   "program_id": "p00006",
+   "class": "bfcl",
+   "arrival_ns": 5657147633,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 1480,
+   "total_output_tokens": 704,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 282,
+     "output_tokens": 119,
+     "tool_delay_ns": 109733292
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 298,
+     "output_tokens": 155,
+     "tool_delay_ns": 305165795
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 303,
+     "output_tokens": 140,
+     "tool_delay_ns": 172121081
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 301,
+     "output_tokens": 170,
+     "tool_delay_ns": 237248367
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 296,
+     "output_tokens": 120,
+     "tool_delay_ns": 295952266
+    }
+   ]
+  },
+  {
+   "program_id": "p00020",
+   "class": "lats",
+   "arrival_ns": 6146180678,
+   "waves": 4,
+   "width": 3,
+   "total_prompt_tokens": 4571,
+   "total_output_tokens": 2394,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 370,
+     "output_tokens": 223,
+     "tool_delay_ns": 24908361
+    },
+    {
+     "index": 1,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 360,
+     "output_tokens": 206,
+     "tool_delay_ns": 56716880
+    },
+    {
+     "index": 2,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 417,
+     "output_tokens": 162,
+     "tool_delay_ns": 68251531
+    },
+    {
+     "index": 3,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 413,
+     "output_tokens": 156,
+     "tool_delay_ns": 28389765
+    },
+    {
+     "index": 4,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 389,
+     "output_tokens": 235,
+     "tool_delay_ns": 56823878
+    },
+    {
+     "index": 5,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 371,
+     "output_tokens": 190,
+     "tool_delay_ns": 68573028
+    },
+    {
+     "index": 6,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 382,
+     "output_tokens": 193,
+     "tool_delay_ns": 55597065
+    },
+    {
+     "index": 7,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 429,
+     "output_tokens": 218,
+     "tool_delay_ns": 70348881
+    },
+    {
+     "index": 8,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 353,
+     "output_tokens": 199,
+     "tool_delay_ns": 69385161
+    },
+    {
+     "index": 9,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 404,
+     "output_tokens": 232,
+     "tool_delay_ns": 74912664
+    },
+    {
+     "index": 10,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 337,
+     "output_tokens": 190,
+     "tool_delay_ns": 41465692
+    },
+    {
+     "index": 11,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 346,
+     "output_tokens": 190,
+     "tool_delay_ns": 79015987
+    }
+   ]
+  },
+  {
+   "program_id": "p00002",
+   "class": "sharegpt",
+   "arrival_ns": 6264818849,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 1108,
+   "total_output_tokens": 793,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 552,
+     "output_tokens": 403,
+     "tool_delay_ns": 101263392
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 556,
+     "output_tokens": 390,
+     "tool_delay_ns": 55755452
+    }
+   ]
+  },
+  {
+   "program_id": "p00013",
+   "class": "bfcl",
+   "arrival_ns": 6818165012,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 1583,
+   "total_output_tokens": 708,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 302,
+     "output_tokens": 138,
+     "tool_delay_ns": 175542938
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 364,
+     "output_tokens": 138,
+     "tool_delay_ns": 196887555
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 312,
+     "output_tokens": 173,
+     "tool_delay_ns": 219439698
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 325,
+     "output_tokens": 131,
+     "tool_delay_ns": 169517475
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 280,
+     "output_tokens": 128,
+     "tool_delay_ns": 165972037
+    }
+   ]
+  },
+  {
+   "program_id": "p00019",
+   "class": "lats",
+   "arrival_ns": 7232279656,
+   "waves": 4,
+   "width": 3,
+   "total_prompt_tokens": 4650,
+   "total_output_tokens": 2183,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 417,
+     "output_tokens": 150,
+     "tool_delay_ns": 24877556
+    },
+    {
+     "index": 1,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 413,
+     "output_tokens": 210,
+     "tool_delay_ns": 77431231
+    },
+    {
+     "index": 2,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 395,
+     "output_tokens": 191,
+     "tool_delay_ns": 36324111
+    },
+    {
+     "index": 3,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 388,
+     "output_tokens": 236,
+     "tool_delay_ns": 58799933
+    },
+    {
+     "index": 4,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 422,
+     "output_tokens": 161,
+     "tool_delay_ns": 64098004
+    },
+    {
+     "index": 5,
+     "wave": 1,
+     "parents": [
+      0,
+      1,
+      2
+     ],
+     "prompt_tokens": 406,
+     "output_tokens": 149,
+     "tool_delay_ns": 69211966
+    },
+    {
+     "index": 6,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 343,
+     "output_tokens": 163,
+     "tool_delay_ns": 23672746
+    },
+    {
+     "index": 7,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 398,
+     "output_tokens": 156,
+     "tool_delay_ns": 78541872
+    },
+    {
+     "index": 8,
+     "wave": 2,
+     "parents": [
+      3,
+      4,
+      5
+     ],
+     "prompt_tokens": 323,
+     "output_tokens": 219,
+     "tool_delay_ns": 65550049
+    },
+    {
+     "index": 9,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 387,
+     "output_tokens": 196,
+     "tool_delay_ns": 67878695
+    },
+    {
+     "index": 10,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 395,
+     "output_tokens": 155,
+     "tool_delay_ns": 67810782
+    },
+    {
+     "index": 11,
+     "wave": 3,
+     "parents": [
+      6,
+      7,
+      8
+     ],
+     "prompt_tokens": 363,
+     "output_tokens": 197,
+     "tool_delay_ns": 50746079
+    }
+   ]
+  },
+  {
+   "program_id": "p00007",
+   "class": "bfcl",
+   "arrival_ns": 7590624931,
+   "waves": 5,
+   "width": 1,
+   "total_prompt_tokens": 1647,
+   "total_output_tokens": 770,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 351,
+     "output_tokens": 130,
+     "tool_delay_ns": 236369755
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 360,
+     "output_tokens": 156,
+     "tool_delay_ns": 336366611
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 288,
+     "output_tokens": 185,
+     "tool_delay_ns": 113979952
+    },
+    {
+     "index": 3,
+     "wave": 3,
+     "parents": [
+      2
+     ],
+     "prompt_tokens": 311,
+     "output_tokens": 114,
+     "tool_delay_ns": 302390816
+    },
+    {
+     "index": 4,
+     "wave": 4,
+     "parents": [
+      3
+     ],
+     "prompt_tokens": 337,
+     "output_tokens": 185,
+     "tool_delay_ns": 301240933
+    }
+   ]
+  }
+ ]
+}

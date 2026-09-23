@@ -1,0 +1,42 @@
+{
+ "replication_target": {
+  "primary": "PipeBoost (arXiv 2503.17707, 2025-03) — RTX 40 系 GPU 原生实验,Mistral-7B/Falcon-7B,对比 ServerlessLLM;忠实复刻",
+  "secondary": "Aegaeon (SOSP 2025) — 单 GPU 至多 7 模型场景形态;内部 trace 不可得,到达模式声明替代",
+  "excluded": {
+   "ServerlessLLM": "2024,按年限出局(降为 PipeBoost 的对比对象)",
+   "C2CServe": "GH200 专属"
+  }
+ },
+ "purpose": "在 baseline 自己的场景上应用 profile+trace v3,普查其未挖掘的优化机会",
+ "models": {
+  "paper": "OPT-6.7B/13B/30B, LLaMA-2-7B/13B, Falcon",
+  "ours": [
+   "facebook/opt-6.7b(下载中)",
+   "tiiuae/falcon-7b(下载中)",
+   "Qwen/Qwen2.5-7B-Instruct(下载中)",
+   "Mistral-7B(镜像,排队)",
+   "Llama-3.1-8B(已有)"
+  ],
+  "substitution_note": "13B/30B 单卡 24G 放不下推理;LLaMA-2 门控。以 4 个 7B 级模型构成多模型集(权重合计 ~59GB >> 24GB,交换压力成立),声明替代"
+ },
+ "workload": {
+  "paper": "Azure Serverless Trace 派生,函数→模型映射,RPS 0.2-1.4,突发到达;prompts 用 GSM8K + ShareGPT",
+  "ours": "同映射方法;trace 获取失败则按论文 RPS 参数化重建(声明);prompts 用 ShareGPT + GSM8K(真实 prompt → 精度评测可用)"
+ },
+ "hardware": {
+  "paper": "8xA5000 + 1TB DDR4 + NVMe(单机测边);PCIe 层级",
+  "ours": "1x RTX 4090 + host DDR + NVMe,同层级结构降尺度(声明)"
+ },
+ "mechanism_proxy": "vLLM Sleep Mode L1/L2 + 引擎级驻留管理(baseline 反应式唤醒)",
+ "metrics": [
+  "model loading latency",
+  "TTFT",
+  "P99 latency",
+  "PCIe/存储带宽利用",
+  "GPU 利用率"
+ ],
+ "out_of_scope": {
+  "C2CServe": "GH200 NVLink-C2C 专属 + 内部 trace,不可复现,调研锚"
+ },
+ "pending_deep_read": "PipeBoost/Aegaeon 实验章节深读(负载参数/指标/机制细节)"
+}

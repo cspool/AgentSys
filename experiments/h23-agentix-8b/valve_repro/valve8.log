@@ -1,0 +1,2 @@
+controller: 7 preemptions
+arm=channel done {"cool_s": 0.074, "offline_serving_at": 1790000040.3195393, "online_serving_at": 1790000060.141269, "online_done_at": 1790000201.790491}

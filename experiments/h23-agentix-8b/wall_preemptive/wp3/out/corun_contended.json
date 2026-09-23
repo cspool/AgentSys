@@ -1,0 +1,8 @@
+{
+ "tag": "contended",
+ "secs": 15.0,
+ "gemms": 412250,
+ "rate_per_s": 27482.64,
+ "tflops": 118.037,
+ "sm_count": 128
+}

@@ -1,0 +1,15 @@
+=== v2 dram control ===
+calibrated reps=8 kernel=531ms
+dram: n=28148 med=1.6ms min=1.6 max=1.8
+=== v2 dram disturbed(K=40) ===
+calibrated reps=8 kernel=509ms
+disturber: 40 bursts, burst_ms_med=1.00
+dram: n=28218 med=1.6ms min=1.6 max=1.9
+=== v2 sm control ===
+calibrated reps=8 kernel=526ms
+sm: n=1157763 med=0.0ms min=0.0 max=1.8
+=== v2 sm disturbed(K=40) ===
+calibrated reps=8 kernel=668ms
+disturber: 40 bursts, burst_ms_med=0.63
+sm: n=1012041 med=0.0ms min=0.0 max=0.9
+=== v2 矩阵完成 ===

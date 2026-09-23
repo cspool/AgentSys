@@ -1,0 +1,26 @@
+An instance of this daemon is already running
+MODE=mps K=300 period=1.5 cycles=1700 pattern=w,s prefix=S12 reps=1485188
+=== S12 ctrl ===
+  w: n=1700 med=161.6ms
+  s: n=1700 med=166.0ms
+makespan=558.5s
+=== S12 valve ===
+disturber4: fired=300 busy_med=27.2ms
+valve: K=300 落墙态=139 强发=0 平均延迟=2ms
+  w: n=1700 med=160.9ms
+  s: n=1700 med=166.3ms
+makespan=559.1s
+=== S12 wall_aware ===
+wall_aware: K=300 落墙态=298 强发=2 平均延迟=42ms
+disturber4: fired=300 busy_med=15.8ms
+  w: n=1700 med=161.6ms
+  s: n=1700 med=166.1ms
+makespan=558.6s
+=== S12 random_defer ===
+random_defer: K=300 落墙态=150 强发=0 平均延迟=44ms
+disturber4: fired=300 busy_med=23.9ms
+  w: n=1700 med=160.9ms
+  s: n=1700 med=166.2ms
+makespan=558.3s
+=== S12 完成 ===
+=== 严格长跑完成 ===

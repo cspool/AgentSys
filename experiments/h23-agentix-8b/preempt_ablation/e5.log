@@ -1,0 +1,53 @@
+=== MPS xwall(inner=60)ctrl ===
+inner=60 reps=148 kernel=164.1ms | 算力 16%  DRAM 86%
+n=600 med=160.85ms
+=== MPS xwall W=4 ===
+inner=60 reps=148 kernel=163.7ms | 算力 16%  DRAM 86%
+W=4.0ms reps=536443 solo=5.563ms
+contended burst med=5.66ms (solo 5.56)
+n=600 med=160.83ms
+=== MPS xwall W=12 ===
+W=12.0ms reps=1485188 solo=12.076ms
+inner=60 reps=148 kernel=164.8ms | 算力 16%  DRAM 86%
+contended burst med=15.35ms (solo 12.08)
+n=600 med=160.65ms
+=== MPS memwall(inner=120)ctrl ===
+inner=120 reps=147 kernel=164.3ms | 算力 31%  DRAM 85%
+n=600 med=160.54ms
+=== MPS memwall W=4 ===
+inner=120 reps=147 kernel=163.4ms | 算力 31%  DRAM 86%
+W=4.0ms reps=536443 solo=7.555ms
+contended burst med=7.86ms (solo 7.56)
+n=600 med=160.58ms
+=== MPS memwall W=12 ===
+inner=120 reps=147 kernel=163.3ms | 算力 31%  DRAM 86%
+W=12.0ms reps=1485188 solo=20.962ms
+contended burst med=21.20ms (solo 20.96)
+n=600 med=160.63ms
+=== MPS saturated(inner=290)ctrl ===
+inner=290 reps=145 kernel=166.1ms | 算力 74%  DRAM 83%
+n=600 med=170.73ms
+=== MPS saturated W=4 ===
+W=4.0ms reps=536443 solo=4.419ms
+inner=290 reps=145 kernel=165.8ms | 算力 74%  DRAM 83%
+contended burst med=64.00ms (solo 4.42)
+n=600 med=170.81ms
+=== MPS saturated W=12 ===
+W=12.0ms reps=1485188 solo=18.633ms
+inner=290 reps=145 kernel=167.9ms | 算力 73%  DRAM 82%
+contended burst med=79.85ms (solo 18.63)
+n=600 med=170.79ms
+=== MPS computewall(inner=600)ctrl ===
+inner=600 reps=73 kernel=161.9ms | 算力 79%  DRAM 43%
+n=600 med=164.77ms
+=== MPS computewall W=4 ===
+W=4.0ms reps=536443 solo=16.114ms
+inner=600 reps=73 kernel=164.2ms | 算力 78%  DRAM 42%
+contended burst med=62.86ms (solo 16.11)
+n=600 med=164.79ms
+=== MPS computewall W=12 ===
+W=12.0ms reps=1485188 solo=12.079ms
+inner=600 reps=73 kernel=162.2ms | 算力 78%  DRAM 43%
+contended burst med=83.08ms (solo 12.08)
+n=600 med=165.18ms
+=== E5(MPS)完成 ===

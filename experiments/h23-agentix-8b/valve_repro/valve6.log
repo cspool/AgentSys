@@ -1,0 +1,12 @@
+=== on_solo ===
+G=97.0ms T_cool=194.0ms n=536
+arm=on_solo done {"cool_s": 0.074}
+=== off_solo ===
+arm=off_solo done {"cool_s": 0.074}
+=== naive ===
+online 未进入服务
+=== channel ===
+online 未进入服务
+=== iter ===
+online 未进入服务
+=== Valve v4 完成 ===

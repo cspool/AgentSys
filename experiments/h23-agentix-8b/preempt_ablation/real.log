@@ -1,0 +1,13 @@
+=== decode_wall ctrl(带 dmon 资源画像)===
+=== decode_wall disturbed(K=60 等量 burst)===
+W=12.0ms reps=1485188 solo=12.028ms
+contended burst med=12.17ms (solo 12.03)
+=== prefill_wall ctrl(带 dmon 资源画像)===
+=== prefill_wall disturbed(K=60 等量 burst)===
+W=12.0ms reps=1485188 solo=12.029ms
+contended burst med=12.08ms (solo 12.03)
+=== mixed_sat ctrl(带 dmon 资源画像)===
+=== mixed_sat disturbed(K=60 等量 burst)===
+W=12.0ms reps=1485188 solo=12.027ms
+contended burst med=12.09ms (solo 12.03)
+=== 真实负载三态完成 ===

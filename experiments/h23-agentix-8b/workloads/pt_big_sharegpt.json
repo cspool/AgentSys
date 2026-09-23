@@ -1,0 +1,947 @@
+{
+ "config": {
+  "workload_class": "sharegpt_preempt",
+  "arrival_rate_programs_per_s": 3.0,
+  "seed": 23,
+  "max_num_seqs": 16,
+  "note": "calls traverse the full quantum ladder; arrivals dense"
+ },
+ "programs": [
+  {
+   "program_id": "p00000",
+   "class": "sharegpt",
+   "arrival_ns": 0,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1504,
+   "total_output_tokens": 1302,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 563,
+     "output_tokens": 533,
+     "tool_delay_ns": 228486668
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 437,
+     "output_tokens": 443,
+     "tool_delay_ns": 134749481
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 504,
+     "output_tokens": 326,
+     "tool_delay_ns": 88399431
+    }
+   ]
+  },
+  {
+   "program_id": "p00001",
+   "class": "sharegpt",
+   "arrival_ns": 333333333,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1407,
+   "total_output_tokens": 1087,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 491,
+     "output_tokens": 349,
+     "tool_delay_ns": 141006591
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 428,
+     "output_tokens": 315,
+     "tool_delay_ns": 192001640
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 488,
+     "output_tokens": 423,
+     "tool_delay_ns": 196841815
+    }
+   ]
+  },
+  {
+   "program_id": "p00002",
+   "class": "sharegpt",
+   "arrival_ns": 666666666,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1561,
+   "total_output_tokens": 1152,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 478,
+     "output_tokens": 308,
+     "tool_delay_ns": 206620471
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 513,
+     "output_tokens": 459,
+     "tool_delay_ns": 174198291
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 570,
+     "output_tokens": 385,
+     "tool_delay_ns": 201957322
+    }
+   ]
+  },
+  {
+   "program_id": "p00003",
+   "class": "sharegpt",
+   "arrival_ns": 1000000000,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1484,
+   "total_output_tokens": 1195,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 480,
+     "output_tokens": 438,
+     "tool_delay_ns": 182106421
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 472,
+     "output_tokens": 315,
+     "tool_delay_ns": 144813284
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 532,
+     "output_tokens": 442,
+     "tool_delay_ns": 139490311
+    }
+   ]
+  },
+  {
+   "program_id": "p00004",
+   "class": "sharegpt",
+   "arrival_ns": 1333333333,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1436,
+   "total_output_tokens": 1156,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 521,
+     "output_tokens": 339,
+     "tool_delay_ns": 85707990
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 473,
+     "output_tokens": 499,
+     "tool_delay_ns": 89121570
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 442,
+     "output_tokens": 318,
+     "tool_delay_ns": 57786633
+    }
+   ]
+  },
+  {
+   "program_id": "p00005",
+   "class": "sharegpt",
+   "arrival_ns": 1666666666,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1410,
+   "total_output_tokens": 1314,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 466,
+     "output_tokens": 438,
+     "tool_delay_ns": 214132636
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 474,
+     "output_tokens": 387,
+     "tool_delay_ns": 107696864
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 470,
+     "output_tokens": 489,
+     "tool_delay_ns": 159798693
+    }
+   ]
+  },
+  {
+   "program_id": "p00006",
+   "class": "sharegpt",
+   "arrival_ns": 2000000000,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1500,
+   "total_output_tokens": 1347,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 463,
+     "output_tokens": 320,
+     "tool_delay_ns": 206761813
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 531,
+     "output_tokens": 502,
+     "tool_delay_ns": 97605279
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 506,
+     "output_tokens": 525,
+     "tool_delay_ns": 168539147
+    }
+   ]
+  },
+  {
+   "program_id": "p00007",
+   "class": "sharegpt",
+   "arrival_ns": 2333333333,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1545,
+   "total_output_tokens": 1201,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 566,
+     "output_tokens": 336,
+     "tool_delay_ns": 245001293
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 433,
+     "output_tokens": 398,
+     "tool_delay_ns": 54672560
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 546,
+     "output_tokens": 467,
+     "tool_delay_ns": 244747129
+    }
+   ]
+  },
+  {
+   "program_id": "p00008",
+   "class": "sharegpt",
+   "arrival_ns": 2666666666,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1689,
+   "total_output_tokens": 1404,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 545,
+     "output_tokens": 533,
+     "tool_delay_ns": 157719224
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 573,
+     "output_tokens": 482,
+     "tool_delay_ns": 119228510
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 571,
+     "output_tokens": 389,
+     "tool_delay_ns": 88662777
+    }
+   ]
+  },
+  {
+   "program_id": "p00009",
+   "class": "sharegpt",
+   "arrival_ns": 3000000000,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1441,
+   "total_output_tokens": 1371,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 436,
+     "output_tokens": 411,
+     "tool_delay_ns": 89328981
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 565,
+     "output_tokens": 533,
+     "tool_delay_ns": 93190221
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 440,
+     "output_tokens": 427,
+     "tool_delay_ns": 83935988
+    }
+   ]
+  },
+  {
+   "program_id": "p00010",
+   "class": "sharegpt",
+   "arrival_ns": 3333333333,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1470,
+   "total_output_tokens": 1537,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 506,
+     "output_tokens": 498,
+     "tool_delay_ns": 100612470
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 488,
+     "output_tokens": 521,
+     "tool_delay_ns": 138938505
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 476,
+     "output_tokens": 518,
+     "tool_delay_ns": 212751189
+    }
+   ]
+  },
+  {
+   "program_id": "p00011",
+   "class": "sharegpt",
+   "arrival_ns": 3666666666,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1547,
+   "total_output_tokens": 1338,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 559,
+     "output_tokens": 467,
+     "tool_delay_ns": 132524441
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 528,
+     "output_tokens": 503,
+     "tool_delay_ns": 177902429
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 460,
+     "output_tokens": 368,
+     "tool_delay_ns": 131923282
+    }
+   ]
+  },
+  {
+   "program_id": "p00012",
+   "class": "sharegpt",
+   "arrival_ns": 4000000000,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1562,
+   "total_output_tokens": 1189,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 540,
+     "output_tokens": 434,
+     "tool_delay_ns": 159987498
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 548,
+     "output_tokens": 321,
+     "tool_delay_ns": 176247708
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 474,
+     "output_tokens": 434,
+     "tool_delay_ns": 217069893
+    }
+   ]
+  },
+  {
+   "program_id": "p00013",
+   "class": "sharegpt",
+   "arrival_ns": 4333333333,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1480,
+   "total_output_tokens": 1375,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 462,
+     "output_tokens": 533,
+     "tool_delay_ns": 65715079
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 509,
+     "output_tokens": 430,
+     "tool_delay_ns": 97016118
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 509,
+     "output_tokens": 412,
+     "tool_delay_ns": 139918990
+    }
+   ]
+  },
+  {
+   "program_id": "p00014",
+   "class": "sharegpt",
+   "arrival_ns": 4666666666,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1529,
+   "total_output_tokens": 1088,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 532,
+     "output_tokens": 294,
+     "tool_delay_ns": 125435368
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 542,
+     "output_tokens": 329,
+     "tool_delay_ns": 223478153
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 455,
+     "output_tokens": 465,
+     "tool_delay_ns": 84633086
+    }
+   ]
+  },
+  {
+   "program_id": "p00015",
+   "class": "sharegpt",
+   "arrival_ns": 5000000000,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1526,
+   "total_output_tokens": 1249,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 492,
+     "output_tokens": 400,
+     "tool_delay_ns": 66359945
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 529,
+     "output_tokens": 415,
+     "tool_delay_ns": 187801922
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 505,
+     "output_tokens": 434,
+     "tool_delay_ns": 155225338
+    }
+   ]
+  },
+  {
+   "program_id": "p00016",
+   "class": "sharegpt",
+   "arrival_ns": 5333333333,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1566,
+   "total_output_tokens": 1494,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 469,
+     "output_tokens": 520,
+     "tool_delay_ns": 67278121
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 556,
+     "output_tokens": 511,
+     "tool_delay_ns": 149561296
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 541,
+     "output_tokens": 463,
+     "tool_delay_ns": 171014710
+    }
+   ]
+  },
+  {
+   "program_id": "p00017",
+   "class": "sharegpt",
+   "arrival_ns": 5666666666,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1421,
+   "total_output_tokens": 1308,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 468,
+     "output_tokens": 374,
+     "tool_delay_ns": 119876034
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 470,
+     "output_tokens": 535,
+     "tool_delay_ns": 118255394
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 483,
+     "output_tokens": 399,
+     "tool_delay_ns": 213298785
+    }
+   ]
+  },
+  {
+   "program_id": "p00018",
+   "class": "sharegpt",
+   "arrival_ns": 6000000000,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1426,
+   "total_output_tokens": 1257,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 496,
+     "output_tokens": 433,
+     "tool_delay_ns": 101096395
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 466,
+     "output_tokens": 316,
+     "tool_delay_ns": 93451735
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 464,
+     "output_tokens": 508,
+     "tool_delay_ns": 150493980
+    }
+   ]
+  },
+  {
+   "program_id": "p00019",
+   "class": "sharegpt",
+   "arrival_ns": 6333333333,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1413,
+   "total_output_tokens": 1323,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 441,
+     "output_tokens": 410,
+     "tool_delay_ns": 74185866
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 509,
+     "output_tokens": 405,
+     "tool_delay_ns": 221656876
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 463,
+     "output_tokens": 508,
+     "tool_delay_ns": 99520516
+    }
+   ]
+  },
+  {
+   "program_id": "p00020",
+   "class": "sharegpt",
+   "arrival_ns": 6666666666,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1564,
+   "total_output_tokens": 1321,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 572,
+     "output_tokens": 453,
+     "tool_delay_ns": 58535925
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 546,
+     "output_tokens": 363,
+     "tool_delay_ns": 122449118
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 446,
+     "output_tokens": 505,
+     "tool_delay_ns": 68074798
+    }
+   ]
+  },
+  {
+   "program_id": "p00021",
+   "class": "sharegpt",
+   "arrival_ns": 7000000000,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1526,
+   "total_output_tokens": 1042,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 535,
+     "output_tokens": 393,
+     "tool_delay_ns": 185888490
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 468,
+     "output_tokens": 313,
+     "tool_delay_ns": 233033987
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 523,
+     "output_tokens": 336,
+     "tool_delay_ns": 245238357
+    }
+   ]
+  },
+  {
+   "program_id": "p00022",
+   "class": "sharegpt",
+   "arrival_ns": 7333333333,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1572,
+   "total_output_tokens": 1141,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 561,
+     "output_tokens": 340,
+     "tool_delay_ns": 53819981
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 516,
+     "output_tokens": 329,
+     "tool_delay_ns": 196378009
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 495,
+     "output_tokens": 472,
+     "tool_delay_ns": 163958276
+    }
+   ]
+  },
+  {
+   "program_id": "p00023",
+   "class": "sharegpt",
+   "arrival_ns": 7666666666,
+   "waves": 3,
+   "width": 1,
+   "total_prompt_tokens": 1491,
+   "total_output_tokens": 1386,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 540,
+     "output_tokens": 501,
+     "tool_delay_ns": 170580705
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 513,
+     "output_tokens": 376,
+     "tool_delay_ns": 76818004
+    },
+    {
+     "index": 2,
+     "wave": 2,
+     "parents": [
+      1
+     ],
+     "prompt_tokens": 438,
+     "output_tokens": 509,
+     "tool_delay_ns": 91217912
+    }
+   ]
+  }
+ ]
+}

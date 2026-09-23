@@ -1,0 +1,42 @@
+{
+ "config": {
+  "workload_class": "ctrl_conc16_same_input_probe",
+  "arrival_rate_programs_per_s": 0.0,
+  "seed": 23,
+  "max_num_seqs": 16,
+  "quanta_tokens": [
+   32,
+   64,
+   128,
+   256
+  ],
+  "mlfq_bounds_s": [
+   0,
+   2,
+   8,
+   32
+  ],
+  "note": "SAME_INPUT R01 denominator probe: one call, 32 new tokens, class-mean prompt; bounded so the kernel table is complete"
+ },
+ "programs": [
+  {
+   "program_id": "p_probe",
+   "class": "ctrl_conc16",
+   "arrival_ns": 0,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 350,
+   "total_output_tokens": 32,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 350,
+     "output_tokens": 32,
+     "tool_delay_ns": 0
+    }
+   ]
+  }
+ ]
+}

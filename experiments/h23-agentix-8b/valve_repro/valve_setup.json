@@ -1,0 +1,36 @@
+{
+ "paper": "Valve (arXiv 2604.07874, PKU/Tencent 2026)",
+ "models": {
+  "paper": "7B online + 7B offline(对称对)",
+  "ours": "Qwen3-1.7B + Qwen3-1.7B(对称缩配 ~4x,单 4090)",
+  "source": "user 授权缩模型适配 4090"
+ },
+ "compute_preemption": {
+  "paper": "KMD ioctl channel disable(驱动一行改),<1ms",
+  "ours": "SIGSTOP/SIGCONT 离线引擎进程(声明代理:停发射+在飞排空)"
+ },
+ "t_cool": {
+  "paper": "§4.2: 2x 最大 decode 迭代间隙(运行时实测)",
+  "ours": "同规则:在线臂 solo 跑实测 decode gap 分布后取 2x max"
+ },
+ "compute_baselines": {
+  "KernelPreempt": "kernel/迭代边界切换(TGS 式)→ 我层代理:离线引擎步间门控",
+  "GPreempt": "长短时间片 → MPS active-thread% 或调度周期代理(声明)",
+  "Channel": "本文方案 = 忙即停+冷却(SIGSTOP 代理)"
+ },
+ "memory_baselines": {
+  "paper": "UVM / Prism(VMM 共享)/ StaticMem(过去一小时最小空闲)",
+  "ours": "第二阶段:StaticMem 可直接照抄(gpu-frac 静态划分);UVM/VMM 声明降级"
+ },
+ "workloads": {
+  "paper": "生产 10 对,未披露分布;在线突发(Fig.2-3 CV),离线周期大批",
+  "ours": "按定性重建+声明:在线=开关突发(burst on/off),离线=周期大批提交;参数为我方选择并写入 manifest"
+ },
+ "metrics": "TTFT/TPOT 相对 standalone 的增幅分布;离线吞吐相对 no-preemption 归一",
+ "undisclosed_declared": [
+  "到达率/长度分布",
+  "批大小",
+  "10 对负载类型",
+  "运行时长"
+ ]
+}

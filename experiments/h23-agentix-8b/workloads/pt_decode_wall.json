@@ -1,0 +1,772 @@
+{
+ "config": {
+  "workload_class": "pt_decode_wall",
+  "call_dag": true,
+  "seed": 3301,
+  "max_num_seqs": 16,
+  "note": "short prompts + long generations -> sustained large-batch decode (weight streaming, VRAM-BW wall, SM idle)",
+  "arrival_rate_programs_per_s": 1.0
+ },
+ "programs": [
+  {
+   "program_id": "d000",
+   "class": "decode_wall",
+   "arrival_ns": 869643156,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 113,
+   "total_output_tokens": 1149,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 113,
+     "output_tokens": 1149,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d001",
+   "class": "decode_wall",
+   "arrival_ns": 1721511984,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 129,
+   "total_output_tokens": 1120,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 129,
+     "output_tokens": 1120,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d002",
+   "class": "decode_wall",
+   "arrival_ns": 2361289589,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 130,
+   "total_output_tokens": 1205,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 130,
+     "output_tokens": 1205,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d003",
+   "class": "decode_wall",
+   "arrival_ns": 1577621574,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 155,
+   "total_output_tokens": 1116,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 155,
+     "output_tokens": 1116,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d004",
+   "class": "decode_wall",
+   "arrival_ns": 2937835295,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 139,
+   "total_output_tokens": 1175,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 139,
+     "output_tokens": 1175,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d005",
+   "class": "decode_wall",
+   "arrival_ns": 1974673919,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 133,
+   "total_output_tokens": 1218,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 133,
+     "output_tokens": 1218,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d006",
+   "class": "decode_wall",
+   "arrival_ns": 470716257,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 157,
+   "total_output_tokens": 1141,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 157,
+     "output_tokens": 1141,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d007",
+   "class": "decode_wall",
+   "arrival_ns": 3602636061,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 159,
+   "total_output_tokens": 1197,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 159,
+     "output_tokens": 1197,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d008",
+   "class": "decode_wall",
+   "arrival_ns": 894082745,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 160,
+   "total_output_tokens": 1205,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 160,
+     "output_tokens": 1205,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d009",
+   "class": "decode_wall",
+   "arrival_ns": 3481123936,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 116,
+   "total_output_tokens": 1112,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 116,
+     "output_tokens": 1112,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d010",
+   "class": "decode_wall",
+   "arrival_ns": 231250708,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 125,
+   "total_output_tokens": 1297,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 125,
+     "output_tokens": 1297,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d011",
+   "class": "decode_wall",
+   "arrival_ns": 2461813552,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 115,
+   "total_output_tokens": 1151,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 115,
+     "output_tokens": 1151,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d012",
+   "class": "decode_wall",
+   "arrival_ns": 2464778445,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 139,
+   "total_output_tokens": 1130,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 139,
+     "output_tokens": 1130,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d013",
+   "class": "decode_wall",
+   "arrival_ns": 2688957969,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 145,
+   "total_output_tokens": 1219,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 145,
+     "output_tokens": 1219,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d014",
+   "class": "decode_wall",
+   "arrival_ns": 2845085440,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 148,
+   "total_output_tokens": 1188,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 148,
+     "output_tokens": 1188,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d015",
+   "class": "decode_wall",
+   "arrival_ns": 1561174125,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 104,
+   "total_output_tokens": 1290,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 104,
+     "output_tokens": 1290,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d016",
+   "class": "decode_wall",
+   "arrival_ns": 3244208269,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 148,
+   "total_output_tokens": 1227,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 148,
+     "output_tokens": 1227,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d017",
+   "class": "decode_wall",
+   "arrival_ns": 2650543933,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 106,
+   "total_output_tokens": 1265,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 106,
+     "output_tokens": 1265,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d018",
+   "class": "decode_wall",
+   "arrival_ns": 2115964389,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 118,
+   "total_output_tokens": 1201,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 118,
+     "output_tokens": 1201,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d019",
+   "class": "decode_wall",
+   "arrival_ns": 2486133115,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 111,
+   "total_output_tokens": 1288,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 111,
+     "output_tokens": 1288,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d020",
+   "class": "decode_wall",
+   "arrival_ns": 2873747874,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 104,
+   "total_output_tokens": 1259,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 104,
+     "output_tokens": 1259,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d021",
+   "class": "decode_wall",
+   "arrival_ns": 2802904353,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 157,
+   "total_output_tokens": 1108,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 157,
+     "output_tokens": 1108,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d022",
+   "class": "decode_wall",
+   "arrival_ns": 3345522597,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 152,
+   "total_output_tokens": 1195,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 152,
+     "output_tokens": 1195,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d023",
+   "class": "decode_wall",
+   "arrival_ns": 584204783,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 117,
+   "total_output_tokens": 1240,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 117,
+     "output_tokens": 1240,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d024",
+   "class": "decode_wall",
+   "arrival_ns": 1245963791,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 111,
+   "total_output_tokens": 1254,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 111,
+     "output_tokens": 1254,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d025",
+   "class": "decode_wall",
+   "arrival_ns": 244429541,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 153,
+   "total_output_tokens": 1250,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 153,
+     "output_tokens": 1250,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d026",
+   "class": "decode_wall",
+   "arrival_ns": 2994005986,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 144,
+   "total_output_tokens": 1235,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 144,
+     "output_tokens": 1235,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d027",
+   "class": "decode_wall",
+   "arrival_ns": 334568130,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 155,
+   "total_output_tokens": 1141,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 155,
+     "output_tokens": 1141,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d028",
+   "class": "decode_wall",
+   "arrival_ns": 360289339,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 122,
+   "total_output_tokens": 1204,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 122,
+     "output_tokens": 1204,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d029",
+   "class": "decode_wall",
+   "arrival_ns": 1577528397,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 140,
+   "total_output_tokens": 1117,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 140,
+     "output_tokens": 1117,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d030",
+   "class": "decode_wall",
+   "arrival_ns": 691535219,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 105,
+   "total_output_tokens": 1205,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 105,
+     "output_tokens": 1205,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d031",
+   "class": "decode_wall",
+   "arrival_ns": 1608130362,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 125,
+   "total_output_tokens": 1174,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 125,
+     "output_tokens": 1174,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d032",
+   "class": "decode_wall",
+   "arrival_ns": 2507509672,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 122,
+   "total_output_tokens": 1217,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 122,
+     "output_tokens": 1217,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d033",
+   "class": "decode_wall",
+   "arrival_ns": 3714145766,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 146,
+   "total_output_tokens": 1119,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 146,
+     "output_tokens": 1119,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d034",
+   "class": "decode_wall",
+   "arrival_ns": 80919410,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 131,
+   "total_output_tokens": 1181,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 131,
+     "output_tokens": 1181,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d035",
+   "class": "decode_wall",
+   "arrival_ns": 1374472790,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 137,
+   "total_output_tokens": 1211,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 137,
+     "output_tokens": 1211,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d036",
+   "class": "decode_wall",
+   "arrival_ns": 2866721994,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 103,
+   "total_output_tokens": 1286,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 103,
+     "output_tokens": 1286,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d037",
+   "class": "decode_wall",
+   "arrival_ns": 423882404,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 115,
+   "total_output_tokens": 1290,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 115,
+     "output_tokens": 1290,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d038",
+   "class": "decode_wall",
+   "arrival_ns": 2575383643,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 126,
+   "total_output_tokens": 1243,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 126,
+     "output_tokens": 1243,
+     "tool_delay_ns": 0
+    }
+   ]
+  },
+  {
+   "program_id": "d039",
+   "class": "decode_wall",
+   "arrival_ns": 2687953733,
+   "waves": 1,
+   "width": 1,
+   "total_prompt_tokens": 132,
+   "total_output_tokens": 1161,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 132,
+     "output_tokens": 1161,
+     "tool_delay_ns": 0
+    }
+   ]
+  }
+ ]
+}

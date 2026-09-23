@@ -1,0 +1,11 @@
+=== dram control ===
+dram: n_iter=56146 med=0.783ms
+=== dram disturbed(K=40) ===
+disturber: 40 bursts, burst_ms_med=1.05
+dram: n_iter=56104 med=0.783ms
+=== gemm control ===
+gemm: n_iter=46787 med=0.944ms
+=== gemm disturbed(K=40) ===
+disturber: 40 bursts, burst_ms_med=0.94
+gemm: n_iter=46747 med=0.945ms
+=== 矩阵完成 ===

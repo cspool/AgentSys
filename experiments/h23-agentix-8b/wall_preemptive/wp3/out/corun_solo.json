@@ -1,0 +1,8 @@
+{
+ "tag": "solo",
+ "secs": 15.0,
+ "gemms": 411550,
+ "rate_per_s": 27436.49,
+ "tflops": 117.839,
+ "sm_count": 128
+}

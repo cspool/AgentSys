@@ -1,0 +1,243 @@
+{
+ "config": {
+  "workload_class": "sharegpt_capture_v2",
+  "arrival_rate_programs_per_s": 3.2,
+  "seed": 23,
+  "max_num_seqs": 16,
+  "note": "capture-sized agent-serving workload whose calls cross the MLFQ quantum ladder, so quantum preemption actually occurs"
+ },
+ "programs": [
+  {
+   "program_id": "p00000",
+   "class": "sharegpt",
+   "arrival_ns": 0,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 840,
+   "total_output_tokens": 243,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 473,
+     "output_tokens": 129,
+     "tool_delay_ns": 91394667
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 367,
+     "output_tokens": 114,
+     "tool_delay_ns": 53899792
+    }
+   ]
+  },
+  {
+   "program_id": "p00001",
+   "class": "sharegpt",
+   "arrival_ns": 312500000,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 836,
+   "total_output_tokens": 190,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 423,
+     "output_tokens": 93,
+     "tool_delay_ns": 35359772
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 413,
+     "output_tokens": 97,
+     "tool_delay_ns": 56402636
+    }
+   ]
+  },
+  {
+   "program_id": "p00002",
+   "class": "sharegpt",
+   "arrival_ns": 625000000,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 770,
+   "total_output_tokens": 201,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 360,
+     "output_tokens": 91,
+     "tool_delay_ns": 76800656
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 410,
+     "output_tokens": 110,
+     "tool_delay_ns": 78736726
+    }
+   ]
+  },
+  {
+   "program_id": "p00003",
+   "class": "sharegpt",
+   "arrival_ns": 937500000,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 833,
+   "total_output_tokens": 206,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 402,
+     "output_tokens": 90,
+     "tool_delay_ns": 82648188
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 431,
+     "output_tokens": 116,
+     "tool_delay_ns": 69679316
+    }
+   ]
+  },
+  {
+   "program_id": "p00004",
+   "class": "sharegpt",
+   "arrival_ns": 1250000000,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 882,
+   "total_output_tokens": 216,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 479,
+     "output_tokens": 103,
+     "tool_delay_ns": 80782928
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 403,
+     "output_tokens": 113,
+     "tool_delay_ns": 72842568
+    }
+   ]
+  },
+  {
+   "program_id": "p00005",
+   "class": "sharegpt",
+   "arrival_ns": 1562500000,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 843,
+   "total_output_tokens": 204,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 396,
+     "output_tokens": 91,
+     "tool_delay_ns": 57925313
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 447,
+     "output_tokens": 113,
+     "tool_delay_ns": 55796124
+    }
+   ]
+  },
+  {
+   "program_id": "p00006",
+   "class": "sharegpt",
+   "arrival_ns": 1875000000,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 834,
+   "total_output_tokens": 219,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 437,
+     "output_tokens": 96,
+     "tool_delay_ns": 34283196
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 397,
+     "output_tokens": 123,
+     "tool_delay_ns": 35648628
+    }
+   ]
+  },
+  {
+   "program_id": "p00007",
+   "class": "sharegpt",
+   "arrival_ns": 2187500000,
+   "waves": 2,
+   "width": 1,
+   "total_prompt_tokens": 762,
+   "total_output_tokens": 205,
+   "llm_calls": [
+    {
+     "index": 0,
+     "wave": 0,
+     "parents": [],
+     "prompt_tokens": 371,
+     "output_tokens": 92,
+     "tool_delay_ns": 23114653
+    },
+    {
+     "index": 1,
+     "wave": 1,
+     "parents": [
+      0
+     ],
+     "prompt_tokens": 391,
+     "output_tokens": 113,
+     "tool_delay_ns": 85653054
+    }
+   ]
+  }
+ ]
+}

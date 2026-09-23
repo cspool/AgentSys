@@ -1,0 +1,53 @@
+=== vramwall(inner=0 dots=0)ctrl ===
+inner=0 dots=0 reps=150 kernel=162.2ms | FP32 0%  TC 0%  VRAM 88%
+n=600 med=160.72ms
+=== vramwall W=4 ===
+W=4.0ms reps=536443 solo=4.377ms
+inner=0 dots=0 reps=150 kernel=162.3ms | FP32 0%  TC 0%  VRAM 88%
+contended burst med=6.36ms (solo 4.38)
+n=600 med=160.67ms
+=== vramwall W=12 ===
+inner=0 dots=0 reps=150 kernel=162.9ms | FP32 0%  TC 0%  VRAM 88%
+W=12.0ms reps=1485188 solo=23.874ms
+contended burst med=22.76ms (solo 23.87)
+n=600 med=160.81ms
+=== tcwall(inner=0 dots=32)ctrl ===
+inner=0 dots=32 reps=103 kernel=161.9ms | FP32 0%  TC 95%  VRAM 61%
+n=600 med=159.57ms
+=== tcwall W=4 ===
+W=4.0ms reps=536443 solo=9.082ms
+inner=0 dots=32 reps=103 kernel=167.5ms | FP32 0%  TC 91%  VRAM 59%
+contended burst med=9.01ms (solo 9.08)
+n=600 med=159.75ms
+=== tcwall W=12 ===
+W=12.0ms reps=1485188 solo=11.462ms
+inner=0 dots=32 reps=103 kernel=155.4ms | FP32 0%  TC 99%  VRAM 63%
+contended burst med=23.67ms (solo 11.46)
+n=600 med=159.77ms
+=== fp32wall(inner=400 dots=0)ctrl ===
+inner=400 dots=0 reps=106 kernel=162.9ms | FP32 76%  TC 0%  VRAM 62%
+n=600 med=167.12ms
+=== fp32wall W=4 ===
+inner=400 dots=0 reps=106 kernel=161.6ms | FP32 76%  TC 0%  VRAM 62%
+W=4.0ms reps=536443 solo=9.101ms
+contended burst med=9.30ms (solo 9.10)
+n=600 med=167.11ms
+=== fp32wall W=12 ===
+W=12.0ms reps=1485188 solo=12.090ms
+inner=400 dots=0 reps=106 kernel=162.6ms | FP32 76%  TC 0%  VRAM 62%
+contended burst med=26.76ms (solo 12.09)
+n=600 med=167.15ms
+=== triple(inner=200 dots=12)ctrl ===
+inner=200 dots=12 reps=143 kernel=168.6ms | FP32 49%  TC 47%  VRAM 81%
+n=600 med=174.69ms
+=== triple W=4 ===
+W=4.0ms reps=536443 solo=4.434ms
+inner=200 dots=12 reps=143 kernel=167.5ms | FP32 50%  TC 48%  VRAM 81%
+contended burst med=9.76ms (solo 4.43)
+n=600 med=173.47ms
+=== triple W=12 ===
+W=12.0ms reps=1485188 solo=12.026ms
+inner=200 dots=12 reps=143 kernel=167.4ms | FP32 50%  TC 48%  VRAM 81%
+contended burst med=27.47ms (solo 12.03)
+n=600 med=172.82ms
+=== E6(三轴)完成 ===

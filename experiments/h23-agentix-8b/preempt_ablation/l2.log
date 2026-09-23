@@ -1,0 +1,26 @@
+=== L2 ctrl_cold ===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+makespan=968.42s n=4800
+=== L2 uniform ===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+uniform: K=200 落点纯度=200/200 forced=0
+makespan=968.62s n=4800
+=== L2 sm_only ===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+sm_only: K=200 落点纯度=200/200 forced=0
+makespan=968.95s n=4800
+=== L2 dram_only ===
+reps: {'dram': 1019, 'l2': 18801, 'sm': 7237786}
+dram_only: K=200 落点纯度=200/200 forced=0
+makespan=970.26s n=4800
+=== L2 ctrl_hot ===
+Traceback (most recent call last):
+  File "/workspace/AgentSys/experiments/h23-agentix-8b/preempt_ablation/victim4.py", line 57, in <module>
+    make_kernels()
+  File "/workspace/AgentSys/experiments/h23-agentix-8b/preempt_ablation/victim4.py", line 38, in make_kernels
+    xd = torch.randn(nd, device='cuda'); yd = torch.empty_like(xd)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/AgentSys/.venv-vllm/lib/python3.12/site-packages/torch/cuda/__init__.py", line 529, in _lazy_init
+    torch._C._cuda_init()
+RuntimeError: No CUDA GPUs are available
+=== L2 完成 ===

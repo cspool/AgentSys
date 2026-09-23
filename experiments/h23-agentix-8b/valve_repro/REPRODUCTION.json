@@ -1,0 +1,63 @@
+{
+ "target": "Valve (arXiv 2604.07874, PKU/Tencent)",
+ "status": "定性复现成立(2026-09-21,v7+channel修复)",
+ "scaled_config": {
+  "paper": "7B online + 7B offline, 8054 GPU 生产集群, 驱动级 channel disable(<1ms)",
+  "ours": "Qwen3-1.7B × 2, 单张 RTX 4090;计算抢占用用户态代理",
+  "declared_substitutions": [
+   "模型缩配(用户授权):4090 装不下两个 7B",
+   "channel disable → 整进程组 SIGSTOP(用户态,粒度粗一个数量级)",
+   "KernelPreempt(TGS) → 迭代边界门控钩(EngineCore 内)",
+   "离线负载:论文未披露具体形态,重建为长 prompt 文档处理批任务",
+   "在线负载:论文仅给定性突发描述(Fig.2-3),按 CV 特征重建"
+  ]
+ },
+ "t_cool": {
+  "rule": "论文 §4.2: 2× 最大 decode 迭代间隙",
+  "measured_G_ms": 37.0,
+  "t_cool_ms": 74.0,
+  "n_gaps": 501
+ },
+ "results": {
+  "online_solo": {
+   "ttft_p50_ms": 52,
+   "ttft_p99_ms": 102,
+   "tpot_p50_ms": 16.61
+  },
+  "offline_solo_prefill_tok_s": 26215,
+  "naive": {
+   "ttft_p50": "+94%",
+   "ttft_p99": "+701%",
+   "tpot": "+44%",
+   "off_retain": "79%"
+  },
+  "channel": {
+   "ttft_p50": "+25%",
+   "ttft_p99": "+4%",
+   "tpot": "+20%",
+   "off_retain": "61%",
+   "preemptions": 7
+  },
+  "iter": {
+   "ttft_p50": "+20%",
+   "ttft_p99": "+2%",
+   "tpot": "+10%",
+   "off_retain": "61%",
+   "preemptions": 7
+  }
+ },
+ "verdict": {
+  "qualitative": "复现成立:抢占机制把在线尾延迟干扰从 +701% 压到 +2~4%(175-350×),代价是离线吞吐 79%→61% —— 与论文的 latency/throughput 权衡一致",
+  "quantitative_gap": "论文报 <5% TTFT / <2% TPOT;我们 p99 达标(+2~4%)但 p50/TPOT 为 +20~25%。归因:论文用驱动级 channel disable(亚毫秒),我们的用户态代理粒度粗一个数量级;且单卡上在线/离线争用强度远高于其生产集群(有跨卡调度缓冲)。不冒充达到论文数值。"
+ },
+ "root_causes_fixed": [
+  "负载太轻无争用 → 离线改 prefill 饱和(SM 0-4% → 中位 100%)",
+  "T_cool 口径错(把波间空闲当 decode 间隙,34.6s)→ 只统计 n_running>0 的步间隙,74ms",
+  "编排时序错(离线 37s 跑完,在线 70s 才服务)→ 事件同步,等 serving 才推进",
+  "控制器把在线空闲误判为结束 → 改进程存活判定",
+  "serve_agentix 零信号处理,终止即丢数据 → 逐 call 流式落盘",
+  "前缀缓存伪 prefill(117K tok/s 不可能值)→ unique_prompts",
+  "孤儿 EngineCore 泄漏显存(累积 20GB)→ 进程组整树终止 + 按名清理",
+  "SIGSTOP 打在父进程无效(EngineCore 才跑 GPU)→ 整进程组 SIGSTOP"
+ ]
+}
