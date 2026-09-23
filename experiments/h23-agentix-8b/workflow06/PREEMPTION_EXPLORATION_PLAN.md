@@ -777,3 +777,27 @@ B 的早停规则+分块注入, 量利用率与长度; 质量代理=关键信息
 **新主线**: E11(流式增量消费, 制造并发压榨等待期) 为主; E9(墙轨迹 = 资源管理而非抢占择时) 为辅;
 E9a trace 刻画先行(离线, 决定 E11 收益上界)。叙事翻转: 从"抢占什么时候发生"到
 "等待期为什么要空着" —— 抢占研究证明了等待期是免费窗口, E11 直接把它填满。
+
+### E11 baseline 调研(2026-09-23, 本地知识库 + 联网; 用户要求 2025+ 且优先开源)
+
+**流式重叠已是活跃赛道(E11 不能以此为新)**:
+- FlashAgents (MLSys'26 Oral): agent 间 token 流式 + 增量 prefill, 下游 prefill 重叠上游 decode
+  —— 恰是 E11 模式 B 的 agent->agent 边, 但**时延导向**(TTFT), 未见开源。
+- Stream2LLM (MLSys'26, **开源 artifact**): 检索分块到达即开始 prefill 重叠 —— tool->agent 边,
+  同为时延导向。**首选可复用 baseline**。
+- Act While Thinking (2603.18897): 模式感知的投机工具执行。SmoothAgent (2607.00151): lookahead 上下文工程。
+- 工具期 KV 管理成熟线(本地库齐全): InferCept/LAMPS(I/O 等待期卸载 KV)、Continuum(KV TTL, 工具调用处理)、
+  Astraea(I/O 时延预测入调度, proactive)、KVFlow、Sutradhara(编排-引擎协同)、Cortex(工作流级资源池)。
+- **AgentServe (2603.10342, 消费级单卡)**: 按运行时信号(吞吐/队列/利用率)动态调 prefill token 预算
+  与 SM 预留 —— 与 E11 的资源 aware 读取量最接近, 须精读划界。
+- 预算/早停线(质量侧): ContextBudget(装载前折叠决策)、BATS(预算感知工具使用)、AgentStop(多轮 agent 早退)。
+
+**E11 剩余新颖轴(据此重述主张)**:
+1. **利用率/池塌陷导向**而非 TTFT 导向: 相关 join 点的同步空窗建模为目标, 摄入作为**可调度填充物**
+   (签名可控、松弛极大)供墙轨迹调度 —— 已有工作皆时延导向, 无人把摄入当调度资源;
+2. **工具早停 x GPU 态耦合**: 增量判断(还需要更多信息吗)决定**截断工具本身**, 读取量由 GPU 空闲度定
+   —— ContextBudget/BATS 按成本预算, AgentServe 按服务公平, 均非工具截断+利用率驱动;
+3. E9xE11 协同设计: 摄入填谷 + W=0 驱逐库存 + 签名匹配, 未见组合者。
+
+**baseline 集合(2025+)**: Stream2LLM(开源, 流式重叠上界), Autellix(开源, 程序级调度),
+Continuum/InferCept 类 KV 策略(工具期管理), AgentServe(资源感知预算, 若开源), 模式A(阻塞全量, vanilla)。
