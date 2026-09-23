@@ -32,52 +32,62 @@
 | S_kv | key/value 行 | 1024-16384 | **归约维** —— softmax 归一化耦合全部 KV 行 |
 | d | 头维 | 128 | 小, 整体保留 |
 
-#### (b) 分块并行 x loop 的设计(GPU 计算方式)
+#### (b) n-loop 表达: 每一级硬件负责的计算
 
-GPU 的映射规则就一条: **独立维 → 切块摊给并行的 block; 归约维 → 变成 block 内的顺序 loop**。
+把 (a) 的五个维度按并行性质摊开成分层循环, **每一层循环归属一级硬件, 该层的循环体就是
+这级硬件负责的计算**。行号: L* = 空间映射层(摊给并行硬件), M* = 数学归约层(顺序 loop),
+W* = warp/lane 层。
 
-- B、H 独立 → 直接各占网格一维;
-- S_q 行间独立 → 切成 `kBlockM` 行一块的 M-tile, 每个 block 负责一块 → 网格第三维;
-- S_kv 是归约维, **不能**摊给别的 block(softmax 分母要累计全部 KV) → 成为 block **内部的循环**,
-  每步吃 `kBlockN` 行, 用 online-softmax 维护运行最大值 m 与部分和 l;
-- d 小, 不切, 整块进 smem/寄存器。
+**标准 FA2 prefill kernel**:
 
 ```text
-Tensor : SCORE_MATRIX (S_q x S_kv) partitioned by the rule above
-Formula: rows -> parallel blocks (one per kBlockM band) ; cols -> sequential loop (kBlockN per step)
-
-             S_kv axis: block-INTERNAL loop, step = kBlockN, online softmax carries (m, l)
-            0 ──▶ step j=0 ──▶ j=1 ──▶ j=2 ──▶ ... ──▶ S_kv
-           ┌─────────┬─────────┬─────────┬─────────┐
-block(0)   │ S_00    │ S_01    │ S_02    │ S_03    │ ◀── one block owns this kBlockM-row band
-           ├─────────┼─────────┼─────────┼─────────┤
-block(1)   │ S_10    │ S_11    │ S_12    │ S_13    │ ◀── independent -> runs in parallel
-           ├─────────┼─────────┼─────────┼─────────┤
-block(2)   │ S_20    │ S_21    │ S_22    │ S_23    │
-           └─────────┴─────────┴─────────┴─────────┘
-  S_q axis: block-PARALLEL, band height = kBlockM
+L1  spatial for (b, h) in B x H:                 # -> grid.(y,z)   独立维直接摊开
+L2    spatial for m in ceil(S_q / kBlockM):      # -> grid.x       Q 行带并行
+      # ==== 一个 block 的计算域: M_tile x N(全 S_kv) 的分数区, 产出 O[b,h, m带] ====
+M1      loop for j in n_min..n_max:              # N 按 N_tile 串行(归约维), 携带 m,l; causal 时 n_max 裁到对角线(:88-92)
+M2        S_mj[M_tile x N_tile] = Q_m @ K_j^T            # Tensor Core: QK GEMM
+M3        P_mj = online_softmax(S_mj)  # 按 M_tile x N_tile 整块执行: 行 max/和更新 -> CUDA core
+M4        O_m = rescale(O_m) + P_mj @ V_j                # Tensor Core: SV GEMM(S=softmax后的P, :352 专门转回fp16喂TC)
+W1    spatial for w in kNWarps:                  # -> block 内 warp: M 带再切 16 行子带
+W2      lanes 32: MMA fragment slots             # -> lane: quad 持行对x列对, 4 fp32/原子((c2))
 ```
 
-#### (c) 由此导出 block 的三维含义与数值
+**decode kernel**(S_q=1, L2 退化):
 
-网格三维就是三个独立维的直接映射(flash_fwd_launch_template.h:60-61):
+```text
+L1  spatial for (b, h) in B_d x H:               # -> grid   每(序列,头)一个 block
+      # ==== 一个 block 负责: o[b,h] = softmax(q K^T) V, 单行 GEMV 扫描 ====
+M1      loop for j in ceil(S_kv / kBlockN):      # 沿 KV 顺序扫, DRAM 受限
+M2..M4  同上(QK/SV 两 GEMM + 整块 online softmax), 有效 M=1
+```
 
-| 维 | 含义 | 公式 | 数值例: prefill (1,2048,·,·) | 数值例: decode (·,·,16,4096) |
-|---|---|---|---|---|
-| grid.x | 第几个 Q 行带(M-tile) | ceil(S_q / kBlockM) | ceil(2048/128) = **16** | ceil(1/64) = **1** |
-| grid.y | 第几条序列 | B | **1** | **16** |
-| grid.z | 第几个头 | H | **32** | **32** |
-| blockDim | 线程 = M 带的 warp 切分 | (kNWarps x 32, 1, 1) | (128,1,1) | (128,1,1) |
+**POD 融合核 = 把两套 L 层映射改成运行时自领**(机制的全部所在, 其余 M/W 层原样复用):
 
-blockDim 的一维含义: TiledMMA 把 kNWarps 个 warp **沿 M 维并排**(每 warp 管 16 行,
-kernel_traits.h:74-77), 所以线程数由 M 带需要几个 warp 决定, y/z 恒 1。
-decode 的 S_q=1 使 grid.x 退化为 1 —— 并行度只剩 B x H, 这就是 0.4 节 split(把归约维 S_kv 强行
-切给多个 block, 代价是 float 累加器落 smem)的动机。
+```text
+P1  spatial for slot in (P_slots + D_slots):     # -> grid.x 一维扁平, blockIdx 仅是入场券
+P2    (role, lid) = ticket(%smid, tbAssign)      # block 进场自领: 角色 + 逻辑 id
+P3    if role == P: 执行 prefill 的 L2 循环体, m带 = lid   # 即上面 M1..M4 整段
+P4    else:         执行 decode  的 L1 循环体, (b,h) = lid
+```
 
-**POD 融合核故意抹平此映射**(fused_fwd_launch_template.h:465): `grid = (P_slots + D_slots, 1, 1)`。
-因为它的机制就是不让硬件决定 blockIdx→工作: block 进场后由 `%smid` + ticket 自领角色(P/D)与
-逻辑 id, blockIdx.x 只是入场券。数值例(fig6 chunk2k_d16, fp=9): 512 + 512 = (1024,1,1)。
+HFuse 对照: 不改 L 层, 改 W 层 —— 256 线程一个 block, warp 0-3 跑 prefill 的 M 段、
+warp 4-7 跑 decode 的 M 段(smem 相加的原因, 见第 4 节)。
 
+#### (c) 各级负责的计算与三维数值
+
+由 (b) 逐层读出**每级拥有的计算**(说计算是什么, 不说怎么执行):
+
+| 硬件级 | 来自哪层循环 | 负责的计算(输出归属) | 数值例(prefill 1x2048 / decode 16x4096) |
+|---|---|---|---|
+| **grid.z** | L1 的 h | 一个注意力头的全部输出 O[:, h, :] | 32 / 32 |
+| **grid.y** | L1 的 b | 一条序列的全部输出 O[b, :, :] | 1 / 16 |
+| **grid.x** | L2 的 m | 一个 Q 行带的输出 O[b,h, 128m:128m+128] 及其整条 softmax 归约 | 16 / 1 |
+| **block** | L2 循环体 | **M_tile x N(全 KV) 分数域**的处理: N 按 N_tile 串行扫过, QK/SV 两 GEMM 走 TC, online softmax 按 M_tile x N_tile 整块执行, 产出 O[b,h,m带] | 共 512 / 512 个 |
+| **warp** | W1 的 w | m 带内一个 **16 行子带**在 M2/M4 两个 GEMM 与 M3 行操作中的份额 | 4 个/块(128线程) |
+| **lane** | W2 | MMA 原子中自己 quad 的行对x列对: **4 个 fp32 累加槽/原子**((c2) 有归属图) | 32 个/warp |
+
+POD 下唯一的变化: block 与 (b,h,m带) 的绑定从 launch 时静态指定(L1/L2)改为进场时
+ticket 自领(P2) —— **每级负责的计算内容不变, 变的只是谁领到哪份**。
 #### (c2) block 内: 每个 thread 做了什么
 
 block(128 线程) -> 4 个 warp 沿 M 维各管 16 行的带(见 (c)); warp 内 32 个线程的分工由
