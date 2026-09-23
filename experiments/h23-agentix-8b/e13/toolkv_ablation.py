@@ -188,15 +188,18 @@ for ep,s in enumerate(samples):
         del cache
     else:
         fwd(cache,hid,0); pos=hid.shape[1]
+    need_pf = (not a.arms) or ('G' in a.arms.split(','))
     if cached is None:
         for k,(t,x,g) in enumerate(s['paras']):
             tid=ids(f"[{k+1}] {t}: {x}\n"); span_ids.append(tid)
-            st_=pos; o=fwd(cache,tid,pos,attn=True); pos+=tid.shape[1]; spans.append((st_,pos,g))
+            st_=pos; o=fwd(cache,tid,pos,attn=need_pf); pos+=tid.shape[1]; spans.append((st_,pos,g))
             L0=cache.get_seq_length()
-            psc=np.zeros(L0)
-            for at in o.attentions: psc[:L0]+=at[0,:,:,:L0].mean(dim=0).mean(dim=0).float().cpu().numpy()
-            if pfacc is None: pfacc=np.zeros(0)
-            pfacc=np.pad(pfacc,(0,L0-pfacc.shape[0])); pfacc+=psc
+            if need_pf:
+                psc=np.zeros(L0)
+                for at in o.attentions: psc[:L0]+=at[0,:,:,:L0].mean(dim=0).mean(dim=0).float().cpu().numpy()
+                if pfacc is None: pfacc=np.zeros(0)
+                pfacc=np.pad(pfacc,(0,L0-pfacc.shape[0])); pfacc+=psc
+            del o
             L=cache.get_seq_length()
             ntxt,sc=gen(cache, NOTE_SUF, pos, 16, attn=True, K_ctx=L)
             cache.crop(L); cons[k]=sc[st_:pos]; notes.append(ntxt)
@@ -206,7 +209,7 @@ for ep,s in enumerate(samples):
         ansA,_=gen(cache, ANS_SUF, pos, 24)
         del cache; torch.cuda.empty_cache()
         if not a.no_cache:
-            np.savez(ck, glob=globacc, pf=pfacc,
+            np.savez(ck, glob=globacc, pf=pfacc if pfacc is not None else np.zeros(1),
                      meta=json.dumps(dict(spans=[list(x) for x in spans], notes=notes, ansA=ansA, pos=int(pos))),
                      **{f'cons{k}':v for k,v in cons.items()})
     rec=dict(stratum=s['stratum'], gold=s['ans'], ansA=ansA, n_ctx=int(pos), notes=notes,
@@ -216,7 +219,7 @@ for ep,s in enumerate(samples):
     rng=np.random.RandomState(ep)
     for rho in RHOS:
         ks=keep_sets(spans, cons, globacc, rho, rng, notes)
-        ks['G']=np.sort(np.concatenate([np.arange(spans[0][0]), np.concatenate([np.arange(st,en) for st,en,_ in spans])[np.argsort(np.concatenate([pfacc[st:en] for st,en,_ in spans]))[-max(1,int(round(sum(en-st for st,en,_ in spans)*rho))):]]]))
+        if ((not a.arms) or 'G' in a.arms.split(',')) and pfacc is not None: ks['G']=np.sort(np.concatenate([np.arange(spans[0][0]), np.concatenate([np.arange(st,en) for st,en,_ in spans])[np.argsort(np.concatenate([pfacc[st:en] for st,en,_ in spans]))[-max(1,int(round(sum(en-st for st,en,_ in spans)*rho))):]]]))
         for arm,keep in ks.items():
             if a.arms and arm not in a.arms.split(','): continue
             c=DynamicCache(); fwd(c,hid,0); p=hid.shape[1]
@@ -234,9 +237,10 @@ for ep,s in enumerate(samples):
                 kk=keep[(keep>=st_)&(keep<en)]-st_
                 base=c.get_seq_length()-tid.shape[1]
                 keep_local=np.concatenate([np.arange(base), base+kk])
-                ki=torch.as_tensor(keep_local,device='cuda',dtype=torch.long)
+                ki=torch.as_tensor(keep_local,dtype=torch.long)
                 for lyr in c.layers:
-                    lyr.keys=lyr.keys[:,:,ki,:].contiguous(); lyr.values=lyr.values[:,:,ki,:].contiguous()
+                    kd=ki.to(lyr.keys.device)
+                    lyr.keys=lyr.keys[:,:,kd,:].contiguous(); lyr.values=lyr.values[:,:,kd,:].contiguous()
             ansX,_=gen(c, ANS_SUF, p, 24)
             rec[f'ans_{arm}@{rho}']=ansX; rec[f'kv_{arm}@{rho}']=int(c.get_seq_length())
             del c
@@ -252,9 +256,10 @@ for ep,s in enumerate(samples):
                 st_,en,_=spans[k]
                 stub=min(8,tid.shape[1])
                 base=c.get_seq_length()-tid.shape[1]
-                ki=torch.as_tensor(np.r_[np.arange(base), base+np.arange(stub)],device='cuda',dtype=torch.long)
+                ki=torch.as_tensor(np.r_[np.arange(base), base+np.arange(stub)],dtype=torch.long)
                 for lyr in c.layers:
-                    lyr.keys=lyr.keys[:,:,ki,:].contiguous(); lyr.values=lyr.values[:,:,ki,:].contiguous()
+                    kd=ki.to(lyr.keys.device)
+                    lyr.keys=lyr.keys[:,:,kd,:].contiguous(); lyr.values=lyr.values[:,:,kd,:].contiguous()
             kv_between=int(c.get_seq_length())
             Lst=c.get_seq_length()
             req_txt,_=gen(c, LIST_SUF, p, 12)
