@@ -23,6 +23,7 @@ model=AutoModelForCausalLM.from_pretrained(M, dtype=torch.bfloat16, device_map='
 NOTHINK="<think>\n\n</think>\n\n"
 SYS="<|im_start|>system\nYou answer questions using the provided search results. Be concise.<|im_end|>\n"
 ANS_SUF="\nGive the final short answer to the question now, nothing else.<|im_end|>\n<|im_start|>assistant\n"+NOTHINK
+LIST_SUF="\nBased on the numbered results, which ones do you need to re-read in full to answer the question? Reply with at most 3 numbers, comma-separated, nothing else.<|im_end|>\n<|im_start|>assistant\n"+NOTHINK
 NOTE_SUF="\nState what the latest result contributes to answering the question, in one short sentence; if nothing, say irrelevant.<|im_end|>\n<|im_start|>assistant\n"+NOTHINK
 def ids(s): return tok(s, return_tensors='pt', add_special_tokens=False).input_ids.to('cuda')
 def build_local(nps):
@@ -237,6 +238,32 @@ for ep,s in enumerate(samples):
         if a.arms and 'F' not in a.arms.split(','):
             results_skipF=True
         # F: 全丢+答案时语义换入 top2 跨度(按消费分跨度均值)
+        # J: 语义按需换页(与rho无关, 只算一次): 轮间全存根(每跨度前8tok), 答案时模型点名换入
+        if rho==RHOS[0] and ((not a.arms) or 'J' in a.arms.split(',')):
+            import re as _re
+            c=DynamicCache(); fwd(c,hid,0); p=hid.shape[1]
+            for k,tid in enumerate(span_ids):
+                fwd(c,tid,p); p+=tid.shape[1]
+                st_,en,_=spans[k]
+                stub=min(8,tid.shape[1])
+                base=c.get_seq_length()-tid.shape[1]
+                ki=torch.as_tensor(np.r_[np.arange(base), base+np.arange(stub)],device='cuda',dtype=torch.long)
+                for lyr in c.layers:
+                    lyr.keys=lyr.keys[:,:,ki,:].contiguous(); lyr.values=lyr.values[:,:,ki,:].contiguous()
+            kv_between=int(c.get_seq_length())
+            Lst=c.get_seq_length()
+            req_txt,_=gen(c, LIST_SUF, p, 12)
+            c.crop(Lst)
+            req=[int(x)-1 for x in _re.findall(r'\d+', req_txt)][:3]
+            req=[k for k in req if 0<=k<len(spans)]
+            for k in sorted(set(req)):
+                st_,en,_=spans[k]
+                posr=torch.arange(st_,en,device='cuda').unsqueeze(0)
+                model(input_ids=span_ids[k], past_key_values=c, position_ids=posr, cache_position=posr[0])
+            ansJ,_=gen(c, ANS_SUF, p, 24)
+            rec['ans_J']=ansJ; rec['kv_J_between']=kv_between; rec['kv_J_ans']=int(c.get_seq_length())
+            rec['req_J']=req
+            del c; torch.cuda.empty_cache()
         if a.arms and 'F' not in a.arms.split(','):
             rec[f'ans_F@{rho}']='SKIP'; rec[f'kv_F@{rho}']=0; continue
         rank=np.argsort([cons[k].mean() for k in range(len(spans))])[::-1][:2]
