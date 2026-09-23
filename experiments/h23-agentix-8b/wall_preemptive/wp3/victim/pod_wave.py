@@ -49,7 +49,9 @@ def mk(B_p,S_p,B_d,S_kv,H=32,Hkv=4,D=128):
 WALLS = {1: ("TC相_prefill重",  (1, 4096, 4,  2048)),
          0: ("DRAM相_decode重", (1, 256,  64, 8192)),
          2: ("全饱和_双高",      (1, 4096, 64, 8192)),
-         3: ("工具期_空闲W0",     None)}   # agent 等 tool_use: KV 驻留但零 GPU 产出
+         3: ("工具期_空闲W0",     None),   # agent 等 tool_use: KV 驻留但零 GPU 产出
+         4: ("低产出相_小批decode", (1, 256, 4, 8192)),  # 批宽波动: GPU 忙但每秒 token 少(实测仅 1.47x 对比)
+         5: ("低产出相_长尾排空", (1, 256, 1, 32768))}  # join 前排空: 仅剩单条长上下文 straggler, GPU 忙(DRAM)但 1 tok/iter
 D = {k: mk(*v[1]) for k, v in WALLS.items() if v[1] is not None}
 
 _FP = {'pod': a.fp, 'hfuse': 64, 'pod2': 9, 'pod4': 11}

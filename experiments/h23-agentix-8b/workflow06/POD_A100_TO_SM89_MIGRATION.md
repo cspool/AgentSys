@@ -17,80 +17,129 @@
 后文所有容量核算都建立在这些算子的张量切分方式上。每个算子按同一规范给出:
 是什么 / 为什么需要 / 怎么做·计算, 以及矩形轴图。
 
-### 0.0 block 的启动几何、三维含义与四种占用的推导
+### 0.0 从算法定义到 block 三维与四种占用
 
-**是什么** — CUDA kernel 以 `kernel<<<gridDim, blockDim>>>` 启动, 两者都是三维向量。
-block(=CTA)是调度与资源分配的原子单位: 一组 warp 整体驻留在一个 SM 上, 从进驻到跑完排他持有
-smem/寄存器/warp 槽三种资源, 不可拆分不可迁移。本节把**每一维的含义、由哪个算法维度决定、
-数值是多少**钉死, 再给出从 tile 参数到 smem/寄存器/TC/CUDA core 四种占用的完整推导链。
+#### (a) 算法定义的计算
 
-**blockDim(块内三维)** — FA2 系 kernel 全部一维: `blockDim = (kNThreads, 1, 1)`,
-`kNThreads = kNWarps x 32`(kernel_traits.h:64); y/z 恒为 1 无含义。kNWarps 由 **M 维的并行切分**
-决定: TiledMMA 把 kNWarps 个 warp 沿 M 维并排(`Layout<Shape<kNWarps,1,1>>`, 每 warp 负责 16 行,
-`Tile<16 x kNWarps, 16, 16>`, kernel_traits.h:74-77)。数值: 4 warps=128 线程(主力配置)、
-2 warps=64(4CTA 档 prefill)、1 warp=32(4CTA 档 decode)。
+注意力的数学定义: 对每条序列 b、每个头 h, 输出 `O = softmax(Q K^T / sqrt(d)) V`。
+展开看它有五个维度, **并行性质各不相同** —— 这一列决定了后面所有设计:
 
-**gridDim(网格三维)** — 标准 FA2 (flash_fwd_launch_template.h:60-61):
-
-```text
-Tensor : GRID_GEOMETRY of standard FA2 = 3D lattice of blocks, one block per (M-tile, seq, head)
-Formula: grid = ( ceil(S_q / kBlockM),  B,  H )   ;   blockDim = (kNWarps x 32, 1, 1)
-           x = which Q row-band          y = which sequence   z = which attention head
-           driven by S_q and kBlockM     driven by batch      driven by model heads
-
-        grid.x (M-tiles) 0 ──▶ ceil(S_q/kBlockM)
-       ┌─────────┬─────────┬─────────┬─────────┐
-grid.y │ blk(0,0)│ blk(1,0)│ blk(2,0)│ blk(3,0)│  ◀── each cell = one block of 128 threads
-(B seq)│ blk(0,1)│ blk(1,1)│ blk(2,1)│ blk(3,1)│      grid.z = H heads stacked behind (not drawn)
-       └─────────┴─────────┴─────────┴─────────┘
-split 变体(:106-107): grid = (M-tiles, num_splits 或 B, B x H 或 H) —— y 让位给 KV 分段号
-```
-
-**POD 融合核故意抹平网格**(fused_fwd_launch_template.h:465): `grid = (P_slots + D_slots, 1, 1)`,
-一维扁平。因为 POD 的机制就是**绕开硬件的 blockIdx→工作 映射**: 每个 block 进场后由 `%smid` +
-ticket 自行领取角色(P/D)与逻辑 id(0.5 节), blockIdx.x 只是入场券编号。数值例(fig6 chunk2k_d16,
-fp=9): P_slots = ceil(2048/128) x 1 x 32 = 512, D_slots = 1 x 16 x 32 = 512 → grid=(1024,1,1)。
-
-**四种占用的推导链** — 全部由算法维度四元组 (kBlockM, kBlockN, d=128, kNWarps) 决定:
-
-```text
-Tensor : SCORE_TILE (kBlockM x kBlockN) annotated by WHICH hardware unit consumes which part
-Formula: TC eats the two GEMMs (S = Q K^T, O = P V) ; CUDA cores eat softmax row-ops ;
-         smem holds Q/K/V tiles ; registers hold the accumulators that never leave the thread
-
-                 kBlockN (K/V tile cols)
-                0 ──────────────▶ 32
-       ┌──────────────────────────┐
-kBlockM│ GEMM_AREA_TENSOR_CORE    │ ◀── mma.sync fp16: S=QK^T 与 O=PV, TC 占用由**有效 M 行数**定:
-(128   │ GEMM_AREA_TENSOR_CORE    │     prefill M=kBlockM 全宽 -> 实测 TC 93.5% 可达峰
-rows)  │ GEMM_AREA_TENSOR_CORE    │     decode 有效 M=1 行   -> 实测 37.8%
-       └──────────────────────────┘
-       ┌──────────────────────────┐
-per-row│ SOFTMAX_ROW_OPS_CUDA_CORE│ ◀── exp/max/rescale + 地址运算, FMA 管线实测仅 2.3-4.9%
-       └──────────────────────────┘
-```
-
-逐项推导(以 2CTA 档 P(128,32,4), 128 线程为例, 实测值印证):
-
-| 占用 | 公式 | 代入 | 实测印证 |
+| 维度 | 含义 | 典型值 | 并行性质 |
 |---|---|---|---|
-| smem | (kBlockM + 2 x kBlockN) x d x 2B | (128+64) x 128 x 2 = **48 KB** | NCU 48.0K |
-| 寄存器 | O 累加器 kBlockM x d x 4B / 线程数 = 128 fp32/线程; S 累加器 kBlockM x kBlockN/线程 = 32; 操作数分片+softmax 状态+地址 ≈ 40-90 | 合计 > 200/线程 | NCU **255**(顶格) |
-| TC | 由 GEMM 有效 M 行数定 | prefill 全宽 / decode 1 行 | 93.5% / 37.8% 可达峰 |
-| CUDA core | softmax 行操作, 与 tile 面积成正比但远小于 GEMM | — | FMA 2.3-4.9% |
+| B | 序列(batch) | prefill 1 / decode 16-256 | **完全独立** —— 不同序列互不相关 |
+| H | 注意力头 | 32 | **完全独立** —— 头之间互不相关 |
+| S_q | query 行 | prefill 2048-4096 / decode **1** | **行间独立** —— 每行输出只依赖自己的 Q 行 |
+| S_kv | key/value 行 | 1024-16384 | **归约维** —— softmax 归一化耦合全部 KV 行 |
+| d | 头维 | 128 | 小, 整体保留 |
 
-寄存器一项解释了第 5 节的现象: O 累加器**永不落 smem**(除 split 路径), 它按 kBlockM x d / 线程数
-分摊 —— 128 线程扛 128x128 的 O 就要 128 个 fp32 寄存器/线程打底, 所以 128 线程配置实测顶格 255;
-4CTA 档把线程降到 64 但 kBlockM 也降到 64, O 分摊仍是 64x128/64 = 128/线程, 可用预算 256(64线程x4CTA)
-→ 寄存器自动让路, 这就是 4CTA 档不需要 launch_bounds 压寄存器的原因。
+#### (b) 分块并行 x loop 的设计(GPU 计算方式)
 
-**block 的驻留语义与 CTA/SM 上限**(承前): block 驻留期间三种持有各自给出上限, 取最小:
+GPU 的映射规则就一条: **独立维 → 切块摊给并行的 block; 归约维 → 变成 block 内的顺序 loop**。
+
+- B、H 独立 → 直接各占网格一维;
+- S_q 行间独立 → 切成 `kBlockM` 行一块的 M-tile, 每个 block 负责一块 → 网格第三维;
+- S_kv 是归约维, **不能**摊给别的 block(softmax 分母要累计全部 KV) → 成为 block **内部的循环**,
+  每步吃 `kBlockN` 行, 用 online-softmax 维护运行最大值 m 与部分和 l;
+- d 小, 不切, 整块进 smem/寄存器。
+
+```text
+Tensor : SCORE_MATRIX (S_q x S_kv) partitioned by the rule above
+Formula: rows -> parallel blocks (one per kBlockM band) ; cols -> sequential loop (kBlockN per step)
+
+             S_kv axis: block-INTERNAL loop, step = kBlockN, online softmax carries (m, l)
+            0 ──▶ step j=0 ──▶ j=1 ──▶ j=2 ──▶ ... ──▶ S_kv
+           ┌─────────┬─────────┬─────────┬─────────┐
+block(0)   │ S_00    │ S_01    │ S_02    │ S_03    │ ◀── one block owns this kBlockM-row band
+           ├─────────┼─────────┼─────────┼─────────┤
+block(1)   │ S_10    │ S_11    │ S_12    │ S_13    │ ◀── independent -> runs in parallel
+           ├─────────┼─────────┼─────────┼─────────┤
+block(2)   │ S_20    │ S_21    │ S_22    │ S_23    │
+           └─────────┴─────────┴─────────┴─────────┘
+  S_q axis: block-PARALLEL, band height = kBlockM
+```
+
+#### (c) 由此导出 block 的三维含义与数值
+
+网格三维就是三个独立维的直接映射(flash_fwd_launch_template.h:60-61):
+
+| 维 | 含义 | 公式 | 数值例: prefill (1,2048,·,·) | 数值例: decode (·,·,16,4096) |
+|---|---|---|---|---|
+| grid.x | 第几个 Q 行带(M-tile) | ceil(S_q / kBlockM) | ceil(2048/128) = **16** | ceil(1/64) = **1** |
+| grid.y | 第几条序列 | B | **1** | **16** |
+| grid.z | 第几个头 | H | **32** | **32** |
+| blockDim | 线程 = M 带的 warp 切分 | (kNWarps x 32, 1, 1) | (128,1,1) | (128,1,1) |
+
+blockDim 的一维含义: TiledMMA 把 kNWarps 个 warp **沿 M 维并排**(每 warp 管 16 行,
+kernel_traits.h:74-77), 所以线程数由 M 带需要几个 warp 决定, y/z 恒 1。
+decode 的 S_q=1 使 grid.x 退化为 1 —— 并行度只剩 B x H, 这就是 0.4 节 split(把归约维 S_kv 强行
+切给多个 block, 代价是 float 累加器落 smem)的动机。
+
+**POD 融合核故意抹平此映射**(fused_fwd_launch_template.h:465): `grid = (P_slots + D_slots, 1, 1)`。
+因为它的机制就是不让硬件决定 blockIdx→工作: block 进场后由 `%smid` + ticket 自领角色(P/D)与
+逻辑 id, blockIdx.x 只是入场券。数值例(fig6 chunk2k_d16, fp=9): 512 + 512 = (1024,1,1)。
+
+#### (c2) block 内: 每个 thread 做了什么
+
+block(128 线程) -> 4 个 warp 沿 M 维各管 16 行的带(见 (c)); warp 内 32 个线程的分工由
+**硬件 MMA 片段布局**决定, 不是按行/列整块划分。以 sm80+ 的 `mma.sync.m16n8k16` 为例,
+一个 16x8 的累加器原子里, 线程按 quad(4 线程一组)持有**散布的固定槽位**:
+
+```text
+Tensor : ONE_MMA_ACCUM_ATOM (16 rows x 8 cols, fp32), ownership by lanes of ONE warp
+Formula: lane l -> quad g=l/4 owns rows {g, g+8} ; t=l%4 owns col pair {2t, 2t+1}
+         => each thread holds exactly 4 fp32 of this atom (2 rows x 2 cols)
+
+        cols 0  1  2  3  4  5  6  7
+row 0   T00 T00 T01 T01 T02 T02 T03 T03   ◀── quad 0 (lanes 0-3)
+row 1   T04 T04 T05 T05 T06 T06 T07 T07   ◀── quad 1 (lanes 4-7)
+  ...   (rows 2-7: quads 2-7)
+row 8   T00 T00 T01 T01 T02 T02 T03 T03   ◀── quad 0 again: its second row
+  ...   (rows 9-15: quads 1-7 again)
+```
+
+于是**一行由同一 quad 的 4 个线程共有** —— softmax 要的行统计量(max, sum)必须经
+quad 内 `__shfl` 归约, 这就是 CUDA core 那部分工作的通信结构。
+
+每个线程在 S_kv 循环的一步里干的活, 按阶段列全(以 P(128,32,4), d=128, 每 warp 16 行带 x2 遍为例):
+
+| 阶段 | 执行单元 | 单个 thread 具体动作 | 每线程数量 |
+|---|---|---|---|
+| 装载 Q/K/V -> smem | LSU, `cp.async` | 按 TiledCopy 布局搬**自己名下的散布位置**, 每条指令 128-bit=8 个 fp16 | Q 带 32KB/128 线程 = 32 条; K/V 每步 8KB+8KB = 各 8 条 |
+| S = Q K^T | **Tensor Core**, `mma.sync` | 从 smem `ldmatrix` 取 A 片段(8 half)+B 片段(4 half), 发射 mma, 累加**自己那 4 个 fp32**/原子 | (16/16)x(32/8)x(128/16)=32 mma/带, x2 带 = 64 mma |
+| 行统计 + exp | **CUDA core** | 只对自己片段的元素求 max/exp/缩放; 行 max 与行和经 quad 内 __shfl 合并 | S 片段 16 fp32/带; m,l 状态各 2 行/带 |
+| O += P V | Tensor Core | 同上 mma; **O 片段跨全循环驻留寄存器** | O = 128x128/128 = **128 fp32/线程**(即 (d) 的寄存器打底项) |
+| 在线重缩放 | CUDA core | 用新旧 m 之比缩放自己的 O 片段元素 | 128 次乘/步 |
+| 写回 O | LSU | 转 fp16, 存自己名下元素 | 循环结束一次 |
+| POD 特有 | 标量 | **仅 thread 0**: 读 %smid, ticket atomicAdd, 角色+逻辑id 写 smem[0..1]; 其余线程 __syncthreads 后读 | 每 block 一次 |
+
+读法: (d) 表里寄存器 255/线程的成分现在有了物理出处 —— O 片段 128 + S 片段 16x2 +
+A/B 操作数片段 + m/l 状态 + 指针, 全部是**该线程名下的 MMA 槽位**决定的, 不是编译器随意分配;
+TC 与 CUDA core 的占用比也有了微观解释: 每 KV 步 64 条 mma(矩形面积) 对 ~百级标量行操作。
+#### (d) 三维/tile 参数如何决定四种占用
+
+关键在 (b) 的 loop 结构: **谁跨越整个 S_kv 循环存活, 谁就占稀缺资源**。
+
+| 占用 | 来源(跟谁存活) | 公式 | 代入 P(128,32,4) | 实测 |
+|---|---|---|---|---|
+| smem | Q tile **全循环常驻** + K/V tile 每步换入 | (kBlockM + 2 x kBlockN) x d x 2B | 32+8+8 = **48 KB** | 48.0K |
+| 寄存器 | **O 累加器跨全循环存活且永不落 smem** | kBlockM x d x 4B / 线程 = 128 fp32/线程, +S 片段 32 +状态/地址 40-90 | > 200/线程 | **255** 顶格 |
+| TC | 每 loop 步两个 GEMM: (M x d)(d x N) 与 (M x N)(N x d) | 占用由**有效 M 行数**定 | prefill M=128 全宽 / decode M=1 | 93.5% / 37.8% 可达峰 |
+| CUDA core | 两 GEMM 之间的逐行 softmax(exp/max/rescale) | 与行数成正比, 远小于 GEMM | — | FMA 2.3-4.9% |
+
+读法: smem 的三项对应 (b) 图里**驻留的 Q 带 + 当前 loop 步的 K/V 列块**; 寄存器被 O 累加器
+打底 128/线程是因为它必须活过整条 S_kv 循环(每步都累加, 落 smem 就要每步读写一遍);
+TC 吃的是矩形面积(M x N x d 的乘加), 所以 decode 的 M=1 让 TC 掉到 37.8% —— 这正是 POD 要把
+P 与 D 塞进同一 SM 互补的原因; CUDA core 只吃行操作, 恒为配角。
+
+驻留上限(三种持有各给一个上限, 取最小):
 
 ```text
 Formula: CTA/SM = min( 100KB/kSmemSize , 65536/(kNThreads x regs) , 48/kNWarps )
 2CTA 档: min( 100/48=2 , 65536/(128x255)=2 , 48/4=12 ) = 2   (smem 与寄存器同时卡死)
-4CTA 档: min( 100/24=4 , 65536/(64x~250)=4 , 48/2=24 ) = 4   (两者同时松开)
+4CTA 档: min( 100/24=4 , 65536/(64x~250)=4 , 48/2=24 ) = 4   (线程减半 -> 寄存器预算自动翻倍)
 ```
+#### (e) 全部 traits 的 smem 记账与逻辑/物理 block
+
 **怎么做/计算(smem 记账)** — 出处 kernel_traits.h:107-109, 三项相加(fp16=2B, d=headdim=128):
 
 ```text
