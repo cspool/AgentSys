@@ -1,3 +1,22 @@
 Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  1.53it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.02it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  2.64it/s]
 resume: 0 episodes already done
 episodes: 60
+  5/60 (14s)
+  10/60 (29s)
+  15/60 (42s)
+  20/60 (54s)
+  25/60 (70s)
+  30/60 (82s)
+  35/60 (98s)
+  40/60 (111s)
+  45/60 (126s)
+  50/60 (144s)
+  55/60 (159s)
+  60/60 (176s)
+
+=== E13 消融汇总 (n=60) ===
+A 全KV: 质量 52%  上下文均值 1554 tok
+-- ρ=0.1 --
+  I: 质量  43%  保留KV  1211 tok (78%)  显存降 22%
+-- ρ=0.25 --
+  I: 质量  43%  保留KV  1211 tok (78%)  显存降 22%

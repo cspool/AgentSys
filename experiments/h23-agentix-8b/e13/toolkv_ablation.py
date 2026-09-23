@@ -32,11 +32,11 @@ def ids(s): return tok(s, return_tensors='pt', add_special_tokens=False).input_i
 def build_local(nps):
     import json as _j
     pool=[]
-    for conv in _j.load(open('/data3/docker_model/AgentSys/_datasets/ShareGPT_V3_unfiltered_cleaned_split.json'))[:800]:
+    for conv in _j.load(open('/data3/docker_model/AgentSys/_datasets/ShareGPT_V3_unfiltered_cleaned_split.json')):
         for m in conv.get('conversations',[]):
             t=m.get('value','').strip().replace('\n',' ')
             if 220<len(t)<400: pool.append(t)
-        if len(pool)>4000: break
+        if len(pool)>2000: break
     rng=random.Random(7); rng.shuffle(pool)
     CITIES=['Zurich','Osaka','Porto','Tallinn','Cusco','Windhoek','Tromso','Davao','Leipzig','Ottawa',
             'Bergen','Quito','Sapporo','Ghent','Tucson','Cork','Malmo','Split','Nagoya','Basel']
