@@ -1003,3 +1003,20 @@ early 74% / mid 50% / late 40% / all 58%; 接受者与 gold 对齐 18/26 (~A水�
 spec 链: answer2 停点出 draft 答案并立即投机跑下游; 流完 verify(全量答案 vs draft, 归一化比对);
 accept -> 下游已就绪(E2E=max(流完+verify, 投机下游完成)); reject -> 从全量 KV 重跑(=A链+verify开销)。
 多 draft 扩展: 候选答案各开分支共享 KV 前缀(机制3经济学复用), verify 择一致者, 提高接受率。
+
+### B3 架构定稿(用户三次修正合并)与 token 级 verify 实测(2026-09-23)
+
+**定稿语义**: ①多 draft 并行是必选(候选各开分支共享当前 KV 前缀); ②draft 提前接受中间输出并
+把输出直接生成出来(尝试输出); ③verify=快验证: 全量上下文下一次 prefill 教师强制打分 draft
+已生成 token(并行,非重新decode); ④"实在不行"=verify失败: verifier 从全量 KV 正常 decode,
+该路径基线本就要走 => 失败额外代价仅 draft-token 打分(~40ms)。
+白送性质: verify prefill 教师强制时顺手重建 draft token 在全量上下文下的正确 KV(与投机解码
+target forward 同构, 无脏 KV); 且支持前缀部分接受(匹配到第 k 个 token 收割 k 个)。
+
+**token 级 verify 实测(verify_prefix_probe.py, 1.7B, n=45 早停样本)**:
+全接受(比特级恒等常规decode): early 68% / mid 38% / late 40% / all 51%;
+前缀可收割 59%; verify 40ms vs decode 259ms = 6.5x(输出越长比值越大)。
+=> 多跳 mid/late 质量失守被结构性消灭(拒绝即回退正常decode); 慢流下叶子省时小(decode尾~1%),
+收益主战场=多步链下游重叠: 51%链条的下游投机输入事后证明比特级正确。
+多draft答案级候选覆盖(同数据免费推得): top-2 50%(候选均值1.6个), 为接受率上界的下界估计。
+坑: 复算样本须复刻 random.Random(seed=7).shuffle — 首版probe漏之致0%全错位。
