@@ -17,6 +17,7 @@ ap.add_argument('--no-cache',action='store_true')
 ap.add_argument('--judge',default='note',choices=['note','strict'])
 ap.add_argument('--model',default='/data3/docker_model/AgentSys/Qwen3-1.7B')
 ap.add_argument('--device-map',default='cuda')
+ap.add_argument('--stub-len',type=int,default=4)
 a=ap.parse_args()
 RHOS=[float(x) for x in a.rhos.split(',')]
 M=a.model
@@ -159,7 +160,7 @@ def keep_sets(spans, cons, glob, rho, rng, notes=None):
         ki=[head]
         for k,(st,en,_) in enumerate(spans):
             rel=('NO' not in notes[k].upper()) if a.judge=='strict' else ('irrelevant' not in notes[k].lower())
-            ki.append(np.arange(st,en) if rel else np.arange(st,min(st+4,en)))
+            ki.append(np.arange(st,en) if rel else np.arange(st,min(st+a.stub_len,en)))
         out['I']=np.sort(np.concatenate(ki))
     return out
 
@@ -266,6 +267,20 @@ for ep,s in enumerate(samples):
             c.crop(Lst)
             req=[int(x)-1 for x in _re.findall(r'\d+', req_txt)][:3]
             req=[k for k in req if 0<=k<len(spans)]
+            if req:
+                # 先驱逐被点名跨度的存根(避免同位置双份key), 再全量换入
+                drop=set()
+                cum=hid.shape[1]  # 存根态cache布局: head + 每跨度8个存根
+                stub_pos={}
+                for k in range(len(spans)):
+                    stub_pos[k]=(cum, cum+min(8,span_ids[k].shape[1])); cum=stub_pos[k][1]
+                keep_mask=np.ones(int(c.get_seq_length()),dtype=bool)
+                for k in set(req):
+                    a_,b_=stub_pos[k]; keep_mask[a_:b_]=False
+                ki=torch.as_tensor(np.where(keep_mask)[0],dtype=torch.long)
+                for lyr in c.layers:
+                    kd=ki.to(lyr.keys.device)
+                    lyr.keys=lyr.keys[:,:,kd,:].contiguous(); lyr.values=lyr.values[:,:,kd,:].contiguous()
             for k in sorted(set(req)):
                 st_,en,_=spans[k]
                 posr=torch.arange(st_,en,device='cuda').unsqueeze(0)
