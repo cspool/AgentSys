@@ -10,6 +10,8 @@ ap.add_argument('--n-per-stratum',type=int,default=20)
 ap.add_argument('--rhos',default='0.1,0.25')
 ap.add_argument('--smoke',type=int,default=0)
 ap.add_argument('--out',default='/workspace/AgentSys/experiments/h23-agentix-8b/e13/ablation_results.json')
+ap.add_argument('--data',default='hotpot',choices=['hotpot','local'])
+ap.add_argument('--arms',default='')
 a=ap.parse_args()
 RHOS=[float(x) for x in a.rhos.split(',')]
 M='/data3/docker_model/AgentSys/Qwen3-1.7B'
@@ -19,8 +21,33 @@ model=AutoModelForCausalLM.from_pretrained(M, dtype=torch.bfloat16, device_map='
 NOTHINK="<think>\n\n</think>\n\n"
 SYS="<|im_start|>system\nYou answer questions using the provided search results. Be concise.<|im_end|>\n"
 ANS_SUF="\nGive the final short answer to the question now, nothing else.<|im_end|>\n<|im_start|>assistant\n"+NOTHINK
-NOTE_SUF="\nState the key fact from the latest result in one short sentence.<|im_end|>\n<|im_start|>assistant\n"+NOTHINK
+NOTE_SUF="\nState what the latest result contributes to answering the question, in one short sentence; if nothing, say irrelevant.<|im_end|>\n<|im_start|>assistant\n"+NOTHINK
 def ids(s): return tok(s, return_tensors='pt', add_special_tokens=False).input_ids.to('cuda')
+def build_local(nps):
+    import json as _j
+    pool=[]
+    for conv in _j.load(open('/data3/docker_model/AgentSys/_datasets/ShareGPT_V3_unfiltered_cleaned_split.json'))[:800]:
+        for m in conv.get('conversations',[]):
+            t=m.get('value','').strip().replace('\n',' ')
+            if 220<len(t)<400: pool.append(t)
+        if len(pool)>4000: break
+    rng=random.Random(7); rng.shuffle(pool)
+    CITIES=['Zurich','Osaka','Porto','Tallinn','Cusco','Windhoek','Tromso','Davao','Leipzig','Ottawa',
+            'Bergen','Quito','Sapporo','Ghent','Tucson','Cork','Malmo','Split','Nagoya','Basel']
+    NAMES=['Ilse Brandt','Tomas Vela','Aiko Mori','Ruth Okafor','Pavel Novak','Greta Lindh','Omar Sayed']
+    strata={'early':1,'mid':5,'late':9}; out=[]; pi=0
+    for i in range(nps*3):
+        st=list(strata)[i%3]; pos=strata[st]
+        code=f"AX-{rng.randint(100,999)}"; city=rng.choice(CITIES); name=rng.choice(NAMES)
+        yr=rng.randint(1988,2024); bud=rng.randint(12,940)
+        gold=(f"Internal briefing: the project codenamed {code} was directed by {name} and launched in "
+              f"{yr}. Its operations were headquartered in {city}, with an initial budget of {bud} million dollars.")
+        q=f"In which city was the project codenamed {code} headquartered?"
+        paras=[('Note', pool[pi+k], False) for k in range(9)]; pi+=9
+        paras.insert(pos, ('Briefing', gold, True))
+        out.append(dict(q=q, ans=city, stratum=st, paras=paras[:10]))
+    return out
+
 df=pd.read_parquet('/data3/docker_model/AgentSys/_datasets/hotpot_dev_distractor.parquet')
 data=[]
 for _,row in df.iterrows():
@@ -41,6 +68,7 @@ for ex in data:
         samples.append(dict(q=ex['question'], ans=ex['answer'], stratum=st,
             paras=[(t,' '.join(s),(t in titles)) for t,s in order])); break
     if all(sum(1 for s_ in samples if s_['stratum']==st)>=a.n_per_stratum for st in strata): break
+if a.data=='local': samples=build_local(a.n_per_stratum)
 if a.smoke: samples=samples[:a.smoke]
 print(f"episodes: {len(samples)}", flush=True)
 
@@ -73,7 +101,7 @@ def smooth(x,k=7):
     from numpy.lib.stride_tricks import sliding_window_view
     return sliding_window_view(xp,k).max(axis=1)
 
-def keep_sets(spans, cons, glob, rho, rng):
+def keep_sets(spans, cons, glob, rho, rng, notes=None):
     """返回各臂的 keep 索引(全局坐标, 含头部全部)。spans=[(st,en,g)]"""
     out={}
     n_head=spans[0][0]
@@ -109,6 +137,12 @@ def keep_sets(spans, cons, glob, rho, rng):
         kept=ridx[np.argsort(rsc)[-bud:]]
     else: kept=np.zeros(0,dtype=int)
     out['H']=np.sort(np.concatenate([head]+sh+[kept]))
+    if notes is not None:
+        ki=[head]
+        for k,(st,en,_) in enumerate(spans):
+            rel='irrelevant' not in notes[k].lower()
+            ki.append(np.arange(st,en) if rel else np.arange(st,min(st+4,en)))
+        out['I']=np.sort(np.concatenate(ki))
     return out
 
 results=[]; t0=time.time()
@@ -117,7 +151,7 @@ for ep,s in enumerate(samples):
     cache=DynamicCache()
     head=SYS+f"<|im_start|>user\nQuestion: {s['q']}\nSearch results (arriving incrementally):\n"
     hid=ids(head); fwd(cache,hid,0); pos=hid.shape[1]
-    spans=[]; cons={}; span_ids=[]
+    spans=[]; cons={}; span_ids=[]; notes=[]
     globacc=None; pfacc=None
     for k,(t,x,g) in enumerate(s['paras']):
         tid=ids(f"[{k+1}] {t}: {x}\n"); span_ids.append(tid)
@@ -128,21 +162,23 @@ for ep,s in enumerate(samples):
         if pfacc is None: pfacc=np.zeros(0)
         pfacc=np.pad(pfacc,(0,L0-pfacc.shape[0])); pfacc+=psc
         L=cache.get_seq_length()
-        _,sc=gen(cache, NOTE_SUF, pos, 16, attn=True, K_ctx=L)
-        cache.crop(L); cons[k]=sc[st_:pos]
+        ntxt,sc=gen(cache, NOTE_SUF, pos, 16, attn=True, K_ctx=L)
+        cache.crop(L); cons[k]=sc[st_:pos]; notes.append(ntxt)
         if globacc is None: globacc=np.zeros(0)
         globacc=np.pad(globacc,(0,L-globacc.shape[0])); globacc[:L]+=sc
     L=cache.get_seq_length()
     ansA,_=gen(cache, ANS_SUF, pos, 24)
     del cache; torch.cuda.empty_cache()
-    rec=dict(stratum=s['stratum'], gold=s['ans'], ansA=ansA, n_ctx=int(pos),
+    rec=dict(stratum=s['stratum'], gold=s['ans'], ansA=ansA, n_ctx=int(pos), notes=notes,
+             gold_spans=[k for k,(_,_,g) in enumerate(spans) if g],
              n_span=sum(en-st for st,en,_ in spans))
     # ---- 遍2: 各臂重放 ----
     rng=np.random.RandomState(ep)
     for rho in RHOS:
-        ks=keep_sets(spans, cons, globacc, rho, rng)
+        ks=keep_sets(spans, cons, globacc, rho, rng, notes)
         ks['G']=np.sort(np.concatenate([np.arange(spans[0][0]), np.concatenate([np.arange(st,en) for st,en,_ in spans])[np.argsort(np.concatenate([pfacc[st:en] for st,en,_ in spans]))[-max(1,int(round(sum(en-st for st,en,_ in spans)*rho))):]]]))
         for arm,keep in ks.items():
+            if a.arms and arm not in a.arms.split(','): continue
             c=DynamicCache(); fwd(c,hid,0); p=hid.shape[1]
             for k,tid in enumerate(span_ids):
                 fwd(c,tid,p); p+=tid.shape[1]
@@ -164,7 +200,11 @@ for ep,s in enumerate(samples):
             ansX,_=gen(c, ANS_SUF, p, 24)
             rec[f'ans_{arm}@{rho}']=ansX; rec[f'kv_{arm}@{rho}']=int(c.get_seq_length())
             del c
+        if a.arms and 'F' not in a.arms.split(','):
+            results_skipF=True
         # F: 全丢+答案时语义换入 top2 跨度(按消费分跨度均值)
+        if a.arms and 'F' not in a.arms.split(','):
+            rec[f'ans_F@{rho}']='SKIP'; rec[f'kv_F@{rho}']=0; continue
         rank=np.argsort([cons[k].mean() for k in range(len(spans))])[::-1][:2]
         c=DynamicCache(); fwd(c,hid,0); p=hid.shape[1]
         kv_between=hid.shape[1]  # 轮间仅头部
@@ -191,7 +231,8 @@ nctx=stt.mean(r['n_ctx'] for r in results)
 print(f"A 全KV: 质量 {100*qA:.0f}%  上下文均值 {nctx:.0f} tok")
 for rho in RHOS:
     print(f"-- ρ={rho} --")
-    for arm in ['B','B2','C','D','E','E2','G','H','F']:
-        q=stt.mean(ok(r[f'ans_{arm}@{rho}'],r['gold']) for r in results)
+    for arm in ['B','B2','C','D','E','E2','G','H','I','F']:
+        try: q=stt.mean(ok(r[f'ans_{arm}@{rho}'],r['gold']) for r in results if r[f'ans_{arm}@{rho}']!='SKIP')
+        except Exception: continue
         kv=stt.mean(r[f'kv_{arm}@{rho}'] for r in results)
         print(f"  {arm}: 质量 {100*q:3.0f}%  保留KV {kv:5.0f} tok ({100*kv/nctx:.0f}%)  显存降 {100*(1-kv/nctx):.0f}%")
