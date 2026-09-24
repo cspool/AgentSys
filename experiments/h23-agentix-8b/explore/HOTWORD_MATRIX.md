@@ -37,3 +37,20 @@ dLLM serving: 资产不合, 缓。
 1. 本地库题录词频落地后补热词面并复扫矩阵空格
 2. C1 深审(移动端OSDI'26论文细读 + "self-interference/closed-loop" 专扫) -> 若存活, 设计最小螺旋复现实验
 3. C5 深审(world model serving/scheduling 专扫 + Matrix-Game 2.0 4090 可行性)
+
+## 四、本地库题录词频(208篇去重, 实证热词面)
+**MoE/experts/mixture(109次, 压倒性#1)** >> llm/inference/serving(97) > kernel生成(15)+agentic(15)
+> multimodal(13)=memory(13) > scheduling/cache/attention(11) > heterogeneous/compression/communication(6-8)。
+与联网面互补: 本地重 MoE/kernel-gen/异构offload(TriMoE/TwinPilots/prima.cpp 家用集群),
+联网重 CXL/chiplet/世界模型/能耗。
+
+## 五、矩阵增补与终判
+### C10 MoE专家 x agent KV 联合弹性(新开格, 由词频驱动)
+洞察: expert(权重态,gate可预测) 与 agent KV(状态态,等待可预告) 是**两类可换出状态**,
+共享同一显存预算但预告信号不同 —— 现有工作各管一类(MoE offload家族 / kvcached家族),
+**联合仲裁+双信号无人做**。资产: 全套弹性机械件; 本地库MoE论文密集(理解成本低)。待专扫审查。
+### 终判(2026-09-24)
+深审优先级: **C1 自干扰闭环**(新问题, 初判空隙) > **C5 双神经租户**(新场景, Matrix-Game开源可跑)
+> **C10 双状态联合弹性**(新策略, 待专扫) >> C4(弱) > 其余(已占/不合)。
+三条分别对应 新问题/新场景/新策略 —— 恰好覆盖用户要求的探索类型学。
+下一步: 三格各一轮专扫深审(纪律: 审查先于实验), 存活者出最小验证实验设计。
