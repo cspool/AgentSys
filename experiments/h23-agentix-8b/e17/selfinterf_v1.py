@@ -6,7 +6,7 @@ agent: 捕获帧号(截图) -> 真实LLM decode K token(思考) -> 动作; 有�
 import argparse,threading,time,json,random
 import torch,numpy as np
 ap=argparse.ArgumentParser()
-ap.add_argument('--arm',required=True,choices=['A','B','C'])
+ap.add_argument('--arm',required=True,choices=['A','B','C','D','E'])
 ap.add_argument('--agents',type=int,default=4)
 ap.add_argument('--dur',type=float,default=90.0)
 ap.add_argument('--warm',type=float,default=15.0)
@@ -14,6 +14,7 @@ ap.add_argument('--tau-ms',type=float,default=900.0)   # 陈旧窗: 独占推理
 ap.add_argument('--think-tok',type=int,default=48)
 ap.add_argument('--rate-b',type=float,default=2.2)     # B臂: 每agent动作最小间隔(s)
 ap.add_argument('--seed',type=int,default=7)
+ap.add_argument('--tau-mix',action='store_true')
 ap.add_argument('--out',default='')
 a=ap.parse_args()
 dev='cuda'; FRAME=1/60.0
@@ -43,6 +44,7 @@ def th_render():
 # agent 基建: 每agent一个1500-tok合成KV + 独立流
 class Agent:
     def __init__(s_,i):
+        s_.tau_ms = (1600.0 if i<2 else 5000.0) if a.tau_mix else a.tau_ms
         s_.i=i; s_.stream=torch.cuda.Stream()
         s_.cache=DynamicCache()
         with torch.cuda.stream(s_.stream):
@@ -65,7 +67,24 @@ class Agent:
                     l.keys=l.keys[:,:,:L,:].contiguous(); l.values=l.values[:,:,:L,:].contiguous()
             s_.stream.synchronize(); s_.S=L
 slot_lock=threading.Lock()   # C臂: 观测-动作窗互斥slot
-TAU_F=a.tau_ms/1000/FRAME
+import heapq
+class EDFGate:
+    """D: EDF互斥; E: EDF+并发2"""
+    def __init__(s_,width):
+        s_.cv=threading.Condition(); s_.q=[]; s_.active=0; s_.width=width; s_.tick=0
+    def acquire(s_,deadline):
+        with s_.cv:
+            s_.tick+=1; me=(deadline,s_.tick); heapq.heappush(s_.q,me)
+            while s_.active>=s_.width or s_.q[0]!=me:
+                s_.cv.wait(timeout=3.0)
+                if stop: return False
+            heapq.heappop(s_.q); s_.active+=1
+            return True
+    def release(s_):
+        with s_.cv:
+            s_.active-=1; s_.cv.notify_all()
+edf=None
+
 t_start=[0]
 def th_agent(ag):
     rng=random.Random(a.seed*100+ag.i)
@@ -74,16 +93,25 @@ def th_agent(ag):
             with slot_lock:                    # 声明窗: 窗内独占agent算力
                 if stop: return
                 obs=frame_idx[0]; ag.think(); act=frame_idx[0]
+        elif a.arm in ('D','E'):
+            dl=time.perf_counter()+ag.tau_ms/1000
+            if not edf.acquire(dl): return
+            try:
+                obs=frame_idx[0]; ag.think(); act=frame_idx[0]
+            finally:
+                edf.release()
         else:
             obs=frame_idx[0]; ag.think(); act=frame_idx[0]
         ag.acts+=1; stale=act-obs; ag.stale.append(stale)
-        if stale<=TAU_F:
+        if stale<=ag.tau_ms/1000/FRAME:
             ag.ok+=1
             time.sleep(rng.uniform(0.5,1.5))   # 成功后下一任务间歇
             if a.arm=='B': time.sleep(max(0,a.rate_b-1.0))
         else:
             ag.fail+=1; ag.retries+=1          # 失败立即重试(螺旋)
             if a.arm=='B': time.sleep(max(0,a.rate_b-0.0))
+if a.arm in ('D','E'):
+    edf=EDFGate(1 if a.arm=='D' else 2)
 agents=[Agent(i) for i in range(a.agents)]
 ths=[threading.Thread(target=th_render)]+[threading.Thread(target=th_agent,args=(g,)) for g in agents]
 T0=time.perf_counter(); t_start[0]=T0
@@ -95,6 +123,7 @@ fr=np.array(frames[int(a.warm/FRAME):])
 ok=sum(g.ok for g in agents); fail=sum(g.fail for g in agents); acts=sum(g.acts for g in agents)
 stale_all=[s for g in agents for s in g.stale]
 out=dict(arm=a.arm,agents=a.agents,tau_ms=a.tau_ms,
+         per_agent=[dict(tau=g.tau_ms,ok=g.ok,fail=g.fail) for g in agents],
          goodput_per_min=ok/(dur/60), succ=ok/max(acts,1),
          retry_amp=acts/max(ok,1),                     # 每有效动作平均尝试次数(螺旋放大系数)
          stale_p50_ms=float(np.percentile(stale_all,50))*FRAME*1000 if stale_all else -1,
