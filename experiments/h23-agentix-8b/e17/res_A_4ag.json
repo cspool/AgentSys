@@ -1,0 +1,1 @@
+{"arm": "A", "agents": 4, "tau_ms": 1600.0, "goodput_per_min": 0.0, "succ": 0.0, "retry_amp": 36.0, "stale_p50_ms": 10591.666666666666, "stale_p95_ms": 11683.333333333334, "frame_p99": 6.34920870070346, "frame_miss": 0.0}
