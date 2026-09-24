@@ -20,7 +20,8 @@ model=AutoModelForCausalLM.from_pretrained(M, dtype=torch.bfloat16, device_map='
 NL,NKV,HD,L=28,8,128,3000
 SLAB=NL*NKV*L*HD*2*2/1e9
 free,_=torch.cuda.mem_get_info(); POOL=free/1e9-2.5
-CAP_R1=int((POOL-a.vision_gb)/SLAB)
+CAP_R1_AW=12
+CAP_R1=int((POOL-a.vision_gb-CAP_R1_AW*SLAB-0.8)/SLAB)  # 席位+醒集副本联合预算
 CAP_AW=min(16,int(((POOL-a.vision_gb-1.0)/2)/SLAB))  # 双缓冲(slab库+合并副本)各占一半
 N=a.pool
 print(f"SLAB {SLAB:.3f}GB 池{POOL:.1f}GB R1席{CAP_R1} 醒集上限{CAP_AW} pool{N}",flush=True)
@@ -38,7 +39,7 @@ def dev_pair():
 dev_slab={}; host_slab={}
 with torch.cuda.stream(sL):
     if a.arm=='R1':
-        for i in admitted: dev_slab[i]=dev_pair()
+        for i in (resident if resident is not None else admitted): dev_slab[i]=dev_pair()
 sL.synchronize()
 if a.arm in ('RS','RSr'):
     for i in admitted:
@@ -51,14 +52,22 @@ stop=False; frames=[]; tok=[0]; vlat=[]; trans_ms=[]; rebuild_debt=[0.0]
 DBG={'blk':0,'bt':0.0,'t0':0,'cap':0,'idle':0}
 def assemble(mem):
     t0=time.perf_counter()
-    with torch.cuda.stream(sL):
-        c=DynamicCache()
-        if mem:
-            for li in range(NL):
-                k=torch.stack([dev_slab[ag][0][li] for ag in mem])
-                v=torch.stack([dev_slab[ag][1][li] for ag in mem])
-                c.update(k,v,li)
-    sL.synchronize()
+    merged[0]=None; torch.cuda.empty_cache()
+    while True:
+        try:
+            with torch.cuda.stream(sL):
+                c=DynamicCache()
+                if mem:
+                    for li in range(NL):
+                        k=torch.stack([dev_slab[ag][0][li] for ag in mem])
+                        v=torch.stack([dev_slab[ag][1][li] for ag in mem])
+                        c.update(k,v,li)
+            sL.synchronize()
+            break
+        except torch.OutOfMemoryError:
+            torch.cuda.empty_cache()
+            if len(mem)<=2: c=DynamicCache(); break
+            mem=mem[:len(mem)//2]
     merged[0]=c; members[0]=list(mem)
     return (time.perf_counter()-t0)*1000
 def th_sched():
@@ -78,7 +87,9 @@ def th_sched():
                         ep_done[0]+=1; rounds[i]=0
                         if resident is not None:         # R1: 释放席位, 队首补位
                             resident.discard(i); adm_queue.append(i)
+                            if i in dev_slab: del dev_slab[i]
                             nx=adm_queue.pop(0); resident.add(nx)
+                            with torch.cuda.stream(sL): dev_slab[nx]=dev_pair()
                             phase[nx]=('wait',now+rng.uniform(0,2))
                 changed.append(i)
         need_trim = merged[0] is not None and merged[0].get_seq_length()>L+300
@@ -94,7 +105,7 @@ def th_sched():
             finally: pause.clear()
             continue
         pool_ok=[i for i in admitted if (resident is None or i in resident)]
-        awake=[i for i in pool_ok if phase[i][0]=='awake'][:CAP_AW if a.arm!='R1' else CAP_R1]
+        awake=[i for i in pool_ok if phase[i][0]=='awake'][:CAP_AW if a.arm!='R1' else CAP_R1_AW]
         t0=time.perf_counter()
         idle.clear(); pause.set(); idle.wait(timeout=5)
         try:
