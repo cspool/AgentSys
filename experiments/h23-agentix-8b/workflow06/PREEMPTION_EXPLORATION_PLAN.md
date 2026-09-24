@@ -1339,3 +1339,11 @@ E1 门控纯亏。=> 计算维无 30% 空间, 仲裁主战场在显存维。
 **S2 组合系统效应**(+171%/+700%, 帧SLO全守, 单机制不可达)
 **S3 反转定则+边界**(Heimdall切块结论在优先级流下反转, 速进速出)。
 诚实分类均已标注; 30%由 S2 承载。若成文, 定位= systems 测量+集成论文, 非机制论文。
+
+### E15 环境阻塞记录(2026-09-24)
+4臂x3种子终局批次全灭原因: 容器 GPU cgroup 设备权限被吊销(/dev/nvidiactl EPERM, 节点在位,
+内核模块正常 595.91.07) = Docker+systemd daemon-reload 知名问题, 容器内不可自修。
+宿主侧修复: docker restart <容器> 或重建时 --gpus all; 永久缓解: daemon.json 配
+"exec-opts":["native.cgroupdriver=cgroupfs"]。
+已备: e15/relaunch_after_gpu_restore.sh 一键重启批次; RS 常驻工作区补丁已入(修视觉弱轴)。
+3 insight + 3 创新框架已定稿(见上节与 NOVELTY_AUDIT.md), 仅差最差情况数字判定。

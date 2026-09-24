@@ -142,12 +142,12 @@ def th_render():
         else: nxt=time.perf_counter()
 def th_vision():
     vx=torch.randn(4096,4096,device=dev,dtype=torch.bfloat16); vy=torch.randn_like(vx); vout=torch.empty_like(vx)
-    ws_static=torch.empty(int(a.vision_gb*1e9/2),dtype=torch.bfloat16,device=dev) if a.arm=='R1' else None
+    ws_static=torch.empty(int(a.vision_gb*1e9/2),dtype=torch.bfloat16,device=dev) if a.arm in ('R1','RS') else None  # RS: 停放腾出的显存常驻持有工作区(CAP已扣除)
     while not stop:
         time.sleep(8.0)
         if stop: break
         t_arr=time.perf_counter()
-        if a.arm=='R1': ws=ws_static
+        if a.arm in ('R1','RS'): ws=ws_static
         else:
             if a.arm=='RSr':
                 need=int(a.vision_gb/SLAB)+2
@@ -164,7 +164,7 @@ def th_vision():
         with torch.cuda.stream(sV):
             for _ in range(max(1,int(300/(unit*4)))): torch.mm(vx,vy,out=vout)
         sV.synchronize()
-        if a.arm!='R1': del ws; torch.cuda.empty_cache()
+        if a.arm not in ('R1','RS'): del ws; torch.cuda.empty_cache()
         vlat.append((time.perf_counter()-t_arr)*1000)
 def wrap(f):
     def g():
