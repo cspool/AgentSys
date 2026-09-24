@@ -1,0 +1,131 @@
+{
+ "model": "/data3/docker_model/AgentSys/Qwen3-8B",
+ "bytes_per_token": 147456,
+ "runs": [
+  {
+   "kind": "rebuild",
+   "prefix": 512,
+   "span": 128,
+   "ms": 42.3971156681849
+  },
+  {
+   "kind": "rebuild",
+   "prefix": 512,
+   "span": 256,
+   "ms": 35.66485333431046
+  },
+  {
+   "kind": "rebuild",
+   "prefix": 512,
+   "span": 512,
+   "ms": 63.74260600083895
+  },
+  {
+   "kind": "rebuild",
+   "prefix": 512,
+   "span": 1024,
+   "ms": 124.10845300231207
+  },
+  {
+   "kind": "rebuild",
+   "prefix": 2048,
+   "span": 128,
+   "ms": 32.71652733383232
+  },
+  {
+   "kind": "rebuild",
+   "prefix": 2048,
+   "span": 256,
+   "ms": 40.63083133223702
+  },
+  {
+   "kind": "rebuild",
+   "prefix": 2048,
+   "span": 512,
+   "ms": 70.30622600238226
+  },
+  {
+   "kind": "rebuild",
+   "prefix": 2048,
+   "span": 1024,
+   "ms": 137.7747726655798
+  },
+  {
+   "kind": "rebuild",
+   "prefix": 8192,
+   "span": 128,
+   "ms": 51.91816966786678
+  },
+  {
+   "kind": "rebuild",
+   "prefix": 8192,
+   "span": 256,
+   "ms": 59.56047600193415
+  },
+  {
+   "kind": "rebuild",
+   "prefix": 8192,
+   "span": 512,
+   "ms": 100.98917899934668
+  },
+  {
+   "kind": "rebuild",
+   "prefix": 8192,
+   "span": 1024,
+   "ms": 191.3783243362559
+  },
+  {
+   "kind": "batch",
+   "k": 1,
+   "tokens": 512,
+   "ms": 69.52690333370509
+  },
+  {
+   "kind": "batch",
+   "k": 2,
+   "tokens": 1024,
+   "ms": 137.32957500178597
+  },
+  {
+   "kind": "batch",
+   "k": 4,
+   "tokens": 2048,
+   "ms": 288.47095133338985
+  },
+  {
+   "kind": "batch",
+   "k": 8,
+   "tokens": 4096,
+   "ms": 680.9806563323946
+  },
+  {
+   "kind": "vs_transfer",
+   "span": 512,
+   "rebuild_ms": 69.5390943340802,
+   "transfer_ms": 4.025176332409804,
+   "mb": 75.497472
+  },
+  {
+   "kind": "vs_transfer",
+   "span": 2048,
+   "rebuild_ms": 287.08175733239227,
+   "transfer_ms": 15.803714998279855,
+   "mb": 301.989888
+  },
+  {
+   "kind": "fidelity",
+   "prefix": 2048,
+   "cos_k": 0.9381917433606254,
+   "cos_v": 0.8635743690861596,
+   "cos_k_min": 0.8555039167404175
+  },
+  {
+   "kind": "fidelity",
+   "prefix": 8192,
+   "cos_k": 0.9387533664703369,
+   "cos_v": 0.8575310574637519,
+   "cos_k_min": 0.8599967360496521
+  }
+ ],
+ "ms_per_1k": 150.28280794421934
+}
