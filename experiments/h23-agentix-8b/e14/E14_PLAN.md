@@ -53,3 +53,32 @@ E14.4 规模: 8B vs 14B(毒判决质量随规模)。
 ## 5. 复用资产
 E13 harness(断点缓存/手术/位置续推/双卡索引) 改造为页粒度; verify 教师强制机制(删除增益);
 H3 吞吐基准; 判官提示词与 ROC 数据。
+
+## 6. 相邻方向调研(2026-09-24, 用户四问)
+### 6.1 多agent KV 共享 — 拥挤, 不建议进入
+KVCOMM(2510.12872 跨上下文KV通信) / TokenDance(2604.03143 master KV+块稀疏diff, 11-17x)
+/ LRAgent(base+低秩adapter共享, Flash-LoRA-Attention) / DroidSpeak / KVFlow /
+PolyKV(2604.24971 非对称压缩共享池) / QKVShare(2605.03884 端侧agent间量化handoff)。
+### 6.2 混合精度/稀疏(按语义分级) — 已被占, 且已延伸到端侧与agent
+QKVShare: token级混合精度 2-16bit CacheCard, 2.8x密度, TTFT 1030->397ms@8K;
+TriAxialKV(2605.17170): 面向 agentic 任务的极低精度KV量化;
+Edge Q4 持久KV(2603.04428): 每agent KV 4bit 落盘消除 re-prefill;
+经典非对称K/V量化(K与V离群模式不同)已是共识。**"工具输出低比特/推理高比特"的语义分级未见专文,
+但属于 TriAxialKV+CommitKV 的显然组合, 单独立论弱。**
+### 6.3 先压缩后恢复 — 已成子领域(与我们T2/T1/T0阶梯同源)
+RestoreKV(2608.01247): 驱逐前生成"上下文条件补全"以保住行为(不是选更好子集, 而是造补丁);
+PatchKV(2609.26219): 上下文被编辑后的前缀/更新段/对齐后缀分解恢复;
+CacheFlow(2604.25080): 3D并行KV恢复; CacheTTL: 工具期驱逐后 recompute-vs-reload 决策;
+Edge Q4: 量化落盘即"压缩-恢复"。**我们的文本留底重建属同族, 无新意; 但"恢复的是毒页则不该恢复"
+与 RestoreKV 的补全思路正交, 可作为 E14 的附加消融。**
+### 6.4 端侧多模态agent争抢GPU — **相对空白, 唯一可立项的相邻方向**
+已有: Nova(2509.21301 实时 agentic VLM serving, 跨阶段自适应并行) 明确指出
+**视觉编码器推理与LLM decode预分配KV争抢显存 -> 缓存驱逐/重算**, 其解法是视觉编码器权重异步换出;
+Mosaic(2605.18710 训练侧空间复用); EdgeCoInfer/移动SoC刻画(2501.14794, NPU/GPU/DLA异构调度);
+VL-Cache/MEDA/FastCache(模态感知KV压缩, 单模型内部)。
+**空白: 多个不同模态 agent(视觉/视频/图形渲染/文本)在同一端侧GPU上并发时的
+"跨agent跨模态资源仲裁" —— 现有工作要么单模型内部(VL-Cache), 要么单agent流水(Nova),
+要么训练侧(Mosaic)。与本仓 MPK/greenctx/POD 共驻复现资产直接可接。**
+候选立项 E15(待定): 端侧多模态 agent 共驻仲裁 —— 模态决定资源画像(视觉编码=计算密集突发,
+LLM decode=访存密集持续, 渲染=固定帧预算硬实时), KV/显存/SM 三资源联合分配,
+可复用 E13 毒页判决做跨模态上下文降级。
