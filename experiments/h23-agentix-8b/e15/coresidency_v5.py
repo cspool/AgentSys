@@ -6,7 +6,7 @@ RS 换出停放(本方案): 池128, 睡D2H(18ms)醒H2D, 醒集decode(上限32)�
 import argparse,threading,time,json,random,traceback
 import torch,numpy as np
 ap=argparse.ArgumentParser()
-ap.add_argument('--arm',required=True,choices=['R1','RB','RS'])
+ap.add_argument('--arm',required=True,choices=['R1','RB','RS','RSr'])
 ap.add_argument('--dur',type=float,default=45.0)
 ap.add_argument('--seed',type=int,default=7)
 ap.add_argument('--pool',type=int,default=64)
@@ -37,7 +37,7 @@ with torch.cuda.stream(sL):
     if a.arm=='R1':
         for i in admitted: dev_slab[i]=dev_pair()
 sL.synchronize()
-if a.arm=='RS':
+if a.arm in ('RS','RSr'):
     for i in admitted:
         host_slab[i]=(torch.empty(NL,NKV,L,HD,dtype=torch.bfloat16,pin_memory=True),
                       torch.empty(NL,NKV,L,HD,dtype=torch.bfloat16,pin_memory=True))
@@ -87,13 +87,13 @@ def th_sched():
             with torch.cuda.stream(sL):
                 for i in changed:
                     if phase[i][0]=='awake' and i not in dev_slab:      # 醒: 供给设备槽
-                        if a.arm=='RS':
+                        if a.arm in ('RS','RSr'):
                             k,v=torch.empty(NL,NKV,L,HD,dtype=torch.bfloat16,device=dev),torch.empty(NL,NKV,L,HD,dtype=torch.bfloat16,device=dev)
                             k.copy_(host_slab[i][0],non_blocking=True); v.copy_(host_slab[i][1],non_blocking=True)
                             dev_slab[i]=(k,v)
                         elif a.arm=='RB':
                             dev_slab[i]=dev_pair(); rebuild_debt[0]+=REBUILD_S
-                    elif phase[i][0]=='wait' and a.arm!='R1' and i in dev_slab:  # 睡: 撤离
+                    elif phase[i][0]=='wait' and a.arm not in ('R1','RSr') and i in dev_slab:  # 睡: 撤离
                         if a.arm=='RS':
                             host_slab[i][0].copy_(dev_slab[i][0],non_blocking=True)
                             host_slab[i][1].copy_(dev_slab[i][1],non_blocking=True)
@@ -149,6 +149,16 @@ def th_vision():
         t_arr=time.perf_counter()
         if a.arm=='R1': ws=ws_static
         else:
+            if a.arm=='RSr':
+                need=int(a.vision_gb/SLAB)+2
+                sleepers=[i for i in admitted if phase[i][0]=='wait' and i in dev_slab][:need]
+                with torch.cuda.stream(sV):
+                    for i in sleepers:
+                        host_slab[i][0].copy_(dev_slab[i][0],non_blocking=True)
+                        host_slab[i][1].copy_(dev_slab[i][1],non_blocking=True)
+                sV.synchronize()
+                for i in sleepers: del dev_slab[i]
+                torch.cuda.empty_cache()
             try: ws=torch.empty(int(a.vision_gb*1e9/2),dtype=torch.bfloat16,device=dev)
             except torch.OutOfMemoryError: vlat.append(-1); continue
         with torch.cuda.stream(sV):
