@@ -33,3 +33,17 @@ E15 原三主张经严格审查: ①②死于占位, ③表述不成立。
 创新性: **原主张①②③死, ④方向性存活但证据不足以立论文级主张**。
 E15 定位 = 工程验证 + Heimdall/kvcached 时代的确认性再推导 + 一条待严格验证的窄条(弹性时机)。
 若继续: 必须以真 kvcached 集成为 baseline, 在其上做"agent等待信号驱动的预让位"增量。
+
+## 第二轮预审(2026-09-24, 3点创新目标下的立项前审查) —— 三候选全灭
+| 候选创新 | 占位者 | 判决 |
+| I1 状态信号预让位(vs压力驱动) | **InferCept**(工具中断信号触发swap, 2024; E14已承认过一次) + vLLM sleep/wake(decommit 3ms) | 死 |
+| I2 SLO类型->让位货币匹配 | **MIGRator**(按主导资源瓶颈同时分区算力+显存) + Astraea/DetShare | 大部死 |
+| I3 弹性KV可调度性准入 | **Chronos**(首个形式化RT可调度性+WCRT界+准入) + **Metronome**(AIMD准入+实时KV窗口) | 死 |
+另: "Elastic KV: Why Chunked Prefill Already Closes the Gap"(2608.23658) 为本空间的辟谣式论文,
+直接反对"弹性KV机制有额外收益"的立论方向。
+
+## 三线审查链的战略结论
+E13(压缩)/E14(临时化)/E15(共驻仲裁) 的机制层可达空间已被
+CommitKV/2608.00902/InferCept/kvcached/Prism/eLLM/Heimdall/Chronos/Metronome/vLLM-sleep/MIGRator/VUDA
+全覆盖。**机制类创新在此空间不可诚实达成。**
+幸存的独有聚合资产 = 跨三线复现的经验定律库(见 E15_LAWS.md), 属测量/刻画类贡献。
