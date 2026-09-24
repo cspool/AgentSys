@@ -32,3 +32,9 @@
 ## 四、审查纪律
 三轮对抗预审判决表 + 占位者清单 + 每点差异化 = NOVELTY_AUDIT.md; 定律库 = E15_LAWS.md;
 数据 = resv5_*.json / decode_curve_*.json / coresidency_v1-v5.py。
+
+## 五、同配置口径(2026-09-24 goal升级后的方法论加固)
+**配置对等声明**: 全臂同 offered load(64 agent, 同相位RNG种子)、同GPU、同硬件包络
+(host RAM 对全臂可用, 各机制自行选择是否利用 —— 与 InferCept/kvcached 论文同口径);
+R1 以"驻留席+准入排队"语义参赛(episode 完成释放席位, 队首补位), 消除此前 offered load 不对等。
+**一致性报告**: 每基线对比给出逐种子提升 + 平均提升, 要求全部 >=30%(resv7 批次, GPU恢复后自动执行)。

@@ -27,7 +27,10 @@ print(f"SLAB {SLAB:.3f}GB 池{POOL:.1f}GB R1席{CAP_R1} 醒集上限{CAP_AW} poo
 sR=torch.cuda.Stream(priority=-1); sL=torch.cuda.Stream(); sV=torch.cuda.Stream()
 REBUILD_S=0.145
 rng=random.Random(a.seed)
-admitted=list(range(CAP_R1)) if a.arm=='R1' else list(range(N))
+admitted=list(range(N))            # 全臂同 offered load
+resident=set(range(CAP_R1)) if a.arm=='R1' else None   # R1: 驻留席集合
+adm_queue=[i for i in range(N) if a.arm=='R1' and i>=CAP_R1]
+ep_done=[0]
 # 槽: [NL,NKV,L,HD] K与V
 def dev_pair():
     return (torch.randn(NL,NKV,L,HD,dtype=torch.bfloat16,device=dev)*0.02,
@@ -62,11 +65,21 @@ def th_sched():
     while not stop:
         time.sleep(1.0)
         now=time.perf_counter(); changed=[]
+        rounds=getattr(th_sched,'_rounds',None)
+        if rounds is None: rounds={i:0 for i in admitted}; th_sched._rounds=rounds
         for i in admitted:
+            if resident is not None and i not in resident: continue   # R1: 未持席不推进
             st,te=phase[i]
             if now>=te:
                 if st=='wait': phase[i]=('awake',now+rng.uniform(2,3))
-                else: phase[i]=('wait',now+rng.uniform(6,10))
+                else:
+                    phase[i]=('wait',now+rng.uniform(6,10)); rounds[i]=rounds.get(i,0)+1
+                    if rounds[i]>=R:                     # episode 完成
+                        ep_done[0]+=1; rounds[i]=0
+                        if resident is not None:         # R1: 释放席位, 队首补位
+                            resident.discard(i); adm_queue.append(i)
+                            nx=adm_queue.pop(0); resident.add(nx)
+                            phase[nx]=('wait',now+rng.uniform(0,2))
                 changed.append(i)
         need_trim = merged[0] is not None and merged[0].get_seq_length()>L+300
         if not changed and merged[0] is not None and not need_trim: continue
@@ -80,7 +93,8 @@ def th_sched():
             except Exception: traceback.print_exc()
             finally: pause.clear()
             continue
-        awake=[i for i in admitted if phase[i][0]=='awake'][:CAP_AW if a.arm!='R1' else CAP_R1]
+        pool_ok=[i for i in admitted if (resident is None or i in resident)]
+        awake=[i for i in pool_ok if phase[i][0]=='awake'][:CAP_AW if a.arm!='R1' else CAP_R1]
         t0=time.perf_counter()
         idle.clear(); pause.set(); idle.wait(timeout=5)
         try:
@@ -179,7 +193,7 @@ for t in ths: t.join(timeout=25)
 dur=time.perf_counter()-t0
 fr=np.array(frames[5:]); good=[v for v in vlat if v>0]
 awake_now=len(members[0])
-out=dict(arm=a.arm,admitted=len(admitted),
+out=dict(arm=a.arm,admitted=len(admitted),eps_per_h=ep_done[0]/(dur/3600),
          p99=float(np.percentile(fr,99)),miss=float(100*np.mean(fr>FRAME*1000)),
          llm_tps=tok[0]/dur,B_last=awake_now,
          trans_ms=float(np.mean(trans_ms)) if trans_ms else 0,
