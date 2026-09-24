@@ -1,5 +1,7 @@
 # AgentSys
 
+3b04751a-dd5a-457d-90cc-ca5279da672b
+
 RTX 4090 x2 上的 agent serving 系统研究仓库。四条线索引如下。
 
 ## 1. Agentix 复现(早期主线)
@@ -46,5 +48,6 @@ E14 以"压缩即去噪"立论、按两论文配置对齐重启。
 - 代码与数据: `experiments/h23-agentix-8b/e13/` (harness/探针/吞吐基准/断点缓存/全部 jsonl)
 - 过程记录: `experiments/h23-agentix-8b/workflow06/PREEMPTION_EXPLORATION_PLAN.md` E13 各节
 - 相关早期线: E11 agent级投机解码(归档于同计划文档), B3 verify 机制沉淀于 `e11/`
+- **E15 端侧多模态共驻仲裁**: 三类异质SLO单卡联合仲裁, 预告驱动(announced-ness)出发点, 三难困境实证 — `experiments/h23-agentix-8b/e15/E15_FINAL.md`
 
 历史备注(原 README): 更早的抢占/动态调度机制计划已放弃, 其最大收获为 v2 工作流与产出定义。
